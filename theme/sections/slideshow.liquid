@@ -1,0 +1,453 @@
+{% comment %}
+  Renders a slideshow section.
+
+  Usage:
+    {% sections 'slideshow' %}
+
+  Dependencies:
+    - swiper-element-bundle.js
+    - slideshow-navigation.js
+{% endcomment %}
+{%- liquid
+  assign color_scheme = section.settings.color_scheme.id
+  assign loop = section.settings.loop
+  assign navigation = section.settings.navigation
+  assign auto_rotate = section.settings.auto_rotate
+
+  if auto_rotate == true
+    assign auto_rotate_speed = section.settings.auto_rotate_speed | times: 1000
+  endif
+-%}
+
+<script>
+  window.theme = window.theme || {};
+  window.theme.slideshow_rendered = true;
+  window.theme.slideshow_navigation = {{ navigation }};
+</script>
+
+{%- liquid
+  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
+  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+-%}
+
+<style>
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}px;
+    padding-bottom: {{ reduced_padding_bottom }}px;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ section.settings.top_padding }}px;
+      padding-bottom: {{ section.settings.bottom_padding }}px;
+    }
+  }
+</style>
+
+<div class="relative responsive-padding-{{ section.id }}">
+  {%- if navigation -%}
+    {% render 'slideshow-arrows', color_scheme: color_scheme, border_radius: settings.border_radius %}
+  {%- endif -%}
+  <swiper-container
+    role="region"
+    aria-label="Slideshow"
+    loop="{{ loop }}"
+    direction="horizontal"
+    slides-per-view="1"
+    class="w-full h-[600px] 2xl:min-h-[800px] 2xl:max-h-[800px]"
+    {%- if navigation -%}
+      pagination="true"
+      style="
+        --swiper-pagination-color: var(--color-{{ color_scheme }}-text);
+        --swiper-pagination-bottom: 24px;
+        --swiper-pagination-bullet-inactive-color: white;
+      "
+    {%- endif -%}
+    {%- if auto_rotate -%}
+      autoplay-delay="{{ auto_rotate_speed }}"
+      autoplay-pause-on-mouse-enter="true"
+    {%- endif -%}
+  >
+    {%- for block in section.blocks -%}
+      {% assign content_alignment = block.settings.content_alignment %}
+      {% assign text_alignment = block.settings.text_alignment %}
+      {% assign transparent = block.settings.transparent %}
+      {% assign opacity = block.settings.overlay_opacity | times: 0.01 %}
+      {% assign content_color_scheme = block.settings.color_scheme_content %}
+
+      {%- if transparent == false -%}
+        {%- assign button_color_scheme = content_color_scheme -%}
+      {%- else -%}
+        {%- assign button_color_scheme = color_scheme -%}
+      {%- endif -%}
+
+      <swiper-slide class="relative">
+        <div class="relative w-full h-full">
+          <div
+            class="absolute inset-0 bg-black z-[10]"
+            style="background-color: {{ section.settings.overlay_color }}; opacity: {{ opacity }};"
+          ></div>
+          <div class="relative w-full h-[600px] sm:min-h-[600px] sm:max-h-[600px] 2xl:min-h-[800px] 2xl:max-h-[800px] overflow-hidden">
+            {% render 'image', image: block.settings.image, class: 'w-full h-full object-cover object-center' , alt: block.settings.image.alt| default: "Slide {{ forloop.index }}" %}
+          </div>
+        </div>
+        <div class="absolute inset-0 w-full h-full pl-[24px] pr-[24px] lg:pl-[160px] lg:pr-[160px]">
+          <div
+            class="max-w-container m-auto w-full h-full flex {{ content_alignment }}"
+          >
+            <div
+              class="
+                flex flex-col gap-[32px] max-w-[454px] z-[10] text-{{ color_scheme }}
+                {% if transparent %}bg-transparent {% else %}bg-{{ content_color_scheme }} text-{{ content_color_scheme }} {% endif %}
+                {% if content_alignment == 'items-center justify-start' %}
+                {% elsif content_alignment == 'items-center justify-end' %}
+                {% else %}
+                  sm:pr-[0px] lg:pr-[0px]
+                {% endif %}
+                {% case text_alignment %}
+                {% when 'center' %} items-center
+                {% when 'right' %} items-end
+                {% else %} items-start
+                {% endcase %}
+              "
+              style="
+                {% if content_alignment contains 'items-start' %} padding-top: {{ block.settings.vertical_padding }}px; {% endif %}
+                {% if content_alignment contains 'items-end' %} padding-bottom: {{ block.settings.vertical_padding }}px; {% endif %}
+              "
+            >
+              <div
+                class="
+                  p-2
+                  flex flex-col gap-[8px]
+                  {% case text_alignment %}
+                  {% when 'center' %} items-center text-center
+                  {% when 'right' %} items-end text-right
+                  {% else %} items-start text-left
+                  {% endcase %}
+                "
+              >
+                <p class="font-display text-title-medium font-pre-heading">
+                  {{ block.settings.pre_heading }}
+                </p>
+                <h2
+                  class="
+                    font-display font-heading
+                    {% case section.settings.heading_size %}
+                    {% when 'small' %}text-display-small
+                    {% when 'medium' %}text-display-medium
+                    {% when 'large' %}text-display-large
+                    {% endcase %}
+                  "
+                >
+                  {{ block.settings.heading }}
+                </h2>
+                <div
+                  class="font-display text-body-large"
+                >
+                  {{ block.settings.text }}
+                </div>
+
+                <div class="flex">
+                  {%- if block.settings.button_label != blank and block.settings.button_link -%}
+                    {% render 'button',
+                      text: block.settings.button_label,
+                      href: block.settings.button_link,
+                      variant: block.settings.button_variant,
+                      content_color_scheme: button_color_scheme
+                    %}
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </swiper-slide>
+    {%- endfor -%}
+  </swiper-container>
+</div>
+
+{% schema %}
+{
+  "name": "Slideshow",
+  "tag": "section",
+  "max_blocks": 12,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "accent-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": "medium",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "navigation",
+      "label": "t:sections.slideshow.settings.navigation.label",
+      "info": "t:sections.slideshow.settings.navigation.info",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_rotate",
+      "label": "t:sections.slideshow.settings.auto_rotate.label",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "auto_rotate_speed",
+      "min": 3,
+      "max": 8,
+      "step": 1,
+      "unit": "s",
+      "label": "t:sections.slideshow.settings.auto_rotate_speed.label",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "t:sections.all.top_padding.label",
+      "info": "t:sections.all.top_padding.info",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "t:sections.all.bottom_padding.label",
+      "info": "t:sections.all.bottom_padding.info",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Slide",
+      "type": "slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.slideshow.blocks.slide.settings.image.label"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "t:sections.all.button.label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.all.link.label"
+        },
+        {
+          "type": "select",
+          "id": "button_variant",
+          "label": "Button Style",
+          "options": [
+            { "value": "solid", "label": "Solid" },
+            { "value": "outline", "label": "Outline" }
+          ],
+          "default": "outline"
+        },
+        {
+          "type": "checkbox",
+          "id": "transparent",
+          "label": "Transparent background",
+          "default": true
+        },
+        {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "Overlay color",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": "Image overlay",
+          "default": 30,
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "unit": "%"
+        },
+        {
+          "type": "header",
+          "content": "t:sections.slideshow.blocks.slide.settings.header.content",
+          "info": "t:sections.slideshow.blocks.slide.settings.header.info"
+        },
+        {
+          "type": "text",
+          "id": "pre_heading",
+          "label": "t:sections.all.pre_heading.label",
+          "default": "Pre heading"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:sections.all.heading.label",
+          "default": "Heading"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "label": "t:sections.all.text.label",
+          "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer luctus sapien ut ipsum volutpat, eget suscipit lectus pretium. Nunc sit amet arcu at felis ornare sollicitudin."
+        },
+        {
+          "type": "header",
+          "content": "Colors"
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme_content",
+          "label": "t:sections.all.colors.label",
+          "default": "color-scheme-1"
+        },
+        {
+          "type": "header",
+          "content": "Layout"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "label": "t:sections.all.text_alignment.label",
+          "default": "left",
+          "options": [
+            {
+              "value": "left",
+              "label": "t:sections.all.text_alignment.left.label"
+            },
+            {
+              "value": "center",
+              "label": "t:sections.all.text_alignment.center.label"
+            },
+            {
+              "value": "right",
+              "label": "t:sections.all.text_alignment.right.label"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "t:sections.all.content_alignment.label",
+          "default": "items-center justify-start",
+          "options": [
+            {
+              "value": "items-start justify-start",
+              "label": "t:sections.all.content_alignment.options.top_left.label"
+            },
+            {
+              "value": "items-start justify-center",
+              "label": "t:sections.all.content_alignment.options.top_middle.label"
+            },
+            {
+              "value": "items-start justify-end",
+              "label": "t:sections.all.content_alignment.options.top_right.label"
+            },
+            {
+              "value": "items-center justify-start",
+              "label": "t:sections.all.content_alignment.options.middle_left.label"
+            },
+            {
+              "value": "items-center justify-center",
+              "label": "t:sections.all.content_alignment.options.middle_center.label"
+            },
+            {
+              "value": "items-center justify-end",
+              "label": "t:sections.all.content_alignment.options.middle_right.label"
+            },
+            {
+              "value": "items-end justify-start",
+              "label": "t:sections.all.content_alignment.options.bottom_left.label"
+            },
+            {
+              "value": "items-end justify-center",
+              "label": "t:sections.all.content_alignment.options.bottom_middle.label"
+            },
+            {
+              "value": "items-end justify-end",
+              "label": "t:sections.all.content_alignment.options.bottom_right.label"
+            }
+          ]
+        },
+        {
+          "type": "range",
+          "id": "vertical_padding",
+          "label": "Vertical padding",
+          "default": 16,
+          "min": 4,
+          "max": 160,
+          "step": 4,
+          "unit": "px"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Slideshow",
+      "settings": {
+        "navigation": true
+      },
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "pre_heading": "Pre heading",
+            "heading": "Slide 1",
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer luctus sapien ut ipsum volutpat, eget suscipit lectus pretium. Nunc sit amet arcu at felis ornare sollicitudin.",
+            "content_alignment": "items-center justify-start"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "pre_heading": "Pre heading",
+            "heading": "Slide 2",
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer luctus sapien ut ipsum volutpat, eget suscipit lectus pretium. Nunc sit amet arcu at felis ornare sollicitudin.",
+            "content_alignment": "items-center justify-start"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "pre_heading": "Pre heading",
+            "heading": "Slide 3",
+            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer luctus sapien ut ipsum volutpat, eget suscipit lectus pretium. Nunc sit amet arcu at felis ornare sollicitudin.",
+            "content_alignment": "items-center justify-start"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

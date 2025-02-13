@@ -1,0 +1,20 @@
+<nav role="navigation" class="flex justify-center h-full items-center">
+  <ul class="flex gap-3 h-full justify-center items-center md:gap-[48px]">
+    {% for link in linklists[section.settings.selected_menu].links %}
+      {% if link.links and link.links.size > 0 %}
+        <li class="font-display flex h-full items-center text-label-large {{text_uppercase}}">
+          <mega-menu-trigger class="cursor-pointer items-center flex h-full">
+            {{- link.title | escape -}}
+          </mega-menu-trigger>
+          {% render 'mega-menu', links: link.links, current_link: link %}
+        </li>
+      {% else %}
+        <li class="font-display flex h-full items-center text-label-large {{text_uppercase}}">
+          <a href="{{ link.url }}" class="flex h-full items-center whitespace-nowrap">
+            {{- link.title | escape -}}
+          </a>
+        </li>
+      {% endif %}
+    {%- endfor -%}
+  </ul>
+</nav>

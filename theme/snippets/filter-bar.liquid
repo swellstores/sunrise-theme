@@ -1,0 +1,485 @@
+{% assign sort_by = results.sort_by | default: results.default_sort_by %}
+{% assign color_scheme = color_scheme %}
+
+{% assign current_sort_label = '' %}
+{% for option in results.sort_options %}
+  {% if option.value == sort_by %}
+    {% assign current_sort_label = option.name %}
+  {% endif %}
+{% endfor %}
+
+<div class="text-{{ color_scheme }}">
+  <!--
+    Mobile filter dialog
+
+    Off-canvas filters for mobile, show/hide based on off-canvas filters state.
+  -->
+  <div
+    data-target="filter-drawer"
+    class="relative z-40 hidden"
+    role="dialog"
+    aria-modal="true"
+  >
+    <!--
+      Off-canvas menu backdrop, show/hide based on off-canvas menu state.
+
+      Entering: "transition-opacity ease-linear duration-300"
+      From: "opacity-0"
+      To: "opacity-100"
+      Leaving: "transition-opacity ease-linear duration-300"
+      From: "opacity-100"
+      To: "opacity-0"
+    -->
+    <div class="overlay-filter fixed inset-0 bg-black bg-opacity-25" aria-hidden="true"></div>
+    <div class="overlay-filter fixed inset-0 z-40 flex">
+      <!--
+        Off-canvas menu, show/hide based on off-canvas menu state.
+
+        Entering: "transition ease-in-out duration-300 transform"
+        From: "translate-x-full"
+        To: "translate-x-0"
+        Leaving: "transition ease-in-out duration-300 transform"
+        From: "translate-x-0"
+        To: "translate-x-full"
+      -->
+      <div class="relative ml-auto flex h-full w-full max-w-xs p-[24px] flex-col overflow-y-auto shadow-xl bg-white">
+        <div class="flex items-center justify-between">
+          <h3 class="font-display text-headline-medium">{{ 'sections.collection.filters.filters' | t }}</h3>
+          <button
+            data-trigger="filter-drawer"
+            type="button"
+            class="-mr-2 flex h-10 w-10 items-center justify-center rounded-md p-2"
+          >
+            <span class="sr-only">Close menu</span>
+            <svg
+              class="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- Mobile filters -->
+        <form
+          id="filter-form-stack"
+          hx-get="#"
+          hx-trigger="change from:(#filter-form-stack input)"
+          hx-indicator="#indicator"
+          hx-on="htmx:configRequest: updateSortFilters(event)"
+          hx-target="#results"
+          hx-select="#results"
+          class=""
+        >
+          {% for filter in results.filters %}
+            <details class="border-t py-2" open>
+              <summary class="flex items-center justify-between py-2 list-none cursor-pointer">
+                <h4 class="text-title-small font-display">
+                  {{ filter.label }}
+                </h4>
+                <svg
+                  class="-mr-1 ml-1 h-5 w-5 flex-shrink-0"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                    clip-rule="evenodd" />
+                </svg>
+              </summary>
+              <fieldset class="flex flex-col">
+                {% if filter.type == 'list' %}
+                  <div class="flex flex-col">
+                    {% for option in filter.values %}
+                      {% render 'filter-input', filter: filter, option: option %}
+                    {% endfor %}
+                  </div>
+                {% else %}
+                  {% render 'filter-input', filter: filter %}
+                {% endif %}
+              </fieldset>
+            </details>
+          {% endfor %}
+
+          <!-- Sort-By Controls -->
+          <details class="border-t py-2" open>
+            <summary class="flex items-center justify-between py-2 list-none cursor-pointer">
+              <h4 class="text-title-small font-display">
+                {{ 'sections.collection.filters.sort_by' | t }}
+              </h4>
+              <svg
+                class="-mr-1 ml-1 h-5 w-5 flex-shrink-0"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                  clip-rule="evenodd" />
+              </svg>
+            </summary>
+            <fieldset class="flex flex-col">
+              {% for option in results.sort_options %}
+                <div class="flex items-center flex-nowrap h-[40px]">
+                  <input
+                    type="radio"
+                    id="sort-option-{{ forloop.index }}"
+                    name="sort_by"
+                    value="{{ option.value }}"
+                    class="h-4 w-4 mr-2 rounded border-gray-300 text-orange-600 cursor-pointer focus:ring-orange-600"
+                    {% if option.value == sort_by %}
+                      checked
+                    {% endif %}
+                  >
+                  <label
+                    for="sort-option-{{ forloop.index }}"
+                    class="text-body-medium font-display cursor-pointer"
+                  >
+                    {{ option.name }}
+                  </label>
+                </div>
+              {% endfor %}
+            </fieldset>
+          </details>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <section aria-labelledby="filter-heading">
+    <h2 id="filter-heading" class="sr-only">Filters</h2>
+
+    <div class="">
+      <div class="flex items-end justify-between mb-[16px]">
+        <!-- Filter drawer toggle -->
+
+        <!-- Filter bar (horizontal layout) -->
+        <div class="sm:block">
+          <div class="flow-root">
+            <form
+              id="filter-form-bar"
+              hx-get="#"
+              hx-trigger="change from:(#filter-form-bar input)"
+              hx-indicator="#indicator"
+              hx-on="htmx:configRequest: updateSortFilters(event)"
+              hx-target="#results"
+              hx-select="#results,  #results-count"
+            >
+              <fieldset
+                class="
+                  pt-4
+                  flex items-center
+                  gap-4
+                "
+              >
+                <button
+                  data-trigger="filter-drawer"
+                  type="button"
+                  aria-expanded="false"
+                  class="md:hidden inline-block text-title-small font-display"
+                >
+                  <span class="flex gap-[8px] items-center">
+                    {{- 'filter-sort-icon.svg' | inline_asset_content -}}
+                    Filter and sort</span
+                  >
+                </button>
+                <div class="gap-[16px] hidden md:flex">
+                  {% for filter in results.filters %}
+                    <div class="relative flex">
+                      {% if filter.type == 'boolean' %}
+                        <div class="group flex items-center">
+                          <input
+                            type="checkbox"
+                            class="h-4 w-4 mr-2 rounded border-gray-300 text-orange-600 cursor-pointer focus:ring-orange-600"
+                            id="filter-{{ filter.param_name }}"
+                            name="{{ filter.param_name }}"
+                            value="{{ filter.true_value.value }}"
+                            {% if filter.true_value.active %}
+                              checked
+                            {% endif %}
+                            {% if filter.true_value.count == 0 and filter.true_value.active == false %}
+                              disabled
+                            {% endif %}
+                          >
+                          <label
+                            for="filter-{{ filter.param_name }}"
+                            class="text-body-medium font-display cursor-pointer"
+                          >
+                            {{- filter.label -}}
+                          </label>
+                        </div>
+                      {% else %}
+                        {% liquid
+                          assign active_filter_count = 0
+                          if filter.type == 'price_range'
+                            if filter.min_value.value and filter.max_value.value
+                              assign active_filter_count = 2
+                            elsif filter.min_value.value or filter.max_value.value
+                              assign active_filter_count = 1
+                            endif
+                          else
+                            if filter.active_values.size > 0
+                              assign active_filter_count = filter.active_values.size
+                            endif
+                          endif
+                        %}
+                        <button
+                          type="button"
+                          class="group inline-flex justify-center items-center text-body-medium font-display text-{{ color_scheme }}"
+                          aria-expanded="false"
+                          data-trigger="filter-menu"
+                        >
+                          <span>{{ filter.label }}</span>
+                          <div id="{{ filter.param_name }}-count" hx-swap-oob="true">
+                            {% if active_filter_count > 0 %}
+                              <span class="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs tabular-nums text-{{ color_scheme }}">
+                                {{- active_filter_count -}}
+                              </span>
+                            {% endif %}
+                          </div>
+                          <span class="ml-1 size-4 text-gray-400 flex-shrink-0">
+                            {% render 'icon-chevron-down' %}
+                          </span>
+                        </button>
+
+                        <!--
+                          'Category' dropdown, show/hide based on dropdown state.
+
+                          Entering: "transition ease-out duration-100"
+                          From: "transform opacity-0 scale-95"
+                          To: "transform opacity-100 scale-100"
+                          Leaving: "transition ease-in duration-75"
+                          From: "transform opacity-100 scale-100"
+                          To: "transform opacity-0 scale-95"
+                        -->
+                        <div
+                          data-target="filter-menu"
+                          class="hidden absolute left-0 z-10 min-w-32 mt-8 origin-top-left rounded bg-white p-[12px] shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none"
+                        >
+                          <fieldset class="">
+                            {% if filter.type == 'list' %}
+                              <div class="">
+                                {% for option in filter.values %}
+                                  {% render 'filter-input', filter: filter, option: option %}
+                                {% endfor %}
+                              </div>
+                            {% else %}
+                              {% render 'filter-input', filter: filter %}
+                            {% endif %}
+                          </fieldset>
+                        </div>
+                      {% endif %}
+                    </div>
+                  {% endfor %}
+                </div>
+                <div id="indicator" class="htmx-indicator transition-opacity size-6 bg-white">
+                  {% render 'icon-spinner' %}
+                </div>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+
+        <!-- Sort control -->
+        <div class="relative flex text-left">
+          <div class="flex w-full justify-between items-center">
+            <form
+              id="sort-form"
+              hx-get="#"
+              hx-trigger="change from:(#sort-form select)"
+              hx-indicator="#indicator"
+              hx-on="htmx:configRequest: updateSortFilters(event)"
+              hx-target="#results"
+              hx-select="#results"
+            >
+              <div class="group items-center gap-1 text-sm hidden md:flex">
+                <label for="sort-control" class="font-display text-title-small">
+                  {{- 'sections.collection.filters.sort_by' | t -}}
+                  :
+                </label>
+                <select
+                  name="sort_by"
+                  id="sort-control"
+                  class="text-body-medium font-display rounded border-none"
+                >
+                  {% for option in results.sort_options %}
+                    <option
+                      value="{{ option.value }}"
+                      {% if option.value == sort_by %}
+                        selected
+                      {% endif %}
+                    >
+                      {{ option.name }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </form>
+            {% comment %}
+              <span
+                id="results-count"
+                class="inline-block text-body-medium text-[#424242] font-display px-3"
+                hx-swap-oob="true"
+                hx-select-oob="true"
+              >
+                {{ 'item' | pluralize: 'items', paginate.items }} products
+              </span>
+            {% endcomment %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active filter list -->
+    {% liquid
+      assign active_filter_count = 0
+      assign active_price_range = false
+      for filter in results.filters
+        if filter.type == 'price_range'
+          if filter.min_value.value or filter.max_value.value
+            assign active_filter_count = active_filter_count | plus: 1
+            assign active_price_range = true
+          endif
+        else
+          if filter.active_values.size > 0
+            assign active_filter_count = active_filter_count | plus: 1
+          endif
+        endif
+      endfor
+    %}
+
+    <div id="active-filters" hx-swap-oob="true">
+      {% if active_filter_count > 0 %}
+        <div class="bg-{{ color_scheme }} px-3 py-3 sm:flex sm:justify-between sm:items-center sm:px-4 lg:px-6">
+          <span class="sr-only">Active filters</span>
+          <div class="-m-1 flex flex-wrap items-center">
+            {% for filter in results.filters %}
+              {% if filter.type == 'price_range' and active_price_range %}
+                {% render 'filter-tag', filter: filter, value: value %}
+              {% else %}
+                {% for value in filter.active_values %}
+                  {% render 'filter-tag', filter: filter, value: value %}
+                {% endfor %}
+              {% endif %}
+            {% endfor %}
+          </div>
+          <div class="clear-all">
+            <a
+              href="{{ results.url }}"
+              class="text-gray-700 underline-offset-2 hover:underline"
+              hx-boost="true"
+              hx-push-url="true"
+              hx-target="#results"
+              hx-select="#results"
+            >
+              Clear All
+            </a>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+</div>
+
+<script>
+  document.addEventListener('htmx:afterSwap', function () {
+    const params = new URLSearchParams(window.location.search);
+
+    document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+      const paramName = checkbox.name;
+      const paramValue = checkbox.value;
+
+      if (!params.has(paramName) || !params.getAll(paramName).includes(paramValue)) {
+        checkbox.checked = false;
+      }
+    });
+
+    document.querySelectorAll('[id$="-count"]').forEach((countElement) => {
+      const paramName = countElement.id.replace('-count', '');
+      const activeFilters = document.querySelectorAll(`input[name="${paramName}"]:checked`).length;
+
+      countElement.innerHTML =
+        activeFilters > 0
+          ? `<span class="ml-1.5 rounded bg-gray-200 px-1.5 py-0.5 text-xs text-gray-700">${activeFilters}</span>`
+          : '';
+    });
+
+    let resultsCount = document.getElementById('results-count');
+    if (resultsCount) {
+      resultsCount.outerHTML = resultsCount.outerHTML; // Forces a swap
+    }
+  });
+</script>
+
+<style>
+  input[type='checkbox'] {
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
+    appearance: none;
+    background-color: #fff;
+    display: inline-block;
+    cursor: pointer;
+    border: 1.5px solid #222222;
+    position: relative;
+  }
+
+  input[type='checkbox']:disabled {
+    background-color: #e0e0e0;
+    border: 1.5px solid #bdbdbd;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  input[type='checkbox']:checked {
+    background-color: #3b0b93;
+    border-color: #3b0b93;
+  }
+
+  input[type='checkbox']:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 12px;
+    height: 7px;
+    background-image: url('https://cdn.shopify.com/s/files/1/0888/4394/4281/files/checkbox-icon.svg?v=1732112709');
+    background-repeat: no-repeat;
+    background-size: contain;
+    transform: translate(-50%, -50%);
+  }
+
+  input[type='radio'] {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    appearance: none;
+    background-color: #fff;
+    cursor: pointer;
+    border: 1.5px solid #222222;
+    position: relative;
+  }
+
+  input[type='radio']:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    background-color: #3b0b93;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+  }
+</style>

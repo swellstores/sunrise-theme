@@ -1,0 +1,285 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "theme_name",
+    "theme_author": "Swell",
+    "theme_version": "0.1.0",
+    "theme_documentation_url": "https://help.shopify.com/manual/online_store/themes/os20/themes_by_shopify/dawn",
+    "theme_support_url": "https://support.shopify.com/"
+  },
+  {
+    "name": "t:settings_schema.logo.name",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "t:settings_schema.logo.settings.logo_image.label"
+      },
+      {
+        "type": "color",
+        "id": "logo_color",
+        "label": "t:settings_schema.logo.settings.logo_color.label",
+        "default": "#3B0B93"
+      },
+      {
+        "type": "text",
+        "id": "logo_text",
+        "label": "t:settings_schema.logo.settings.logo_text.label",
+        "default": "VELOBICI"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "min": 50,
+        "max": 300,
+        "step": 10,
+        "default": 100,
+        "unit": "px",
+        "label": "t:settings_schema.logo.settings.logo_width.label"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "t:settings_schema.logo.settings.favicon.label",
+        "info": "t:settings_schema.logo.settings.favicon.info"
+      }
+    ]
+  },
+  {
+    "name": "t:settings_schema.colors.name",
+    "settings": [
+      {
+        "type": "color_scheme_group",
+        "id": "color_schemes",
+        "definition": [
+          {
+            "type": "color",
+            "id": "background",
+            "label": "t:settings_schema.colors.settings.background.label",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "color_background",
+            "id": "background_gradient",
+            "label": "t:settings_schema.colors.settings.background_gradient.label",
+            "info": "t:settings_schema.colors.settings.background_gradient.info"
+          },
+          {
+            "type": "color",
+            "id": "text",
+            "label": "t:settings_schema.colors.settings.text.label",
+            "default": "#222222"
+          },
+          {
+            "type": "color",
+            "id": "text_secondary",
+            "label": "t:settings_schema.colors.settings.text_secondary.label",
+            "default": "#757575"
+          },
+          {
+            "type": "color",
+            "id": "button",
+            "label": "t:settings_schema.colors.settings.button_background.label",
+            "default": "#121212"
+          },
+          {
+            "type": "color",
+            "id": "button_label",
+            "label": "t:settings_schema.colors.settings.button_label.label",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_label",
+            "label": "t:settings_schema.colors.settings.secondary_button_label.label",
+            "default": "#222222"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_border",
+            "label": "t:settings_schema.colors.settings.secondary_button_border.label",
+            "default": "#222222"
+          },
+          {
+            "type": "header",
+            "content": "Button hover states"
+          },
+          {
+            "type": "color",
+            "id": "primary_button_hover",
+            "label": "Solid button background hover",
+            "default": "#222222"
+          },
+          {
+            "type": "color",
+            "id": "primary_button_label_hover",
+            "label": "Solid button label hover",
+            "default": "#222222"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_border_hover",
+            "label": "Outline button border hover",
+            "default": "#222222"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_label_hover",
+            "label": "Outline button label hover",
+            "default": "#222222"
+          }
+        ],
+        "role": {
+          "text": "text",
+          "background": {
+            "solid": "background",
+            "gradient": "background_gradient"
+          },
+          "links": "secondary_button_label",
+          "icons": "text",
+          "primary_button": "button",
+          "on_primary_button": "button_label",
+          "primary_button_border": "button",
+          "secondary_button": "background",
+          "on_secondary_button": "secondary_button_label",
+          "secondary_button_border": "secondary_button_label"
+        }
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Headings"
+      },
+      {
+        "id": "typography_pre_heading",
+        "label": "Preheading font",
+        "type": "font_picker",
+        "default": "karla_n7"
+      },
+      {
+        "id": "typography_heading",
+        "label": "Heading font",
+        "type": "font_picker",
+        "default": "karla_n7"
+      },
+      {
+        "type": "header",
+        "content": "Body"
+      },
+      {
+        "id": "typography_body",
+        "label": "Body font",
+        "type": "font_picker",
+        "default": "roboto_n4"
+      }
+    ]
+  },
+  {
+    "name": "Buttons",
+    "settings": [
+      {
+        "type": "range",
+        "id": "border_radius",
+        "label": "Corner radius",
+        "min": 0,
+        "max": 10,
+        "step": 1,
+        "unit": "px",
+        "default": 4
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "text",
+        "id": "social_facebook_url",
+        "label": "Facebook",
+        "info": "https://www.facebook.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_url",
+        "label": "Twitter",
+        "info": "https://twitter.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_url",
+        "label": "Instagram",
+        "info": "https://instagram.com/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_linkedin_url",
+        "label": "Linkedin",
+        "info": "https://www.linkedin.com/in/user/"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_url",
+        "label": "Youtube",
+        "info": "https://www.youtube.com/user/shopify"
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "select",
+        "id": "cart_type",
+        "label": "Cart type",
+        "options": [
+          {
+            "value": "page",
+            "label": "Page"
+          },
+          {
+            "value": "drawer",
+            "label": "Drawer"
+          }
+        ],
+        "default": "drawer"
+      },
+      {
+        "type": "color",
+        "id": "cart_color",
+        "label": "Cart quantity colour",
+        "default": "#3B0B93"
+      }
+    ]
+  },
+  {
+    "name": "Integrations",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "gorgias_chat_enabled",
+        "label": "Enable Gorgias chat",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "gorgias_chat_id",
+        "label": "Gorgias chat ID"
+      },
+      {
+        "type": "checkbox",
+        "id": "google_analytics_enabled",
+        "label": "Enable Google Analytics",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "google_analytics_id",
+        "label": "Google Analytics ID"
+      }
+    ]
+  }
+]

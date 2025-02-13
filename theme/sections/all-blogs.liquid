@@ -1,0 +1,150 @@
+{%- liquid
+  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
+  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+-%}
+
+<style>
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}px;
+    padding-bottom: {{ reduced_padding_bottom }}px;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ section.settings.top_padding }}px;
+      padding-bottom: {{ section.settings.bottom_padding }}px;
+    }
+  }
+</style>
+
+<div class="bg-{{section.settings.color_scheme}} all-blogs max-w-[1366px] mx-auto p-[24px] md:pl-[160px] md:pr-[160px] md:pt-[64px] md:pb-[64px]  responsive-padding-{{ section.id }}">
+  <div class="blogs-list">
+    {% for link in linklists.blogs.links %}
+      {% assign blog = link.object %}
+      <div class="blog-category pb-[64px] flex flex-col gap-[32px]  max-w-[1046px]">
+        <div class="flex flex-col gap-[32px]">
+          <h1 class="text-display-medium font-display text-center">{{ blog.title }}</h1>
+
+          <div class="flex flex-col ">
+            <div class="featured-article flex flex-col items-center gap-[16px]">
+              {% assign featured_article = blog.articles[0] %}
+              {% if featured_article.image %}
+                <div class="w-full max-w-[1046px] h-auto">
+                  {% if featured_article.image %}
+                    <img
+                      src="{{ featured_article.image | image_url }}"
+                      alt="{{ featured_article.title }}"
+                      class="w-full h-full object-cover"
+                      height=""
+                      width=""
+                    >
+                  {% else %}
+                    <p>No image available</p>
+                  {% endif %}
+                </div>
+              {% endif %}
+              <div class="flex flex-col gap-[16px] items-center">
+                <div class="flex flex-col gap-[4px] items-center">
+                  <div>
+                    <p class="font-display text-body-medium text-secondary-{{ section.settings.color_scheme }}">
+                      {{ featured_article.published_at | date: '%B %d %Y' }}
+                    </p>
+                  </div>
+                  <div>
+                    <h2 class="font-display text-headline-large uppercase">{{ featured_article.title }}</h2>
+                  </div>
+                </div>
+                {% if featured_article.excerpt %}
+                  <p class="font-display text-body-large text-center max-w-[546px]">
+                    {{ featured_article.excerpt | truncate: 150 }}
+                  </p>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="articles grid grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(338px,2fr))] md:grid-cols-[repeat(auto-fit,minmax(338px,2fr))] lg:grid-cols-[repeat(auto-fit,minmax(338px,3fr))] gap-[16px]">
+          {% for article in blog.articles offset: 1 %}
+            <div class="blog-card flex flex-col gap-[16px] overflow-hidden">
+              {% if article.image %}
+                <div class="h-[250px] sm:w-full">
+                  {% if article.image %}
+                    <img
+                      src="{{ article.image | image_url }}"
+                      alt="{{ article.title }}"
+                      class="w-full h-full object-cover"
+                      height=""
+                      width=""
+                    >
+                  {% else %}
+                    <p>No image available</p>
+                  {% endif %}
+                </div>
+              {% endif %}
+              <div class="flex flex-col gap-[16px]">
+                <div class="flex flex-col gap-[4px]">
+                  <p class="text-body-medium font-display text-secondary-{{ section.settings.color_scheme }}">
+                    {{ article.published_at | date: '%B %d %Y' }}
+                  </p>
+                  <h3 class="font-display text-headline-small uppercase">
+                    <a href="{{ article.url }}" class="hover:underline">{{ article.title }}</a>
+                  </h3>
+                </div>
+                {% if article.excerpt %}
+                  <p class="text-body-large font-display">{{ article.excerpt | truncate: 100 }}</p>
+                {% endif %}
+                <div class="flex">
+                  {% render 'button',
+                    text: 'Read more',
+                    variant: 'white',
+                    href: article.url,
+                    content_color_scheme: section.settings.color_scheme
+                  %}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "All Blogs",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "t:sections.all.top_padding.label",
+      "info": "t:sections.all.top_padding.info",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "t:sections.all.bottom_padding.label",
+      "info": "t:sections.all.bottom_padding.info",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 96
+    }
+  ]
+}
+{% endschema %}

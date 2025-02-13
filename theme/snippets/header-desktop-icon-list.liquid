@@ -1,0 +1,93 @@
+{%- liquid
+  assign cart_type = settings.cart_type
+-%}
+
+<div class="flex items-center justify-end gap-[16px] ">
+  <div class="relative hidden min-[768px]:block">
+    {% if section.settings.show_language_selector %}
+      <button class="text-body-small font-display text-black" data-target="[data-modal='language']">
+        {{ localization.language.endonym_name | capitalize }}
+      </button>
+    {% endif %}
+
+    <div class="fixed inset-0 z-50 hidden bg-black/50" data-modal="language">
+      {%- render 'language-local' -%}
+    </div>
+    {% if section.settings.show_currency_selector %}
+      <button class="text-body-small font-display text-black" data-target="[data-modal='currency']">
+        {{ localization.country.currency.iso_code }}
+        {{ localization.country.currency.symbol }}
+      </button>
+    {% endif %}
+
+    <div class="fixed inset-0 z-50 hidden bg-black/50" data-modal="currency">
+      {%- render 'country-local' -%}
+    </div>
+  </div>
+
+  {%- if shop.customer_accounts_enabled -%}
+    <ul class="hidden sm:flex divide-x">
+      {%- if customer -%}
+        <li class="px-2 uppercase text-label-large">
+          <a
+            href="{{ routes.account_url }}"
+            class=""
+          >
+            {{- 'account-icon.svg' | inline_asset_content -}}
+          </a>
+        </li>
+      {%- else -%}
+        {% comment %}
+          <li class="px-2 uppercase text-label-large">
+            <a
+              href="{{ routes.account_register_url }}"
+              class=""
+              >Join</a
+            >
+          </li>
+        {% endcomment %}
+        <li class="px-2 uppercase text-label-large">
+          <a
+            href="{{ routes.account_login_url }}"
+            class=""
+          >
+            {{- 'account-icon.svg' | inline_asset_content -}}
+          </a>
+        </li>
+      {%- endif -%}
+    </ul>
+  {%- endif -%}
+
+  <search-trigger
+    type="button"
+    class="size-6 flex items-center justify-center cursor-pointer"
+    aria-label="Search {{ shop.name }}"
+  >
+    {{- 'search-icon.svg' | inline_asset_content -}}
+  </search-trigger>
+  {% if cart_type == 'drawer' %}
+    <cart-trigger
+      role="button"
+      class="relative size-6 flex items-center justify-center"
+      aria-label="Shopping cart"
+    >
+      {{- 'cart-icon-new.svg' | inline_asset_content -}}
+      <div
+        class="absolute right-[-4px] top-[6px] flex h-[16px] w-[18px] items-center justify-center rounded-full text-black"
+        style="background-color:{{ settings.cart_color }}"
+      >
+        <cart-count class="font-display text-white text-[10px]">{{ cart.item_count }}</cart-count>
+      </div>
+    </cart-trigger>
+  {% else %}
+    <a href="{{ routes.cart_url }}" class="relative size-6 flex items-center justify-center">
+      {{- 'cart-icon-new.svg' | inline_asset_content -}}
+      <div
+        class="absolute  right-[-4px] top-[6px] flex h-[16px] w-[18px] items-center justify-center rounded-full text-black"
+        style="background-color:{{ settings.cart_color }}"
+      >
+        <cart-count class="font-display text-white text-[10px]">{{ cart.item_count }}</cart-count>
+      </div>
+    </a>
+  {% endif %}
+</div>

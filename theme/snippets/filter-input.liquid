@@ -1,0 +1,191 @@
+{% assign disabled = false %}
+
+{% case filter.type %}
+    {% # Boolean %}
+  {% when 'boolean' %}
+    {% if filter.true_value.count == 0 and filter.true_value.active == false %}
+      {% assign disabled = true %}
+    {% endif %}
+    <div class="flex items-center flex-nowrap h-[40px]">
+      <input
+        type="checkbox"
+        class="size-5 mr-3 rounded border-gray-300"
+        id="{{ filter.param_name }}"
+        name="{{ filter.param_name }}"
+        value="{{ filter.true_value.value }}"
+        {% if filter.true_value.active %}
+          checked
+        {% endif %}
+        {% if disabled %}
+          disabled
+        {% endif %}
+      >
+      <label for="{{ filter.param_name }}" class="text-nowrap">{{ filter.true_value.label }}</label>
+    </div>
+    {% # List %}
+  {% when 'list' %}
+    {% if option.active == false and option.count == 0 %}
+      {% assign disabled = true %}
+    {% endif %}
+    <label class="flex items-center flex-nowrap h-[40px]">
+      <input
+        type="checkbox"
+        class="size-5 mr-3 rounded border-gray-300 text-orange-600  {% if disabled %}bg-gray-200{% endif %}"
+        name="{{ filter.param_name }}"
+        value="{{ option.value }}"
+        {% if disabled %}
+          disabled
+        {% endif %}
+        {% if option.active %}
+          checked
+        {% endif %}
+      >
+      <span class="font-display text-nowrap">
+        {{- option.label -}}
+      </span>
+    </label>
+    {% comment %}
+      {% when 'price_range' %}
+          <div class="flex gap-2">
+            <div class="w-1/2">
+              <label for="{{ filter.min_value.param_name }}" class="text-gray-700">Min</label>
+              <input
+                type="text"
+                id="{{ filter.min_value.param_name }}"
+                name="{{ filter.min_value.param_name }}"
+                value="{{ filter.min_value.value }}"
+                placeholder="0"
+                class="border border-gray-300 w-full p-1"
+              >
+            </div>
+            <div class="w-1/2">
+              <label for="{{ filter.max_value.param_name }}" class="text-gray-700">Max</label>
+              <input
+                type="text"
+                id="{{ filter.max_value.param_name }}"
+                name="{{ filter.max_value.param_name }}"
+                value="{{ filter.max_value.value }}"
+                placeholder="{{ filter.range_max }}"
+                class="border border-gray-300 w-full p-1"
+              >
+            </div>
+          </div>
+      {% endcase %}
+    {% endcomment %}
+
+  {% when 'price_range' %}
+    <script>
+      window.filterData = {
+        min_value: {{ filter.min_value.value | divided_by: 100 | json }},
+        max_value: {{ filter.range_max | divided_by: 100 | json }},
+        currency: "{{ shop.currency }}"
+      };
+    </script>
+    <div class="price-range-wrapper flex flex-col">
+      <div
+        class="
+          form_control relative flex justify-between text-[24px]
+          mb-[10px]
+        "
+      >
+        <div class="form_control_container min-w-[70px]">
+          <input
+            class="fromInput form_control_container__time__input hidden"
+            type="number"
+            value="{{ filter.min_value.value | default: 0 }}"
+            min="{{ filter.min_value.value | default: 0 }}"
+            max="{{ filter.range_max }}"
+          >
+          <span class="currency-label-from text-body-medium font-display">
+            {{ filter.range_max | money }}
+          </span>
+        </div>
+        <div class="form_control_container min-w-[70px]">
+          <input
+            class="toInput form_control_container__time__input hidden"
+            type="number"
+            value="{{ filter.range_max }}"
+            min="{{ filter.min_value.value }}"
+            max="{{ filter.range_max }}"
+          >
+          <span class="currency-label-to text-body-medium font-display">
+            {{ filter.range_max | money }}
+          </span>
+        </div>
+      </div>
+      <div class="sliders_control relative min-h-[12px]">
+        <input
+          class="fromSlider"
+          type="range"
+          value="{{ filter.min_value.value | divided_by: 100}}"
+          name="{{ filter.min_value.param_name }}"
+          min="{{ filter.min_value.value  | divided_by: 100}}"
+          max="{{ filter.range_max | divided_by: 100}}"
+        >
+        <input
+          class="toSlider"
+          type="range"
+          value="{{ filter.range_max | divided_by: 100 }}"
+          name="{{ filter.max_value.param_name }}"
+          min="{{ filter.min_value.value  | divided_by: 100}}"
+          max="{{ filter.range_max | divided_by: 100}}"
+        >
+      </div>
+    </div>
+{% endcase %}
+
+<style>
+  .price-range-wrapper input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    pointer-events: all;
+    width: 12px;
+    height: 12px;
+    background-color: #3b0b93;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px #3b0b93;
+    cursor: pointer;
+  }
+
+  .price-range-wrapper input[type='range']::-moz-range-thumb {
+    -webkit-appearance: none;
+    pointer-events: all;
+    width: 12px;
+    height: 12px;
+    background-color: #3b0b93;
+    border-radius: 50%;
+    box-shadow: 0 0 0 1px #3b0b93;
+    cursor: pointer;
+  }
+
+  .price-range-wrapper input[type='range']::-webkit-slider-thumb:hover {
+    background: #f7f7f7;
+  }
+
+  .price-range-wrapper input[type='range']::-webkit-slider-thumb:active {
+    box-shadow: inset 0 0 3px #387bbe, 0 0 9px #387bbe;
+    -webkit-box-shadow: inset 0 0 3px #387bbe, 0 0 9px #387bbe;
+  }
+
+  .price-range-wrapper input[type='number'] {
+    color: #3b0b93;
+    width: 50px;
+    height: 30px;
+    font-size: 20px;
+    border: none;
+  }
+
+  .price-range-wrapper input[type='number']::-webkit-inner-spin-button,
+  .price-range-wrapper input[type='number']::-webkit-outer-spin-button {
+    opacity: 1;
+  }
+
+  .price-range-wrapper input[type='range'] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 2px;
+    width: 100%;
+    position: absolute;
+    background-color: #3b0b93;
+    pointer-events: none;
+  }
+</style>

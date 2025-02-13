@@ -1,0 +1,91 @@
+{
+  "sections": {
+    "main": {
+      "type": "product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "show_title": true
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+            "show_price": true
+          }
+        },
+        "sku": {
+          "type": "sku",
+          "settings": {
+            "show_sku": true
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {
+            "show_quantity_selector": true
+          }
+        },
+
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_buy_buttons": true
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+            "show_description": true
+          }
+        },
+        "accordion_materials": {
+          "type": "accordion_item",
+          "settings": {
+            "trigger": "Materials",
+            "content": "Details about the materials used in the product."
+          }
+        },
+        "accordion_shipping": {
+          "type": "accordion_item",
+          "settings": {
+            "trigger": "Shipping & Returns",
+            "content": "Information about shipping and return policies."
+          }
+        },
+        "accordion_dimensions": {
+          "type": "accordion_item",
+          "settings": {
+            "trigger": "Dimensions",
+            "content": "Product dimensions and size information."
+          }
+        },
+        "accordion_care": {
+          "type": "accordion_item",
+          "settings": {
+            "trigger": "Care Instructions",
+            "content": "Guidelines on how to take care of the product."
+          }
+        }
+      },
+      "block_order": [
+        "vendor",
+        "title",
+        "price",
+        "sku",
+        "quantity_selector",
+        "buy_buttons",
+        "description",
+        "accordion_materials",
+        "accordion_shipping",
+        "accordion_dimensions",
+        "accordion_care"
+      ]
+    },
+    "related-products": {
+      "type": "related-products"
+    }
+  },
+  "order": ["main", "related-products"]
+}

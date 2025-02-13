@@ -1,0 +1,1465 @@
+{%- liquid
+  assign color_scheme = section.settings.color_scheme.id
+  assign loop = section.settings.loop
+  assign auto_rotate = section.settings.auto_rotate
+  assign media_position = section.settings.desktop_media_position
+  assign desktop_layout = section.settings.desktop_layout
+
+  if auto_rotate == true
+    assign auto_rotate_speed = section.settings.auto_rotate_speed | times: 1000
+  endif
+-%}
+{%- liquid
+  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
+  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+-%}
+
+<style>
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}px;
+    padding-bottom: {{ reduced_padding_bottom }}px;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ section.settings.top_padding }}px;
+      padding-bottom: {{ section.settings.bottom_padding }}px;
+    }
+  }
+</style>
+
+<div
+  class="text-{{ color_scheme }} max-w-[1366px] mx-auto lg:pl-[96px] lg:pr-[96px] lg:pt-[64px] lg:pb-[64px] bg-{{ color_scheme }} responsive-padding-{{ section.id }}"
+>
+  {% comment %}
+    <div class="flex items-center gap-3 py-4">
+      {% render 'breadcrumbs', color_scheme: color_scheme %}
+    </div>
+  {% endcomment %}
+
+  <div
+    class="
+      flex
+      {%- if media_position == 'right' -%}
+      {{ ' flex-col-reverse' }}
+            {%- else -%}
+      {{ ' flex-col' }}
+      {%- endif -%}
+
+      lg:grid
+       lg:gap-[44px]
+      2xl:gap-[64px]
+      {%- if media_position == 'right' -%}
+        {{ ' desktop-media lg:grid-cols-[minmax(0,292px)_minmax(0,748px)] 2xl:grid-cols-[minmax(0,362px)_minmax(0,748px)]' }}
+      {%- else -%}
+        {{ ' desktop-media lg:grid-cols-[minmax(0,748px)_minmax(0,292px)] 2xl:grid-cols-[minmax(0,748px)_minmax(0,362px)]' }}
+      {%- endif -%}
+    "
+  >
+    {%- if media_position == 'left' -%}
+      {%- if desktop_layout == 'thumbnail_gallery' -%}
+        <div class="gap-[16px] hidden lg:flex">
+          {%- if section.settings.show_thumbnails -%}
+            <div class="flex w-[112px] flex-col items-center {% if section.settings.thumbnail_position == 'right' %}order-2{% else %}order-1{% endif %}">
+              {% assign variant_media_ids = '' %}
+              {%- for variant in product.variants -%}
+                {%- if variant.featured_media -%}
+                  {%- unless variant_media_ids contains variant.featured_media.id -%}
+                    {% assign variant_media_ids = variant_media_ids | append: variant.featured_media.id | append: ',' %}
+                  {%- endunless -%}
+                {%- endif -%}
+              {%- endfor -%}
+
+              <div class="flex w-[112px] flex-col gap-[8px] items-center max-h-[700px] overflow-auto">
+                {%- assign displayed_images = '' -%}
+
+                {%- for variant in product.variants -%}
+                  {%- if variant.featured_media -%}
+                    {%- unless displayed_images contains variant.featured_media.id -%}
+                      <div
+                        class="thumbnail-wrapper p-[6px]"
+                        data-variant-id="{% for v in product.variants %}{% if v.featured_media == variant.featured_media %}{{ v.id }},{% endif %}{% endfor %}"
+                        data-large-src="{{ variant.featured_media.preview_image.src | image_url}}"
+                        data-large-alt="{{ variant.featured_media.alt | escape }}"
+                      >
+                        <img
+                          width="100%"
+                          height="100%"
+                          src="{{ variant.featured_media.preview_image.src | image_url }}"
+                          alt="{{ variant.featured_media.alt | escape }}"
+                          data-variant-id="{{ variant.id }}"
+                          data-large-src="{{ variant.featured_media.preview_image.src | image_url }}"
+                          data-large-alt="{{ variant.featured_media.alt | escape }}"
+                          class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
+                        >
+                      </div>
+                      {%- assign displayed_images = displayed_images
+                        | append: variant.featured_media.id
+                        | append: ','
+                      -%}
+                    {%- endunless -%}
+                  {%- endif -%}
+                {%- endfor -%}
+
+                {%- for media in product.media -%}
+                  {%- unless variant_media_ids contains media.id -%}
+                    <div
+                      class="thumbnail-wrapper p-[6px]"
+                      data-large-src="{{ media.preview_image.src | image_url }}"
+                      data-large-alt="{{ media.alt | escape }}"
+                    >
+                      <img
+                        width="100%"
+                        height="100%"
+                        src="{{ media.preview_image.src | image_url }}"
+                        alt="{{ media.alt | escape }}"
+                        data-large-src="{{ media.preview_image.src | image_url }}"
+                        data-large-alt="{{ media.alt | escape }}"
+                        class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
+                      >
+                    </div>
+                  {%- endunless -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          {% endif %}
+          <div class="hidden">
+            <div class="flex w-[112px] flex-col items-center {% if section.settings.thumbnail_position == 'right' %}order-2{% else %}order-1{% endif %}">
+              {% assign variant_media_ids = '' %}
+              {%- for variant in product.variants -%}
+                {%- if variant.featured_media -%}
+                  {%- unless variant_media_ids contains variant.featured_media.id -%}
+                    {% assign variant_media_ids = variant_media_ids | append: variant.featured_media.id | append: ',' %}
+                  {%- endunless -%}
+                {%- endif -%}
+              {%- endfor -%}
+
+              <div class="flex w-[112px] flex-col gap-[8px] items-center max-h-[700px] overflow-auto">
+                {%- assign displayed_images = '' -%}
+
+                {%- for variant in product.variants -%}
+                  {%- if variant.featured_media -%}
+                    {%- unless displayed_images contains variant.featured_media.id -%}
+                      <div
+                        class="thumbnail-wrapper p-[6px]"
+                        data-variant-id="{% for v in product.variants %}{% if v.featured_media == variant.featured_media %}{{ v.id }},{% endif %}{% endfor %}"
+                        data-large-src="{{ variant.featured_media.preview_image.src | image_url}}"
+                        data-large-alt="{{ variant.featured_media.alt | escape }}"
+                      >
+                        <img
+                          width="100%"
+                          height="100%"
+                          src="{{ variant.featured_media.preview_image.src | image_url }}"
+                          alt="{{ variant.featured_media.alt | escape }}"
+                          data-variant-id="{{ variant.id }}"
+                          data-large-src="{{ variant.featured_media.preview_image.src | image_url }}"
+                          data-large-alt="{{ variant.featured_media.alt | escape }}"
+                          class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
+                        >
+                      </div>
+                      {%- assign displayed_images = displayed_images
+                        | append: variant.featured_media.id
+                        | append: ','
+                      -%}
+                    {%- endunless -%}
+                  {%- endif -%}
+                {%- endfor -%}
+
+                {%- for media in product.media -%}
+                  {%- unless variant_media_ids contains media.id -%}
+                    <div
+                      class="thumbnail-wrapper p-[6px]"
+                      data-large-src="{{ media.preview_image.src | image_url }}"
+                      data-large-alt="{{ media.alt | escape }}"
+                    >
+                      <img
+                        width="100%"
+                        height="100%"
+                        src="{{ media.preview_image.src | image_url }}"
+                        alt="{{ media.alt | escape }}"
+                        data-large-src="{{ media.preview_image.src | image_url }}"
+                        data-large-alt="{{ media.alt | escape }}"
+                        class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
+                      >
+                    </div>
+                  {%- endunless -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+
+          <div class="relative flex w-full max-h-[707px] h-fit {% if section.settings.thumbnail_position == 'right' %}order-1{% else %}order-2{% endif %}">
+            <div
+              id="prev-arrow"
+              class="absolute top-1/2 left-[16px] transform -translate-y-1/2 cursor-pointer bg-white w-[44px] h-[44px] rounded-full flex items-center justify-center z-[1]"
+            >
+              {{- 'product-arrow-left.svg' | inline_asset_content -}}
+            </div>
+
+            <div class="relative w-full max-h-[707px] max-w-full">
+              <img
+                id="main-image"
+                width="100%"
+                height="100%"
+                class="w-full h-full object-cover"
+                src="{{ product.featured_image | image_url }}"
+                alt="{{ product.featured_image.alt | escape }}"
+              >
+            </div>
+
+            <div class="absolute inset-0 bg-black bg-opacity-5"></div>
+
+            <div
+              id="next-arrow"
+              class="z-[1] absolute top-1/2 right-[16px] transform -translate-y-1/2 cursor-pointer bg-white w-[44px] h-[44px] rounded-full flex items-center justify-center"
+            >
+              {{- 'product-arrow-right.svg' | inline_asset_content -}}
+            </div>
+          </div>
+        </div>
+      {% elsif desktop_layout == 'stacked' %}
+        <div class="gap-[16px] hidden lg:flex w-full">
+          <div class="grid grid-cols-2 gap-4 w-full">
+            {%- assign first_image_rendered = false -%}
+            {% assign variant_media_ids = '' %}
+            {%- assign displayed_images = '' -%}
+
+            {%- for variant in product.variants -%}
+              {%- if variant.featured_media -%}
+                {%- unless variant_media_ids contains variant.featured_media.id -%}
+                  {% assign variant_media_ids = variant_media_ids | append: variant.featured_media.id | append: ',' %}
+                {%- endunless -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- for variant in product.variants -%}
+              {%- if variant.featured_media and first_image_rendered == false -%}
+                {%- unless displayed_images contains variant.featured_media.id -%}
+                  <div class="w-full h-auto col-span-2 pl-[100px] pr-[100px]">
+                    <img
+                      width="100%"
+                      height="100%"
+                      src="{{ variant.featured_media.preview_image.src | image_url }}"
+                      alt="{{ variant.featured_media.alt | escape }}"
+                      class="w-full h-full object-cover"
+                    >
+                  </div>
+                  {%- assign first_image_rendered = true -%}
+                  {%- assign displayed_images = displayed_images | append: variant.featured_media.id | append: ',' -%}
+                {%- endunless -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- for media in product.media -%}
+              {%- unless displayed_images contains media.id -%}
+                {%- if first_image_rendered == false -%}
+                  <div class="w-full h-auto col-span-2 pl-[100px] pr-[100px]">
+                    <img
+                      width="100%"
+                      height="100%"
+                      src="{{ media.preview_image.src | image_url }}"
+                      alt="{{ media.alt | escape }}"
+                      class="w-full h-full object-cover"
+                    >
+                  </div>
+                  {%- assign first_image_rendered = true -%}
+                {%- else -%}
+                  <div class="w-full h-auto">
+                    <img
+                      width="100%"
+                      height="100%"
+                      src="{{ media.preview_image.src | image_url }}"
+                      alt="{{ media.alt | escape }}"
+                      class="w-full h-full object-cover"
+                    >
+                  </div>
+                {%- endif -%}
+                {%- assign displayed_images = displayed_images | append: media.id | append: ',' -%}
+              {%- endunless -%}
+            {%- endfor -%}
+          </div>
+        </div>
+
+      {% else %}
+        <div class="gap-[16px] hidden lg:flex w-full">
+          <div class="grid grid-cols-2 gap-4 w-full">
+            {%- assign variant_media_ids = '' %}
+            {%- assign displayed_images = '' -%}
+
+            {%- for variant in product.variants -%}
+              {%- if variant.featured_media -%}
+                {%- unless variant_media_ids contains variant.featured_media.id -%}
+                  {% assign variant_media_ids = variant_media_ids | append: variant.featured_media.id | append: ',' %}
+                {%- endunless -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- for variant in product.variants -%}
+              {%- if variant.featured_media -%}
+                {%- unless displayed_images contains variant.featured_media.id -%}
+                  <div class="w-full h-auto">
+                    <img
+                      width="100%"
+                      height="100%"
+                      src="{{ variant.featured_media.preview_image.src | image_url }}"
+                      alt="{{ variant.featured_media.alt | escape }}"
+                      class="w-full h-full object-cover"
+                    >
+                  </div>
+                  {%- assign displayed_images = displayed_images | append: variant.featured_media.id | append: ',' -%}
+                {% endunless %}
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- for media in product.media -%}
+              {%- unless variant_media_ids contains media.id -%}
+                <div class="w-full h-auto">
+                  <img
+                    width="100%"
+                    height="100%"
+                    src="{{ media.preview_image.src | image_url }}"
+                    alt="{{ media.alt | escape }}"
+                    class="w-full h-full object-cover"
+                  >
+                </div>
+              {%- endunless -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {% endif %}
+
+      <div class="lg:hidden">
+        <swiper-container
+          role="region"
+          aria-label="Mobile Slideshow"
+          loop="{{ loop }}"
+          direction="horizontal"
+          slides-per-view="1"
+          class="text-{{ color_scheme }} swiper-container w-full h-auto"
+          space-between="16"
+          pagination="true"
+          thumbs-swiper=".thumbnail-swiper"
+          style="--swiper-pagination-color: black; --swiper-pagination-bottom:0px;"
+          {%- if auto_rotate -%}
+            autoplay-delay="{{ auto_rotate_speed }}"
+            autoplay-pause-on-mouse-enter="true"
+          {%- endif -%}
+        >
+          {% assign variant_media_ids = '' %}
+          {%- for variant in product.variants -%}
+            {%- if variant.featured_media -%}
+              {%- unless variant_media_ids contains variant.featured_media.id -%}
+                {% assign variant_media_ids = variant_media_ids | append: variant.featured_media.id | append: ',' %}
+              {% endunless %}
+              <swiper-slide class="flex flex-col items-center text-center gap-[32px] pb-[32px]">
+                <div class="aspect-square m-auto">
+                  <div class="aspect-square w-full h-full">
+                    <img
+                      src="{{ variant.featured_media.preview_image.src | image_url }}"
+                      alt="{{ variant.featured_media.alt | escape }}"
+                      class="w-full h-full object-cover"
+                    >
+                  </div>
+                </div>
+              </swiper-slide>
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- for media in product.media -%}
+            {%- unless variant_media_ids contains media.id -%}
+              <swiper-slide class="flex flex-col items-center text-center gap-[32px] pb-[32px]">
+                <div class="aspect-square w-full h-full">
+                  <img
+                    src="{{ media.preview_image.src | image_url }}"
+                    alt="{{ media.alt | escape }}"
+                    class="w-full h-full object-cover"
+                  >
+                </div>
+              </swiper-slide>
+            {%- endunless -%}
+          {%- endfor -%}
+          <div class="swiper-pagination"></div>
+        </swiper-container>
+
+        {%- if section.settings.mobile_layout == 'show_mobile_thumbnails' -%}
+          <div class="relative">
+            {% render 'mobile-thumbnail-arrows', color_scheme: color_scheme, border_radius: settings.border_radius %}
+
+            <swiper-container
+              class="thumbnail-swiper mt-4 w-full pr-[50px] pl-[50px]"
+              slides-per-view="3"
+              space-between="10"
+              watch-slides-progress="true"
+              watch-slides-visibility="true"
+              loop="true"
+            >
+              {% for media in product.media %}
+                <swiper-slide class="cursor-pointer">
+                  <div class="aspect-square border border-gray-300">
+                    <img
+                      src="{{ media.preview_image.src | image_url }}"
+                      alt="{{ media.alt | escape }}"
+                      class="w-full h-full object-cover"
+                    >
+                  </div>
+                </swiper-slide>
+              {% endfor %}
+            </swiper-container>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="w-full flex">
+        <div class="flex flex-col gap-[24px] pt-[24px] pr-[24px] pl-[24px] lg:pt-0 lg:pr-0 lg:pl-0">
+          <div class="flex flex-col">
+            {% for block in section.blocks %}
+              {% case block.type %}
+                {% when 'title' %}
+                  {% if block.settings.show_title %}
+                    <div
+                      class="text-title-large font-display text-{{ color_scheme }} mb-[2px] mt-[2px]"
+                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    >
+                      {{ product.title }}
+                    </div>
+                  {% endif %}
+                {% when 'price' %}
+                  {% if block.settings.show_price %}
+                    <div
+                      id="product-price"
+                      class="product-price text-title-medium font-display text-{{ color_scheme }} mb-[2px] mt-[2px]"
+                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    >
+                      {{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}
+                    </div>
+                  {% endif %}
+                {% when 'vendor' %}
+                  {% if block.settings.show_vendor and product.vendor != blank %}
+                    <div
+                      class="vendor text-title-large font-display mb-[2px] mt-[2px]"
+                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    >
+                      {{ product.vendor }}
+                    </div>
+                  {% endif %}
+                {% when 'sku' %}
+                  {% if block.settings.show_sku and product.selected_or_first_available_variant.sku != blank %}
+                    <div
+                      id="product-sku"
+                      class="sku-span text-body-medium font-display mb-[4px] mt-[4px]"
+                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    >
+                      {{ product.selected_or_first_available_variant.sku }}
+                    </div>
+                  {% else %}
+                    <div
+                      class="sku-span text-body-medium font-display mb-[4px] mt-[4px]"
+                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    >
+                      No SKU set
+                    </div>
+                  {% endif %}
+                {% when 'quantity_selector' %}
+                  {% if block.settings.show_quantity_selector %}
+                    <div
+                      class="mb-[14px] mt-[14px]"
+                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    >
+                      {% render 'quantity-selector-variant',
+                        product: product,
+                        variant: product.selected_or_first_available_variant
+                      %}
+                    </div>
+                  {% endif %}
+                {% when 'variant' %}
+                  {% if block.settings.variant %}
+                    <div
+                      class="variant-selection flex flex-col gap-[8px]"
+                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    >
+                      {% render 'variant-radio', product: product, product_selector: block.settings.product_selector %}
+                    </div>
+                  {% endif %}
+                {% when 'buy_buttons' %}
+                  {%- liquid
+                    assign variant = product.selected_or_first_available_variant
+                  -%}
+                  {% if block.settings.show_buy_buttons %}
+                    {% comment %} {% render 'product-form', product: product, cart_type: settings.cart_type %} {% endcomment %}
+                    {% form 'product', product, class: 'flex flex-col w-full' %}
+                      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+
+                      {%- if variant.available -%}
+                        {%- if settings.cart_type == 'drawer' -%}
+                          <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
+                            {% render 'cart-drawer-button',
+                              variant_id: variant,
+                              color_scheme: color_scheme,
+                              button_text: block.settings.buy_button_text
+                            %}
+                          </div>
+                        {%- else -%}
+                          <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
+                            {% render 'button',
+                              type: 'submit',
+                              text: block.settings.buy_button_text,
+                              class: 'add-to-cart-button'
+                            %}
+                          </div>
+                        {%- endif -%}
+                      {%- else -%}
+                        <span class="text-[#B3261E] font-display text-body-small">Currently unavailable</span>
+                      {%- endif -%}
+                    {% endform %}
+                  {% endif %}
+                {% when 'description' %}
+                  {% if block.settings.show_description and product.description != blank %}
+                    <div
+                      class="description font-display text-body-medium mb-[10px] mt-[10px]"
+                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    >
+                      {{ product.description }}
+                    </div>
+                  {% else %}
+                    <div
+                      class="description font-display text-body-medium"
+                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    >
+                      No description set
+                    </div>
+                  {% endif %}
+              {% endcase %}
+            {% endfor %}
+          </div>
+
+          <accordion-root class="flex-col items-center justify-center gap-[16px]">
+            <div class="flex flex-col gap-[16px]">
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'accordion_item' -%}
+                  <div class="w-full overflow-hidden border-[#F5F5F5] border rounded-[4px] p-[16px]">
+                    <accordion-trigger
+                      role="button"
+                      aria-expanded="false"
+                      class="text-title-medium font-display flex w-full items-center justify-between h-full"
+                    >
+                      {{ block.settings.trigger }}
+                      <ion-icon
+                        name="chevron-down-outline"
+                        aria-label="Toggle accordion item"
+                        class="h-4 w-4 transition-transform"
+                      >
+                      </ion-icon>
+                    </accordion-trigger>
+                    <accordion-content
+                      role="region"
+                      class="text-base grid grid-rows-[0fr] opacity-0 overflow-hidden transition-all duration-300 ease-in-out"
+                    >
+                      <div class="overflow-hidden text-left text-body-small font-display">
+                        {{ block.settings.content }}
+                      </div>
+                    </accordion-content>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </accordion-root>
+        </div>
+      </div>
+    {%- else -%}
+      <div class="w-full flex">
+        <div class="flex flex-col gap-[24px] pt-[24px] pr-[24px] pl-[24px] lg:pt-0 lg:pr-0 lg:pl-0">
+          <div class="flex flex-col">
+            {% for block in section.blocks %}
+              {% case block.type %}
+                {% when 'title' %}
+                  {% if block.settings.show_title %}
+                    <div
+                      class="text-title-large font-display text-{{ color_scheme }} mb-[2px] mt-[2px]"
+                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    >
+                      {{ product.title }}
+                    </div>
+                  {% endif %}
+                {% when 'price' %}
+                  {% if block.settings.show_price %}
+                    <div
+                      id="product-price"
+                      class="product-price text-title-medium font-display text-{{ color_scheme }} mb-[2px] mt-[2px]"
+                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    >
+                      {{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}
+                    </div>
+                  {% endif %}
+                {% when 'vendor' %}
+                  {% if block.settings.show_vendor and product.vendor != blank %}
+                    <div
+                      class="vendor text-title-large font-display mb-[2px] mt-[2px]"
+                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    >
+                      {{ product.vendor }}
+                    </div>
+                  {% endif %}
+                {% when 'sku' %}
+                  {% if block.settings.show_sku and product.selected_or_first_available_variant.sku != blank %}
+                    <div
+                      id="product-sku"
+                      class="sku-span text-body-medium font-display mb-[4px] mt-[4px]"
+                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    >
+                      {{ product.selected_or_first_available_variant.sku }}
+                    </div>
+                  {% else %}
+                    <div
+                      class="sku-span text-body-medium font-display mb-[4px] mt-[4px]"
+                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    >
+                      No SKU set
+                    </div>
+                  {% endif %}
+                {% when 'quantity_selector' %}
+                  {% if block.settings.show_quantity_selector %}
+                    <div
+                      class="mb-[14px] mt-[14px]"
+                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    >
+                      {% render 'quantity-selector-variant',
+                        product: product,
+                        variant: product.selected_or_first_available_variant
+                      %}
+                    </div>
+                  {% endif %}
+                {% when 'variant' %}
+                  {% if block.settings.variant %}
+                    <div
+                      class="variant-selection flex flex-col gap-[8px]"
+                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    >
+                      {% render 'variant-radio', product: product, product_selector: block.settings.product_selector %}
+                    </div>
+                  {% endif %}
+                {% when 'buy_buttons' %}
+                  {%- liquid
+                    assign variant = product.selected_or_first_available_variant
+                  -%}
+                  {% if block.settings.show_buy_buttons %}
+                    {% comment %} {% render 'product-form', product: product, cart_type: settings.cart_type %} {% endcomment %}
+                    {% form 'product', product, class: 'flex flex-col w-full' %}
+                      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+
+                      {%- if variant.available -%}
+                        {%- if settings.cart_type == 'drawer' -%}
+                          <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
+                            {% render 'cart-drawer-button',
+                              variant_id: variant,
+                              color_scheme: color_scheme,
+                              button_text: block.settings.buy_button_text
+                            %}
+                          </div>
+                        {%- else -%}
+                          <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
+                            {% render 'button',
+                              type: 'submit',
+                              text: block.settings.buy_button_text,
+                              class: 'add-to-cart-button'
+                            %}
+                          </div>
+                        {%- endif -%}
+                      {%- else -%}
+                        <span class="text-[#B3261E] font-display text-body-small">Currently unavailable</span>
+                      {%- endif -%}
+                    {% endform %}
+                  {% endif %}
+                {% when 'description' %}
+                  {% if block.settings.show_description and product.description != blank %}
+                    <div
+                      class="description font-display text-body-medium mb-[10px] mt-[10px]"
+                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    >
+                      {{ product.description }}
+                    </div>
+                  {% else %}
+                    <div
+                      class="description font-display text-body-medium"
+                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    >
+                      No description set
+                    </div>
+                  {% endif %}
+              {% endcase %}
+            {% endfor %}
+          </div>
+
+          <accordion-root class="flex-col items-center justify-center gap-[16px]">
+            <div class="flex flex-col gap-[16px]">
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'accordion_item' -%}
+                  <div class="w-full overflow-hidden border-[#F5F5F5] border rounded-[4px] p-[16px]">
+                    <accordion-trigger
+                      role="button"
+                      aria-expanded="false"
+                      class="text-title-medium font-display flex w-full items-center justify-between h-full"
+                    >
+                      {{ block.settings.trigger }}
+                      <ion-icon
+                        name="chevron-down-outline"
+                        aria-label="Toggle accordion item"
+                        class="h-4 w-4 transition-transform"
+                      >
+                      </ion-icon>
+                    </accordion-trigger>
+                    <accordion-content
+                      role="region"
+                      class="text-base grid grid-rows-[0fr] opacity-0 overflow-hidden transition-all duration-300 ease-in-out"
+                    >
+                      <div class="overflow-hidden text-left text-body-small font-display">
+                        {{ block.settings.content }}
+                      </div>
+                    </accordion-content>
+                  </div>
+                {%- endif -%}
+              {%- endfor -%}
+            </div>
+          </accordion-root>
+        </div>
+      </div>
+      {%- if desktop_layout == 'thumbnail_gallery' -%}
+        <div class="gap-[16px] hidden lg:flex">
+          {%- if section.settings.show_thumbnails -%}
+            <div class="flex w-[112px] flex-col items-center {% if section.settings.thumbnail_position == 'right' %}order-2{% else %}order-1{% endif %}">
+              {% assign variant_media_ids = '' %}
+              {%- for variant in product.variants -%}
+                {%- if variant.featured_media -%}
+                  {%- unless variant_media_ids contains variant.featured_media.id -%}
+                    {% assign variant_media_ids = variant_media_ids | append: variant.featured_media.id | append: ',' %}
+                  {%- endunless -%}
+                {%- endif -%}
+              {%- endfor -%}
+
+              <div class="flex w-[112px] flex-col gap-[8px] items-center max-h-[700px] overflow-auto">
+                {%- assign displayed_images = '' -%}
+
+                {%- for variant in product.variants -%}
+                  {%- if variant.featured_media -%}
+                    {%- unless displayed_images contains variant.featured_media.id -%}
+                      <div
+                        class="thumbnail-wrapper p-[6px]"
+                        data-variant-id="{% for v in product.variants %}{% if v.featured_media == variant.featured_media %}{{ v.id }},{% endif %}{% endfor %}"
+                        data-large-src="{{ variant.featured_media.preview_image.src | image_url}}"
+                        data-large-alt="{{ variant.featured_media.alt | escape }}"
+                      >
+                        <img
+                          width="100%"
+                          height="100%"
+                          src="{{ variant.featured_media.preview_image.src | image_url }}"
+                          alt="{{ variant.featured_media.alt | escape }}"
+                          data-variant-id="{{ variant.id }}"
+                          data-large-src="{{ variant.featured_media.preview_image.src | image_url }}"
+                          data-large-alt="{{ variant.featured_media.alt | escape }}"
+                          class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
+                        >
+                      </div>
+                      {%- assign displayed_images = displayed_images
+                        | append: variant.featured_media.id
+                        | append: ','
+                      -%}
+                    {%- endunless -%}
+                  {%- endif -%}
+                {%- endfor -%}
+
+                {%- for media in product.media -%}
+                  {%- unless variant_media_ids contains media.id -%}
+                    <div
+                      class="thumbnail-wrapper p-[6px]"
+                      data-large-src="{{ media.preview_image.src | image_url }}"
+                      data-large-alt="{{ media.alt | escape }}"
+                    >
+                      <img
+                        width="100%"
+                        height="100%"
+                        src="{{ media.preview_image.src | image_url }}"
+                        alt="{{ media.alt | escape }}"
+                        data-large-src="{{ media.preview_image.src | image_url }}"
+                        data-large-alt="{{ media.alt | escape }}"
+                        class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
+                      >
+                    </div>
+                  {%- endunless -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          {% endif %}
+
+          <div class="hidden">
+            <div class="flex w-[112px] flex-col items-center {% if section.settings.thumbnail_position == 'right' %}order-2{% else %}order-1{% endif %}">
+              {% assign variant_media_ids = '' %}
+              {%- for variant in product.variants -%}
+                {%- if variant.featured_media -%}
+                  {%- unless variant_media_ids contains variant.featured_media.id -%}
+                    {% assign variant_media_ids = variant_media_ids | append: variant.featured_media.id | append: ',' %}
+                  {%- endunless -%}
+                {%- endif -%}
+              {%- endfor -%}
+
+              <div class="flex w-[112px] flex-col gap-[8px] items-center max-h-[700px] overflow-auto">
+                {%- assign displayed_images = '' -%}
+
+                {%- for variant in product.variants -%}
+                  {%- if variant.featured_media -%}
+                    {%- unless displayed_images contains variant.featured_media.id -%}
+                      <div
+                        class="thumbnail-wrapper p-[6px]"
+                        data-variant-id="{% for v in product.variants %}{% if v.featured_media == variant.featured_media %}{{ v.id }},{% endif %}{% endfor %}"
+                        data-large-src="{{ variant.featured_media.preview_image.src | image_url}}"
+                        data-large-alt="{{ variant.featured_media.alt | escape }}"
+                      >
+                        <img
+                          width="100%"
+                          height="100%"
+                          src="{{ variant.featured_media.preview_image.src | image_url }}"
+                          alt="{{ variant.featured_media.alt | escape }}"
+                          data-variant-id="{{ variant.id }}"
+                          data-large-src="{{ variant.featured_media.preview_image.src | image_url }}"
+                          data-large-alt="{{ variant.featured_media.alt | escape }}"
+                          class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
+                        >
+                      </div>
+                      {%- assign displayed_images = displayed_images
+                        | append: variant.featured_media.id
+                        | append: ','
+                      -%}
+                    {%- endunless -%}
+                  {%- endif -%}
+                {%- endfor -%}
+
+                {%- for media in product.media -%}
+                  {%- unless variant_media_ids contains media.id -%}
+                    <div
+                      class="thumbnail-wrapper p-[6px]"
+                      data-large-src="{{ media.preview_image.src | image_url }}"
+                      data-large-alt="{{ media.alt | escape }}"
+                    >
+                      <img
+                        width="100%"
+                        height="100%"
+                        src="{{ media.preview_image.src | image_url }}"
+                        alt="{{ media.alt | escape }}"
+                        data-large-src="{{ media.preview_image.src | image_url }}"
+                        data-large-alt="{{ media.alt | escape }}"
+                        class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
+                      >
+                    </div>
+                  {%- endunless -%}
+                {%- endfor -%}
+              </div>
+            </div>
+          </div>
+
+          <div class="relative flex w-full max-h-[707px] h-fit {% if section.settings.thumbnail_position == 'right' %}order-1{% else %}order-2{% endif %}">
+            <div
+              id="prev-arrow"
+              class="absolute top-1/2 left-[16px] transform -translate-y-1/2 cursor-pointer bg-white w-[44px] h-[44px] rounded-full flex items-center justify-center z-[1]"
+            >
+              {{- 'product-arrow-left.svg' | inline_asset_content -}}
+            </div>
+
+            <div class="relative w-full max-h-[707px] max-w-full">
+              <img
+                id="main-image"
+                width="100%"
+                height="100%"
+                class="w-full h-full object-cover"
+                src="{{ product.featured_image | image_url }}"
+                alt="{{ product.featured_image.alt | escape }}"
+              >
+            </div>
+
+            <div class="absolute inset-0 bg-black bg-opacity-5"></div>
+
+            <div
+              id="next-arrow"
+              class="z-[1] absolute top-1/2 right-[16px] transform -translate-y-1/2 cursor-pointer bg-white w-[44px] h-[44px] rounded-full flex items-center justify-center"
+            >
+              {{- 'product-arrow-right.svg' | inline_asset_content -}}
+            </div>
+          </div>
+        </div>
+      {% elsif desktop_layout == 'stacked' %}
+        <div class="gap-[16px] hidden lg:flex w-full">
+          <div class="grid grid-cols-2 gap-4 w-full">
+            {%- assign first_image_rendered = false -%}
+            {% assign variant_media_ids = '' %}
+            {%- assign displayed_images = '' -%}
+
+            {%- for variant in product.variants -%}
+              {%- if variant.featured_media -%}
+                {%- unless variant_media_ids contains variant.featured_media.id -%}
+                  {% assign variant_media_ids = variant_media_ids | append: variant.featured_media.id | append: ',' %}
+                {%- endunless -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- for variant in product.variants -%}
+              {%- if variant.featured_media and first_image_rendered == false -%}
+                {%- unless displayed_images contains variant.featured_media.id -%}
+                  <div class="w-full h-auto col-span-2 pl-[100px] pr-[100px]">
+                    <img
+                      width="100%"
+                      height="100%"
+                      src="{{ variant.featured_media.preview_image.src | image_url }}"
+                      alt="{{ variant.featured_media.alt | escape }}"
+                      class="w-full h-full object-cover"
+                    >
+                  </div>
+                  {%- assign first_image_rendered = true -%}
+                  {%- assign displayed_images = displayed_images | append: variant.featured_media.id | append: ',' -%}
+                {%- endunless -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- for media in product.media -%}
+              {%- unless displayed_images contains media.id -%}
+                {%- if first_image_rendered == false -%}
+                  <div class="w-full h-auto col-span-2 pl-[100px] pr-[100px]">
+                    <img
+                      width="100%"
+                      height="100%"
+                      src="{{ media.preview_image.src | image_url }}"
+                      alt="{{ media.alt | escape }}"
+                      class="w-full h-full object-cover"
+                    >
+                  </div>
+                  {%- assign first_image_rendered = true -%}
+                {%- else -%}
+                  <div class="w-full h-auto">
+                    <img
+                      width="100%"
+                      height="100%"
+                      src="{{ media.preview_image.src | image_url }}"
+                      alt="{{ media.alt | escape }}"
+                      class="w-full h-full object-cover"
+                    >
+                  </div>
+                {%- endif -%}
+                {%- assign displayed_images = displayed_images | append: media.id | append: ',' -%}
+              {%- endunless -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {% else %}
+        <div class="gap-[16px] hidden lg:flex w-full">
+          <div class="grid grid-cols-2 gap-4 w-full">
+            {%- assign variant_media_ids = '' %}
+            {%- assign displayed_images = '' -%}
+
+            {%- for variant in product.variants -%}
+              {%- if variant.featured_media -%}
+                {%- unless variant_media_ids contains variant.featured_media.id -%}
+                  {% assign variant_media_ids = variant_media_ids | append: variant.featured_media.id | append: ',' %}
+                {%- endunless -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- for variant in product.variants -%}
+              {%- if variant.featured_media -%}
+                {%- unless displayed_images contains variant.featured_media.id -%}
+                  <div class="w-full h-auto">
+                    <img
+                      width="100%"
+                      height="100%"
+                      src="{{ variant.featured_media.preview_image.src | image_url }}"
+                      alt="{{ variant.featured_media.alt | escape }}"
+                      class="w-full h-full object-cover"
+                    >
+                  </div>
+                  {%- assign displayed_images = displayed_images | append: variant.featured_media.id | append: ',' -%}
+                {% endunless %}
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- for media in product.media -%}
+              {%- unless variant_media_ids contains media.id -%}
+                <div class="w-full h-auto">
+                  <img
+                    width="100%"
+                    height="100%"
+                    src="{{ media.preview_image.src | image_url }}"
+                    alt="{{ media.alt | escape }}"
+                    class="w-full h-full object-cover"
+                  >
+                </div>
+              {%- endunless -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {% endif %}
+
+      <div class="lg:hidden">
+        <swiper-container
+          role="region"
+          aria-label="Mobile Slideshow"
+          loop="{{ loop }}"
+          direction="horizontal"
+          slides-per-view="1"
+          class="text-{{ color_scheme }} swiper-container w-full h-auto"
+          space-between="16"
+          pagination="true"
+          thumbs-swiper=".thumbnail-swiper"
+          style="--swiper-pagination-color: black; --swiper-pagination-bottom:0px;"
+          {%- if auto_rotate -%}
+            autoplay-delay="{{ auto_rotate_speed }}"
+            autoplay-pause-on-mouse-enter="true"
+          {%- endif -%}
+        >
+          {% assign variant_media_ids = '' %}
+          {%- for variant in product.variants -%}
+            {%- if variant.featured_media -%}
+              {% assign variant_media_ids = variant_media_ids | append: variant.featured_media.id | append: ',' %}
+              <swiper-slide class="flex flex-col items-center text-center gap-[32px] pb-[32px]">
+                <div class="aspect-square m-auto">
+                  <div class="aspect-square w-full h-full">
+                    <img
+                      src="{{ variant.featured_media.preview_image.src | image_url }}"
+                      alt="{{ variant.featured_media.alt | escape }}"
+                      class="w-full h-full object-cover"
+                    >
+                  </div>
+                </div>
+              </swiper-slide>
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- for media in product.media -%}
+            {%- unless variant_media_ids contains media.id -%}
+              <swiper-slide class="flex flex-col items-center text-center gap-[32px] pb-[32px]">
+                <div class="aspect-square w-full h-full">
+                  <img
+                    src="{{ media.preview_image.src | image_url }}"
+                    alt="{{ media.alt | escape }}"
+                    class="w-full h-full object-cover"
+                  >
+                </div>
+              </swiper-slide>
+            {%- endunless -%}
+          {%- endfor -%}
+          <div class="swiper-pagination"></div>
+        </swiper-container>
+
+        {%- if section.settings.mobile_layout == 'show_mobile_thumbnails' -%}
+          <div class="relative">
+            {% render 'mobile-thumbnail-arrows', color_scheme: color_scheme, border_radius: settings.border_radius %}
+
+            <swiper-container
+              class="thumbnail-swiper mt-4 w-full pr-[50px] pl-[50px]"
+              slides-per-view="3"
+              space-between="10"
+              watch-slides-progress="true"
+              watch-slides-visibility="true"
+              loop="true"
+            >
+              {% for media in product.media %}
+                <swiper-slide class="cursor-pointer">
+                  <div class="aspect-square border border-gray-300">
+                    <img
+                      src="{{ media.preview_image.src | image_url }}"
+                      alt="{{ media.alt | escape }}"
+                      class="w-full h-full object-cover"
+                    >
+                  </div>
+                </swiper-slide>
+              {% endfor %}
+            </swiper-container>
+          </div>
+        {% endif %}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  window.product = {
+    variants: {{ product.variants | json }}
+  };
+</script>
+
+<style>
+  .active-thumbnail {
+    @apply border border-solid;
+    border-color: black;
+    border-width: 1px;
+    border-radius: 4px;
+    padding: 6px;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "desktop_media_position",
+      "label": "Desktop Media Position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "id": "desktop_layout",
+      "type": "select",
+      "label": "Desktop layout",
+      "options": [
+        { "value": "thumbnail_gallery", "label": "Thumbnails" },
+        { "value": "two_column", "label": "2 columns" },
+        { "value": "stacked", "label": "Stacked" }
+      ],
+      "default": "thumbnail_gallery"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_thumbnails",
+      "label": "Show Thumbnails",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "thumbnail_position",
+      "label": "Thumbnail Position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "id": "mobile_layout",
+      "type": "select",
+      "label": "Mobile layout",
+      "options": [
+        { "value": "show_mobile_thumbnails", "label": "Show thumbnails" },
+        { "value": "hide_mobile_thumbnails", "label": "Hide thumbnails" }
+      ],
+      "default": "show_mobile_thumbnails"
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "t:sections.all.top_padding.label",
+      "info": "t:sections.all.top_padding.info",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "t:sections.all.bottom_padding.label",
+      "info": "t:sections.all.bottom_padding.info",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "title",
+      "name": "Title",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_title",
+          "label": "Show product title",
+          "default": true
+        },
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Margin Top",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin Bottom",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "price",
+      "name": "Price",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_price",
+          "label": "Show product price",
+          "default": true
+        },
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Margin Top",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 2
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin Bottom",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 2
+        }
+      ]
+    },
+    {
+      "type": "vendor",
+      "name": "Vendor",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_vendor",
+          "label": "Show vendor",
+          "default": true
+        },
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Margin Top",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 2
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin Bottom",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 2
+        }
+      ]
+    },
+    {
+      "type": "sku",
+      "name": "SKU",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_sku",
+          "label": "Show SKU",
+          "default": true
+        },
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Margin Top",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 4
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin Bottom",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 4
+        }
+      ]
+    },
+    {
+      "type": "quantity_selector",
+      "name": "Quantity Selector",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_quantity_selector",
+          "label": "Show quantity selector",
+          "default": true
+        },
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Margin Top",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 14
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin Bottom",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 14
+        }
+      ]
+    },
+    {
+      "type": "variant",
+      "name": "Variant picker",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "variant",
+          "label": "Show variant picker",
+          "default": true
+        },
+        {
+          "type": "select",
+          "id": "product_selector",
+          "label": "Variant Selector",
+          "options": [
+            { "value": "radio", "label": "Pills" },
+            { "value": "dropdown", "label": "Dropdown" }
+          ],
+          "default": "radio"
+        },
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Margin Top",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 2
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin Bottom",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 2
+        }
+      ]
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Buy Buttons",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_buy_buttons",
+          "label": "Show buy buttons",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "buy_button_text",
+          "label": "Buy button text",
+          "default": "Add to cart"
+        },
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Margin Top",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 2
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin Bottom",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 2
+        }
+      ]
+    },
+
+    {
+      "type": "description",
+      "name": "Description",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_description",
+          "label": "Show description",
+          "default": true
+        },
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Margin Top",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 10
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin Bottom",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 10
+        }
+      ]
+    },
+    {
+      "type": "accordion_item",
+      "name": "Accordion item",
+      "limit": 12,
+      "settings": [
+        {
+          "type": "text",
+          "id": "trigger",
+          "label": "t:sections.accordion.item.trigger.label"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "content",
+          "label": "t:sections.accordion.item.content.label"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

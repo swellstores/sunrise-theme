@@ -1,0 +1,65 @@
+{%- liquid
+  assign show_country_filter = false
+  if localization.available_countries.size > 9
+    assign show_country_filter = true
+  endif
+%}
+
+<div class="relative z-10 mx-auto mt-20 max-w-md bg-white border-[#E0E0E0] rounded-[4px] border p-6">
+  <div class="flex flex-col gap-[32px]">
+    <div class="flex justify-between items-center">
+      <h2 class="text-title-large font-display text-black">Select currency</h2>
+      <button data-target="#currencyModal" class="closeButton">
+        {{ 'country-cross-icon.svg' | inline_asset_content }}
+      </button>
+    </div>
+    <localization-form>
+      {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
+        <div class="space-y-4">
+          <div class="relative">
+            <div
+              class="border-b border-gray-200 {% unless show_country_filter %} hidden {% endunless %}"
+            >
+              <input
+                type="search"
+                class="mb-[12px] block w-full px-3 py-2 text-sm text-black placeholder-[text-black] border rounded-md focus:outline-none focus:ring-2 focus:ring-[#3B0B93] focus:border-[#3B0B93]"
+                id="country-filter-input"
+                name="country_filter"
+                placeholder="Search"
+                aria-owns="country-results"
+                aria-controls="country-results"
+                aria-haspopup="listbox"
+                aria-autocomplete="list"
+              >
+            </div>
+
+            <div id="sr-country-search-results" class="sr-only" aria-live="polite"></div>
+
+            <div class="overflow-auto max-h-60" id="country-results">
+              <ul role="list" class="py-2 space-y-1">
+                {% for country in localization.available_countries %}
+                  <li>
+                    <a
+                      href="#"
+                      class="flex items-center justify-between block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:bg-gray-100"
+                      data-value="{{ country.iso_code }}"
+                      id="{{ country.name }}"
+                      {% if country.iso_code == localization.country.iso_code %}
+                        aria-current="true"
+                      {% endif %}
+                    >
+                      <span class="country">{{ country.name }}</span>
+                      {{ country.currency.iso_code }}
+                      {{ country.currency.symbol -}}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+        <input type="hidden" name="country_code" value="{{ localization.country.iso_code }}">
+      {%- endform -%}
+    </localization-form>
+  </div>
+</div>

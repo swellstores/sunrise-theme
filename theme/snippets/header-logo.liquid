@@ -1,0 +1,22 @@
+{%- assign logo_color = settings.logo_color -%}
+
+<a
+  href="{{ routes.root_url }}"
+  class="flex h-[81px] sm:h-[97px] justify-center min-[960px]:justify-start !decoration-transparent"
+>
+  {%- if settings.logo != blank -%}
+    {{
+      settings.logo
+      | image_url: width: 600
+      | image_tag: width: settings.logo_width, alt: settings.logo.alt, class: 'object-contain'
+      | default: shop.name, preload: true
+    }}
+  {%- else -%}
+    <h1
+      class="flex items-center justify-center logo-text font-bold text-[22px] font-display"
+      style="color: {{ logo_color }};"
+    >
+      {{ settings.logo_text }}
+    </h1>
+  {%- endif -%}
+</a>

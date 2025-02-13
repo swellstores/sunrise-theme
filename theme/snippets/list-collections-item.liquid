@@ -1,0 +1,26 @@
+{% liquid
+  assign ratio_class = 'aspect-square'
+
+  if image_ratio == 'portrait'
+    assign ratio_class = 'aspect-w-3 aspect-h-4'
+  elsif image_ratio == 'landscape'
+    assign ratio_class = 'aspect-w-4 aspect-h-3'
+  endif
+-%}
+
+<a class="flex flex-col group" href="{{ collection.url }}">
+  <div class="{{ ratio_class }} mb-3 overflow-hidden group">
+    {% render 'image',
+      image: collection.image,
+      alt: collection.image.alt,
+      class: 'w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110'
+    %}
+  </div>
+  <h3 class="font-display text-body-large inline-flex items-center gap-3 justify-{{ justify_text }}">
+    {% if collection.title %}
+      {{ collection.title | escape }}
+    {% else %}
+      {{ 'sections.collection-list.placeholder' | t }}
+    {% endif %}
+  </h3>
+</a>

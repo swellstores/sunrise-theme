@@ -1,0 +1,56 @@
+{% comment %}
+  Renders a header search section with customizable attributes.
+
+  Accepts:
+    - section.settings.color_scheme.id: {string} Color scheme ID (required)
+
+  Usage:
+    {% render 'search-dialog' %}
+{% endcomment %}
+
+{%- liquid
+  assign color_scheme_id = section.settings.color_scheme.id
+  assign input_class = 'w-full text-base outline-none py-2'
+-%}
+
+<search-dialog-root
+  role="dialog"
+  aria-hidden="true"
+  tabindex="-1"
+  class="bg-{{ color_scheme_id }} absolute left-0 top-0 w-full py-[32px] px-[24px] flex overflow-hidden opacity-0 pointer-events-none transition-all duration-300 ease-in-out z-50"
+>
+  <div class="mx-auto w-[1046px] flex">
+    <div class="w-full">
+      <form action="/search" method="get" role="search" class="relative w-full">
+        {% render 'input',
+          name: 'q',
+          autocomplete: 'off',
+          placeholder: 'Search',
+          spellcheck: 'false',
+          class: input_class,
+          variant: 'search'
+        %}
+        <button
+          type="submit"
+          class="absolute inset-y-0 right-0 flex items-center pr-[16px] cursor-pointer"
+          aria-label="Submit search"
+        >
+          {{ 'search-dialog-icon.svg' | inline_asset_content }}
+        </button>
+      </form>
+    </div>
+    <div class="flex items-center justify-center px-2 h-full">
+      <search-trigger
+        type="button"
+        class="size-6 flex items-center justify-center cursor-pointer"
+        aria-label="{{ 'sections.announcement.dismiss' | t }}"
+      >
+        <button type="button" class="close-button">
+          <div class="close-icon" aria-hidden="true">
+            {{ 'search-cross-icon.svg' | inline_asset_content }}
+          </div>
+        </button>
+      </search-trigger>
+    </div>
+  </div>
+</search-dialog-root>

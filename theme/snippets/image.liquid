@@ -1,0 +1,44 @@
+{% comment %}
+  Renders a optimized image.
+
+  Accepts:
+    - image: {object} Img object (required)
+    - lazyload: {boolean} Lazyload the image (optional)
+    - alt: {string} Custom image ALT (optional)
+    - width: {number} Custom image width (optional)
+    - class: {string} Custom image class (optional)
+
+  Usage:
+    {% render 'image', image: block.settings.image %}
+{% endcomment %}
+{% liquid
+  assign width = custom_width | default: 2000
+  assign image_alt = alt | default: image.alt | escape
+  assign preload = false
+
+  if lazyload or lazyload == null
+    assign lazyload = 'lazy'
+  elsif lazyload == false
+    assign preload = true
+    assign lazyload = 'eager'
+  endif
+
+  assign image_class = class | default: 'w-full h-full object-cover object-center overflow-hidden'
+%}
+
+<picture class="w-full h-full overflow-hidden">
+  {% if image != blank %}
+    {{
+      image
+      | image_url: width: width
+      | image_tag:
+        alt: image_alt,
+        class: image_class,
+        widths: '165, 360, 500, 720, 960, 1066, 1280, 1500, 1800, 2000',
+        loading: lazyload,
+        preload: preload
+    }}
+  {% else %}
+    {{ 'image' | placeholder_svg_tag: 'w-full h-full rounded border' }}
+  {% endif %}
+</picture>

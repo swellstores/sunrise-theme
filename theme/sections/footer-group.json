@@ -1,0 +1,41 @@
+{
+  "type": "footer",
+  "name": "Footer Group",
+  "sections": {
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "color_scheme": "scheme-4",
+        "padding_x": 12,
+        "padding_y": 24
+      },
+      "blocks": {
+        "block-2": {
+          "type": "heading",
+          "settings": {
+            "heading": "This is a heading"
+          }
+        },
+        "block-3": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Be the first to know about new collections and exclusive offers.</p>"
+          }
+        },
+        "block-4": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": ["block-2", "block-3", "block-4"]
+    },
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "footer_title": "Our mission",
+        "footer_text": "Quality materials, good designs, craftsmanship and sustainability."
+      }
+    }
+  },
+  "order": ["newsletter", "footer"]
+}

@@ -1,0 +1,108 @@
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign terms = search.terms | escape
+-%}
+
+<div class="px-[24px] py-[32px] text-{{ color_scheme }} bg-{{ color_scheme }} flex flex-col">
+  <div class="flex flex-col items-center w-full">
+    <div class="flex flex-col items-start w-full max-w-[766px] mx-auto gap-[16px] pb-[32px]">
+      <h2 class="text-title-large font-display">
+        {%- if search.performed -%}
+          Search results
+        {%- else -%}
+          Search
+        {%- endif -%}
+      </h2>
+      <form action="{{ routes.search_url }}" method="get" role="search" class="flex items-center w-full">
+        <div class="relative w-[766px]">
+          <input name="options[prefix]" type="hidden" value="last">
+          {% render 'input',
+            id: 'search',
+            name: 'q',
+            value: terms,
+            aria_required: 'true',
+            autocorrect: 'off',
+            autocapitalize: 'off',
+            autocomplete: 'off',
+            placeholder: 'Search',
+            variant: 'search'
+          %}
+
+          <button
+            type="submit"
+            class="absolute inset-y-0 right-0 flex items-center pr-[16px] cursor-pointer"
+            aria-label="Submit search"
+          >
+            {{ 'search-dialog-icon.svg' | inline_asset_content }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="max-w-[1366px] mx-auto pb-[32px] mt-[32px] border-t border-[#E0E0E0] sm:p-6 w-full">
+    {% paginate search.results by 24 %}
+      <div class="max-w-[1046px] mx-auto 2xl:max-w-[1380px] w-full">
+        {% render 'filter-bar', request: request, results: search, paginate: paginate %}
+
+        {%- if search.performed -%}
+          {%- if search.results.size == 0 -%}
+            <div class="mt-2 text-xs">No results found for "{{ terms }}"</div>
+          {%- else -%}
+            <div id="results" class="flex w-full flex-col gap-8">
+              <div class="grid grid-cols-2  gap-x-[16px] gap-y-[24px] md:grid-cols-3 lg:grid-cols-4">
+                {%- for item in search.results -%}
+                  {%- case item.object_type -%}
+                    {%- when 'product' -%}
+                      {% render 'product-card', product: item %}
+                    {%- when 'article' -%}
+                    {%- when 'page' -%}
+                  {%- endcase -%}
+                {%- endfor -%}
+              </div>
+            </div>
+
+            {%- if paginate.pages > 1 -%}
+              {% render 'pagination', paginate: paginate %}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endif -%}
+      </div>
+    {% endpaginate %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Search",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "t:sections.all.columns.label",
+      "info": "t:sections.all.columns.info",
+      "min": 3,
+      "max": 7,
+      "step": 2,
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "t:sections.all.gap.label",
+      "info": "t:sections.all.gap.info",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "default": 12
+    }
+  ]
+}
+{% endschema %}
