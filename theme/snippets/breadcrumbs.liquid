@@ -1,0 +1,74 @@
+<ul class="flex items-center text-xs gap-4" role="navigation" aria-label="Breadcrumbs">
+  <li class="after:content-[''] after:ml-2 bg-after-{{ color_scheme }} after:w-1 after:h-1 after:rounded-full after:inline-block after:align-middle">
+    <a
+      href="{{ routes.root_url }}"
+      class="underline underline-offset-4 decoration-accent-{{ color_scheme }}"
+    >
+      {{- 'general.breadcrumbs.home' | t -}}
+    </a>
+  </li>
+  {% case template %}
+    {% when 'product' %}
+      {% if collection %}
+        <li class="after:content-[''] after:ml-2 bg-after-{{ color_scheme }} after:w-1 after:h-1 after:rounded-full after:inline-block after:align-middle">
+          <a
+            href="{{ routes.collections_url }}"
+            class="underline underline-offset-4 decoration-accent-{{ color_scheme }}"
+          >
+            {{- 'general.breadcrumbs.collections' | t -}}
+          </a>
+        </li>
+      {% else %}
+        <li class="after:content-[''] after:ml-2 bg-after-{{ color_scheme }} after:w-1 after:h-1 after:rounded-full after:inline-block after:align-middle">
+          <a
+            href="{{ routes.all_products_collection_url }}"
+            class="underline underline-offset-4 decoration-accent-{{ color_scheme }}"
+          >
+            {{- 'general.breadcrumbs.products' | t -}}
+          </a>
+        </li>
+      {% endif %}
+      <li aria-current="page">{{ product.title }}</li>
+
+    {% when 'collection' %}
+      <li class="after:content-[''] after:ml-2 bg-after-{{ color_scheme }} after:w-1 after:h-1 after:rounded-full after:inline-block after:align-middle">
+        <a
+          href="{{ routes.collections_url }}"
+          class="underline underline-offset-4 decoration-accent-{{ color_scheme }}"
+        >
+          {{- 'general.breadcrumbs.collections' | t -}}
+        </a>
+      </li>
+      <li aria-current="page">
+        {{ current_tags.first | default: collection.title | default: 'general.breadcrumbs.products' | t }}
+      </li>
+
+    {% when 'article' %}
+      <li class="after:content-[''] after:ml-2 bg-after-{{ color_scheme }} after:w-1 after:h-1 after:rounded-full after:inline-block after:align-middle">
+        <a href="{{ blog.url }}" class="underline underline-offset-4 decoration-accent-{{ color_scheme }}">
+          {{- blog.title -}}
+        </a>
+      </li>
+      <li aria-current="page">{{ article.title }}</li>
+
+    {% when '404', 'cart', 'search', 'list-collections' %}
+      <li aria-current="page">{{ page_title }}</li>
+
+    {% when 'customers/login', 'customers/account', 'customers/register', 'customers/activate_account' %}
+      <li>{{ 'general.breadcrumbs.account' | t }}</li>
+      {% if template == 'customers/addresses' %}
+        <li>{{ 'general.breadcrumbs.addresses' | t }}</li>
+      {% elsif template == 'customers/order' %}
+        <li>{{ page_title }}</li>
+      {% endif %}
+
+    {% when 'page' %}
+      <li aria-current="page">{{ page.title }}</li>
+
+    {% when 'blog' %}
+      <li aria-current="page">{{ blog.title }}</li>
+
+    {% when 'customers/reset_password' %}
+      <li aria-current="page">{{ page_title }}</li>
+  {% endcase %}
+</ul>

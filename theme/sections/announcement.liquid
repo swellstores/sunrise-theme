@@ -1,0 +1,198 @@
+{% comment %}
+    Renders a announcement bar with a single announcement or a slideshow of announcements.
+
+    Usage:
+      {% sections 'header-group' %}
+
+    Dependencies:
+      - swiper-element-bundle.js
+
+  I removed the following from previous code:
+    "enabled_on": {
+    "groups": ["header"]
+    },
+{% endcomment %}
+
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign font_weight = section.settings.font_weight
+
+  if section.blocks.size > 0
+    assign announcement_bar = true
+  endif
+
+  assign dismissible = section.settings.dismissible
+
+  assign home_only = true
+  if section.settings.home_only and template != 'index' or template == 'password'
+    assign home_only = false
+  endif
+
+  if section.settings.text_uppercase == true
+    assign text_uppercase = 'uppercase'
+  else
+    assign text_uppercase = 'normal-case'
+  endif
+
+  if section.settings.border_bottom == true
+    assign border_bottom = 'border-b border-' | append: color_scheme
+  else
+    assign border_bottom = 'border-none'
+  endif
+-%}
+
+{%- if section.blocks.size > 1 -%}
+  <script>
+    window.theme = window.theme || {};
+    window.theme.slideshow_rendered = true;
+  </script>
+{%- endif -%}
+
+{%- if announcement_bar and home_only -%}
+  <announcement-root
+    class="cursor-default relative block font-{{ font_weight }} {{ text_uppercase }} {{ border_bottom }} text-{{color_scheme}} bg-{{color_scheme}} bg-[#222222] z-6"
+    data-dismissible="true"
+  >
+    {%- if section.blocks.size == 1 -%}
+      {% render 'single-announcement' %}
+    {%- endif -%}
+    {%- if section.blocks.size > 1 -%}
+      {% render 'slideshow-announcement' %}
+    {%- endif -%}
+    {%- if dismissible -%}
+      <div class="absolute right-0 top-0 flex items-center justify-center px-2 h-full">
+        <announcement-trigger
+          role="button"
+          class="size-6 flex items-center justify-center"
+          aria-label="{{ 'sections.announcement.dismiss' | t }}"
+        >
+          <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
+        </announcement-trigger>
+      </div>
+    {%- endif -%}
+  </announcement-root>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:sections.announcement.name",
+  "max_blocks": 8,
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "dismissible",
+      "label": "t:sections.announcement.settings.dismissible.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "home_only",
+      "label": "t:sections.announcement.settings.home_only.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "border_bottom",
+      "default": true,
+      "label": "t:sections.announcement.settings.border_bottom.label"
+    },
+    {
+      "type": "checkbox",
+      "id": "text_uppercase",
+      "default": true,
+      "label": "t:sections.all.uppercase.label"
+    },
+    {
+      "type": "select",
+      "id": "font_weight",
+      "default": "normal",
+      "label": "t:sections.all.font_weight.label",
+      "options": [
+        {
+          "value": "light",
+          "label": "t:sections.all.font_weight.light.label"
+        },
+        {
+          "value": "normal",
+          "label": "t:sections.all.font_weight.normal.label"
+        },
+        {
+          "value": "medium",
+          "label": "t:sections.all.font_weight.medium.label"
+        },
+        {
+          "value": "semibold",
+          "label": "t:sections.all.font_weight.semibold.label"
+        },
+        {
+          "value": "bold",
+          "label": "t:sections.all.font_weight.bold.label"
+        }
+      ]
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-5"
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "t:sections.announcement.settings.loop.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_rotate",
+      "label": "t:sections.announcement.settings.auto_rotate.label",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "direction",
+      "label": "t:sections.announcement.settings.direction.label",
+      "default": "horizontal",
+      "options": [
+        {
+          "value": "horizontal",
+          "label": "t:sections.announcement.settings.direction.options_1.label"
+        },
+        {
+          "value": "vertical",
+          "label": "t:sections.announcement.settings.direction.options_2.label"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "auto_rotate_speed",
+      "min": 3,
+      "max": 8,
+      "step": 1,
+      "unit": "s",
+      "label": "t:sections.announcement.settings.auto_rotate_speed.label",
+      "default": 5
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "t:sections.announcement.blocks.announcement.name",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "default": "t:sections.announcement.blocks.announcement.settings.text.default",
+          "label": "t:sections.announcement.blocks.announcement.settings.text.label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:sections.announcement.blocks.announcement.settings.link.label"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,79 @@
+<ul class="flex flex-wrap gap-4 text-base min-h-[31.9333px] mb-1">
+  {% if settings.social_facebook_url != blank %}
+    <li class="flex items-center">
+      <a
+        href="{{ settings.social_facebook_url }}"
+        target="_blank"
+        aria-label="Facebook"
+        class="inline-flex items-center"
+      >
+        {{- 'facebook-icon.svg' | inline_asset_content -}}
+      </a>
+    </li>
+  {% endif %}
+
+  {% if settings.social_twitter_url != blank %}
+    <li class="flex items-center">
+      <a href="{{ settings.social_twitter_url }}" target="_blank" aria-label="Twitter" class="inline-flex items-center">
+        {{- 'twitter-icon.svg' | inline_asset_content -}}
+      </a>
+    </li>
+  {% endif %}
+
+  {% if settings.social_instagram_url != blank %}
+    <li class="flex items-center">
+      <a
+        href="{{ settings.social_instagram_url }}"
+        target="_blank"
+        aria-label="Instagram"
+        class="inline-flex items-center"
+      >
+        {{- 'instagram-icon.svg' | inline_asset_content -}}
+      </a>
+    </li>
+  {% endif %}
+
+  {% if settings.social_linkedin_url != blank %}
+    <li class="flex items-center">
+      <a
+        href="{{ settings.social_linkedin_url }}"
+        target="_blank"
+        aria-label="YouTube"
+        class="inline-flex items-center"
+      >
+        {{- 'linkedin-icon.svg' | inline_asset_content -}}
+      </a>
+    </li>
+  {% endif %}
+
+  {% if settings.social_youtube_url != blank %}
+    <li class="flex items-center">
+      <a href="{{ settings.social_youtube_url }}" target="_blank" aria-label="YouTube" class="inline-flex items-center">
+        {{- 'youtube-icon.svg' | inline_asset_content -}}
+      </a>
+    </li>
+  {% endif %}
+
+  {% comment %}
+    {% if settings.social_vimeo_url %}
+      <li class="flex items-center">
+        <a href="{{ settings.social_vimeo_url }}" target="_blank" aria-label="Vimeo" class="inline-flex items-center">
+          <ion-icon name="logo-vimeo" aria-hidden="true"></ion-icon>
+        </a>
+      </li>
+    {% endif %}
+
+    {% if settings.social_pinterest_url %}
+      <li class="flex items-center">
+        <a
+          href="{{ settings.social_pinterest_url }}"
+          target="_blank"
+          aria-label="Pinterest"
+          class="inline-flex items-center"
+        >
+          <ion-icon name="logo-pinterest" aria-hidden="true"></ion-icon>
+        </a>
+      </li>
+    {% endif %}
+  {% endcomment %}
+</ul>

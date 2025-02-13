@@ -1,0 +1,34 @@
+{
+  "type": "header",
+  "name": "Header Group",
+  "sections": {
+    "announcement": {
+      "type": "announcement",
+      "settings": {
+        "color_scheme": "scheme-5"
+      },
+      "blocks": {
+        "announcement-1": {
+          "type": "announcement",
+          "settings": {
+            "text": "Welcome to our store!"
+          }
+        },
+        "announcement-2": {
+          "type": "announcement",
+          "settings": {
+            "text": "Free shipping on orders over $50"
+          }
+        }
+      },
+      "block_order": ["announcement-1", "announcement-2"]
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "color_scheme": "scheme-2"
+      }
+    }
+  },
+  "order": ["announcement", "header"]
+}

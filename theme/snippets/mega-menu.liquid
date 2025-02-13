@@ -1,0 +1,67 @@
+{%- liquid
+  assign border_b = section.settings.border_b
+-%}
+
+<div class="mega-nav-wrapper normal-case">
+  <div class="mega-nav-overlay fixed inset-0 bg-black opacity-50 z-[5] hidden"></div>
+
+  <mega-menu
+    class="z-[50] pt-[16px] pb-[32px] absolute left-0 {% if border_b %} top-[calc(100%_+_1px)]{% else %} top-full{% endif %} w-full bg-white hidden overflow-hidden drop-shadow-sm"
+  >
+    <div class="pl-[160px] pr-[160px]">
+      <!-- Left-hand side: Sublink Titles and Links -->
+      <div class="bg-white">
+        <div class="grid grid-cols-3 gap-8">
+          {% for sublink in links %}
+            <div class="flex flex-col gap-[16px]">
+              <div class="text-black font-display text-title-large">
+                {{ sublink.title | escape }}
+              </div>
+              <ul class="flex flex-col font-display text-body-medium text-black gap-[8px]">
+                {% for subitem in sublink.links %}
+                  <li class="mega-menu__item gap-[16px] min-h-[48px] flex items-center">
+                    {% assign handle = subitem.url | split: '/' | last %}
+                    {% assign product = all_products[handle] %}
+                    {% assign collection = collections[handle] %}
+                    {% assign cleaned_url = subitem.url | strip %}
+
+                    {% if collection.title and collection.image and product.title == blank %}
+                      {% unless cleaned_url contains '#' %}
+                        <div class="object-cover h-[64px] w-[64px]">
+                          <img
+                            src="{{ collection.image | image_url }}"
+                            alt="{{ collection.title }}"
+                            class="object-cover h-full w-full collection-menu-img"
+                          >
+                        </div>
+                      {% endunless %}
+                    {% endif %}
+
+                    <!-- Display Product Image -->
+
+                    {% if product and product.featured_image and collection.title == blank %}
+                      {% unless cleaned_url contains '#' %}
+                        <div class="object-cover h-[64px] w-[64px]">
+                          <img
+                            src="{{ product.featured_image | image_url }}"
+                            alt="{{ product.title | escape }}"
+                            class="object-cover h-full w-full product-menu-img"
+                          >
+                        </div>
+                      {% endunless %}
+                    {% endif %}
+
+                    <!-- Link Title -->
+                    <a href="{{ subitem.url }}" class="">
+                      {{ subitem.title | escape }}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </mega-menu>
+</div>

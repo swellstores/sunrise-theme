@@ -1,0 +1,293 @@
+{% comment %}
+  Renders a featured content section with products from a selected collection.
+
+  Usage:
+    {% sections 'featured-content' %}
+{% endcomment %}
+
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign columns = section.settings.columns
+  assign pre_heading = section.settings.pre_heading
+  assign heading = section.settings.heading
+  assign selected_collection = section.settings.collection
+-%}
+
+{%- liquid
+  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
+  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+-%}
+
+<style>
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}px;
+    padding-bottom: {{ reduced_padding_bottom }}px;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ section.settings.top_padding }}px;
+      padding-bottom: {{ section.settings.bottom_padding }}px;
+    }
+  }
+</style>
+
+<div
+  class="pl-[24px] pr-[24px] lg:px-[160px] lg:py-[96px] bg-{{ color_scheme }} responsive-padding-{{ section.id }}"
+>
+  <div class="flex flex-col gap-[48px] max-w-container w-full mx-auto">
+    <div class="text-start flex flex-col gap-[16px] text-{{ color_scheme }}">
+      {%- if pre_heading != blank -%}
+        <p
+          class="
+            text-headline-small font-display font-pre-heading
+            {% case section.settings.header_alignment %}
+              {% when 'center' %} text-center
+              {% when 'right' %} text-right
+              {% else %} text-left
+            {% endcase %}
+          "
+        >
+          {{ pre_heading }}
+        </p>
+      {%- endif -%}
+      {%- if heading != blank -%}
+        <h2
+          class="
+               font-display
+               font-heading
+               {% case section.settings.heading_size %}
+                 {% when 'small' %}text-display-small
+                 {% when 'medium' %}text-display-medium
+                 {% when 'large' %}text-display-large
+               {% endcase %}
+              {% case section.settings.header_alignment %}
+              {% when 'center' %} text-center
+              {% when 'right' %} text-right
+              {% else %} text-left
+            {% endcase %}
+          "
+        >
+          {{ heading }}
+        </h2>
+      {%- endif -%}
+    </div>
+
+    {% if selected_collection.products.size > 0 %}
+      <div
+        class="
+          grid gap-[16px]
+          items-stretch
+          {% if section.settings.mobile_columns == '1 column' %} auto-rows-fr
+          {% else %} grid-cols-2
+          {% endif %} lg:grid-cols-{{ columns }}
+        "
+      >
+        {%- for product in selected_collection.products limit: section.settings.max_products -%}
+          <div class="flex flex-col gap-[8px]">
+            <a href="{{ product.url }}">
+              <div class="aspect-square w-full">
+                {%
+                  render 'image',
+                  image: product.featured_image,
+                  alt: product.featured_image.alt | default: "Featured product image {{ forloop.index }}",
+                  class: "w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                %}
+              </div>
+            </a>
+
+            <a href="{{ product.url }}">
+              <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
+                <h3 class="font-display text-title-small">
+                  {{ product.title }}
+                </h3>
+
+                <p class="font-display text-body-medium">
+                  {%- if product.compare_at_price > product.price -%}
+                    <div class="font-display flex gap-[6px] text-body-medium flex-wrap">
+                      <span class="">
+                        {{ product.price | money_with_currency }}
+                      </span>
+                      <span class="line-through text-[#757575]">
+                        {{ product.compare_at_price | money_with_currency }}
+                      </span>
+                    </div>
+                  {%- else -%}
+                    {{ product.price | money_with_currency }}
+                  {%- endif -%}
+                </p>
+              </div>
+            </a>
+          </div>
+        {%- endfor -%}
+      </div>
+    {% else %}
+      <div
+        class="
+          grid gap-[16px]
+          items-stretch
+          {% if section.settings.mobile_columns == '1 column' %} auto-rows-fr
+          {% else %} grid-cols-2
+          {% endif %} lg:grid-cols-{{ columns }}
+        "
+      >
+        {%- for i in (1..section.settings.columns) -%}
+          <div class="flex flex-col gap-[8px]">
+            {% liquid
+              assign ridx = forloop.rindex
+              case ridx
+                when 5
+                  assign ridx = 1
+                when 6
+                  assign ridx = 2
+              endcase
+            %}
+            {%- assign placeholder_image = 'product-apparel-' | append: ridx -%}
+            <div class="aspect-square w-full">
+              {{ placeholder_image | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
+
+            <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
+              <h3 class="font-display text-title-small">Example product title</h3>
+              <p class="font-display text-body-medium">
+                <div class="font-display flex gap-[6px] text-body-medium flex-wrap">
+                  {{ 999 | money_with_currency }}
+                </div>
+              </p>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "pre_heading",
+      "label": "Pre-heading",
+      "default": "Pre-heading"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": "small",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header alignment",
+      "default": "left",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Select a featured collection"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "Max number of products",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Number of columns (desktop)",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "Top padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "header",
+      "content": "Mobile layout"
+    },
+    {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "Number of columns (mobile)",
+      "default": "1 column",
+      "options": [
+        { "value": "1 column", "label": "1 column" },
+        { "value": "2 columns", "label": "2 columns" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured collection",
+      "settings": {
+        "pre_heading": "Pre-heading",
+        "heading": "Heading"
+      }
+    }
+  ]
+}
+{% endschema %}

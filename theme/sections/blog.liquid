@@ -1,0 +1,103 @@
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign padding_x = section.settings.padding_x
+  assign padding_y = section.settings.padding_y
+  assign text_alignment = section.settings.text_alignment
+-%}
+
+{%- liquid
+  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
+  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+-%}
+
+<style>
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}px;
+    padding-bottom: {{ reduced_padding_bottom }}px;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ section.settings.top_padding }}px;
+      padding-bottom: {{ section.settings.bottom_padding }}px;
+    }
+  }
+</style>
+
+{%- if blog.articles.size > 0 -%}
+  {%- paginate blog.articles by 6 -%}
+    <div class="bg-{{section.settings.color_scheme}} all-blogs max-w-[1366px] mx-auto p-[24px] lg:pl-[160px] lg:pr-[160px] responsive-padding-{{ section.id }}">
+      <div class="flex flex-col items-center gap-4 py-7 text-center">
+        <h1 class="font-heading text-display-large">{{ blog.title | escape }}</h1>
+      </div>
+      <div class="grid p-4 gap-y-[16px] sm:grid-cols-2 gap-x-[16px] lg:gap-y-[48px] lg:grid-cols-3 h-100 lg:grid-rows-3">
+        {%- for article in blog.articles -%}
+          {%- render 'blog-item',
+            article: article,
+            show_image: section.settings.show_image,
+            show_date: section.settings.show_date,
+            show_author: section.settings.show_author,
+            show_excerpt: true
+          -%}
+        {%- endfor -%}
+      </div>
+      {%- if paginate.pages > 1 -%}
+        {%- render 'pagination', paginate: paginate -%}
+      {%- endif -%}
+    </div>
+  {%- endpaginate -%}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Blog",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "default": true,
+      "label": "Show image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "default": true,
+      "label": "Show date"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "default": false,
+      "label": "Show author"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "t:sections.all.top_padding.label",
+      "info": "t:sections.all.top_padding.info",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "t:sections.all.bottom_padding.label",
+      "info": "t:sections.all.bottom_padding.info",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 96
+    }
+  ]
+}
+{% endschema %}

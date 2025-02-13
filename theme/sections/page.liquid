@@ -1,0 +1,81 @@
+{% liquid
+  assign color_scheme = section.settings.color_scheme
+%}
+
+{%- liquid
+  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
+  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+-%}
+
+<style>
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}px;
+    padding-bottom: {{ reduced_padding_bottom }}px;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ section.settings.top_padding }}px;
+      padding-bottom: {{ section.settings.bottom_padding }}px;
+    }
+  }
+</style>
+
+<div
+  class="bg-{{ color_scheme }} text-{{ color_scheme }} text-{{ section.settings.text_alignment }} pl-[24px] pr-[24px] pt-[64px] pb-[64px] lg:p-[160px] responsive-padding-{{ section.id }}"
+>
+  <div
+    class="flex flex-col justify-center gap-[32px] items-center"
+  >
+    <div class="flex flex-col gap-[4px] items-center">
+      <h2 class="text-display-small font-heading">{{ page.title | escape }}</h2>
+      <div class="font-display text-body-large">{{ page.content }}</div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Default page",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "t:sections.all.top_padding.label",
+      "info": "t:sections.all.top_padding.info",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "t:sections.all.bottom_padding.label",
+      "info": "t:sections.all.bottom_padding.info",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    }
+  ]
+}
+{% endschema %}

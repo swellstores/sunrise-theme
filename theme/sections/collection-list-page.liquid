@@ -1,0 +1,178 @@
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign columns = section.settings.columns
+  assign gap = section.settings.gap
+  assign mobile_layout = section.settings.mobile_layout
+
+  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
+  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+-%}
+
+<style>
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}px;
+    padding-bottom: {{ reduced_padding_bottom }}px;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ section.settings.top_padding }}px;
+      padding-bottom: {{ section.settings.bottom_padding }}px;
+    }
+  }
+</style>
+
+<div
+  class="pl-[24px] pr-[24px] lg:px-[160px] lg:py-[96px] bg-{{ color_scheme }} responsive-padding-{{ section.id }}"
+>
+  {%- if section.settings.pre_heading != blank -%}
+    <p
+      class="
+        text-headline-small font-display font-pre-heading
+        {% case section.settings.header_alignment %}
+          {% when 'center' %} text-center
+          {% when 'right' %} text-right
+          {% else %} text-left
+        {% endcase %}
+      "
+    >
+      {{ section.settings.pre_heading }}
+    </p>
+  {%- endif -%}
+
+  {%- if section.settings.heading != blank -%}
+    <h2
+      class="
+        mb-[48px] font-display font-heading
+        {% case section.settings.heading_size %}
+          {% when 'small' %}text-display-small
+          {% when 'medium' %}text-display-medium
+          {% when 'large' %}text-display-large
+        {% endcase %}
+          {% case section.settings.header_alignment %}
+          {% when 'center' %} text-center
+          {% when 'right' %} text-right
+          {% else %} text-left
+          {% endcase %}
+      "
+    >
+      {{ section.settings.heading }}
+    </h2>
+  {%- endif -%}
+
+  <div class="grid grid-cols-{{ mobile_layout }} sm:grid-cols-2 md:grid-cols-{{ columns }} gap-{{ gap }}">
+    {%- for collection in collections -%}
+      {% render 'list-collections-item', collection: collection %}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection list page",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "pre_heading",
+      "label": "t:sections.all.pre_heading.label",
+      "default": "t:sections.all.pre_heading.label"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.all.heading.label",
+      "default": "Collections"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": "small",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header alignment",
+      "default": "left",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "t:sections.all.top_padding.label",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "t:sections.all.bottom_padding.label",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "t:sections.all.columns.label",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "t:sections.all.gap.label",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "default": 4,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile Layout",
+      "options": [
+        { "value": "1", "label": "1 Column" },
+        { "value": "2", "label": "2 Columns" }
+      ],
+      "default": "1"
+    }
+  ]
+}
+{% endschema %}

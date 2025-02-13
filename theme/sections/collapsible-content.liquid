@@ -1,0 +1,427 @@
+{%- liquid
+  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
+  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+-%}
+
+<style>
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}px;
+    padding-bottom: {{ reduced_padding_bottom }}px;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ section.settings.top_padding }}px;
+      padding-bottom: {{ section.settings.bottom_padding }}px;
+    }
+  }
+</style>
+
+<div class="bg-{{ section.settings.color_scheme }} gradient">
+  <div
+    class="
+            relative isolate
+            md:p-35
+            {% if section.settings.layout == 'section' %}
+              max-w-screen-lg mx-auto bg-{{ section.settings.container_color_scheme }}
+            {% elsif section.settings.layout == 'none' %}
+              w-full
+            {% endif %}
+             pl-[24px]
+             pr-[24px]
+             pt-[64px]
+             pb-[64px]
+             lg:pl-[160px]
+             lg:pr-[160px]
+             lg:pt-[96px]
+             lg:pb-[96px]
+      responsive-padding-{{ section.id }}
+    "
+  >
+    <div class="section-{{ section.id }}-padding w-full">
+      <div class="{% if section.settings.image == blank %} max-w-[617px] 2xl:max-w-container mx-auto {% else %} w-full {% endif %}">
+        <div
+          class="
+            grid grid-cols-1
+            {% if section.settings.image != blank %}
+             md:grid-cols-2 {% endif %} gap-10
+          "
+        >
+          {%- if section.settings.desktop_layout == 'image_first' -%}
+            {% if section.settings.image != blank %}
+              <div class="">
+                <div
+                  class="
+                    {% if section.settings.image_size == 'small' %}
+                         h-90 md:h-[20rem]
+                    {% elsif section.settings.image_size == 'large' %}
+                         h-90 md:h-[60rem]
+                    {% endif %}
+                  "
+                >
+                  {{ section.settings.image | image_url: width: 3200 | image_tag: class: 'w-full h-full object-cover' }}
+                </div>
+              </div>
+            {% endif %}
+
+            <div class="flex flex-col gap-[24px] {% if section.settings.layout == 'section' %} text-{{ section.settings.container_color_scheme }} {% else %} text-{{ section.settings.color_scheme }} {% endif %}">
+              <div class="text-{{ section.settings.heading_alignment }} flex flex-col gap-[8px]">
+                {% if section.settings.pre_heading %}
+                  <h2 class="font-display font-pre-heading text-headline-small">
+                    {{ section.settings.pre_heading }}
+                  </h2>
+                {% endif %}
+                {% if section.settings.heading %}
+                  <h2 class="font-display text-display-small font-heading text-{{ section.settings.heading_size }}">
+                    {{ section.settings.heading }}
+                  </h2>
+                {% endif %}
+                {% if section.settings.text %}
+                  <p class="font-display text-title-medium ">{{ section.settings.text | escape }}</p>
+                {% endif %}
+              </div>
+
+              <accordion-root
+                class="flex flex-col items-center justify-center text-{{ section.settings.container_color_scheme }}"
+                data-bg-color="{{ section.settings.accordion_open_bg_color }}"
+              >
+                <div class="flex flex-col {% if section.settings.layout == 'row' %}gap-[16px]{% endif %} w-full">
+                  {%- for block in section.blocks -%}
+                    {%- if block.type == 'collapsible_row' -%}
+                      <div class="w-full overflow-hidden {% if section.settings.layout == 'row' %} bg-{{ section.settings.container_color_scheme }}{% endif %} border-[#F5F5F5] border rounded-[4px] p-[16px]">
+                        <accordion-trigger
+                          role="button"
+                          aria-expanded="{% if section.settings.open_first_collapsible_row and forloop.first %}true{% else %}false{% endif %}"
+                          class="text-title-medium font-display font-heading flex w-full items-center justify-between"
+                        >
+                          {{ block.settings.heading | default: block.settings.page.title | escape }}
+                          <ion-icon
+                            name="chevron-down-outline"
+                            aria-label="Toggle accordion item"
+                            class="h-4 w-4 transition-transform"
+                          ></ion-icon>
+                        </accordion-trigger>
+                        <accordion-content
+                          role="region"
+                          class="text-base grid grid-rows-[{% if section.settings.open_first_collapsible_row and forloop.first %}1fr{% else %}0fr{% endif %}] opacity-{% if section.settings.open_first_collapsible_row and forloop.first %}100{% else %}0{% endif %} overflow-hidden transition-all duration-300 ease-in-out"
+                        >
+                          <div class="overflow-hidden text-left text-body-small font-display">
+                            <div class="mt-[4px]">
+                              {{ block.settings.row_content }}
+                              {{ block.settings.page.content }}
+                            </div>
+                          </div>
+                        </accordion-content>
+                      </div>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              </accordion-root>
+            </div>
+          {%- else -%}
+            <div class="flex flex-col gap-[24px] text-{{ section.settings.container_color_scheme }}">
+              <div class="text-{{ section.settings.heading_alignment }} flex flex-col gap-[8px]">
+                {% if section.settings.pre_heading %}
+                  <p class="font-display font-pre-heading text-headline-small">
+                    {{ section.settings.pre_heading }}
+                  </p>
+                {% endif %}
+                {% if section.settings.heading %}
+                  <h2 class="font-display text-display-small font-heading text-{{ section.settings.heading_size }}">
+                    {{ section.settings.heading }}
+                  </h2>
+                {% endif %}
+                {% if section.settings.text %}
+                  <p class="font-display text-title-medium">{{ section.settings.text | escape }}</p>
+                {% endif %}
+              </div>
+
+              <accordion-root
+                class="flex flex-col items-center justify-center text-{{ section.settings.container_color_scheme }}"
+                data-bg-color="{{ section.settings.accordion_open_bg_color }}"
+              >
+                <div class="flex flex-col {% if section.settings.layout == 'row' %}gap-[16px]{% endif %} w-full">
+                  {%- for block in section.blocks -%}
+                    {%- if block.type == 'collapsible_row' -%}
+                      <div class="w-full overflow-hidden {% if section.settings.layout == 'row' %} bg-{{ section.settings.container_color_scheme }}{% endif %} border-[#F5F5F5] border rounded-[4px] p-[16px]">
+                        <accordion-trigger
+                          role="button"
+                          aria-expanded="{% if section.settings.open_first_collapsible_row and forloop.first %}true{% else %}false{% endif %}"
+                          class="text-title-medium font-display font-heading flex w-full items-center justify-between"
+                        >
+                          {{ block.settings.heading | default: block.settings.page.title | escape }}
+                          <ion-icon
+                            name="chevron-down-outline"
+                            aria-label="Toggle accordion item"
+                            class="h-4 w-4 transition-transform"
+                          ></ion-icon>
+                        </accordion-trigger>
+                        <accordion-content
+                          role="region"
+                          class="text-base grid grid-rows-[{% if section.settings.open_first_collapsible_row and forloop.first %}1fr{% else %}0fr{% endif %}] opacity-{% if section.settings.open_first_collapsible_row and forloop.first %}100{% else %}0{% endif %} overflow-hidden transition-all duration-300 ease-in-out"
+                        >
+                          <div class="overflow-hidden text-left text-body-small font-display">
+                            <div class="mt-[4px]">
+                              {{ block.settings.row_content }}
+                              {{ block.settings.page.content }}
+                            </div>
+                          </div>
+                        </accordion-content>
+                      </div>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              </accordion-root>
+            </div>
+
+            {% if section.settings.image != blank %}
+              <div class="order-2 md:order-2 flex flex-col gap-10">
+                <div
+                  class="
+                    {% if section.settings.image_size == 'small' %}
+                      h-90 md:h-[20rem]
+                    {% elsif section.settings.image_size == 'large' %}
+                      h-90 md:h-[60rem]
+                    {% endif %}
+                  "
+                >
+                  {% if section.settings.image != blank %}
+                    {{
+                      section.settings.image
+                      | image_url: width: 3200
+                      | image_tag: class: 'w-full h-full object-cover'
+                    }}
+                  {% endif %}
+                </div>
+              </div>
+            {% endif %}
+          {%- endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.collapsible_content.name",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "pre_heading",
+      "label": "t:sections.collapsible_content.settings.pre_heading.label",
+      "default": "t:sections.collapsible_content.settings.pre_heading.label"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "t:sections.collapsible_content.settings.heading.label",
+      "default": "t:sections.collapsible_content.settings.heading.default"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:sections.collapsible_content.settings.text.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "t:sections.collapsible_content.settings.heading_alignment.label",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.collapsible_content.settings.heading_alignment.options__1.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.collapsible_content.settings.heading_alignment.options__2.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.collapsible_content.settings.heading_alignment.options__3.label"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "t:sections.collapsible_content.settings.layout.label",
+      "options": [
+        {
+          "value": "none",
+          "label": "t:sections.collapsible_content.settings.layout.options__1.label"
+        },
+        {
+          "value": "row",
+          "label": "t:sections.collapsible_content.settings.layout.options__2.label"
+        },
+        {
+          "value": "section",
+          "label": "t:sections.collapsible_content.settings.layout.options__3.label"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "container_color_scheme",
+      "label": "t:sections.collapsible_content.settings.container_color_scheme.label",
+      "info": "t:sections.collapsible_content.settings.container_color_scheme.info",
+      "default": "scheme-2"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_first_collapsible_row",
+      "default": false,
+      "label": "t:sections.collapsible_content.settings.open_first_collapsible_row.label"
+    },
+    {
+      "type": "color",
+      "id": "accordion_open_bg_color",
+      "label": "Accordion Open Background Color",
+      "default": "#FAF7FF"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.collapsible_content.settings.header.content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:sections.collapsible_content.settings.image.label"
+    },
+    {
+      "type": "select",
+      "id": "image_size",
+      "label": "Image size",
+      "default": "original",
+      "options": [
+        { "value": "original", "label": "Original" },
+        { "value": "small", "label": "Small" },
+        { "value": "large", "label": "Large" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "desktop_layout",
+      "options": [
+        {
+          "value": "image_first",
+          "label": "t:sections.collapsible_content.settings.desktop_layout.options__1.label"
+        },
+        {
+          "value": "image_second",
+          "label": "t:sections.collapsible_content.settings.desktop_layout.options__2.label"
+        }
+      ],
+      "default": "image_second",
+      "label": "t:sections.collapsible_content.settings.desktop_layout.label",
+      "info": "t:sections.collapsible_content.settings.desktop_layout.info"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.all.padding.section_padding_heading"
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "t:sections.all.top_padding.label",
+      "info": "t:sections.all.top_padding.info",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "t:sections.all.bottom_padding.label",
+      "info": "t:sections.all.bottom_padding.info",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collapsible_row",
+      "name": "t:sections.collapsible_content.blocks.collapsible_row.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "t:sections.collapsible_content.blocks.collapsible_row.settings.heading.default",
+          "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.heading.label",
+          "info": "t:sections.collapsible_content.blocks.collapsible_row.settings.heading.info"
+        },
+        {
+          "type": "richtext",
+          "id": "row_content",
+          "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.row_content.label"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.page.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collapsible Content",
+      "settings": {
+        "heading": "Find Your Answers Here",
+        "color_scheme": "scheme-1",
+        "top_padding": 96,
+        "bottom_padding": 96
+      },
+      "blocks": [
+        {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "What is your return policy?",
+            "row_content": "<p>Our return policy lasts 30 days...</p>"
+          }
+        },
+        {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Do you offer free shipping?",
+            "row_content": "<p>Yes, we offer free shipping on all orders over $50.</p>"
+          }
+        },
+        {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "How do I track my order?",
+            "row_content": "<p>Once your order has been shipped, you'll receive a tracking link...</p>"
+          }
+        },
+        {
+          "type": "collapsible_row",
+          "settings": {
+            "heading": "Can I change my order after placing it?",
+            "row_content": "<p>Changes are allowed within 24 hours of placing your order.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

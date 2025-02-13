@@ -1,0 +1,93 @@
+<cart-drawer-root
+  class="fixed right-0 top-0 z-60 flex h-screen w-[340px] sm:w-[500px] translate-x-full flex-col overflow-y-auto bg-white transition-transform duration-300"
+  tabindex="-1"
+  aria-labelledby="cart-drawer"
+  aria-hidden="true"
+  aria-modal="true"
+  role="dialog"
+>
+  <div class="flex flex-col items-start justify-between pt-[16px] pl-[24px] pr-[24px] text-black">
+    <cart-drawer-trigger
+      role="button"
+      class="flex items-center justify-end w-full"
+      aria-controls="cartDrawer"
+    >
+      {{- 'cross-icon.svg' | inline_asset_content -}}
+    </cart-drawer-trigger>
+    <div class="flex flex-col gap-[8px]">
+      <div class="text-headline-medium font-display uppercase">Your cart</div>
+      {% if cart != empty %}
+        <cart-drawer-trigger
+          role="button"
+          class="text-left text-body-medium font-display w-full underline underline-offset-4"
+          aria-controls="cartDrawer"
+          >Continue shopping</cart-drawer-trigger
+        >
+      {% endif %}
+    </div>
+  </div>
+
+  <cart-drawer-content
+    class="flex h-full w-full flex-col gap-[32px] divide-y overflow-hidden overflow-y-scroll pl-[24px] pr-[24px]  pt-4"
+  >
+    <div>
+      {% if cart != empty %}
+        <div class="flex justify-between items-center w-full">
+          <span class="text-title-small font-display text-[#757575]">Product</span>
+          <span class="text-title-small font-display text-[#757575]">Total</span>
+        </div>
+        <div class="border-t border-[#E0E0E0] w-full mt-[16px] mb-[0px]"></div>
+      {% endif %}
+    </div>
+    <form
+      action="{{ routes.cart_url }}"
+      method="post"
+      id="cart"
+      class="flex flex-col h-full border-none gap-[32px]"
+    >
+      {%- if cart != empty -%}
+        {%- for item in cart.items -%}
+          {% render 'cart-drawer-item', item: item %}
+        {%- endfor -%}
+      {%- endif -%}
+      <div class="text-center flex-col items-center justify-center gap-[32px] flex-grow-0 h-full {% if cart.empty? %}flex{% else %} hidden{% endif %}">
+        <p class="text-body-large font-display">Your cart is currently empty</p>
+        <div class="inline-flex">
+          {% render 'button', text: 'Continue shopping', href: routes.all_products_collection_url, variant: 'purple' %}
+        </div>
+      </div>
+    </form>
+  </cart-drawer-content>
+  <div
+    class="flex flex-col gap-[32px] pl-[24px] pr-[24px] pb-[64px]"
+  >
+    <div class="border-t border-[#E0E0E0] w-full mt-[16px] mb-[0px]"></div>
+
+    <div class="flex flex-col gap-[8px]">
+      <div class="flex items-center justify-between">
+        <h4 class="text-title-medium font-display text-black">Estimated total</h4>
+        <cart-drawer-subtotal class="text-body-large font-display text-black">
+          <span>{{ cart.original_total_price | money }}</span>
+          {% render 'loader' %}
+        </cart-drawer-subtotal>
+      </div>
+      <div class="text-body-small font-display text-[#616161]">
+        Taxes, discounts and shipping calculated at checkout
+      </div>
+    </div>
+    <div class="flex flex-col gap-[16px]">
+      {% render 'button', text: 'View cart', href: routes.cart_url, variant: 'purple', full_width: true %}
+      {% if cart != empty %}
+        {% render 'button',
+          text: 'Checkout',
+          type: 'submit',
+          disabled: cart.empty?,
+          form: 'cart',
+          name: 'checkout',
+          variant: 'white',
+          full_width: true
+        %}
+      {% endif %}
+    </div>
+  </div>
+</cart-drawer-root>

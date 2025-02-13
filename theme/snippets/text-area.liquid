@@ -1,0 +1,39 @@
+{%- liquid
+  assign class = class | default: 'border border-black p-4 text-xs outline-none'
+-%}
+
+<textarea
+  {% if rows %}
+    cols="{{ cols }}"
+  {% endif %}
+  {% if rows %}
+    rows="{{ rows }}"
+  {% endif %}
+  {% if class %}
+    class="{{ class }}"
+  {% endif %}
+  {% if name %}
+    name="{{ name }}"
+  {% endif %}
+  {% if form %}
+    form="{{ form }}"
+  {% endif %}
+  {% if id %}
+    id="{{ id }}"
+  {% endif %}
+  {% if placeholder %}
+    placeholder="{{ placeholder }}"
+  {% endif %}
+  {% if aria_label %}
+    aria-label="{{ aria_label }}"
+  {% endif %}
+  {% if aria_labelledby %}
+    aria-labelledby="{{ aria_labelledby }}"
+  {% endif %}
+  {% if aria_describedby %}
+    aria-describedby="{{ aria_describedby }}"
+  {% endif %}
+  {% if aria_hidden %}
+    aria-hidden="{{ aria_hidden }}"
+  {% endif %}
+>{{ text }}</textarea>

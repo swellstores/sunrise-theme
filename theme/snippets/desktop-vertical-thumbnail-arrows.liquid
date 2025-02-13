@@ -1,0 +1,19 @@
+<slideshow-button-prev
+  role="button"
+  aria-label="Previous slide"
+  type="button"
+  class="group absolute top-0 left-1/2 flex h-12 w-11 -translate-x-1/2 items-center justify-center border-none transition-colors z-10 text-black rotate-90"
+  style="border-radius: {{ border_radius | default: 8 }}px;"
+>
+  {{- 'product-arrow-left.svg' | inline_asset_content -}}
+</slideshow-button-prev>
+
+<slideshow-button-next
+  role="button"
+  aria-label="Next slide"
+  type="button"
+  class="group absolute bottom-0 left-1/2 flex h-12 w-11 -translate-x-1/2 items-center justify-center border-none transition-colors z-10 text-black rotate-90"
+  style="border-radius: {{ border_radius | default: 8 }}px;"
+>
+  {{- 'product-arrow-right.svg' | inline_asset_content -}}
+</slideshow-button-next>

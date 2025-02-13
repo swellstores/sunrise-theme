@@ -1,0 +1,29 @@
+{% comment %}
+  Renders a single announcement section.
+
+  Accepts:
+    - section.blocks.first.settings.text: {string} Announcement text (required)
+    - section.blocks.first.settings.link: {url} Announcement link (optional)
+
+  Usage:
+    {% render 'single-announcement' %}
+{% endcomment %}
+
+<div
+  role="region"
+  aria-label="{{ 'sections.announcement.name' | t }}"
+  class="flex items-center justify-center py-2 font-display text-body-medium text-center max-w-720 mx-auto"
+>
+  {%- if section.blocks.first.settings.text != blank -%}
+    {%- if section.blocks.first.settings.link != blank -%}
+      <a
+        href="{{ section.blocks.first.settings.link }}"
+        class="group cursor-pointer hover:underline hover:underline-offset-2 overflow-hidden"
+      >
+    {%- endif -%}
+    {{ section.blocks.first.settings.text | escape }}
+    {%- if section.blocks.first.settings.link != blank -%}
+      </a>
+    {%- endif -%}
+  {%- endif -%}
+</div>

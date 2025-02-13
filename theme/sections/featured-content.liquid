@@ -1,0 +1,437 @@
+{% comment %}
+  Renders a featured content section.
+
+  Usage:
+    {% sections 'featured-content' %}
+{% endcomment %}
+
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign columns = section.settings.columns
+  assign pre_heading = section.settings.pre_heading
+  assign heading = section.settings.heading
+-%}
+
+{%- liquid
+  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
+  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+-%}
+
+<style>
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}px;
+    padding-bottom: {{ reduced_padding_bottom }}px;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ section.settings.top_padding }}px;
+      padding-bottom: {{ section.settings.bottom_padding }}px;
+    }
+  }
+</style>
+
+<div
+  class="pl-[24px] pr-[24px] lg:px-[160px] lg:py-[96px] bg-{{ color_scheme }} responsive-padding-{{ section.id }}"
+>
+  <div class="flex flex-col gap-[48px] max-w-container w-full mx-auto">
+    <div class="text-start flex flex-col gap-[16px] text-{{ color_scheme }}">
+      {%- if pre_heading != blank -%}
+        <p
+          class="
+            text-headline-small font-display font-pre-heading
+            {% case section.settings.header_alignment %}
+              {% when 'center' %} text-center
+              {% when 'right' %} text-right
+              {% else %} text-left
+            {% endcase %}
+          "
+        >
+          {{ pre_heading }}
+        </p>
+      {%- endif -%}
+      {%- if heading != blank -%}
+        <h2
+          class="
+               font-display
+               font-heading
+               {% case section.settings.heading_size %}
+                 {% when 'small' %}text-display-small
+                 {% when 'medium' %}text-display-medium
+                 {% when 'large' %}text-display-large
+               {% endcase %}
+              {% case section.settings.header_alignment %}
+              {% when 'center' %} text-center
+              {% when 'right' %} text-right
+              {% else %} text-left
+            {% endcase %}
+          "
+        >
+          {{ heading }}
+        </h2>
+      {%- endif -%}
+    </div>
+
+    <div
+      class="
+        grid gap-[16px]
+        items-stretch
+        {% if section.settings.mobile_columns == '1 column' %} auto-rows-fr
+        {% else %} grid-cols-2
+        {% endif %} lg:grid-cols-{{ columns }}
+      "
+    >
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'image_picker' -%}
+            <div class="flex flex-col gap-[8px] col-span-{{ block.settings.col_span }}">
+              <div class="h-full w-full">
+                <a href="{{ block.settings.link }}">
+                  {%
+                    render 'image',
+                    image: block.settings.image,
+                    alt: block.settings.image.alt | default: "Featured collection image {{ forloop.index }}",
+                    class: "w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                  %}
+                </a>
+              </div>
+            </div>
+
+          {%- when 'product' -%}
+            <div class="flex flex-col gap-[8px] col-span-{{ block.settings.col_span }}">
+              <a
+                href="{{ block.settings.product.url }}"
+              >
+                <div class="aspect-square w-full">
+                  {%
+                    render 'image',
+                    image: block.settings.product.featured_image,
+                    alt: first_image_alt = first_image.alt | default: 'Featured collection image {{ forloop.index }}',
+                    class: 'w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110'
+                  %}
+                </div>
+              </a>
+
+              <a
+                href="{{ block.settings.product.url }}"
+              >
+                <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
+                  <h3 class="font-display text-title-small ">
+                    {{ block.settings.product.title }}
+                  </h3>
+
+                  <p class="font-display text-body-medium text-center">
+                    {%- if block.settings.product.compare_at_price > block.settings.product.price -%}
+                      <div class="font-display flex gap-[6px] text-body-medium flex-wrap">
+                        <span class="">
+                          {{ block.settings.product.price | money_with_currency }}
+                        </span>
+                        <span class="line-through text-[#757575]">
+                          {{ block.settings.product.compare_at_price | money_with_currency }}
+                        </span>
+                      </div>
+                    {%- else -%}
+                      {{ block.settings.product.price | money_with_currency }}
+                    {%- endif -%}
+                  </p>
+                </div>
+              </a>
+            </div>
+          {%- when 'collection' -%}
+            <div class="flex flex-col gap-[8px] col-span-{{ block.settings.col_span }}">
+              <a
+                href="{{ block.settings.collection.url }}"
+              >
+                <div class="aspect-square w-full">
+                  {%
+                    render 'image',
+                    image: block.settings.collection.image,
+                    alt: block.settings.collection.image.alt | default: "Featured collection image {{ forloop.index }}",
+                    class: 'w-full h-full object-cover object-center'
+                  %}
+                </div>
+              </a>
+              <a
+                href="{{ block.settings.collection.url }}"
+              >
+                <h3 class="font-display text-title-small flex-wrap text-{{ color_scheme }}">
+                  {{ block.settings.collection.title }}
+                </h3>
+              </a>
+            </div>
+
+          {%- when 'article' -%}
+            <div class="flex flex-col gap-[8px] col-span-{{ block.settings.col_span }}">
+              <a
+                href="{{ block.settings.article.url }}"
+                class="flex justify-center"
+              >
+                <div class="aspect-square">
+                  {%
+                    render 'image',
+                    image: block.settings.article,
+                    alt: first_image_alt = first_image.alt | default: 'Featured article image {{ forloop.index }}',
+                    class: 'w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110'
+                  %}
+                </div>
+              </a>
+
+              <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
+                <h3 class="text-title-small">
+                  {{ block.settings.article.title }}
+                </h3>
+                <p class="text-body-medium">
+                  {{ block.settings.article.excerpt | truncate: 100 }}
+                </p>
+              </div>
+            </div>
+          {%- when 'text' -%}
+            <div class="bg-[#FAF7FF] pl-[24px] pr-[24px] flex justify-between items-center col-span-{{ block.settings.col_span }}">
+              <div class="flex flex-col gap-[16px] w-full text-{{ color_scheme }}">
+                <h2 class="text-title-small">{{ block.settings.heading }}</h2>
+                <div class="text-body-medium font-display">{{ block.settings.description }}</div>
+              </div>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Featured content",
+  "max_blocks": 10,
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "pre_heading",
+      "label": "t:sections.all.pre_heading.label",
+      "default": "t:sections.all.pre_heading.label"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.all.heading.label"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": "small",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header alignment",
+      "default": "left",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-2"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "t:sections.all.columns.label",
+      "info": "t:sections.all.columns.info",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "t:sections.all.top_padding.label",
+      "info": "t:sections.all.top_padding.info",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "t:sections.all.bottom_padding.label",
+      "info": "t:sections.all.bottom_padding.info",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "header",
+      "content": "Mobile layout"
+    },
+    {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "Number of columns",
+      "default": "1 column",
+      "options": [
+        { "value": "1 column", "label": "1 column" },
+        { "value": "2 columns", "label": "2 columns" }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_picker",
+      "name": "t:sections.image_picker.blocks.image_picker.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.image_picker.blocks.image_picker.settings.image.label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Button link"
+        },
+        {
+          "type": "range",
+          "id": "col_span",
+          "label": "Column span",
+          "min": 1,
+          "max": 5,
+          "default": 1
+        }
+      ]
+    },
+    {
+      "type": "collection",
+      "name": "t:sections.collection.blocks.collection.name",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "t:sections.collection.blocks.collection.settings.collection.label"
+        },
+        {
+          "type": "range",
+          "id": "col_span",
+          "label": "t:sections.all.col_span.label",
+          "info": "t:sections.all.col_span.info",
+          "min": 1,
+          "max": 12,
+          "default": 1
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "range",
+          "id": "col_span",
+          "label": "Column span",
+          "min": 1,
+          "max": 5,
+          "default": 1
+        }
+      ]
+    },
+    {
+      "type": "product",
+      "name": "t:sections.product.blocks.product.name",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "t:sections.product.blocks.product.settings.product.label"
+        },
+        {
+          "type": "range",
+          "id": "col_span",
+          "label": "t:sections.all.col_span.label",
+          "min": 1,
+          "max": 5,
+          "default": 1
+        }
+      ]
+    },
+    {
+      "type": "article",
+      "name": "t:sections.article.blocks.article.name",
+      "settings": [
+        {
+          "type": "article",
+          "id": "article",
+          "label": "t:sections.article.blocks.article.settings.article.label"
+        },
+        {
+          "type": "range",
+          "id": "col_span",
+          "label": "t:sections.all.col_span.label",
+          "min": 1,
+          "max": 12,
+          "default": 1
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured content",
+      "settings": {
+        "pre_heading": "Pre heading",
+        "heading": "Featured content"
+      },
+      "blocks": [
+        {
+          "type": "image_picker"
+        },
+        {
+          "type": "image_picker"
+        },
+        {
+          "type": "image_picker"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

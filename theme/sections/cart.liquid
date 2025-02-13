@@ -1,0 +1,311 @@
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign padding_x = section.settings.padding_x
+  assign padding_y = section.settings.padding_y
+  assign duties_included = cart.duties_included
+  assign taxes_included = cart.taxes_included
+  assign shipping_policy_body = shop.shipping_policy.body
+  assign shipping_policy_url = shop.shipping_policy.url
+-%}
+
+{%- liquid
+  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
+  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+-%}
+
+<style>
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}px;
+    padding-bottom: {{ reduced_padding_bottom }}px;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ section.settings.top_padding }}px;
+      padding-bottom: {{ section.settings.bottom_padding }}px;
+    }
+  }
+</style>
+
+<div class="mx-auto max-w-[1366px] pt-[16px] pb-[64px] pl-[24px] pr-[24px] sm:pt-[64px] responsive-padding-{{ section.id }}">
+  <cart-root class="flex flex-col max-w-[1046px] mx-auto">
+    {%- if cart.empty? -%}
+      <div class="flex flex-col gap-[32px]">
+        <h2 class="uppercase text-headline-medium font-display">Your cart is empty</h2>
+        <div class="flex-grow-0 flex flex-col items-start justify-center">
+          {% render 'button', text: 'Continue shopping', href: routes.all_products_collection_url, variant: 'purple' %}
+        </div>
+        {%- if customer == blank -%}
+          <div class="flex flex-col gap-[8px]">
+            <span class="text-title-medium font-display text-secondary-{{ color_scheme }}">Have an account?</span>
+            <span class="text-body-large font-display text-secondary-{{ color_scheme }}">
+              <a
+                href="{{ routes.account_login_url }}"
+                class="underline"
+                >Log in</a
+              >
+              to check out later</span
+            >
+          </div>
+        {% endif %}
+      </div>
+    {%- else -%}
+      <div class="flex flex-col gap-[32px]">
+        <div class="flex items-center justify-between">
+          <h2 class="uppercase text-headline-medium font-display">Your cart</h2>
+
+          <div class="inline-flex">
+            <a
+              href="{{ routes.all_products_collection_url }}"
+              class="text-left text-body-medium font-display w-full underline underline-offset-4"
+              >Continue shopping</a
+            >
+          </div>
+        </div>
+        <form class="" action="{{ routes.cart_url }}" method="post" id="cart">
+          <div class="border-none sm:border-b sm:border-[#E0E0E0] flex flex-col gap-[32px] sm:pb-[32px]">
+            <table class="w-full">
+              <thead class="text-title-small  border-b border-[#E0E0E0] font-display">
+                <tr>
+                  <th class="text-title-small font-display pb-4 text-left">Product</th>
+                  <th class="hidden sm:block text-title-small font-display pb-4 text-left">
+                    <span>Quantity</span>
+                  </th>
+                  <th class="text-title-small font-display pb-4 text-right">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {%- for item in cart.items -%}
+                  <tr
+                    class="[&:not(:last-child)]:border-b [&:not(:last-child)]:border-gray-100"
+                    data-variant-id="{{ item.variant_id }}"
+                  >
+                    <td class="pt-[32px] pb-[32px] lg:w-[706px]">
+                      <div class="flex gap-[16px] sm:gap-[32px]">
+                        <span class="aspect-square inline-flex w-[110px] h-[110px]">
+                          {% render 'image', image: item.image, alt: item.image.alt %}
+                        </span>
+                        <div class="flex flex-col gap-[2px]">
+                          <h4 class="text-body-small font-display">
+                            <a href="{{ item.url }}">{{ item.product.title | escape }}</a>
+                          </h4>
+
+                          {%- if item.product.has_only_default_variant == false
+                            or item.properties.size != 0
+                            or item.selling_plan_allocation != null
+                          -%}
+                            <div class="text-body-small font-display">
+                              {%- if item.product.has_only_default_variant == false -%}
+                                {%- for option in item.options_with_values -%}
+                                  <div class="flex items-center gap-1">
+                                    {% comment %}
+                                      <div>{{ option.name }}</div>
+                                      <div>|</div>
+                                    {% endcomment %}
+                                    <div>
+                                      {{ option.value -}}
+                                      {%- unless forloop.last %}, {% endunless %}
+                                    </div>
+                                  </div>
+                                {%- endfor -%}
+                              {%- endif -%}
+
+                              {%- for property in item.properties -%}
+                                {%- assign property_first_char = property.first | slice: 0 -%}
+                                {%- if property.last != blank and property_first_char != '_' -%}
+                                  <div class="flex items-center gap-1">
+                                    <div>{{ property.first }}</div>
+                                    <div>|</div>
+                                    <div>
+                                      {%- if property.last contains '/uploads/' -%}
+                                        <a href="{{ property.last }}">
+                                          {{ property.last | split: '/' | last }}
+                                        </a>
+                                      {%- else -%}
+                                        {{ property.last }}
+                                      {%- endif -%}
+                                    </div>
+                                  </div>
+                                {%- endif -%}
+                              {%- endfor -%}
+
+                              <p>{{ item.selling_plan_allocation.selling_plan.name }}</p>
+                            </div>
+                          {%- endif -%}
+                          {%- if item.variant.compare_at_price
+                            and item.variant.compare_at_price > item.variant.price
+                          -%}
+                            <div class="font-display text-body-small sm:text-body-medium">
+                              <strong class="font-display text-body-small sm:text-body-medium">
+                                {{ item.variant.price | money }}
+                              </strong>
+                              <s class="text-secondary-{{ color_scheme}} font-display text-body-small sm:text-body-medium">
+                                {{- item.variant.compare_at_price | money -}}
+                              </s>
+                            </div>
+                          {%- else -%}
+                            <div class="font-display text-body-small sm:text-body-medium">
+                              {{ item.variant.price | money }}
+                            </div>
+                          {%- endif -%}
+
+                          <ul role="list" aria-label="Discount">
+                            {%- for discount in item.line_level_discount_allocations -%}
+                              <li>
+                                {{ discount.discount_application.title | escape }}
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                          <div class="cart-desktop block sm:hidden mt-4">
+                            {% render 'quantity-selector', item: item %}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="hidden sm:flex pt-[32px] pb-[32px]">
+                      <div class="cart-desktop flex flex-col items-start gap-4 ">
+                        {% render 'quantity-selector', item: item %}
+                      </div>
+                    </td>
+                    <td class="pt-[32px] pb-[32px] align-top">
+                      <div class="flex items-center justify-end text-title-small font-display">
+                        {%- if item.original_line_price != item.final_line_price -%}
+                          <dl>
+                            <dd>
+                              <s class="cart-item__old-price price price--end">
+                                {{ item.original_line_price | money }}
+                              </s>
+                            </dd>
+                            <dd>
+                              {{ item.final_line_price | money }}
+                            </dd>
+                          </dl>
+                        {%- else -%}
+                          {{ item.original_line_price | money }}
+                        {%- endif -%}
+
+                        {%- if item.variant.available and item.unit_price_measurement -%}
+                          {{ item.unit_price | money }}
+                          {%- if item.unit_price_measurement.reference_value != 1 -%}
+                            {{- item.unit_price_measurement.reference_value -}}
+                          {%- endif -%}
+                          {{ item.unit_price_measurement.reference_unit }}
+                        {%- endif -%}
+                      </div>
+                    </td>
+                  </tr>
+                {%- endfor -%}
+              </tbody>
+            </table>
+            <div class="flex flex-col gap-[8px]">
+              {% comment %}
+                {%- if settings.show_cart_note -%}
+                  {% render 'label', for: 'note', class: 'sr-only' %}
+                  {% render 'text-area',
+                    name: 'note',
+                    form: 'cart',
+                    id: 'note',
+                    placeholder: 'Notes',
+                    text: cart.note,
+                    rows: 4,
+                    cols: 33
+                  %}
+                {%- endif -%}
+              {% endcomment %}
+              <div class="flex justify-between">
+                <span class="text-title-medium font-display">Subtotal </span>
+                <span class="text-body-large font-display">
+                  {{- cart.items_subtotal_price | money_with_currency -}}
+                </span>
+              </div>
+              <span class="text-title-medium font-display">Shipping</span>
+              <div class="flex justify-between">
+                <span class="text-title-medium font-display">Estimated total</span>
+                <cart-total
+                  ><span class="text-body-large font-display">
+                    {{- cart.total_price | money_with_currency -}}
+                  </span></cart-total
+                >
+              </div>
+            </div>
+            <div class="hidden sm:block"></div>
+            <div class="hidden sm:block">
+              {% render 'cart-tax-notes',
+                duties_included: duties_included,
+                taxes_included: taxes_included,
+                shipping_policy_body: shipping_policy_body,
+                shipping_policy_url: shipping_policy_url
+              %}
+            </div>
+            <div class="flex w-full ml-auto justify-end sm:w-fit">
+              {% render 'button',
+                text: 'Proceed to purchase',
+                type: 'submit',
+                disabled: cart.empty?,
+                form: 'cart',
+                name: 'checkout',
+                variant: 'purple',
+                content_color_scheme: color_scheme,
+                full_width: true
+              %}
+            </div>
+          </div>
+        </form>
+      </div>
+
+      {% comment %}
+        <div class="col-start-2">
+          <div class="flex items-center justify-end gap-4 text-base">
+            <h5>Estimated total</h5>
+            <cart-total>{{ cart.total_price | money_with_currency }}</cart-total>
+          </div>
+          {% render 'cart-tax-notes',
+            duties_included: duties_included,
+            taxes_included: taxes_included,
+            shipping_policy_body: shipping_policy_body,
+            shipping_policy_url: shipping_policy_url
+          %}
+          <div class="max-w-80 ml-auto">
+            {% render 'button', text: 'Checkout', type: 'submit', disabled: cart.empty?, form: 'cart', name: 'checkout' %}
+          </div>
+        </div>
+      {% endcomment %}
+    {%- endif -%}
+  </cart-root>
+</div>
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "t:sections.all.top_padding.label",
+      "info": "t:sections.all.top_padding.info",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "t:sections.all.bottom_padding.label",
+      "info": "t:sections.all.bottom_padding.info",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 96
+    }
+  ]
+}
+{% endschema %}

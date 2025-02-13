@@ -1,0 +1,77 @@
+<div id="mobileTray" class="w-full inset-0 z-[101] bg-white text-black">
+  {% comment %}
+    <button class="absolute top-4 left-4" onclick="toggleMobileTray()" aria-label="Close mobile menu">
+      <!-- Close Icon -->
+      <svg class="w-6 h-6" fill="none" stroke="black" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  {% endcomment %}
+
+  <div id="trayContent">
+    <!-- Main Menu -->
+    <ul id="mainMenu" class="flex flex-col text-black block">
+      {% for link in links %}
+        <li>
+          {% if link.links and link.links.size > 0 %}
+            <button
+              class="flex justify-between items-center w-full text-left text-body-large font-display h-[48px]"
+              data-submenu-id="submenu-{{ forloop.index }}"
+              onclick="openSubMenu('submenu-{{ forloop.index }}', '{{ link.title | escape }}')"
+            >
+              {{ link.title | escape }}
+              {{- 'nav-right-arrow-icon.svg' | inline_asset_content -}}
+            </button>
+
+            <!-- Sublinks -->
+            <ul id="submenu-{{ forloop.index }}" class="hidden">
+              {% for sublink in link.links %}
+                <li>
+                  {% if sublink.links and sublink.links.size > 0 %}
+                    <button
+                      class="flex justify-between items-center w-full text-left text-body-large font-display h-[48px]"
+                      data-submenu-id="submenu-{{ forloop.parentloop.index }}-{{ forloop.index }}"
+                      onclick="openSubMenu('submenu-{{ forloop.parentloop.index }}-{{ forloop.index }}', '{{ sublink.title | escape }}')"
+                    >
+                      {{ sublink.title | escape }}
+                    </button>
+                    <ul id="submenu-{{ forloop.parentloop.index }}-{{ forloop.index }}" class="hidden">
+                      <!-- Nested Sublinks -->
+                      {% for nestedSublink in sublink.links %}
+                        <li>
+                          <a
+                            href="{{ nestedSublink.url }}"
+                            class="flex items-center text-body-large font-display h-[48px]"
+                          >
+                            {{ nestedSublink.title | escape }}
+                          </a>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  {% else %}
+                    <a href="{{ sublink.url }}" class="flex items-center text-body-large font-display h-[48px]">
+                      {{- sublink.title | escape -}}
+                    </a>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <a href="{{ link.url }}" class="flex items-center text-body-large font-display h-[48px]">
+              {{- link.title | escape -}}
+            </a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+
+    <!-- Submenu Tray -->
+    <div id="submenuTray" class="hidden">
+      <div class="flex gap-[8px] items-center h-[48px]" onclick="closeSubLinkTray()">
+        {{- 'nav-left-arrow-icon.svg' | inline_asset_content -}}
+        <h2 id="trayTitle" class="font-display text-body-large">Submenu</h2>
+      </div>
+      <ul id="sublinkTrayContent" class="flex flex-col font-display text-body-large"></ul>
+    </div>
+  </div>
+</div>

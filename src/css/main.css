@@ -1,0 +1,19 @@
+@import url("swiper/swiper.min.css");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Icons */
+
+ion-icon {
+  @apply text-base/4;
+}
+
+/* Buttons */
+
+.btn {
+  @apply inline-flex items-center justify-center px-4 py-3 !no-underline;
+}
+
+/* Inputs */

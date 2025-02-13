@@ -1,0 +1,88 @@
+<cart-drawer-item
+  data-variant-id="{{ item.variant.id }}"
+  class="flex gap-[16px]"
+>
+  <div class="w-[110px] h-[110px] aspect-square">
+    {% render 'image', image: item.image, alt: item.image.alt, class: 'object-cover w-full h-full' %}
+  </div>
+
+  <div class="flex flex-col justify-between gap-1 w-full">
+    <div>
+      {%- if settings.show_vendor -%}
+        <div class="font-medium uppercase text-xxs">{{ item.product.vendor }}</div>
+      {%- endif -%}
+      <div class="flex justify-between w-full">
+        <a href="{{ item.url }}">
+          <h4 class="text-body-small font-display text-black">{{- item.product.title | escape -}}</h4>
+        </a>
+        {%- if item.original_price != item.final_price -%}
+          <div class="text-title-small font-display flex items-center gap-1">
+            <s class="text-[#616161] line-through">{{- item.original_price | money -}}</s>
+            {{ item.final_price | money }}
+          </div>
+        {%- else -%}
+          <cart-drawer-item-price class="text-[#616161] text-title-small font-display">
+            {{- item.final_price | money -}}
+            {% render 'loader' %}
+          </cart-drawer-item-price>
+        {%- endif -%}
+      </div>
+      {%- if item.product.has_only_default_variant == false
+        or item.properties.size != 0
+        or item.selling_plan_allocation != null
+      -%}
+        <div class="">
+          {%- if item.product.has_only_default_variant == false -%}
+            {%- for option in item.options_with_values -%}
+              <div class="flex items-center gap-1">
+                {% comment %}
+                  <div>{{ option.name }}</div>
+                  <div>|</div>
+                {% endcomment %}
+                <div class="text-[#757575] text-body-small font-display">
+                  {{ option.value -}}
+                  {%- unless forloop.last %}, {% endunless %}
+                </div>
+              </div>
+            {%- endfor -%}
+          {%- endif -%}
+
+          {%- for property in item.properties -%}
+            {%- assign property_first_char = property.first | slice: 0 -%}
+            {%- if property.last != blank and property_first_char != '_' -%}
+              <div class="flex items-center gap-1">
+                <div>{{ property.first }}</div>
+                <div>|</div>
+                <div>
+                  {%- if property.last contains '/uploads/' -%}
+                    <a href="{{ property.last }}">
+                      {{ property.last | split: '/' | last }}
+                    </a>
+                  {%- else -%}
+                    {{ property.last }}
+                  {%- endif -%}
+                </div>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+
+          <p>{{ item.selling_plan_allocation.selling_plan.name }}</p>
+        </div>
+      {%- endif -%}
+
+      {%- if item.original_price != item.final_price -%}
+        <div class="text-body-small font-display flex items-center gap-1">
+          <s class="text-gray-400 line-through">{{- item.original_price | money -}}</s> {{ item.final_price | money }}
+        </div>
+      {%- else -%}
+        <cart-drawer-item-price class="text-black text-body-small font-display">
+          {{- item.final_price | money -}}
+          {% render 'loader' %}
+        </cart-drawer-item-price>
+      {%- endif -%}
+    </div>
+    <div class="cart-mini">
+      {% render 'quantity-selector', item: item %}
+    </div>
+  </div>
+</cart-drawer-item>

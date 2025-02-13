@@ -1,0 +1,303 @@
+{% comment %}
+  Renders a video embed section.
+
+  Usage:
+    {% sections 'video-embed' %}
+{% endcomment %}
+
+{% liquid
+  assign color_scheme = section.settings.color_scheme
+  assign text_alignment = section.settings.text_alignment
+  assign grid_order = section.settings.grid_order
+  assign iframe = section.settings.iframe
+  assign video_position = section.settings.video_position
+%}
+
+{%- liquid
+  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
+  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+-%}
+
+<style>
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}px;
+    padding-bottom: {{ reduced_padding_bottom }}px;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ section.settings.top_padding }}px;
+      padding-bottom: {{ section.settings.bottom_padding }}px;
+    }
+  }
+</style>
+
+<div
+  class="w-full h-full pt-[64px] pb-[64px] lg:pl-[96px] lg:pr-[96px] text-{{ text_alignment }} bg-{{ color_scheme }} text-{{ color_scheme }}  lg:pt-[160px] lg:pb-[160px] responsive-padding-{{ section.id }}"
+  {% comment %} style="padding-top: {{ section.settings.top_padding }}px; padding-bottom: {{ section.settings.bottom_padding }}px;" {% endcomment %}
+>
+  <div class="max-w-[1366px] 2xl:max-w-container mx-auto">
+    <div class="flex flex-col max-w-[1174px] mx-auto lg:h-[374px] lg:flex-row gap-[64px] {% if video_position == 'right' %} lg:flex-row-reverse {% endif %}">
+      <div class="flex items-center justify-center lg:w-[555px] aspect-video relative {% if grid_order %}order-last{% endif %}">
+        {% if section.settings.cover_image %}
+          <div class="absolute inset-0 z-10 cursor-pointer" onclick="this.style.display='none';">
+            {% render 'image', image: section.settings.cover_image, alt: section.settings.image.alt | default: "Image banner", class: 'w-full h-full object-cover' %}
+          </div>
+        {% endif %}
+        {{ iframe }}
+      </div>
+      {%- if section.blocks.size >= 1 -%}
+        <div class="flex items-center justify-center flex-col max-w-555 lg:p-0 pl-[24px] pr-[24px]">
+          <div
+            class="
+              flex flex-col gap-[32px]
+              {% case section.settings.text_alignment %}
+              {% when 'center' %} items-center
+              {% when 'right' %} items-end
+              {% else %} items-start
+              {% endcase %}
+            "
+          >
+            <div class="flex flex-col gap-[16px]">
+              {% liquid
+                assign heading_exists = false
+                assign text_exists = false
+              %}
+              {%- for block in section.blocks -%}
+                {%- case block.type -%}
+                  {%- when 'pre_heading' -%}
+                    <p class="text-headline-small font-display font-pre-heading">
+                      {{ block.settings.pre_heading }}
+                    </p>
+                  {%- when 'heading' -%}
+                    {% assign heading_exists = true %}
+                  {%- when 'text' -%}
+                    {% assign text_exists = true %}
+                {%- endcase -%}
+              {%- endfor -%}
+
+              {% if heading_exists or text_exists %}
+                <div class="flex flex-col gap-[4px]">
+                  {%- for block in section.blocks -%}
+                    {%- case block.type -%}
+                      {%- when 'heading' -%}
+                        <h2 class="text-display-small font-display font-heading">
+                          {{ block.settings.heading }}
+                        </h2>
+                      {%- when 'text' -%}
+                        <p class="text-body-large font-display">{{ block.settings.text }}</p>
+                    {%- endcase -%}
+                  {%- endfor -%}
+                </div>
+              {% endif %}
+            </div>
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'button' -%}
+                <div class="flex">
+                  {% render 'button',
+                    text: block.settings.button_label,
+                    variant: block.settings.button_variant,
+                    href: block.settings.button_link,
+                    content_color_scheme: color_scheme
+                  %}
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Video embed",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "html",
+      "id": "iframe",
+      "label": "t:sections.video-embed.settings.iframe.label",
+      "info": "t:sections.video-embed.settings.iframe.info"
+    },
+    {
+      "type": "image_picker",
+      "id": "cover_image",
+      "label": "Cover image"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-2"
+    },
+    {
+      "type": "select",
+      "id": "video_position",
+      "label": "Video Position",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "t:sections.video-embed.settings.text_alignment.label",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.video-embed.settings.text_alignment.options.left.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.video-embed.settings.text_alignment.options.center.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.video-embed.settings.text_alignment.options.right.label"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "t:sections.all.top_padding.label",
+      "info": "t:sections.all.top_padding.info",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "t:sections.all.bottom_padding.label",
+      "info": "t:sections.all.bottom_padding.info",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pre_heading",
+      "name": "t:sections.video-embed.blocks.pre_heading.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "pre_heading",
+          "default": "t:sections.video-embed.blocks.pre_heading.settings.pre_heading.default",
+          "label": "t:sections.video-embed.blocks.pre_heading.settings.pre_heading.label"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "t:sections.video-embed.blocks.heading.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:sections.all.heading.label"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "t:sections.video-embed.blocks.text.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "default": "t:sections.video-embed.blocks.text.settings.text.default",
+          "label": "t:sections.video-embed.blocks.text.settings.text.label"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "t:sections.video-embed.blocks.button.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label",
+          "default": "t:sections.video-embed.blocks.button.settings.button_label.default",
+          "label": "t:sections.video-embed.blocks.button.settings.button_label.label",
+          "info": "t:sections.video-embed.blocks.button.settings.button_label.info"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.video-embed.blocks.button.settings.button_link.label"
+        },
+        {
+          "type": "select",
+          "id": "button_variant",
+          "label": "Button Style",
+          "options": [
+            { "value": "solid", "label": "Solid" },
+            { "value": "outline", "label": "Outline" }
+          ],
+          "default": "outline"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video embed",
+      "settings": {
+        "iframe": "<iframe width='100%' height='100%' src='https://www.youtube.com/embed/NpEaa2P7qZI?si=NQcMz0-jycTcGeaq' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' referrerpolicy='strict-origin-when-cross-origin' allowfullscreen></iframe>",
+        "color_scheme": "scheme-2"
+      },
+      "blocks": [
+        {
+          "type": "pre_heading",
+          "settings": {
+            "pre_heading": "Our story"
+          }
+        },
+        {
+          "type": "heading",
+          "settings": {
+            "heading": "Craftsmanship at its finest"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "text": "We take pride in the art of craftsmanship and attention to detail in every piece."
+          }
+        },
+        {
+          "type": "button",
+          "settings": {
+            "button_label": "Read more",
+            "button_link": "/collections/all"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

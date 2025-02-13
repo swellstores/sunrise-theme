@@ -1,0 +1,126 @@
+{% comment %}
+  Renders color scheme css variables & classes
+
+  Usage:
+    {% render 'color-schemes' %}
+{% endcomment %}
+
+{%- liquid
+  assign color_scheme_roles = 'background,text,text_secondary,primary_button,secondary_button,primary_button_border,secondary_button_border,on_primary_button,on_secondary_button,links,icons,accent,primary_button_hover,secondary_button_hover,secondary_button_border_hover,primary_button_label_hover,secondary_button_label_hover' | split: ','
+-%}
+
+{% style %}
+    :root {
+      {% for scheme in settings.color_schemes %}
+        {% for role in color_scheme_roles %}
+          {% assign role_value = scheme.settings[role] %}
+          {% case role %}
+            {% when 'on_primary_button' %}
+              {% assign role_value = scheme.settings['button_label'] %}
+            {% when 'on_secondary_button' %}
+              {% assign role_value = scheme.settings['secondary_button_label'] %}
+            {% when 'on_secondary_button_border' %}
+              {% assign role_value = scheme.settings['secondary_button_border'] %}
+            {% when 'primary_button' %}
+              {% assign role_value = scheme.settings['button'] %}
+            {% else %}
+              {% assign role_value = scheme.settings[role] %}
+
+          {% endcase %}
+
+          {% if role_value == blank %}
+            /* Handle blank values by setting to transparent */
+            --color-{{ scheme.id }}-{{ role | replace: "_", "-" }}: transparent;
+          {% else %}
+            /* color to hex */
+            {% assign role_hex = role_value | color_to_hex %}
+            /* color to hsl */
+            {% assign role_hsl = role_hex | color_to_hsl %}
+            /* color to css variable */
+            --color-{{ scheme.id }}-{{ role | replace: "_", "-" }}: {{ role_hsl }};
+            /* color to css variable hover */
+            --color-{{ scheme.id }}-{{ role | replace: "_", "-" }}-hover: {{ role_hsl | color_lighten: 5 }};
+          {% endif %}
+        {% endfor %}
+      {% endfor %}
+    }
+
+    /* Color css variable to html class */
+    {% for scheme in settings.color_schemes %}
+      {% if forloop.first %}
+        body {
+          background-color: var(--color-{{ scheme.id }}-background);
+          color: var(--color-{{ scheme.id }}-text);
+        }
+      {% endif %}
+      .bg-{{ scheme.id }} {
+        background-color: var(--color-{{ scheme.id }}-background);
+      }
+      .bg-after-{{ scheme.id }}:after {
+        background-color: var(--color-{{ scheme.id }}-text);
+      }
+      .bg-accent-{{ scheme.id }} {
+        background: var(--color-{{ scheme.id }}-primary-button);
+      }
+      .text-{{ scheme.id }} {
+        color: var(--color-{{ scheme.id }}-text);
+      }
+      .text-secondary-{{ scheme.id }} {
+        color: var(--color-{{ scheme.id }}-text-secondary);
+      }
+      .text-accent-{{ scheme.id }} {
+        color: var(--color-{{ scheme.id }}-primary-button);
+      }
+      .btn-disabled-{{ scheme.id }} {
+        color: var(--color-{{ scheme.id }}-text-secondary);
+        border: 1px solid var(--color-{{ scheme.id }}-text-secondary);
+      }
+      .btn-primary-{{ scheme.id }} {
+        background-color: var(--color-{{ scheme.id }}-primary-button);
+        color: var(--color-{{ scheme.id }}-on-primary-button);
+        border: 1px solid var(--color-{{ scheme.id }}-primary-button-border);
+      }
+      .btn-primary-{{ scheme.id }}:not(:disabled):hover {
+        background-color: var(--color-{{ scheme.id }}-primary-button-hover);
+        color: var(--color-{{ scheme.id }}-primary-button-label-hover);
+        border-color: var(--color-{{ scheme.id }}-primary-button-border);
+      }
+      .btn-primary-scheme-1:not(:disabled):focus-within,
+      .btn-primary-scheme-1:not(:disabled):active {
+      background-color: var(--color-scheme-1-primary-button);
+      color: var(--color-scheme-1-on-primary-button);
+      border: 1px solid var(--color-scheme-1-primary-button-border);
+  }
+      .btn-primary-{{ scheme.id }}:disabled {
+        background-color: var(--color-{{ scheme.id }}-primary-button);
+        color: var(--color-{{ scheme.id }}-on-primary-button);
+        border: 1px solid var(--color-{{ scheme.id }}-primary-button-border);
+        opacity: 0.6;
+      }
+      .btn-primary-{{ scheme.id }}:disabled:hover {
+        background-color: var(--color-{{ scheme.id }}-primary-button);
+        color: var(--color-{{ scheme.id }}-on-primary-button);
+        border: 1px solid var(--color-{{ scheme.id }}-primary-button-border);
+        opacity: 0.6;
+      }
+      .btn-secondary-{{ scheme.id }} {
+        background-color: var(--color-{{ scheme.id }}-secondary-button);
+        color: var(--color-{{ scheme.id }}-on-secondary-button);
+        border: 1px solid var(--color-{{ scheme.id }}-secondary-button-border);
+      }
+      .btn-secondary-{{ scheme.id }}:not(:disabled):hover {
+        background-color: var(--color-{{ scheme.id }}-secondary-button);
+        color: var(--color-{{ scheme.id }}-secondary-button-label-hover);
+        border: 1px solid var(--color-{{ scheme.id }}-secondary-button-border-hover);
+      }
+      .decoration-accent-{{ scheme.id }} {
+        text-decoration-color: var(--color-{{ scheme.id }}-primary-button);
+      }
+      .decoration-accent-hover-{{ scheme.id }}:hover {
+        text-decoration-color: var(--color-{{ scheme.id }}-primary-button);
+      }
+      .border-color-{{ scheme.id }} {
+        border-color: var(--color-{{ scheme.id }}-text);
+      }
+    {% endfor %}
+{% endstyle %}

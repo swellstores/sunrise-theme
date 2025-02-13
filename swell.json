@@ -1,0 +1,12 @@
+{
+  "description": "Official starter theme for Swell Proxima",
+  "id": "sunrise",
+  "name": "Sunrise",
+  "type": "theme",
+  "version": "1.0.0",
+  "theme": {
+    "storefront": {
+      "app": "proxima"
+    }
+  }
+}

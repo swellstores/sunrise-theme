@@ -1,0 +1,38 @@
+<div class="blog-card flex flex-col gap-[16px] overflow-hidden">
+  {% if article.image %}
+    <div class="h-[250px] sm:w-full">
+      {% if article.image %}
+        <img
+          src="{{ article.image | image_url }}"
+          alt="{{ article.title }}"
+          class="w-full h-full object-cover"
+          height=""
+          width=""
+        >
+      {% else %}
+        <p>No image available</p>
+      {% endif %}
+    </div>
+  {% endif %}
+  <div class="flex flex-col gap-[16px]">
+    <div class="flex flex-col gap-[4px]">
+      <p class="text-body-medium font-display text-secondary-{{ section.settings.color_scheme }}">
+        {{ article.published_at | date: '%B %d %Y' }}
+      </p>
+      <h3 class="font-display text-headline-small uppercase">
+        <a href="{{ article.url }}" class="hover:underline">{{ article.title }}</a>
+      </h3>
+    </div>
+    {% if article.excerpt %}
+      <p class="text-body-large font-display">{{ article.excerpt | truncate: 100 }}</p>
+    {% endif %}
+    <div class="flex">
+      {% render 'button',
+        text: 'Read more',
+        variant: 'white',
+        href: article.url,
+        content_color_scheme: section.settings.color_scheme
+      %}
+    </div>
+  </div>
+</div>

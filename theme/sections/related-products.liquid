@@ -1,0 +1,91 @@
+{%- liquid
+  assign collection_handle = product.collections.first.handle
+  assign related_collection = collections[collection_handle]
+  assign related_products = collections[collection_handle].products
+  assign displayed_products_count = 0
+  assign color_scheme = section.settings.color_scheme.id
+-%}
+
+{%- if related_products.size > 0 -%}
+  <div class="related-products max-w-[1366px] mx-auto pl-[24px] pr-[24px] pt-[64px] pb-[64px] lg:pl-[160px] lg:pr-[160px] lg:pt-[96px] lg:pb-[96px]">
+    <div class="flex flex-col gap-[48px]">
+      <h2 class="text-display-small font-display text-{{ color_scheme }}">
+        {{ 'sections.related_products.title' | t }}
+      </h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-[16px] text-{{ color_scheme }}">
+        {%- for related_product in related_products -%}
+          {%- if related_product.id != product.id and displayed_products_count < section.settings.limit -%}
+            <div class="w-full flex flex-col gap-[8px]">
+              <a href="{{ related_product.url }}">
+                <div class="aspect-square">
+                  {%
+                    render 'image',
+                    image: related_product.featured_image,
+                    alt: related_product.title  | default: "Featured product image {{ forloop.index }}",
+                    class: "w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                  %}
+                </div>
+              </a>
+
+              <div class="flex flex-col gap-[4px]">
+                <div class="text-body-small font-display">{{ related_product.title }}</div>
+                <div class="title-body-medium font-display">
+                  {{ related_product.price | money_without_trailing_zeros }}
+                </div>
+              </div>
+            </div>
+            {%- assign displayed_products_count = displayed_products_count | plus: 1 -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      {%- if section.settings.show_view_all -%}
+        <div class="md:flex md:justify-end">
+          {% render 'button',
+            text: section.settings.view_all_text,
+            variant: section.settings.button_variant,
+            href: related_collection.url
+          %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Related Products",
+  "settings": [
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Number of products to show",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View All' button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "'View All' button text",
+      "default": "View all"
+    },
+    {
+      "type": "select",
+      "id": "button_variant",
+      "label": "Button Style",
+      "options": [
+        { "value": "solid", "label": "Solid" },
+        { "value": "outline", "label": "Outline" }
+      ],
+      "default": "solid"
+    }
+  ]
+}
+{% endschema %}
