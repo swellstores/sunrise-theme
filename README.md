@@ -10,15 +10,13 @@ Visit [https://acmecorp.com/docs](https://acmecorp.com/docs) to view the full do
 npm install
 ```
 
-To launch the development server for the first time you will need to update the `STORE_URL` in `.env.local` to your own store url.
-
 ## Development
 
 ```bash
 npm run watch
 ```
 
-The watch command will launch two development servers. The first a shopify development server and the second a custom rollup server for bundling your js and Tailwind css.
+The watch command will launch two development servers. The first a Swell development server and the second is for bundling your js and Tailwind css.
 
 ## Structure
 
@@ -80,7 +78,7 @@ class Accordion extends HTMLElement {
 </accordion>
 ```
 
-## Deps
+## Dependencies
 
 - Slideshow - [Swiper](https://github.com/nolimits4web/swiper)
 - Megamenu, Copy-to-Clipboard, Dropdown, Select - [Floating UI](https://github.com/floating-ui/floating-ui)
@@ -90,12 +88,3 @@ class Accordion extends HTMLElement {
 
 Contributions to theme are welcome and highly appreciated. However, before you jump right into it, we would like you to review our [Contribution Guidelines](.github/CONTRIBUTING.md) to make sure you have a smooth experience contributing to theme.
 
-## Authors
-
-A list of the original co-authors that helped bring this theme to life.
-
-- [Thomas Taylor](@thmsmtylr)
-
-## License
-
-Copyright (c) 2024-present Acmecorp.
