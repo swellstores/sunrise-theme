@@ -1,11 +1,1 @@
-{
-  "sections": {
-    "main": {
-      "type": "cart"
-    },
-    "related-products": {
-      "type": "related-products"
-    }
-  },
-  "order": ["main", "related-products"]
-}
+{"sections":{"main":{"type":"cart","settings":{"color_scheme":"","top_padding":96,"bottom_padding":96}},"related-products":{"type":"related-products","settings":{"limit":3}}},"order":["main","related-products"]}

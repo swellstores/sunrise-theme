@@ -1,8 +1,1 @@
-{
-  "sections": {
-    "main": {
-      "type": "page"
-    }
-  },
-  "order": ["main"]
-}
+{"sections":{"main":{"type":"page","settings":{}}},"order":["main"]}

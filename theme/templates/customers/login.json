@@ -1,8 +1,1 @@
-{
-  "sections": {
-    "main": {
-      "type": "login"
-    }
-  },
-  "order": ["main"]
-}
+{"sections":{"main":{"type":"login","settings":{"color_scheme":"scheme-1","top_padding":96,"bottom_padding":96}}},"order":["main"]}

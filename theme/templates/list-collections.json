@@ -1,8 +1,1 @@
-{
-  "sections": {
-    "main": {
-      "type": "collection-list-page"
-    }
-  },
-  "order": ["main"]
-}
+{"sections":{"main":{"type":"collection-list-page","settings":{"color_scheme":"","pre_heading":"Pre-heading","heading":"Collections","heading_size":"small","header_alignment":"left","top_padding":96,"bottom_padding":96,"columns":3,"gap":4,"mobile_layout":"1"}},"featured_collection_HjeDGb":{"type":"featured-collection","settings":{"pre_heading":"Pre-heading","heading":"Heading","heading_size":"small","header_alignment":"left","collection":"","max_products":6,"color_scheme":"","columns":3,"top_padding":64,"bottom_padding":64,"mobile_columns":"1 column"}}},"order":["main","featured_collection_HjeDGb"]}
