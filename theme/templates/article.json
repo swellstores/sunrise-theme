@@ -1,8 +1,1 @@
-{
-  "sections": {
-    "main": {
-      "type": "article"
-    }
-  },
-  "order": ["main"]
-}
+{"sections":{"main":{"type":"article","blocks":{"featured_image_tErtLW":{"type":"featured_image","settings":{}},"title_R4KgxX":{"type":"title","settings":{"show_date":true,"show_author":false}},"content_RerDj7":{"type":"content","settings":{}},"share_pfhjbb":{"type":"share","settings":{}}},"block_order":["featured_image_tErtLW","title_R4KgxX","content_RerDj7","share_pfhjbb"],"settings":{"padding_x":0,"padding_y":0}}},"order":["main"]}
