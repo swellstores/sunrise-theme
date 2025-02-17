@@ -39,16 +39,19 @@
   ],
   "highlights": [
     {
+      "id": "sleek-design",
       "title": "Sleek & modern design",
       "description": " A clean, elegant layout with refined typography and ample white space for a premium look.",
       "image_src": "assets/feature-sleek-design.png"
     },
     {
+      "id": "customization-options",
       "title": "Progressive customization options",
       "description": "Easily tailor colors, fonts, and layouts to match your brand's identity.",
       "image_src": "assets/feature-customization-options.png"
     },
     {
+      "id": "innovative-growing",
       "title": "Innovative & growing theme",
       "description": "Continuously updated with new features and improvements to keep your store ahead.",
       "image_src": "assets/feature-innovative-growing.png"
