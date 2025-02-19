@@ -1,1 +1,11 @@
-{"sections":{"main":{"type":"blog","settings":{}}},"order":["main"]}
+{
+    "sections": {
+        "main": {
+            "type": "blog",
+            "settings": {}
+        }
+    },
+    "order": [
+        "main"
+    ]
+}
