@@ -1,1 +1,11 @@
-{"sections":{"product-list":{"type":"product-list","settings":{}}},"order":["product-list"]}
+{
+    "sections": {
+        "product-list": {
+            "type": "product-list",
+            "settings": {}
+        }
+    },
+    "order": [
+        "product-list"
+    ]
+}
