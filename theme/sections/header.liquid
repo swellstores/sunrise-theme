@@ -53,7 +53,7 @@
       {% comment %} style="padding-top: {{ section.settings.top_padding }}px; padding-bottom: {{ section.settings.bottom_padding }}px;" {% endcomment %}
     >
       <div class="{%- if logo_position == 'top center' or logo_position == 'top left' -%}h-full min-[960px]:pb-[20px] {% else %}h-[81px]{% endif %} sm:px-[48px] sm:{%- if logo_position == 'top center' or logo_position == 'top left' -%}h-full{% else %}h-[97px]{% endif %} pl-[24px] pr-[24px] grid grid-cols-3">
-        {%- if logo_position == 'left' -%}
+        {%- if logo_position == 'left' or logo_position == blank -%}
           <button class="min-[960px]:hidden block min-w-min" onclick="toggleMobileTray()" aria-label="Open mobile menu">
             <svg
               class="w-6 h-6"
@@ -161,28 +161,6 @@
             show_language_selector: section.settings.show_language_selector,
             show_currency_selector: section.settings.show_currency_selector
           -%}
-        {%- else -%}
-          <button class="min-[960px]:hidden block min-w-min" onclick="toggleMobileTray()" aria-label="Open mobile menu">
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-          </button>
-
-          <div class="flex items-center justify-start max-[960px]:order-2 max-[960px]:justify-end">
-            {%- render 'header-desktop-icon-list', color_scheme: color_scheme.id -%}
-          </div>
-          <div class="hidden min-[960px]:flex justify-center items-center">
-            {%- render 'header-desktop-nav', text_uppercase: text_uppercase -%}
-          </div>
-          <div class="flex items-center justify-end max-[960px]:justify-center">
-            {%- render 'header-logo' -%}
-          </div>
         {%- endif -%}
       </div>
     </div>
