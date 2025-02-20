@@ -20,24 +20,11 @@
 
     <meta name="description" content="{{ page_description | default: shop.name | escape }}">
 
-    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
-
-    {% comment %}
-      {% unless settings.type_heading.system? and settings.typography_body.system? %}
-        <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
-      {% endunless %}
-    {% endcomment %}
-
-    {%- unless settings.typography_body.system? -%}
-      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
-    {%- endunless -%}
-
     <script>
       document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
       window.addEventListener('load', () => document.documentElement.classList.add('ready'));
     </script>
 
-    {% comment %} shopify apps {% endcomment %}
     {{ content_for_header }}
 
     {% comment %} add entrypoints below content_for_header {% endcomment %}
@@ -196,7 +183,6 @@
       {{ 'accessibility.skip_to_text' | t }}
     </a>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{{ 'api.jquery.js' | shopify_asset_url }}" defer="defer"></script>
 
     {% comment %} Render header group section {% endcomment %}
     {% sections 'header-group' %}
