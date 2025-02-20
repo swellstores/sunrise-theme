@@ -105,7 +105,7 @@
             "type": "featured-collection",
             "settings": {
                 "pre_heading": "",
-                "heading": "Featured Collection",
+                "heading": "Featured collection",
                 "heading_size": "small",
                 "header_alignment": "left",
                 "collection": "",
@@ -120,7 +120,6 @@
     },
     "order": [
         "hero",
-        "featured-content",
         "featured_collection_mYV9by"
     ]
 }
