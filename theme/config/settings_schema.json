@@ -4,8 +4,8 @@
     "theme_name": "theme_name",
     "theme_author": "Swell",
     "theme_version": "0.1.0",
-    "theme_documentation_url": "https://help.shopify.com/manual/online_store/themes/os20/themes_by_shopify/dawn",
-    "theme_support_url": "https://support.shopify.com/"
+    "theme_documentation_url": "",
+    "theme_support_url": "https://www.swell.is"
   },
   {
     "name": "t:settings_schema.logo.name",
@@ -200,31 +200,31 @@
         "type": "text",
         "id": "social_facebook_url",
         "label": "Facebook",
-        "info": "https://www.facebook.com/shopify"
+        "info": "https://www.facebook.com/"
       },
       {
         "type": "text",
         "id": "social_twitter_url",
         "label": "Twitter",
-        "info": "https://twitter.com/shopify"
+        "info": "https://twitter.com/"
       },
       {
         "type": "text",
         "id": "social_instagram_url",
         "label": "Instagram",
-        "info": "https://instagram.com/shopify"
+        "info": "https://instagram.com/"
       },
       {
         "type": "text",
         "id": "social_linkedin_url",
         "label": "Linkedin",
-        "info": "https://www.linkedin.com/in/user/"
+        "info": "https://www.linkedin.com/"
       },
       {
         "type": "text",
         "id": "social_youtube_url",
         "label": "Youtube",
-        "info": "https://www.youtube.com/user/shopify"
+        "info": "https://www.youtube.com/"
       }
     ]
   },

@@ -1,8 +1,8 @@
 const t = {
-    addToCart: window.Shopify.routes.root + "cart/add.js",
-    updateCart: window.Shopify.routes.root + "cart/update.js",
-    getCart: window.Shopify.routes.root + "cart.js",
-    clearCart: window.Shopify.routes.root + "cart/clear.js",
+    addToCart: "cart/add.js",
+    updateCart: "cart/update.js",
+    getCart: "cart.js",
+    clearCart: "cart/clear.js",
   },
   e = {
     async addToCart(e, n = 1) {
@@ -2152,9 +2152,9 @@ class AddressManager {
 
     // eslint-disable-next-line no-alert
     if (confirm(confirmMessage)) {
-      Shopify.postLink(currentTarget.dataset.target, {
+      /* Shopify.postLink(currentTarget.dataset.target, {
         parameters: { _method: "delete" },
-      });
+      }); */
     }
   }
 }
@@ -2783,10 +2783,10 @@ class ProductManager {
       }
 
       if (this.priceDisplay) {
-        this.priceDisplay.textContent = Shopify.formatMoney(
+        /* this.priceDisplay.textContent = Shopify.formatMoney(
           matchedVariant.price,
           window.moneyFormat
-        );
+        ); */
       }
 
       if (this.hiddenVariantInput) {

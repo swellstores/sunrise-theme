@@ -2,10 +2,10 @@
 
 /** @type {*} */
 const routes = {
-  addToCart: window.Shopify.routes.root + 'cart/add.js',
-  updateCart: window.Shopify.routes.root + 'cart/update.js',
-  getCart: window.Shopify.routes.root + 'cart.js',
-  clearCart: window.Shopify.routes.root + 'cart/clear.js',
+  addToCart: "cart/add.js",
+  updateCart: "cart/update.js",
+  getCart: "cart.js",
+  clearCart: "cart/clear.js",
 };
 
 export const CartAPI = {
