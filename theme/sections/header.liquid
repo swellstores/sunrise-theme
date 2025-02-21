@@ -38,7 +38,7 @@
 {%- if section.settings.sticky -%}
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      var headerSection = document.getElementById('shopify-section-{{ section.id }}');
+      var headerSection = document.getElementById('swell-section-{{ section.id }}');
       if (headerSection) {
         headerSection.classList.add('sticky', 'top-0', 'z-[9999]');
       }
@@ -46,7 +46,7 @@
   </script>
 {%- endif -%}
 
-<div class="shopify-section {% if sticky %}sticky-header{% endif %}">
+<div class="swell-section {% if sticky %}sticky-header{% endif %}">
   <header class="relative z-[11] {{ border_b }} text-{{ color_scheme }} bg-{{color_scheme}}">
     <div
       class="sm:flex flex-col max-w-[1900px] mx-auto responsive-padding-{{ section.id }}"
