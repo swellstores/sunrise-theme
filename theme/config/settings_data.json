@@ -1,6 +1,6 @@
 {
     "current": {
-        "logo_color": "#757575",
+        "logo_color": "#121212",
         "logo_text": "Store Name",
         "typography_pre_heading": "sans-serif",
         "typography_heading": "sans-serif",
@@ -11,7 +11,7 @@
         "social_instagram_url": "https://instagram.com/",
         "social_linkedin_url": "https://www.linkedin.com/",
         "social_youtube_url": "https://www.youtube.com/",
-        "cart_color": "#757575",
+        "cart_color": "#121212",
         "typography_body_size": "md",
         "content_for_index": [],
         "color_schemes": {
@@ -19,16 +19,16 @@
                 "settings": {
                     "background": "#ffffff",
                     "background_gradient": "",
-                    "text": "#404040",
+                    "text": "#121212",
                     "text_secondary": "#757575",
-                    "button": "#404040",
+                    "button": "#121212",
                     "button_label": "#ffffff",
-                    "secondary_button_label": "#404040",
-                    "secondary_button_border": "#404040",
-                    "primary_button_hover": "#363636",
+                    "secondary_button_label": "#121212",
+                    "secondary_button_border": "#121212",
+                    "primary_button_hover": "#121212",
                     "primary_button_label_hover": "#ffffff",
-                    "secondary_button_border_hover": "#363636",
-                    "secondary_button_label_hover": "#363636"
+                    "secondary_button_border_hover": "#121212",
+                    "secondary_button_label_hover": "#121212"
                 }
             },
             "scheme-2": {
@@ -49,17 +49,17 @@
             },
             "scheme-3": {
                 "settings": {
-                    "background": "#404040",
+                    "background": "#121212",
                     "background_gradient": "",
                     "text": "#ffffff",
                     "text_secondary": "#ffffff",
                     "button": "#ffffff",
-                    "button_label": "#404040",
+                    "button_label": "#121212",
                     "secondary_button_label": "#ffffff",
                     "secondary_button_border": "#ffffff",
                     "primary_button_hover": "#f7f7f7",
-                    "primary_button_label_hover": "#363636",
-                    "secondary_button_border_hover": "#363636",
+                    "primary_button_label_hover": "#121212",
+                    "secondary_button_border_hover": "#121212",
                     "secondary_button_label_hover": "#ffffff"
                 }
             },

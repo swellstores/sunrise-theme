@@ -1,7 +1,7 @@
 {
 	"id": "sunrise",
 	"name": "Sunrise",
-	"description": "Official starter theme for Swell Proxima",
+	"description": "A sleek, fast, and modern ecommerce theme with a clean design and high performance for a seamless experience.",
 	"type": "theme",
 	"version": "1.0.0",
 	"theme": {
@@ -12,16 +12,16 @@
 			{
 				"id": "echelon",
 				"label": "Echelon",
-				"color": "",
-				"color_alt": "",
+				"color": "#405566",
+				"color_alt": "#D0D8DE",
 				"preview_src": "assets/preview-echelon.png",
 				"preview_mobile_src": "assets/preview-echelon-mobile.png"
 			},
 			{
 				"id": "bellows",
 				"label": "Bellows",
-				"color": "",
-				"color_alt": "",
+				"color": "#7D4C3A",
+				"color_alt": "#ffffff",
 				"preview_src": "assets/preview-bellows.png",
 				"preview_mobile_src": "assets/preview-bellows-mobile.png"
 			}
