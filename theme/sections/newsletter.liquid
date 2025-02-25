@@ -10,6 +10,12 @@
     padding-bottom: {{ reduced_padding_bottom }}px;
   }
 
+  .newsletter-form-container {
+    input {
+      height: 48px;
+    }
+  }
+
   @media (min-width: 1024px) {
     .responsive-padding-{{ section.id }} {
       padding-top: {{ section.settings.top_padding }}px;
@@ -39,7 +45,7 @@
           <div class="flex w-full">
             {% form 'customer', class: 'newsletter-form w-full' %}
               <input type="hidden" name="contact[tags]" value="newsletter">
-              <div class="flex gap-4 justify-center">
+              <div class="flex gap-4 justify-center newsletter-form-container">
                 <div class="relative sm:min-w-96 w-full sm:w-[330px]">
                   {%
                     render 'input',
