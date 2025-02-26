@@ -11,6 +11,7 @@
 {% assign lowest_price_variant = sorted_variants | first %}
 {% assign lowest_price = lowest_price_variant.price | money_with_currency %}
 {% assign compare_at_price = product.compare_at_price | money_with_currency %}
+{% assign first_or_default_variant_price = product.selected_or_first_available_variant.price | money_with_currency %}
 
 <div class="group relative flex flex-col gap-3">
   <a href="{{ product.url }}" class="relative w-full h-fit aspect-square">
@@ -42,7 +43,7 @@
         {% if product.variants.size > 1 %}
           From {{ lowest_price }}
         {% else %}
-          {{ lowest_price }}
+          {{ first_or_default_variant_price }}
         {% endif %}
       </span>
       {% if compare_at_price != blank %}
