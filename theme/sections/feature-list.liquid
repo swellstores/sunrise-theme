@@ -27,28 +27,23 @@
     }
   }
 </style>
-<div
-  class="
+<div class="
           bg-{{ section.settings.color_scheme }}
         pt-[64px] pb-[64px] pr-[24px] pl-[24px] lg:pl-[160px]
         lg:pr-[160px]
         lg:pt-[96px]
         lg:pb-[96px]
     responsive-padding-{{ section.id }}
-  "
->
+  ">
   <div class="flex flex-col gap-[48px] max-w-container w-full mx-auto">
-    <div
-      class="
+    <div class="
         grid grid-cols-1
         sm:grid-cols-1
         md:grid-cols-{% if section.settings.columns > 3 %}{{ section.settings.columns | minus: 2 }}{% else %}{{ section.settings.columns }}{% endif %}
         lg:grid-cols-{% if section.settings.columns > 2 %}{{ section.settings.columns | minus: 1 }}{% else %}{{ section.settings.columns }}{% endif %}
         xl:grid-cols-{{ section.settings.columns }}
         text-{{ text_alignment }} text-{{ section.settings.color_scheme }}
-      "
-      style="gap: {{ section.settings.grid_gap }}px;"
-    >
+      " style="gap: {{ section.settings.grid_gap }}px;">
       {%- for block in section.blocks -%}
         <div class="flex flex-col {{ align_items_class }} justify-center">
           <div class="max-w-[306px]">
@@ -62,8 +57,7 @@
                     name="{{ block.settings.icon }}"
                     aria-hidden="true"
                     class="mb-2"
-                    style="color: {{ block.settings.icon_color }}"
-                  ></ion-icon>
+                    style="color: {{ block.settings.icon_color }}"></ion-icon>
                 {%- endif -%}
               </div>
               <div>
@@ -90,186 +84,177 @@
 </div>
 
 {% schema %}
-{
-  "name": "Feature list",
-  "max_blocks": 7,
-  "tag": "section",
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  },
-  "settings": [
-    {
-      "type": "header",
-      "content": "Colors"
+  {
+    "name": "Feature list",
+    "max_blocks": 7,
+    "tag": "section",
+    "disabled_on": {
+      "groups": ["header", "footer"]
     },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
-      "default": "scheme-1"
-    },
-    {
-      "type": "header",
-      "content": "Layout"
-    },
-    {
-      "type": "range",
-      "id": "columns",
-      "label": "t:sections.all.columns.label",
-      "info": "t:sections.all.columns.info",
-      "min": 1,
-      "max": 5,
-      "step": 1,
-      "default": 3
-    },
-    {
-      "type": "range",
-      "id": "top_padding",
-      "label": "t:sections.all.top_padding.label",
-      "info": "t:sections.all.top_padding.info",
-      "min": 0,
-      "max": 96,
-      "step": 1,
-      "unit": "px",
-      "default": 96
-    },
-    {
-      "type": "range",
-      "id": "bottom_padding",
-      "label": "t:sections.all.bottom_padding.label",
-      "info": "t:sections.all.bottom_padding.info",
-      "min": 0,
-      "max": 96,
-      "step": 1,
-      "unit": "px",
-      "default": 96
-    },
-    {
-      "type": "range",
-      "id": "grid_gap",
-      "label": "t:sections.all.gap.label",
-      "info": "t:sections.all.gap.info",
-      "min": 0,
-      "max": 100,
-      "step": 1,
-      "unit": "px",
-      "default": 64
-    },
-    {
-      "type": "select",
-      "id": "text_alignment",
-      "label": "t:sections.all.text_alignment.label",
-      "default": "center",
-      "options": [
-        {
-          "value": "left",
-          "label": "t:sections.all.text_alignment.left.label"
-        },
-        {
-          "value": "center",
-          "label": "t:sections.all.text_alignment.center.label"
-        },
-        {
-          "value": "right",
-          "label": "t:sections.all.text_alignment.right.label"
-        }
-      ]
-    }
-  ],
-  "blocks": [
-    {
-      "type": "item",
-      "name": "t:sections.all.item.name",
-      "limit": 7,
-      "settings": [
-        {
-          "type": "text",
-          "id": "icon",
-          "label": "t:sections.all.icon.label",
-          "info": "t:sections.all.icon.info",
-          "default": "star-outline"
-        },
-        {
-          "type": "color",
-          "id": "icon_color",
-          "label": "t:sections.all.icon_color.label",
-          "default": "#121212"
-        },
-        {
-          "type": "image_picker",
-          "id": "custom_icon",
-          "label": "Custom icon"
-        },
-        {
-          "type": "text",
-          "id": "pre_heading",
-          "label": "t:sections.all.pre_heading.label",
-          "default": "t:sections.all.pre_heading.label"
-        },
-        {
-          "type": "text",
-          "id": "heading",
-          "label": "t:sections.all.heading.label"
-        },
-        {
-          "type": "richtext",
-          "id": "text",
-          "label": "t:sections.all.text.label"
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Feature list",
-      "blocks": [
-        {
-          "type": "item",
-          "settings": {
-            "icon": "star-outline",
-            "pre_heading": "Pre heading",
-            "heading": "Heading",
-            "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer luctus sapien ut ipsum volutpat, eget suscipit lectus pretium. Nunc sit amet arcu at felis ornare sollicitudin.</p>"
+    "settings": [
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "t:sections.all.colors.label",
+        "default": "scheme-1"
+      },
+      {
+        "type": "header",
+        "content": "Layout"
+      },
+      {
+        "type": "range",
+        "id": "columns",
+        "label": "t:sections.all.columns.label",
+        "info": "t:sections.all.columns.info",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "default": 3
+      }, {
+        "type": "range",
+        "id": "top_padding",
+        "label": "t:sections.all.top_padding.label",
+        "info": "t:sections.all.top_padding.info",
+        "min": 0,
+        "max": 96,
+        "step": 1,
+        "unit": "px",
+        "default": 96
+      }, {
+        "type": "range",
+        "id": "bottom_padding",
+        "label": "t:sections.all.bottom_padding.label",
+        "info": "t:sections.all.bottom_padding.info",
+        "min": 0,
+        "max": 96,
+        "step": 1,
+        "unit": "px",
+        "default": 96
+      }, {
+        "type": "range",
+        "id": "grid_gap",
+        "label": "t:sections.all.gap.label",
+        "info": "t:sections.all.gap.info",
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "unit": "px",
+        "default": 64
+      }, {
+        "type": "select",
+        "id": "text_alignment",
+        "label": "t:sections.all.text_alignment.label",
+        "default": "center",
+        "options": [
+          {
+            "value": "left",
+            "label": "t:sections.all.text_alignment.left.label"
+          }, {
+            "value": "center",
+            "label": "t:sections.all.text_alignment.center.label"
+          }, {
+            "value": "right",
+            "label": "t:sections.all.text_alignment.right.label"
           }
-        },
-        {
-          "type": "item",
-          "settings": {
-            "icon": "star-outline",
-            "pre_heading": "Pre heading",
-            "heading": "Heading",
-            "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer luctus sapien ut ipsum volutpat, eget suscipit lectus pretium. Nunc sit amet arcu at felis ornare sollicitudin.</p>"
+        ]
+      }
+    ],
+    "blocks": [
+      {
+        "type": "item",
+        "name": "t:sections.all.item.name",
+        "limit": 7,
+        "settings": [
+          {
+            "type": "text",
+            "id": "icon",
+            "label": "t:sections.all.icon.label",
+            "info": "t:sections.all.icon.info",
+            "default": "star-outline"
+          },
+          {
+            "type": "color",
+            "id": "icon_color",
+            "label": "t:sections.all.icon_color.label",
+            "default": "#121212"
+          },
+          {
+            "type": "image_picker",
+            "id": "custom_icon",
+            "label": "Custom icon"
+          },
+          {
+            "type": "text",
+            "id": "pre_heading",
+            "label": "t:sections.all.pre_heading.label",
+            "default": "t:sections.all.pre_heading.label"
+          }, {
+            "type": "text",
+            "id": "heading",
+            "label": "t:sections.all.heading.label"
+          }, {
+            "type": "richtext",
+            "id": "text",
+            "label": "t:sections.all.text.label"
           }
-        },
-        {
-          "type": "item",
-          "settings": {
-            "icon": "star-outline",
-            "pre_heading": "Pre heading",
-            "heading": "Heading",
-            "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer luctus sapien ut ipsum volutpat, eget suscipit lectus pretium. Nunc sit amet arcu at felis ornare sollicitudin.</p>"
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Feature list",
+        "blocks": [
+          {
+            "type": "item",
+            "settings": {
+              "icon": "star-outline",
+              "pre_heading": "Highlight",
+              "heading": "Key feature title",
+              "text": "Use this space to showcase a standout benefit or feature. Pair it with an icon above to grab attention and give customers a quick, clear reason to engage with your store."
+            }
+          },
+          {
+            "type": "item",
+            "settings": {
+              "icon": "star-outline",
+              "pre_heading": "Highlight",
+              "heading": "Key feature title",
+              "text": "Use this space to showcase a standout benefit or feature. Pair it with an icon above to grab attention and give customers a quick, clear reason to engage with your store."
+            }
+          },
+          {
+            "type": "item",
+            "settings": {
+              "icon": "star-outline",
+              "pre_heading": "Highlight",
+              "heading": "Key feature title",
+              "text": "Use this space to showcase a standout benefit or feature. Pair it with an icon above to grab attention and give customers a quick, clear reason to engage with your store."
+            }
+          },
+          {
+            "type": "item",
+            "settings": {
+              "icon": "star-outline",
+              "pre_heading": "Highlight",
+              "heading": "Key feature title",
+              "text": "Use this space to showcase a standout benefit or feature. Pair it with an icon above to grab attention and give customers a quick, clear reason to engage with your store."
+            }
+          }, {
+            "type": "item",
+            "settings": {
+              "icon": "star-outline",
+              "pre_heading": "Highlight",
+              "heading": "Key feature title",
+              "text": "Use this space to showcase a standout benefit or feature. Pair it with an icon above to grab attention and give customers a quick, clear reason to engage with your store."
+            }
           }
-        },
-        {
-          "type": "item",
-          "settings": {
-            "icon": "star-outline",
-            "pre_heading": "Pre heading",
-            "heading": "Heading",
-            "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer luctus sapien ut ipsum volutpat, eget suscipit lectus pretium. Nunc sit amet arcu at felis ornare sollicitudin.</p>"
-          }
-        },
-        {
-          "type": "item",
-          "settings": {
-            "icon": "star-outline",
-            "pre_heading": "Pre heading",
-            "heading": "Heading",
-            "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer luctus sapien ut ipsum volutpat, eget suscipit lectus pretium. Nunc sit amet arcu at felis ornare sollicitudin.</p>"
-          }
-        }
-      ]
-    }
-  ]
-}
+        ]
+      }
+    ]
+  }
 {% endschema %}
