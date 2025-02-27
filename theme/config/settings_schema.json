@@ -150,7 +150,7 @@
       },
       {
         "id": "typography_pre_heading",
-        "label": "Preheading font",
+        "label": "Pre-heading font",
         "type": "font_picker",
         "default": "karla_n7"
       },
