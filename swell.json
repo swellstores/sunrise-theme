@@ -14,21 +14,21 @@
 				"label": "Echelon",
 				"color": "#405566",
 				"color_alt": "#D0D8DE",
-				"preview_src": "assets/preview-echelon.png",
-				"preview_mobile_src": "assets/preview-echelon-mobile.png"
+				"preview_src": "assets/preview-echelon.jpg",
+				"preview_mobile_src": "assets/preview-echelon-mobile.jpg"
 			},
 			{
 				"id": "bellows",
 				"label": "Bellows",
 				"color": "#7D4C3A",
 				"color_alt": "#ffffff",
-				"preview_src": "assets/preview-bellows.png",
-				"preview_mobile_src": "assets/preview-bellows-mobile.png"
+				"preview_src": "assets/preview-bellows.jpg",
+				"preview_mobile_src": "assets/preview-bellows-mobile.jpg"
 			}
 		]
 	},
-	"preview_src": "assets/preview-echelon.png",
-	"preview_mobile_src": "assets/preview-echelon-mobile.png",
+	"preview_src": "assets/preview-echelon.jpg",
+	"preview_mobile_src": "assets/preview-echelon-mobile.jpg",
 	"use_cases": [
 		"direct_to_consumer",
 		"wholesale"
