@@ -1,11 +1,4 @@
 {%- liquid
-  assign color_scheme = section.settings.color_scheme
-  assign padding_x = section.settings.padding_x
-  assign padding_y = section.settings.padding_y
-  assign text_alignment = section.settings.text_alignment
--%}
-
-{%- liquid
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
 -%}
