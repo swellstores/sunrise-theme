@@ -24,7 +24,7 @@
   }
 </style>
 
-{%- if blog.articles.size > 0 -%}
+{%- if blog.articles.count > 0 -%}
   {%- paginate blog.articles by 6 -%}
     <div class="bg-{{section.settings.color_scheme}} all-blogs max-w-[1366px] mx-auto p-[24px] lg:pl-[160px] lg:pr-[160px] responsive-padding-{{ section.id }}">
       <div class="flex flex-col items-center gap-4 py-7 text-center">
