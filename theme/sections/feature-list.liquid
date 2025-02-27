@@ -55,7 +55,7 @@
           <div class="max-w-[306px]">
             <div class="flex flex-col gap-[32px]">
               <div class="flex flex-col items-center gap-2">
-                {%- if block.settings.custom_icon -%}
+                {%- if block.settings.custom_icon != blank -%}
                   {% render 'image',
                     image: block.settings.custom_icon,
                   %}
