@@ -27,6 +27,7 @@
     }
   }
 </style>
+
 <div
   class="
           bg-{{ section.settings.color_scheme }}
@@ -55,7 +56,9 @@
             <div class="flex flex-col gap-[32px]">
               <div class="flex flex-col items-center gap-2">
                 {%- if block.settings.custom_icon -%}
-                  {{- 'star-icon.svg' | inline_asset_content -}}
+                  {% render 'image',
+                    image: block.settings.custom_icon,
+                  %}
                 {% else %}
                   <ion-icon
                     class="w-[46px] h-[46px]"
