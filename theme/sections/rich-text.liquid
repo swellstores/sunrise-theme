@@ -21,12 +21,8 @@
   }
 </style>
 
-<div
-  class="bg-[#F5F5F5] bg-{{ color_scheme }} text-{{ color_scheme }} text-{{ section.settings.text_alignment }} pl-[24px] pr-[24px] pt-[64px] pb-[64px] lg:p-[160px] responsive-padding-{{ section.id }}"
->
-  <div
-    class="flex flex-col justify-center gap-[32px] items-center"
-  >
+<div class="bg-[#F5F5F5] bg-{{ color_scheme }} text-{{ color_scheme }} text-{{ section.settings.text_alignment }} pl-[24px] pr-[24px] pt-[64px] pb-[64px] lg:p-[160px] responsive-padding-{{ section.id }}">
+  <div class="flex flex-col justify-center gap-[32px] items-center">
     <div class="flex flex-col gap-[4px] items-center">
       {%- for block in section.blocks -%}
         {%- case block.type -%}
@@ -46,11 +42,11 @@
           {%- when 'link' -%}
             {%- if block.settings.button_label != blank and block.settings.button_link -%}
               <div class="flex">
-                {% render 'button',
-                  text: block.settings.button_label,
-                  variant: block.settings.button_variant,
-                  href: block.settings.button_link,
-                  content_color_scheme: color_scheme
+                {% render 'button'
+                  , text: block.settings.button_label
+                  , variant: block.settings.button_variant
+                  , href: block.settings.button_link
+                  , content_color_scheme: color_scheme
                 %}
               </div>
             {%- endif -%}
@@ -61,174 +57,168 @@
 </div>
 
 {% schema %}
-{
-  "name": "Rich text",
-  "tag": "section",
-  "class": "section",
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  },
-  "settings": [
-    {
-      "type": "header",
-      "content": "Layout"
+  {
+    "name": "Rich text",
+    "tag": "section",
+    "class": "section",
+    "disabled_on": {
+      "groups": ["header", "footer"]
     },
-    {
-      "type": "select",
-      "id": "text_alignment",
-      "label": "t:sections.all.text_alignment.label",
-      "default": "left",
-      "options": [
-        {
-          "value": "left",
-          "label": "t:sections.all.text_alignment.left.label"
-        },
-        {
-          "value": "center",
-          "label": "t:sections.all.text_alignment.center.label"
-        },
-        {
-          "value": "right",
-          "label": "t:sections.all.text_alignment.right.label"
-        }
-      ]
-    },
-    {
-      "type": "range",
-      "id": "top_padding",
-      "label": "t:sections.all.top_padding.label",
-      "info": "t:sections.all.top_padding.info",
-      "min": 0,
-      "max": 96,
-      "step": 1,
-      "unit": "px",
-      "default": 96
-    },
-    {
-      "type": "range",
-      "id": "bottom_padding",
-      "label": "t:sections.all.bottom_padding.label",
-      "info": "t:sections.all.bottom_padding.info",
-      "min": 0,
-      "max": 96,
-      "step": 1,
-      "unit": "px",
-      "default": 96
-    },
-    {
-      "type": "header",
-      "content": "Colors"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
-      "default": "scheme-3"
-    }
-  ],
-  "blocks": [
-    {
-      "type": "pre_heading",
-      "name": "t:sections.all.pre_heading.name",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "richtext",
-          "id": "pre_heading",
-          "label": "t:sections.all.pre_heading.label",
-          "default": "<p>Pre-heading</p>"
-        }
-      ]
-    },
-    {
-      "type": "heading",
-      "name": "t:sections.all.heading.label",
-      "limit": 3,
-      "settings": [
-        {
-          "type": "richtext",
-          "id": "heading",
-          "label": "t:sections.all.heading.label",
-          "default": "<h2>Rich text</h2>"
-        }
-      ]
-    },
-    {
-      "type": "text",
-      "name": "t:sections.all.text.label",
-      "limit": 3,
-      "settings": [
-        {
-          "type": "richtext",
-          "id": "text",
-          "label": "t:sections.all.text.label",
-          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer luctus sapien ut ipsum volutpat, eget suscipit lectus pretium. Nunc sit amet arcu at felis ornare sollicitudin.</p>"
-        }
-      ]
-    },
-    {
-      "type": "link",
-      "name": "t:sections.all.button.label",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "text",
-          "id": "button_label",
-          "label": "t:sections.all.button.label"
-        },
-        {
-          "type": "url",
-          "id": "button_link",
-          "label": "t:sections.all.link.label"
-        },
-        {
-          "type": "select",
-          "id": "button_variant",
-          "label": "Button Style",
-          "options": [
-            { "value": "solid", "label": "Solid" },
-            { "value": "outline", "label": "Outline" }
-          ],
-          "default": "outline"
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Rich text",
-      "settings": {
-        "text_alignment": "center",
-        "color_scheme": "scheme-1"
+    "settings": [
+      {
+        "type": "header",
+        "content": "Layout"
       },
-      "blocks": [
-        {
-          "type": "pre_heading",
-          "settings": {
-            "pre_heading": "<p>Pre heading</p>"
+      {
+        "type": "select",
+        "id": "text_alignment",
+        "label": "t:sections.all.text_alignment.label",
+        "default": "left",
+        "options": [
+          {
+            "value": "left",
+            "label": "t:sections.all.text_alignment.left.label"
+          }, {
+            "value": "center",
+            "label": "t:sections.all.text_alignment.center.label"
+          }, {
+            "value": "right",
+            "label": "t:sections.all.text_alignment.right.label"
           }
+        ]
+      },
+      {
+        "type": "range",
+        "id": "top_padding",
+        "label": "t:sections.all.top_padding.label",
+        "info": "t:sections.all.top_padding.info",
+        "min": 0,
+        "max": 96,
+        "step": 1,
+        "unit": "px",
+        "default": 96
+      },
+      {
+        "type": "range",
+        "id": "bottom_padding",
+        "label": "t:sections.all.bottom_padding.label",
+        "info": "t:sections.all.bottom_padding.info",
+        "min": 0,
+        "max": 96,
+        "step": 1,
+        "unit": "px",
+        "default": 96
+      }, {
+        "type": "header",
+        "content": "Colors"
+      }, {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "t:sections.all.colors.label",
+        "default": "scheme-3"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "pre_heading",
+        "name": "t:sections.all.pre_heading.name",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "richtext",
+            "id": "pre_heading",
+            "label": "t:sections.all.pre_heading.label",
+            "default": "Our promise"
+          }
+        ]
+      }, {
+        "type": "heading",
+        "name": "t:sections.all.heading.label",
+        "limit": 3,
+        "settings": [
+          {
+            "type": "richtext",
+            "id": "heading",
+            "label": "t:sections.all.heading.label",
+            "default": "<h2>Quality you can trust</h2>"
+          }
+        ]
+      }, {
+        "type": "text",
+        "name": "t:sections.all.text.label",
+        "limit": 3,
+        "settings": [
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "t:sections.all.text.label",
+            "default": "<p>Use this section to share your story, details, or key information. Keep it simple and engaging to connect with your visitors and encourage them to explore further.</p>"
+          }
+        ]
+      }, {
+        "type": "link",
+        "name": "t:sections.all.button.label",
+        "limit": 1,
+        "settings": [
+          {
+            "type": "text",
+            "id": "button_label",
+            "label": "t:sections.all.button.label",
+            "default": "Learn more"
+          }, {
+            "type": "url",
+            "id": "button_link",
+            "label": "t:sections.all.link.label"
+          }, {
+            "type": "select",
+            "id": "button_variant",
+            "label": "Button Style",
+            "options": [
+              {
+                "value": "solid",
+                "label": "Solid"
+              }, {
+                "value": "outline",
+                "label": "Outline"
+              }
+            ],
+            "default": "outline"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Rich text",
+        "settings": {
+          "text_alignment": "center",
+          "color_scheme": "scheme-1"
         },
-        {
-          "type": "heading",
-          "settings": {
-            "heading": "<h2>Rich text</h2>"
+        "blocks": [
+          {
+            "type": "pre_heading",
+            "settings": {
+              "pre_heading": "<p>Our promise</p>"
+            }
+          }, {
+            "type": "heading",
+            "settings": {
+              "heading": "<h2>Quality you can trust</h2>"
+            }
+          }, {
+            "type": "text",
+            "settings": {
+              "text": "<p>Use this section to share your story, details, or key information. Keep it simple and engaging to connect with your visitors and encourage them to explore further.</p>"
+            }
+          }, {
+            "type": "link",
+            "settings": {
+              "button_label": "Learn More",
+              "button_link": "https://example.com"
+            }
           }
-        },
-        {
-          "type": "text",
-          "settings": {
-            "text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer luctus sapien ut ipsum volutpat, eget suscipit lectus pretium. Nunc sit amet arcu at felis ornare sollicitudin.</p>"
-          }
-        },
-        {
-          "type": "link",
-          "settings": {
-            "button_label": "Learn More",
-            "button_link": "https://example.com"
-          }
-        }
-      ]
-    }
-  ]
-}
+        ]
+      }
+    ]
+  }
 {% endschema %}
