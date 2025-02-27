@@ -31,8 +31,7 @@
 	"preview_mobile_src": "assets/preview-echelon-mobile.png",
 	"use_cases": [
 		"direct_to_consumer",
-		"wholesale",
-		"digital_goods"
+		"wholesale"
 	],
 	"purchase_options": [
 		"standard",
