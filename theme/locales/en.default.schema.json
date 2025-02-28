@@ -254,7 +254,7 @@
       "icon": {
         "label": "Icon",
         "name": "Icon",
-        "info": "See the full list of icons [here](https://ionic.io/ionicons). Usage: `add-outline`"
+        "info": "See the full list of icons [here](https://ionic.io/ionicons)."
       }
     },
     "login": {

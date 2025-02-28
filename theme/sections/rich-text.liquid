@@ -31,7 +31,7 @@
           {%- when 'heading' -%}
             <h2 class="text-display-small font-heading">{{ block.settings.heading }}</h2>
           {%- when 'text' -%}
-            <div class="font-display text-body-large">{{ block.settings.text }}</div>
+            <div class="font-display text-body-large">{{ block.settings.text | inline_editable: 'text' }}</div>
         {%- endcase -%}
       {%- endfor -%}
     </div>
@@ -68,6 +68,133 @@
       {
         "type": "header",
         "content": "Layout"
+      },
+      {
+        "type": "select",
+        "id": "text_alignment",
+        "label": "t:sections.all.text_alignment.label",
+        "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "t:sections.all.text_alignment.left.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.text_alignment.center.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.text_alignment.right.label"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "t:sections.all.top_padding.label",
+      "info": "t:sections.all.top_padding.info",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "t:sections.all.bottom_padding.label",
+      "info": "t:sections.all.bottom_padding.info",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-3"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pre_heading",
+      "name": "t:sections.all.pre_heading.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "pre_heading",
+          "label": "t:sections.all.pre_heading.label"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "t:sections.all.heading.label",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:sections.all.heading.label",
+          "default": "Rich text"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "t:sections.all.text.label",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "t:sections.all.text.label",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer luctus sapien ut ipsum volutpat, eget suscipit lectus pretium. Nunc sit amet arcu at felis ornare sollicitudin.</p>"
+        }
+      ]
+    },
+    {
+      "type": "link",
+      "name": "t:sections.all.button.label",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "t:sections.all.button.label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.all.link.label"
+        },
+        {
+          "type": "select",
+          "id": "button_variant",
+          "label": "Button Style",
+          "options": [
+            { "value": "solid", "label": "Solid" },
+            { "value": "outline", "label": "Outline" }
+          ],
+          "default": "outline"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Rich text",
+      "settings": {
+        "text_alignment": "center",
+        "color_scheme": "scheme-1"
       },
       {
         "type": "select",
@@ -125,7 +252,7 @@
         "limit": 1,
         "settings": [
           {
-            "type": "richtext",
+            "type": "text",
             "id": "pre_heading",
             "label": "t:sections.all.pre_heading.label",
             "default": "Our promise"
@@ -137,10 +264,10 @@
         "limit": 3,
         "settings": [
           {
-            "type": "richtext",
+            "type": "text",
             "id": "heading",
             "label": "t:sections.all.heading.label",
-            "default": "<h2>Quality you can trust</h2>"
+            "default": "Quality you can trust"
           }
         ]
       }, {
