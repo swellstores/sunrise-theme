@@ -35,7 +35,7 @@
           {%- when 'heading' -%}
             <h2 class="text-display-small font-heading">{{ block.settings.heading }}</h2>
           {%- when 'text' -%}
-            <div class="font-display text-body-large">{{ block.settings.text }}</div>
+            <div class="font-display text-body-large">{{ block.settings.text | inline_editable: 'text' }}</div>
         {%- endcase -%}
       {%- endfor -%}
     </div>
@@ -133,10 +133,9 @@
       "limit": 1,
       "settings": [
         {
-          "type": "richtext",
+          "type": "text",
           "id": "pre_heading",
-          "label": "t:sections.all.pre_heading.label",
-          "default": "<p>Pre-heading</p>"
+          "label": "t:sections.all.pre_heading.label"
         }
       ]
     },
@@ -146,10 +145,10 @@
       "limit": 3,
       "settings": [
         {
-          "type": "richtext",
+          "type": "text",
           "id": "heading",
           "label": "t:sections.all.heading.label",
-          "default": "<h2>Rich text</h2>"
+          "default": "Rich text"
         }
       ]
     },

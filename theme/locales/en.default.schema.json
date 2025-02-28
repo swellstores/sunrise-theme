@@ -39,7 +39,7 @@
           "label": "Text"
         },
         "text_secondary": {
-          "label": "Secondary Text"
+          "label": "Secondary text"
         },
         "button_background": {
           "label": "Solid button background"
@@ -254,7 +254,7 @@
       "icon": {
         "label": "Icon",
         "name": "Icon",
-        "info": "See the full list of icons [here](https://ionic.io/ionicons). Usage: `add-outline`"
+        "info": "See the full list of icons [here](https://ionic.io/ionicons)."
       }
     },
     "login": {
