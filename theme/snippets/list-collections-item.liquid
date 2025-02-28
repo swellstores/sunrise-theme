@@ -11,8 +11,8 @@
 <a class="flex flex-col group" href="{{ collection.url }}">
   <div class="{{ ratio_class }} mb-3 overflow-hidden group">
     {% render 'image',
-      image: collection.image,
-      alt: collection.image.alt,
+      image: collection.featured_image,
+      alt: collection.featured_image.alt,
       class: 'w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110'
     %}
   </div>

@@ -19,7 +19,7 @@
         "type": "color",
         "id": "logo_color",
         "label": "t:settings_schema.logo.settings.logo_color.label",
-        "default": "#3B0B93"
+        "default": "#121212"
       },
       {
         "type": "text",
@@ -53,16 +53,10 @@
         "id": "color_schemes",
         "definition": [
           {
-            "type": "color",
+            "type": "color_background",
             "id": "background",
             "label": "t:settings_schema.colors.settings.background.label",
             "default": "#FFFFFF"
-          },
-          {
-            "type": "color_background",
-            "id": "background_gradient",
-            "label": "t:settings_schema.colors.settings.background_gradient.label",
-            "info": "t:settings_schema.colors.settings.background_gradient.info"
           },
           {
             "type": "color",
@@ -156,7 +150,7 @@
       },
       {
         "id": "typography_pre_heading",
-        "label": "Preheading font",
+        "label": "Pre-heading font",
         "type": "font_picker",
         "default": "karla_n7"
       },
@@ -251,7 +245,7 @@
         "type": "color",
         "id": "cart_color",
         "label": "Cart quantity colour",
-        "default": "#3B0B93"
+        "default": "#FFFFFF"
       }
     ]
   },
