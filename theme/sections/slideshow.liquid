@@ -2,11 +2,11 @@
   Renders a slideshow section.
 
   Usage:
-    {% sections 'slideshow' %}
+  {% sections 'slideshow' %}
 
   Dependencies:
-    - swiper-element-bundle.js
-    - slideshow-navigation.js
+  - swiper-element-bundle.js
+  - slideshow-navigation.js
 {% endcomment %}
 {%- liquid
   assign color_scheme = section.settings.color_scheme.id
@@ -46,7 +46,10 @@
 
 <div class="relative responsive-padding-{{ section.id }}">
   {%- if navigation -%}
-    {% render 'slideshow-arrows', color_scheme: color_scheme, border_radius: settings.border_radius %}
+    {% render 'slideshow-arrows',
+      color_scheme: color_scheme,
+      border_radius: settings.border_radius
+    %}
   {%- endif -%}
   <swiper-container
     role="region"
@@ -88,13 +91,11 @@
             style="background-color: {{ section.settings.overlay_color }}; opacity: {{ opacity }};"
           ></div>
           <div class="relative w-full h-[600px] sm:min-h-[600px] sm:max-h-[600px] 2xl:min-h-[800px] 2xl:max-h-[800px] overflow-hidden">
-            {% render 'image', image: block.settings.image, class: 'w-full h-full object-cover object-center' , alt: block.settings.image.alt| default: "Slide {{ forloop.index }}" %}
+            {% render 'image', image: block.settings.image, class: 'w-full h-full object-cover object-center', alt: block.settings.image.alt | default: "Slide {{ forloop.index }}" %}
           </div>
         </div>
         <div class="absolute inset-0 w-full h-full pl-[24px] pr-[24px] lg:pl-[160px] lg:pr-[160px]">
-          <div
-            class="max-w-container m-auto w-full h-full flex {{ content_alignment }}"
-          >
+          <div class="max-w-container m-auto w-full h-full flex {{ content_alignment }}">
             <div
               class="
                 flex flex-col gap-[32px] max-w-[454px] z-[10] text-{{ color_scheme }}
@@ -141,9 +142,7 @@
                 >
                   {{ block.settings.heading }}
                 </h2>
-                <div
-                  class="font-display text-body-large"
-                >
+                <div class="font-display text-body-large">
                   {{ block.settings.text }}
                 </div>
 
@@ -195,9 +194,18 @@
       "label": "Heading size",
       "default": "medium",
       "options": [
-        { "value": "small", "label": "Small" },
-        { "value": "medium", "label": "Medium" },
-        { "value": "large", "label": "Large" }
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
       ]
     },
     {
@@ -271,8 +279,14 @@
           "id": "button_variant",
           "label": "Button Style",
           "options": [
-            { "value": "solid", "label": "Solid" },
-            { "value": "outline", "label": "Outline" }
+            {
+              "value": "solid",
+              "label": "Solid"
+            },
+            {
+              "value": "outline",
+              "label": "Outline"
+            }
           ],
           "default": "outline"
         },
@@ -319,7 +333,7 @@
           "type": "inline_richtext",
           "id": "text",
           "label": "t:sections.all.text.label",
-          "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer luctus sapien ut ipsum volutpat, eget suscipit lectus pretium. Nunc sit amet arcu at felis ornare sollicitudin."
+          "default": "Lasd"
         },
         {
           "type": "header",
@@ -422,27 +436,27 @@
         {
           "type": "slide",
           "settings": {
-            "pre_heading": "Pre heading",
-            "heading": "Slide 1",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer luctus sapien ut ipsum volutpat, eget suscipit lectus pretium. Nunc sit amet arcu at felis ornare sollicitudin.",
+            "pre_heading": "Featured now",
+            "heading": "See what's new",
+            "text": "Scroll through the slideshow to explore our latest highlights. Each image brings you closer to discovering something special, start browsing today!",
             "content_alignment": "items-center justify-start"
           }
         },
         {
           "type": "slide",
           "settings": {
-            "pre_heading": "Pre heading",
-            "heading": "Slide 2",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer luctus sapien ut ipsum volutpat, eget suscipit lectus pretium. Nunc sit amet arcu at felis ornare sollicitudin.",
+            "pre_heading": "Featured now",
+            "heading": "See what's new",
+            "text": "Scroll through the slideshow to explore our latest highlights. Each image brings you closer to discovering something special, start browsing today!",
             "content_alignment": "items-center justify-start"
           }
         },
         {
           "type": "slide",
           "settings": {
-            "pre_heading": "Pre heading",
-            "heading": "Slide 3",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer luctus sapien ut ipsum volutpat, eget suscipit lectus pretium. Nunc sit amet arcu at felis ornare sollicitudin.",
+            "pre_heading": "Featured now",
+            "heading": "See what's new",
+            "text": "Scroll through the slideshow to explore our latest highlights. Each image brings you closer to discovering something special, start browsing today!",
             "content_alignment": "items-center justify-start"
           }
         }
