@@ -21,7 +21,10 @@
     <meta name="description" content="{{ page_description | default: shop.name | escape }}">
 
     <script>
-      document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+      document.documentElement.className = document.documentElement.className.replace(
+        'no-js',
+        'js'
+      );
       window.addEventListener('load', () => document.documentElement.classList.add('ready'));
     </script>
 
@@ -177,6 +180,13 @@
               --variant-pills-shadow-blur-radius: {{ settings.variant_pills_shadow_blur }}px;
             }
     {% endstyle %}
+
+    {% comment %} Video.js dependencies {% endcomment %}
+    <link href="https://unpkg.com/video.js@8.21.0/dist/video-js.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/video.js@8.21.0/dist/video.min.js"></script>
+    <script
+      src="{{ 'Youtube.min.js' | asset_url }}"
+    ></script>
   </head>
   <body class="antialiased scroll-smooth">
     <a class="sr-only" href="#main">
@@ -210,7 +220,7 @@
         cart_url: '{{ routes.cart_url }}',
         cart_clear_url: '{{ routes.cart_clear_url }}',
         predictive_search_url: '{{ routes.predictive_search_url }}',
-        product_recommendations_url: '{{ routes.product_recommendations_url }}',
+        product_recommendations_url: '{{ routes.product_recommendations_url }}'
       };
     </script>
 
@@ -237,11 +247,21 @@
     {{ 'base.css' | asset_url | stylesheet_tag }}
 
     {% comment %} Ion Icons {% endcomment %}
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" async></script>
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+      async
+    ></script>
 
     {% comment %} Integrations {% endcomment %}
-    {% render 'gorgias-chat', enabled: settings.gorgias_chat_enabled, id: settings.gorgias_chat_id %}
-    {% render 'google-analytics', enabled: settings.google_analytics_enabled, id: settings.google_analytics_id %}
+    {% render 'gorgias-chat',
+      enabled: settings.gorgias_chat_enabled,
+      id: settings.gorgias_chat_id
+    %}
+    {% render 'google-analytics',
+      enabled: settings.google_analytics_enabled,
+      id: settings.google_analytics_id
+    %}
 
     {% render 'backdrop' %}
   </body>
