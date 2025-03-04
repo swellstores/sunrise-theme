@@ -31,7 +31,11 @@
         overflow-hidden
       "
     >
-      {% render 'image', placeholder: 'hero-apparel-1', image: section.settings.image, class: 'w-full h-full object-cover object-center' %}
+      {% render 'image',
+        placeholder: 'hero-apparel-1',
+        image: section.settings.image,
+        class: 'w-full h-full object-cover object-center'
+      %}
     </div>
     <div
       class="absolute inset-0 bg-black"
@@ -40,9 +44,7 @@
   </div>
   {%- if section.blocks.size > 0 -%}
     <div class="absolute inset-0 w-full h-full pl-[24px] pr-[24px] lg:pl-[160px] lg:pr-[160px]">
-      <div
-        class="max-w-container m-auto w-full h-full flex {{ content_alignment }}"
-      >
+      <div class="max-w-container m-auto w-full h-full flex {{ content_alignment }}">
         <div
           class="
             flex flex-col gap-[32px] max-w-[454px] p-2
@@ -84,9 +86,7 @@
                     {{ block.settings.heading }}
                   </h2>
                 {%- when 'text' -%}
-                  <div
-                    class="font-display text-body-large sm:text-body-large"
-                  >
+                  <div class="font-display text-body-large sm:text-body-large">
                     {{ block.settings.text }}
                   </div>
               {%- endcase -%}
@@ -155,11 +155,26 @@
       "label": "Banner height",
       "default": "large",
       "options": [
-        { "value": "adapt", "label": "Adapt to image" },
-        { "value": "small", "label": "Small" },
-        { "value": "medium", "label": "Medium" },
-        { "value": "large", "label": "Large" },
-        { "value": "screen", "label": "Adapt to screen" }
+        {
+          "value": "adapt",
+          "label": "Adapt to image"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "screen",
+          "label": "Adapt to screen"
+        }
       ]
     },
     {
@@ -168,9 +183,18 @@
       "label": "Heading size",
       "default": "medium",
       "options": [
-        { "value": "small", "label": "Small" },
-        { "value": "medium", "label": "Medium" },
-        { "value": "large", "label": "Large" }
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
       ]
     },
     {
@@ -179,9 +203,18 @@
       "label": "Text alignment",
       "default": "left",
       "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" },
-        { "value": "right", "label": "Right" }
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
       ]
     },
     {
@@ -326,8 +359,14 @@
           "id": "button_variant",
           "label": "Button style",
           "options": [
-            { "value": "solid", "label": "Solid" },
-            { "value": "outline", "label": "Outline" }
+            {
+              "value": "solid",
+              "label": "Solid"
+            },
+            {
+              "value": "outline",
+              "label": "Outline"
+            }
           ],
           "default": "solid"
         }
@@ -341,19 +380,19 @@
         {
           "type": "pre_heading",
           "settings": {
-            "pre_heading": "Pre-heading"
+            "pre_heading": "New Arrivals Just In"
           }
         },
         {
           "type": "heading",
           "settings": {
-            "heading": "Heading"
+            "heading": "Shop Our Newest Collection"
           }
         },
         {
           "type": "text",
           "settings": {
-            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer luctus sapien ut ipsum volutpat, eget suscipit lectus pretium. Nunc sit amet arcu at felis ornare sollicitudin."
+            "text": "Check out our freshest additions, discover what's new, explore the banner image for inspiration, and dive into the collection waiting for you on this page!"
           }
         }
       ]

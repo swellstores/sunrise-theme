@@ -2,7 +2,7 @@
   Renders a video embed section.
 
   Usage:
-    {% sections 'video-embed' %}
+  {% sections 'video-embed' %}
 {% endcomment %}
 
 {% liquid
@@ -34,7 +34,9 @@
 
 <div
   class="w-full h-full pt-[64px] pb-[64px] lg:pl-[96px] lg:pr-[96px] text-{{ text_alignment }} bg-{{ color_scheme }} text-{{ color_scheme }}  lg:pt-[160px] lg:pb-[160px] responsive-padding-{{ section.id }}"
-  {% comment %} style="padding-top: {{ section.settings.top_padding }}px; padding-bottom: {{ section.settings.bottom_padding }}px;" {% endcomment %}
+  {% comment %}
+    style="padding-top: {{ section.settings.top_padding }}px; padding-bottom: {{ section.settings.bottom_padding }}px;"
+  {% endcomment %}
 >
   <div class="max-w-[1366px] 2xl:max-w-container mx-auto">
     <div class="flex flex-col max-w-[1174px] mx-auto lg:h-[374px] lg:flex-row gap-[64px] {% if video_position == 'right' %} lg:flex-row-reverse {% endif %}">
@@ -255,8 +257,14 @@
           "id": "button_variant",
           "label": "Button Style",
           "options": [
-            { "value": "solid", "label": "Solid" },
-            { "value": "outline", "label": "Outline" }
+            {
+              "value": "solid",
+              "label": "Solid"
+            },
+            {
+              "value": "outline",
+              "label": "Outline"
+            }
           ],
           "default": "outline"
         }
@@ -280,13 +288,13 @@
         {
           "type": "heading",
           "settings": {
-            "heading": "Craftsmanship at its finest"
+            "heading": "Your video spotlight"
           }
         },
         {
           "type": "text",
           "settings": {
-            "text": "We take pride in the art of craftsmanship and attention to detail in every piece."
+            "text": "Use this area to introduce the video below. Share a quick note, highlight its purpose, or guide visitors, make it simple and effective."
           }
         },
         {
