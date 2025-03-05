@@ -145,8 +145,8 @@
                 <div class="aspect-square w-full">
                   {%
                     render 'image',
-                    image: block.settings.collection.image,
-                    alt: block.settings.collection.image.alt | default: "Featured collection image {{ forloop.index }}",
+                    image: block.settings.collection.featured_image,
+                    alt: block.settings.collection.featured_image.alt | default: "Featured collection image {{ forloop.index }}",
                     class: 'w-full h-full object-cover object-center'
                   %}
                 </div>
