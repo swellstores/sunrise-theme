@@ -29,19 +29,16 @@
       padding-bottom: {{ section.settings.bottom_padding }}px;
     }
   }
-
-  .video-js {
-    width: 100%;
-    height: 600px;
-  }
 </style>
 {% comment %}theme-check-disable RemoteAsset{% endcomment %}
 <div class="relative bg-{{ color_scheme }} text-{{ content_text_alignment }} responsive-padding-{{ section.id }}">
   {% if section.settings.video_url != blank %}
-    {% if section.settings.video_url contains 'youtube.com' or section.settings.video_url contains 'youtu.be' %}
+    {% if section.settings.video_url contains 'youtube.com'
+      or section.settings.video_url contains 'youtu.be'
+    %}
       <video
         id="video-{{ section.id }}"
-        class="video-js vjs-default-skin"
+        class="video-js vjs-default-skin aspect-video h-[600px] w-full object-cover"
         preload="auto"
         playsinline
         webkit-playsinline
