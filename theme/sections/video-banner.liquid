@@ -45,6 +45,7 @@
       preload="auto"
       playsinline
       webkit-playsinline
+      data-video-url="{{ video_url }}"
       data-setup='{
         "techOrder": ["youtube"],
         "sources": [{ "type": "video/youtube", "src": "{{ section.settings.video_url }}" }],
@@ -65,6 +66,7 @@
         <a href="https://videojs.com/html5-video-support/" target="_blank">web browser that supports HTML5 video</a>
       </p>
     </video>
+
 
   {% else %}
     <video
@@ -143,7 +145,7 @@
     },
     "settings": [
       {
-        "type": "url",
+        "type": "text",
         "id": "video_url",
         "label": "t:sections.video-banner.settings.video_url.label",
         "info": "t:sections.video-banner.settings.video_url.info",
