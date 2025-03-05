@@ -145,8 +145,8 @@
                 <div class="aspect-square w-full">
                   {%
                     render 'image',
-                    image: block.settings.collection.image,
-                    alt: block.settings.collection.image.alt | default: "Featured collection image {{ forloop.index }}",
+                    image: block.settings.collection.featured_image,
+                    alt: block.settings.collection.featured_image.alt | default: "Featured collection image {{ forloop.index }}",
                     class: 'w-full h-full object-cover object-center'
                   %}
                 </div>
@@ -157,6 +157,11 @@
                 <h3 class="font-display text-title-small flex-wrap text-{{ color_scheme }}">
                   {{ block.settings.collection.title }}
                 </h3>
+                <div
+                  class="description font-display text-body-medium mb-[10px] mt-[10px]"
+                >
+                  {{ block.settings.collection.description }}
+                </div>
               </a>
             </div>
 
