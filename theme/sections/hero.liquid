@@ -83,7 +83,7 @@
                           {% endcase %}
                     "
                   >
-                    {{ block.settings.heading }}
+                    {{ block.settings.heading | inline_editable: 'heading' }}
                   </h2>
                 {%- when 'text' -%}
                   <div class="font-display text-body-large sm:text-body-large">
