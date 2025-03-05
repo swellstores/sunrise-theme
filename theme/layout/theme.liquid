@@ -253,6 +253,34 @@
       async
     ></script>
 
+    <script>
+    // Initial Video.js initialization
+    function initializeVideoPlayer(videoElement) {
+      if (!videoElement || !videoElement.dataset.setup) {
+        console.warn('No video element or data-setup found:', videoElement);
+        return;
+      }
+
+      const options = JSON.parse(videoElement.dataset.setup);
+      const existingPlayer = videojs.getPlayer(videoElement.id);
+
+      if (existingPlayer) {
+        existingPlayer.dispose();
+      }
+
+      const player = videojs(videoElement.id, options, function onPlayerReady() {
+        console.log('Player ready for:', videoElement.id);
+        this.play().catch(function(error) {
+          console.error('Play failed for ' + videoElement.id + ':', error);
+        });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.video-js').forEach(initializeVideoPlayer);
+    });
+  </script>
+
     {% comment %} Integrations {% endcomment %}
     {% render 'gorgias-chat',
       enabled: settings.gorgias_chat_enabled,
@@ -265,4 +293,5 @@
 
     {% render 'backdrop' %}
   </body>
+
 </html>

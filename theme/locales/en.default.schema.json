@@ -701,7 +701,7 @@
         },
         "video_url": {
           "label": "Video URL",
-          "info": "MP4, WebM or OGG"
+          "info": "YouTube video URL, MP4, WebM or OGG"
         },
         "loop_video": {
           "label": "Loop video"
