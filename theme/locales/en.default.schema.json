@@ -1085,7 +1085,7 @@
           "name": "Product",
           "settings": {
             "product": {
-              "label": "Select Product"
+              "label": "Product"
             }
           }
         }
@@ -1100,7 +1100,7 @@
           "name": "Blog",
           "settings": {
             "blog": {
-              "label": "Select Blog"
+              "label": "Blog"
             }
           }
         }
@@ -1112,7 +1112,7 @@
           "name": "Collection",
           "settings": {
             "collection": {
-              "label": "Select Collection"
+              "label": "Collection"
             }
           }
         }
@@ -1124,7 +1124,7 @@
           "name": "Article",
           "settings": {
             "article": {
-              "label": "Select Article"
+              "label": "Article"
             }
           }
         }
