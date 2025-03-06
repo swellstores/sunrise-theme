@@ -188,6 +188,9 @@
                 <p class="text-body-medium">
                   {{ block.settings.article.excerpt | truncate: 100 }}
                 </p>
+                <p class="text-body-medium">
+                  {{ block.settings.article.content }}
+                </p>
               </div>
             </div>
           {%- when 'text' -%}
