@@ -80,7 +80,7 @@
         "label": "Show collection description"
       },
       "collection": {
-        "label": "Collection",
+        "label": "Category",
         "info": "Display a collection of products."
       },
       "col_span": {
@@ -1109,10 +1109,10 @@
     "collection": {
       "blocks": {
         "collection": {
-          "name": "Collection",
+          "name": "Category",
           "settings": {
             "collection": {
-              "label": "Collection"
+              "label": "Category"
             }
           }
         }
