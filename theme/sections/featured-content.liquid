@@ -174,8 +174,8 @@
                 <div class="aspect-square">
                   {%
                     render 'image',
-                    image: block.settings.article,
-                    alt: first_image_alt = first_image.alt | default: 'Featured article image {{ forloop.index }}',
+                    image: block.settings.article.featured_image,
+                    alt: block.settings.article.featured_image.alt | default: 'Featured article image {{ forloop.index }}',
                     class: 'w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110'
                   %}
                 </div>
@@ -187,6 +187,9 @@
                 </h3>
                 <p class="text-body-medium">
                   {{ block.settings.article.excerpt | truncate: 100 }}
+                </p>
+                <p class="text-body-medium">
+                  {{ block.settings.article.content }}
                 </p>
               </div>
             </div>
