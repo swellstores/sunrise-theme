@@ -194,16 +194,16 @@
               </div>
             </div>
           {%- when 'text' -%}
-            <div class="bg-[#FAF7FF] pl-[24px] pr-[24px] flex justify-between {{ block.settings.content_alignment }} col-span-{{ block.settings.col_span }}">
+            <div class="bg-[#FAF7FF] pl-[24px] pr-[24px] flex justify-between {{ block.settings.content_alignment }} col-span-{{ block.settings.col_span }}"
+              style="padding: 8px;"
+            >
               <div class="
                 flex flex-col gap-[16px] w-full text-{{ block.settings.color_scheme }} bg-{{ block.settings.color_scheme }}
-                padding={{ block.section.section_padding + 8}}px
                 {% if block.settings.content_alignment == 'items-start' %} justify-start
                 {% elsif block.settings.content_alignment == 'items-end' %} justify-end
                 {% endif %}
-              ">
+              " style="padding: {{ block.settings.section_padding }}px;">
               {%- if block.settings.heading != blank -%}
-                VER7 {{ block.settings.heading_size }} {{ block.settings.content_alignment }} {{ block.settings.text_alignment }}
                 <h2
                   class="
                       {% if block.settings.heading_size == 'small' %}
@@ -243,12 +243,13 @@
                   {{ block.settings.description }}
                 </div>
               {%- endif -%}
-              {%- if block.settings.button_text != blank or block.settings.button_link != blank -%}
+              {%- if block.settings.button_text != blank -%}
                 <div class="flex">
                   {% render 'button',
                     text: block.settings.button_text,
                     href: block.settings.button_link
-                    variant: 'white',
+                    type: 'button',
+                    variant: 'solid',
                     content_color_scheme: block.settings.color_scheme
                   %}
                 </div>
@@ -503,7 +504,7 @@
           "max": 96,
           "step": 1,
           "unit": "px",
-          "default": 64
+          "default": 0
         },
         {
           "type": "range",
