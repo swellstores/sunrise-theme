@@ -33,50 +33,52 @@
 {% comment %}theme-check-disable RemoteAsset{% endcomment %}
 <div class="relative bg-{{ color_scheme }} text-{{ content_text_alignment }} responsive-padding-{{ section.id }}">
   {% if section.settings.video_url != blank %}
-    {% if section.settings.video_url contains 'youtube.com'
-      or section.settings.video_url contains 'youtu.be'
-    %}
+    {% comment %}
+      <!-- VideoJS youtube implementation for future use -->
       <video
-        id="video-{{ section.id }}"
-        class="video-js vjs-default-skin aspect-video h-[600px] w-full object-cover"
-        preload="auto"
-        playsinline
-        webkit-playsinline
-        data-setup='
-          {
-            "techOrder": ["youtube"],
-            "sources": [{ "type": "video/youtube", "src": "{{ section.settings.video_url }}" }],
-            "controls": false,
-            "autoplay": true,
-            "muted": true,
-            {% if section.settings.poster_image %}
-              "poster": "{{ section.settings.poster_image }}"
-            {% endif %}
-            "youtube": {
-              "iv_load_policy": 1,
-              "rel": 0,
-            }
-          }
-        '
+      id="video-{{ section.id }}"
+      class="video-js vjs-default-skin aspect-video h-[600px] w-full object-cover"
+      preload="auto"
+      playsinline
+      webkit-playsinline
+      data-setup='
+      {
+      "techOrder": ["youtube"],
+      "sources": [{ "type": "video/youtube", "src": "{{ section.settings.video_url }}" }],
+      "controls": false,
+      "autoplay": true,
+      "muted": true,
+      {% if section.settings.poster_image %}
+      "poster": "{{ section.settings.poster_image }}"
+      {% endif %}
+      "youtube": {
+      "iv_load_policy": 1,
+      "rel": 0,
+      }
+      }
+      '
       ></video>
-    {% else %}
-      <video
-        class="aspect-video h-[600px] w-full object-cover"
-        {% if section.settings.poster_image %}
-        {% endif %}
-        {% if section.settings.loop_video %}
-          loop
-        {% endif %}
-        playsinline
-        webkit-playsinline
-        autoplay
-        muted
-      >
-        <source src="{{ section.settings.video_url }}" type="video/{{ file_extension }}">
-        Your browser does not support the video tag.
-      </video>
-    {%- endif -%}
-  {%- endif -%}
+    {% endcomment %}
+
+    <video
+      id="video-{{ section.id }}"
+      class="aspect-video h-[600px] w-full object-cover"
+      {% if section.settings.poster_image %}
+        poster="{{ section.settings.poster_image }}"
+      {% endif %}
+      {% if section.settings.loop_video %}
+        loop
+      {% endif %}
+      playsinline
+      webkit-playsinline
+      autoplay
+      muted
+    >
+      <source src="{{ section.settings.video_url }}" type="video/{{ file_extension }}">
+      Your browser does not support the video tag.
+    </video>
+    </div>
+  {% endif %}
 
   {%- if section.blocks.size >= 1 -%}
     <div class="absolute inset-0 flex h-full w-full {{ section.settings.content_alignment }}">
