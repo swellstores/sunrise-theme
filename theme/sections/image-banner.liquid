@@ -130,7 +130,7 @@
     {
       "type": "image_picker",
       "id": "image",
-      "label": "t:sections.image-banner.settings.image.label"
+      "label": "Background image"
     },
     {
       "type": "color",
@@ -190,13 +190,13 @@
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
+      "label": "Color scheme",
       "default": "scheme-1"
     },
     {
       "type": "color_scheme",
       "id": "content_color_scheme",
-      "label": "t:sections.image-banner.settings.content_color_scheme.label",
+      "label": "Content color scheme",
       "default": "scheme-1"
     },
     {
@@ -206,44 +206,44 @@
     {
       "type": "select",
       "id": "content_alignment",
-      "label": "t:sections.all.content_alignment.label",
+      "label": "Content position",
       "default": "items-end justify-start",
       "options": [
         {
           "value": "items-start justify-start",
-          "label": "t:sections.all.content_alignment.options.top_left.label"
+          "label": "Top left"
         },
         {
           "value": "items-start justify-center",
-          "label": "t:sections.all.content_alignment.options.top_middle.label"
+          "label": "Top middle"
         },
         {
           "value": "items-start justify-end",
-          "label": "t:sections.all.content_alignment.options.top_right.label"
+          "label": "Top right"
         },
         {
           "value": "items-center justify-start",
-          "label": "t:sections.all.content_alignment.options.middle_left.label"
+          "label": "Middle left"
         },
         {
           "value": "items-center justify-center",
-          "label": "t:sections.all.content_alignment.options.middle_center.label"
+          "label": "Middle center"
         },
         {
           "value": "items-center justify-end",
-          "label": "t:sections.all.content_alignment.options.middle_right.label"
+          "label": "Middle right"
         },
         {
           "value": "items-end justify-start",
-          "label": "t:sections.all.content_alignment.options.bottom_left.label"
+          "label": "Bottom left"
         },
         {
           "value": "items-end justify-center",
-          "label": "t:sections.all.content_alignment.options.bottom_middle.label"
+          "label": "Bottom middle"
         },
         {
           "value": "items-end justify-end",
-          "label": "t:sections.all.content_alignment.options.bottom_right.label"
+          "label": "Bottom right"
         }
       ]
     },
@@ -260,65 +260,66 @@
     {
       "type": "checkbox",
       "id": "transparent",
-      "label": "t:sections.image-banner.settings.transparent.label",
-      "info": "t:sections.image-banner.settings.transparent.info",
+      "label": "Transparent background",
+      "info": "This will override the color scheme.",
       "default": false
     }
   ],
   "blocks": [
     {
       "type": "pre_heading",
-      "name": "t:sections.all.pre_heading.name",
+      "name": "Pre-heading",
       "limit": 1,
       "settings": [
         {
           "type": "text",
           "id": "pre_heading",
-          "label": "t:sections.all.pre_heading.label",
-          "default": "t:sections.all.pre_heading.label"
+          "label": "Pre-heading",
+          "default": "Pre-heading"
         }
       ]
     },
     {
       "type": "heading",
-      "name": "t:sections.all.heading.name",
+      "name": "Heading",
       "limit": 1,
       "settings": [
         {
           "type": "text",
           "id": "heading",
-          "label": "t:sections.all.heading.label",
+          "label": "Heading",
           "default": "Heading"
         }
       ]
     },
     {
       "type": "text",
-      "name": "t:sections.all.text.name",
+      "name": "Text",
       "limit": 1,
       "settings": [
         {
           "type": "inline_richtext",
           "id": "text",
-          "label": "t:sections.all.text.label"
+          "label": "Text"
         }
       ]
     },
     {
       "type": "button",
-      "name": "t:sections.image-banner.blocks.button.name",
+      "name": "Button",
       "limit": 1,
       "settings": [
         {
           "type": "text",
           "id": "button_label",
           "label": "Button label",
+          "info": "Leave the label blank to hide the button.",
           "default": "Button"
         },
         {
           "type": "url",
           "id": "button_link",
-          "label": "t:sections.image-banner.blocks.button.settings.button_link.label"
+          "label": "Button link"
         },
         {
           "type": "select",
