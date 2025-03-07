@@ -246,10 +246,66 @@
               {%- endif -%}
             </div>
           {%- when 'text' -%}
-            <div class="bg-[#FAF7FF] pl-[24px] pr-[24px] flex justify-between items-center col-span-{{ block.settings.col_span }}">
-              <div class="flex flex-col gap-[16px] w-full text-{{ color_scheme }}">
-                <h2 class="text-title-small">{{ block.settings.heading }}</h2>
-                <div class="text-body-medium font-display">{{ block.settings.description }}</div>
+            <div class="bg-[#FAF7FF] pl-[24px] pr-[24px] flex justify-between {{ block.settings.content_alignment }} col-span-{{ block.settings.col_span }}"
+              style="padding: 8px;"
+            >
+              <div class="
+                flex flex-col gap-[16px] w-full text-{{ block.settings.color_scheme }} bg-{{ block.settings.color_scheme }}
+                {% if block.settings.content_alignment == 'items-start' %} justify-start
+                {% elsif block.settings.content_alignment == 'items-end' %} justify-end
+                {% endif %}
+              " style="padding: {{ block.settings.section_padding }}px;">
+              {%- if block.settings.heading != blank -%}
+                <h2
+                  class="
+                      {% if block.settings.heading_size == 'small' %}
+                        text-title-small
+                      {% elsif block.settings.heading_size == 'medium' %}
+                        text-title-medium
+                      {% elsif block.settings.heading_size == 'large' %}
+                        text-title-large
+                      {% endif %}
+
+                      {% if block.settings.header_alignment == 'center' %}
+                        text-center
+                      {% elsif block.settings.header_alignment == 'right' %}
+                        text-right
+                      {% else %}
+                        text-left
+                      {% endif %}
+                  "
+                >
+                  {{ block.settings.heading }}
+                </h2>
+              {%- endif -%}
+              {%- if block.settings.description != blank -%}
+                <div
+                  class="
+                      text-body-medium font-display
+
+                      {% if block.settings.text_alignment == 'center' %}
+                        text-center
+                      {% elsif block.settings.text_alignment == 'right' %}
+                        text-right
+                      {% else %}
+                        text-left
+                      {% endif %}
+                  "
+                >
+                  {{ block.settings.description }}
+                </div>
+              {%- endif -%}
+              {%- if block.settings.button_text != blank -%}
+                <div class="flex">
+                  {% render 'button',
+                    text: block.settings.button_text,
+                    href: block.settings.button_link
+                    type: 'button',
+                    variant: 'solid',
+                    content_color_scheme: block.settings.color_scheme
+                  %}
+                </div>
+              {%- endif -%}
               </div>
             </div>
         {%- endcase -%}
@@ -420,9 +476,87 @@
           "label": "Heading"
         },
         {
-          "type": "text",
+          "type": "select",
+          "id": "heading_size",
+          "label": "Heading size",
+          "default": "small",
+          "options": [
+            { "value": "small", "label": "Small" },
+            { "value": "medium", "label": "Medium" },
+            { "value": "large", "label": "Large" }
+          ]
+        },
+        {
+          "type": "inline_richtext",
           "id": "description",
-          "label": "Description"
+          "label": "Text"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "label": "Text alignment",
+          "default": "left",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Content alignment",
+          "default": "items-start",
+          "options": [
+            {
+              "value": "items-start",
+              "label": "Top"
+            },
+            {
+              "value": "items-center",
+              "label": "Middle"
+            },
+            {
+              "value": "items-end",
+              "label": "Bottom"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text"
+        },
+        {
+          "type": "text",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "Color scheme",
+          "default": "scheme-1"
+        },
+        {
+          "type": "range",
+          "id": "section_padding",
+          "label": "Section padding",
+          "info": "Applies padding to all sides.",
+          "min": 0,
+          "max": 96,
+          "step": 1,
+          "unit": "px",
+          "default": 0
         },
         {
           "type": "range",
