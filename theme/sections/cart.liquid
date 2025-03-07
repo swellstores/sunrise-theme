@@ -31,7 +31,7 @@
   <cart-root class="flex flex-col max-w-[1046px] mx-auto">
     {%- if cart.empty? -%}
       <div class="flex flex-col gap-[32px]">
-        <h2 class="uppercase text-headline-medium font-display">Your cart is empty</h2>
+        <h2 class="uppercase text-headline-small font-display">Your cart is empty</h2>
         <div class="flex-grow-0 flex flex-col items-start justify-center">
           {% render 'button', text: 'Continue shopping', href: routes.all_products_collection_url, variant: 'purple' %}
         </div>
@@ -52,7 +52,7 @@
     {%- else -%}
       <div class="flex flex-col gap-[32px]">
         <div class="flex items-center justify-between">
-          <h2 class="uppercase text-headline-medium font-display">Your cart</h2>
+          <h2 class="uppercase text-headline-small font-display">Your cart</h2>
 
           <div class="inline-flex">
             <a
