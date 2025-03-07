@@ -100,7 +100,7 @@
                   >
                     <div class="flex flex-col gap-[16px]">
                       {%- if pre_heading -%}
-                        <p class=" text-headline-small font-display font-pre-heading">
+                        <p class=" text-headline-x-small font-display font-pre-heading">
                           {{ pre_heading }}
                         </p>
                       {%- endif -%}
@@ -207,7 +207,7 @@
                 {%- if heading or text -%}
                   <div class="heading-and-text">
                     {%- if heading -%}
-                      <h2 class="text-black font-display {% case section.settings.heading_size %}{% when 'small' %}text-display-small{% when 'medium' %}text-display-medium{% when 'large' %}text-display-large{% endcase %}">
+                      <h2 class="text-black font-display {% case section.settings.heading_size %}{% when 'small' %}text-headline-small{% when 'medium' %}text-headline-medium{% when 'large' %}text-headline-large{% endcase %}">
                         {{ heading }}
                       </h2>
                     {%- endif -%}

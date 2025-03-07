@@ -27,11 +27,11 @@
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'pre_heading' -%}
-            <div class="text-headline-small font-semibold font-pre-heading">
+            <div class="text-headline-x-small font-semibold font-pre-heading">
               {{ block.settings.pre_heading }}
             </div>
           {%- when 'heading' -%}
-            <h2 class="text-display-small font-heading">{{ block.settings.heading }}</h2>
+            <h2 class="text-headline-small font-heading">{{ block.settings.heading }}</h2>
           {%- when 'text' -%}
             <div class="font-display text-body-large">
               {{ block.settings.text | inline_editable: 'text' }}

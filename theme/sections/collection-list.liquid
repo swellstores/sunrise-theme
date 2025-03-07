@@ -28,7 +28,7 @@
   {%- if section.settings.pre_heading != blank -%}
     <p
       class="
-        text-headline-small font-display font-pre-heading
+        text-headline-x-small font-display font-pre-heading
         {% case section.settings.header_alignment %}
           {% when 'center' %} text-center
           {% when 'right' %} text-right
@@ -45,9 +45,9 @@
       class="
         mb-[48px] font-display font-heading
         {% case section.settings.heading_size %}
-          {% when 'small' %}text-display-small
-          {% when 'medium' %}text-display-medium
-          {% when 'large' %}text-display-large
+          {% when 'small' %}text-headline-small
+          {% when 'medium' %}text-headline-medium
+          {% when 'large' %}text-headline-large
         {% endcase %}
           {% case section.settings.header_alignment %}
           {% when 'center' %} text-center
