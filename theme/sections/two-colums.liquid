@@ -239,7 +239,7 @@
 
 {% schema %}
 {
-  "name": "Two columns slideshow",
+  "name": "Two-column slideshow",
   "tag": "section",
   "max_blocks": 12,
   "disabled_on": {
@@ -253,7 +253,7 @@
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
+      "label": "Color scheme",
       "default": "scheme-1"
     },
     {
@@ -274,14 +274,14 @@
     {
       "type": "checkbox",
       "id": "navigation",
-      "label": "t:sections.slideshow.settings.navigation.label",
-      "info": "t:sections.slideshow.settings.navigation.info",
+      "label": "Navigation",
+      "info": "Show navigation arrows and pagination dots.",
       "default": false
     },
     {
       "type": "checkbox",
       "id": "auto_rotate",
-      "label": "t:sections.slideshow.settings.auto_rotate.label",
+      "label": "Auto-rotate",
       "default": true
     },
     {
@@ -291,14 +291,13 @@
       "max": 8,
       "step": 1,
       "unit": "s",
-      "label": "t:sections.slideshow.settings.auto_rotate_speed.label",
+      "label": "Auto-rotate speed",
       "default": 5
     },
     {
       "type": "range",
       "id": "top_padding",
-      "label": "t:sections.all.top_padding.label",
-      "info": "t:sections.all.top_padding.info",
+      "label": "Top padding",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -308,8 +307,7 @@
     {
       "type": "range",
       "id": "bottom_padding",
-      "label": "t:sections.all.bottom_padding.label",
-      "info": "t:sections.all.bottom_padding.info",
+      "label": "Bottom padding",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -325,7 +323,7 @@
         {
           "type": "image_picker",
           "id": "image",
-          "label": "t:sections.slideshow.blocks.slide.settings.image.label"
+          "label": "Image"
         },
         {
           "type": "text",
@@ -335,7 +333,7 @@
         {
           "type": "url",
           "id": "link",
-          "label": "t:sections.all.link.label"
+          "label": "Link"
         },
         {
           "type": "select",
@@ -355,25 +353,25 @@
         },
         {
           "type": "header",
-          "content": "t:sections.slideshow.blocks.slide.settings.header.content",
-          "info": "t:sections.slideshow.blocks.slide.settings.header.info"
+          "content": "Content",
+          "info": "A container that sits on top of the slide image or background."
         },
         {
           "type": "text",
           "id": "pre_heading",
-          "label": "t:sections.all.pre_heading.label",
+          "label": "Pre-heading",
           "default": "Pre heading"
         },
         {
           "type": "text",
           "id": "heading",
-          "label": "t:sections.all.heading.label",
+          "label": "Heading",
           "default": "Heading"
         },
         {
           "type": "inline_richtext",
           "id": "text",
-          "label": "t:sections.all.text.label",
+          "label": "Text",
           "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer luctus sapien ut ipsum volutpat, eget suscipit lectus pretium. Nunc sit amet arcu at felis ornare sollicitudin."
         },
         {
@@ -383,7 +381,7 @@
         {
           "type": "color_scheme",
           "id": "color_scheme_content",
-          "label": "t:sections.all.colors.label",
+          "label": "Color scheme",
           "default": "scheme-1"
         },
         {
@@ -393,20 +391,20 @@
         {
           "type": "select",
           "id": "text_alignment",
-          "label": "t:sections.all.text_alignment.label",
+          "label": "Text alignment",
           "default": "start",
           "options": [
             {
               "value": "start",
-              "label": "t:sections.all.text_alignment.left.label"
+              "label": "Left"
             },
             {
               "value": "center",
-              "label": "t:sections.all.text_alignment.center.label"
+              "label": "Center"
             },
             {
               "value": "end",
-              "label": "t:sections.all.text_alignment.right.label"
+              "label": "Right"
             }
           ]
         }
@@ -415,7 +413,7 @@
   ],
   "presets": [
     {
-      "name": "Two column slideshow",
+      "name": "Two-column slideshow",
       "settings": {
         "navigation": true,
         "color_scheme": "scheme-1"

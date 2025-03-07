@@ -204,7 +204,7 @@
 
 {% schema %}
 {
-  "name": "t:sections.collapsible_content.name",
+  "name": "Collapsible content",
   "tag": "section",
   "class": "section",
   "disabled_on": {
@@ -214,36 +214,35 @@
     {
       "type": "text",
       "id": "pre_heading",
-      "label": "t:sections.collapsible_content.settings.pre_heading.label",
-      "default": "t:sections.collapsible_content.settings.pre_heading.label"
+      "label": "Pre-heading",
     },
     {
       "type": "inline_richtext",
       "id": "heading",
-      "label": "t:sections.collapsible_content.settings.heading.label",
-      "default": "t:sections.collapsible_content.settings.heading.default"
+      "label": "Heading",
+      "default": "Collapsible content"
     },
     {
       "type": "text",
       "id": "text",
-      "label": "t:sections.collapsible_content.settings.text.label"
+      "label": "Text"
     },
     {
       "type": "select",
       "id": "heading_alignment",
-      "label": "t:sections.collapsible_content.settings.heading_alignment.label",
+      "label": "Heading alignment",
       "options": [
         {
           "value": "left",
-          "label": "t:sections.collapsible_content.settings.heading_alignment.options__1.label"
+          "label": "Left"
         },
         {
           "value": "center",
-          "label": "t:sections.collapsible_content.settings.heading_alignment.options__2.label"
+          "label": "Center"
         },
         {
           "value": "right",
-          "label": "t:sections.collapsible_content.settings.heading_alignment.options__3.label"
+          "label": "Right"
         }
       ],
       "default": "center"
@@ -251,19 +250,19 @@
     {
       "type": "select",
       "id": "layout",
-      "label": "t:sections.collapsible_content.settings.layout.label",
+      "label": "Layout",
       "options": [
         {
           "value": "none",
-          "label": "t:sections.collapsible_content.settings.layout.options__1.label"
+          "label": "No container"
         },
         {
           "value": "row",
-          "label": "t:sections.collapsible_content.settings.layout.options__2.label"
+          "label": "Row container"
         },
         {
           "value": "section",
-          "label": "t:sections.collapsible_content.settings.layout.options__3.label"
+          "label": "Section container"
         }
       ],
       "default": "none"
@@ -271,36 +270,36 @@
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
+      "label": "Color scheme",
       "default": "scheme-1"
     },
     {
       "type": "color_scheme",
       "id": "container_color_scheme",
-      "label": "t:sections.collapsible_content.settings.container_color_scheme.label",
-      "info": "t:sections.collapsible_content.settings.container_color_scheme.info",
+      "label": "Container color scheme",
+      "info": "Visible when Layout is set to Row or Section container.",
       "default": "scheme-1"
     },
     {
       "type": "checkbox",
       "id": "open_first_collapsible_row",
       "default": false,
-      "label": "t:sections.collapsible_content.settings.open_first_collapsible_row.label"
+      "label": "Open first collapsible row"
     },
     {
       "type": "color",
       "id": "accordion_open_bg_color",
-      "label": "Accordion Open Background Color",
-      "default": "#FAF7FF"
+      "label": "Accordion open background color",
+      "default": "#FFFFFF"
     },
     {
       "type": "header",
-      "content": "t:sections.collapsible_content.settings.header.content"
+      "content": "Image layout"
     },
     {
       "type": "image_picker",
       "id": "image",
-      "label": "t:sections.collapsible_content.settings.image.label"
+      "label": "Image"
     },
     {
       "type": "select",
@@ -316,29 +315,28 @@
     {
       "type": "select",
       "id": "desktop_layout",
+      "label": "Desktop layout",
       "options": [
         {
           "value": "image_first",
-          "label": "t:sections.collapsible_content.settings.desktop_layout.options__1.label"
+          "label": "Image first"
         },
         {
           "value": "image_second",
-          "label": "t:sections.collapsible_content.settings.desktop_layout.options__2.label"
+          "label": "Image second"
         }
       ],
       "default": "image_second",
-      "label": "t:sections.collapsible_content.settings.desktop_layout.label",
-      "info": "t:sections.collapsible_content.settings.desktop_layout.info"
+      "info": "Image is always first on mobile."
     },
     {
       "type": "header",
-      "content": "t:sections.all.padding.section_padding_heading"
+      "content": "Section padding"
     },
     {
       "type": "range",
       "id": "top_padding",
-      "label": "t:sections.all.top_padding.label",
-      "info": "t:sections.all.top_padding.info",
+      "label": "Top padding",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -348,8 +346,7 @@
     {
       "type": "range",
       "id": "bottom_padding",
-      "label": "t:sections.all.bottom_padding.label",
-      "info": "t:sections.all.bottom_padding.info",
+      "label": "Bottom padding",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -360,31 +357,31 @@
   "blocks": [
     {
       "type": "collapsible_row",
-      "name": "t:sections.collapsible_content.blocks.collapsible_row.name",
+      "name": "Collapsible row",
       "settings": [
         {
           "type": "text",
           "id": "heading",
-          "default": "t:sections.collapsible_content.blocks.collapsible_row.settings.heading.default",
-          "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.heading.label",
-          "info": "t:sections.collapsible_content.blocks.collapsible_row.settings.heading.info"
+          "label": "Heading",
+          "default": "Collapsible row",
+          "info": "Include a heading that explains the content."
         },
         {
           "type": "richtext",
           "id": "row_content",
-          "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.row_content.label"
+          "label": "Row content"
         },
         {
           "type": "page",
           "id": "page",
-          "label": "t:sections.collapsible_content.blocks.collapsible_row.settings.page.label"
+          "label": "Row content from page"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Collapsible Content",
+      "name": "Collapsible content",
       "settings": {
         "heading": "Find Your Answers Here",
         "color_scheme": "scheme-1",
