@@ -87,16 +87,27 @@
             <div class="flex flex-col gap-[8px] col-span-{{ block.settings.col_span }}">
               <div class="h-full w-full">
                 <a href="{{ block.settings.link }}">
-                  {%
-                    render 'image',
-                    image: block.settings.image,
-                    alt: block.settings.image.alt | default: "Featured collection image {{ forloop.index }}",
-                    class: "w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
-                  %}
+                  {%- if block.settings.image != blank -%}
+                    {%
+                      render 'image',
+                      image: block.settings.image,
+                      alt: block.settings.image.alt | default: "Featured collection image {{ forloop.index }}",
+                      class: "w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                    %}
+                  {%- else -%}
+                    {% comment %} Image placeholder {% endcomment %}
+                    <div class="h-full w-full">
+                      <div
+                        class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                        style="--ratio: 1.0; --preview-ratio: 1.0;"
+                      >
+                        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                      </div>
+                    </div>
+                  {%- endif -%}
                 </a>
               </div>
             </div>
-
           {%- when 'product' -%}
             <div class="flex flex-col gap-[8px] col-span-{{ block.settings.col_span }}">
               <a
@@ -139,59 +150,100 @@
             </div>
           {%- when 'collection' -%}
             <div class="flex flex-col gap-[8px] col-span-{{ block.settings.col_span }}">
-              <a
-                href="{{ block.settings.collection.url }}"
-              >
+              {%- if block.settings.collection.url != blank -%}
+                <a
+                  href="{{ block.settings.collection.url }}"
+                >
+                  <div class="aspect-square w-full">
+                    {%
+                      render 'image',
+                      image: block.settings.collection.featured_image,
+                      alt: block.settings.collection.featured_image.alt | default: "Featured collection image {{ forloop.index }}",
+                      class: 'w-full h-full object-cover object-center'
+                    %}
+                  </div>
+                </a>
+                <a
+                  href="{{ block.settings.collection.url }}"
+                >
+                  <h3 class="font-display text-title-small flex-wrap text-{{ color_scheme }}">
+                    {{ block.settings.collection.title }}
+                  </h3>
+                  <div
+                    class="description font-display text-body-medium mb-[10px] mt-[10px]"
+                  >
+                    {{ block.settings.collection.description }}
+                  </div>
+                </a>
+              {%- else -%}
+                {% comment %} Category placeholder {% endcomment %}
                 <div class="aspect-square w-full">
-                  {%
-                    render 'image',
-                    image: block.settings.collection.featured_image,
-                    alt: block.settings.collection.featured_image.alt | default: "Featured collection image {{ forloop.index }}",
-                    class: 'w-full h-full object-cover object-center'
-                  %}
+                  <div
+                    class="w-full h-full object-cover object-center"
+                    style="--ratio: 1.0; --preview-ratio: 1.0;"
+                  >
+                    {{ 'collection-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  </div>
                 </div>
-              </a>
-              <a
-                href="{{ block.settings.collection.url }}"
-              >
                 <h3 class="font-display text-title-small flex-wrap text-{{ color_scheme }}">
-                  {{ block.settings.collection.title }}
+                  You category name
                 </h3>
                 <div
                   class="description font-display text-body-medium mb-[10px] mt-[10px]"
-                >
-                  {{ block.settings.collection.description }}
-                </div>
-              </a>
+                />
+              {%- endif -%}
             </div>
 
           {%- when 'article' -%}
             <div class="flex flex-col gap-[8px] col-span-{{ block.settings.col_span }}">
-              <a
-                href="{{ block.settings.article.url }}"
-                class="flex justify-center"
-              >
-                <div class="aspect-square">
-                  {%
-                    render 'image',
-                    image: block.settings.article.featured_image,
-                    alt: block.settings.article.featured_image.alt | default: 'Featured article image {{ forloop.index }}',
-                    class: 'w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110'
-                  %}
-                </div>
-              </a>
+              {%- if block.settings.article.url -%}
+                <a
+                  href="{{ block.settings.article.url }}"
+                  class="flex justify-center"
+                >
+                  <div class="aspect-square">
+                    {%
+                      render 'image',
+                      image: block.settings.article.featured_image,
+                      alt: block.settings.article.featured_image.alt | default: 'Featured article image {{ forloop.index }}',
+                      class: 'w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110'
+                    %}
+                  </div>
+                </a>
 
-              <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
-                <h3 class="text-title-small">
-                  {{ block.settings.article.title }}
-                </h3>
-                <p class="text-body-medium">
-                  {{ block.settings.article.excerpt | truncate: 100 }}
-                </p>
-                <p class="text-body-medium">
-                  {{ block.settings.article.content }}
-                </p>
-              </div>
+                <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
+                  <h3 class="text-title-small">
+                    {{ block.settings.article.title }}
+                  </h3>
+                  <p class="text-body-medium">
+                    {{ block.settings.article.excerpt | truncate: 100 }}
+                  </p>
+                  <p class="text-body-medium">
+                    {{ block.settings.article.content }}
+                  </p>
+                </div>
+              {%- else -%}
+                {% comment %} Article placeholder {% endcomment %}
+                <div class="aspect-square">
+                  <div
+                    class="'w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                    style="--ratio: 1.0; --preview-ratio: 1.0;"
+                  >
+                    {{ 'blog-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  </div>
+                </div>
+
+                <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
+                  <h3 class="text-title-small">
+                    Your article title
+                  </h3>
+                  <p class="text-body-medium" />
+                  </p>
+                  <p class="text-body-medium">
+                    A short description of your featured article.
+                  </p>
+                </div>
+              {%- endif -%}
             </div>
           {%- when 'text' -%}
             <div class="bg-[#FAF7FF] pl-[24px] pr-[24px] flex justify-between items-center col-span-{{ block.settings.col_span }}">
