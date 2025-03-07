@@ -4,49 +4,48 @@
     "theme_name": "theme_name",
     "theme_author": "Swell",
     "theme_version": "0.1.0",
-    "theme_documentation_url": "",
+    "theme_documentation_url": "https://developers.swell.is",
     "theme_support_url": "https://www.swell.is"
   },
   {
-    "name": "t:settings_schema.logo.name",
+    "name": "Logo",
     "settings": [
       {
         "type": "image_picker",
         "id": "logo",
-        "label": "t:settings_schema.logo.settings.logo_image.label"
+        "label": "Logo image"
       },
       {
         "type": "color",
         "id": "logo_color",
-        "label": "t:settings_schema.logo.settings.logo_color.label",
+        "label": "Logo color",
         "default": "#121212"
       },
       {
         "type": "text",
         "id": "logo_text",
-        "label": "t:settings_schema.logo.settings.logo_text.label",
-        "default": "VELOBICI"
+        "label": "Logo text"
       },
       {
         "type": "range",
         "id": "logo_width",
+        "label": "Desktop logo width",
         "min": 50,
         "max": 300,
         "step": 10,
         "default": 100,
-        "unit": "px",
-        "label": "t:settings_schema.logo.settings.logo_width.label"
+        "unit": "px"
       },
       {
         "type": "image_picker",
         "id": "favicon",
-        "label": "t:settings_schema.logo.settings.favicon.label",
-        "info": "t:settings_schema.logo.settings.favicon.info"
+        "label": "Favicon image",
+        "info": "Will be scaled down to 32px x 32px."
       }
     ]
   },
   {
-    "name": "t:settings_schema.colors.name",
+    "name": "Color schemes",
     "settings": [
       {
         "type": "color_scheme_group",
@@ -55,43 +54,43 @@
           {
             "type": "color_background",
             "id": "background",
-            "label": "t:settings_schema.colors.settings.background.label",
+            "label": "Background",
             "default": "#FFFFFF"
           },
           {
             "type": "color",
             "id": "text",
-            "label": "t:settings_schema.colors.settings.text.label",
+            "label": "Text",
             "default": "#222222"
           },
           {
             "type": "color",
             "id": "text_secondary",
-            "label": "t:settings_schema.colors.settings.text_secondary.label",
+            "label": "Secondary text",
             "default": "#757575"
           },
           {
             "type": "color",
             "id": "button",
-            "label": "t:settings_schema.colors.settings.button_background.label",
+            "label": "Solid button background",
             "default": "#121212"
           },
           {
             "type": "color",
             "id": "button_label",
-            "label": "t:settings_schema.colors.settings.button_label.label",
+            "label": "Solid button label",
             "default": "#FFFFFF"
           },
           {
             "type": "color",
             "id": "secondary_button_label",
-            "label": "t:settings_schema.colors.settings.secondary_button_label.label",
+            "label": "Outline button label",
             "default": "#222222"
           },
           {
             "type": "color",
             "id": "secondary_button_border",
-            "label": "t:settings_schema.colors.settings.secondary_button_border.label",
+            "label": "Outline button border",
             "default": "#222222"
           },
           {

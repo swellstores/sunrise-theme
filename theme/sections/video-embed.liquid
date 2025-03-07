@@ -123,8 +123,8 @@
     {
       "type": "html",
       "id": "iframe",
-      "label": "t:sections.video-embed.settings.iframe.label",
-      "info": "t:sections.video-embed.settings.iframe.info"
+      "label": "Embed code",
+      "info": "Add a video from YouTube, Vimeo, or another video platform. We recommend setting the width to 100% and the height to 100%."
     },
     {
       "type": "image_picker",
@@ -134,7 +134,7 @@
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
+      "label": "Color scheme",
       "default": "scheme-1"
     },
     {
@@ -156,28 +156,27 @@
     {
       "type": "select",
       "id": "text_alignment",
-      "label": "t:sections.video-embed.settings.text_alignment.label",
+      "label": "Text alignment",
       "default": "left",
       "options": [
         {
           "value": "left",
-          "label": "t:sections.video-embed.settings.text_alignment.options.left.label"
+          "label": "Left"
         },
         {
           "value": "center",
-          "label": "t:sections.video-embed.settings.text_alignment.options.center.label"
+          "label": "Center"
         },
         {
           "value": "right",
-          "label": "t:sections.video-embed.settings.text_alignment.options.right.label"
+          "label": "Right"
         }
       ]
     },
     {
       "type": "range",
       "id": "top_padding",
-      "label": "t:sections.all.top_padding.label",
-      "info": "t:sections.all.top_padding.info",
+      "label": "Top padding",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -187,8 +186,7 @@
     {
       "type": "range",
       "id": "bottom_padding",
-      "label": "t:sections.all.bottom_padding.label",
-      "info": "t:sections.all.bottom_padding.info",
+      "label": "Bottom padding",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -199,58 +197,57 @@
   "blocks": [
     {
       "type": "pre_heading",
-      "name": "t:sections.video-embed.blocks.pre_heading.name",
+      "name": "Pre-heading",
       "limit": 1,
       "settings": [
         {
           "type": "text",
           "id": "pre_heading",
-          "default": "t:sections.video-embed.blocks.pre_heading.settings.pre_heading.default",
-          "label": "t:sections.video-embed.blocks.pre_heading.settings.pre_heading.label"
+          "label": "Pre-heading"
         }
       ]
     },
     {
       "type": "heading",
-      "name": "t:sections.video-embed.blocks.heading.name",
+      "name": "Heading",
       "limit": 1,
       "settings": [
         {
           "type": "text",
           "id": "heading",
-          "label": "t:sections.all.heading.label"
+          "label": "Heading"
         }
       ]
     },
     {
       "type": "text",
-      "name": "t:sections.video-embed.blocks.text.name",
+      "name": "Text",
       "limit": 1,
       "settings": [
         {
           "type": "inline_richtext",
           "id": "text",
-          "default": "t:sections.video-embed.blocks.text.settings.text.default",
-          "label": "t:sections.video-embed.blocks.text.settings.text.label"
+          "label": "Description",
+          "default": "Tell your customer about the video content, why they should click on it, and what they can expect."
         }
       ]
     },
     {
       "type": "button",
-      "name": "t:sections.video-embed.blocks.button.name",
+      "name": "Button",
       "limit": 1,
       "settings": [
         {
           "type": "text",
           "id": "button_label",
-          "default": "t:sections.video-embed.blocks.button.settings.button_label.default",
-          "label": "t:sections.video-embed.blocks.button.settings.button_label.label",
-          "info": "t:sections.video-embed.blocks.button.settings.button_label.info"
+          "label": "Button label",
+          "info": "Leave the label blank to hide the button.",
+          "default": "Link"
         },
         {
           "type": "url",
           "id": "button_link",
-          "label": "t:sections.video-embed.blocks.button.settings.button_link.label"
+          "label": "Button link"
         },
         {
           "type": "select",
