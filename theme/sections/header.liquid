@@ -188,64 +188,63 @@
 
 {% schema %}
 {
-  "name": "t:sections.header.name",
+  "name": "Header",
   "settings": [
     {
       "type": "header",
-      "content": "t:sections.header.settings.content"
+      "content": "Header"
     },
     {
       "type": "link_list",
       "id": "selected_menu",
       "label": "Menu",
-      "default": "main-menu"
+      "default": "main_menu"
     },
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
+      "label": "Color scheme",
       "default": "scheme-1"
     },
     {
       "type": "checkbox",
       "id": "sticky",
-      "label": "t:sections.header.settings.sticky.label",
+      "label": "Sticky header",
       "default": false
     },
     {
       "type": "checkbox",
       "id": "border_b",
       "default": false,
-      "label": "t:sections.all.borders.border_b.label"
+      "label": "Bottom border"
     },
     {
       "type": "checkbox",
       "id": "text_uppercase",
       "default": true,
-      "label": "t:sections.all.uppercase.label"
+      "label": "Uppercase text"
     },
     {
       "type": "checkbox",
       "id": "show_language_selector",
-      "label": "t:sections.footer.settings.show_language_selector.label",
+      "label": "Show language selector",
       "default": true
     },
     {
       "type": "checkbox",
       "id": "show_currency_selector",
-      "label": "t:sections.footer.settings.show_currency_selector.label",
+      "label": "Show currency selector",
       "default": true
     },
     {
       "type": "header",
-      "content": "t:sections.header.settings.desktop.content",
-      "info": "t:sections.header.settings.desktop.info"
+      "content": "Desktop",
+      "info": "640px and wider, for more refer to Tailwind's responsive design [docs](https://tailwindcss.com/docs/responsive-design)"
     },
     {
       "type": "range",
       "id": "top_padding",
-      "label": "t:sections.all.top_padding.label",
-      "info": "t:sections.all.top_padding.info",
+      "label": "Top padding",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -255,8 +254,7 @@
     {
       "type": "range",
       "id": "bottom_padding",
-      "label": "t:sections.all.bottom_padding.label",
-      "info": "t:sections.all.bottom_padding.info",
+      "label": "Bottom padding",
       "min": 0,
       "max": 96,
       "step": 1,

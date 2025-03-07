@@ -108,7 +108,7 @@
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
+      "label": "Color scheme",
       "default": "scheme-1"
     },
     {
@@ -118,8 +118,8 @@
     {
       "type": "range",
       "id": "columns",
-      "label": "t:sections.all.columns.label",
-      "info": "t:sections.all.columns.info",
+      "label": "Columns",
+      "info": "Columns are used to organize content within a section.",
       "min": 1,
       "max": 5,
       "step": 1,
@@ -128,8 +128,7 @@
     {
       "type": "range",
       "id": "top_padding",
-      "label": "t:sections.all.top_padding.label",
-      "info": "t:sections.all.top_padding.info",
+      "label": "Top padding",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -139,8 +138,7 @@
     {
       "type": "range",
       "id": "bottom_padding",
-      "label": "t:sections.all.bottom_padding.label",
-      "info": "t:sections.all.bottom_padding.info",
+      "label": "Bottom padding",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -150,8 +148,8 @@
     {
       "type": "range",
       "id": "grid_gap",
-      "label": "t:sections.all.gap.label",
-      "info": "t:sections.all.gap.info",
+      "label": "Gap",
+      "info": "Gap between columns",
       "min": 0,
       "max": 100,
       "step": 1,
@@ -161,20 +159,20 @@
     {
       "type": "select",
       "id": "text_alignment",
-      "label": "t:sections.all.text_alignment.label",
+      "label": "Text alignment",
       "default": "center",
       "options": [
         {
           "value": "left",
-          "label": "t:sections.all.text_alignment.left.label"
+          "label": "Left"
         },
         {
           "value": "center",
-          "label": "t:sections.all.text_alignment.center.label"
+          "label": "Center"
         },
         {
           "value": "right",
-          "label": "t:sections.all.text_alignment.right.label"
+          "label": "Right"
         }
       ]
     }
@@ -182,20 +180,20 @@
   "blocks": [
     {
       "type": "item",
-      "name": "t:sections.all.item.name",
+      "name": "Item",
       "limit": 7,
       "settings": [
         {
           "type": "text",
           "id": "icon",
-          "label": "t:sections.all.icon.label",
-          "info": "t:sections.all.icon.info",
+          "label": "Icon",
+          "info": "See the full list of icons [here](https://ionic.io/ionicons).",
           "default": "star-outline"
         },
         {
           "type": "color",
           "id": "icon_color",
-          "label": "t:sections.all.icon_color.label",
+          "label": "Icon color",
           "default": "#121212"
         },
         {
@@ -206,18 +204,18 @@
         {
           "type": "text",
           "id": "pre_heading",
-          "label": "t:sections.all.pre_heading.label",
-          "default": "t:sections.all.pre_heading.label"
+          "label": "Pre-heading"
         },
         {
           "type": "text",
           "id": "heading",
-          "label": "t:sections.all.heading.label"
+          "label": "Heading",
+          "default": "Heading"
         },
         {
           "type": "richtext",
           "id": "text",
-          "label": "t:sections.all.text.label"
+          "label": "Text"
         }
       ]
     }
