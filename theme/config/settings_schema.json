@@ -94,6 +94,12 @@
             "default": "#222222"
           },
           {
+            "type": "color",
+            "id": "borders_and_inputs",
+            "label": "Borders and inputs",
+            "default": "#ff0000"
+          },
+          {
             "type": "header",
             "content": "Button hover states"
           },
