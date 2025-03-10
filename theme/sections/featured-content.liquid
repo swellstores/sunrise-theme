@@ -91,7 +91,7 @@
                     {%
                       render 'image',
                       image: block.settings.image,
-                      alt: block.settings.image.alt | default: "Featured collection image {{ forloop.index }}",
+                      alt: block.settings.image.alt | default: "Featured content image {{ forloop.index }}",
                       class: "w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
                     %}
                   {%- else -%}
@@ -118,7 +118,7 @@
                     {%
                       render 'image',
                       image: block.settings.product.featured_image,
-                      alt: first_image_alt = first_image.alt | default: 'Featured collection image {{ forloop.index }}',
+                      alt: first_image_alt = first_image.alt | default: 'Featured content image {{ forloop.index }}',
                       class: 'w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110'
                     %}
                   </div>
@@ -128,13 +128,13 @@
                   href="{{ block.settings.product.url }}"
                 >
                   <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
-                    <h3 class="font-display text-title-small ">
+                    <h3 class="font-display text-title-small font-normal">
                       {{ block.settings.product.title }}
                     </h3>
 
-                    <p class="font-display text-body-medium text-center">
+                    <p class="font-display text-body-medium text-center font-semibold">
                       {%- if block.settings.product.compare_at_price > block.settings.product.price -%}
-                        <div class="font-display flex gap-[6px] text-body-medium flex-wrap">
+                        <div class="font-display flex gap-[6px] text-body-medium font-semibold flex-wrap">
                           <span class="">
                             {{ block.settings.product.price | money_with_currency }}
                           </span>
@@ -160,11 +160,11 @@
                 </div>
 
                 <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
-                  <h3 class="font-display text-title-small ">
+                  <h3 class="font-display text-title-small font-normal">
                     Your product name
                   </h3>
 
-                  <p class="font-display text-body-medium text-center">
+                  <p class="font-display text-body-medium text-center font-semibold">
                     {{ 39 | money_with_currency }}
                   </p>
                 </div>
@@ -180,39 +180,43 @@
                     {%
                       render 'image',
                       image: block.settings.collection.featured_image,
-                      alt: block.settings.collection.featured_image.alt | default: "Featured collection image {{ forloop.index }}",
-                      class: 'w-full h-full object-cover object-center'
+                      alt: block.settings.collection.featured_image.alt | default: "Featured content image {{ forloop.index }}",
+                      class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
                     %}
                   </div>
                 </a>
                 <a
                   href="{{ block.settings.collection.url }}"
                 >
-                  <h3 class="font-display text-title-small flex-wrap text-{{ color_scheme }}">
-                    {{ block.settings.collection.title }}
-                  </h3>
-                  <div
-                    class="description font-display text-body-medium mb-[10px] mt-[10px]"
-                  >
-                    {{ block.settings.collection.description }}
+                  <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
+                    <h3 class="font-display text-title-small font-normal">
+                      {{ block.settings.collection.title }}
+                    </h3>
+                    <p
+                      class="font-display text-body-medium font-semibold"
+                    >
+                      {{ block.settings.collection.description }}
+                    </p>
                   </div>
                 </a>
               {%- else -%}
                 {% comment %} Category placeholder {% endcomment %}
                 <div class="aspect-square w-full">
                   <div
-                    class="w-full h-full object-cover object-center"
+                    class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
                     style="--ratio: 1.0; --preview-ratio: 1.0;"
                   >
                     {{ 'collection-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
                   </div>
                 </div>
-                <h3 class="font-display text-title-small flex-wrap text-{{ color_scheme }}">
-                  You category name
-                </h3>
-                <div
-                  class="description font-display text-body-medium mb-[10px] mt-[10px]"
-                />
+                <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
+                  <h3 class="font-display text-title-small font-normal">
+                    You category name
+                  </h3>
+                  <p
+                    class="font-display text-body-medium"
+                  />
+                </div>
               {%- endif -%}
             </div>
 
@@ -223,30 +227,27 @@
                   href="{{ block.settings.article.url }}"
                   class="flex justify-center"
                 >
-                  <div class="aspect-square">
+                  <div class="aspect-square w-full">
                     {%
                       render 'image',
                       image: block.settings.article.featured_image,
-                      alt: block.settings.article.featured_image.alt | default: 'Featured article image {{ forloop.index }}',
+                      alt: block.settings.article.featured_image.alt | default: 'Featured content image {{ forloop.index }}',
                       class: 'w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110'
                     %}
                   </div>
                 </a>
 
                 <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
-                  <h3 class="text-title-small">
+                  <h3 class="font-display text-title-small font-normal">
                     {{ block.settings.article.title }}
                   </h3>
-                  <p class="text-body-medium">
-                    {{ block.settings.article.excerpt | truncate: 100 }}
-                  </p>
-                  <p class="text-body-medium">
-                    {{ block.settings.article.content }}
+                  <p class="font-display text-body-medium font-semibold">
+                    {{ block.settings.article.content | truncate: 100 }}
                   </p>
                 </div>
               {%- else -%}
                 {% comment %} Article placeholder {% endcomment %}
-                <div class="aspect-square">
+                <div class="aspect-square w-full">
                   <div
                     class="'w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
                     style="--ratio: 1.0; --preview-ratio: 1.0;"
@@ -256,24 +257,32 @@
                 </div>
 
                 <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
-                  <h3 class="text-title-small">
+                  <h3 class="font-display text-title-small font-normal">
                     Your article title
                   </h3>
-                  <p class="text-body-medium" />
-                  </p>
-                  <p class="text-body-medium">
+                  <p class="font-display text-body-medium font-semibold">
                     A short description of your featured article.
                   </p>
                 </div>
               {%- endif -%}
             </div>
           {%- when 'text' -%}
-            <div class="bg-[#FAF7FF] pl-[24px] pr-[24px] flex justify-between {{ block.settings.content_alignment }} col-span-{{ block.settings.col_span }}"
+            <div class="
+                flex flex-col gap-[8px] col-span-{{ block.settings.col_span }} text-{{ block.settings.color_scheme }} bg-{{ block.settings.color_scheme }}
+                {% if block.settings.text_alignment == 'center' %}
+                  text-center
+                {% elsif block.settings.text_alignment == 'right' %}
+                  text-right
+                {% else %}
+                  text-left
+                {% endif %}
+              "
               style="padding: 8px;"
             >
-              <div class="
-                flex flex-col gap-[16px] w-full text-{{ block.settings.color_scheme }} bg-{{ block.settings.color_scheme }}
+              <div class="aspect-square
+                flex flex-col gap-[16px] w-full h-full
                 {% if block.settings.content_alignment == 'items-start' %} justify-start
+                {% elsif block.settings.content_alignment == 'items-center' %} justify-center
                 {% elsif block.settings.content_alignment == 'items-end' %} justify-end
                 {% endif %}
               " style="padding: {{ block.settings.section_padding }}px;">
@@ -288,14 +297,6 @@
                         {% elsif block.settings.heading_size == 'large' %}
                           text-title-large
                         {% endif %}
-
-                        {% if block.settings.header_alignment == 'center' %}
-                          text-center
-                        {% elsif block.settings.header_alignment == 'right' %}
-                          text-right
-                        {% else %}
-                          text-left
-                        {% endif %}
                     "
                   >
                     {{ block.settings.heading }}
@@ -303,23 +304,21 @@
                 {%- endif -%}
                 {%- if block.settings.description != blank -%}
                   <div
-                    class="
-                        text-body-medium font-display
-
-                        {% if block.settings.text_alignment == 'center' %}
-                          text-center
-                        {% elsif block.settings.text_alignment == 'right' %}
-                          text-right
-                        {% else %}
-                          text-left
-                        {% endif %}
-                    "
+                    class="text-body-medium font-display"
                   >
                     {{ block.settings.description }}
                   </div>
                 {%- endif -%}
                 {%- if block.settings.button_text != blank -%}
-                  <div class="flex">
+                  <div class="flex flex-row
+                    {% if block.settings.text_alignment == 'center' %}
+                      justify-center
+                    {% elsif block.settings.text_alignment == 'right' %}
+                      justify-end
+                    {% else %}
+                      justify-start
+                    {% endif %}
+                  ">
                     {% render 'button',
                       text: block.settings.button_text,
                       href: block.settings.button_link
