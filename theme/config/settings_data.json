@@ -28,7 +28,8 @@
                     "primary_button_hover": "#121212",
                     "primary_button_label_hover": "#ffffff",
                     "secondary_button_border_hover": "#121212",
-                    "secondary_button_label_hover": "#121212"
+                    "secondary_button_label_hover": "#121212",
+                    "borders_and_inputs": "#222222"
                 }
             },
             "scheme-2": {
@@ -44,7 +45,8 @@
                     "primary_button_hover": "#363636",
                     "primary_button_label_hover": "#ffffff",
                     "secondary_button_border_hover": "#363636",
-                    "secondary_button_label_hover": "#363636"
+                    "secondary_button_label_hover": "#363636",
+                    "borders_and_inputs": "#222222"
                 }
             },
             "scheme-3": {
@@ -60,7 +62,8 @@
                     "primary_button_hover": "#f7f7f7",
                     "primary_button_label_hover": "#121212",
                     "secondary_button_border_hover": "#121212",
-                    "secondary_button_label_hover": "#ffffff"
+                    "secondary_button_label_hover": "#ffffff",
+                    "borders_and_inputs": "#222222"
                 }
             },
             "scheme-4": {
@@ -76,7 +79,8 @@
                     "primary_button_hover": "#283540",
                     "primary_button_label_hover": "#ffffff",
                     "secondary_button_border_hover": "#283540",
-                    "secondary_button_label_hover": "#283540"
+                    "secondary_button_label_hover": "#283540",
+                    "borders_and_inputs": "#222222"
                 }
             },
             "scheme-5": {
@@ -92,7 +96,8 @@
                     "primary_button_hover": "#724434",
                     "primary_button_label_hover": "#ffffff",
                     "secondary_button_border_hover": "#724434",
-                    "secondary_button_label_hover": "#724434"
+                    "secondary_button_label_hover": "#724434",
+                    "borders_and_inputs": "#222222"
                 }
             }
         }
