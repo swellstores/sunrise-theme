@@ -160,7 +160,7 @@
 
 {% schema %}
 {
-  "name": "Featured collection",
+  "name": "Featured category",
   "tag": "section",
   "disabled_on": {
     "groups": ["header", "footer"]
@@ -225,12 +225,13 @@
     {
       "type": "collection",
       "id": "collection",
-      "label": "Select a featured collection"
+      "label": "Featured category"
     },
     {
       "type": "range",
       "id": "max_products",
-      "label": "Max number of products",
+      "label": "Number of products",
+      "info": "Displays the max number of products per row.",
       "min": 1,
       "max": 12,
       "step": 1,
@@ -302,7 +303,7 @@
   ],
   "presets": [
     {
-      "name": "Featured collection",
+      "name": "Featured category",
       "settings": {
         "pre_heading": "Pre-heading",
         "heading": "Heading"
