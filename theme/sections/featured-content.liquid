@@ -29,6 +29,24 @@
       padding-bottom: {{ section.settings.bottom_padding }}px;
     }
   }
+
+  .featured-content-text-heading-small {
+    font-size: 24px;
+    line-height: 36px;
+    font-weight: 600;
+  }
+
+  .featured-content-text-heading-medium {
+    font-size: 32px;
+    line-height: 40px;
+    font-weight: 600;
+  }
+
+  .featured-content-text-heading-large {
+    font-size: 40px;
+    line-height: 60px;
+    font-weight: 600;
+  }
 </style>
 
 <div
@@ -268,7 +286,7 @@
             </div>
           {%- when 'text' -%}
             <div class="
-                flex flex-col gap-[8px] col-span-{{ block.settings.col_span }} text-{{ block.settings.color_scheme }} bg-{{ block.settings.color_scheme }}
+                flex flex-col gap-[8px] w-full h-full col-span-{{ block.settings.col_span }} text-{{ block.settings.color_scheme }} bg-{{ block.settings.color_scheme }}
                 {% if block.settings.text_alignment == 'center' %}
                   text-center
                 {% elsif block.settings.text_alignment == 'right' %}
@@ -279,7 +297,7 @@
               "
               style="padding: 8px;"
             >
-              <div class="aspect-square
+              <div class="
                 flex flex-col gap-[16px] w-full h-full
                 {% if block.settings.content_alignment == 'items-start' %} justify-start
                 {% elsif block.settings.content_alignment == 'items-center' %} justify-center
@@ -291,11 +309,11 @@
                   <h2
                     class="
                         {% if block.settings.heading_size == 'small' %}
-                          text-title-small
+                          featured-content-text-heading-small
                         {% elsif block.settings.heading_size == 'medium' %}
-                          text-title-medium
+                          featured-content-text-heading-medium
                         {% elsif block.settings.heading_size == 'large' %}
-                          text-title-large
+                          featured-content-text-heading-large
                         {% endif %}
                     "
                   >
@@ -328,25 +346,15 @@
                     %}
                   </div>
                 {%- endif -%}
-                </div>
               {%- else -%}
                 {% comment %} Text placeholder {% endcomment %}
-                 <div
-                  class="
-                      text-body-medium font-display
-
-                      {% if block.settings.text_alignment == 'center' %}
-                        text-center
-                      {% elsif block.settings.text_alignment == 'right' %}
-                        text-right
-                      {% else %}
-                        text-left
-                      {% endif %}
-                  "
+                <div
+                  class="text-body-medium font-display"
                 >
                   Use this space to discuss a benefit or feature. Pair it with images to grab attention and give customers a quick, clear reason to engage with your store.
                 </div>
               {%- endif -%}
+              </div>
             </div>
         {%- endcase -%}
       {%- endfor -%}
