@@ -2,24 +2,12 @@
   Renders a slideshow section.
 
   Usage:
-    {% sections 'two-columns' %}
-
-  Dependencies:
-    - swiper-element-bundle.js
-    - slideshow-navigation.js
+  {% sections 'two-columns' %}
 {% endcomment %}
-{%- liquid
-  assign color_scheme = section.settings.color_scheme.id
-  assign loop = section.settings.loop
-  assign navigation = section.settings.navigation
-  assign auto_rotate = section.settings.auto_rotate
-
-  if auto_rotate == true
-    assign auto_rotate_speed = section.settings.auto_rotate_speed | times: 1000
-  endif
--%}
 
 {%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign padding = section.settings.padding
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
 -%}
@@ -36,6 +24,10 @@
       padding-bottom: {{ section.settings.bottom_padding }}px;
     }
   }
+
+  .section-padding-{{ section.id }} {
+    padding: {{ padding }}px;
+  }
 </style>
 
 <script>
@@ -44,182 +36,71 @@
   window.theme.slideshow_navigation = {{ navigation }};
 </script>
 
-<div>
-  <div
-    class="hidden lg:block p-[96px]  bg-{{ section.settings.color_scheme }} responsive-padding-{{ section.id }}"
-    {% comment %} style="padding-top: {{ section.settings.top_padding }}px; padding-bottom: {{ section.settings.bottom_padding }}px;" {% endcomment %}
-  >
-    <div class="max-w-[1366px] 2xl:max-w-container mx-auto">
-      <div class="relative max-w-[1046px] 2xl:min-w-[1380px] mx-auto">
-        <swiper-container
-          role="region"
-          aria-label="Slideshow"
-          loop="{{ loop }}"
-          direction="horizontal"
-          slides-per-view="1"
-          class="w-full  2xl:h-[570px] h-[420px]"
-          {%- if auto_rotate -%}
-            autoplay-delay="{{ auto_rotate_speed }}"
-            autoplay-pause-on-mouse-enter="true"
-          {%- endif -%}
-        >
-          {%- for block in section.blocks -%}
-            {% assign link = block.settings.link %}
-            {% assign pre_heading = block.settings.pre_heading %}
-            {% assign heading = block.settings.heading %}
-            {% assign text = block.settings.text %}
-            {% assign text_alignment = block.settings.text_alignment %}
-            {% assign color_scheme_content = block.settings.color_scheme_content %}
-            {% assign button_text = block.settings.button_text %}
-            {% assign transparent = block.settings.transparent %}
+<div class="section-padding-{{ section.id }} bg-{{ color_scheme }}">
+  <div class="max-w-[1366px] mx-auto flex flex-row">
+    {%- assign image_block = section.blocks | where: 'type', 'image' | first -%}
+    {%- assign content_block = section.blocks | where: 'type', 'content' | first -%}
 
-            <swiper-slide class="relative max-w-[1046px] h-[370px] 2xl:max-w-[1380px] mx-auto 2xl:h-[520px] flex w-full items-center justify-center">
-              <div class="w-full flex w-full items-center justify-between gap-[64px]">
-                <div class="w-[491px] h-[370px] 2xl:w-full 2xl:h-[520px]">
-                  {% render 'image', image: block.settings.image, alt: block.settings.image.alt | default: "Slide {{ forloop.index }}" %}
-                </div>
-                <div class="h-[370px] 2xl:h-[520px] flex items-center {% if transparent %}transparent text-{{ section.settings.color_scheme }} {% else %}bg-{{ color_scheme_content }} text-{{ color_scheme_content }}{% endif %}">
-                  <div
-                    class="
-                      w-[491px] {% case text_alignment %}
-                      {% when 'start' %} items-start
-                      {% when 'end' %} items-end
-                      {% else %} items-center
-                      {% endcase %}  2xl:w-[655px] flex flex-col gap-[24px]
-                    "
-                  >
-                    <div class="flex flex-col gap-[16px]">
-                      {%- if pre_heading -%}
-                        <p class=" text-headline-x-small font-display font-pre-heading">
-                          {{ pre_heading }}
-                        </p>
-                      {%- endif -%}
-                      <div
-                        class="
-                          flex flex-col gap-[4px]      {% case text_alignment %}
-                          {% when 'start' %} text-left
-                          {% when 'end' %} text-right
-                          {% else %} text-center
-                          {% endcase %}
-                        "
-                      >
-                        {%- if heading or text -%}
-                          <div class="flex flex-col gap-[4px]">
-                            {%- if heading -%}
-                              <h2 class=" font-display font-heading {% case section.settings.heading_size %}{% when 'small' %}text-display-small{% when 'medium' %}text-display-medium{% when 'large' %}text-display-large{% endcase %}">
-                                {{ heading }}
-                              </h2>
-                            {%- endif -%}
-                            {%- if text -%}
-                              <div class="font-display text-body-large">
-                                {{ text }}
-                              </div>
-                            {%- endif -%}
-                          </div>
-                        {%- endif -%}
-                      </div>
-                    </div>
-                    {%- if button_text != blank and link != blank -%}
-                      <div class="flex">
-                        {% render 'button',
-                          text: button_text,
-                          variant: 'white',
-                          href: link,
-                          content_color_scheme: color_scheme_content
-                        %}
-                      </div>
-                    {%- endif -%}
-                  </div>
-                </div>
-              </div>
-            </swiper-slide>
-          {%- endfor -%}
-        </swiper-container>
+    {%- if image_block -%}
+      <div class="w-full md:w-1/2">
+        {%- if image_block.settings.link != blank -%}
+          <a href="{{ image_block.settings.link }}">
+        {%- endif -%}
+        {%- if image_block.settings.image != blank -%}
+          {% render 'image', image: image_block.settings.image, alt: image_block.settings.image.alt | default: content_block.settings.heading, class: "w-full h-full object-cover" %}
+        {%- else -%}
+          <div class="bg-{{ color_scheme }} aspect-square w-full"></div>
+        {%- endif -%}
+        {%- if image_block.settings.link != blank -%}
+          </a>
+        {%- endif -%}
       </div>
-    </div>
-  </div>
+    {%- endif -%}
 
-  <div class="pl-[24px] pr-[24px] pt-[64px] pb-[64px] responsive-padding-{{ section.id }} lg:hidden">
-    <swiper-container
-      role="region"
-      aria-label="Mobile Slideshow"
-      loop="{{ loop }}"
-      direction="horizontal"
-      slides-per-view="1"
-      class="swiper-container w-full h-auto"
-      space-between="16"
-      {%- if auto_rotate -%}
-        autoplay-delay="{{ auto_rotate_speed }}"
-        autoplay-pause-on-mouse-enter="true"
-      {%- endif -%}
-    >
-      {%- for block in section.blocks -%}
-        {% assign link = block.settings.link %}
-        {% assign pre_heading = block.settings.pre_heading %}
-        {% assign heading = block.settings.heading %}
-        {% assign text = block.settings.text %}
-        {% assign text_alignment = block.settings.text_alignment %}
-        {% assign color_scheme_content = block.settings.color_scheme_content %}
-        {% assign button_text = block.settings.button_text %}
-        {% assign transparent = block.settings.transparent %}
-        <swiper-slide class="flex flex-col items-center text-center gap-[32px] pb-[40px]">
-          <div class="aspect-square w-full h-full">
-            {% render 'image', image: block.settings.image, alt: block.settings.image.alt | default: "Slide {{ forloop.index }}" %}
-          </div>
-          <div
-            class="
-                {% case text_alignment %}
-              {% when 'start' %} items-start
-              {% when 'end' %} items-end
-              {% else %} items-center
-              {% endcase %}  {% if transparent %}transparent {% else %}bg-{{ color_scheme_content }}{% endif %}
-            "
-          >
-            <div class="flex flex-col gap-[16px]">
-              {%- if pre_heading -%}
-                <p class="text-black text-headline-small font-display font-pre-heading">
-                  {{ pre_heading }}
-                </p>
-              {%- endif -%}
-              <div
+    {%- if content_block -%}
+      <div class="w-full md:w-1/2 flex items-center">
+        <div class="w-full flex flex-col gap-8 bg-{{ content_block.settings.color_scheme }} text-{{ content_block.settings.color_scheme }} p-8">
+          <div class="flex flex-col gap-8 text-{{ content_block.settings.text_alignment }}">
+            {%- if content_block.settings.pre_heading != blank -%}
+              <div class="font-display text-headline-small font-semibold">
+                {{ content_block.settings.pre_heading }}
+              </div>
+            {%- endif -%}
+
+            {%- if content_block.settings.heading != blank -%}
+              <h2
                 class="
-                                      flex flex-col gap-[4px]      {% case text_alignment %}
-                  {% when 'start' %} text-left
-                  {% when 'end' %} text-right
-                  {% else %} text-center
+                  font-display
+                  {% case content_block.settings.heading_size %}
+                    {% when 'small' %}text-display-small
+                    {% when 'medium' %}text-display-medium
+                    {% when 'large' %}text-display-large
                   {% endcase %}
                 "
               >
-                {%- if heading or text -%}
-                  <div class="heading-and-text">
-                    {%- if heading -%}
-                      <h2 class="text-black font-display {% case section.settings.heading_size %}{% when 'small' %}text-headline-small{% when 'medium' %}text-headline-medium{% when 'large' %}text-headline-large{% endcase %}">
-                        {{ heading }}
-                      </h2>
-                    {%- endif -%}
-                    {%- if text -%}
-                      <div class="font-display text-body-large text-black">
-                        {{ text }}
-                      </div>
-                    {%- endif -%}
-                  </div>
-                {%- endif -%}
+                {{ content_block.settings.heading }}
+              </h2>
+            {%- endif -%}
+
+            {%- if content_block.settings.text != blank -%}
+              <div class="font-display text-body-large">
+                {{ content_block.settings.text }}
               </div>
-              {%- if button_text != blank and link != blank -%}
-                <div class="flex">
-                  {% render 'button',
-                    text: button_text,
-                    variant: block.settings.button_variant,
-                    href: link,
-                    content_color_scheme: color_scheme_content
-                  %}
-                </div>
-              {%- endif -%}
-            </div>
+            {%- endif -%}
           </div>
-        </swiper-slide>
-      {%- endfor -%}
-    </swiper-container>
+
+          {%- if content_block.settings.button_text != blank and content_block.settings.button_link != blank -%}
+            <div class="flex {% if content_block.settings.text_alignment == 'center' %}justify-center{% elsif content_block.settings.text_alignment == 'right' %}justify-end{% endif %}">
+              {% render 'button',
+                text: content_block.settings.button_text,
+                href: content_block.settings.button_link,
+                content_color_scheme: content_block.settings.color_scheme
+              %}
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
   </div>
 </div>
 
@@ -227,191 +108,82 @@
 {
   "name": "Two panels",
   "tag": "section",
-  "max_blocks": 12,
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  },
+  "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
-    {
-      "type": "header",
-      "content": "Colors"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "header",
-      "content": "Layout"
-    },
-    {
-      "type": "select",
-      "id": "heading_size",
-      "label": "Heading size",
-      "default": "small",
-      "options": [
-        { "value": "small", "label": "Small" },
-        { "value": "medium", "label": "Medium" },
-        { "value": "large", "label": "Large" }
-      ]
-    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     {
       "type": "range",
-      "id": "top_padding",
-      "label": "Top padding",
+      "id": "padding",
+      "label": "Section padding",
+      "info": "Applies padding to all sides.",
       "min": 0,
       "max": 96,
       "step": 1,
       "unit": "px",
-      "default": 96
-    },
-    {
-      "type": "range",
-      "id": "bottom_padding",
-      "label": "Bottom padding",
-      "min": 0,
-      "max": 96,
-      "step": 1,
-      "unit": "px",
-      "default": 96
+      "default": 12
     }
   ],
   "blocks": [
     {
-      "name": "Slide",
-      "type": "slide",
+      "type": "image",
+      "name": "Image",
+      "limit": 1,
       "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Image"
-        },
-        {
-          "type": "text",
-          "id": "button_text",
-          "label": "Button text"
-        },
-        {
-          "type": "url",
-          "id": "link",
-          "label": "Link"
-        },
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "url", "id": "link", "label": "Link", "info": "Link the image to a page" }
+      ]
+    },
+    {
+      "type": "content",
+      "name": "Content",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "pre_heading", "label": "Pre-heading" },
+        { "type": "text", "id": "heading", "label": "Heading" },
         {
           "type": "select",
-          "id": "button_variant",
-          "label": "Button Style",
+          "id": "heading_size",
+          "label": "Heading size",
+          "default": "small",
           "options": [
-            { "value": "solid", "label": "Solid" },
-            { "value": "outline", "label": "Outline" }
-          ],
-          "default": "outline"
+            { "value": "small", "label": "Small" },
+            { "value": "medium", "label": "Medium" },
+            { "value": "large", "label": "Large" }
+          ]
         },
-        {
-          "type": "checkbox",
-          "id": "transparent",
-          "label": "Transparent background",
-          "default": false
-        },
-        {
-          "type": "header",
-          "content": "Content",
-          "info": "A container that sits on top of the slide image or background."
-        },
-        {
-          "type": "text",
-          "id": "pre_heading",
-          "label": "Pre-heading",
-          "default": "Pre heading"
-        },
-        {
-          "type": "text",
-          "id": "heading",
-          "label": "Heading",
-          "default": "Heading"
-        },
-        {
-          "type": "inline_richtext",
-          "id": "text",
-          "label": "Text",
-          "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer luctus sapien ut ipsum volutpat, eget suscipit lectus pretium. Nunc sit amet arcu at felis ornare sollicitudin."
-        },
-        {
-          "type": "header",
-          "content": "Colors"
-        },
-        {
-          "type": "color_scheme",
-          "id": "color_scheme_content",
-          "label": "Color scheme",
-          "default": "scheme-1"
-        },
-        {
-          "type": "header",
-          "content": "Layout"
-        },
+        { "type": "richtext", "id": "text", "label": "Text" },
         {
           "type": "select",
           "id": "text_alignment",
           "label": "Text alignment",
-          "default": "start",
+          "default": "center",
           "options": [
-            {
-              "value": "start",
-              "label": "Left"
-            },
-            {
-              "value": "center",
-              "label": "Center"
-            },
-            {
-              "value": "end",
-              "label": "Right"
-            }
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
           ]
-        }
+        },
+        { "type": "header", "content": "Button" },
+        { "type": "text", "id": "button_text", "label": "Button text" },
+        { "type": "url", "id": "button_link", "label": "Link", "info": "Paste a link or search" },
+        { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
       ]
     }
   ],
   "presets": [
     {
       "name": "Two panels",
-      "settings": {
-        "navigation": true,
-        "color_scheme": "scheme-1"
-      },
       "blocks": [
+        { "type": "image" },
         {
-          "type": "slide",
+          "type": "content",
           "settings": {
-            "color_scheme_content": "scheme-1",
-            "pre_heading": "Pre heading",
-            "heading": "Slide 1",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer luctus sapien ut ipsum volutpat, eget suscipit lectus pretium. Nunc sit amet arcu at felis ornare sollicitudin.",
-            "text_alignment": "start",
-            "button_text": "Read more",
-            "link": "/all"
-          }
-        },
-        {
-          "type": "slide",
-          "settings": {
-            "color_scheme_content": "scheme-1",
-            "pre_heading": "Pre heading",
-            "heading": "Slide 2",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer luctus sapien ut ipsum volutpat, eget suscipit lectus pretium. Nunc sit amet arcu at felis ornare sollicitudin.",
-            "text_alignment": "start"
-          }
-        },
-        {
-          "type": "slide",
-          "settings": {
-            "color_scheme_content": "scheme-1",
-            "pre_heading": "Pre heading",
-            "heading": "Slide 3",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer luctus sapien ut ipsum volutpat, eget suscipit lectus pretium. Nunc sit amet arcu at felis ornare sollicitudin.",
-            "text_alignment": "start"
+            "pre_heading": "Pre-heading",
+            "heading": "Main heading",
+            "text": "<p>Share your message with your audience.</p>",
+            "text_alignment": "left",
+            "button_text": "Learn more",
+            "button_link": "/"
           }
         }
       ]
