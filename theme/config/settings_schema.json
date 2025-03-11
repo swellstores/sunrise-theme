@@ -185,7 +185,7 @@
         "id": "border_radius",
         "label": "Corner radius",
         "min": 0,
-        "max": 10,
+        "max": 20,
         "step": 1,
         "unit": "px",
         "default": 4
