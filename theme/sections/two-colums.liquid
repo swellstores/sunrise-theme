@@ -51,9 +51,6 @@
   >
     <div class="max-w-[1366px] 2xl:max-w-container mx-auto">
       <div class="relative max-w-[1046px] 2xl:min-w-[1380px] mx-auto">
-        {%- if navigation -%}
-          {% render 'slideshow-navigation', color_scheme: color_scheme, border_radius: settings.border_radius %}
-        {%- endif -%}
         <swiper-container
           role="region"
           aria-label="Slideshow"
@@ -61,13 +58,6 @@
           direction="horizontal"
           slides-per-view="1"
           class="w-full  2xl:h-[570px] h-[420px]"
-          {%- if navigation -%}
-            pagination="true"
-            style="
-              --swiper-pagination-color: var(--color-{{ color_scheme }}-text);
-              --swiper-pagination-bottom: 0px;
-            "
-          {%- endif -%}
           {%- if auto_rotate -%}
             autoplay-delay="{{ auto_rotate_speed }}"
             autoplay-pause-on-mouse-enter="true"
@@ -158,10 +148,6 @@
       slides-per-view="1"
       class="swiper-container w-full h-auto"
       space-between="16"
-      {%- if navigation -%}
-        pagination="true"
-        style="--swiper-pagination-color: var(--color-{{ color_scheme }}-text);"
-      {%- endif -%}
       {%- if auto_rotate -%}
         autoplay-delay="{{ auto_rotate_speed }}"
         autoplay-pause-on-mouse-enter="true"
@@ -270,29 +256,6 @@
         { "value": "medium", "label": "Medium" },
         { "value": "large", "label": "Large" }
       ]
-    },
-    {
-      "type": "checkbox",
-      "id": "navigation",
-      "label": "Navigation",
-      "info": "Show navigation arrows and pagination dots.",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "auto_rotate",
-      "label": "Auto-rotate",
-      "default": true
-    },
-    {
-      "type": "range",
-      "id": "auto_rotate_speed",
-      "min": 3,
-      "max": 8,
-      "step": 1,
-      "unit": "s",
-      "label": "Auto-rotate speed",
-      "default": 5
     },
     {
       "type": "range",
