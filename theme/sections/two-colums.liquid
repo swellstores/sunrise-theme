@@ -60,7 +60,7 @@
     {%- if content_block -%}
       <div class="w-full md:w-1/2 flex items-center">
         <div class="w-full flex flex-col gap-8 bg-{{ content_block.settings.color_scheme }} text-{{ content_block.settings.color_scheme }} p-8">
-          <div class="flex flex-col gap-8 text-{{ content_block.settings.text_alignment }}">
+          <div class="flex flex-col gap-[8px] text-{{ content_block.settings.text_alignment }}">
             {%- if content_block.settings.pre_heading != blank -%}
               <div class="font-display text-headline-small font-semibold">
                 {{ content_block.settings.pre_heading }}
@@ -94,7 +94,8 @@
               {% render 'button',
                 text: content_block.settings.button_text,
                 href: content_block.settings.button_link,
-                content_color_scheme: content_block.settings.color_scheme
+                content_color_scheme: content_block.settings.color_scheme,
+                variant: 'solid'
               %}
             </div>
           {%- endif -%}
@@ -174,14 +175,14 @@
     {
       "name": "Two panels",
       "blocks": [
-        { "type": "image" },
+        { "type": "image", "settings": { "image": "" } },
         {
           "type": "content",
           "settings": {
-            "pre_heading": "Pre-heading",
-            "heading": "Main heading",
-            "text": "<p>Share your message with your audience.</p>",
-            "text_alignment": "left",
+            "pre_heading": "Quick look",
+            "heading": "Find what's next",
+            "text": "Use this section to share essential info, promote a standout deal, or guide visitors forward. Add your message here to keep them engaged.",
+            "text_alignment": "center",
             "button_text": "Learn more",
             "button_link": "/"
           }
