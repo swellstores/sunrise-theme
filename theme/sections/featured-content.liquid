@@ -287,9 +287,9 @@
           {%- when 'text' -%}
             <div class="
                 flex flex-col gap-[8px] w-full h-full col-span-{{ block.settings.col_span }} text-{{ block.settings.color_scheme }} bg-{{ block.settings.color_scheme }}
-                {% if block.settings.text_alignment == 'center' %}
+                {% if block.settings.alignment == 'center' %}
                   text-center
-                {% elsif block.settings.text_alignment == 'right' %}
+                {% elsif block.settings.alignment == 'right' %}
                   text-right
                 {% else %}
                   text-left
@@ -299,15 +299,15 @@
             >
               <div class="
                 flex flex-col gap-[16px] w-full h-full
-                {% if block.settings.content_alignment == 'items-start' %} justify-start
-                {% elsif block.settings.content_alignment == 'items-center' %} justify-center
-                {% elsif block.settings.content_alignment == 'items-end' %} justify-end
+                {% if block.settings.content_position == 'items-start' %} justify-start
+                {% elsif block.settings.content_position == 'items-center' %} justify-center
+                {% elsif block.settings.content_position == 'items-end' %} justify-end
                 {% endif %}
               " style="padding: {{ block.settings.section_padding }}px;">
               {%- if block.settings.heading != blank or block.settings.description != blank or block.settings.button_text != blank -%}
                 {%- if block.settings.heading != blank -%}
                   <h2
-                    class="
+                    class="overflow-hidden
                         {% if block.settings.heading_size == 'small' %}
                           featured-content-text-heading-small
                         {% elsif block.settings.heading_size == 'medium' %}
@@ -322,16 +322,16 @@
                 {%- endif -%}
                 {%- if block.settings.description != blank -%}
                   <div
-                    class="text-body-medium font-display"
+                    class="text-body-medium font-display overflow-hidden"
                   >
                     {{ block.settings.description }}
                   </div>
                 {%- endif -%}
                 {%- if block.settings.button_text != blank -%}
-                  <div class="flex flex-row
-                    {% if block.settings.text_alignment == 'center' %}
+                  <div class="flex flex-row overflow-hidden
+                    {% if block.settings.alignment == 'center' %}
                       justify-center
-                    {% elsif block.settings.text_alignment == 'right' %}
+                    {% elsif block.settings.alignment == 'right' %}
                       justify-end
                     {% else %}
                       justify-start
@@ -539,8 +539,8 @@
         },
         {
           "type": "select",
-          "id": "text_alignment",
-          "label": "Text alignment",
+          "id": "alignment",
+          "label": "Alignment",
           "default": "left",
           "options": [
             {
@@ -559,8 +559,8 @@
         },
         {
           "type": "select",
-          "id": "content_alignment",
-          "label": "Content alignment",
+          "id": "content_position",
+          "label": "Content position",
           "default": "items-start",
           "options": [
             {
