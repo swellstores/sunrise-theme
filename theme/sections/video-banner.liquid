@@ -119,7 +119,7 @@
           {%- endif -%}
           {%- for block in section.blocks -%}
             {%- if block.settings.button_label != blank -%}
-              <div class="flex">
+              <div class="flex {% if block.settings.button_label != blank %}mt-[32px]{% endif %}">
                 {% render 'button',
                   text: block.settings.button_label,
                   variant: block.settings.button_variant,
