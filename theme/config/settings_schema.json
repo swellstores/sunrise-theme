@@ -94,6 +94,12 @@
             "default": "#222222"
           },
           {
+            "type": "color",
+            "id": "borders_and_inputs",
+            "label": "Borders and inputs",
+            "default": "#222222"
+          },
+          {
             "type": "header",
             "content": "Button hover states"
           },
@@ -179,7 +185,7 @@
         "id": "border_radius",
         "label": "Corner radius",
         "min": 0,
-        "max": 10,
+        "max": 20,
         "step": 1,
         "unit": "px",
         "default": 4
