@@ -32,7 +32,7 @@
       "
     >
       {% render 'image',
-        placeholder: 'hero-apparel-1',
+        placeholder: 'lifestyle-1',
         image: section.settings.image,
         class: 'w-full h-full object-cover object-center'
       %}
@@ -47,7 +47,7 @@
       <div class="max-w-container m-auto w-full h-full flex {{ content_alignment }}">
         <div
           class="
-            flex flex-col gap-[32px] max-w-[454px] p-2
+            flex flex-col gap-[32px] max-w-[454px] p-6
             {% if transparent %}bg-transparent text-{{ section.settings.color_scheme }} {% else %}bg-{{ content_color_scheme }} text-{{ content_color_scheme }} {% endif %}
             {% if content_alignment == 'items-center justify-start' %}
             {% elsif content_alignment == 'items-center justify-end' %}
@@ -118,7 +118,7 @@
 
 {% schema %}
 {
-  "name": "Hero banner",
+  "name": "Image banner",
   "tag": "section",
   "disabled_on": {
     "groups": ["header", "footer"]
@@ -381,19 +381,19 @@
         {
           "type": "pre_heading",
           "settings": {
-            "pre_heading": "New Arrivals Just In"
+            "pre_heading": "Special offer"
           }
         },
         {
           "type": "heading",
           "settings": {
-            "heading": "Shop Our Newest Collection"
+            "heading": "Unlock exclusive savings"
           }
         },
         {
           "type": "text",
           "settings": {
-            "text": "Check out our freshest additions, discover what's new, explore the banner image for inspiration, and dive into the collection waiting for you on this page!"
+            "text": "Add your message here to highlight what's special. Use the image below to draw attention and guide visitors to discover more on your site."
           }
         }
       ]
