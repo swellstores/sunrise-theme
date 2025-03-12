@@ -23,7 +23,7 @@
 </style>
 
 <div
-  class="pl-[24px] pr-[24px] lg:px-[160px] lg:py-[96px] bg-{{ color_scheme }} responsive-padding-{{ section.id }}"
+  class="pl-[24px] pr-[24px] lg:px-[160px] lg:py-[96px] bg-{{ color_scheme }} text-{{ color_scheme }} responsive-padding-{{ section.id }}"
 >
   {%- if section.settings.pre_heading != blank -%}
     <p
@@ -187,6 +187,15 @@
           "type": "collection",
           "id": "collection",
           "label": "Category"
+        },
+        {
+          "type": "range",
+          "id": "col_span",
+          "label": "Column span",
+          "info": "Make an element span `n` columns.",
+          "min": 1,
+          "max": 12,
+          "default": 1
         }
       ]
     }
