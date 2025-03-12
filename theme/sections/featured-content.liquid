@@ -30,10 +30,11 @@
     }
   }
 
-  .text-body-medium-limit-2-lines {
-    line-height: 20px;
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
     overflow: hidden;
-    max-height: 40px;
   }
 
   .featured-content-text-heading-small {
@@ -235,7 +236,7 @@
                 </div>
                 <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
                   <h3 class="font-display text-title-small font-semibold">
-                    You category name
+                    Your category name
                   </h3>
                   <p
                     class="font-display text-body-medium"
@@ -265,7 +266,7 @@
                   <h3 class="font-display text-title-small font-semibold">
                     {{ block.settings.article.title }}
                   </h3>
-                  <p class="font-display text-body-medium font-normal text-body-medium-limit-2-lines">
+                  <p class="font-display text-body-medium font-normal line-clamp-2">
                     {{ block.settings.article.content | strip_html }}
                   </p>
                 </div>
