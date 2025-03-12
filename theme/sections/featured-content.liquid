@@ -218,9 +218,9 @@
                       {{ block.settings.collection.title }}
                     </h3>
                     <p
-                      class="font-display text-body-medium font-normal"
+                      class="font-display text-body-medium font-normal line-clamp-2"
                     >
-                      {{ block.settings.collection.description }}
+                      {{ block.settings.collection.description | strip_html }}
                     </p>
                   </div>
                 </a>
