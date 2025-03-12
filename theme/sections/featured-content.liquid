@@ -134,7 +134,7 @@
               </div>
             </div>
           {%- when 'product' -%}
-            <div class="flex flex-col gap-[8px] col-span-{{ block.settings.col_span }}">
+            <div class="flex flex-col gap-[8px] w-full h-full col-span-{{ block.settings.col_span }}">
               {%- if block.settings.product.url != blank -%}
                 <a
                   href="{{ block.settings.product.url }}"
@@ -196,7 +196,7 @@
               {%- endif -%}
             </div>
           {%- when 'collection' -%}
-            <div class="flex flex-col gap-[8px] col-span-{{ block.settings.col_span }}">
+            <div class="flex flex-col gap-[8px] w-full h-full col-span-{{ block.settings.col_span }}">
               {%- if block.settings.collection.url != blank -%}
                 <a
                   href="{{ block.settings.collection.url }}"
@@ -246,7 +246,7 @@
             </div>
 
           {%- when 'article' -%}
-            <div class="flex flex-col gap-[8px] col-span-{{ block.settings.col_span }}">
+            <div class="flex flex-col gap-[8px] w-full h-full col-span-{{ block.settings.col_span }}">
               {%- if block.settings.article.url -%}
                 <a
                   href="{{ block.settings.article.url }}"
