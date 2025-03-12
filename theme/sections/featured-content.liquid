@@ -30,6 +30,12 @@
     }
   }
 
+  .text-body-medium-limit-2-lines {
+    line-height: 20px;
+    overflow: hidden;
+    max-height: 40px;
+  }
+
   .featured-content-text-heading-small {
     font-size: 24px;
     line-height: 36px;
@@ -259,8 +265,8 @@
                   <h3 class="font-display text-title-small font-semibold">
                     {{ block.settings.article.title }}
                   </h3>
-                  <p class="font-display text-body-medium font-normal">
-                    {{ block.settings.article.content | truncate: 100 }}
+                  <p class="font-display text-body-medium font-normal text-body-medium-limit-2-lines">
+                    {{ block.settings.article.content | strip_html }}
                   </p>
                 </div>
               {%- else -%}
