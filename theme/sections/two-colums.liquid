@@ -30,12 +30,6 @@
   {% endfor %}
 </style>
 
-<script>
-  window.theme = window.theme || {};
-  window.theme.slideshow_rendered = true;
-  window.theme.slideshow_navigation = {{ navigation }};
-</script>
-
 <div class="container-padding-{{ section.id }} bg-{{ color_scheme }}">
   <div class="mx-auto flex flex-row section-gap-{{ section.id }} min-h-[400px]">
     {% comment %} Image Column {% endcomment %}
