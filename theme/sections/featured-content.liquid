@@ -30,6 +30,13 @@
     }
   }
 
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
   .featured-content-text-heading-small {
     font-size: 24px;
     line-height: 36px;
@@ -146,13 +153,13 @@
                   href="{{ block.settings.product.url }}"
                 >
                   <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
-                    <h3 class="font-display text-title-small font-normal">
+                    <h3 class="font-display text-title-small font-semibold">
                       {{ block.settings.product.title }}
                     </h3>
 
-                    <p class="font-display text-body-medium text-center font-semibold">
+                    <p class="font-display text-body-medium text-center font-normal">
                       {%- if block.settings.product.compare_at_price > block.settings.product.price -%}
-                        <div class="font-display flex gap-[6px] text-body-medium font-semibold flex-wrap">
+                        <div class="font-display flex gap-[6px] text-body-medium flex-wrap">
                           <span class="">
                             {{ block.settings.product.price | money_with_currency }}
                           </span>
@@ -178,11 +185,11 @@
                 </div>
 
                 <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
-                  <h3 class="font-display text-title-small font-normal">
+                  <h3 class="font-display text-title-small font-semibold">
                     Your product name
                   </h3>
 
-                  <p class="font-display text-body-medium text-center font-semibold">
+                  <p class="font-display text-body-medium text-center font-normal">
                     {{ 39 | money_with_currency }}
                   </p>
                 </div>
@@ -207,11 +214,11 @@
                   href="{{ block.settings.collection.url }}"
                 >
                   <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
-                    <h3 class="font-display text-title-small font-normal">
+                    <h3 class="font-display text-title-small font-semibold">
                       {{ block.settings.collection.title }}
                     </h3>
                     <p
-                      class="font-display text-body-medium font-semibold"
+                      class="font-display text-body-medium font-normal"
                     >
                       {{ block.settings.collection.description }}
                     </p>
@@ -228,8 +235,8 @@
                   </div>
                 </div>
                 <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
-                  <h3 class="font-display text-title-small font-normal">
-                    You category name
+                  <h3 class="font-display text-title-small font-semibold">
+                    Your category name
                   </h3>
                   <p
                     class="font-display text-body-medium"
@@ -256,11 +263,11 @@
                 </a>
 
                 <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
-                  <h3 class="font-display text-title-small font-normal">
+                  <h3 class="font-display text-title-small font-semibold">
                     {{ block.settings.article.title }}
                   </h3>
-                  <p class="font-display text-body-medium font-semibold">
-                    {{ block.settings.article.content | truncate: 100 }}
+                  <p class="font-display text-body-medium font-normal line-clamp-2">
+                    {{ block.settings.article.content | strip_html }}
                   </p>
                 </div>
               {%- else -%}
@@ -275,10 +282,10 @@
                 </div>
 
                 <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
-                  <h3 class="font-display text-title-small font-normal">
+                  <h3 class="font-display text-title-small font-semibold">
                     Your article title
                   </h3>
-                  <p class="font-display text-body-medium font-semibold">
+                  <p class="font-display text-body-medium font-normal">
                     A short description of your featured article.
                   </p>
                 </div>
@@ -287,9 +294,9 @@
           {%- when 'text' -%}
             <div class="
                 flex flex-col gap-[8px] w-full h-full col-span-{{ block.settings.col_span }} text-{{ block.settings.color_scheme }} bg-{{ block.settings.color_scheme }}
-                {% if block.settings.text_alignment == 'center' %}
+                {% if block.settings.alignment == 'center' %}
                   text-center
-                {% elsif block.settings.text_alignment == 'right' %}
+                {% elsif block.settings.alignment == 'right' %}
                   text-right
                 {% else %}
                   text-left
@@ -299,15 +306,15 @@
             >
               <div class="
                 flex flex-col gap-[16px] w-full h-full
-                {% if block.settings.content_alignment == 'items-start' %} justify-start
-                {% elsif block.settings.content_alignment == 'items-center' %} justify-center
-                {% elsif block.settings.content_alignment == 'items-end' %} justify-end
+                {% if block.settings.content_position == 'items-start' %} justify-start
+                {% elsif block.settings.content_position == 'items-center' %} justify-center
+                {% elsif block.settings.content_position == 'items-end' %} justify-end
                 {% endif %}
               " style="padding: {{ block.settings.section_padding }}px;">
               {%- if block.settings.heading != blank or block.settings.description != blank or block.settings.button_text != blank -%}
                 {%- if block.settings.heading != blank -%}
                   <h2
-                    class="
+                    class="overflow-hidden
                         {% if block.settings.heading_size == 'small' %}
                           featured-content-text-heading-small
                         {% elsif block.settings.heading_size == 'medium' %}
@@ -322,16 +329,16 @@
                 {%- endif -%}
                 {%- if block.settings.description != blank -%}
                   <div
-                    class="text-body-medium font-display"
+                    class="text-body-medium font-display overflow-hidden"
                   >
                     {{ block.settings.description }}
                   </div>
                 {%- endif -%}
                 {%- if block.settings.button_text != blank -%}
-                  <div class="flex flex-row
-                    {% if block.settings.text_alignment == 'center' %}
+                  <div class="flex flex-row overflow-hidden
+                    {% if block.settings.alignment == 'center' %}
                       justify-center
-                    {% elsif block.settings.text_alignment == 'right' %}
+                    {% elsif block.settings.alignment == 'right' %}
                       justify-end
                     {% else %}
                       justify-start
@@ -539,8 +546,8 @@
         },
         {
           "type": "select",
-          "id": "text_alignment",
-          "label": "Text alignment",
+          "id": "alignment",
+          "label": "Alignment",
           "default": "left",
           "options": [
             {
@@ -559,8 +566,8 @@
         },
         {
           "type": "select",
-          "id": "content_alignment",
-          "label": "Content alignment",
+          "id": "content_position",
+          "label": "Content position",
           "default": "items-start",
           "options": [
             {
