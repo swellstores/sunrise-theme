@@ -146,13 +146,13 @@
                   href="{{ block.settings.product.url }}"
                 >
                   <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
-                    <h3 class="font-display text-title-small font-normal">
+                    <h3 class="font-display text-title-small font-semibold">
                       {{ block.settings.product.title }}
                     </h3>
 
-                    <p class="font-display text-body-medium text-center font-semibold">
+                    <p class="font-display text-body-medium text-center font-normal">
                       {%- if block.settings.product.compare_at_price > block.settings.product.price -%}
-                        <div class="font-display flex gap-[6px] text-body-medium font-semibold flex-wrap">
+                        <div class="font-display flex gap-[6px] text-body-medium flex-wrap">
                           <span class="">
                             {{ block.settings.product.price | money_with_currency }}
                           </span>
@@ -178,11 +178,11 @@
                 </div>
 
                 <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
-                  <h3 class="font-display text-title-small font-normal">
+                  <h3 class="font-display text-title-small font-semibold">
                     Your product name
                   </h3>
 
-                  <p class="font-display text-body-medium text-center font-semibold">
+                  <p class="font-display text-body-medium text-center font-normal">
                     {{ 39 | money_with_currency }}
                   </p>
                 </div>
@@ -207,11 +207,11 @@
                   href="{{ block.settings.collection.url }}"
                 >
                   <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
-                    <h3 class="font-display text-title-small font-normal">
+                    <h3 class="font-display text-title-small font-semibold">
                       {{ block.settings.collection.title }}
                     </h3>
                     <p
-                      class="font-display text-body-medium font-semibold"
+                      class="font-display text-body-medium font-normal"
                     >
                       {{ block.settings.collection.description }}
                     </p>
@@ -228,7 +228,7 @@
                   </div>
                 </div>
                 <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
-                  <h3 class="font-display text-title-small font-normal">
+                  <h3 class="font-display text-title-small font-semibold">
                     You category name
                   </h3>
                   <p
@@ -256,10 +256,10 @@
                 </a>
 
                 <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
-                  <h3 class="font-display text-title-small font-normal">
+                  <h3 class="font-display text-title-small font-semibold">
                     {{ block.settings.article.title }}
                   </h3>
-                  <p class="font-display text-body-medium font-semibold">
+                  <p class="font-display text-body-medium font-normal">
                     {{ block.settings.article.content | truncate: 100 }}
                   </p>
                 </div>
@@ -275,10 +275,10 @@
                 </div>
 
                 <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
-                  <h3 class="font-display text-title-small font-normal">
+                  <h3 class="font-display text-title-small font-semibold">
                     Your article title
                   </h3>
-                  <p class="font-display text-body-medium font-semibold">
+                  <p class="font-display text-body-medium font-normal">
                     A short description of your featured article.
                   </p>
                 </div>
