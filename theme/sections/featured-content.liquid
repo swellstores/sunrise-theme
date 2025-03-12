@@ -109,8 +109,8 @@
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'image_picker' -%}
-            <div class="flex flex-col gap-[8px] col-span-{{ block.settings.col_span }}">
-              <div class="h-full w-full">
+            <div class="flex flex-col gap-[8px] w-full h-full col-span-{{ block.settings.col_span }}">
+              <div class="flex flex-col gap-[16px] w-full h-full justify-center">
                 <a href="{{ block.settings.link }}">
                   {%- if block.settings.image != blank -%}
                     {%
@@ -121,7 +121,7 @@
                     %}
                   {%- else -%}
                     {% comment %} Image placeholder {% endcomment %}
-                    <div class="h-full w-full">
+                    <div class="w-full h-full">
                       <div
                         class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
                         style="--ratio: 1.0; --preview-ratio: 1.0;"
@@ -134,7 +134,7 @@
               </div>
             </div>
           {%- when 'product' -%}
-            <div class="flex flex-col gap-[8px] col-span-{{ block.settings.col_span }}">
+            <div class="flex flex-col gap-[8px] w-full h-full col-span-{{ block.settings.col_span }}">
               {%- if block.settings.product.url != blank -%}
                 <a
                   href="{{ block.settings.product.url }}"
@@ -196,7 +196,7 @@
               {%- endif -%}
             </div>
           {%- when 'collection' -%}
-            <div class="flex flex-col gap-[8px] col-span-{{ block.settings.col_span }}">
+            <div class="flex flex-col gap-[8px] w-full h-full col-span-{{ block.settings.col_span }}">
               {%- if block.settings.collection.url != blank -%}
                 <a
                   href="{{ block.settings.collection.url }}"
@@ -218,9 +218,9 @@
                       {{ block.settings.collection.title }}
                     </h3>
                     <p
-                      class="font-display text-body-medium font-normal"
+                      class="font-display text-body-medium font-normal line-clamp-2"
                     >
-                      {{ block.settings.collection.description }}
+                      {{ block.settings.collection.description | strip_html }}
                     </p>
                   </div>
                 </a>
@@ -246,7 +246,7 @@
             </div>
 
           {%- when 'article' -%}
-            <div class="flex flex-col gap-[8px] col-span-{{ block.settings.col_span }}">
+            <div class="flex flex-col gap-[8px] w-full h-full col-span-{{ block.settings.col_span }}">
               {%- if block.settings.article.url -%}
                 <a
                   href="{{ block.settings.article.url }}"
