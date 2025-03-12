@@ -10,10 +10,7 @@
   assign vertical_padding = section.settings.vertical_padding
   assign horizontal_padding = section.settings.horizontal_padding
   assign gap = section.settings.gap
-  assign image_block = section.blocks | where: 'type', 'image' | first
-  assign content_block = section.blocks | where: 'type', 'content' | first
 -%}
-
 
 <style>
   .container-padding-{{ section.id }} {
@@ -24,9 +21,13 @@
     gap: {{ gap }}px;
   }
 
-  .content-padding-{{ section.id }} {
-    padding: {{ content_block.settings.section_padding }}px;
-  }
+  {% for block in section.blocks %}
+    {% if block.type == 'content' %}
+    .content-padding-{{ section.id }}-{{ block.id }} {
+      padding: {{ block.settings.section_padding }}px;
+    }
+    {% endif %}
+  {% endfor %}
 </style>
 
 <script>
@@ -36,66 +37,71 @@
 </script>
 
 <div class="container-padding-{{ section.id }} bg-{{ color_scheme }}">
-  <div class="mx-auto flex flex-row section-gap-{{ section.id }}">
-    {%- if image_block -%}
-      <div class="w-full md:w-1/2">
-        {%- if image_block.settings.link != blank -%}
-          <a href="{{ image_block.settings.link }}">
-        {%- endif -%}
-        {%- if image_block.settings.image != blank -%}
-          {% render 'image', image: image_block.settings.image, alt: image_block.settings.image.alt | default: content_block.settings.heading, class: "w-full h-full object-cover" %}
-        {%- else -%}
-          <div class="bg-{{ color_scheme }} aspect-square w-full"></div>
-        {%- endif -%}
-          </a>
-      </div>
-    {%- endif -%}
+  <div class="mx-auto flex flex-row section-gap-{{ section.id }} min-h-[400px]">
+    {% comment %} Image Column {% endcomment %}
+    <div class="w-1/2">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'image' -%}
+            {%- if block.settings.link != blank -%}
+              <a href="{{ block.settings.link }}" class="block w-full h-full">
+            {%- endif -%}
 
-    {%- if content_block -%}
-      <div class="w-full md:w-1/2 flex items-center">
-        <div class="w-full flex flex-col gap-8 bg-{{ content_block.settings.color_scheme }} text-{{ content_block.settings.color_scheme }} content-padding-{{ section.id }}">
-          <div class="flex flex-col gap-[8px] text-{{ content_block.settings.text_alignment }}">
-            {%- if content_block.settings.pre_heading != blank -%}
-              <div class="font-display text-headline-small font-semibold">
-                {{ content_block.settings.pre_heading }}
+            {%- if block.settings.image != blank -%}
+              {% render 'image', image: block.settings.image, alt: block.settings.image.alt | default: '', class: "w-full h-full object-cover" %}
+            {%- else -%}
+              <div class="bg-{{ color_scheme }} aspect-square w-full h-full"></div>
+            {%- endif -%}
+
+            {%- if block.settings.link != blank -%}
+              </a>
+            {%- endif -%}
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+
+    {% comment %} Content Column {% endcomment %}
+    <div class="w-1/2 flex items-center">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'content' -%}
+            <div class="w-full">
+              <div class="w-full flex flex-col gap-8 bg-{{ block.settings.color_scheme }} text-{{ block.settings.color_scheme }} content-padding-{{ section.id }}-{{ block.id }}">
+                <div class="flex flex-col gap-[8px] text-{{ block.settings.text_alignment }}">
+                  {%- if block.settings.pre_heading != blank -%}
+                    <div class="font-display text-headline-small font-semibold">
+                      {{ block.settings.pre_heading }}
+                    </div>
+                  {%- endif -%}
+
+                  {%- if block.settings.heading != blank -%}
+                    <h2 class="font-display {% if block.settings.heading_size == 'small' %}text-headline-small{% elsif block.settings.heading_size == 'medium' %}text-headline-medium{% elsif block.settings.heading_size == 'large' %}text-headline-large{% endif %}">
+                      {{ block.settings.heading }}
+                    </h2>
+                  {%- endif -%}
+
+                  {%- if block.settings.text != blank -%}
+                    <div class="font-display text-body-large">
+                      {{ block.settings.text }}
+                    </div>
+                  {%- endif -%}
+                </div>
+
+                {%- if block.settings.button_text != blank and block.settings.button_link != blank -%}
+                  <div class="flex mt-[19px] {% if block.settings.text_alignment == 'center' %}justify-center{% elsif block.settings.text_alignment == 'right' %}justify-end{% endif %}">
+                    {% render 'button',
+                      text: block.settings.button_text,
+                      href: block.settings.button_link,
+                      content_color_scheme: block.settings.color_scheme,
+                      variant: 'solid'
+                    %}
+                  </div>
+                {%- endif -%}
               </div>
-            {%- endif -%}
-
-            {%- if content_block.settings.heading != blank -%}
-              <h2
-                class="
-                  font-display
-                  {% case content_block.settings.heading_size %}
-                    {% when 'small' %}text-headline-small
-                    {% when 'medium' %}text-headline-medium
-                    {% when 'large' %}text-headline-large
-                  {% endcase %}
-                "
-              >
-                {{ content_block.settings.heading }}
-              </h2>
-            {%- endif -%}
-
-            {%- if content_block.settings.text != blank -%}
-              <div class="font-display text-body-large">
-                {{ content_block.settings.text }}
-              </div>
-            {%- endif -%}
-          </div>
-
-          {%- if content_block.settings.button_text != blank and content_block.settings.button_link != blank -%}
-            <div class="flex mt-[19px] {% if content_block.settings.text_alignment == 'center' %}justify-center{% elsif content_block.settings.text_alignment == 'right' %}justify-end{% endif %}">
-              {% render 'button',
-                text: content_block.settings.button_text,
-                href: content_block.settings.button_link,
-                content_color_scheme: content_block.settings.color_scheme,
-                variant: 'solid'
-              %}
             </div>
-          {%- endif -%}
-        </div>
-      </div>
-    {%- endif -%}
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
   </div>
 </div>
 
