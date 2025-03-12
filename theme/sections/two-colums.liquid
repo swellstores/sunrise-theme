@@ -44,7 +44,9 @@
             {%- if block.settings.image != blank -%}
               {% render 'image', image: block.settings.image, alt: block.settings.image.alt | default: '', class: "w-full h-full object-cover" %}
             {%- else -%}
-              <div class="bg-{{ color_scheme }} aspect-square w-full h-full"></div>
+              <div class="bg-{{ color_scheme }} w-full h-full">
+                {{ 'detailed-apparel-1' | placeholder_svg_tag: 'w-full h-full object-cover p-12' }}
+              </div>
             {%- endif -%}
 
             {%- if block.settings.link != blank -%}
