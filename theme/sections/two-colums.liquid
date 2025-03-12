@@ -7,26 +7,25 @@
 
 {%- liquid
   assign color_scheme = section.settings.color_scheme
-  assign padding = section.settings.padding
-  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
-  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+  assign vertical_padding = section.settings.vertical_padding
+  assign horizontal_padding = section.settings.horizontal_padding
+  assign gap = section.settings.gap
+  assign image_block = section.blocks | where: 'type', 'image' | first
+  assign content_block = section.blocks | where: 'type', 'content' | first
 -%}
 
+
 <style>
-  .responsive-padding-{{ section.id }} {
-    padding-top: {{ reduced_padding_top }}px;
-    padding-bottom: {{ reduced_padding_bottom }}px;
+  .container-padding-{{ section.id }} {
+    padding: {{ vertical_padding }}px {{ horizontal_padding }}px;
   }
 
-  @media (min-width: 1024px) {
-    .responsive-padding-{{ section.id }} {
-      padding-top: {{ section.settings.top_padding }}px;
-      padding-bottom: {{ section.settings.bottom_padding }}px;
-    }
+  .section-gap-{{ section.id }} {
+    gap: {{ gap }}px;
   }
 
-  .section-padding-{{ section.id }} {
-    padding: {{ padding }}px;
+  .content-padding-{{ section.id }} {
+    padding: {{ content_block.settings.section_padding }}px;
   }
 </style>
 
@@ -36,11 +35,8 @@
   window.theme.slideshow_navigation = {{ navigation }};
 </script>
 
-<div class="section-padding-{{ section.id }} bg-{{ color_scheme }}">
-  <div class="max-w-[1366px] mx-auto flex flex-row">
-    {%- assign image_block = section.blocks | where: 'type', 'image' | first -%}
-    {%- assign content_block = section.blocks | where: 'type', 'content' | first -%}
-
+<div class="container-padding-{{ section.id }} bg-{{ color_scheme }}">
+  <div class="mx-auto flex flex-row section-gap-{{ section.id }}">
     {%- if image_block -%}
       <div class="w-full md:w-1/2">
         {%- if image_block.settings.link != blank -%}
@@ -51,15 +47,13 @@
         {%- else -%}
           <div class="bg-{{ color_scheme }} aspect-square w-full"></div>
         {%- endif -%}
-        {%- if image_block.settings.link != blank -%}
           </a>
-        {%- endif -%}
       </div>
     {%- endif -%}
 
     {%- if content_block -%}
       <div class="w-full md:w-1/2 flex items-center">
-        <div class="w-full flex flex-col gap-8 bg-{{ content_block.settings.color_scheme }} text-{{ content_block.settings.color_scheme }} p-8">
+        <div class="w-full flex flex-col gap-8 bg-{{ content_block.settings.color_scheme }} text-{{ content_block.settings.color_scheme }} content-padding-{{ section.id }}">
           <div class="flex flex-col gap-[8px] text-{{ content_block.settings.text_alignment }}">
             {%- if content_block.settings.pre_heading != blank -%}
               <div class="font-display text-headline-small font-semibold">
@@ -72,9 +66,9 @@
                 class="
                   font-display
                   {% case content_block.settings.heading_size %}
-                    {% when 'small' %}text-display-small
-                    {% when 'medium' %}text-display-medium
-                    {% when 'large' %}text-display-large
+                    {% when 'small' %}text-headline-small
+                    {% when 'medium' %}text-headline-medium
+                    {% when 'large' %}text-headline-large
                   {% endcase %}
                 "
               >
@@ -90,7 +84,7 @@
           </div>
 
           {%- if content_block.settings.button_text != blank and content_block.settings.button_link != blank -%}
-            <div class="flex {% if content_block.settings.text_alignment == 'center' %}justify-center{% elsif content_block.settings.text_alignment == 'right' %}justify-end{% endif %}">
+            <div class="flex mt-[19px] {% if content_block.settings.text_alignment == 'center' %}justify-center{% elsif content_block.settings.text_alignment == 'right' %}justify-end{% endif %}">
               {% render 'button',
                 text: content_block.settings.button_text,
                 href: content_block.settings.button_link,
@@ -114,14 +108,34 @@
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     {
       "type": "range",
-      "id": "padding",
-      "label": "Section padding",
-      "info": "Applies padding to all sides.",
+      "id": "vertical_padding",
+      "label": "Vertical padding",
       "min": 0,
       "max": 96,
       "step": 1,
       "unit": "px",
-      "default": 12
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "horizontal_padding",
+      "label": "Horizontal padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap",
+      "info": "Applies a gap between the two blocks",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 0
     }
   ],
   "blocks": [
@@ -167,7 +181,18 @@
         { "type": "header", "content": "Button" },
         { "type": "text", "id": "button_text", "label": "Button text" },
         { "type": "url", "id": "button_link", "label": "Link", "info": "Paste a link or search" },
-        { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+        { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+        {
+          "type": "range",
+          "id": "section_padding",
+          "label": "Section padding",
+          "info": "Applies padding to all sides",
+          "min": 0,
+          "max": 96,
+          "step": 1,
+          "unit": "px",
+          "default": 32
+        }
       ]
     }
   ],
