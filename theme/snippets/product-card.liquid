@@ -10,7 +10,7 @@
 {% assign sorted_variants = product.variants | sort: 'price' %}
 {% assign lowest_price_variant = sorted_variants | first %}
 {% assign lowest_price = lowest_price_variant.price | money_with_currency %}
-{% assign compare_at_price = product.compare_at_price | money_with_currency %}
+{% assign compare_at_price = product.compare_at_price %}
 {% assign first_or_default_variant_price = product.selected_or_first_available_variant.price | money_with_currency %}
 
 <div class="group relative flex flex-col gap-3">
@@ -48,7 +48,7 @@
       </span>
       {% if compare_at_price != blank %}
         <span class="line-through text-secondary-{{ color_scheme }} text-body-medium font-display">
-          {{- compare_at_price -}}
+          {{- compare_at_price | money_with_currency -}}
         </span>
       {% endif %}
     </div>
