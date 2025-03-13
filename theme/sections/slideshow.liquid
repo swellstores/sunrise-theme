@@ -9,7 +9,7 @@
   - slideshow-navigation.js
 {% endcomment %}
 {%- liquid
-  assign color_scheme = section.settings.color_scheme.id
+  assign color_scheme = section.settings.color_scheme
   assign loop = section.settings.loop
   assign navigation = section.settings.navigation
   assign auto_rotate = section.settings.auto_rotate
@@ -88,7 +88,7 @@
         <div class="relative w-full h-full">
           <div
             class="absolute inset-0 bg-black z-[10]"
-            style="background-color: {{ section.settings.overlay_color }}; opacity: {{ opacity }};"
+            style="background-color: {{ block.settings.overlay_color }}; opacity: {{ opacity }};"
           ></div>
           <div class="relative w-full h-[600px] sm:min-h-[600px] sm:max-h-[600px] 2xl:min-h-[800px] 2xl:max-h-[800px] overflow-hidden">
             {% render 'image', image: block.settings.image, class: 'w-full h-full object-cover object-center', alt: block.settings.image.alt | default: "Slide {{ forloop.index }}" %}
@@ -182,7 +182,7 @@
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
-      "default": "accent-1"
+      "default": "scheme-1"
     },
     {
       "type": "header",
@@ -341,7 +341,7 @@
           "type": "color_scheme",
           "id": "color_scheme_content",
           "label": "Color scheme",
-          "default": "color-scheme-1"
+          "default": "scheme-1"
         },
         {
           "type": "header",
