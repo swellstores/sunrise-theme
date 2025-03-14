@@ -59,10 +59,12 @@
       {{ section.settings.heading }}
     </h2>
   {%- endif -%}
-
+  
   <div class="grid grid-cols-{{ mobile_layout }} sm:grid-cols-2 md:grid-cols-{{ columns }} gap-{{ gap }}">
     {%- for block in section.blocks -%}
-      {% render 'list-collections-item', collection: block.settings.collection %}
+      {% assign idx = forloop.index0 | modulo: 6 | plus: 1  %}
+      {% assign placeholder = 'collection-' | append: idx %}
+      {% render 'list-collections-item', collection: block.settings.collection, placeholder: placeholder %}
     {%- endfor -%}
   </div>
 </div>
