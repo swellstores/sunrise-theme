@@ -65,7 +65,7 @@
               <div class="w-full flex flex-col gap-8 bg-{{ block.settings.color_scheme }} text-{{ block.settings.color_scheme }} content-padding-{{ section.id }}-{{ block.id }}">
                 <div class="flex flex-col gap-[8px] text-{{ block.settings.text_alignment }}">
                   {%- if block.settings.pre_heading != blank -%}
-                    <div class="font-display text-headline-small font-semibold">
+                    <div class="font-display text-body-large font-normal">
                       {{ block.settings.pre_heading }}
                     </div>
                   {%- endif -%}
@@ -187,7 +187,7 @@
         {
           "type": "range",
           "id": "section_padding",
-          "label": "Section padding",
+          "label": "Padding",
           "info": "Applies padding to all sides",
           "min": 0,
           "max": 96,
@@ -210,8 +210,7 @@
             "heading": "Find what's next",
             "text": "Use this section to share essential info, promote a standout deal, or guide visitors forward. Add your message here to keep them engaged.",
             "text_alignment": "center",
-            "button_text": "Learn more",
-            "button_link": "/"
+            "button_text": "Learn more"
           }
         }
       ]
