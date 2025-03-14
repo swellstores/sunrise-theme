@@ -10,17 +10,25 @@
 
 <a class="flex flex-col group" href="{{ collection.url }}">
   <div class="{{ ratio_class }} mb-3 overflow-hidden group">
-    {% render 'image',
-      image: collection.featured_image,
-      alt: collection.featured_image.alt,
-      class: 'w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110'
-    %}
+    {% if collection.featured_image != blank %}
+      {% render 'image',
+        image: collection.featured_image,
+        alt: collection.featured_image.alt,
+        class: 'w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110'
+      %}
+    {% else %}
+      <div
+        class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+      >
+        {{ placeholder | placeholder_svg_tag }}
+      </div>
+    {% endif %}
   </div>
   <h3 class="font-display text-body-large inline-flex items-center gap-3 justify-{{ justify_text }}">
     {% if collection.title %}
       {{ collection.title | escape }}
     {% else %}
-      {{ 'sections.collection-list.placeholder' | t }}
+      Your collection's name
     {% endif %}
   </h3>
 </a>
