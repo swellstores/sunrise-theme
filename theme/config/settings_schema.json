@@ -203,9 +203,9 @@
       },
       {
         "type": "text",
-        "id": "social_twitter_url",
-        "label": "Twitter",
-        "info": "https://twitter.com/"
+        "id": "social_x_url",
+        "label": "X",
+        "info": "https://x.com/"
       },
       {
         "type": "text",
@@ -216,13 +216,13 @@
       {
         "type": "text",
         "id": "social_linkedin_url",
-        "label": "Linkedin",
+        "label": "LinkedIn",
         "info": "https://www.linkedin.com/"
       },
       {
         "type": "text",
         "id": "social_youtube_url",
-        "label": "Youtube",
+        "label": "YouTube",
         "info": "https://www.youtube.com/"
       }
     ]
