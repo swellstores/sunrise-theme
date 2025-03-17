@@ -78,6 +78,14 @@
       {% assign opacity = block.settings.overlay_opacity | times: 0.01 %}
       {% assign content_color_scheme = block.settings.color_scheme_content %}
       {% assign overlay_color = block.settings.overlay_color %}
+      {% assign isPlaceholder = block.settings.image == blank and block.settings.pre_heading == blank and block.settings.heading == blank and block.settings.text == blank and block.settings.button_label == blank %}
+      {% assign placeholderImage = 'hero-apparel-1' %}
+      {% case forloop.index %}
+        {% when 1 %}
+          {% assign placeholderImage = 'hero-apparel-3' %}
+        {% when 2 %}
+          {% assign placeholderImage = 'hero-apparel-2' %}
+      {% endcase %}
 
       {%- if transparent == false -%}
         {%- assign button_color_scheme = content_color_scheme -%}
@@ -92,7 +100,17 @@
             style="background-color: {{ overlay_color | color_to_hex }}; opacity: {{ opacity }};"
           ></div>
           <div class="relative w-full h-[600px] sm:min-h-[600px] sm:max-h-[600px] 2xl:min-h-[800px] 2xl:max-h-[800px] overflow-hidden">
-            {% render 'image', image: block.settings.image, class: 'w-full h-full object-cover object-center', alt: block.settings.image.alt | default: "Slide {{ forloop.index }}" %}
+            {% if isPlaceholder %}
+              <div class="aspect-square w-full">
+                <div
+                  class="'w-full h-full object-cover object-center"
+                >
+                  {{ placeholderImage | placeholder_svg_tag: 'placeholder-svg' }}
+                </div>
+              </div>
+             {% else %}
+              {% render 'image', image: block.settings.image, class: 'w-full h-full object-cover object-center', alt: block.settings.image.alt | default: "Slide {{ forloop.index }}" %}
+            {% endif %}
           </div>
         </div>
         <div class="absolute inset-0 w-full h-full pl-[24px] pr-[24px] lg:pl-[160px] lg:pr-[160px]">
@@ -129,7 +147,11 @@
                 "
               >
                 <p class="font-display text-title-x-small font-pre-heading">
-                  {{ block.settings.pre_heading }}
+                  {% if isPlaceholder %}
+                    Featured now
+                  {% else %}
+                    {{ block.settings.pre_heading }}
+                  {% endif %}
                 </p>
                 <h2
                   class="
@@ -141,10 +163,18 @@
                     {% endcase %}
                   "
                 >
-                  {{ block.settings.heading }}
+                  {% if isPlaceholder %}
+                    See what's new
+                  {% else %}
+                    {{ block.settings.heading }}
+                  {% endif %}
                 </h2>
                 <div class="font-display text-body-large">
-                  {{ block.settings.text }}
+                  {% if isPlaceholder %}
+                    Scroll through the slideshow to explore our latest highlights. Each image brings you closer to discovering something special—start browsing today!
+                  {% else %}
+                    {{ block.settings.text }}
+                  {% endif %}
                 </div>
 
                 <div class="flex">
@@ -320,19 +350,19 @@
           "type": "text",
           "id": "pre_heading",
           "label": "Pre-heading",
-          "default": "Pre heading"
+          "default": ""
         },
         {
           "type": "text",
           "id": "heading",
           "label": "Heading",
-          "default": "Heading"
+          "default": ""
         },
         {
           "type": "inline_richtext",
           "id": "text",
           "label": "Text",
-          "default": "Lasd"
+          "default": ""
         },
         {
           "type": "header",
@@ -435,27 +465,27 @@
         {
           "type": "slide",
           "settings": {
-            "pre_heading": "Featured now",
-            "heading": "See what's new",
-            "text": "Scroll through the slideshow to explore our latest highlights. Each image brings you closer to discovering something special, start browsing today!",
+            "pre_heading": "",
+            "heading": "",
+            "text": "",
             "content_alignment": "items-center justify-start"
           }
         },
         {
           "type": "slide",
           "settings": {
-            "pre_heading": "Featured now",
-            "heading": "See what's new",
-            "text": "Scroll through the slideshow to explore our latest highlights. Each image brings you closer to discovering something special, start browsing today!",
+            "pre_heading": "",
+            "heading": "",
+            "text": "",
             "content_alignment": "items-center justify-start"
           }
         },
         {
           "type": "slide",
           "settings": {
-            "pre_heading": "Featured now",
-            "heading": "See what's new",
-            "text": "Scroll through the slideshow to explore our latest highlights. Each image brings you closer to discovering something special, start browsing today!",
+            "pre_heading": "",
+            "heading": "",
+            "text": "",
             "content_alignment": "items-center justify-start"
           }
         }
