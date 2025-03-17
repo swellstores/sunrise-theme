@@ -52,6 +52,10 @@
     height: 100%;
   }
 
+  .non-interactive-video iframe {
+    pointer-events: none;
+  }
+
   @media (min-width: 1024px) {
     .responsive-padding-{{ section.id }} {
       padding-top: {{ section.settings.top_padding }}px;
@@ -64,9 +68,9 @@
 <div class="relative bg-{{ color_scheme }} text-{{ content_text_alignment }} responsive-padding-{{ section.id }}">
   {% if section.settings.video_url != blank %}
     {% if is_youtube %}
-      <div class="video-wrapper">
+      <div class="video-wrapper non-interactive-video">
         <iframe
-          src="https://www.youtube.com/embed/{{ youtube_id }}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1{% if section.settings.loop_video %}&loop=1&playlist={{ youtube_id }}{% endif %}"
+          src="https://www.youtube.com/embed/{{ youtube_id }}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&playsinline=1{% if section.settings.loop_video %}&loop=1&playlist={{ youtube_id }}{% endif %}"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
