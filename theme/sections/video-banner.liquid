@@ -89,9 +89,6 @@
       <video
         id="video-{{ section.id }}"
         class="aspect-video w-full object-cover"
-        {% if section.settings.poster_image %}
-          poster="{{ section.settings.poster_image }}"
-        {% endif %}
         {% if section.settings.loop_video %}
           loop
         {% endif %}
@@ -167,13 +164,7 @@
   "tag": "section",
   "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
-    { "type": "url", "id": "video_url", "label": "Video URL", "info": "Youtube, MP4, WebM or OGG" },
-    {
-      "type": "image_picker",
-      "id": "poster_image",
-      "label": "Poster image",
-      "info": "Shown while the video is loading"
-    },
+    { "type": "url", "id": "video_url", "label": "Video URL", "info": "Vimeo, Youtube, MP4, WebM or OGG" },
     { "type": "checkbox", "id": "loop_video", "label": "Loop video", "default": true },
     { "type": "checkbox", "id": "transparent", "label": "Transparent background", "default": false },
     {
