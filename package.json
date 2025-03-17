@@ -28,8 +28,6 @@
     "tailwindcss-fluid-type": "^2.0.6"
   },
   "dependencies": {
-    "rollup": "^2.79.2",
-    "video.js": "^8.21.0",
-    "videojs-youtube": "^3.0.1"
+    "rollup": "^2.79.2"
   }
 }
