@@ -90,7 +90,7 @@
         id="video-{{ section.id }}"
         class="aspect-video h-[600px] w-full object-cover"
         {% if section.settings.poster_image %}
-          poster="{{ section.settings.poster_image | img_url: 'master' }}"
+          poster="{{ section.settings.poster_image }}"
         {% endif %}
         {% if section.settings.loop_video %}
           loop
@@ -104,7 +104,6 @@
         Your browser does not support the video tag.
       </video>
     {% endif %}
-    </div>
   {% else %}
     <div class="aspect-video h-[600px] w-full bg-{{ color_scheme }}"></div>
   {% endif %}
@@ -283,7 +282,6 @@
   "presets": [
     {
       "name": "Video banner",
-      "settings": { "video_url": "https://videos.pexels.com/video-files/1154850/1154850-hd_1920_1080_24fps.mp4" },
       "blocks": [
         { "type": "pre_heading", "settings": { "pre_heading": "Take a look" } },
         { "type": "heading", "settings": { "heading": "Discover in motion" } },
