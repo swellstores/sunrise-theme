@@ -1,8 +1,6 @@
 {% comment %}
   Renders a video banner section.
-
-  Usage:
-  {% sections 'video-banner' %}
+  Usage: {% sections 'video-banner' %}
 {% endcomment %}
 
 {% liquid
@@ -12,6 +10,23 @@
   assign transparent = section.settings.transparent
   assign url_parts = section.settings.video_url | split: '.'
   assign file_extension = url_parts | last
+
+  assign is_youtube = section.settings.video_url contains 'youtube.com' or section.settings.video_url contains 'youtu.be'
+  assign is_vimeo = section.settings.video_url contains 'vimeo.com'
+
+  if is_vimeo
+    assign vimeo_id = section.settings.video_url | split: '/' | last
+  endif
+
+  if is_youtube
+    if section.settings.video_url contains 'watch?v='
+      assign youtube_id = section.settings.video_url | split: 'watch?v=' | last | split: '&' | first
+    elsif section.settings.video_url contains 'youtu.be/'
+      assign youtube_id = section.settings.video_url | split: 'youtu.be/' | last
+    else
+      assign youtube_id = section.settings.video_url | split: '/' | last
+    endif
+  endif
 
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
@@ -23,6 +38,24 @@
     padding-bottom: {{ reduced_padding_bottom }}px;
   }
 
+  .video-wrapper {
+    aspect-ratio: 16 / 9;
+    position: relative;
+    width: 100%;
+  }
+
+  .video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .non-interactive-video iframe {
+    pointer-events: none;
+  }
+
   @media (min-width: 1024px) {
     .responsive-padding-{{ section.id }} {
       padding-top: {{ section.settings.top_padding }}px;
@@ -30,56 +63,46 @@
     }
   }
 </style>
+
 {% comment %}theme-check-disable RemoteAsset{% endcomment %}
 <div class="relative bg-{{ color_scheme }} text-{{ content_text_alignment }} responsive-padding-{{ section.id }}">
   {% if section.settings.video_url != blank %}
-    {% comment %}
-      <!-- VideoJS youtube implementation for future use -->
-      <video
-      id="video-{{ section.id }}"
-      class="video-js vjs-default-skin aspect-video h-[600px] w-full object-cover"
-      preload="auto"
-      playsinline
-      webkit-playsinline
-      data-setup='
-      {
-      "techOrder": ["youtube"],
-      "sources": [{ "type": "video/youtube", "src": "{{ section.settings.video_url }}" }],
-      "controls": false,
-      "autoplay": true,
-      "muted": true,
-      {% if section.settings.poster_image %}
-      "poster": "{{ section.settings.poster_image }}"
-      {% endif %}
-      "youtube": {
-      "iv_load_policy": 1,
-      "rel": 0,
-      }
-      }
-      '
-      ></video>
-    {% endcomment %}
-
-    <video
-      id="video-{{ section.id }}"
-      class="aspect-video h-[600px] w-full object-cover"
-      {% if section.settings.poster_image %}
-        poster="{{ section.settings.poster_image }}"
-      {% endif %}
-      {% if section.settings.loop_video %}
-        loop
-      {% endif %}
-      playsinline
-      webkit-playsinline
-      autoplay
-      muted
-    >
-      <source src="{{ section.settings.video_url }}" type="video/{{ file_extension }}">
-      Your browser does not support the video tag.
-    </video>
-    </div>
+    {% if is_youtube %}
+      <div class="video-wrapper non-interactive-video">
+        <iframe
+          src="https://www.youtube.com/embed/{{ youtube_id }}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&disablekb=1&fs=0&playsinline=1{% if section.settings.loop_video %}&loop=1&playlist={{ youtube_id }}{% endif %}"
+          frameborder="0"
+          allow="autoplay"
+          allowfullscreen
+        ></iframe>
+      </div>
+    {% elsif is_vimeo %}
+      <div class="video-wrapper">
+        <iframe
+          src="https://player.vimeo.com/video/{{ vimeo_id }}?background=1&autoplay=1&loop={{ section.settings.loop_video | default: 1 }}&muted=1&byline=0&title=0"
+          frameborder="0"
+          allow="autoplay; fullscreen"
+          allowfullscreen
+        ></iframe>
+      </div>
     {% else %}
-    <div class="aspect-video h-[600px] w-full bg-{{ color_scheme }}"></div>
+      <video
+        id="video-{{ section.id }}"
+        class="aspect-video w-full object-cover"
+        {% if section.settings.loop_video %}
+          loop
+        {% endif %}
+        playsinline
+        webkit-playsinline
+        autoplay
+        muted
+      >
+        <source src="{{ section.settings.video_url }}" type="video/{{ file_extension }}">
+        Your browser does not support the video tag.
+      </video>
+    {% endif %}
+  {% else %}
+    <div class="aspect-video w-full bg-{{ color_scheme }}"></div>
   {% endif %}
 
   {%- if section.blocks.size >= 1 -%}
@@ -139,70 +162,26 @@
 {
   "name": "Video banner",
   "tag": "section",
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  },
+  "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
-    {
-      "type": "url",
-      "id": "video_url",
-      "label": "Video URL",
-      "info": "Youtube, MP4, WebM or OGG"
-    },
-    {
-      "type": "checkbox",
-      "id": "loop_video",
-      "label": "Loop video",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "transparent",
-      "label": "Transparent background",
-      "default": false
-    },
+    { "type": "url", "id": "video_url", "label": "Video URL", "info": "Vimeo, Youtube, MP4, WebM or OGG" },
+    { "type": "checkbox", "id": "loop_video", "label": "Loop video", "default": true },
+    { "type": "checkbox", "id": "transparent", "label": "Transparent background", "default": false },
     {
       "type": "select",
       "id": "content_alignment",
       "label": "Content position",
       "default": "items-center justify-center",
       "options": [
-        {
-          "value": "items-start justify-start",
-          "label": "Top left"
-        },
-        {
-          "value": "items-start justify-center",
-          "label": "Top middle"
-        },
-        {
-          "value": "items-start justify-end",
-          "label": "Top right"
-        },
-        {
-          "value": "items-center justify-start",
-          "label": "Middle left"
-        },
-        {
-          "value": "items-center justify-center",
-          "label": "Middle center"
-        },
-        {
-          "value": "items-center justify-end",
-          "label": "Middle right"
-        },
-        {
-          "value": "items-end justify-start",
-          "label": "Bottom left"
-        },
-        {
-          "value": "items-end justify-center",
-          "label": "Bottom middle"
-        },
-        {
-          "value": "items-end justify-end",
-          "label": "Bottom right"
-        }
+        { "value": "items-start justify-start", "label": "Top left" },
+        { "value": "items-start justify-center", "label": "Top middle" },
+        { "value": "items-start justify-end", "label": "Top right" },
+        { "value": "items-center justify-start", "label": "Middle left" },
+        { "value": "items-center justify-center", "label": "Middle center" },
+        { "value": "items-center justify-end", "label": "Middle right" },
+        { "value": "items-end justify-start", "label": "Bottom left" },
+        { "value": "items-end justify-center", "label": "Bottom middle" },
+        { "value": "items-end justify-end", "label": "Bottom right" }
       ]
     },
     {
@@ -211,32 +190,13 @@
       "label": "Text alignment",
       "default": "center",
       "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
       ]
     },
-    {
-      "type": "color_scheme",
-      "id": "content_color_scheme",
-      "label": "Content color scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1"
-    },
+    { "type": "color_scheme", "id": "content_color_scheme", "label": "Content color scheme", "default": "scheme-1" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     {
       "type": "range",
       "id": "top_padding",
@@ -263,26 +223,13 @@
       "type": "pre_heading",
       "name": "Pre-heading",
       "limit": 1,
-      "settings": [
-        {
-          "type": "text",
-          "id": "pre_heading",
-          "label": "Pre-heading"
-        }
-      ]
+      "settings": [{ "type": "text", "id": "pre_heading", "label": "Pre-heading", "default": "Pre-heading" }]
     },
     {
       "type": "heading",
       "name": "Heading",
       "limit": 1,
-      "settings": [
-        {
-          "type": "text",
-          "id": "heading",
-          "label": "Heading",
-          "default": "Heading"
-        }
-      ]
+      "settings": [{ "type": "text", "id": "heading", "label": "Heading", "default": "Heading" }]
     },
     {
       "type": "text",
@@ -309,24 +256,14 @@
           "info": "Leave the label blank to hide the button.",
           "default": "Shop the collection"
         },
-        {
-          "type": "url",
-          "id": "button_link",
-          "label": "Button link"
-        },
+        { "type": "url", "id": "button_link", "label": "Button link" },
         {
           "type": "select",
           "id": "button_variant",
           "label": "Button style",
           "options": [
-            {
-              "value": "solid",
-              "label": "Solid"
-            },
-            {
-              "value": "outline",
-              "label": "Outline"
-            }
+            { "value": "solid", "label": "Solid" },
+            { "value": "outline", "label": "Outline" }
           ],
           "default": "outline"
         }
@@ -336,22 +273,9 @@
   "presets": [
     {
       "name": "Video banner",
-      "settings": {
-        "video_url": "https://videos.pexels.com/video-files/1154850/1154850-hd_1920_1080_24fps.mp4"
-      },
       "blocks": [
-        {
-          "type": "pre_heading",
-          "settings": {
-            "pre_heading": "Take a look"
-          }
-        },
-        {
-          "type": "heading",
-          "settings": {
-            "heading": "Discover in motion"
-          }
-        },
+        { "type": "pre_heading", "settings": { "pre_heading": "Take a look" } },
+        { "type": "heading", "settings": { "heading": "Discover in motion" } },
         {
           "type": "text",
           "settings": {
