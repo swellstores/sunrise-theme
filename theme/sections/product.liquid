@@ -79,17 +79,17 @@
                       <div
                         class="thumbnail-wrapper p-[6px]"
                         data-variant-id="{% for v in product.variants %}{% if v.featured_media == variant.featured_media %}{{ v.id }},{% endif %}{% endfor %}"
-                        data-large-src="{{ variant.featured_media.preview_image.src | image_url}}"
+                        data-large-src="{{ variant.featured_media.preview_image.url | image_url}}"
                         data-large-alt="{{ variant.featured_media.alt | escape }}"
                       >
                         <img
                           width="100%"
                           height="100%"
-                          src="{{ variant.featured_media.preview_image.src | image_url }}"
+                          src="{{ variant.featured_media.preview_image.url | image_url }}"
                           alt="{{ variant.featured_media.alt | escape }}"
                           data-product-id="{{ product.id }}"
                           data-variant-id="{{ variant.id }}"
-                          data-large-src="{{ variant.featured_media.preview_image.src | image_url }}"
+                          data-large-src="{{ variant.featured_media.preview_image.url | image_url }}"
                           data-large-alt="{{ variant.featured_media.alt | escape }}"
                           class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
                         >
@@ -106,15 +106,15 @@
                   {%- unless variant_media_ids contains media.id -%}
                     <div
                       class="thumbnail-wrapper p-[6px]"
-                      data-large-src="{{ media.preview_image.src | image_url }}"
+                      data-large-src="{{ media.preview_image.url | image_url }}"
                       data-large-alt="{{ media.alt | escape }}"
                     >
                       <img
                         width="100%"
                         height="100%"
-                        src="{{ media.preview_image.src | image_url }}"
+                        src="{{ media.preview_image.url | image_url }}"
                         alt="{{ media.alt | escape }}"
-                        data-large-src="{{ media.preview_image.src | image_url }}"
+                        data-large-src="{{ media.preview_image.url | image_url }}"
                         data-large-alt="{{ media.alt | escape }}"
                         class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
                       >
@@ -144,17 +144,17 @@
                       <div
                         class="thumbnail-wrapper p-[6px]"
                         data-variant-id="{% for v in product.variants %}{% if v.featured_media == variant.featured_media %}{{ v.id }},{% endif %}{% endfor %}"
-                        data-large-src="{{ variant.featured_media.preview_image.src | image_url}}"
+                        data-large-src="{{ variant.featured_media.preview_image.url | image_url}}"
                         data-large-alt="{{ variant.featured_media.alt | escape }}"
                       >
                         <img
                           width="100%"
                           height="100%"
-                          src="{{ variant.featured_media.preview_image.src | image_url }}"
+                          src="{{ variant.featured_media.preview_image.url | image_url }}"
                           alt="{{ variant.featured_media.alt | escape }}"
                           data-product-id="{{ product.id }}"
                           data-variant-id="{{ variant.id }}"
-                          data-large-src="{{ variant.featured_media.preview_image.src | image_url }}"
+                          data-large-src="{{ variant.featured_media.preview_image.url | image_url }}"
                           data-large-alt="{{ variant.featured_media.alt | escape }}"
                           class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
                         >
@@ -171,15 +171,15 @@
                   {%- unless variant_media_ids contains media.id -%}
                     <div
                       class="thumbnail-wrapper p-[6px]"
-                      data-large-src="{{ media.preview_image.src | image_url }}"
+                      data-large-src="{{ media.preview_image.url | image_url }}"
                       data-large-alt="{{ media.alt | escape }}"
                     >
                       <img
                         width="100%"
                         height="100%"
-                        src="{{ media.preview_image.src | image_url }}"
+                        src="{{ media.preview_image.url | image_url }}"
                         alt="{{ media.alt | escape }}"
-                        data-large-src="{{ media.preview_image.src | image_url }}"
+                        data-large-src="{{ media.preview_image.url | image_url }}"
                         data-large-alt="{{ media.alt | escape }}"
                         class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
                       >
@@ -241,7 +241,7 @@
                     <img
                       width="100%"
                       height="100%"
-                      src="{{ variant.featured_media.preview_image.src | image_url }}"
+                      src="{{ variant.featured_media.preview_image.url | image_url }}"
                       alt="{{ variant.featured_media.alt | escape }}"
                       class="w-full h-full object-cover"
                     >
@@ -259,7 +259,7 @@
                     <img
                       width="100%"
                       height="100%"
-                      src="{{ media.preview_image.src | image_url }}"
+                      src="{{ media.preview_image.url | image_url }}"
                       alt="{{ media.alt | escape }}"
                       class="w-full h-full object-cover"
                     >
@@ -270,7 +270,7 @@
                     <img
                       width="100%"
                       height="100%"
-                      src="{{ media.preview_image.src | image_url }}"
+                      src="{{ media.preview_image.url | image_url }}"
                       alt="{{ media.alt | escape }}"
                       class="w-full h-full object-cover"
                     >
@@ -282,7 +282,7 @@
           </div>
         </div>
 
-      {% else %}
+      {% else %} {% comment %} Implicitly two_column {% endcomment %}
         <div class="gap-[16px] hidden lg:flex w-full">
           <div class="grid grid-cols-2 gap-4 w-full">
             {%- assign variant_media_ids = '' %}
@@ -303,7 +303,7 @@
                     <img
                       width="100%"
                       height="100%"
-                      src="{{ variant.featured_media.preview_image.src | image_url }}"
+                      src="{{ variant.featured_media.preview_image.url | image_url }}"
                       alt="{{ variant.featured_media.alt | escape }}"
                       class="w-full h-full object-cover"
                     >
@@ -319,7 +319,7 @@
                   <img
                     width="100%"
                     height="100%"
-                    src="{{ media.preview_image.src | image_url }}"
+                    src="{{ media.preview_image.url | image_url }}"
                     alt="{{ media.alt | escape }}"
                     class="w-full h-full object-cover"
                   >
@@ -357,7 +357,7 @@
                 <div class="aspect-square m-auto">
                   <div class="aspect-square w-full h-full">
                     <img
-                      src="{{ variant.featured_media.preview_image.src | image_url }}"
+                      src="{{ variant.featured_media.preview_image.url | image_url }}"
                       alt="{{ variant.featured_media.alt | escape }}"
                       class="w-full h-full object-cover"
                     >
@@ -372,7 +372,7 @@
               <swiper-slide class="flex flex-col items-center text-center gap-[32px] pb-[32px]">
                 <div class="aspect-square w-full h-full">
                   <img
-                    src="{{ media.preview_image.src | image_url }}"
+                    src="{{ media.preview_image.url | image_url }}"
                     alt="{{ media.alt | escape }}"
                     class="w-full h-full object-cover"
                   >
@@ -399,7 +399,7 @@
                 <swiper-slide class="cursor-pointer">
                   <div class="aspect-square border border-gray-300">
                     <img
-                      src="{{ media.preview_image.src | image_url }}"
+                      src="{{ media.preview_image.url | image_url }}"
                       alt="{{ media.alt | escape }}"
                       class="w-full h-full object-cover"
                     >
@@ -435,30 +435,31 @@
                       {{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}
                     </div>
                   {% endif %}
-                {% when 'vendor' %}
-                  {% if block.settings.show_vendor and product.vendor != blank %}
+                {% when 'category' %}
+                  {% if block.settings.show_category %}
                     <div
                       class="vendor text-title-large font-display mb-[2px] mt-[2px]"
                       style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
                     >
-                      {{ product.vendor }}
+                      {% if product.vendor == blank %}
+                        No category set
+                      {% else %}
+                        {{ product.vendor }}
+                      {% endif %}
                     </div>
                   {% endif %}
                 {% when 'sku' %}
-                  {% if block.settings.show_sku and product.selected_or_first_available_variant.sku != blank %}
+                  {% if block.settings.show_sku %}
                     <div
                       id="product-sku"
                       class="sku-span text-body-medium font-display mb-[4px] mt-[4px]"
                       style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
                     >
-                      {{ product.selected_or_first_available_variant.sku }}
-                    </div>
-                  {% else %}
-                    <div
-                      class="sku-span text-body-medium font-display mb-[4px] mt-[4px]"
-                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
-                    >
-                      No SKU set
+                      {% if product.sku != blank %}
+                        {{ product.sku }}
+                      {% else %}
+                        No SKU set
+                      {% endif %}
                     </div>
                   {% endif %}
                 {% when 'quantity_selector' %}
@@ -515,19 +516,16 @@
                     {% endform %}
                   {% endif %}
                 {% when 'description' %}
-                  {% if block.settings.show_description and product.description != blank %}
+                  {% if block.settings.show_description %}
                     <div
                       class="description font-display text-body-medium mb-[10px] mt-[10px]"
                       style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
                     >
-                      {{ product.description }}
-                    </div>
-                  {% else %}
-                    <div
-                      class="description font-display text-body-medium"
-                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
-                    >
-                      No description set
+                      {% if product.description != blank %}
+                        {{ product.description }}
+                      {% else %}
+                        No description set
+                      {% endif %}
                     </div>
                   {% endif %}
               {% endcase %}
@@ -567,7 +565,7 @@
           </accordion-root>
         </div>
       </div>
-    {%- else -%}
+    {%- else -%} {% comment %} media_position == 'right' {% endcomment %}
       <div class="w-full flex">
         <div class="flex flex-col gap-[24px] pt-[24px] pr-[24px] pl-[24px] lg:pt-0 lg:pr-0 lg:pl-0">
           <div class="flex flex-col">
@@ -592,30 +590,31 @@
                       {{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}
                     </div>
                   {% endif %}
-                {% when 'vendor' %}
-                  {% if block.settings.show_vendor and product.vendor != blank %}
+                {% when 'category' %}
+                  {% if block.settings.show_category %}
                     <div
                       class="vendor text-title-large font-display mb-[2px] mt-[2px]"
                       style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
                     >
-                      {{ product.vendor }}
+                      {% if product.vendor == blank %}
+                        No category set
+                      {% else %}
+                        {{ product.vendor }}
+                      {% endif %}
                     </div>
                   {% endif %}
                 {% when 'sku' %}
-                  {% if block.settings.show_sku and product.selected_or_first_available_variant.sku != blank %}
+                  {% if block.settings.show_sku %}
                     <div
                       id="product-sku"
                       class="sku-span text-body-medium font-display mb-[4px] mt-[4px]"
                       style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
                     >
-                      {{ product.selected_or_first_available_variant.sku }}
-                    </div>
-                  {% else %}
-                    <div
-                      class="sku-span text-body-medium font-display mb-[4px] mt-[4px]"
-                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
-                    >
-                      No SKU set
+                      {% if product.sku != blank %}
+                        {{ product.sku }}
+                      {% else %}
+                        No SKU set
+                      {% endif %}
                     </div>
                   {% endif %}
                 {% when 'quantity_selector' %}
@@ -672,19 +671,16 @@
                     {% endform %}
                   {% endif %}
                 {% when 'description' %}
-                  {% if block.settings.show_description and product.description != blank %}
+                  {% if block.settings.show_description %}
                     <div
                       class="description font-display text-body-medium mb-[10px] mt-[10px]"
                       style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
                     >
-                      {{ product.description }}
-                    </div>
-                  {% else %}
-                    <div
-                      class="description font-display text-body-medium"
-                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
-                    >
-                      No description set
+                      {% if product.description != blank %}
+                        {{ product.description }}
+                      {% else %}
+                        No description set
+                      {% endif %}
                     </div>
                   {% endif %}
               {% endcase %}
@@ -746,17 +742,17 @@
                       <div
                         class="thumbnail-wrapper p-[6px]"
                         data-variant-id="{% for v in product.variants %}{% if v.featured_media == variant.featured_media %}{{ v.id }},{% endif %}{% endfor %}"
-                        data-large-src="{{ variant.featured_media.preview_image.src | image_url}}"
+                        data-large-src="{{ variant.featured_media.preview_image.url | image_url}}"
                         data-large-alt="{{ variant.featured_media.alt | escape }}"
                       >
                         <img
                           width="100%"
                           height="100%"
-                          src="{{ variant.featured_media.preview_image.src | image_url }}"
+                          src="{{ variant.featured_media.preview_image.url | image_url }}"
                           alt="{{ variant.featured_media.alt | escape }}"
                           data-product-id="{{ product.id }}"
                           data-variant-id="{{ variant.id }}"
-                          data-large-src="{{ variant.featured_media.preview_image.src | image_url }}"
+                          data-large-src="{{ variant.featured_media.preview_image.url | image_url }}"
                           data-large-alt="{{ variant.featured_media.alt | escape }}"
                           class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
                         >
@@ -773,15 +769,15 @@
                   {%- unless variant_media_ids contains media.id -%}
                     <div
                       class="thumbnail-wrapper p-[6px]"
-                      data-large-src="{{ media.preview_image.src | image_url }}"
+                      data-large-src="{{ media.preview_image.url | image_url }}"
                       data-large-alt="{{ media.alt | escape }}"
                     >
                       <img
                         width="100%"
                         height="100%"
-                        src="{{ media.preview_image.src | image_url }}"
+                        src="{{ media.preview_image.url | image_url }}"
                         alt="{{ media.alt | escape }}"
-                        data-large-src="{{ media.preview_image.src | image_url }}"
+                        data-large-src="{{ media.preview_image.url | image_url }}"
                         data-large-alt="{{ media.alt | escape }}"
                         class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
                       >
@@ -812,17 +808,17 @@
                       <div
                         class="thumbnail-wrapper p-[6px]"
                         data-variant-id="{% for v in product.variants %}{% if v.featured_media == variant.featured_media %}{{ v.id }},{% endif %}{% endfor %}"
-                        data-large-src="{{ variant.featured_media.preview_image.src | image_url}}"
+                        data-large-src="{{ variant.featured_media.preview_image.url | image_url}}"
                         data-large-alt="{{ variant.featured_media.alt | escape }}"
                       >
                         <img
                           width="100%"
                           height="100%"
-                          src="{{ variant.featured_media.preview_image.src | image_url }}"
+                          src="{{ variant.featured_media.preview_image.url | image_url }}"
                           alt="{{ variant.featured_media.alt | escape }}"
                           data-product-id="{{ product.id }}"
                           data-variant-id="{{ variant.id }}"
-                          data-large-src="{{ variant.featured_media.preview_image.src | image_url }}"
+                          data-large-src="{{ variant.featured_media.preview_image.url | image_url }}"
                           data-large-alt="{{ variant.featured_media.alt | escape }}"
                           class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
                         >
@@ -839,15 +835,15 @@
                   {%- unless variant_media_ids contains media.id -%}
                     <div
                       class="thumbnail-wrapper p-[6px]"
-                      data-large-src="{{ media.preview_image.src | image_url }}"
+                      data-large-src="{{ media.preview_image.url | image_url }}"
                       data-large-alt="{{ media.alt | escape }}"
                     >
                       <img
                         width="100%"
                         height="100%"
-                        src="{{ media.preview_image.src | image_url }}"
+                        src="{{ media.preview_image.url | image_url }}"
                         alt="{{ media.alt | escape }}"
-                        data-large-src="{{ media.preview_image.src | image_url }}"
+                        data-large-src="{{ media.preview_image.url | image_url }}"
                         data-large-alt="{{ media.alt | escape }}"
                         class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
                       >
@@ -909,7 +905,7 @@
                     <img
                       width="100%"
                       height="100%"
-                      src="{{ variant.featured_media.preview_image.src | image_url }}"
+                      src="{{ variant.featured_media.preview_image.url | image_url }}"
                       alt="{{ variant.featured_media.alt | escape }}"
                       class="w-full h-full object-cover"
                     >
@@ -927,7 +923,7 @@
                     <img
                       width="100%"
                       height="100%"
-                      src="{{ media.preview_image.src | image_url }}"
+                      src="{{ media.preview_image.url | image_url }}"
                       alt="{{ media.alt | escape }}"
                       class="w-full h-full object-cover"
                     >
@@ -938,7 +934,7 @@
                     <img
                       width="100%"
                       height="100%"
-                      src="{{ media.preview_image.src | image_url }}"
+                      src="{{ media.preview_image.url | image_url }}"
                       alt="{{ media.alt | escape }}"
                       class="w-full h-full object-cover"
                     >
@@ -949,7 +945,7 @@
             {%- endfor -%}
           </div>
         </div>
-      {% else %}
+      {% else %} {% comment %} Implicitly two_column {% endcomment %}
         <div class="gap-[16px] hidden lg:flex w-full">
           <div class="grid grid-cols-2 gap-4 w-full">
             {%- assign variant_media_ids = '' %}
@@ -970,7 +966,7 @@
                     <img
                       width="100%"
                       height="100%"
-                      src="{{ variant.featured_media.preview_image.src | image_url }}"
+                      src="{{ variant.featured_media.preview_image.url | image_url }}"
                       alt="{{ variant.featured_media.alt | escape }}"
                       class="w-full h-full object-cover"
                     >
@@ -986,7 +982,7 @@
                   <img
                     width="100%"
                     height="100%"
-                    src="{{ media.preview_image.src | image_url }}"
+                    src="{{ media.preview_image.url | image_url }}"
                     alt="{{ media.alt | escape }}"
                     class="w-full h-full object-cover"
                   >
@@ -1022,7 +1018,7 @@
                 <div class="aspect-square m-auto">
                   <div class="aspect-square w-full h-full">
                     <img
-                      src="{{ variant.featured_media.preview_image.src | image_url }}"
+                      src="{{ variant.featured_media.preview_image.url | image_url }}"
                       alt="{{ variant.featured_media.alt | escape }}"
                       class="w-full h-full object-cover"
                     >
@@ -1037,7 +1033,7 @@
               <swiper-slide class="flex flex-col items-center text-center gap-[32px] pb-[32px]">
                 <div class="aspect-square w-full h-full">
                   <img
-                    src="{{ media.preview_image.src | image_url }}"
+                    src="{{ media.preview_image.url | image_url }}"
                     alt="{{ media.alt | escape }}"
                     class="w-full h-full object-cover"
                   >
@@ -1064,7 +1060,7 @@
                 <swiper-slide class="cursor-pointer">
                   <div class="aspect-square border border-gray-300">
                     <img
-                      src="{{ media.preview_image.src | image_url }}"
+                      src="{{ media.preview_image.url | image_url }}"
                       alt="{{ media.alt | escape }}"
                       class="w-full h-full object-cover"
                     >
@@ -1237,13 +1233,13 @@
       ]
     },
     {
-      "type": "vendor",
-      "name": "Vendor",
+      "type": "category",
+      "name": "Category",
       "settings": [
         {
           "type": "checkbox",
-          "id": "show_vendor",
-          "label": "Show vendor",
+          "id": "show_category",
+          "label": "Show category",
           "default": true
         },
         {
