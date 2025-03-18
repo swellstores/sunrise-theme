@@ -1,10 +1,7 @@
-// @ts-nocheck
-
-import { CartAPI } from './utils/cart-api.js';
+import { CartAPI, parseEncodedJson } from './utils/cart-api';
+import eventBus from './utils/event-bus';
 
 /**
- *
- *
  * @export
  * @class Cart
  * @extends {HTMLElement}
@@ -13,27 +10,40 @@ export class Cart extends HTMLElement {
   constructor() {
     super();
 
-    this.init();
+    this.subscriptions = [];
+    this.handleUpdateCartBound = this.handleUpdateCart.bind(this);
   }
 
-  init() {
-    if (!this) return;
-    document.addEventListener('quantity-change', this.handleUpdateCart.bind(this));
+  connectedCallback() {
+    document.addEventListener('quantity-change', this.handleUpdateCartBound);
+
+    this.subscriptions.push(
+      eventBus.on('cart-update-before', this.beforeUpdateCart.bind(this)),
+      eventBus.on('cart-update-after', this.afterUpdateCart.bind(this)),
+    );
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener('quantity-change', this.handleUpdateCartBound);
+
+    this.subscriptions.forEach(unsubscribe => unsubscribe());
+    this.subscriptions.length = 0;
   }
 
   /**
-   *
-   *
-   * @return {*}
+   * @returns {Promise<Document>}
    * @memberof Cart
    */
   async fetchCartContent() {
     const response = await fetch('/?sections=cart');
-    if (!response.ok) throw new Error('Failed to fetch cart');
 
-    const parsedResponse = await response.json();
+    if (!response.ok) {
+      throw new Error('Failed to fetch cart');
+    }
+
+    const json = parseEncodedJson(await response.text());
     const parser = new DOMParser();
-    return parser.parseFromString(parsedResponse['cart'], 'text/html');
+    return parser.parseFromString(json['cart'], 'text/html');
   }
 
   /**
@@ -43,30 +53,29 @@ export class Cart extends HTMLElement {
    * @memberof CartDrawer
    */
   async handleUpdateCart(event) {
-    const { variantId, quantity } = event.detail;
-
-    const quantityInputs = document.querySelectorAll('input[data-variant-id]');
-    const cartItem = this.querySelector(`tr[data-variant-id="${variantId}"]`);
-
-    const updates = {};
-    quantityInputs.forEach((input) => {
-      const variantId = input.getAttribute('data-variant-id');
-      const quantity = parseInt(input.value, 10);
-      updates[variantId] = quantity;
-    });
+    const { line, quantity } = event.detail;
 
     try {
-      if (quantity === 0 && cartItem) {
-        cartItem.classList.add('opacity-20');
-      }
-
-      await CartAPI.updateCart(updates);
-      const html = await this.fetchCartContent();
-
-      this.updateCartContent(html);
+      await CartAPI.updateCart({ line, quantity });
     } catch (error) {
       console.error('Error handling update cart:', error);
     }
+  }
+
+  beforeUpdateCart({ line, quantity }) {
+    if (quantity === 0) {
+      const cartItem = this.querySelector(`tr[data-line="${line}"]`);
+
+      if (cartItem !== null) {
+        cartItem.classList.add('opacity-20');
+      }
+    }
+  }
+
+  afterUpdateCart() {
+    this.fetchCartContent().then((html) => {
+      this.updateCartContent(html);
+    });
   }
 
   /**
@@ -76,11 +85,10 @@ export class Cart extends HTMLElement {
    * @memberof CartDrawer
    */
   async updateCartContent(html) {
-    const existingCartEl = this;
-    const newCartEl = html.querySelector('cart-root').innerHTML;
+    const newCartEl = html.querySelector('cart-root');
 
-    if (existingCartEl && newCartEl) {
-      existingCartEl.innerHTML = newCartEl;
+    if (newCartEl) {
+      this.innerHTML = newCartEl.innerHTML;
     } else {
       throw new Error('No cart content found to update');
     }

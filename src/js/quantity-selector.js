@@ -1,8 +1,4 @@
-// @ts-nocheck
-
 /**
- *
- *
  * @export
  * @class QuantitySelector
  * @extends {HTMLElement}
@@ -10,26 +6,51 @@
 export class QuantitySelector extends HTMLElement {
   constructor() {
     super();
+
+    this.handleIncrementBound = this.handleIncrement.bind(this);
+    this.handleDecrementBound = this.handleDecrement.bind(this);
+    this.handleInputChangeBound = this.handleInputChange.bind(this);
+    this.handleRemoveBound = this.handleRemove.bind(this);
+  }
+
+  connectedCallback() {
     this.quantity = this.querySelector('input');
     this.increment = this.querySelector('quantity-selector-increment');
     this.decrement = this.querySelector('quantity-selector-decrement');
-    this.remove = this.querySelector('quantity-selector-remove');
-    this.init();
-  }
+    this.removeItem = this.querySelector('quantity-selector-remove');
 
-  init() {
     if (this.increment && this.decrement) {
-      this.increment.addEventListener('click', this.handleIncrement.bind(this));
-      this.decrement.addEventListener('click', this.handleDecrement.bind(this));
+      this.increment.addEventListener('click', this.handleIncrementBound);
+      this.decrement.addEventListener('click', this.handleDecrementBound);
     }
 
     if (this.quantity) {
-      this.quantity.addEventListener('change', this.handleInputChange.bind(this));
+      this.quantity.addEventListener('change', this.handleInputChangeBound);
     }
 
-    if (this.remove) {
-      this.remove.addEventListener('click', this.handleRemove.bind(this));
+    if (this.removeItem) {
+      this.removeItem.addEventListener('click', this.handleRemoveBound);
     }
+  }
+
+  disconnectedCallback() {
+    if (this.increment && this.decrement) {
+      this.increment.removeEventListener('click', this.handleIncrementBound);
+      this.decrement.removeEventListener('click', this.handleDecrementBound);
+    }
+
+    if (this.quantity) {
+      this.quantity.removeEventListener('change', this.handleInputChangeBound);
+    }
+
+    if (this.removeItem) {
+      this.removeItem.removeEventListener('click', this.handleRemoveBound);
+    }
+
+    this.quantity = null;
+    this.increment = null;
+    this.decrement = null;
+    this.removeItem = null;
   }
 
   handleIncrement() {
@@ -82,11 +103,12 @@ export class QuantitySelector extends HTMLElement {
     this.dispatchEvent(
       new CustomEvent('quantity-change', {
         detail: {
-          variantId: this.quantity.getAttribute('data-variant-id'),
-          quantity: parseInt(this.quantity.value),
+          line: Number(this.quantity.getAttribute('data-line')),
+          quantity: Number(this.quantity.value),
         },
         bubbles: true,
         composed: true,
+        cancelable: true,
       }),
     );
   }

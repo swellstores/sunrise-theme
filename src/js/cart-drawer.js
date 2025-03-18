@@ -1,7 +1,6 @@
-// @ts-nocheck
-
-import { CartAPI } from "./utils/cart-api.js";
+import { CartAPI, parseEncodedJson } from "./utils/cart-api";
 import { uiManager } from "./utils/ui-manager";
+import eventBus from './utils/event-bus';
 
 /**
  * CartDrawer component that handles the cart drawer interactions.
@@ -13,6 +12,32 @@ import { uiManager } from "./utils/ui-manager";
 export class CartDrawer extends HTMLElement {
   constructor() {
     super();
+
+    this.body = null;
+    this.trigger = null;
+    this.target = null;
+    this.content = null;
+    this.drawerTriggers = [];
+    this.backdropOverlay = null;
+    this.announcement = null;
+    this.header = null;
+    this.searchDialog = null;
+    this.cartDrawerButton = null;
+    this.cartCount = null;
+    this.cartSubtotal = null;
+    this.cartItemPrices = null;
+
+    this.subscriptions = [];
+
+    this.openUiManagerBound = openUiManager.bind(this);
+    this.closeUiManagerBound = closeUiManager.bind(this);
+    this.handleAddToCartBound =  this.handleAddToCart.bind(this);
+    this.handleUpdateCartBound = this.handleUpdateCart.bind(this);
+    this.onDocumentKeyDownBound = this.onDocumentKeyDown.bind(this);
+    this.onClickBackgroundOverlayBound = this.onClickBackgroundOverlay.bind(this);
+  }
+
+  connectedCallback() {
     this.body = document.body;
     this.trigger = document.querySelector("cart-trigger");
     this.target = this;
@@ -27,55 +52,111 @@ export class CartDrawer extends HTMLElement {
     this.cartSubtotal = document.querySelector("cart-drawer-subtotal");
     this.cartItemPrices = document.querySelectorAll("cart-drawer-item-price");
 
-    this.init();
-  }
-
-  init() {
     if (this.trigger) {
-      this.trigger.addEventListener("click", () => uiManager.open(this)); // Use UIManager to open
+      this.trigger.addEventListener("click", this.openUiManagerBound);
     }
 
-    if (this.drawerTriggers.length > 0) {
-      this.drawerTriggers.forEach((trigger) => {
-        trigger.addEventListener("click", () => uiManager.close(this)); // Use UIManager to close
-      });
-    }
+    this.drawerTriggers.forEach((trigger) => {
+      trigger.addEventListener("click", this.closeUiManagerBound);
+    });
 
     if (this.cartDrawerButton) {
       this.cartDrawerButton.addEventListener(
         "click",
-        this.handleAddToCart.bind(this)
+        this.handleAddToCartBound
       );
     }
 
     // Close cart drawer on escape key press
-    document.addEventListener("keydown", (event) => {
-      if (
-        event.key === "Escape" &&
-        this.target &&
-        this.target.getAttribute("aria-hidden") === "false"
-      ) {
-        uiManager.close(this); // Use UIManager to close
-      }
-    });
+    document.addEventListener("keydown", this.onDocumentKeyDownBound);
 
     if (this.backdropOverlay) {
-      this.backdropOverlay.addEventListener("click", (event) => {
-        if (
-          this.target &&
-          this.target.getAttribute("aria-hidden") === "false" &&
-          !this?.target.contains(event.target)
-        ) {
-          uiManager.close(this);
-        }
-      });
+      this.backdropOverlay.addEventListener(
+        "click",
+        this.onClickBackgroundOverlayBound,
+      );
     }
 
     // Handle quantity change events
-    document.addEventListener(
+    this.addEventListener(
       "quantity-change",
-      this.handleUpdateCart.bind(this)
+      this.handleUpdateCartBound,
     );
+
+    this.subscriptions.push(
+      eventBus.on('cart-update-before', this.beforeUpdateCart.bind(this)),
+      eventBus.on('cart-update-after', this.afterUpdateCart.bind(this)),
+    );
+  }
+
+  disconnectedCallback() {
+    if (this.trigger) {
+      this.trigger.removeEventListener("click", this.openUiManagerBound);
+    }
+
+    this.drawerTriggers.forEach((trigger) => {
+      trigger.removeEventListener("click", this.closeUiManagerBound);
+    });
+
+    if (this.cartDrawerButton) {
+      this.cartDrawerButton.removeEventListener(
+        "click",
+        this.handleAddToCartBound,
+      );
+    }
+
+    document.removeEventListener("keydown", this.onDocumentKeyDownBound);
+
+    if (this.backdropOverlay) {
+      this.backdropOverlay.removeEventListener(
+        "click",
+        this.onClickBackgroundOverlayBound,
+      );
+    }
+
+    this.removeEventListener(
+      "quantity-change",
+      this.handleUpdateCartBound,
+    );
+
+    this.subscriptions.forEach(unsubscribe => unsubscribe());
+    this.subscriptions.length = 0;
+
+    this.body = null;
+    this.trigger = null;
+    this.target = null;
+    this.content = null;
+    this.drawerTriggers = [];
+    this.backdropOverlay = null;
+    this.announcement = null;
+    this.header = null;
+    this.searchDialog = null;
+    this.cartDrawerButton = null;
+    this.cartCount = null;
+    this.cartSubtotal = null;
+    this.cartItemPrices = null;
+  }
+
+  /** @param {KeyboardEvent} event */
+  onDocumentKeyDown(event) {
+    if (
+      event.key === "Escape" &&
+      this.target &&
+      this.target.getAttribute("aria-hidden") === "false"
+    ) {
+      uiManager.close(this); // Use UIManager to close
+    }
+  }
+
+  /** @param {MouseEvent} event */
+  onClickBackgroundOverlay(event) {
+    if (
+      this.target &&
+      this.target.getAttribute("aria-hidden") === "false" &&
+      !this.target.contains(event.target)
+    ) {
+      uiManager.close(this);
+    }
   }
 
   /**
@@ -86,11 +167,14 @@ export class CartDrawer extends HTMLElement {
    */
   async fetchCartDrawerContent() {
     const response = await fetch("/?sections=cart-drawer");
-    if (!response.ok) throw new Error("Failed to fetch cart-drawer");
 
-    const parsedResponse = await response.json();
+    if (!response.ok) {
+      throw new Error("Failed to fetch cart-drawer");
+    }
+
+    const json = parseEncodedJson(await response.text());
     const parser = new DOMParser();
-    return parser.parseFromString(parsedResponse["cart-drawer"], "text/html");
+    return parser.parseFromString(json["cart-drawer"], "text/html");
   }
 
   /**
@@ -113,12 +197,15 @@ export class CartDrawer extends HTMLElement {
   /**
    * Handle adding an item to the cart.
    *
-   * @param {Event} event - The event triggered by the button click.
+   * @param {MouseEvent} event - The event triggered by the button click.
    * @memberof CartDrawer
    */
   async handleAddToCart(event) {
     event.preventDefault();
+
+    const productId = this.cartDrawerButton.getAttribute("data-product-id");
     const variantId = this.cartDrawerButton.getAttribute("data-variant-id");
+
     const quantity = Number(
       this.cartDrawerButton.getAttribute("data-variant-quantity")
     );
@@ -126,10 +213,11 @@ export class CartDrawer extends HTMLElement {
     this.toggleLoader(true);
 
     try {
-      await CartAPI.addToCart(variantId, quantity);
-      const html = await this.fetchCartDrawerContent();
+      await CartAPI.addToCart(productId, variantId, quantity);
 
-      this.updateCartDrawerContent(html);
+      await this.fetchCartDrawerContent().then((html) => {
+        this.updateCartDrawerContent(html);
+      });
 
       const data = await CartAPI.getCart();
       this.cartCount.textContent = data.item_count;
@@ -149,42 +237,28 @@ export class CartDrawer extends HTMLElement {
    * @memberof CartDrawer
    */
   async handleUpdateCart(event) {
-    const { variantId, quantity } = event.detail;
+    event.stopPropagation();
 
-    const quantityInputs = document.querySelectorAll("input[data-variant-id]");
-    const cartItem = this.querySelector(
-      `cart-drawer-item[data-variant-id="${variantId}"]`
-    );
-
-    const updates = {};
-    quantityInputs.forEach((input) => {
-      const variantId = input.getAttribute("data-variant-id");
-      const quantity = parseInt(input.value, 10);
-      updates[variantId] = quantity;
-    });
+    const { line, quantity } = event.detail;
 
     const existingSubtotalEl = this.cartSubtotal;
     const existingSubtotalText = existingSubtotalEl.querySelector("span");
     const loader = existingSubtotalEl.querySelector('div[role="status"]');
 
     try {
-      if (quantity === 0 && cartItem) {
-        cartItem.classList.add("opacity-20");
+      if (existingSubtotalText) {
+        existingSubtotalText.classList.add("hidden");
       }
 
-      if (existingSubtotalText) existingSubtotalText.classList.add("hidden");
       if (loader) {
         loader.classList.remove("hidden");
         loader.classList.add("flex");
       }
 
-      await CartAPI.updateCart(updates);
-      const html = await this.fetchCartDrawerContent();
+      await CartAPI.updateCart({ line, quantity });
 
       const data = await CartAPI.getCart();
       this.cartCount.textContent = data.item_count;
-
-      this.updateCartDrawerContent(html);
     } catch (error) {
       console.error("Error handling update cart:", error);
     } finally {
@@ -192,8 +266,29 @@ export class CartDrawer extends HTMLElement {
         loader.classList.add("hidden");
         loader.classList.remove("flex");
       }
-      if (existingSubtotalText) existingSubtotalText.classList.remove("hidden");
+
+      if (existingSubtotalText) {
+        existingSubtotalText.classList.remove("hidden");
+      }
     }
+  }
+
+  beforeUpdateCart({ line, quantity }) {
+    if (quantity === 0) {
+      const cartItem = this.querySelector(
+        `cart-drawer-item[data-line="${line}"]`
+      );
+
+      if (cartItem !== null) {
+        cartItem.classList.add("opacity-20");
+      }
+    }
+  }
+
+  afterUpdateCart() {
+    this.fetchCartDrawerContent().then((html) => {
+      this.updateCartDrawerContent(html);
+    });
   }
 
   /**
@@ -206,20 +301,30 @@ export class CartDrawer extends HTMLElement {
     const existingContent = this.content;
     const newCartDrawerContent = html.querySelector(
       "cart-drawer-content"
-    )?.innerHTML;
+    );
 
     if (newCartDrawerContent && existingContent) {
-      existingContent.innerHTML = newCartDrawerContent;
+      existingContent.innerHTML = newCartDrawerContent.innerHTML;
     } else {
       throw new Error("No cart drawer content found to update");
     }
 
-    const subtotal = html.querySelector("cart-drawer-subtotal")?.innerHTML;
+    const subtotal = html.querySelector("cart-drawer-subtotal");
     if (subtotal && this.cartSubtotal) {
-      this.cartSubtotal.innerHTML = subtotal;
+      this.cartSubtotal.innerHTML = subtotal.innerHTML;
     } else {
       throw new Error(
         "No existing subtotal element found or no new subtotal found"
+      );
+    }
+
+    const existingSubmit = this.querySelector('button[name="checkout"]');
+    const incomingSubmit = html.querySelector('button[name="checkout"]');
+
+    if (existingSubmit && incomingSubmit) {
+      existingSubmit.toggleAttribute(
+        'disabled',
+        incomingSubmit.getAttribute('disabled') !== null,
       );
     }
   }
@@ -230,8 +335,10 @@ export class CartDrawer extends HTMLElement {
       !this.backdropOverlay ||
       !this.target ||
       !this.searchDialog
-    )
+    ) {
       return;
+    }
+
     this.body.classList.add("overflow-hidden");
     // Ensure stacking context is correct
     this.header.classList.remove("z-60");
@@ -262,3 +369,11 @@ export class CartDrawer extends HTMLElement {
     this.target.setAttribute("aria-hidden", "true");
   }
 }
+
+function openUiManager() {
+  uiManager.open(this); // Use UIManager to open
+}
+
+function closeUiManager() {
+  uiManager.close(this); // Use UIManager to close
+};
