@@ -67,3 +67,17 @@ input[type="number"].number-input::-webkit-outer-spin-button {
   width: 100%;
   height: 100%;
 }
+
+.svg-placeholder {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}

@@ -101,13 +101,11 @@
           ></div>
           <div class="relative w-full h-[600px] sm:min-h-[600px] sm:max-h-[600px] 2xl:min-h-[800px] 2xl:max-h-[800px] overflow-hidden">
             {% if isPlaceholder %}
-              <div class="aspect-square w-full">
-                <div
-                  class="'w-full h-full object-cover object-center"
-                >
-                  {{ placeholderImage | placeholder_svg_tag: 'placeholder-svg' }}
-                </div>
-              </div>
+              {%
+                render 'image',
+                picture_class: 'svg-placeholder',
+                placeholder: placeholderImage | placeholder_svg_tag: 'placeholder-svg'
+              %}
              {% else %}
               {% render 'image', image: block.settings.image, class: 'w-full h-full object-cover object-center', alt: block.settings.image.alt | default: "Slide {{ forloop.index }}" %}
             {% endif %}
