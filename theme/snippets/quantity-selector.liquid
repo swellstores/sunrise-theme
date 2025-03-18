@@ -18,10 +18,11 @@
     >
       <ion-icon name="remove-outline" aria-hidden="true"></ion-icon>
     </quantity-selector-decrement>
+
     <input
       class="text-center text-xxs number-input"
       type="number"
-      data-variant-id="{{ item.variant.id }}"
+      data-line="{{ index }}"
       value="{{ item.quantity }}"
       data-cart-quantity="{{ cart | item_count_for_variant: item.variant.id }}"
       min="0"
@@ -33,6 +34,7 @@
       aria-label="{{ item.product.title | escape }}"
       style="border-radius:{{ border_radius }}px"
     >
+
     <quantity-selector-increment
       role="button"
       class="flex items-center justify-center {% if size == 'lg' %}m-4{% else %}m-2{% endif %}"
@@ -42,6 +44,7 @@
       <ion-icon name="add-outline" aria-hidden="true"></ion-icon>
     </quantity-selector-increment>
   </div>
+
   <quantity-selector-remove role="button" class="">
     {{- 'trash-icon.svg' | inline_asset_content -}}
   </quantity-selector-remove>

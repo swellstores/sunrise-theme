@@ -39,8 +39,8 @@
     {% if form %}
       form="{{ form }}"
     {% endif %}
-    {% if variant == 'disabled' %}
-      disabled
+    {% if variant == 'disabled' or disabled == true %}
+      disabled="disabled"
     {% endif %}
     style="border-radius:{{ border_radius }}px"
   >

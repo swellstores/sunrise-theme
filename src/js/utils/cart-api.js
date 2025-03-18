@@ -1,36 +1,32 @@
-// @ts-nocheck
+import eventBus from './event-bus';
 
-/** @type {*} */
 const routes = {
-  addToCart: "cart/add.js",
-  updateCart: "cart/update.js",
-  getCart: "cart.js",
-  clearCart: "cart/clear.js",
+  addToCart: "/cart/add",
+  updateCart: "/cart/update",
+  getCart: "/cart",
+  clearCart: "/cart/clear",
 };
 
 export const CartAPI = {
   /**
-   *
-   *
+   * @param {string} productId
    * @param {string} variantId
    * @param {number} [quantity=1]
    * @return {*}
    */
-  async addToCart(variantId, quantity = 1) {
+  async addToCart(productId, variantId, quantity = 1) {
     try {
       const response = await fetch(routes.addToCart, {
         method: 'POST',
         headers: {
+          'Accept': 'application/json',
           'Content-Type': 'application/json',
           'X-Requested-With': 'XMLHttpRequest',
         },
         body: JSON.stringify({
-          items: [
-            {
-              id: variantId,
-              quantity: quantity,
-            },
-          ],
+          product_id: productId,
+          variant_id: variantId ? variantId : undefined,
+          quantity: quantity,
         }),
       });
       if (!response.ok) {
@@ -54,7 +50,7 @@ export const CartAPI = {
       const response = await fetch(routes.getCart, {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json',
+          'Accept': 'application/json',
           'X-Requested-With': 'XMLHttpRequest',
         },
       });
@@ -79,7 +75,8 @@ export const CartAPI = {
       const response = await fetch(routes.clearCart, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          // 'Content-Type': 'application/json',
           'X-Requested-With': 'XMLHttpRequest',
         },
       });
@@ -99,18 +96,22 @@ export const CartAPI = {
    * @return {*}
    */
   async updateCart(updates) {
+    eventBus.emit('cart-update-before', updates);
+
     try {
       const response = await fetch(routes.updateCart, {
         method: 'POST',
         headers: {
+          'Accept': 'application/json',
           'Content-Type': 'application/json',
           'X-Requested-With': 'XMLHttpRequest',
         },
-        body: JSON.stringify({ updates }),
+        body: JSON.stringify(updates),
       });
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
+      eventBus.emit('cart-update-after', updates);
       const data = await response.json();
       console.log('Cart updated:', data);
       return data;
@@ -120,3 +121,33 @@ export const CartAPI = {
     }
   },
 };
+
+/**
+ * @param {string} html
+ * @returns {string}
+ */
+function decodeHtmlEntities(html) {
+  const txt = document.createElement('textarea');
+  txt.innerHTML = html;
+  return txt.value;
+}
+
+/**
+ * @param {string} encoded
+ * @returns {object}
+ */
+export function parseEncodedJson(encoded) {
+  let str = encoded.trim();
+
+  if (str.startsWith('<!')) {
+    const pos = str.indexOf('>');
+
+    if (pos !== -1) {
+      str = str.slice(pos + 1);
+    }
+
+    str = decodeHtmlEntities(str);
+  }
+
+  return JSON.parse(str);
+}

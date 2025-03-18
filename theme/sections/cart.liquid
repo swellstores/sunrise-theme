@@ -29,7 +29,7 @@
 
 <div class="mx-auto max-w-[1366px] pt-[16px] pb-[64px] pl-[24px] pr-[24px] sm:pt-[64px] responsive-padding-{{ section.id }}">
   <cart-root class="flex flex-col max-w-[1046px] mx-auto">
-    {%- if cart.empty? -%}
+    {%- if cart.empty? == true -%}
       <div class="flex flex-col gap-[32px]">
         <h2 class="uppercase text-headline-small font-display">Your cart is empty</h2>
         <div class="flex-grow-0 flex flex-col items-start justify-center">
@@ -42,10 +42,9 @@
               <a
                 href="{{ routes.account_login_url }}"
                 class="underline"
-                >Log in</a
-              >
-              to check out later</span
-            >
+              >Log in</a>
+              to check out later
+            </span>
           </div>
         {% endif %}
       </div>
@@ -78,7 +77,7 @@
                 {%- for item in cart.items -%}
                   <tr
                     class="[&:not(:last-child)]:border-b [&:not(:last-child)]:border-gray-100"
-                    data-variant-id="{{ item.variant_id }}"
+                    data-line="{{ forloop.index }}"
                   >
                     <td class="pt-[32px] pb-[32px] lg:w-[706px]">
                       <div class="flex gap-[16px] sm:gap-[32px]">
@@ -164,7 +163,7 @@
                     </td>
                     <td class="hidden sm:flex pt-[32px] pb-[32px]">
                       <div class="cart-desktop flex flex-col items-start gap-4 ">
-                        {% render 'quantity-selector', item: item %}
+                        {% render 'quantity-selector', item: item, index: forloop.index %}
                       </div>
                     </td>
                     <td class="pt-[32px] pb-[32px] align-top">
