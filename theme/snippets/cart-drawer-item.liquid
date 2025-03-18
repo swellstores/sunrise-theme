@@ -1,5 +1,5 @@
 <cart-drawer-item
-  data-variant-id="{{ item.variant.id }}"
+  data-line="{{ index }}"
   class="flex gap-[16px]"
 >
   <div class="w-[110px] h-[110px] aspect-square">
@@ -82,7 +82,7 @@
       {%- endif -%}
     </div>
     <div class="cart-mini">
-      {% render 'quantity-selector', item: item %}
+      {% render 'quantity-selector', item: item, index: index %}
     </div>
   </div>
 </cart-drawer-item>

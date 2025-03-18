@@ -1,8 +1,4 @@
-// @ts-nocheck
-
 /**
- *
- *
  * @module UIManager
  * @description The UIManager is responsible for managing the visibility and active state of UI components.
  * It ensures that only one UI component (e.g., a modal, drawer, or overlay) is active and visible at a time.
