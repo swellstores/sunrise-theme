@@ -121,11 +121,13 @@
                     %}
                   {%- else -%}
                     {% comment %} Image placeholder {% endcomment %}
-                    {%
-                      render 'image',
-                      picture_class: 'svg-placeholder',
-                      placeholder: 'image' | placeholder_svg_tag: 'placeholder-svg'
-                    %}
+                    <div class="aspect-square w-full">
+                      {%
+                        render 'image',
+                        picture_class: 'svg-placeholder',
+                        placeholder: 'image' | placeholder_svg_tag: 'placeholder-svg'
+                      %}
+                    </div>
                   {%- endif -%}
                 </a>
               </div>
