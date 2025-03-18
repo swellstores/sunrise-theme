@@ -21,10 +21,7 @@
     <meta name="description" content="{{ page_description | default: shop.name | escape }}">
 
     <script>
-      document.documentElement.className = document.documentElement.className.replace(
-        'no-js',
-        'js'
-      );
+      document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
       window.addEventListener('load', () => document.documentElement.classList.add('ready'));
     </script>
 
@@ -180,14 +177,6 @@
               --variant-pills-shadow-blur-radius: {{ settings.variant_pills_shadow_blur }}px;
             }
     {% endstyle %}
-
-    {% comment %} Video.js dependencies {% endcomment %}
-    <link href="{{ 'video-js.min.css' | asset_url }}" rel="stylesheet">
-    <script src="{{ 'video.min.js' | asset_url }}"></script>
-    <script
-      src="{{ '
-      youtube.min.js' | asset_url }}"
-    ></script>
   </head>
   <body class="antialiased scroll-smooth">
     <a class="sr-only" href="#main">
@@ -255,16 +244,9 @@
     ></script>
 
     {% comment %} Integrations {% endcomment %}
-    {% render 'gorgias-chat',
-      enabled: settings.gorgias_chat_enabled,
-      id: settings.gorgias_chat_id
-    %}
-    {% render 'google-analytics',
-      enabled: settings.google_analytics_enabled,
-      id: settings.google_analytics_id
-    %}
+    {% render 'gorgias-chat', enabled: settings.gorgias_chat_enabled, id: settings.gorgias_chat_id %}
+    {% render 'google-analytics', enabled: settings.google_analytics_enabled, id: settings.google_analytics_id %}
 
     {% render 'backdrop' %}
   </body>
-
 </html>
