@@ -116,19 +116,16 @@
                     {%
                       render 'image',
                       image: block.settings.image,
-                      alt: block.settings.image.alt | default: "Featured content image {{ forloop.index }}",
-                      class: "w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                      class: 'w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110',
+                      alt: block.settings.image.alt | default: "Featured content image {{ forloop.index }}"
                     %}
                   {%- else -%}
                     {% comment %} Image placeholder {% endcomment %}
-                    <div class="w-full h-full">
-                      <div
-                        class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
-                        style="--ratio: 1.0; --preview-ratio: 1.0;"
-                      >
-                        {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
-                      </div>
-                    </div>
+                    {%
+                      render 'image',
+                      picture_class: 'svg-placeholder',
+                      placeholder: 'image' | placeholder_svg_tag: 'placeholder-svg'
+                    %}
                   {%- endif -%}
                 </a>
               </div>
