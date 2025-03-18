@@ -7,6 +7,7 @@
     - alt: {string} Custom image ALT (optional)
     - width: {number} Custom image width (optional)
     - class: {string} Custom image class (optional)
+    - picture_class: {string} Custom container class (optional)
 
   Usage:
     {% render 'image', image: block.settings.image, placeholder: 'hero-apparel-1' %}
@@ -25,9 +26,10 @@
   endif
 
   assign image_class = class | default: 'w-full h-full object-cover object-center overflow-hidden'
+  assign picture_class = picture_class | default: 'w-full h-full overflow-hidden'
 %}
 
-<picture class="w-full h-full overflow-hidden">
+<picture class="{{ picture_class }}">
   {% if image != blank %}
     {{
       image
