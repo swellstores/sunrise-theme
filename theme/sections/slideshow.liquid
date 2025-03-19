@@ -78,7 +78,6 @@
       {% assign opacity = block.settings.overlay_opacity | times: 0.01 %}
       {% assign content_color_scheme = block.settings.color_scheme_content %}
       {% assign overlay_color = block.settings.overlay_color %}
-      {% assign isPlaceholder = block.settings.image == blank and block.settings.pre_heading == blank and block.settings.heading == blank and block.settings.text == blank and block.settings.button_label == blank %}
       {% assign placeholderImage = 'hero-apparel-1' %}
       {% case forloop.index %}
         {% when 1 %}
@@ -100,7 +99,7 @@
             style="background-color: {{ overlay_color | color_to_hex }}; opacity: {{ opacity }};"
           ></div>
           <div class="relative w-full h-[600px] sm:min-h-[600px] sm:max-h-[600px] 2xl:min-h-[800px] 2xl:max-h-[800px] overflow-hidden">
-            {% if isPlaceholder %}
+            {% if block.settings.image == blank %}
               {%
                 render 'image',
                 picture_class: 'svg-placeholder',
@@ -145,11 +144,7 @@
                 "
               >
                 <p class="font-display text-title-x-small font-pre-heading">
-                  {% if isPlaceholder %}
-                    Featured now
-                  {% else %}
-                    {{ block.settings.pre_heading }}
-                  {% endif %}
+                  {{ block.settings.pre_heading }}
                 </p>
                 <h2
                   class="
@@ -161,18 +156,10 @@
                     {% endcase %}
                   "
                 >
-                  {% if isPlaceholder %}
-                    See what's new
-                  {% else %}
-                    {{ block.settings.heading }}
-                  {% endif %}
+                  {{ block.settings.heading }}
                 </h2>
                 <div class="font-display text-body-large">
-                  {% if isPlaceholder %}
-                    Scroll through the slideshow to explore our latest highlights. Each image brings you closer to discovering something special—start browsing today!
-                  {% else %}
-                    {{ block.settings.text }}
-                  {% endif %}
+                  {{ block.settings.text }}
                 </div>
 
                 <div class="flex">
@@ -348,19 +335,19 @@
           "type": "text",
           "id": "pre_heading",
           "label": "Pre-heading",
-          "default": ""
+          "default": "Featured now"
         },
         {
           "type": "text",
           "id": "heading",
           "label": "Heading",
-          "default": ""
+          "default": "See what's new"
         },
         {
           "type": "inline_richtext",
           "id": "text",
           "label": "Text",
-          "default": ""
+          "default": "Scroll through the slideshow to explore our latest highlights. Each image brings you closer to discovering something special—start browsing today!"
         },
         {
           "type": "header",
@@ -463,27 +450,27 @@
         {
           "type": "slide",
           "settings": {
-            "pre_heading": "",
-            "heading": "",
-            "text": "",
+            "pre_heading": "Featured now",
+            "heading": "See what's new",
+            "text": "Scroll through the slideshow to explore our latest highlights. Each image brings you closer to discovering something special—start browsing today!",
             "content_alignment": "items-center justify-start"
           }
         },
         {
           "type": "slide",
           "settings": {
-            "pre_heading": "",
-            "heading": "",
-            "text": "",
+            "pre_heading": "Featured now",
+            "heading": "See what's new",
+            "text": "Scroll through the slideshow to explore our latest highlights. Each image brings you closer to discovering something special—start browsing today!",
             "content_alignment": "items-center justify-start"
           }
         },
         {
           "type": "slide",
           "settings": {
-            "pre_heading": "",
-            "heading": "",
-            "text": "",
+            "pre_heading": "Featured now",
+            "heading": "See what's new",
+            "text": "Scroll through the slideshow to explore our latest highlights. Each image brings you closer to discovering something special—start browsing today!",
             "content_alignment": "items-center justify-start"
           }
         }
