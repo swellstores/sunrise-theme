@@ -1077,7 +1077,7 @@
 
 <script>
   window.product = {
-    variants: {{ product.variants | json }}
+    variants: {{ product.variants | default: nil | json }}
   };
 </script>
 
