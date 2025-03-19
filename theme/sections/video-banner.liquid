@@ -30,6 +30,8 @@
 
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+
+  assign visible_blocks = section.blocks.size
 -%}
 
 <style>
@@ -142,7 +144,7 @@
           {%- endif -%}
           {%- for block in section.blocks -%}
             {%- if block.settings.button_label != blank -%}
-              <div class="flex {% if block.settings.button_label != blank %}mt-[32px]{% endif %}">
+              <div class="flex {% if visible_blocks > 1 %}mt-[32px]{% endif %}">
                 {% render 'button',
                   text: block.settings.button_label,
                   variant: block.settings.button_variant,
@@ -223,13 +225,13 @@
       "type": "pre_heading",
       "name": "Pre-heading",
       "limit": 1,
-      "settings": [{ "type": "text", "id": "pre_heading", "label": "Pre-heading", "default": "Pre-heading" }]
+      "settings": [{ "type": "text", "id": "pre_heading", "label": "Pre-heading", "default": "Take a look" }]
     },
     {
       "type": "heading",
       "name": "Heading",
       "limit": 1,
-      "settings": [{ "type": "text", "id": "heading", "label": "Heading", "default": "Heading" }]
+      "settings": [{ "type": "text", "id": "heading", "label": "Heading", "default": "Discover in motion" }]
     },
     {
       "type": "text",
@@ -240,7 +242,7 @@
           "type": "inline_richtext",
           "id": "text",
           "label": "Text",
-          "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer luctus sapien ut ipsum volutpat, eget suscipit lectus pretium. Nunc sit amet arcu at felis ornare sollicitudin."
+          "default": "Use this section to share key details, highlight what's special, or invite action. The video enhances your message, craft it here to connect."
         }
       ]
     },
