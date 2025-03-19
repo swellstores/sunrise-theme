@@ -103,7 +103,7 @@
         items-stretch
         {% if section.settings.mobile_columns == '1 column' %} auto-rows-fr
         {% else %} grid-cols-2
-        {% endif %} lg:grid-cols-{{ columns }}
+        {% endif %} sm:grid-cols-{{ columns }}
       "
     >
       {%- for block in section.blocks -%}
@@ -431,7 +431,7 @@
     {
       "type": "range",
       "id": "columns",
-      "label": "Columns",
+      "label": "Number of columns",
       "info": "Columns are used to organize content within a section.",
       "min": 1,
       "max": 5,
@@ -465,7 +465,7 @@
     {
       "type": "select",
       "id": "mobile_columns",
-      "label": "Number of columns",
+      "label": "Number of columns (mobile)",
       "default": "1 column",
       "options": [
         { "value": "1 column", "label": "1 column" },
