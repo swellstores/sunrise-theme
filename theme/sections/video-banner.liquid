@@ -34,8 +34,8 @@
   assign visible_blocks = section.blocks.size
 -%}
 
-<style>
-  .responsive-padding-{{ section.id }} {
+{%- style -%}
+  #VideoBanner-{{ section.id }} {
     padding-top: {{ reduced_padding_top }}px;
     padding-bottom: {{ reduced_padding_bottom }}px;
   }
@@ -57,17 +57,10 @@
   .non-interactive-video iframe {
     pointer-events: none;
   }
-
-  @media (min-width: 1024px) {
-    .responsive-padding-{{ section.id }} {
-      padding-top: {{ section.settings.top_padding }}px;
-      padding-bottom: {{ section.settings.bottom_padding }}px;
-    }
-  }
-</style>
+{%- endstyle -%}
 
 {% comment %}theme-check-disable RemoteAsset{% endcomment %}
-<div class="relative bg-{{ color_scheme }} text-{{ content_text_alignment }} responsive-padding-{{ section.id }}">
+<div id="VideoBanner-{{ section.id }}" class="relative bg-{{ color_scheme }} text-{{ content_text_alignment }}">
   {% if section.settings.video_url != blank %}
     {% if is_youtube %}
       <div class="video-wrapper non-interactive-video">
