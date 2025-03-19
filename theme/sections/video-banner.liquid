@@ -30,6 +30,8 @@
 
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+
+  assign visible_blocks = section.blocks.size
 -%}
 
 <style>
@@ -142,7 +144,7 @@
           {%- endif -%}
           {%- for block in section.blocks -%}
             {%- if block.settings.button_label != blank -%}
-              <div class="flex {% if block.settings.button_label != blank %}mt-[32px]{% endif %}">
+              <div class="flex {% if visible_blocks > 1 %}mt-[32px]{% endif %}">
                 {% render 'button',
                   text: block.settings.button_label,
                   variant: block.settings.button_variant,
