@@ -1,9 +1,12 @@
 {%- liquid
   assign current_variant = product.selected_or_first_available_variant
-  assign variant_count = product.options_with_values | size
   assign color_scheme = section.settings.color_scheme.id
   assign border_radius = settings.border_radius | default: 4
 -%}
+
+{% comment %} TODO: the matched_variant logic doesn't work with multiple sets of options (e.g., a product with both size and color). {% endcomment %}
+{% comment %} Currently, it will always match against the last combination containing the current option, which breaks availability checks {% endcomment %}
+{% comment %} We're also not setting the selected variant on change, preventing other controls from updating (e.g., price) {% endcomment %}
 
 {%- unless product.has_only_default_variant -%}
   {%- for option in product.options_with_values -%}
@@ -19,7 +22,6 @@
             {%- for variant in product.variants -%}
               {%- if variant.option1 == value or variant.option2 == value or variant.option3 == value -%}
                 {%- assign matched_variant = variant -%}
-                {%- break -%}
               {%- endif -%}
             {%- endfor -%}
 
@@ -69,7 +71,7 @@
           {%- endfor -%}
         </variant-radio>
       </fieldset>
-    {%- else -%}
+    {%- else -%} {% comment %} implicitly 'dropdown' {% endcomment %}
       <div class="flex flex-col gap-[4px]">
         <label for="product-variant-option-{{ forloop.index0 }}" class="font-display text-label-medium uppercase mb-2">
           {{ option.name | escape }}
@@ -85,7 +87,6 @@
             {%- for variant in product.variants -%}
               {%- if variant.option1 == value or variant.option2 == value or variant.option3 == value -%}
                 {%- assign matched_variant = variant -%}
-                {%- break -%}
               {%- endif -%}
             {%- endfor -%}
 
