@@ -40,6 +40,13 @@
     padding-bottom: {{ reduced_padding_bottom }}px;
   }
 
+  @media (min-width: 1024px) {
+    #VideoBanner-{{ section.id }} {
+      padding-top: {{ section.settings.top_padding }}px;
+      padding-bottom: {{ section.settings.bottom_padding }}px;
+    }
+  }
+
   .video-wrapper {
     aspect-ratio: 16 / 9;
     position: relative;
