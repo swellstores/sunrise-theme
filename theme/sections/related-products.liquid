@@ -46,11 +46,14 @@
         </div>
 
         {%- if section.settings.show_view_all -%}
-          {% render 'button',
-            text: section.settings.view_all_text,
-            variant: section.settings.button_variant,
-            href: product.collections.url
-          %}
+          <div class="flex justify-center">
+            {% render 'button',
+              text: section.settings.view_all_text,
+              variant: section.settings.button_variant,
+              content_color_scheme: color_scheme,
+              href: '/products'
+            %}
+          </div>
         {%- endif -%}
       </div>
     </div>
@@ -73,7 +76,8 @@
         { "value": "outline", "label": "Outline" }
       ],
       "default": "solid"
-    }
+    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
   ]
 }
 {% endschema %}
