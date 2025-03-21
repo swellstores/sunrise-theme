@@ -45,7 +45,7 @@
           {%- endfor -%}
         </div>
 
-        {%- if section.settings.show_view_all and product.recommendations.size > section.settings.limit -%}
+        {%- if section.settings.show_view_all -%}
           {% render 'button',
             text: section.settings.view_all_text,
             variant: section.settings.button_variant,
