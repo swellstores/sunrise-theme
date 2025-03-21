@@ -14,7 +14,7 @@
         {{ 'sections.related_products.title' | t }}
       </h2>
       <div class="flex flex-col gap-[48px]">
-        <div class="grid grid-cols-2 md:grid-cols-{{ grid_cols }} gap-[16px] text-{{ color_scheme }} w-full justify-center">
+        <div class="{% if section.settings.limit == 1 %}flex justify-center{% else %}grid grid-cols-2 md:grid-cols-{{ grid_cols }} justify-center{% endif %} gap-[16px] text-{{ color_scheme }} w-full">
           {%- for recommended_product in product.recommendations -%}
             {%- if forloop.index <= section.settings.limit -%}
               <div class="w-full max-w-[300px] flex flex-col gap-[8px]">
