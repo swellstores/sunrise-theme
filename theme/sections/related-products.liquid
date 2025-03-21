@@ -1,52 +1,58 @@
 {%- liquid
-  assign collection_handle = product.collections.first.handle
-  assign related_collection = collections[collection_handle]
-  assign related_products = collections[collection_handle].products
   assign displayed_products_count = 0
-  assign color_scheme = section.settings.color_scheme.id
+  assign color_scheme = section.settings.color_scheme
+  assign grid_cols = section.settings.limit
+  if grid_cols > 4
+    assign grid_cols = 4
+  endif
 -%}
 
-{%- if related_products.count > 0 -%}
+{%- if product.recommendations.size > 0 -%}
   <div class="related-products max-w-[1366px] mx-auto pl-[24px] pr-[24px] pt-[64px] pb-[64px] lg:pl-[160px] lg:pr-[160px] lg:pt-[96px] lg:pb-[96px]">
-    <div class="flex flex-col gap-[48px]">
+    <div class="flex flex-col gap-[48px] justify-center">
       <h2 class="text-headline-small font-display text-{{ color_scheme }}">
         {{ 'sections.related_products.title' | t }}
       </h2>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-[16px] text-{{ color_scheme }}">
-        {%- for related_product in related_products -%}
-          {%- if related_product.id != product.id and displayed_products_count < section.settings.limit -%}
-            <div class="w-full flex flex-col gap-[8px]">
-              <a href="{{ related_product.url }}">
-                <div class="aspect-square">
-                  {%
-                    render 'image',
-                    image: related_product.featured_image,
-                    alt: related_product.title  | default: "Featured product image {{ forloop.index }}",
-                    class: "w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
-                  %}
-                </div>
-              </a>
+      <div class="flex flex-col gap-[48px]">
+        <div class="grid grid-cols-2 md:grid-cols-{{ grid_cols }} gap-[16px] text-{{ color_scheme }} w-full justify-center">
+          {%- for recommended_product in product.recommendations -%}
+            {%- if forloop.index <= section.settings.limit -%}
+              <div class="w-full max-w-[300px] flex flex-col gap-[8px]">
+                <a href="/products/{{ recommended_product.slug }}">
+                  <div class="aspect-square">
+                    {%
+                      render 'image',
+                      image: recommended_product.images[0],
+                      alt: recommended_product.name | default: "Featured product image {{ forloop.index }}",
+                      class: "w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                    %}
+                  </div>
+                </a>
 
-              <div class="flex flex-col gap-[4px]">
-                <div class="text-body-small font-display">{{ related_product.title }}</div>
-                <div class="title-body-medium font-display">
-                  {{ related_product.price | money_without_trailing_zeros }}
+                <div class="flex flex-col gap-[4px]">
+                  <div class="text-body-small font-display">{{ recommended_product.name }}</div>
+                  <div class="title-body-medium font-display">
+                    {%- if recommended_product.sale -%}
+                      {{ recommended_product.sale_price | money_without_trailing_zeros }}
+                    {%- else -%}
+                      {{ recommended_product.price | money_without_trailing_zeros }}
+                    {%- endif -%}
+                  </div>
                 </div>
               </div>
-            </div>
-            {%- assign displayed_products_count = displayed_products_count | plus: 1 -%}
-          {%- endif -%}
-        {%- endfor -%}
-      </div>
-      {%- if section.settings.show_view_all -%}
-        <div class="md:flex md:justify-end">
+              {%- assign displayed_products_count = displayed_products_count | plus: 1 -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        {%- if section.settings.show_view_all and product.recommendations.size > section.settings.limit -%}
           {% render 'button',
             text: section.settings.view_all_text,
             variant: section.settings.button_variant,
-            href: related_collection.url
+            href: product.collections.url
           %}
-        </div>
-      {% endif %}
+        {%- endif -%}
+      </div>
     </div>
   </div>
 {%- endif -%}
@@ -55,27 +61,9 @@
 {
   "name": "Related products",
   "settings": [
-    {
-      "type": "range",
-      "id": "limit",
-      "label": "Products to show",
-      "min": 1,
-      "max": 12,
-      "step": 1,
-      "default": 3
-    },
-    {
-      "type": "checkbox",
-      "id": "show_view_all",
-      "label": "Show 'View all' button",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "view_all_text",
-      "label": "'View all' button text",
-      "default": "View all"
-    },
+    { "type": "range", "id": "limit", "label": "Products to show", "min": 1, "max": 12, "step": 1, "default": 3 },
+    { "type": "checkbox", "id": "show_view_all", "label": "Show 'View all' button", "default": true },
+    { "type": "text", "id": "view_all_text", "label": "'View all' button text", "default": "View all" },
     {
       "type": "select",
       "id": "button_variant",
