@@ -1,60 +1,49 @@
 {%- liquid
   assign displayed_products_count = 0
-  assign color_scheme = section.settings.color_scheme
-  assign grid_cols = section.settings.limit
-  if grid_cols > 4
+  assign product_count = product.recommendations | size
+  assign max_products = section.settings.limit | at_most: product_count
+
+  assign grid_cols = 1
+  if max_products > 1
+    assign grid_cols = 2
+  endif
+  if max_products > 2
+    assign grid_cols = 3
+  endif
+  if max_products > 3
     assign grid_cols = 4
   endif
 -%}
 
 {%- if product.recommendations.size > 0 -%}
-  <div class="related-products max-w-[1366px] mx-auto pl-[24px] pr-[24px] pt-[64px] pb-[64px] lg:pl-[160px] lg:pr-[160px] lg:pt-[96px] lg:pb-[96px]">
-    <div class="flex flex-col gap-[48px] justify-center">
-      <h2 class="text-headline-small font-display text-{{ color_scheme }}">
-        {{ 'sections.related_products.title' | t }}
-      </h2>
+  <div class="bg-{{section.settings.color_scheme}} max-w-[1366px] mx-auto p-6">
+    <div class="max-w-[1046px] mx-auto 2xl:max-w-[1380px] w-full">
       <div class="flex flex-col gap-[48px]">
-        <div class="{% if section.settings.limit == 1 %}flex justify-center{% else %}grid grid-cols-2 md:grid-cols-{{ grid_cols }} justify-center{% endif %} gap-[16px] text-{{ color_scheme }} w-full">
-          {%- for recommended_product in product.recommendations -%}
-            {%- if forloop.index <= section.settings.limit -%}
-              <div class="w-full max-w-[300px] flex flex-col gap-[8px]">
-                <a href="/products/{{ recommended_product.slug }}">
-                  <div class="aspect-square">
-                    {%
-                      render 'image',
-                      image: recommended_product.images[0],
-                      alt: recommended_product.name | default: "Featured product image {{ forloop.index }}",
-                      class: "w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
-                    %}
-                  </div>
-                </a>
+        <h2 class="font-display text-headline-small">
+          {{ 'sections.related_products.title' | t }}
+        </h2>
 
-                <div class="flex flex-col gap-[4px]">
-                  <div class="text-body-small font-display">{{ recommended_product.name }}</div>
-                  <div class="title-body-medium font-display">
-                    {%- if recommended_product.sale -%}
-                      {{ recommended_product.sale_price | money_without_trailing_zeros }}
-                    {%- else -%}
-                      {{ recommended_product.price | money_without_trailing_zeros }}
-                    {%- endif -%}
-                  </div>
-                </div>
-              </div>
-              {%- assign displayed_products_count = displayed_products_count | plus: 1 -%}
-            {%- endif -%}
-          {%- endfor -%}
-        </div>
-
-        {%- if section.settings.show_view_all -%}
-          <div class="flex justify-center">
-            {% render 'button',
-              text: section.settings.view_all_text,
-              variant: section.settings.button_variant,
-              content_color_scheme: color_scheme,
-              href: '/products'
-            %}
+        <div class="flex flex-col gap-8">
+          <div class="grid grid-cols-2 gap-x-[16px] gap-y-[24px] md:grid-cols-3 lg:grid-cols-4">
+            {%- for recommended_product in product.recommendations -%}
+              {%- if forloop.index <= section.settings.limit -%}
+                {% render 'product-card', product: recommended_product, color_scheme: section.settings.color_scheme %}
+                {%- assign displayed_products_count = displayed_products_count | plus: 1 -%}
+              {%- endif -%}
+            {%- endfor -%}
           </div>
-        {%- endif -%}
+
+          {%- if section.settings.show_view_all -%}
+            <div class="flex justify-center">
+              {% render 'button',
+                text: section.settings.view_all_text,
+                variant: section.settings.button_variant,
+                content_color_scheme: section.settings.color_scheme,
+                href: '/products'
+              %}
+            </div>
+          {%- endif -%}
+        </div>
       </div>
     </div>
   </div>
