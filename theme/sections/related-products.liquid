@@ -1,5 +1,4 @@
 {%- liquid
-  assign displayed_products_count = 0
   assign product_count = product.recommendations | size
   assign max_products = section.settings.limit | at_most: product_count
 
@@ -32,7 +31,6 @@
                 <div class="flex flex-col gap-[8px]">
                   {% render 'product-card', product: recommended_product, color_scheme: section.settings.color_scheme %}
                 </div>
-                {%- assign displayed_products_count = displayed_products_count | plus: 1 -%}
               {%- endif -%}
             {%- endfor -%}
           </div>
