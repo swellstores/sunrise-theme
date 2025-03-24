@@ -8,10 +8,18 @@
   if auto_rotate == true
     assign auto_rotate_speed = section.settings.auto_rotate_speed | times: 1000
   endif
--%}
-{%- liquid
+
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+
+  assign variant_media_ids = ''
+  for variant in product.variants
+    if variant.featured_media
+      unless variant_media_ids contains variant.featured_media.id
+        assign variant_media_ids = variant_media_ids | append: variant.featured_media.id | append: ','
+      endunless
+    endif
+  endfor
 -%}
 
 <style>
@@ -28,48 +36,34 @@
   }
 </style>
 
+{% comment %} TODO: See if we can't handle the different display modes in CSS, rather than a bunch of nearly-identical loops {% endcomment %}
+
 <div
   class="text-{{ color_scheme }} max-w-[1366px] mx-auto lg:pl-[96px] lg:pr-[96px] lg:pt-[64px] lg:pb-[64px] bg-{{ color_scheme }} responsive-padding-{{ section.id }}"
 >
-  {% comment %}
-    <div class="flex items-center gap-3 py-4">
-      {% render 'breadcrumbs', color_scheme: color_scheme %}
-    </div>
-  {% endcomment %}
-
   <div
     class="
       flex
-      {%- if media_position == 'right' -%}
-      {{ ' flex-col-reverse' }}
-            {%- else -%}
-      {{ ' flex-col' }}
-      {%- endif -%}
-
       lg:grid
-       lg:gap-[44px]
+      lg:gap-[44px]
       2xl:gap-[64px]
+      desktop-media
       {%- if media_position == 'right' -%}
-        {{ ' desktop-media lg:grid-cols-[minmax(0,292px)_minmax(0,748px)] 2xl:grid-cols-[minmax(0,362px)_minmax(0,748px)]' }}
+        {{ ' lg:grid-cols-[minmax(0,292px)_minmax(0,748px)] 2xl:grid-cols-[minmax(0,362px)_minmax(0,748px)] flex-col-reverse' }}
       {%- else -%}
-        {{ ' desktop-media lg:grid-cols-[minmax(0,748px)_minmax(0,292px)] 2xl:grid-cols-[minmax(0,748px)_minmax(0,362px)]' }}
+        {{ ' lg:grid-cols-[minmax(0,748px)_minmax(0,292px)] 2xl:grid-cols-[minmax(0,748px)_minmax(0,362px)] flex-col' }}
       {%- endif -%}
     "
   >
-    {%- if media_position == 'left' -%}
+    <div
+      {% if media_position == 'right' %}
+        style="order:1"
+      {% endif %}
+    >
       {%- if desktop_layout == 'thumbnail_gallery' -%}
         <div class="gap-[16px] hidden lg:flex">
           {%- if section.settings.show_thumbnails -%}
             <div class="flex w-[112px] flex-col items-center {% if section.settings.thumbnail_position == 'right' %}order-2{% else %}order-1{% endif %}">
-              {% assign variant_media_ids = '' %}
-              {%- for variant in product.variants -%}
-                {%- if variant.featured_media -%}
-                  {%- unless variant_media_ids contains variant.featured_media.id -%}
-                    {% assign variant_media_ids = variant_media_ids | append: variant.featured_media.id | append: ',' %}
-                  {%- endunless -%}
-                {%- endif -%}
-              {%- endfor -%}
-
               <div class="flex w-[112px] flex-col gap-[8px] items-center max-h-[700px] overflow-auto">
                 {%- assign displayed_images = '' -%}
 
@@ -79,17 +73,17 @@
                       <div
                         class="thumbnail-wrapper p-[6px]"
                         data-variant-id="{% for v in product.variants %}{% if v.featured_media == variant.featured_media %}{{ v.id }},{% endif %}{% endfor %}"
-                        data-large-src="{{ variant.featured_media.preview_image.url | image_url}}"
+                        data-large-src="{{ variant.featured_media.preview_image | image_url}}"
                         data-large-alt="{{ variant.featured_media.alt | escape }}"
                       >
                         <img
                           width="100%"
                           height="100%"
-                          src="{{ variant.featured_media.preview_image.url | image_url }}"
+                          src="{{ variant.featured_media.preview_image | image_url }}"
                           alt="{{ variant.featured_media.alt | escape }}"
                           data-product-id="{{ product.id }}"
                           data-variant-id="{{ variant.id }}"
-                          data-large-src="{{ variant.featured_media.preview_image.url | image_url }}"
+                          data-large-src="{{ variant.featured_media.preview_image | image_url }}"
                           data-large-alt="{{ variant.featured_media.alt | escape }}"
                           class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
                         >
@@ -106,15 +100,15 @@
                   {%- unless variant_media_ids contains media.id -%}
                     <div
                       class="thumbnail-wrapper p-[6px]"
-                      data-large-src="{{ media.preview_image.url | image_url }}"
+                      data-large-src="{{ media.preview_image | image_url }}"
                       data-large-alt="{{ media.alt | escape }}"
                     >
                       <img
                         width="100%"
                         height="100%"
-                        src="{{ media.preview_image.url | image_url }}"
+                        src="{{ media.preview_image | image_url }}"
                         alt="{{ media.alt | escape }}"
-                        data-large-src="{{ media.preview_image.url | image_url }}"
+                        data-large-src="{{ media.preview_image | image_url }}"
                         data-large-alt="{{ media.alt | escape }}"
                         class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
                       >
@@ -126,15 +120,6 @@
           {% endif %}
           <div class="hidden">
             <div class="flex w-[112px] flex-col items-center {% if section.settings.thumbnail_position == 'right' %}order-2{% else %}order-1{% endif %}">
-              {% assign variant_media_ids = '' %}
-              {%- for variant in product.variants -%}
-                {%- if variant.featured_media -%}
-                  {%- unless variant_media_ids contains variant.featured_media.id -%}
-                    {% assign variant_media_ids = variant_media_ids | append: variant.featured_media.id | append: ',' %}
-                  {%- endunless -%}
-                {%- endif -%}
-              {%- endfor -%}
-
               <div class="flex w-[112px] flex-col gap-[8px] items-center max-h-[700px] overflow-auto">
                 {%- assign displayed_images = '' -%}
 
@@ -144,17 +129,17 @@
                       <div
                         class="thumbnail-wrapper p-[6px]"
                         data-variant-id="{% for v in product.variants %}{% if v.featured_media == variant.featured_media %}{{ v.id }},{% endif %}{% endfor %}"
-                        data-large-src="{{ variant.featured_media.preview_image.url | image_url}}"
+                        data-large-src="{{ variant.featured_media.preview_image | image_url}}"
                         data-large-alt="{{ variant.featured_media.alt | escape }}"
                       >
                         <img
                           width="100%"
                           height="100%"
-                          src="{{ variant.featured_media.preview_image.url | image_url }}"
+                          src="{{ variant.featured_media.preview_image | image_url }}"
                           alt="{{ variant.featured_media.alt | escape }}"
                           data-product-id="{{ product.id }}"
                           data-variant-id="{{ variant.id }}"
-                          data-large-src="{{ variant.featured_media.preview_image.url | image_url }}"
+                          data-large-src="{{ variant.featured_media.preview_image | image_url }}"
                           data-large-alt="{{ variant.featured_media.alt | escape }}"
                           class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
                         >
@@ -171,15 +156,15 @@
                   {%- unless variant_media_ids contains media.id -%}
                     <div
                       class="thumbnail-wrapper p-[6px]"
-                      data-large-src="{{ media.preview_image.url | image_url }}"
+                      data-large-src="{{ media.preview_image | image_url }}"
                       data-large-alt="{{ media.alt | escape }}"
                     >
                       <img
                         width="100%"
                         height="100%"
-                        src="{{ media.preview_image.url | image_url }}"
+                        src="{{ media.preview_image | image_url }}"
                         alt="{{ media.alt | escape }}"
-                        data-large-src="{{ media.preview_image.url | image_url }}"
+                        data-large-src="{{ media.preview_image | image_url }}"
                         data-large-alt="{{ media.alt | escape }}"
                         class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
                       >
@@ -220,19 +205,11 @@
           </div>
         </div>
       {% elsif desktop_layout == 'stacked' %}
+        {% comment %} TODO: Most of this conditional logic could be collapsed into a CSS class using first-child {% endcomment %}
         <div class="gap-[16px] hidden lg:flex w-full">
           <div class="grid grid-cols-2 gap-4 w-full">
             {%- assign first_image_rendered = false -%}
-            {% assign variant_media_ids = '' %}
             {%- assign displayed_images = '' -%}
-
-            {%- for variant in product.variants -%}
-              {%- if variant.featured_media -%}
-                {%- unless variant_media_ids contains variant.featured_media.id -%}
-                  {% assign variant_media_ids = variant_media_ids | append: variant.featured_media.id | append: ',' %}
-                {%- endunless -%}
-              {%- endif -%}
-            {%- endfor -%}
 
             {%- for variant in product.variants -%}
               {%- if variant.featured_media and first_image_rendered == false -%}
@@ -241,7 +218,7 @@
                     <img
                       width="100%"
                       height="100%"
-                      src="{{ variant.featured_media.preview_image.url | image_url }}"
+                      src="{{ variant.featured_media.preview_image | image_url }}"
                       alt="{{ variant.featured_media.alt | escape }}"
                       class="w-full h-full object-cover"
                     >
@@ -259,7 +236,7 @@
                     <img
                       width="100%"
                       height="100%"
-                      src="{{ media.preview_image.url | image_url }}"
+                      src="{{ media.preview_image | image_url }}"
                       alt="{{ media.alt | escape }}"
                       class="w-full h-full object-cover"
                     >
@@ -270,7 +247,7 @@
                     <img
                       width="100%"
                       height="100%"
-                      src="{{ media.preview_image.url | image_url }}"
+                      src="{{ media.preview_image | image_url }}"
                       alt="{{ media.alt | escape }}"
                       class="w-full h-full object-cover"
                     >
@@ -285,16 +262,7 @@
       {% else %} {% comment %} Implicitly two_column {% endcomment %}
         <div class="gap-[16px] hidden lg:flex w-full">
           <div class="grid grid-cols-2 gap-4 w-full">
-            {%- assign variant_media_ids = '' %}
             {%- assign displayed_images = '' -%}
-
-            {%- for variant in product.variants -%}
-              {%- if variant.featured_media -%}
-                {%- unless variant_media_ids contains variant.featured_media.id -%}
-                  {% assign variant_media_ids = variant_media_ids | append: variant.featured_media.id | append: ',' %}
-                {%- endunless -%}
-              {%- endif -%}
-            {%- endfor -%}
 
             {%- for variant in product.variants -%}
               {%- if variant.featured_media -%}
@@ -303,7 +271,7 @@
                     <img
                       width="100%"
                       height="100%"
-                      src="{{ variant.featured_media.preview_image.url | image_url }}"
+                      src="{{ variant.featured_media.preview_image | image_url }}"
                       alt="{{ variant.featured_media.alt | escape }}"
                       class="w-full h-full object-cover"
                     >
@@ -319,7 +287,7 @@
                   <img
                     width="100%"
                     height="100%"
-                    src="{{ media.preview_image.url | image_url }}"
+                    src="{{ media.preview_image | image_url }}"
                     alt="{{ media.alt | escape }}"
                     class="w-full h-full object-cover"
                   >
@@ -347,23 +315,26 @@
             autoplay-pause-on-mouse-enter="true"
           {%- endif -%}
         >
+          {% comment %} TODO: is this logic correct? The other lists use a different filtering system that avoids variant.featured_media {% endcomment %}
           {% assign variant_media_ids = '' %}
           {%- for variant in product.variants -%}
             {%- if variant.featured_media -%}
               {%- unless variant_media_ids contains variant.featured_media.id -%}
                 {% assign variant_media_ids = variant_media_ids | append: variant.featured_media.id | append: ',' %}
+                <swiper-slide class="flex flex-col items-center text-center gap-[32px] pb-[32px]">
+                  <div class="aspect-square m-auto">
+                    <div class="aspect-square w-full h-full">
+                      <img
+                        height="100%"
+                        width="100%"
+                        src="{{ variant.featured_media.preview_image | image_url }}"
+                        alt="{{ variant.featured_media.alt | escape }}"
+                        class="w-full h-full object-cover"
+                      >
+                    </div>
+                  </div>
+                </swiper-slide>
               {% endunless %}
-              <swiper-slide class="flex flex-col items-center text-center gap-[32px] pb-[32px]">
-                <div class="aspect-square m-auto">
-                  <div class="aspect-square w-full h-full">
-                    <img
-                      src="{{ variant.featured_media.preview_image.url | image_url }}"
-                      alt="{{ variant.featured_media.alt | escape }}"
-                      class="w-full h-full object-cover"
-                    >
-                  </div>
-                </div>
-              </swiper-slide>
             {%- endif -%}
           {%- endfor -%}
 
@@ -372,668 +343,9 @@
               <swiper-slide class="flex flex-col items-center text-center gap-[32px] pb-[32px]">
                 <div class="aspect-square w-full h-full">
                   <img
-                    src="{{ media.preview_image.url | image_url }}"
-                    alt="{{ media.alt | escape }}"
-                    class="w-full h-full object-cover"
-                  >
-                </div>
-              </swiper-slide>
-            {%- endunless -%}
-          {%- endfor -%}
-          <div class="swiper-pagination"></div>
-        </swiper-container>
-
-        {%- if section.settings.mobile_layout == 'show_mobile_thumbnails' -%}
-          <div class="relative">
-            {% render 'mobile-thumbnail-arrows', color_scheme: color_scheme, border_radius: settings.border_radius %}
-
-            <swiper-container
-              class="thumbnail-swiper mt-4 w-full pr-[50px] pl-[50px]"
-              slides-per-view="3"
-              space-between="10"
-              watch-slides-progress="true"
-              watch-slides-visibility="true"
-              loop="true"
-            >
-              {% for media in product.media %}
-                <swiper-slide class="cursor-pointer">
-                  <div class="aspect-square border border-gray-300">
-                    <img
-                      src="{{ media.preview_image.url | image_url }}"
-                      alt="{{ media.alt | escape }}"
-                      class="w-full h-full object-cover"
-                    >
-                  </div>
-                </swiper-slide>
-              {% endfor %}
-            </swiper-container>
-          </div>
-        {% endif %}
-      </div>
-
-      <div class="w-full flex">
-        <div class="flex flex-col gap-[24px] pt-[24px] pr-[24px] pl-[24px] lg:pt-0 lg:pr-0 lg:pl-0">
-          <div class="flex flex-col">
-            {% for block in section.blocks %}
-              {% case block.type %}
-                {% when 'title' %}
-                  {% if block.settings.show_title %}
-                    <div
-                      class="text-title-large font-display text-{{ color_scheme }} mb-[2px] mt-[2px]"
-                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
-                    >
-                      {{ product.title }}
-                    </div>
-                  {% endif %}
-                {% when 'price' %}
-                  {% if block.settings.show_price %}
-                    <div
-                      id="product-price"
-                      class="product-price text-title-medium font-display text-{{ color_scheme }} mb-[2px] mt-[2px]"
-                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
-                    >
-                      {{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}
-                    </div>
-                  {% endif %}
-                {% when 'category' %}
-                  {% if block.settings.show_category %}
-                    <div
-                      class="vendor text-title-large font-display mb-[2px] mt-[2px]"
-                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
-                    >
-                      {% if product.vendor == blank %}
-                        No category set
-                      {% else %}
-                        {{ product.vendor }}
-                      {% endif %}
-                    </div>
-                  {% endif %}
-                {% when 'sku' %}
-                  {% if block.settings.show_sku %}
-                    <div
-                      id="product-sku"
-                      class="sku-span text-body-medium font-display mb-[4px] mt-[4px]"
-                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
-                    >
-                      {% if product.sku != blank %}
-                        {{ product.sku }}
-                      {% else %}
-                        No SKU set
-                      {% endif %}
-                    </div>
-                  {% endif %}
-                {% when 'quantity_selector' %}
-                  {% if block.settings.show_quantity_selector %}
-                    <div
-                      class="mb-[14px] mt-[14px]"
-                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
-                    >
-                      {% render 'quantity-selector-variant',
-                        product: product,
-                        variant: product.selected_or_first_available_variant
-                      %}
-                    </div>
-                  {% endif %}
-                {% when 'variant' %}
-                  {% if block.settings.variant %}
-                    <div
-                      class="variant-selection flex flex-col gap-[8px]"
-                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
-                    >
-                      {% render 'variant-radio', product: product, product_selector: block.settings.product_selector %}
-                    </div>
-                  {% endif %}
-                {% when 'buy_buttons' %}
-                  {%- liquid
-                    assign variant = product.selected_or_first_available_variant
-                  -%}
-                  {% if block.settings.show_buy_buttons %}
-                    {% comment %} {% render 'product-form', product: product, cart_type: settings.cart_type %} {% endcomment %}
-                    {% form 'product', product, class: 'flex flex-col w-full' %}
-                      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-
-                      {%- if variant.available -%}
-                        {%- if settings.cart_type == 'drawer' -%}
-                          <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
-                            {% render 'cart-drawer-button',
-                              variant_id: variant,
-                              color_scheme: color_scheme,
-                              button_text: block.settings.buy_button_text
-                            %}
-                          </div>
-                        {%- else -%}
-                          <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
-                            {% render 'button',
-                              type: 'submit',
-                              text: block.settings.buy_button_text,
-                              class: 'add-to-cart-button'
-                            %}
-                          </div>
-                        {%- endif -%}
-                      {%- else -%}
-                        <span class="text-[#B3261E] font-display text-body-small">Currently unavailable</span>
-                      {%- endif -%}
-                    {% endform %}
-                  {% endif %}
-                {% when 'description' %}
-                  {% if block.settings.show_description %}
-                    <div
-                      class="description font-display text-body-medium mb-[10px] mt-[10px]"
-                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
-                    >
-                      {% if product.description != blank %}
-                        {{ product.description }}
-                      {% else %}
-                        No description set
-                      {% endif %}
-                    </div>
-                  {% endif %}
-              {% endcase %}
-            {% endfor %}
-          </div>
-
-          <accordion-root class="flex-col items-center justify-center gap-[16px]">
-            <div class="flex flex-col gap-[16px]">
-              {%- for block in section.blocks -%}
-                {%- if block.type == 'accordion_item' -%}
-                  <div class="w-full overflow-hidden border-[#F5F5F5] border rounded-[4px] p-[16px]">
-                    <accordion-trigger
-                      role="button"
-                      aria-expanded="false"
-                      class="text-title-medium font-display flex w-full items-center justify-between h-full"
-                    >
-                      {{ block.settings.trigger }}
-                      <ion-icon
-                        name="chevron-down-outline"
-                        aria-label="Toggle accordion item"
-                        class="h-4 w-4 transition-transform"
-                      >
-                      </ion-icon>
-                    </accordion-trigger>
-                    <accordion-content
-                      role="region"
-                      class="text-base grid grid-rows-[0fr] opacity-0 overflow-hidden transition-all duration-300 ease-in-out"
-                    >
-                      <div class="overflow-hidden text-left text-body-small font-display">
-                        {{ block.settings.content }}
-                      </div>
-                    </accordion-content>
-                  </div>
-                {%- endif -%}
-              {%- endfor -%}
-            </div>
-          </accordion-root>
-        </div>
-      </div>
-    {%- else -%} {% comment %} media_position == 'right' {% endcomment %}
-      <div class="w-full flex">
-        <div class="flex flex-col gap-[24px] pt-[24px] pr-[24px] pl-[24px] lg:pt-0 lg:pr-0 lg:pl-0">
-          <div class="flex flex-col">
-            {% for block in section.blocks %}
-              {% case block.type %}
-                {% when 'title' %}
-                  {% if block.settings.show_title %}
-                    <div
-                      class="text-title-large font-display text-{{ color_scheme }} mb-[2px] mt-[2px]"
-                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
-                    >
-                      {{ product.title }}
-                    </div>
-                  {% endif %}
-                {% when 'price' %}
-                  {% if block.settings.show_price %}
-                    <div
-                      id="product-price"
-                      class="product-price text-title-medium font-display text-{{ color_scheme }} mb-[2px] mt-[2px]"
-                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
-                    >
-                      {{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}
-                    </div>
-                  {% endif %}
-                {% when 'category' %}
-                  {% if block.settings.show_category %}
-                    <div
-                      class="vendor text-title-large font-display mb-[2px] mt-[2px]"
-                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
-                    >
-                      {% if product.vendor == blank %}
-                        No category set
-                      {% else %}
-                        {{ product.vendor }}
-                      {% endif %}
-                    </div>
-                  {% endif %}
-                {% when 'sku' %}
-                  {% if block.settings.show_sku %}
-                    <div
-                      id="product-sku"
-                      class="sku-span text-body-medium font-display mb-[4px] mt-[4px]"
-                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
-                    >
-                      {% if product.sku != blank %}
-                        {{ product.sku }}
-                      {% else %}
-                        No SKU set
-                      {% endif %}
-                    </div>
-                  {% endif %}
-                {% when 'quantity_selector' %}
-                  {% if block.settings.show_quantity_selector %}
-                    <div
-                      class="mb-[14px] mt-[14px]"
-                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
-                    >
-                      {% render 'quantity-selector-variant',
-                        product: product,
-                        variant: product.selected_or_first_available_variant
-                      %}
-                    </div>
-                  {% endif %}
-                {% when 'variant' %}
-                  {% if block.settings.variant %}
-                    <div
-                      class="variant-selection flex flex-col gap-[8px]"
-                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
-                    >
-                      {% render 'variant-radio', product: product, product_selector: block.settings.product_selector %}
-                    </div>
-                  {% endif %}
-                {% when 'buy_buttons' %}
-                  {%- liquid
-                    assign variant = product.selected_or_first_available_variant
-                  -%}
-                  {% if block.settings.show_buy_buttons %}
-                    {% comment %} {% render 'product-form', product: product, cart_type: settings.cart_type %} {% endcomment %}
-                    {% form 'product', product, class: 'flex flex-col w-full' %}
-                      <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-
-                      {%- if variant.available -%}
-                        {%- if settings.cart_type == 'drawer' -%}
-                          <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
-                            {% render 'cart-drawer-button',
-                              variant_id: variant,
-                              color_scheme: color_scheme,
-                              button_text: block.settings.buy_button_text
-                            %}
-                          </div>
-                        {%- else -%}
-                          <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
-                            {% render 'button',
-                              type: 'submit',
-                              text: block.settings.buy_button_text,
-                              class: 'add-to-cart-button'
-                            %}
-                          </div>
-                        {%- endif -%}
-                      {%- else -%}
-                        <span class="text-[#B3261E] font-display text-body-small">Currently unavailable</span>
-                      {%- endif -%}
-                    {% endform %}
-                  {% endif %}
-                {% when 'description' %}
-                  {% if block.settings.show_description %}
-                    <div
-                      class="description font-display text-body-medium mb-[10px] mt-[10px]"
-                      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
-                    >
-                      {% if product.description != blank %}
-                        {{ product.description }}
-                      {% else %}
-                        No description set
-                      {% endif %}
-                    </div>
-                  {% endif %}
-              {% endcase %}
-            {% endfor %}
-          </div>
-
-          <accordion-root class="flex-col items-center justify-center gap-[16px]">
-            <div class="flex flex-col gap-[16px]">
-              {%- for block in section.blocks -%}
-                {%- if block.type == 'accordion_item' -%}
-                  <div class="w-full overflow-hidden border-[#F5F5F5] border rounded-[4px] p-[16px]">
-                    <accordion-trigger
-                      role="button"
-                      aria-expanded="false"
-                      class="text-title-medium font-display flex w-full items-center justify-between h-full"
-                    >
-                      {{ block.settings.trigger }}
-                      <ion-icon
-                        name="chevron-down-outline"
-                        aria-label="Toggle accordion item"
-                        class="h-4 w-4 transition-transform"
-                      >
-                      </ion-icon>
-                    </accordion-trigger>
-                    <accordion-content
-                      role="region"
-                      class="text-base grid grid-rows-[0fr] opacity-0 overflow-hidden transition-all duration-300 ease-in-out"
-                    >
-                      <div class="overflow-hidden text-left text-body-small font-display">
-                        {{ block.settings.content }}
-                      </div>
-                    </accordion-content>
-                  </div>
-                {%- endif -%}
-              {%- endfor -%}
-            </div>
-          </accordion-root>
-        </div>
-      </div>
-      {%- if desktop_layout == 'thumbnail_gallery' -%}
-        <div class="gap-[16px] hidden lg:flex">
-          {%- if section.settings.show_thumbnails -%}
-            <div class="flex w-[112px] flex-col items-center {% if section.settings.thumbnail_position == 'right' %}order-2{% else %}order-1{% endif %}">
-              {% assign variant_media_ids = '' %}
-              {%- for variant in product.variants -%}
-                {%- if variant.featured_media -%}
-                  {%- unless variant_media_ids contains variant.featured_media.id -%}
-                    {% assign variant_media_ids = variant_media_ids | append: variant.featured_media.id | append: ',' %}
-                  {%- endunless -%}
-                {%- endif -%}
-              {%- endfor -%}
-
-              <div class="flex w-[112px] flex-col gap-[8px] items-center max-h-[700px] overflow-auto">
-                {%- assign displayed_images = '' -%}
-
-                {%- for variant in product.variants -%}
-                  {%- if variant.featured_media -%}
-                    {%- unless displayed_images contains variant.featured_media.id -%}
-                      <div
-                        class="thumbnail-wrapper p-[6px]"
-                        data-variant-id="{% for v in product.variants %}{% if v.featured_media == variant.featured_media %}{{ v.id }},{% endif %}{% endfor %}"
-                        data-large-src="{{ variant.featured_media.preview_image.url | image_url}}"
-                        data-large-alt="{{ variant.featured_media.alt | escape }}"
-                      >
-                        <img
-                          width="100%"
-                          height="100%"
-                          src="{{ variant.featured_media.preview_image.url | image_url }}"
-                          alt="{{ variant.featured_media.alt | escape }}"
-                          data-product-id="{{ product.id }}"
-                          data-variant-id="{{ variant.id }}"
-                          data-large-src="{{ variant.featured_media.preview_image.url | image_url }}"
-                          data-large-alt="{{ variant.featured_media.alt | escape }}"
-                          class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
-                        >
-                      </div>
-                      {%- assign displayed_images = displayed_images
-                        | append: variant.featured_media.id
-                        | append: ','
-                      -%}
-                    {%- endunless -%}
-                  {%- endif -%}
-                {%- endfor -%}
-
-                {%- for media in product.media -%}
-                  {%- unless variant_media_ids contains media.id -%}
-                    <div
-                      class="thumbnail-wrapper p-[6px]"
-                      data-large-src="{{ media.preview_image.url | image_url }}"
-                      data-large-alt="{{ media.alt | escape }}"
-                    >
-                      <img
-                        width="100%"
-                        height="100%"
-                        src="{{ media.preview_image.url | image_url }}"
-                        alt="{{ media.alt | escape }}"
-                        data-large-src="{{ media.preview_image.url | image_url }}"
-                        data-large-alt="{{ media.alt | escape }}"
-                        class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
-                      >
-                    </div>
-                  {%- endunless -%}
-                {%- endfor -%}
-              </div>
-            </div>
-          {% endif %}
-
-          <div class="hidden">
-            <div class="flex w-[112px] flex-col items-center {% if section.settings.thumbnail_position == 'right' %}order-2{% else %}order-1{% endif %}">
-              {% assign variant_media_ids = '' %}
-              {%- for variant in product.variants -%}
-                {%- if variant.featured_media -%}
-                  {%- unless variant_media_ids contains variant.featured_media.id -%}
-                    {% assign variant_media_ids = variant_media_ids | append: variant.featured_media.id | append: ',' %}
-                  {%- endunless -%}
-                {%- endif -%}
-              {%- endfor -%}
-
-              <div class="flex w-[112px] flex-col gap-[8px] items-center max-h-[700px] overflow-auto">
-                {%- assign displayed_images = '' -%}
-
-                {%- for variant in product.variants -%}
-                  {%- if variant.featured_media -%}
-                    {%- unless displayed_images contains variant.featured_media.id -%}
-                      <div
-                        class="thumbnail-wrapper p-[6px]"
-                        data-variant-id="{% for v in product.variants %}{% if v.featured_media == variant.featured_media %}{{ v.id }},{% endif %}{% endfor %}"
-                        data-large-src="{{ variant.featured_media.preview_image.url | image_url}}"
-                        data-large-alt="{{ variant.featured_media.alt | escape }}"
-                      >
-                        <img
-                          width="100%"
-                          height="100%"
-                          src="{{ variant.featured_media.preview_image.url | image_url }}"
-                          alt="{{ variant.featured_media.alt | escape }}"
-                          data-product-id="{{ product.id }}"
-                          data-variant-id="{{ variant.id }}"
-                          data-large-src="{{ variant.featured_media.preview_image.url | image_url }}"
-                          data-large-alt="{{ variant.featured_media.alt | escape }}"
-                          class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
-                        >
-                      </div>
-                      {%- assign displayed_images = displayed_images
-                        | append: variant.featured_media.id
-                        | append: ','
-                      -%}
-                    {%- endunless -%}
-                  {%- endif -%}
-                {%- endfor -%}
-
-                {%- for media in product.media -%}
-                  {%- unless variant_media_ids contains media.id -%}
-                    <div
-                      class="thumbnail-wrapper p-[6px]"
-                      data-large-src="{{ media.preview_image.url | image_url }}"
-                      data-large-alt="{{ media.alt | escape }}"
-                    >
-                      <img
-                        width="100%"
-                        height="100%"
-                        src="{{ media.preview_image.url | image_url }}"
-                        alt="{{ media.alt | escape }}"
-                        data-large-src="{{ media.preview_image.url | image_url }}"
-                        data-large-alt="{{ media.alt | escape }}"
-                        class="thumbnail-image cursor-pointer w-[100px] h-[146px] object-cover"
-                      >
-                    </div>
-                  {%- endunless -%}
-                {%- endfor -%}
-              </div>
-            </div>
-          </div>
-
-          <div class="relative flex w-full max-h-[707px] h-fit {% if section.settings.thumbnail_position == 'right' %}order-1{% else %}order-2{% endif %}">
-            <div
-              id="prev-arrow"
-              class="absolute top-1/2 left-[16px] transform -translate-y-1/2 cursor-pointer bg-white w-[44px] h-[44px] rounded-full flex items-center justify-center z-[1]"
-            >
-              {{- 'product-arrow-left.svg' | inline_asset_content -}}
-            </div>
-
-            <div class="relative w-full max-h-[707px] max-w-full">
-              <img
-                id="main-image"
-                width="100%"
-                height="100%"
-                class="w-full h-full object-cover"
-                src="{{ product.featured_image | image_url }}"
-                alt="{{ product.featured_image.alt | escape }}"
-              >
-            </div>
-
-            <div class="absolute inset-0 bg-black bg-opacity-5"></div>
-
-            <div
-              id="next-arrow"
-              class="z-[1] absolute top-1/2 right-[16px] transform -translate-y-1/2 cursor-pointer bg-white w-[44px] h-[44px] rounded-full flex items-center justify-center"
-            >
-              {{- 'product-arrow-right.svg' | inline_asset_content -}}
-            </div>
-          </div>
-        </div>
-      {% elsif desktop_layout == 'stacked' %}
-        <div class="gap-[16px] hidden lg:flex w-full">
-          <div class="grid grid-cols-2 gap-4 w-full">
-            {%- assign first_image_rendered = false -%}
-            {% assign variant_media_ids = '' %}
-            {%- assign displayed_images = '' -%}
-
-            {%- for variant in product.variants -%}
-              {%- if variant.featured_media -%}
-                {%- unless variant_media_ids contains variant.featured_media.id -%}
-                  {% assign variant_media_ids = variant_media_ids | append: variant.featured_media.id | append: ',' %}
-                {%- endunless -%}
-              {%- endif -%}
-            {%- endfor -%}
-
-            {%- for variant in product.variants -%}
-              {%- if variant.featured_media and first_image_rendered == false -%}
-                {%- unless displayed_images contains variant.featured_media.id -%}
-                  <div class="w-full h-auto col-span-2 pl-[100px] pr-[100px]">
-                    <img
-                      width="100%"
-                      height="100%"
-                      src="{{ variant.featured_media.preview_image.url | image_url }}"
-                      alt="{{ variant.featured_media.alt | escape }}"
-                      class="w-full h-full object-cover"
-                    >
-                  </div>
-                  {%- assign first_image_rendered = true -%}
-                  {%- assign displayed_images = displayed_images | append: variant.featured_media.id | append: ',' -%}
-                {%- endunless -%}
-              {%- endif -%}
-            {%- endfor -%}
-
-            {%- for media in product.media -%}
-              {%- unless displayed_images contains media.id -%}
-                {%- if first_image_rendered == false -%}
-                  <div class="w-full h-auto col-span-2 pl-[100px] pr-[100px]">
-                    <img
-                      width="100%"
-                      height="100%"
-                      src="{{ media.preview_image.url | image_url }}"
-                      alt="{{ media.alt | escape }}"
-                      class="w-full h-full object-cover"
-                    >
-                  </div>
-                  {%- assign first_image_rendered = true -%}
-                {%- else -%}
-                  <div class="w-full h-auto">
-                    <img
-                      width="100%"
-                      height="100%"
-                      src="{{ media.preview_image.url | image_url }}"
-                      alt="{{ media.alt | escape }}"
-                      class="w-full h-full object-cover"
-                    >
-                  </div>
-                {%- endif -%}
-                {%- assign displayed_images = displayed_images | append: media.id | append: ',' -%}
-              {%- endunless -%}
-            {%- endfor -%}
-          </div>
-        </div>
-      {% else %} {% comment %} Implicitly two_column {% endcomment %}
-        <div class="gap-[16px] hidden lg:flex w-full">
-          <div class="grid grid-cols-2 gap-4 w-full">
-            {%- assign variant_media_ids = '' %}
-            {%- assign displayed_images = '' -%}
-
-            {%- for variant in product.variants -%}
-              {%- if variant.featured_media -%}
-                {%- unless variant_media_ids contains variant.featured_media.id -%}
-                  {% assign variant_media_ids = variant_media_ids | append: variant.featured_media.id | append: ',' %}
-                {%- endunless -%}
-              {%- endif -%}
-            {%- endfor -%}
-
-            {%- for variant in product.variants -%}
-              {%- if variant.featured_media -%}
-                {%- unless displayed_images contains variant.featured_media.id -%}
-                  <div class="w-full h-auto">
-                    <img
-                      width="100%"
-                      height="100%"
-                      src="{{ variant.featured_media.preview_image.url | image_url }}"
-                      alt="{{ variant.featured_media.alt | escape }}"
-                      class="w-full h-full object-cover"
-                    >
-                  </div>
-                  {%- assign displayed_images = displayed_images | append: variant.featured_media.id | append: ',' -%}
-                {% endunless %}
-              {%- endif -%}
-            {%- endfor -%}
-
-            {%- for media in product.media -%}
-              {%- unless variant_media_ids contains media.id -%}
-                <div class="w-full h-auto">
-                  <img
-                    width="100%"
                     height="100%"
-                    src="{{ media.preview_image.url | image_url }}"
-                    alt="{{ media.alt | escape }}"
-                    class="w-full h-full object-cover"
-                  >
-                </div>
-              {%- endunless -%}
-            {%- endfor -%}
-          </div>
-        </div>
-      {% endif %}
-
-      <div class="lg:hidden">
-        <swiper-container
-          role="region"
-          aria-label="Mobile Slideshow"
-          loop="{{ loop }}"
-          direction="horizontal"
-          slides-per-view="1"
-          class="text-{{ color_scheme }} swiper-container w-full h-auto"
-          space-between="16"
-          pagination="true"
-          thumbs-swiper=".thumbnail-swiper"
-          style="--swiper-pagination-color: black; --swiper-pagination-bottom:0px;"
-          {%- if auto_rotate -%}
-            autoplay-delay="{{ auto_rotate_speed }}"
-            autoplay-pause-on-mouse-enter="true"
-          {%- endif -%}
-        >
-          {% assign variant_media_ids = '' %}
-          {%- for variant in product.variants -%}
-            {%- if variant.featured_media -%}
-              {% assign variant_media_ids = variant_media_ids | append: variant.featured_media.id | append: ',' %}
-              <swiper-slide class="flex flex-col items-center text-center gap-[32px] pb-[32px]">
-                <div class="aspect-square m-auto">
-                  <div class="aspect-square w-full h-full">
-                    <img
-                      src="{{ variant.featured_media.preview_image.url | image_url }}"
-                      alt="{{ variant.featured_media.alt | escape }}"
-                      class="w-full h-full object-cover"
-                    >
-                  </div>
-                </div>
-              </swiper-slide>
-            {%- endif -%}
-          {%- endfor -%}
-
-          {%- for media in product.media -%}
-            {%- unless variant_media_ids contains media.id -%}
-              <swiper-slide class="flex flex-col items-center text-center gap-[32px] pb-[32px]">
-                <div class="aspect-square w-full h-full">
-                  <img
-                    src="{{ media.preview_image.url | image_url }}"
+                    width="100%"
+                    src="{{ media.preview_image | image_url }}"
                     alt="{{ media.alt | escape }}"
                     class="w-full h-full object-cover"
                   >
@@ -1060,7 +372,9 @@
                 <swiper-slide class="cursor-pointer">
                   <div class="aspect-square border border-gray-300">
                     <img
-                      src="{{ media.preview_image.url | image_url }}"
+                      height="100%"
+                      width="100%"
+                      src="{{ media.preview_image | image_url }}"
                       alt="{{ media.alt | escape }}"
                       class="w-full h-full object-cover"
                     >
@@ -1071,7 +385,162 @@
           </div>
         {% endif %}
       </div>
-    {%- endif -%}
+    </div>
+
+    <div class="w-full flex">
+      <div class="flex flex-col gap-[24px] pt-[24px] pr-[24px] pl-[24px] lg:pt-0 lg:pr-0 lg:pl-0">
+        <div class="flex flex-col">
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'title' %}
+                {% if block.settings.show_title %}
+                  <div
+                    class="text-title-large font-display text-{{ color_scheme }} mb-[2px] mt-[2px]"
+                    style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                  >
+                    {{ product.title }}
+                  </div>
+                {% endif %}
+              {% when 'price' %}
+                {% if block.settings.show_price %}
+                  <div
+                    id="product-price"
+                    class="product-price text-title-medium font-display text-{{ color_scheme }} mb-[2px] mt-[2px]"
+                    style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                  >
+                    {{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}
+                  </div>
+                {% endif %}
+              {% when 'category' %}
+                {% if block.settings.show_category %}
+                  <div
+                    class="vendor text-title-large font-display mb-[2px] mt-[2px]"
+                    style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                  >
+                    {% if product.vendor == blank %}
+                      No category set
+                    {% else %}
+                      {{ product.vendor }}
+                    {% endif %}
+                  </div>
+                {% endif %}
+              {% when 'sku' %}
+                {% if block.settings.show_sku %}
+                  <div
+                    id="product-sku"
+                    class="sku-span text-body-medium font-display mb-[4px] mt-[4px]"
+                    style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                  >
+                    {% if product.sku != blank %}
+                      {{ product.sku }}
+                    {% else %}
+                      No SKU set
+                    {% endif %}
+                  </div>
+                {% endif %}
+              {% when 'quantity_selector' %}
+                {% if block.settings.show_quantity_selector %}
+                  <div
+                    class="mb-[14px] mt-[14px]"
+                    style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                  >
+                    {% render 'quantity-selector-variant',
+                      product: product,
+                      variant: product.selected_or_first_available_variant
+                    %}
+                  </div>
+                {% endif %}
+              {% when 'variant' %}
+                {% if block.settings.variant %}
+                  <div
+                    class="variant-selection flex flex-col gap-[8px]"
+                    style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                  >
+                    {% render 'variant-radio', product: product, product_selector: block.settings.product_selector %}
+                  </div>
+                {% endif %}
+              {% when 'buy_buttons' %}
+                {%- liquid
+                  assign variant = product.selected_or_first_available_variant
+                -%}
+                {% if block.settings.show_buy_buttons %}
+                  {% comment %} {% render 'product-form', product: product, cart_type: settings.cart_type %} {% endcomment %}
+                  {% form 'product', product, class: 'flex flex-col w-full' %}
+                    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+
+                    {%- if variant.available -%}
+                      {%- if settings.cart_type == 'drawer' -%}
+                        <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
+                          {% render 'cart-drawer-button',
+                            variant_id: variant,
+                            color_scheme: color_scheme,
+                            button_text: block.settings.buy_button_text
+                          %}
+                        </div>
+                      {%- else -%}
+                        <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
+                          {% render 'button',
+                            type: 'submit',
+                            text: block.settings.buy_button_text,
+                            class: 'add-to-cart-button'
+                          %}
+                        </div>
+                      {%- endif -%}
+                    {%- else -%}
+                      <span class="text-[#B3261E] font-display text-body-small">Currently unavailable</span>
+                    {%- endif -%}
+                  {% endform %}
+                {% endif %}
+              {% when 'description' %}
+                {% if block.settings.show_description %}
+                  <div
+                    class="description font-display text-body-medium mb-[10px] mt-[10px]"
+                    style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                  >
+                    {% if product.description != blank %}
+                      {{ product.description }}
+                    {% else %}
+                      No description set
+                    {% endif %}
+                  </div>
+                {% endif %}
+            {% endcase %}
+          {% endfor %}
+        </div>
+
+        <accordion-root class="flex-col items-center justify-center gap-[16px]">
+          <div class="flex flex-col gap-[16px]">
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'accordion_item' -%}
+                <div class="w-full overflow-hidden border-[#F5F5F5] border rounded-[4px] p-[16px]">
+                  <accordion-trigger
+                    role="button"
+                    aria-expanded="false"
+                    class="text-title-medium font-display flex w-full items-center justify-between h-full"
+                  >
+                    {{ block.settings.trigger }}
+                    <ion-icon
+                      name="chevron-down-outline"
+                      aria-label="Toggle accordion item"
+                      class="h-4 w-4 transition-transform"
+                    >
+                    </ion-icon>
+                  </accordion-trigger>
+                  <accordion-content
+                    role="region"
+                    class="text-base grid grid-rows-[0fr] opacity-0 overflow-hidden transition-all duration-300 ease-in-out"
+                  >
+                    <div class="overflow-hidden text-left text-body-small font-display">
+                      {{ block.settings.content }}
+                    </div>
+                  </accordion-content>
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </accordion-root>
+      </div>
+    </div>
   </div>
 </div>
 
