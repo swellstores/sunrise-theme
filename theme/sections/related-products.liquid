@@ -19,15 +19,19 @@
   <div class="bg-{{section.settings.color_scheme}} max-w-[1366px] mx-auto p-6">
     <div class="max-w-[1046px] mx-auto 2xl:max-w-[1380px] w-full">
       <div class="flex flex-col gap-[48px]">
-        <h2 class="font-display text-headline-small">
-          {{ 'sections.related_products.title' | t }}
-        </h2>
+        {%- if section.settings.heading != blank -%}
+          <h2 class="font-display text-headline-small">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
 
         <div class="flex flex-col gap-8">
           <div class="grid grid-cols-2 gap-x-[16px] gap-y-[24px] md:grid-cols-3 lg:grid-cols-4">
             {%- for recommended_product in product.recommendations -%}
               {%- if forloop.index <= section.settings.limit -%}
-                {% render 'product-card', product: recommended_product, color_scheme: section.settings.color_scheme %}
+                <div class="flex flex-col gap-[8px]">
+                  {% render 'product-card', product: recommended_product, color_scheme: section.settings.color_scheme %}
+                </div>
                 {%- assign displayed_products_count = displayed_products_count | plus: 1 -%}
               {%- endif -%}
             {%- endfor -%}
@@ -53,6 +57,7 @@
 {
   "name": "Related products",
   "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Related products" },
     { "type": "range", "id": "limit", "label": "Products to show", "min": 1, "max": 12, "step": 1, "default": 3 },
     { "type": "checkbox", "id": "show_view_all", "label": "Show 'View all' button", "default": true },
     { "type": "text", "id": "view_all_text", "label": "'View all' button text", "default": "View all" },
