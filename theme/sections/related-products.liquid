@@ -2,15 +2,14 @@
   assign product_count = product.recommendations | size
   assign max_products = section.settings.limit | at_most: product_count
 
-  assign grid_cols = 1
-  if max_products > 1
-    assign grid_cols = 2
-  endif
-  if max_products > 2
-    assign grid_cols = 3
-  endif
   if max_products > 3
     assign grid_cols = 4
+  elsif max_products > 2
+    assign grid_cols = 3
+  elsif max_products > 1
+    assign grid_cols = 2
+  else
+    assign grid_cols = 1
   endif
 -%}
 
@@ -26,12 +25,10 @@
 
         <div class="flex flex-col gap-8">
           <div class="grid grid-cols-2 gap-x-[16px] gap-y-[24px] md:grid-cols-3 lg:grid-cols-4">
-            {%- for recommended_product in product.recommendations -%}
-              {%- if forloop.index <= section.settings.limit -%}
-                <div class="flex flex-col gap-[8px]">
-                  {% render 'product-card', product: recommended_product, color_scheme: section.settings.color_scheme %}
-                </div>
-              {%- endif -%}
+            {%- for recommended_product in product.recommendations limit: section.settings.limit -%}
+              <div class="flex flex-col gap-[8px]">
+                {% render 'product-card', product: recommended_product, color_scheme: section.settings.color_scheme %}
+              </div>
             {%- endfor -%}
           </div>
 
