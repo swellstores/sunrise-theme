@@ -21,32 +21,35 @@
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
 -%}
 
-<style>
-  .responsive-padding-{{ section.id }} {
-    padding-top: {{ reduced_padding_top }}px;
-    padding-bottom: {{ reduced_padding_bottom }}px;
-  }
-
-  @media (min-width: 1024px) {
+{% style %}
     .responsive-padding-{{ section.id }} {
-      padding-top: {{ section.settings.top_padding }}px;
-      padding-bottom: {{ section.settings.bottom_padding }}px;
+      padding-top: {{ reduced_padding_top }}px;
+      padding-bottom: {{ reduced_padding_bottom }}px;
     }
-  }
-</style>
 
-{%- if section.settings.sticky -%}
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      var headerSection = document.getElementById('swell-section-{{ section.id }}');
-      if (headerSection) {
-        headerSection.classList.add('sticky', 'top-0', 'z-[9999]');
+    @media (min-width: 1024px) {
+      .responsive-padding-{{ section.id }} {
+        padding-top: {{ section.settings.top_padding }}px;
+        padding-bottom: {{ section.settings.bottom_padding }}px;
       }
-    });
-  </script>
-{%- endif -%}
+    }
 
-<div class="swell-section {% if sticky %}sticky-header{% endif %}">
+    {%- if section.settings.sticky -%}
+      .swell-section-group--header-group {
+        position: sticky !important;
+        top: 0;
+        z-index: 9999;
+      }
+
+      .swell-page-section.section-header {
+        position: sticky !important;
+        top: 0;
+        z-index: 9999;
+      }
+  {%- endif -%}
+{% endstyle %}
+
+<div class="swell-section">
   <header class="relative z-[11] {{ border_b }} text-{{ color_scheme }} bg-{{color_scheme}}">
     <div
       class="sm:flex flex-col max-w-[1900px] mx-auto responsive-padding-{{ section.id }}"
@@ -190,52 +193,14 @@
 {
   "name": "Header",
   "settings": [
-    {
-      "type": "header",
-      "content": "Header"
-    },
-    {
-      "type": "link_list",
-      "id": "selected_menu",
-      "label": "Menu",
-      "default": "main_menu"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "checkbox",
-      "id": "sticky",
-      "label": "Sticky header",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "border_b",
-      "default": false,
-      "label": "Bottom border"
-    },
-    {
-      "type": "checkbox",
-      "id": "text_uppercase",
-      "default": true,
-      "label": "Uppercase text"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_language_selector",
-      "label": "Show language selector",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_currency_selector",
-      "label": "Show currency selector",
-      "default": true
-    },
+    { "type": "header", "content": "Header" },
+    { "type": "link_list", "id": "selected_menu", "label": "Menu", "default": "main_menu" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "checkbox", "id": "sticky", "label": "Sticky header", "default": false },
+    { "type": "checkbox", "id": "border_b", "default": false, "label": "Bottom border" },
+    { "type": "checkbox", "id": "text_uppercase", "default": true, "label": "Uppercase text" },
+    { "type": "checkbox", "id": "show_language_selector", "label": "Show language selector", "default": true },
+    { "type": "checkbox", "id": "show_currency_selector", "label": "Show currency selector", "default": true },
     {
       "type": "header",
       "content": "Desktop",
@@ -266,30 +231,11 @@
       "id": "logo_position",
       "label": "Logo position",
       "options": [
-        {
-          "value": "top left",
-          "label": "Top left"
-        },
-        {
-          "value": "top center",
-          "label": "Top center"
-        },
-        {
-          "value": "center left",
-          "label": "Center left"
-        },
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
+        { "value": "top left", "label": "Top left" },
+        { "value": "top center", "label": "Top center" },
+        { "value": "center left", "label": "Center left" },
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
       ],
       "default": "left"
     }
