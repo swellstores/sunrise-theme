@@ -22,34 +22,32 @@
 -%}
 
 {% style %}
-  .responsive-padding-{{ section.id }} {
-    padding-top: {{ reduced_padding_top }}px;
-    padding-bottom: {{ reduced_padding_bottom }}px;
-  }
-
-  @media (min-width: 1024px) {
     .responsive-padding-{{ section.id }} {
-      padding-top: {{ section.settings.top_padding }}px;
-      padding-bottom: {{ section.settings.bottom_padding }}px;
+      padding-top: {{ reduced_padding_top }}px;
+      padding-bottom: {{ reduced_padding_bottom }}px;
     }
-  }
+
+    @media (min-width: 1024px) {
+      .responsive-padding-{{ section.id }} {
+        padding-top: {{ section.settings.top_padding }}px;
+        padding-bottom: {{ section.settings.bottom_padding }}px;
+      }
+    }
+
+    {%- if section.settings.sticky -%}
+      .swell-section-group--header-group {
+        position: sticky !important;
+        top: 0;
+        z-index: 9999;
+      }
+
+      .swell-page-section.section-header {
+        position: sticky !important;
+        top: 0;
+        z-index: 9999;
+      }
+  {%- endif -%}
 {% endstyle %}
-
-{%- if section.settings.sticky -%}
-  {% style %}
-    .swell-section-group--header-group {
-      position: sticky !important;
-      top: 0;
-      z-index: 9999;
-    }
-
-    .swell-page-section.section-header {
-      position: sticky !important;
-      top: 0;
-      z-index: 9999;
-    }
-  {% endstyle %}
-{%- endif -%}
 
 <div class="swell-section">
   <header class="relative z-[11] {{ border_b }} text-{{ color_scheme }} bg-{{color_scheme}}">
@@ -237,8 +235,7 @@
         { "value": "top center", "label": "Top center" },
         { "value": "center left", "label": "Center left" },
         { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" },
-        { "value": "right", "label": "Right" }
+        { "value": "center", "label": "Center" }
       ],
       "default": "left"
     }
