@@ -1,52 +1,49 @@
 {%- liquid
-  assign collection_handle = product.collections.first.handle
-  assign related_collection = collections[collection_handle]
-  assign related_products = collections[collection_handle].products
-  assign displayed_products_count = 0
-  assign color_scheme = section.settings.color_scheme.id
+  assign product_count = product.recommendations | size
+  assign max_products = section.settings.limit | at_most: product_count
+
+  if max_products > 3
+    assign grid_cols = 4
+  elsif max_products > 2
+    assign grid_cols = 3
+  elsif max_products > 1
+    assign grid_cols = 2
+  else
+    assign grid_cols = 1
+  endif
 -%}
 
-{%- if related_products.count > 0 -%}
-  <div class="related-products max-w-[1366px] mx-auto pl-[24px] pr-[24px] pt-[64px] pb-[64px] lg:pl-[160px] lg:pr-[160px] lg:pt-[96px] lg:pb-[96px]">
-    <div class="flex flex-col gap-[48px]">
-      <h2 class="text-headline-small font-display text-{{ color_scheme }}">
-        {{ 'sections.related_products.title' | t }}
-      </h2>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-[16px] text-{{ color_scheme }}">
-        {%- for related_product in related_products -%}
-          {%- if related_product.id != product.id and displayed_products_count < section.settings.limit -%}
-            <div class="w-full flex flex-col gap-[8px]">
-              <a href="{{ related_product.url }}">
-                <div class="aspect-square">
-                  {%
-                    render 'image',
-                    image: related_product.featured_image,
-                    alt: related_product.title  | default: "Featured product image {{ forloop.index }}",
-                    class: "w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
-                  %}
-                </div>
-              </a>
+{%- if product.recommendations.size > 0 -%}
+  <div class="bg-{{section.settings.color_scheme}} max-w-[1366px] mx-auto p-6">
+    <div class="max-w-[1046px] mx-auto 2xl:max-w-[1380px] w-full">
+      <div class="flex flex-col gap-[48px]">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="font-display text-headline-small">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
 
-              <div class="flex flex-col gap-[4px]">
-                <div class="text-body-small font-display">{{ related_product.title }}</div>
-                <div class="title-body-medium font-display">
-                  {{ related_product.price | money_without_trailing_zeros }}
-                </div>
+        <div class="flex flex-col gap-8">
+          <div class="grid grid-cols-2 gap-x-[16px] gap-y-[24px] md:grid-cols-3 lg:grid-cols-4">
+            {%- for recommended_product in product.recommendations limit: section.settings.limit -%}
+              <div class="flex flex-col gap-[8px]">
+                {% render 'product-card', product: recommended_product, color_scheme: section.settings.color_scheme %}
               </div>
+            {%- endfor -%}
+          </div>
+
+          {%- if section.settings.show_view_all -%}
+            <div class="flex justify-center">
+              {% render 'button',
+                text: section.settings.view_all_text,
+                variant: section.settings.button_variant,
+                content_color_scheme: section.settings.color_scheme,
+                href: '/products'
+              %}
             </div>
-            {%- assign displayed_products_count = displayed_products_count | plus: 1 -%}
           {%- endif -%}
-        {%- endfor -%}
-      </div>
-      {%- if section.settings.show_view_all -%}
-        <div class="md:flex md:justify-end">
-          {% render 'button',
-            text: section.settings.view_all_text,
-            variant: section.settings.button_variant,
-            href: related_collection.url
-          %}
         </div>
-      {% endif %}
+      </div>
     </div>
   </div>
 {%- endif -%}
@@ -55,27 +52,10 @@
 {
   "name": "Related products",
   "settings": [
-    {
-      "type": "range",
-      "id": "limit",
-      "label": "Products to show",
-      "min": 1,
-      "max": 12,
-      "step": 1,
-      "default": 3
-    },
-    {
-      "type": "checkbox",
-      "id": "show_view_all",
-      "label": "Show 'View all' button",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "view_all_text",
-      "label": "'View all' button text",
-      "default": "View all"
-    },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Related products" },
+    { "type": "range", "id": "limit", "label": "Products to show", "min": 1, "max": 12, "step": 1, "default": 3 },
+    { "type": "checkbox", "id": "show_view_all", "label": "Show 'View all' button", "default": true },
+    { "type": "text", "id": "view_all_text", "label": "'View all' button text", "default": "View all" },
     {
       "type": "select",
       "id": "button_variant",
@@ -85,7 +65,8 @@
         { "value": "outline", "label": "Outline" }
       ],
       "default": "solid"
-    }
+    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
   ]
 }
 {% endschema %}
