@@ -21,7 +21,7 @@
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
 -%}
 
-<style>
+{% style %}
   .responsive-padding-{{ section.id }} {
     padding-top: {{ reduced_padding_top }}px;
     padding-bottom: {{ reduced_padding_bottom }}px;
@@ -33,17 +33,22 @@
       padding-bottom: {{ section.settings.bottom_padding }}px;
     }
   }
-</style>
+{% endstyle %}
 
-{%- if sticky -%}
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const headerSection = document.querySelector('[id^="shopify-sections--"][id$="__header-group"]');
-      if (headerSection) {
-        headerSection.classList.add('sticky', 'top-0', 'z-[9999]');
-      }
-    });
-  </script>
+{%- if section.settings.sticky -%}
+  {% style %}
+    .swell-section-group--header-group {
+      position: sticky !important;
+      top: 0;
+      z-index: 9999;
+    }
+
+    .swell-page-section.section-header {
+      position: sticky !important;
+      top: 0;
+      z-index: 9999;
+    }
+  {% endstyle %}
 {%- endif -%}
 
 <div class="swell-section">
