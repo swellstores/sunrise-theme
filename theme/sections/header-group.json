@@ -17,7 +17,7 @@
         "announcement-2": {
           "type": "announcement",
           "settings": {
-            "text": "Free shipping on orders over $50"
+            "text": "Use this section to display announcements"
           }
         }
       },
