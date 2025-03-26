@@ -24,7 +24,7 @@
         {%- endif -%}
 
         <div class="flex flex-col gap-8">
-          <div class="grid grid-cols-2 gap-x-[16px] gap-y-[24px] md:grid-cols-3 lg:grid-cols-4">
+          <div class="grid grid-cols-2 gap-x-[16px] gap-y-[24px] {% if section.settings.limit <= 2 %} lg:grid-cols-2 {% else %} lg:grid-cols-4 {% endif %}">
             {%- for recommended_product in product.recommendations limit: section.settings.limit -%}
               <div class="flex flex-col gap-[8px]">
                 {% render 'product-card', product: recommended_product, color_scheme: section.settings.color_scheme %}
