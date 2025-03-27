@@ -35,18 +35,12 @@
     }
 
     {%- if section.settings.sticky -%}
-      .swell-section-group--header-group {
+      [class*="section-group-header-group"] {
         position: sticky !important;
         top: 0;
         z-index: 9999;
       }
-
-      .swell-page-section.section-header {
-        position: sticky !important;
-        top: 0;
-        z-index: 9999;
-      }
-  {%- endif -%}
+    {%- endif -%}
 {% endstyle %}
 
 <div class="swell-section">
