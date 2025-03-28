@@ -72,7 +72,9 @@
           <div class="hidden min-[960px]:flex justify-center items-center">
             {%- render 'header-desktop-nav', text_uppercase: text_uppercase -%}
           </div>
-          {%- render 'header-desktop-icon-list', color_scheme: color_scheme.id -%}
+          {%- render 'header-desktop-icon-list',
+            color_scheme: color_scheme
+          -%}
         {%- elsif logo_position == 'center' -%}
           <button class="min-[960px]:hidden block min-w-min" onclick="toggleMobileTray()" aria-label="Open mobile menu">
             <svg
@@ -91,7 +93,9 @@
           <div class="flex justify-center items-center">
             {%- render 'header-logo' -%}
           </div>
-          {%- render 'header-desktop-icon-list', color_scheme: color_scheme.id -%}
+          {%- render 'header-desktop-icon-list',
+            color_scheme: color_scheme
+          -%}
         {%- elsif logo_position == 'center left' -%}
           <button class="min-[960px]:hidden block min-w-min" onclick="toggleMobileTray()" aria-label="Open mobile menu">
             <svg
@@ -113,7 +117,9 @@
             </div>
           </div>
           <div class="hidden min-[960px]:block"></div>
-          {%- render 'header-desktop-icon-list', color_scheme: color_scheme.id -%}
+          {%- render 'header-desktop-icon-list',
+            color_scheme: color_scheme
+          -%}
         {%- elsif logo_position == 'top left' -%}
           <button class="min-[960px]:hidden block min-w-min" onclick="toggleMobileTray()" aria-label="Open mobile menu">
             <svg
@@ -136,7 +142,9 @@
             </div>
           </div>
           <div class="flex items-center justify-end gap-[16px] order-2 ">
-            {%- render 'header-desktop-icon-list', color_scheme: color_scheme.id -%}
+            {%- render 'header-desktop-icon-list',
+              color_scheme: color_scheme
+            -%}
           </div>
         {%- elsif logo_position == 'top center' -%}
           <button class="min-[960px]:hidden block min-w-min" onclick="toggleMobileTray()" aria-label="Open mobile menu">
@@ -160,7 +168,7 @@
             </div>
           </div>
           {%- render 'header-desktop-icon-list',
-            color_scheme: color_scheme.id,
+            color_scheme: color_scheme,
             show_language_selector: section.settings.show_language_selector,
             show_currency_selector: section.settings.show_currency_selector
           -%}
@@ -232,7 +240,7 @@
       "label": "Logo position",
       "options": [
         { "value": "top left", "label": "Top left" },
-        { "value": "top center", "label": "Top center" },
+        { "value": "top center", "label": "Top center" }, 
         { "value": "center left", "label": "Center left" },
         { "value": "left", "label": "Left" },
         { "value": "center", "label": "Center" }
