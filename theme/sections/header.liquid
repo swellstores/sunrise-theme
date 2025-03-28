@@ -1,5 +1,5 @@
 {%- liquid
-  assign color_scheme = section.settings.color_scheme
+  assign color_scheme = section.settings.color_scheme | default: 'scheme-1'
   assign sticky = section.settings.sticky
   assign logo_position = section.settings.logo_position
 
