@@ -4,8 +4,8 @@
             "type": "collection-list-page",
             "settings": {
                 "color_scheme": "",
-                "pre_heading": "Pre-heading",
-                "heading": "Collections",
+                "pre_heading": "Explore more",
+                "heading": "Discover our categories",
                 "heading_size": "small",
                 "header_alignment": "left",
                 "top_padding": 96,
