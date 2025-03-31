@@ -1,5 +1,5 @@
 <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M5.35792 20.5L3.66561 9.5H20.3344L18.6421 20.5H5.35792Z" stroke="#222222" stroke-width="2"/>
-<line x1="6.10557" y1="9.05279" x2="9.10557" y2="3.05279" stroke="#222222" stroke-width="2"/>
-<line y1="-1" x2="6.7082" y2="-1" transform="matrix(-0.447214 -0.894427 -0.894427 0.447214 17 9.5)" stroke="#222222" stroke-width="2"/>
+<path d="M5.35792 20.5L3.66561 9.5H20.3344L18.6421 20.5H5.35792Z" stroke="currentColor" stroke-width="2"/>
+<line x1="6.10557" y1="9.05279" x2="9.10557" y2="3.05279" stroke="currentColor" stroke-width="2"/>
+<line y1="-1" x2="6.7082" y2="-1" transform="matrix(-0.447214 -0.894427 -0.894427 0.447214 17 9.5)" stroke="currentColor" stroke-width="2"/>
 </svg>
