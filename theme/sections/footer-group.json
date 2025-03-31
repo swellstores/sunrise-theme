@@ -5,7 +5,7 @@
     "newsletter": {
       "type": "newsletter",
       "settings": {
-        "color_scheme": "scheme-4",
+        "color_scheme": "scheme-1",
         "padding_x": 12,
         "padding_y": 24
       },
