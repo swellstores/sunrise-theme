@@ -6,7 +6,7 @@
 {% endcomment %}
 
 {%- liquid
-  assign color_scheme_roles = 'background,text,text_secondary,primary_button,secondary_button,primary_button_border,secondary_button_border,on_primary_button,on_secondary_button,links,icons,accent,primary_button_hover,secondary_button_hover,secondary_button_border_hover,primary_button_label_hover,secondary_button_label_hover,borders_and_inputs' | split: ','
+  assign color_scheme_roles = 'background,text,text_secondary,primary_button,secondary_button,primary_button_border,secondary_button_border,on_primary_button,on_secondary_button,links,icons,accent,primary_button_hover,secondary_button_hover,secondary_button_border_hover,primary_button_label_hover,secondary_button_label_hover,borders_and_inputs,brand_highlight' | split: ','
 -%}
 
 {% style %}
@@ -71,6 +71,9 @@
       .text-accent-{{ scheme.id }} {
         color: var(--color-{{ scheme.id }}-primary-button);
       }
+      .brand-highlight-{{ scheme.id }} {
+        color: var(--color-{{ scheme.id }}-brand-highlight);
+      }
       .btn-disabled-{{ scheme.id }} {
         color: var(--color-{{ scheme.id }}-text-secondary);
         border: 1px solid var(--color-{{ scheme.id }}-text-secondary);
@@ -87,10 +90,10 @@
       }
       .btn-primary-scheme-1:not(:disabled):focus-within,
       .btn-primary-scheme-1:not(:disabled):active {
-      background-color: var(--color-scheme-1-primary-button);
-      color: var(--color-scheme-1-on-primary-button);
-      border: 1px solid var(--color-scheme-1-primary-button-border);
-  }
+        background-color: var(--color-scheme-1-primary-button);
+        color: var(--color-scheme-1-on-primary-button);
+        border: 1px solid var(--color-scheme-1-primary-button-border);
+      }
       .btn-primary-{{ scheme.id }}:disabled {
         background-color: var(--color-{{ scheme.id }}-primary-button);
         color: var(--color-{{ scheme.id }}-on-primary-button);

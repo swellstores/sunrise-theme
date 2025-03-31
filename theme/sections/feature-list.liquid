@@ -30,11 +30,11 @@
 
 <div
   class="
-          bg-{{ section.settings.color_scheme }}
-        pt-[64px] pb-[64px] pr-[24px] pl-[24px] lg:pl-[160px]
-        lg:pr-[160px]
-        lg:pt-[96px]
-        lg:pb-[96px]
+    bg-{{ section.settings.color_scheme }}
+    pt-[64px] pb-[64px] pr-[24px] pl-[24px] lg:pl-[160px]
+    lg:pr-[160px]
+    lg:pt-[96px]
+    lg:pb-[96px]
     responsive-padding-{{ section.id }}
   "
 >
@@ -64,11 +64,9 @@
                   %}
                 {% else %}
                   <ion-icon
-                    class="w-[46px] h-[46px]"
+                    class="w-[46px] h-[46px] brand-highlight-{{ section.settings.color_scheme }}"
                     name="{{ block.settings.icon }}"
                     aria-hidden="true"
-                    class="mb-2"
-                    style="color: {{ block.settings.icon_color }}"
                   ></ion-icon>
                 {%- endif -%}
               </div>
@@ -194,12 +192,6 @@
           "label": "Icon",
           "info": "See the full list of icons [here](https://ionic.io/ionicons).",
           "default": "star-outline"
-        },
-        {
-          "type": "color",
-          "id": "icon_color",
-          "label": "Icon color",
-          "default": "#121212"
         },
         {
           "type": "image_picker",

@@ -100,6 +100,12 @@
             "default": "#222222"
           },
           {
+            "type": "color",
+            "id": "brand_highlight",
+            "label": "Brand highlight",
+            "default": "#222222"
+          },
+          {
             "type": "header",
             "content": "Button hover states"
           },
