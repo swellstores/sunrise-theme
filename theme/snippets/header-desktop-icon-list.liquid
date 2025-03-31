@@ -5,7 +5,7 @@
 <div class="flex items-center justify-end gap-[16px] ">
   <div class="relative hidden min-[768px]:block">
     {% if section.settings.show_language_selector %}
-      <button class="text-body-small font-display text-black" data-target="[data-modal='language']">
+      <button class="text-body-small font-display text-{{ color_scheme }}" data-target="[data-modal='language']">
         {{ localization.language.endonym_name | capitalize }}
       </button>
     {% endif %}
@@ -14,7 +14,7 @@
       {%- render 'language-local' -%}
     </div>
     {% if section.settings.show_currency_selector %}
-      <button class="text-body-small font-display text-black" data-target="[data-modal='currency']">
+      <button class="text-body-small font-display text-{{ color_scheme }}" data-target="[data-modal='currency']">
         {{ localization.country.currency.iso_code }}
         {{ localization.country.currency.symbol }}
       </button>
@@ -31,25 +31,16 @@
         <li class="px-2 uppercase text-label-large">
           <a
             href="{{ routes.account_url }}"
-            class=""
+            class="text-{{ color_scheme }}"
           >
             {{- 'account-icon.svg' | inline_asset_content -}}
           </a>
         </li>
       {%- else -%}
-        {% comment %}
-          <li class="px-2 uppercase text-label-large">
-            <a
-              href="{{ routes.account_register_url }}"
-              class=""
-              >Join</a
-            >
-          </li>
-        {% endcomment %}
         <li class="px-2 uppercase text-label-large">
           <a
             href="{{ routes.account_login_url }}"
-            class=""
+            class="text-{{ color_scheme }}"
           >
             {{- 'account-icon.svg' | inline_asset_content -}}
           </a>
@@ -60,7 +51,7 @@
 
   <search-trigger
     type="button"
-    class="size-6 flex items-center justify-center cursor-pointer"
+    class="size-6 flex items-center justify-center cursor-pointer text-{{ color_scheme }}"
     aria-label="Search {{ shop.name }}"
   >
     {{- 'search-icon.svg' | inline_asset_content -}}
@@ -68,25 +59,23 @@
   {% if cart_type == 'drawer' %}
     <cart-trigger
       role="button"
-      class="relative size-6 flex items-center justify-center"
+      class="relative size-6 flex items-center justify-center text-{{ color_scheme }}"
       aria-label="Shopping cart"
     >
       {{- 'cart-icon-new.svg' | inline_asset_content -}}
       <div
-        class="absolute right-[-4px] top-[6px] flex h-[16px] w-[18px] items-center justify-center rounded-full text-black"
-        style="background-color:{{ settings.cart_color }}"
+        class="absolute right-[-4px] top-[6px] flex h-[16px] w-[18px] items-center justify-center rounded-full bg-accent-{{ color_scheme }}"
       >
-        <cart-count class="font-display text-white text-[10px]">{{ cart.item_count }}</cart-count>
+        <cart-count class="font-display text-[10px] btn-primary-{{ color_scheme }}">{{ cart.item_count }}</cart-count>
       </div>
     </cart-trigger>
   {% else %}
-    <a href="{{ routes.cart_url }}" class="relative size-6 flex items-center justify-center">
+    <a href="{{ routes.cart_url }}" class="relative size-6 flex items-center justify-center text-{{ color_scheme }}">
       {{- 'cart-icon-new.svg' | inline_asset_content -}}
       <div
-        class="absolute  right-[-4px] top-[6px] flex h-[16px] w-[18px] items-center justify-center rounded-full text-black"
-        style="background-color:{{ settings.cart_color }}"
+        class="absolute right-[-4px] top-[6px] flex h-[16px] w-[18px] items-center justify-center rounded-full bg-accent-{{ color_scheme }}"
       >
-        <cart-count class="font-display text-white text-[10px]">{{ cart.item_count }}</cart-count>
+        <cart-count class="font-display text-[10px] btn-primary-{{ color_scheme }}">{{ cart.item_count }}</cart-count>
       </div>
     </a>
   {% endif %}
