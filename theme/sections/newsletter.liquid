@@ -4,7 +4,7 @@
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
 -%}
 
-<style>
+{% style %}
   .responsive-padding-{{ section.id }} {
     padding-top: {{ reduced_padding_top }}px;
     padding-bottom: {{ reduced_padding_bottom }}px;
@@ -22,7 +22,7 @@
       padding-bottom: {{ section.settings.bottom_padding }}px;
     }
   }
-</style>
+{% endstyle %}
 
 <div
   class="flex justify-center text-black bg-{{ color_scheme}} text-{{ color_scheme }} bg-[#FAF7FF] pt-[64px] pb-[64px] pl-[24px] pr-[24px] lg:p-[160px] responsive-padding-{{ section.id }}"

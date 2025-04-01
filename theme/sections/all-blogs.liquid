@@ -3,7 +3,7 @@
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
 -%}
 
-<style>
+{% style %}
   .responsive-padding-{{ section.id }} {
     padding-top: {{ reduced_padding_top }}px;
     padding-bottom: {{ reduced_padding_bottom }}px;
@@ -15,7 +15,7 @@
       padding-bottom: {{ section.settings.bottom_padding }}px;
     }
   }
-</style>
+{% endstyle %}
 
 <div class="bg-{{section.settings.color_scheme}} all-blogs max-w-[1366px] mx-auto p-[24px] md:pl-[160px] md:pr-[160px] md:pt-[64px] md:pb-[64px]  responsive-padding-{{ section.id }}">
   <div class="blogs-list">
