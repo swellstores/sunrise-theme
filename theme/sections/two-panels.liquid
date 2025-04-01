@@ -12,7 +12,7 @@
   assign gap = section.settings.gap
 -%}
 
-<style>
+{% style %}
   .container-padding-{{ section.id }} {
     padding: {{ vertical_padding }}px {{ horizontal_padding }}px;
   }
@@ -28,7 +28,7 @@
     }
     {% endif %}
   {% endfor %}
-</style>
+{% endstyle %}
 
 <div class="container-padding-{{ section.id }} bg-{{ color_scheme }}">
   <div class="mx-auto flex flex-row section-gap-{{ section.id }} min-h-[400px]">

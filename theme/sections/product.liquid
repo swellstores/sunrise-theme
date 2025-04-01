@@ -22,7 +22,7 @@
   endfor
 -%}
 
-<style>
+{% style %}
   .responsive-padding-{{ section.id }} {
     padding-top: {{ reduced_padding_top }}px;
     padding-bottom: {{ reduced_padding_bottom }}px;
@@ -34,7 +34,7 @@
       padding-bottom: {{ section.settings.bottom_padding }}px;
     }
   }
-</style>
+{% endstyle %}
 
 {% comment %} TODO: See if we can't handle the different display modes in CSS, rather than a bunch of nearly-identical loops {% endcomment %}
 
@@ -550,7 +550,7 @@
   };
 </script>
 
-<style>
+{% style %}
   .active-thumbnail {
     @apply border border-solid;
     border-color: black;
@@ -558,7 +558,7 @@
     border-radius: 4px;
     padding: 6px;
   }
-</style>
+{% endstyle %}
 
 {% schema %}
 {
