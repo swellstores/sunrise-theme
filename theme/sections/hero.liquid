@@ -31,9 +31,13 @@
         overflow-hidden
       "
     >
+      {% if section.settings.image == blank %}
+        {% assign pictureClass = 'svg-placeholder' %}
+      {% endif %}
       {% render 'image',
         placeholder: 'lifestyle-1',
         image: section.settings.image,
+        picture_class: pictureClass,
         class: 'w-full h-full object-cover object-center'
       %}
     </div>
