@@ -1,0 +1,136 @@
+{%- liquid
+  assign show_language_selector = section.settings.show_language_selector and localization.available_languages.size > 1
+  assign show_currency_selector = section.settings.show_currency_selector and localization.available_countries.size > 1
+  assign show_localization = show_language_selector or show_currency_selector
+-%}
+
+<localization-form class="relative flex {% if mdHidden == true %}max-md:hidden{% endif %} items-center gap-[6px]">
+  {% if show_localization %}
+    {% if show_language_selector %}
+      <button class="w-[16px] h-[16px] rounded-full overflow-hidden" data-target="[data-modal='localization']">
+        {{ localization.language.iso_code | locale_flag }}
+      </button>
+    {% endif %}
+
+    {% if show_currency_selector %}
+      <button class="text-body-small font-display text-{{ color_scheme }}" data-target="[data-modal='localization']">
+        {{ localization.country.currency.symbol }}
+        {{ localization.country.currency.iso_code }}
+      </button>
+    {% endif %}
+
+    <div class="fixed inset-0 hidden bg-black/50 z-[100000]" data-modal="localization">
+      <div class="flex items-center justify-center w-full h-full">
+        <div class="relative w-[472px] h-[224px] bg-white p-4">
+          <div class="h-full flex flex-col gap-[32px]">
+            <div class="flex justify-between items-center">
+              <h2 class="text-title-medium font-display text-black">
+                Choose your
+
+                {% if show_language_selector %}
+                  language
+                {% endif %}
+
+                {% if show_language_selector and show_currency_selector %}
+                  and
+                {% endif %}
+
+                {% if show_currency_selector %}
+                  currency
+                {% endif %}
+              </h2>
+              <button data-target="[data-modal='localization']" class="w-4 h-4 flex items-center">
+                {{ 'country-cross-icon.svg' | inline_asset_content }}
+              </button>
+            </div>
+            {%- form 'localization'
+              , id: 'LocalizationForm'
+              , class: 'localization-form relative h-full flex' -%}
+              <div class="flex gap-4 absolute w-full text-[#121212]">
+                {% if show_language_selector %}
+                  <div class="flex flex-col flex-[3] gap-2">
+                    <label class="text-label-small">Language</label>
+                    <div class="py-3 bg-white border border-[#121212]">
+                      <button
+                        id="language-selector"
+                        type="button"
+                        class="px-3 flex items-center justify-between w-full"
+                        aria-expanded="false"
+                        data-value="{{ localization.language.iso_code }}">
+                        <span class="language-button__text text-body-medium">{{- localization.language.endonym_name -}}</span>
+                        {{ 'icon-caret.svg' | inline_asset_content }}
+                      </button>
+                      <ul
+                        class="language-list mt-2 space-y-1"
+                        role="list"
+                        hidden>
+                        {%- for language in localization.available_languages -%}
+                          {% if language.iso_code != localization.language.iso_code %}
+                            <li tabindex="-1">
+                              <a data-value="{{ language.iso_code }}" class="language-list__item py-1 px-3 block w-full text-body-medium cursor-pointer hover:bg-[#F5F5F5]">
+                                <span class="language-list__item-text text-body-medium">
+                                  {{- language.endonym_name -}}
+                                </span>
+                              </a>
+                            </li>
+                          {% endif %}
+                        {%- endfor -%}
+                      </ul>
+                    </div>
+                    <input
+                      type="hidden"
+                      name="locale_code"
+                      value="{{ localization.language.iso_code }}">
+                  </div>
+                {% endif %}
+                {% if show_currency_selector %}
+                  <div class="flex flex-col flex-[1] gap-2">
+                    <label class="text-label-small">Currency</label>
+                    <div class="py-3 bg-white border border-[#121212]">
+                      <button
+                        id="currency-selector"
+                        type="button"
+                        class="px-3 flex items-center justify-between w-full"
+                        aria-expanded="false"
+                        data-value="{{ localization.country.currency.iso_code }}">
+                        <span class="currency-button__text text-body-medium">
+                          {{- localization.country.currency.symbol -}}&nbsp;
+                          {{- localization.country.currency.iso_code -}}
+                        </span>
+                        {{ 'icon-caret.svg' | inline_asset_content }}
+                      </button>
+                      <ul
+                        class="currency-list mt-2 space-y-1"
+                        role="list"
+                        hidden>
+                        {%- for country in localization.available_countries -%}
+                          {% if country.currency.iso_code != localization.country.currency.iso_code %}
+                            <li tabindex="-1">
+                              <a data-value="{{ country.currency.iso_code }}" class="currency-list__item py-1 px-3 block w-full text-body-medium cursor-pointer hover:bg-[#F5F5F5]">
+                                <span class="currency-list__item-text text-body-medium">
+                                  {{- country.currency.symbol -}}&nbsp;
+                                  {{- country.currency.iso_code -}}
+                                </span>
+                              </a>
+                            </li>
+                          {% endif %}
+                        {%- endfor -%}
+                      </ul>
+                    </div>
+                    <input
+                      type="hidden"
+                      name="country_code"
+                      value="{{ localization.country.currency.iso_code }}">
+                  </div>
+                {% endif %}
+              </div>
+              <button type="submit" class="w-full p-4 mt-auto text-label-large bg-[#121212] text-white">
+                Continue
+              </button>
+            {%- endform -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+</localization-form>
