@@ -28,13 +28,23 @@
     margin-top: 140px;
   }
 
+  .hover-bridge {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 38px;
+    background: transparent;
+  }
+
   .nav-item {
     position: relative;
     height: 100%;
   }
 
   .group:hover .mega-menu-wrapper,
-  .group:hover .standard-dropdown {
+  .group:hover .standard-dropdown,
+  .group:hover .hover-bridge {
     display: block;
   }
 
@@ -70,6 +80,7 @@
           </a>
           
           {% if link.links.size > 0 %}
+            <div class="hover-bridge"></div>
             {% assign has_grandchild = false %}
             {% for child in link.links %}
               {% if child.links.size > 0 %}
