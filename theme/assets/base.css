@@ -86,3 +86,49 @@ input[type="number"].number-input::-webkit-outer-spin-button {
   width: w-fit-moz-fit-content;
   width: fit-content;
 }
+
+/* FROALA editors */
+.fr-wrapper {
+  text-align: left;
+
+  h1, h2, h3, h4 {
+    font-weight: bolder;
+  }
+
+  h1 {
+    font-size: 2rem;
+    line-height: 3.2rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    line-height: 2.4rem;
+  }
+
+  h3 {
+    font-size: 1.18rem;
+    line-height: 1.872rem;
+  }
+
+  h4 {
+    font-size: 1rem;
+    line-height: 1.6rem;
+  }
+
+  ul, ol {
+    margin: 10px;
+    padding: 10px;
+    padding-inline-start: 2.5rem;
+    > li {
+      text-align: left;
+    }
+  }
+
+  ul {
+    list-style: disc;
+  }
+
+  ol {
+    list-style: auto;
+  }
+}
