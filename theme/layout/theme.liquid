@@ -16,6 +16,11 @@
       >
     {% endif %}
 
+    {%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
+      {{ 'localization-form.css' | asset_url | stylesheet_tag: preload: true }}
+      <script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
+
     <title>{{ page_title }}</title>
 
     <meta name="description" content="{{ page_description | default: shop.name | escape }}">
