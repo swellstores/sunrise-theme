@@ -1,20 +1,99 @@
+<script>
+  console.group('Navigation Menu Structure');
+  console.log('Selected Menu:', {{ section.settings.selected_menu | json }});
+  console.log('Menu Links:', {{ linklists[section.settings.selected_menu].links | json }});
+</script>
+
+{% style %}
+  .mega-menu, .standard-dropdown {
+    display: none;
+    z-index: 50;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+    border-radius: 4px;
+  }
+  
+  .standard-dropdown {
+    min-width: 200px;
+    display: block;
+  }
+  
+  .mega-menu {
+    width: 100%;
+  }
+  
+  .group:hover .mega-menu,
+  .group:hover .standard-dropdown {
+    display: block;
+  }
+{% endstyle %}
+
 <nav role="navigation" class="flex justify-center h-full items-center">
   <ul class="flex gap-3 h-full justify-center items-center md:gap-[48px]">
-    {% for link in linklists[section.settings.selected_menu].links %}
-      {% if link.links and link.links.size > 0 %}
-        <li class="font-display flex h-full items-center text-label-large {{text_uppercase}}">
-          <mega-menu-trigger class="cursor-pointer items-center flex h-full">
-            {{- link.title | escape -}}
-          </mega-menu-trigger>
-          {% render 'mega-menu', links: link.links, current_link: link %}
-        </li>
-      {% else %}
-        <li class="font-display flex h-full items-center text-label-large {{text_uppercase}}">
-          <a href="{{ link.url }}" class="flex h-full items-center whitespace-nowrap">
-            {{- link.title | escape -}}
-          </a>
-        </li>
-      {% endif %}
-    {%- endfor -%}
+    {% assign selected_menu = section.settings.selected_menu | default: 'main-menu' %}
+    {% assign menu_links = linklists[selected_menu].links %}
+
+    {% for link in menu_links %}
+      <script>
+        console.log('Processing menu item:', {{ link | json }});
+      </script>
+
+      <li class="font-display flex h-full items-center text-label-large relative group">
+        <a href="{{ link.url }}" class="flex h-full items-center whitespace-nowrap px-2 group-hover:text-gray-900 transition-colors">
+          {{ link.title }}
+          {% if link.links.size > 0 %}
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          {% endif %}
+        </a>
+        
+        {% if link.links.size > 0 %}
+          {% render 'standard-dropdown', links: link.links %}
+        {% endif %}
+      </li>
+    {% endfor %}
   </ul>
 </nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // For mega menu triggers
+    const megaMenuTriggers = document.querySelectorAll('mega-menu-trigger');
+    megaMenuTriggers.forEach(trigger => {
+      const menu = trigger.nextElementSibling;
+      if (!menu) return;
+      
+      trigger.addEventListener('mouseenter', () => {
+        if (menu) menu.style.display = 'block';
+      });
+      
+      const parentLi = trigger.closest('li');
+      parentLi.addEventListener('mouseleave', () => {
+        if (menu) menu.style.display = 'none';
+      });
+    });
+    
+    // For standard dropdowns
+    const dropdownLinks = document.querySelectorAll('.group > a');
+    dropdownLinks.forEach(link => {
+      if (!link.querySelector('svg')) return;
+      
+      const parentLi = link.closest('li');
+      const dropdown = parentLi.querySelector('.standard-dropdown');
+      if (!dropdown) return;
+      
+      link.addEventListener('mouseenter', () => {
+        dropdown.style.display = 'block';
+      });
+      
+      parentLi.addEventListener('mouseleave', () => {
+        dropdown.style.display = 'none';
+      });
+    });
+  });
+</script>
