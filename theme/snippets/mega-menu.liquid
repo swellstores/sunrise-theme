@@ -2,66 +2,96 @@
   assign border_b = section.settings.border_b
 -%}
 
-<div class="mega-nav-wrapper normal-case">
-  <div class="absolute top-full left-0 w-full bg-white shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-    <div class="max-w-7xl mx-auto px-8 py-6">
-      <div class="flex gap-8">
-        <!-- Left Column - Categories -->
-        <div class="w-64 border-r border-gray-100">
-          <div class="pr-8">
-            <div class="text-gray-900 font-medium mb-4">{{ current_link.title }}</div>
-            <ul class="space-y-3">
-              {% for child_link in current_link.links %}
-                {% if child_link.links.size > 0 %}
-                  <li>
-                    <a 
-                      href="{{ child_link.url }}" 
-                      class="text-gray-600 hover:text-gray-900 text-sm transition-colors {% if child_link.active %}text-gray-900{% endif %}"
-                    >
-                      {{ child_link.title | escape }}
-                    </a>
-                  </li>
-                {% endif %}
+{% style %}
+  .mega-menu-wrapper {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    max-width: 1440px;
+    background: white;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+    border: 1px solid #eee;
+    border-radius: 4px;
+    display: none;
+    padding: 48px;
+    margin-top: 140px;
+  }
+
+  .mega-menu-container {
+    width: 100%;
+  }
+
+  .mega-menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 64px 48px;
+    width: 100%;
+  }
+
+  .mega-menu-category {
+    min-width: 280px;
+  }
+
+  .mega-menu-category-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #111827;
+    margin-bottom: 24px;
+    display: block;
+    text-decoration: none;
+    text-transform: none;
+  }
+
+  .mega-menu-category-title:hover {
+    color: #000;
+  }
+
+  .mega-menu-links {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .mega-menu-link {
+    font-size: 15px;
+    color: #6B7280;
+    text-decoration: none;
+    transition: color 0.2s;
+    line-height: 1.5;
+  }
+
+  .mega-menu-link:hover {
+    color: #111827;
+  }
+
+  @media (min-width: 1024px) {
+    .mega-menu-wrapper {
+      padding: 64px;
+    }
+  }
+{% endstyle %}
+
+<div class="mega-menu-wrapper">
+  <div class="mega-menu-container">
+    <div class="mega-menu-grid">
+      {% for child_link in current_link.links %}
+        <div class="mega-menu-category">
+          <a href="{{ child_link.url }}" class="mega-menu-category-title">
+            {{ child_link.title }}
+          </a>
+          {% if child_link.links.size > 0 %}
+            <div class="mega-menu-links">
+              {% for grandchild in child_link.links %}
+                <a href="{{ grandchild.url }}" class="mega-menu-link">
+                  {{ grandchild.title }}
+                </a>
               {% endfor %}
-            </ul>
-          </div>
+            </div>
+          {% endif %}
         </div>
-
-        <!-- Right Column - Featured Items Grid -->
-        <div class="flex-1">
-          <div class="grid grid-cols-3 gap-8">
-            {% for child_link in current_link.links %}
-              {% if child_link.links.size > 0 %}
-                {% for grandchild in child_link.links limit: 3 %}
-                  <div class="group">
-                    <a href="{{ grandchild.url }}" class="block">
-                      {% if grandchild.object.featured_image != blank %}
-                        <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden bg-gray-100 rounded-lg mb-4">
-                          <img
-                            src="{{ grandchild.object.featured_image | img_url: '300x300', crop: 'center' }}"
-                            alt="{{ grandchild.title | escape }}"
-                            class="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-200"
-                          >
-                        </div>
-                      {% endif %}
-
-                      <h3 class="text-sm font-medium text-gray-900">
-                        {{ grandchild.title }}
-                      </h3>
-
-                      {% if grandchild.object.price %}
-                        <p class="mt-1 text-sm text-gray-500">
-                          {{ grandchild.object.price | money }}
-                        </p>
-                      {% endif %}
-                    </a>
-                  </div>
-                {% endfor %}
-              {% endif %}
-            {% endfor %}
-          </div>
-        </div>
-      </div>
+      {% endfor %}
     </div>
   </div>
 </div>

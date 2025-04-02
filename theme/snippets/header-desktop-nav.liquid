@@ -5,12 +5,10 @@
 </script>
 
 {% style %}
-  .mega-menu, .standard-dropdown {
+  .mega-menu-wrapper, .standard-dropdown {
     display: none;
-    z-index: 50;
+    z-index: 40;
     position: absolute;
-    top: 100%;
-    left: 0;
     background-color: white;
     border: 1px solid #eee;
     box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
@@ -19,81 +17,93 @@
   
   .standard-dropdown {
     min-width: 200px;
-    display: block;
+    left: 0;
+    margin-top: 38px;
   }
   
-  .mega-menu {
-    width: 100%;
+  .mega-menu-wrapper {
+    width: 100vw;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 140px;
   }
-  
-  .group:hover .mega-menu,
+
+  .nav-item {
+    position: relative;
+    height: 100%;
+  }
+
+  .group:hover .mega-menu-wrapper,
   .group:hover .standard-dropdown {
     display: block;
   }
+
+  .nav-container {
+    position: relative;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    z-index: 40;
+  }
+
+  header {
+    position: relative;
+    z-index: 50;
+  }
 {% endstyle %}
 
-<nav role="navigation" class="flex justify-center h-full items-center">
-  <ul class="flex gap-3 h-full justify-center items-center md:gap-[48px]">
-    {% assign selected_menu = section.settings.selected_menu | default: 'main-menu' %}
-    {% assign menu_links = linklists[selected_menu].links %}
+<nav role="navigation" class="flex justify-center h-full items-center w-full">
+  <div class="nav-container">
+    <ul class="flex gap-3 h-full justify-center items-center md:gap-[48px]">
+      {% assign selected_menu = section.settings.selected_menu | default: 'main-menu' %}
+      {% assign menu_links = linklists[selected_menu].links %}
 
-    {% for link in menu_links %}
-      <script>
-        console.log('Processing menu item:', {{ link | json }});
-      </script>
-
-      <li class="font-display flex h-full items-center text-label-large relative group">
-        <a href="{{ link.url }}" class="flex h-full items-center whitespace-nowrap px-2 group-hover:text-gray-900 transition-colors">
-          {{ link.title }}
+      {% for link in menu_links %}
+        <li class="nav-item font-display flex h-full items-center text-label-large group">
+          <a href="{{ link.url }}" class="flex h-full items-center whitespace-nowrap px-2 group-hover:text-gray-900 transition-colors">
+            {{ link.title }}
+            {% if link.links.size > 0 %}
+              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+              </svg>
+            {% endif %}
+          </a>
+          
           {% if link.links.size > 0 %}
-            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-            </svg>
+            {% assign has_grandchild = false %}
+            {% for child in link.links %}
+              {% if child.links.size > 0 %}
+                {% assign has_grandchild = true %}
+              {% endif %}
+            {% endfor %}
+
+            {% if has_grandchild %}
+              {% render 'mega-menu', current_link: link %}
+            {% else %}
+              {% render 'standard-dropdown', links: link.links %}
+            {% endif %}
           {% endif %}
-        </a>
-        
-        {% if link.links.size > 0 %}
-          {% render 'standard-dropdown', links: link.links %}
-        {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
 </nav>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // For mega menu triggers
-    const megaMenuTriggers = document.querySelectorAll('mega-menu-trigger');
-    megaMenuTriggers.forEach(trigger => {
-      const menu = trigger.nextElementSibling;
-      if (!menu) return;
-      
-      trigger.addEventListener('mouseenter', () => {
-        if (menu) menu.style.display = 'block';
-      });
-      
-      const parentLi = trigger.closest('li');
-      parentLi.addEventListener('mouseleave', () => {
-        if (menu) menu.style.display = 'none';
-      });
-    });
-    
-    // For standard dropdowns
-    const dropdownLinks = document.querySelectorAll('.group > a');
-    dropdownLinks.forEach(link => {
-      if (!link.querySelector('svg')) return;
-      
-      const parentLi = link.closest('li');
-      const dropdown = parentLi.querySelector('.standard-dropdown');
-      if (!dropdown) return;
-      
-      link.addEventListener('mouseenter', () => {
-        dropdown.style.display = 'block';
-      });
-      
-      parentLi.addEventListener('mouseleave', () => {
-        dropdown.style.display = 'none';
-      });
+    const header = document.querySelector('header');
+    if (header) {
+      const headerHeight = header.offsetHeight;
+      document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+    }
+
+    // Update header height on resize
+    window.addEventListener('resize', () => {
+      const header = document.querySelector('header');
+      if (header) {
+        const headerHeight = header.offsetHeight;
+        document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+      }
     });
   });
 </script>
