@@ -152,27 +152,8 @@
           </ul>
         {% endif %}
       </div>
-      <div class="relative">
-        {% if section.settings.show_language_selector %}
-          <button class="text-body-small font-display text-black" data-target="[data-modal='language']">
-            {{ localization.language.endonym_name | capitalize }}
-          </button>
-        {% endif %}
 
-        <div class="fixed inset-0 z-50 hidden bg-black/50" data-modal="language">
-          {%- render 'language-local' -%}
-        </div>
-        {% if section.settings.show_currency_selector %}
-          <button class="text-body-small font-display text-black" data-target="[data-modal='currency']">
-            {{ localization.country.currency.iso_code }}
-            {{ localization.country.currency.symbol }}
-          </button>
-        {% endif %}
-
-        <div class="fixed inset-0 z-50 hidden bg-black/50" data-modal="currency">
-          {%- render 'country-local' -%}
-        </div>
-      </div>
+      {%- render 'localization-form' -%}
 
       {% if section.settings.show_payment_icons %}
         <ul class="flex gap-[12px] flex-wrap" role="list">
