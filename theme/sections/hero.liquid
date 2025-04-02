@@ -31,14 +31,28 @@
         overflow-hidden
       "
     >
-      {% if section.settings.image == blank %}
-        {% assign pictureClass = 'svg-placeholder' %}
-      {% endif %}
+      {% liquid 
+        assign image_class = 'object-contain h-full'
+        if section.settings.image_height == 'auto'
+          assign image_class = 'object-contain h-fit'
+        elsif section.settings.image_height == 'fixed_height'
+          assign image_class = 'object-cover w-fit h-full'
+        elsif section.settings.image_height == 'fill'
+          assign image_class = 'object-fill h-full'
+        endif
+
+        assign pictureClass = 'svg-placeholder object-fit object-center'
+
+        if section.settings.banner_height == 'adapt'
+          assign image_class = 'w-full h-full object-cover object-center'
+          assign pictureClass = ''
+        endif
+      %}
       {% render 'image',
         placeholder: 'lifestyle-1',
         image: section.settings.image,
         picture_class: pictureClass,
-        class: 'w-full h-full object-cover object-center'
+        class: image_class
       %}
     </div>
     <div
@@ -179,6 +193,18 @@
           "value": "screen",
           "label": "Adapt to screen"
         }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "image_height",
+      "label": "Image height",
+      "default": "contain",
+      "options": [
+        { "value": "auto", "label": "Auto" },
+        { "value": "fixed_height", "label": "Fixed height" },
+        { "value": "fill", "label": "Fill" },
+        { "value": "contain", "label": "Contain" }
       ]
     },
     {
