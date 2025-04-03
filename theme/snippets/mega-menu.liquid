@@ -21,29 +21,6 @@
   {% endfor %}
 </div>
 
-<script>
-  class MegaMenuTrigger extends HTMLElement {
-    constructor() {
-      super();
-      this.addEventListener('mouseenter', () => {
-        const megaMenu = this.nextElementSibling;
-        if (megaMenu) {
-          megaMenu.classList.remove('hidden');
-        }
-      });
-      
-      this.addEventListener('mouseleave', (event) => {
-        const megaMenu = this.nextElementSibling;
-        const toElement = event.relatedTarget;
-        
-        if (megaMenu && !megaMenu.contains(toElement)) {
-          megaMenu.classList.add('hidden');
-        }
-      });
-    }
-  }
-</script>
-
 {% schema %}
 {
   "name": "Mega Menu",
