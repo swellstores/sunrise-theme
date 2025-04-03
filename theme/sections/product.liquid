@@ -433,8 +433,6 @@
                   >
                     {% if product.sku != blank %}
                       {{ product.sku }}
-                    {% else %}
-                      No SKU set
                     {% endif %}
                   </div>
                 {% endif %}
@@ -642,6 +640,7 @@
     {
       "type": "title",
       "name": "Title",
+      "limit": 1,
       "settings": [
         {
           "type": "checkbox",
@@ -672,6 +671,7 @@
     {
       "type": "price",
       "name": "Price",
+      "limit": 1,
       "settings": [
         {
           "type": "checkbox",
@@ -704,6 +704,7 @@
     {
       "type": "category",
       "name": "Category",
+      "limit": 1,
       "settings": [
         {
           "type": "checkbox",
@@ -736,6 +737,7 @@
     {
       "type": "sku",
       "name": "SKU",
+      "limit": 1,
       "settings": [
         {
           "type": "checkbox",
@@ -768,6 +770,7 @@
     {
       "type": "quantity_selector",
       "name": "Quantity selector",
+      "limit": 1,
       "settings": [
         {
           "type": "checkbox",
@@ -800,6 +803,7 @@
     {
       "type": "variant",
       "name": "Variant picker",
+      "limit": 1,
       "settings": [
         {
           "type": "checkbox",
@@ -842,6 +846,7 @@
     {
       "type": "buy_buttons",
       "name": "Buy buttons",
+      "limit": 1,
       "settings": [
         {
           "type": "checkbox",
@@ -877,10 +882,10 @@
         }
       ]
     },
-
     {
       "type": "description",
       "name": "Description",
+      "limit": 1,
       "settings": [
         {
           "type": "checkbox",
