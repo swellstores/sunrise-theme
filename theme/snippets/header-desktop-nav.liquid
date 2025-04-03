@@ -1,9 +1,3 @@
-<script>
-  console.group('Navigation Menu Structure');
-  console.log('Selected Menu:', {{ section.settings.selected_menu | json }});
-  console.log('Menu Links:', {{ linklists[section.settings.selected_menu].links | json }});
-</script>
-
 {% style %}
   .mega-menu-wrapper,
   .standard-dropdown {
@@ -49,12 +43,12 @@
   .mega-menu-grid {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 32px;
     width: 100%;
     max-width: 1440;
     margin: 0 auto;
     padding: 32px 120px 32px 120px;
-    min-height: var(--mega-menu-height);
+    min-height: 628px;
     color: #111827;
     z-index: 1001;
     background-color: white;
