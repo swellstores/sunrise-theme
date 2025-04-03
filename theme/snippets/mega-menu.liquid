@@ -2,100 +2,23 @@
   assign border_b = section.settings.border_b
 -%}
 
-{% style %}
-  .mega-menu-wrapper {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100vw;
-    max-width: 1440px;
-    background: white;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-    border: 1px solid #eee;
-    border-radius: 4px;
-    display: none;
-    padding: 32px;
-    margin-top: 38px;
-  }
-
-  .mega-menu-container {
-    width: 100%;
-    max-width: 1280px;
-    margin: 0 auto;
-  }
-
-  .mega-menu-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 32px;
-    width: 100%;
-  }
-
-  .mega-menu-category {
-    min-width: 200px;
-  }
-
-  .mega-menu-category-title {
-    font-size: 14px;
-    font-weight: 500;
-    color: #111827;
-    margin-bottom: 16px;
-    display: block;
-    text-decoration: none;
-    text-transform: none;
-  }
-
-  .mega-menu-category-title:hover {
-    color: #000;
-  }
-
-  .mega-menu-links {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .mega-menu-link {
-    font-size: 14px;
-    color: #6B7280;
-    text-decoration: none;
-    transition: color 0.2s;
-    line-height: 1.4;
-  }
-
-  .mega-menu-link:hover {
-    color: #111827;
-  }
-
-  @media (min-width: 1024px) {
-    .mega-menu-wrapper {
-      padding: 40px;
-    }
-  }
-{% endstyle %}
-
-<div class="mega-menu-wrapper">
-  <div class="mega-menu-container">
-    <div class="mega-menu-grid">
-      {% for child_link in current_link.links %}
-        <div class="mega-menu-category">
-          <a href="{{ child_link.url }}" class="mega-menu-category-title">
-            {{ child_link.title }}
-          </a>
-          {% if child_link.links.size > 0 %}
-            <div class="mega-menu-links">
-              {% for grandchild in child_link.links %}
-                <a href="{{ grandchild.url }}" class="mega-menu-link">
-                  {{ grandchild.title }}
-                </a>
-              {% endfor %}
-            </div>
-          {% endif %}
+<div class="mega-menu-grid">
+  {% for child_link in current_link.links %}
+    <div class="mega-menu-category">
+      <a href="{{ child_link.url }}" class="mega-menu-category-title">
+        {{ child_link.title }}
+      </a>
+      {% if child_link.links.size > 0 %}
+        <div class="mega-menu-links">
+          {% for grandchild in child_link.links %}
+            <a href="{{ grandchild.url }}" class="mega-menu-link">
+              {{ grandchild.title }}
+            </a>
+          {% endfor %}
         </div>
-      {% endfor %}
+      {% endif %}
     </div>
-  </div>
+  {% endfor %}
 </div>
 
 <script>
@@ -118,10 +41,6 @@
         }
       });
     }
-  }
-
-  if (!customElements.get('mega-menu-trigger')) {
-    customElements.define('mega-menu-trigger', MegaMenuTrigger);
   }
 </script>
 
