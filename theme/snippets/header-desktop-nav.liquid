@@ -7,12 +7,10 @@
     box-shadow:
       0px 2px 4px -2px #1717170f,
       0px 4px 8px -2px #1717171a;
-
-    border-radius: 4px;
   }
 
   .standard-dropdown {
-    margin-top: 34px;
+    margin-top: 35px;
     padding: 32px 16px;
     margin-left: 24px;
   }
@@ -23,7 +21,6 @@
     visibility: hidden;
     opacity: 0;
     z-index: -1;
-    min-height: 628px;
     height: auto;
   }
 
@@ -40,23 +37,27 @@
   }
 
   .mega-menu-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
+    display: block;
+    column-width: 250px;
+    column-gap: 32px;
+    column-fill: auto;
     width: 100%;
-    max-width: 1440;
+    max-width: 1440px;
     margin: 0 auto;
-    padding: 32px 120px 32px 120px;
-    min-height: 628px;
+    padding: 32px 120px;
+    max-height: 628px;
+    overflow: hidden;
     color: #111827;
     z-index: 1001;
     background-color: white;
   }
 
   .mega-menu-category {
+    break-inside: avoid;
     display: flex;
     flex-direction: column;
     gap: 16px;
+    margin-bottom: 32px;
   }
 
   .hover-bridge {
@@ -84,7 +85,6 @@
     left: 0;
     width: 100%;
     z-index: 30;
-    min-height: var(--mega-menu-height);
     height: auto;
     pointer-events: none;
   }
