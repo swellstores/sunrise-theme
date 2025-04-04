@@ -72,7 +72,7 @@
                   </h2>
                 {% endif %}
                 {% if section.settings.heading %}
-                  <h2 class="font-display text-headline-small font-heading text-{{ section.settings.heading_size }}">
+                  <h2 class="font-display text-headline-small font-heading text-{{ section.settings.heading_size }} formatted-text">
                     {{ section.settings.heading }}
                   </h2>
                 {% endif %}
@@ -107,7 +107,7 @@
                         >
                           <div class="overflow-hidden text-left text-body-small font-display">
                             <div class="mt-[4px]">
-                              {{ block.settings.row_content }}
+                              <span class="formatted-text">{{ block.settings.row_content }}</span>
                               {{ block.settings.page.content }}
                             </div>
                           </div>
@@ -127,7 +127,7 @@
                   </p>
                 {% endif %}
                 {% if section.settings.heading %}
-                  <h2 class="font-display text-display-small font-heading text-{{ section.settings.heading_size }}">
+                  <h2 class="font-display text-display-small font-heading text-{{ section.settings.heading_size }} formatted-text">
                     {{ section.settings.heading }}
                   </h2>
                 {% endif %}
@@ -162,7 +162,7 @@
                         >
                           <div class="overflow-hidden text-left text-body-small font-display">
                             <div class="mt-[4px]">
-                              {{ block.settings.row_content }}
+                              <span class="formatted-text">{{ block.settings.row_content }}</span>
                               {{ block.settings.page.content }}
                             </div>
                           </div>
