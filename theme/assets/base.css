@@ -88,9 +88,7 @@ input[type="number"].number-input::-webkit-outer-spin-button {
 }
 
 /* FROALA editors */
-.fr-wrapper {
-  text-align: left;
-
+.formatted-text {
   h1, h2, h3, h4 {
     font-weight: bolder;
   }
