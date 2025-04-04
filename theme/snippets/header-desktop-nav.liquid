@@ -2,8 +2,6 @@
   .mega-menu-wrapper,
   .standard-dropdown {
     display: none;
-    z-index: 40;
-    position: absolute;
     background-color: white;
     border: 1px solid #eee;
     box-shadow:
@@ -13,9 +11,9 @@
   }
 
   .standard-dropdown {
-    min-width: 200px;
-    left: 0;
     margin-top: 38px;
+    padding: 32px 16px;
+    margin-left: 24px;
   }
 
   .mega-menu-wrapper {
@@ -57,29 +55,7 @@
   .mega-menu-category {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-  }
-
-  .mega-menu-category-title {
-    font-weight: 500;
-    color: #111827;
-    margin: 0;
-  }
-
-  .mega-menu-links {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .mega-menu-link {
-    color: #6b7280;
-    text-decoration: none;
-    transition: color 0.15s ease;
-  }
-
-  .mega-menu-link:hover {
-    color: #111827;
+    gap: 16px;
   }
 
   .hover-bridge {
@@ -174,7 +150,7 @@
         >
           <a
             href="{{ link.url }}"
-            class="flex h-full items-center whitespace-nowrap px-2 group-hover:text-gray-900 transition-colors"
+            class="flex h-full items-center whitespace-nowrap hover:underline font-normal font-display"
             {% if link.links.size > 0 %}
               {% assign has_grandchild = false %}
               {% for child in link.links %}

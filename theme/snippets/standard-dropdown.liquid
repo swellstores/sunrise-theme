@@ -1,49 +1,14 @@
-<div class="standard-dropdown absolute top-full left-0 min-w-[200px] bg-white shadow-lg rounded-md overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-  <ul class="py-2">
+<div class="standard-dropdown absolute top-full  bg-white shadow-lg rounded-md overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+  <div>
     {% for link in links %}
-      <script>
-        console.log('Dropdown Item:', {
-          title: {{ link.title | json }},
-          url: {{ link.url | json }},
-          type: {{ link.type | json }},
-          hasChildren: {{ link.links.size > 0 | json }}
-        });
-      </script>
-
-      <li class="relative group/item">
-        <a 
-          href="{{ link.url }}" 
-          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 whitespace-nowrap flex items-center justify-between"
+      <div class="{% unless forloop.last %}pb-[32px]{% endunless %}">
+        <a
+          href="{{ link.url }}"
+          class="block font-medium whitespace-nowrap font-display"
         >
           {{ link.title | escape }}
-          {% if link.links.size > 0 %}
-            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          {% endif %}
         </a>
-
-        {% if link.links.size > 0 %}
-          <div class="absolute top-0 left-full min-w-[200px] bg-white shadow-lg rounded-md overflow-hidden opacity-0 invisible group-hover/item:opacity-100 group-hover/item:visible transition-all duration-200">
-            <ul class="py-2">
-              {% for sublink in link.links %}
-                <li>
-                  <a 
-                    href="{{ sublink.url }}" 
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 whitespace-nowrap"
-                  >
-                    {{ sublink.title | escape }}
-                  </a>
-                </li>
-              {% endfor %}
-            </ul>
-          </div>
-        {% endif %}
-      </li>
+      </div>
     {% endfor %}
-  </ul>
+  </div>
 </div>
-
-<script>
-  console.groupEnd();
-</script> 
