@@ -3,15 +3,16 @@
   .standard-dropdown {
     display: none;
     background-color: white;
-    border: 1px solid #eee;
+    border: 1px solid #f5f5f5;
     box-shadow:
-      0 4px 6px -1px rgba(0, 0, 0, 0.1),
-      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      0px 2px 4px -2px #1717170f,
+      0px 4px 8px -2px #1717171a;
+
     border-radius: 4px;
   }
 
   .standard-dropdown {
-    margin-top: 38px;
+    margin-top: 34px;
     padding: 32px 16px;
     margin-left: 24px;
   }
@@ -145,12 +146,12 @@
 
       {% for link in menu_links %}
         <li
-          class="nav-item font-display flex h-full items-center text-label-large group"
+          class="nav-item font-display flex h-full items-center group"
           data-nav-item="{{ forloop.index }}"
         >
           <a
             href="{{ link.url }}"
-            class="flex h-full items-center whitespace-nowrap hover:underline font-normal font-display"
+            class="flex h-full items-center whitespace-nowrap hover:underline font-normal font-display leading-[20px] text-sm"
             {% if link.links.size > 0 %}
               {% assign has_grandchild = false %}
               {% for child in link.links %}
