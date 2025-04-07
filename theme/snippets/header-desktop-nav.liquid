@@ -113,10 +113,10 @@
 
   {% for link in menu_links %}
     {% if link.links.size > 0 %}
-      {% assign has_grandchild = false %}
+      {% assign has_nested_links = false %}
       {% for child in link.links %}
         {% if child.links.size > 0 %}
-          {% assign has_grandchild = true %}
+          {% assign has_nested_links = true %}
         {% endif %}
       {% endfor %}
     {% endif %}
@@ -169,13 +169,13 @@
             href="{{ link.url }}"
             class="flex h-full items-center whitespace-nowrap hover:underline font-normal font-heading leading-[20px] text-sm"
             {% if link.links.size > 0 %}
-              {% assign has_grandchild = false %}
+              {% assign has_nested_links = false %}
               {% for child in link.links %}
                 {% if child.links.size > 0 %}
-                  {% assign has_grandchild = true %}
+                  {% assign has_nested_links = true %}
                 {% endif %}
               {% endfor %}
-              {% if has_grandchild %}
+              {% if has_nested_links %}
                 onmouseover="showMegaMenu('mega-menu-{{ forloop.index }}', event)"
                 onmouseout="hideMegaMenu('mega-menu-{{ forloop.index }}')"
               {% endif %}
@@ -194,14 +194,14 @@
           </a>
 
           {% if link.links.size > 0 %}
-            {% assign has_grandchild = false %}
+            {% assign has_nested_links = false %}
             {% for child in link.links %}
               {% if child.links.size > 0 %}
-                {% assign has_grandchild = true %}
+                {% assign has_nested_links = true %}
               {% endif %}
             {% endfor %}
 
-            {% unless has_grandchild %}
+            {% unless has_nested_links %}
               {% render 'standard-dropdown', links: link.links %}
             {% endunless %}
           {% endif %}
@@ -214,14 +214,14 @@
 <div class="mega-menus-container">
   {% for link in menu_links %}
     {% if link.links.size > 0 %}
-      {% assign has_grandchild = false %}
+      {% assign has_nested_links = false %}
       {% for child in link.links %}
         {% if child.links.size > 0 %}
-          {% assign has_grandchild = true %}
+          {% assign has_nested_links = true %}
         {% endif %}
       {% endfor %}
 
-      {% if has_grandchild %}
+      {% if has_nested_links %}
         <div
           id="mega-menu-{{ forloop.index }}"
           class="mega-menu-wrapper"
