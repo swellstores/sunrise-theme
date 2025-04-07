@@ -11,10 +11,10 @@
 
   .standard-dropdown {
     position: absolute;
-    top: 74px;
-    margin-top: 1px;
-    padding: 32px 16px;
+    top: 100%;
     margin-left: 24px;
+    padding: 32px 16px;
+    transform: translateY(-22px);
   }
 
   .mega-menu-wrapper {
@@ -184,11 +184,13 @@
           >
             {{ link.title }}
             {% if link.links.size > 0 %}
-              <ion-icon
-                name="chevron-down-outline"
-                aria-label="Toggle accordion item"
-                class="h-4 w-4 transition-transform"
-              ></ion-icon>
+              <div class="ml-2 flex items-center justify-center">
+                <ion-icon
+                  name="chevron-down-outline"
+                  aria-label="Toggle accordion item"
+                  class="h-5 w-5 transition-transform"
+                ></ion-icon>
+              </div>
             {% endif %}
           </a>
 
