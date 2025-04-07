@@ -9,7 +9,7 @@
         {{ child_link.title }}
       </a>
       {% if child_link.links.size > 0 %}
-        <div class="flex flex-col font-medium gap-[16px]">
+        <div class="flex flex-col gap-4">
           {% for grandchild in child_link.links %}
             <a href="{{ grandchild.url }}" class="hover:underline font-normal font-heading leading-[20px]">
               {{ grandchild.title }}
