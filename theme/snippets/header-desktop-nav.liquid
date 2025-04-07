@@ -163,12 +163,12 @@
 
       {% for link in menu_links %}
         <li
-          class="nav-item font-display flex h-full items-center group"
+          class="nav-item flex h-full items-center group"
           data-nav-item="{{ forloop.index }}"
         >
           <a
             href="{{ link.url }}"
-            class="flex h-full items-center whitespace-nowrap hover:underline font-normal font-display leading-[20px] text-sm"
+            class="flex h-full items-center whitespace-nowrap hover:underline font-normal font-heading leading-[20px] text-sm"
             {% if link.links.size > 0 %}
               {% assign has_grandchild = false %}
               {% for child in link.links %}
