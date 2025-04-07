@@ -1,5 +1,5 @@
 {%- liquid
-  assign color_scheme = section.settings.color_scheme.id
+  assign color_scheme = section.settings.color_scheme
   assign loop = section.settings.loop
   assign auto_rotate = section.settings.auto_rotate
   assign media_position = section.settings.desktop_media_position
@@ -544,7 +544,7 @@
 
 <script>
   window.product = {
-    variants: {{ product.variants | default: nil | json }}
+    variants: {{ product.variants | json }}
   };
 </script>
 
