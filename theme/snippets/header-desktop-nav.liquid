@@ -19,7 +19,6 @@
 
   .mega-menu-wrapper {
     width: 100%;
-    display: none;
     visibility: hidden;
     opacity: 0;
     z-index: -1;
@@ -195,7 +194,6 @@
           </a>
 
           {% if link.links.size > 0 %}
-            <div class="hover-bridge"></div>
             {% assign has_grandchild = false %}
             {% for child in link.links %}
               {% if child.links.size > 0 %}
