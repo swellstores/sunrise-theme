@@ -20,6 +20,8 @@
       endunless
     endif
   endfor
+
+  assign selected_or_first_available_variant = product.selected_or_first_available_variant
 -%}
 
 {% style %}
@@ -408,7 +410,7 @@
                     class="product-price text-title-medium font-display text-{{ color_scheme }} mb-[2px] mt-[2px]"
                     style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
                   >
-                    {{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}
+                    {{ selected_or_first_available_variant.price | money_without_trailing_zeros }}
                   </div>
                 {% endif %}
               {% when 'category' %}
@@ -444,7 +446,7 @@
                   >
                     {% render 'quantity-selector-variant',
                       product: product,
-                      variant: product.selected_or_first_available_variant
+                      variant: selected_or_first_available_variant
                     %}
                   </div>
                 {% endif %}
@@ -459,12 +461,12 @@
                 {% endif %}
               {% when 'buy_buttons' %}
                 {%- liquid
-                  assign variant = product.selected_or_first_available_variant
+                  assign variant = selected_or_first_available_variant
                 -%}
                 {% if block.settings.show_buy_buttons %}
                   {% comment %} {% render 'product-form', product: product, cart_type: settings.cart_type %} {% endcomment %}
                   {% form 'product', product, class: 'flex flex-col w-full' %}
-                    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                    <input type="hidden" name="id" value="{{ selected_or_first_available_variant.id }}">
 
                     {%- if variant.available -%}
                       {%- if settings.cart_type == 'drawer' -%}

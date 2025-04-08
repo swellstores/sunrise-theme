@@ -10,6 +10,8 @@
 
 {%- unless product.has_only_default_variant -%}
   {%- for option in product.options_with_values -%}
+    {%- assign optionIndex = forloop.index0 -%}
+    {%- assign optionName = current_variant.options[optionIndex] | downcase -%}
     {%- if product_selector == 'radio' -%}
       <fieldset class="mb-4" id="product-variant-{{ forloop.index0 }}" name="{{ option.name | handleize }}">
         <legend class="font-display text-label-medium uppercase mb-2">
@@ -17,20 +19,35 @@
         </legend>
         <variant-radio class="flex flex-wrap items-center gap-[8px]">
           {%- for value in option.values -%}
-            {%- assign matched_variant = null -%}
+            {%- liquid
+              assign matched_variant = null
+              assign matched_options = current_variant.options
+              assign inputOptionName = value | downcase
 
-            {%- for variant in product.variants -%}
-              {%- if variant.option1 == value or variant.option2 == value or variant.option3 == value -%}
-                {%- assign matched_variant = variant -%}
-              {%- endif -%}
-            {%- endfor -%}
+              for variant in product.variants
+                assign matched = true
+                for variantOption in variant.options
+                  assign variantOptionIndex = forloop.index0
+                  if variantOptionIndex == optionIndex
+                    assign compareOptionValue = value | downcase
+                  else
+                    assign compareOptionValue = matched_options[variantOptionIndex] | downcase
+                  endif
 
+                  assign variantOption = variant.options[variantOptionIndex] | downcase
+                  if variantOption != compareOptionValue
+                    assign matched = false
+                  endif
+                endfor
+
+                if matched
+                  assign matched_variant = variant
+                endif
+              endfor
+            -%}
             <input
               type="radio"
-              {% if current_variant.option1 == value
-                or current_variant.option2 == value
-                or current_variant.option3 == value
-              %}
+              {% if optionName == inputOptionName %}
                 checked="checked"
               {% endif %}
               {% unless matched_variant.available %}
@@ -49,16 +66,17 @@
               class="
                 border border-[#3B0B93] px-[12px] py-[12px] text-center transition-colors uppercase font-display text-label-small
                 {% if matched_variant.available %}
-                {% if current_variant.id != matched_variant.id %}
-                 cursor-pointer
-                 btn-secondary-{{ color_scheme }} text-{{ color_scheme }} cursor-pointer
-                 {% else %}
-                 cursor-pointer
-                 btn-primary-{{ color_scheme }}
-                 {% endif %}
+                  {% if current_variant.id != matched_variant.id %}
+                  cursor-pointer
+                  btn-secondary-{{ color_scheme }} text-{{ color_scheme }} cursor-pointer
                   {% else %}
-                  cursor-not-allowed btn-disabled-{{ color_scheme }}
+                  cursor-pointer
+                  btn-primary-{{ color_scheme }}
+                  bg-[#3B0B93] text-white
                  {% endif %}
+                {% else %}
+                  cursor-not-allowed btn-disabled-{{ color_scheme }}
+                {% endif %}
               "
               aria-labelledby="product-variant-{{ option.name | handleize }}-{{ value | escape }}"
               data-variant-id="              {{- matched_variant.id -}}"
