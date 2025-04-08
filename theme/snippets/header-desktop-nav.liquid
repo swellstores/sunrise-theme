@@ -112,36 +112,7 @@
   {% endfor %}
 {% endstyle %}
 
-<script>
-  // Mega menu toggle functions
-  function showMegaMenu(id) {
-    const megaMenu = document.getElementById(id);
-    if (megaMenu) {
-      megaMenu.classList.add('active');
-    }
-  }
-
-  function keepMenuVisible(id) {
-    const megaMenu = document.getElementById(id);
-    if (megaMenu) {
-      megaMenu.classList.add('active');
-    }
-  }
-
-  function hideMegaMenu(id) {
-    const megaMenu = document.getElementById(id);
-    if (megaMenu) {
-      setTimeout(() => {
-        if (
-          !document.querySelector(`#${id}:hover`) &&
-          !document.querySelector(`[data-nav-item]:hover a[onmouseover*="${id}"]`)
-        ) {
-          megaMenu.classList.remove('active');
-        }
-      }, 100);
-    }
-  }
-</script>
+<mega-menu-root></mega-menu-root>
 
 <nav role="navigation" class="flex justify-center h-full items-center w-full">
   <div class="nav-container">
@@ -165,8 +136,7 @@
                 {% endif %}
               {% endfor %}
               {% if has_nested_links %}
-                onmouseover="showMegaMenu('mega-menu-{{ forloop.index }}', event)"
-                onmouseout="hideMegaMenu('mega-menu-{{ forloop.index }}')"
+                data-mega-menu="mega-menu-{{ forloop.index }}"
               {% endif %}
             {% endif %}
           >
@@ -214,8 +184,6 @@
         <div
           id="mega-menu-{{ forloop.index }}"
           class="mega-menu-wrapper"
-          onmouseover="keepMenuVisible('mega-menu-{{ forloop.index }}')"
-          onmouseout="hideMegaMenu('mega-menu-{{ forloop.index }}')"
         >
           {% render 'mega-menu', current_link: link %}
         </div>
