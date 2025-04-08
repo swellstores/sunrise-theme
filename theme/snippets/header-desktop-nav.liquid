@@ -1,20 +1,81 @@
-<nav role="navigation" class="flex justify-center h-full items-center">
-  <ul class="flex gap-3 h-full justify-center items-center md:gap-[48px]">
-    {% for link in linklists[section.settings.selected_menu].links %}
-      {% if link.links and link.links.size > 0 %}
-        <li class="font-display flex h-full items-center text-label-large {{text_uppercase}}">
-          <mega-menu-trigger class="cursor-pointer items-center flex h-full">
-            {{- link.title | escape -}}
-          </mega-menu-trigger>
-          {% render 'mega-menu', links: link.links, current_link: link %}
-        </li>
-      {% else %}
-        <li class="font-display flex h-full items-center text-label-large {{text_uppercase}}">
-          <a href="{{ link.url }}" class="flex h-full items-center whitespace-nowrap">
-            {{- link.title | escape -}}
+{{ 'mega-menu.css' | asset_url | stylesheet_tag }}
+
+<mega-menu-root></mega-menu-root>
+
+<nav role="navigation" class="flex justify-center h-full items-center w-full">
+  <div class="nav-container">
+    <ul class="flex gap-3 h-full justify-center items-center md:gap-[48px]">
+      {% assign selected_menu = section.settings.selected_menu | default: 'main-menu' %}
+      {% assign menu_links = linklists[selected_menu].links %}
+
+      {% for link in menu_links %}
+        <li
+          class="nav-item flex h-full items-center group"
+          data-nav-item="{{ forloop.index }}"
+        >
+          <a
+            href="{{ link.url }}"
+            class="flex h-full items-center whitespace-nowrap hover:underline font-normal font-heading leading-[20px] text-sm"
+            {% if link.links.size > 0 %}
+              {% assign has_nested_links = false %}
+              {% for child in link.links %}
+                {% if child.links.size > 0 %}
+                  {% assign has_nested_links = true %}
+                {% endif %}
+              {% endfor %}
+              {% if has_nested_links %}
+                data-mega-menu="mega-menu-{{ forloop.index }}"
+              {% endif %}
+            {% endif %}
+          >
+            {{ link.title }}
+            {% if link.links.size > 0 %}
+              <div class="ml-2 flex items-center justify-center">
+                <ion-icon
+                  name="chevron-down-outline"
+                  aria-label="Toggle header dropdown item"
+                  class="h-5 w-5 transition-transform"
+                ></ion-icon>
+              </div>
+            {% endif %}
           </a>
+
+          {% if link.links.size > 0 %}
+            {% assign has_nested_links = false %}
+            {% for child in link.links %}
+              {% if child.links.size > 0 %}
+                {% assign has_nested_links = true %}
+              {% endif %}
+            {% endfor %}
+
+            {% unless has_nested_links %}
+              {% render 'standard-dropdown', links: link.links %}
+            {% endunless %}
+          {% endif %}
         </li>
-      {% endif %}
-    {%- endfor -%}
-  </ul>
+      {% endfor %}
+    </ul>
+  </div>
 </nav>
+
+<div class="mega-menus-container">
+  {% for link in menu_links %}
+    {% if link.links.size > 0 %}
+      {% assign has_nested_links = false %}
+      {% for child in link.links %}
+        {% if child.links.size > 0 %}
+          {% assign has_nested_links = true %}
+        {% endif %}
+      {% endfor %}
+
+      {% if has_nested_links %}
+        <div
+          id="mega-menu-{{ forloop.index }}"
+          class="mega-menu-wrapper"
+        >
+          {% render 'mega-menu', current_link: link %}
+        </div>
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+</div>
