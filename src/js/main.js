@@ -1,9 +1,7 @@
 import { Cart } from './cart';
 import { CartDrawer } from './cart-drawer';
 import { SearchDialog } from './search-dialog';
-// import { DropdownMenu } from './dropdown-menu';
-// import { MegaMenu } from './mega-menu';
-// import { Modal } from './modal';
+import { MegaMenu } from './mega-menu';
 import { VariantRadio } from './variant-radio';
 import { Popover } from './popover';
 import { CopyToClipboard } from './copy-to-clipboard';
@@ -14,10 +12,8 @@ import { QuantitySelector } from './quantity-selector';
   function defineCustomElements() {
     customElements.define('cart-root', Cart);
     customElements.define('cart-drawer-root', CartDrawer);
-    // customElements.define('dropdown', Dropdown);
     customElements.define('search-dialog-root', SearchDialog);
-    // customElements.define('mega-menu', MegaMenu);
-    // customElements.define('modal', Modal);
+    customElements.define('mega-menu-root', MegaMenu);
     customElements.define('variant-radio', VariantRadio);
     customElements.define('popover-root', Popover);
     customElements.define('copy-to-clipboard', CopyToClipboard);
