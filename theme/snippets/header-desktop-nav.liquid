@@ -99,17 +99,6 @@
     position: relative;
     z-index: 50;
   }
-
-  {% for link in menu_links %}
-    {% if link.links.size > 0 %}
-      {% assign has_nested_links = false %}
-      {% for child in link.links %}
-        {% if child.links.size > 0 %}
-          {% assign has_nested_links = true %}
-        {% endif %}
-      {% endfor %}
-    {% endif %}
-  {% endfor %}
 {% endstyle %}
 
 <mega-menu-root></mega-menu-root>
