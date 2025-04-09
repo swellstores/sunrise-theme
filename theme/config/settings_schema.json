@@ -253,10 +253,10 @@
         "default": "drawer"
       },
       {
-        "type": "color",
-        "id": "cart_color",
-        "label": "Cart quantity colour",
-        "default": "#FFFFFF"
+        "type": "color_scheme",
+        "id": "cart_color_scheme",
+        "label": "Color scheme",
+        "default": "scheme-1"
       }
     ]
   },

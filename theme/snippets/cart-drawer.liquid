@@ -1,5 +1,6 @@
 <cart-drawer-root
-  class="fixed right-0 top-0 z-60 flex h-screen w-[340px] sm:w-[500px] translate-x-full flex-col overflow-y-auto bg-white transition-transform duration-300"
+  class="fixed right-0 top-0 flex h-screen w-[340px] sm:w-[500px] translate-x-full flex-col overflow-y-auto bg-white transition-transform duration-300"
+  style="z-index: 5000"
   tabindex="-1"
   aria-labelledby="cart-drawer"
   aria-hidden="true"
@@ -58,7 +59,11 @@
         <p class="text-body-large font-display">Your cart is currently empty</p>
 
         <div class="inline-flex">
-          {% render 'button', text: 'Continue shopping', href: routes.all_products_collection_url, variant: 'purple' %}
+          {% render 'button',
+            text: 'Continue shopping',
+            href: routes.all_products_collection_url,
+            color_scheme: settings.cart_color_scheme
+          %}
         </div>
       </div>
     </form>
@@ -83,7 +88,13 @@
     </div>
 
     <div class="flex flex-col gap-[16px]">
-      {% render 'button', text: 'View cart', href: routes.cart_url, variant: 'purple', full_width: true %}
+      {% render 'button',
+        text: 'View cart',
+        href: routes.cart_url,
+        full_width: true,
+        color_scheme: settings.cart_color_scheme,
+        variant: 'secondary'
+      %}
 
       {% if cart != empty %}
         {% render 'button',
@@ -92,8 +103,8 @@
           disabled: cart.empty?,
           form: 'cart',
           name: 'checkout',
-          variant: 'white',
-          full_width: true
+          full_width: true,
+          color_scheme: settings.cart_color_scheme
         %}
       {% endif %}
     </div>

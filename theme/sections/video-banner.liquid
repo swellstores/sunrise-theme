@@ -147,9 +147,9 @@
               <div class="flex {% if visible_blocks > 1 %}mt-[32px]{% endif %}">
                 {% render 'button',
                   text: block.settings.button_label,
-                  variant: block.settings.button_variant,
                   href: block.settings.button_link,
-                  content_color_scheme: button_color_scheme
+                  color_scheme: button_color_scheme,
+                  variant: block.settings.button_variant
                 %}
               </div>
             {%- endif -%}

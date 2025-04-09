@@ -98,11 +98,10 @@
 
         <div id="add-address-button">
           {% render 'button',
-            variant: 'white',
             text: 'Add Address',
             type: 'button',
             name: 'toggle-new-address',
-            content_color_scheme: section.settings.color_scheme
+            color_scheme: section.settings.color_scheme
           %}
         </div>
         <div id="new-address-form" class="hidden max-w-[500px] flex flex-col gap-[32px]">
@@ -223,12 +222,17 @@
                 <label class="">Set as default address</label>
               </div>
               <div class="flex gap-4 items-center justify-end">
-                {% render 'button', type: 'button', text: 'Cancel', name: 'cancel-button' %}
+                {% render 'button',
+                  type: 'button',
+                  text: 'Cancel',
+                  name: 'cancel-button',
+                  color_scheme: section.settings.color_scheme,
+                  variant: 'secondary'
+                %}
                 {% render 'button',
                   type: 'submit',
                   text: 'Save address',
-                  variant: 'purple',
-                  content_color_scheme: section.settings.color_scheme
+                  color_scheme: section.settings.color_scheme
                 %}
               </div>
             </div>
@@ -354,12 +358,17 @@
                   <label for="address[default]" class="">Set as default address</label>
                 </div>
                 <div class="flex gap-4 items-center">
-                  {% render 'button', type: 'button', text: 'Cancel', name: 'cancel-button' %}
+                  {% render 'button',
+                    type: 'button',
+                    text: 'Cancel',
+                    name: 'cancel-button',
+                    color_scheme: section.settings.color_scheme,
+                    variant: 'secondary'
+                  %}
                   {% render 'button',
                     type: 'submit',
                     text: 'Update address',
-                    variant: 'purple',
-                    content_color_scheme: section.settings.color_scheme
+                    color_scheme: section.settings.color_scheme
                   %}
                 </div>
               </div>

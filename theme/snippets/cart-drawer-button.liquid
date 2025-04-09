@@ -1,7 +1,6 @@
 {%- liquid
   assign color_scheme = color_scheme
   assign class = 'add-to-cart-button p-4 text-[#3B0B93] border border-[#3B0B93] bg-white text-label-large font-display flex items-center justify-center rounded-md hover:bg-[#3B0B93] hover:text-white btn-primary-' | append: color_scheme
-  assign price = product.price | money_without_trailing_zeros
   assign border_radius = settings.border_radius | default: 4
 -%}
 

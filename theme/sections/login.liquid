@@ -81,8 +81,8 @@
           {% render 'button',
             type: 'submit',
             text: sign_in_text,
-            variant: section.settings.button_variant,
-            content_color_scheme: section.settings.color_scheme
+            color_scheme: section.settings.color_scheme,
+            variant: section.settings.button_variant
           %}
         </div>
       </div>
@@ -90,7 +90,7 @@
   </div>
 
   <div id="recover-password-form" class="form-container hidden flex flex-col gap-[32px] items-start w-full sm:w-auto">
-    {% render 'recover-password' %}
+    {% render 'recover-password', color_scheme: section.settings.color_scheme %}
   </div>
 </div>
 
