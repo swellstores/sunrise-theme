@@ -11,7 +11,8 @@
         "social_instagram_url": "https://instagram.com/",
         "social_linkedin_url": "https://www.linkedin.com/",
         "social_youtube_url": "https://www.youtube.com/",
-        "cart_color": "#121212",
+        "cart_type": "drawer",
+        "cart_color_scheme": "scheme-1",
         "typography_body_size": "md",
         "content_for_index": [],
         "color_schemes": {

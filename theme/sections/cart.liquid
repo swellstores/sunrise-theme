@@ -1,7 +1,5 @@
 {%- liquid
   assign color_scheme = section.settings.color_scheme
-  assign padding_x = section.settings.padding_x
-  assign padding_y = section.settings.padding_y
   assign duties_included = cart.duties_included
   assign taxes_included = cart.taxes_included
   assign shipping_policy_body = shop.shipping_policy.body
@@ -36,8 +34,7 @@
           {% render 'button',
             text: 'Continue shopping',
             href: routes.all_products_collection_url,
-            variant: 'purple',
-            content_color_scheme: color_scheme
+            color_scheme: color_scheme
           %}
         </div>
         {%- if customer == blank -%}
@@ -244,37 +241,18 @@
             </div>
             <div class="flex w-full ml-auto justify-end sm:w-fit">
               {% render 'button',
-                text: 'Proceed to purchase',
+                text: 'Continue to checkout',
                 type: 'submit',
                 disabled: cart.empty?,
                 form: 'cart',
                 name: 'checkout',
-                variant: 'purple',
-                content_color_scheme: color_scheme,
-                full_width: true
+                full_width: true,
+                color_scheme: color_scheme
               %}
             </div>
           </div>
         </form>
       </div>
-
-      {% comment %}
-        <div class="col-start-2">
-          <div class="flex items-center justify-end gap-4 text-base">
-            <h5>Estimated total</h5>
-            <cart-total>{{ cart.total_price | money_with_currency }}</cart-total>
-          </div>
-          {% render 'cart-tax-notes',
-            duties_included: duties_included,
-            taxes_included: taxes_included,
-            shipping_policy_body: shipping_policy_body,
-            shipping_policy_url: shipping_policy_url
-          %}
-          <div class="max-w-80 ml-auto">
-            {% render 'button', text: 'Checkout', type: 'submit', disabled: cart.empty?, form: 'cart', name: 'checkout' %}
-          </div>
-        </div>
-      {% endcomment %}
     {%- endif -%}
   </cart-root>
 </div>

@@ -462,7 +462,6 @@
                   assign variant = product.selected_or_first_available_variant
                 -%}
                 {% if block.settings.show_buy_buttons %}
-                  {% comment %} {% render 'product-form', product: product, cart_type: settings.cart_type %} {% endcomment %}
                   {% form 'product', product, class: 'flex flex-col w-full' %}
                     <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
 
@@ -480,7 +479,8 @@
                           {% render 'button',
                             type: 'submit',
                             text: block.settings.buy_button_text,
-                            class: 'add-to-cart-button'
+                            class: 'add-to-cart-button',
+                            color_scheme: color_scheme,
                           %}
                         </div>
                       {%- endif -%}

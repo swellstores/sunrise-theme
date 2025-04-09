@@ -1,26 +1,19 @@
 {%- liquid
-  assign content_color_scheme = content_color_scheme
   assign border_radius = settings.border_radius | default: 4
 
   assign base_class = 'flex items-center justify-center font-display text-label-large h-[48px] pl-[24px] pr-[24px] rounded-[' | append: border_radius | append: 'px]'
   assign class = base_class
 
-  case variant
-    when 'solid'
-      assign class = class | append: ' btn-primary-' | append: content_color_scheme
-    when 'outline'
-      assign class = class | append: ' btn-secondary-' | append: content_color_scheme
-    when 'white'
-      assign class = class | append: ' bg-white border border-[#3B0B93] text-[#3B0B93] btn-secondary-' | append: content_color_scheme
-    when 'black'
-      assign class = class | append: ' border border-[#222222] text-black btn-primary-' | append: content_color_scheme
-    when 'purple'
-      assign class = class | append: ' bg-[#3B0B93] text-white btn-primary-' | append: content_color_scheme
-    when 'tertiary'
-      assign class = class | append: ' bg-[#C9ABF9] text-[#E8D9FF] btn-' | append: content_color_scheme
-    else
-      assign class = class | append: ' bg-transparent border border-[#222222] text-black btn-' | append: content_color_scheme
-  endcase
+  if color_scheme != blank
+    case variant
+      when 'secondary', 'outline'
+        assign class = class | append: ' btn-secondary-' | append: color_scheme
+      else 
+        assign class = class | append: ' btn-primary-' | append: color_scheme
+    endcase
+  else
+    assign class = class | append: ' bg-transparent border border-[#222222] text-black'
+  endif
 
   if full_width
     assign class = class | append: ' w-full'

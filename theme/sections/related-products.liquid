@@ -1,16 +1,6 @@
 {%- liquid
   assign product_count = product.recommendations | size
   assign max_products = section.settings.limit | at_most: product_count
-
-  if max_products > 3
-    assign grid_cols = 4
-  elsif max_products > 2
-    assign grid_cols = 3
-  elsif max_products > 1
-    assign grid_cols = 2
-  else
-    assign grid_cols = 1
-  endif
 -%}
 
 {%- if product.recommendations.size > 0 -%}
@@ -31,17 +21,6 @@
               </div>
             {%- endfor -%}
           </div>
-
-          {%- if section.settings.show_view_all -%}
-            <div class="flex justify-center">
-              {% render 'button',
-                text: section.settings.view_all_text,
-                variant: section.settings.button_variant,
-                content_color_scheme: section.settings.color_scheme,
-                href: '/products'
-              %}
-            </div>
-          {%- endif -%}
         </div>
       </div>
     </div>
@@ -52,21 +31,27 @@
 {
   "name": "Related products",
   "settings": [
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Related products" },
-    { "type": "range", "id": "limit", "label": "Products to show", "min": 1, "max": 12, "step": 1, "default": 3 },
-    { "type": "checkbox", "id": "show_view_all", "label": "Show 'View all' button", "default": true },
-    { "type": "text", "id": "view_all_text", "label": "'View all' button text", "default": "View all" },
     {
-      "type": "select",
-      "id": "button_variant",
-      "label": "Button style",
-      "options": [
-        { "value": "solid", "label": "Solid" },
-        { "value": "outline", "label": "Outline" }
-      ],
-      "default": "solid"
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Related products"
     },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" }
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Products to show",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
   ]
 }
 {% endschema %}

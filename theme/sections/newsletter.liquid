@@ -68,8 +68,8 @@
                 {% render 'button',
                   type: 'submit',
                   text: 'Submit',
-                  variant: section.settings.button_variant,
-                  content_color_scheme: color_scheme
+                  color_scheme: color_scheme,
+                  variant: section.settings.button_variant
                 %}
               </div>
               {%- if form.errors -%}
