@@ -98,14 +98,15 @@ class MegaMenuManager {
   }
 }
 
-// Create and export an instance of the MegaMenu manager
 const megaMenuManager = new MegaMenuManager();
 export { megaMenuManager };
 
 export class MegaMenu extends HTMLElement {
   connectedCallback() {
+    // No need to reinitialize the manager, it's already initialized
+    // Just ensure the event listeners are set up
     if (window.megaMenuManager) {
-      window.megaMenuManager.init();
+      window.megaMenuManager.setupEventListeners();
     }
   }
 }
