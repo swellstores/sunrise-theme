@@ -29,7 +29,7 @@
   <cart-root class="flex flex-col max-w-[1046px] mx-auto">
     {%- if cart.empty? == true -%}
       <div class="flex flex-col gap-[32px]">
-        <h2 class="uppercase text-headline-small font-display">Your cart is empty</h2>
+        <h2 class="text-headline-small font-display">Your cart is empty</h2>
         <div class="flex-grow-0 flex flex-col items-start justify-center">
           {% render 'button',
             text: 'Continue shopping',
@@ -65,9 +65,9 @@
           </div>
         </div>
         <form class="" action="{{ routes.cart_url }}" method="post" id="cart">
-          <div class="border-none sm:border-b sm:border-[#E0E0E0] flex flex-col gap-[32px] sm:pb-[32px]">
+          <div class="border-none sm:border-b sm:border-color-{{ color_scheme }} flex flex-col gap-[32px] sm:pb-[32px]">
             <table class="w-full">
-              <thead class="text-title-small  border-b border-[#E0E0E0] font-display">
+              <thead class="text-title-small  border-b border-color-{{ color_scheme }} font-display">
                 <tr>
                   <th class="text-title-small font-display pb-4 text-left">Product</th>
                   <th class="hidden sm:block text-title-small font-display pb-4 text-left">
@@ -88,7 +88,7 @@
                           {% render 'image', image: item.image, alt: item.image.alt %}
                         </span>
                         <div class="flex flex-col gap-[2px]">
-                          <h4 class="text-body-small font-display">
+                          <h4 class="text-body-small sm:text-body-medium font-display">
                             <a href="{{ item.url }}">{{ item.product.title | escape }}</a>
                           </h4>
 
@@ -100,10 +100,6 @@
                               {%- if item.product.has_only_default_variant == false -%}
                                 {%- for option in item.options_with_values -%}
                                   <div class="flex items-center gap-1">
-                                    {% comment %}
-                                      <div>{{ option.name }}</div>
-                                      <div>|</div>
-                                    {% endcomment %}
                                     <div>
                                       {{ option.value -}}
                                       {%- unless forloop.last %}, {% endunless %}
@@ -137,16 +133,16 @@
                           {%- if item.variant.compare_at_price
                             and item.variant.compare_at_price > item.variant.price
                           -%}
-                            <div class="font-display text-body-small sm:text-body-medium">
-                              <strong class="font-display text-body-small sm:text-body-medium">
+                            <div class="font-display text-body-small">
+                              <strong class="font-display text-body-small">
                                 {{ item.variant.price | money }}
                               </strong>
-                              <s class="text-secondary-{{ color_scheme}} font-display text-body-small sm:text-body-medium">
+                              <s class="text-secondary-{{ color_scheme}} font-display text-body-small">
                                 {{- item.variant.compare_at_price | money -}}
                               </s>
                             </div>
                           {%- else -%}
-                            <div class="font-display text-body-small sm:text-body-medium">
+                            <div class="font-display text-body-small">
                               {{ item.variant.price | money }}
                             </div>
                           {%- endif -%}
@@ -159,14 +155,14 @@
                             {%- endfor -%}
                           </ul>
                           <div class="cart-desktop block sm:hidden mt-4">
-                            {% render 'quantity-selector', item: item %}
+                            {% render 'quantity-selector', item: item, color_scheme: color_scheme %}
                           </div>
                         </div>
                       </div>
                     </td>
                     <td class="hidden sm:flex pt-[32px] pb-[32px]">
                       <div class="cart-desktop flex flex-col items-start gap-4 ">
-                        {% render 'quantity-selector', item: item, index: forloop.index %}
+                        {% render 'quantity-selector', item: item, index: forloop.index, color_scheme: color_scheme %}
                       </div>
                     </td>
                     <td class="pt-[32px] pb-[32px] align-top">
@@ -215,7 +211,7 @@
                 {%- endif -%}
               {% endcomment %}
               <div class="flex justify-between">
-                <span class="text-title-medium font-display">Subtotal </span>
+                <span class="text-title-medium font-display">Subtotal</span>
                 <span class="text-body-large font-display">
                   {{- cart.items_subtotal_price | money_with_currency -}}
                 </span>
@@ -235,7 +231,8 @@
                 duties_included: duties_included,
                 taxes_included: taxes_included,
                 shipping_policy_body: shipping_policy_body,
-                shipping_policy_url: shipping_policy_url
+                shipping_policy_url: shipping_policy_url,
+                color_scheme: color_scheme
               %}
             </div>
             <div class="flex w-full ml-auto justify-end sm:w-fit">
