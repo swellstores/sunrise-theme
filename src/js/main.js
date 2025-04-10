@@ -7,6 +7,22 @@ import { Popover } from './popover';
 import { CopyToClipboard } from './copy-to-clipboard';
 import { QuantitySelector } from './quantity-selector';
 
+// Import vendor libraries
+import { loadIonIcons } from './vendor';
+
+// Import all modules that are currently loaded separately
+import './swiper-element-bundle';
+import './slideshow-navigation';
+import './accordion';
+import './filter';
+import './htmx.min';
+
+// Initialize before IIFE to ensure global availability
+window.theme = window.theme || {};
+window.theme.slideshow_rendered = true;
+window.theme.slideshow_navigation = true;
+window.theme.accordion_rendered = true;
+
 (function () {
   // Function to define custom elements
   function defineCustomElements() {
@@ -20,25 +36,8 @@ import { QuantitySelector } from './quantity-selector';
     customElements.define('quantity-selector-root', QuantitySelector);
   }
 
-  function loadSlideshowScripts() {
-    if (window.theme) {
-      function appendScript(src) {
-        var script = document.createElement('script');
-        script.src = src;
-        script.defer = true;
-        document.body.appendChild(script);
-      }
-
-      // Slideshow scripts
-      if (window.theme.slideshow_rendered) appendScript(window.theme.slideshow_asset_url);
-      // Slideshow navigation scripts
-      if (window.theme.slideshow_navigation) appendScript(window.theme.slideshow_navigation_asset_url);
-      // Accordion scripts
-      if (window.theme.accordion_rendered) appendScript(window.theme.accordion_asset_url);
-    }
-  }
-
   // Call functions
   defineCustomElements();
-  loadSlideshowScripts();
+  // Load IonIcons
+  loadIonIcons();
 })();
