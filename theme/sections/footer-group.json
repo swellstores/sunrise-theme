@@ -33,7 +33,9 @@
       "type": "footer",
       "settings": {
         "footer_title": "Our mission",
-        "footer_text": "Quality materials, good designs, craftsmanship and sustainability."
+        "footer_text": "Quality materials, good designs, craftsmanship and sustainability.",
+        "top_padding": 96,
+        "bottom_padding": 96
       }
     }
   },

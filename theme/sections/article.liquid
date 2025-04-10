@@ -1,10 +1,10 @@
 {%- liquid
+  assign color_scheme = section.settings.color_scheme
   assign padding_x = section.settings.padding_x
   assign padding_y = section.settings.padding_y
-  assign share_url = request.origin | append: article.url
 -%}
 
-<article class="flex min-h-dvh flex-col items-center gap-4 px-{{ padding_x }} py-{{ padding_y }}">
+<article class="bg-{{ color_scheme }} text-{{ color_scheme }} flex min-h-dvh flex-col items-center gap-4 px-{{ padding_x }} py-{{ padding_y }}">
   {%- for block in section.blocks -%}
     {%- case block.type -%}
       {%- when 'featured_image' -%}
@@ -25,11 +25,11 @@
       {%- case block.type -%}
         {%- when 'title' -%}
           {%- if block.settings.show_date -%}
-            <div class="font-display text-body-medium text-[#616161]">
+            <div class="font-display text-body-medium text-secondary-{{ color_scheme }}">
               {{- article.published_at | time_tag: format: 'date' -}}
             </div>
           {%- endif -%}
-          <h1 class="font-display text-display-medium text-black">
+          <h1 class="font-display text-display-medium">
             {{ article.title | escape }}
           </h1>
           {%- if block.settings.show_author -%}
@@ -38,7 +38,7 @@
             </div>
           {%- endif -%}
         {%- when 'content' -%}
-          <div class="flex flex-col gap-[16px] font-display text-body-large text-black">
+          <div class="flex flex-col gap-[16px] font-display text-body-large">
             {{ article.content }}
           </div>
       {%- endcase -%}
@@ -91,7 +91,7 @@
                   </footer>
                 </article>
               {%- endfor -%}
-              {% render 'pagination', paginate: paginate, anchor: anchorId %}
+              {% render 'pagination', paginate: paginate, anchor: anchorId, color_scheme: color_scheme %}
             </div>
           {% endpaginate %}
         {%- endif -%}
@@ -264,6 +264,12 @@
   "tag": "section",
   "class": "section",
   "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
     {
       "type": "range",
       "id": "padding_x",
