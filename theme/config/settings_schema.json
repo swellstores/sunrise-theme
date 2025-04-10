@@ -16,12 +16,6 @@
         "label": "Logo image"
       },
       {
-        "type": "color",
-        "id": "logo_color",
-        "label": "Logo color",
-        "default": "#121212"
-      },
-      {
         "type": "text",
         "id": "logo_text",
         "label": "Logo text"
