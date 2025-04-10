@@ -4,7 +4,7 @@
 -%}
 
 <cart-drawer-root
-  class="bg-{{ color_scheme }} fixed right-0 top-0 flex h-screen w-[340px] sm:w-[500px] translate-x-full flex-col overflow-y-auto bg-white transition-transform duration-300"
+  class="bg-{{ color_scheme }} text-{{ color_scheme }} fixed right-0 top-0 flex h-screen w-[340px] sm:w-[500px] translate-x-full flex-col overflow-y-auto bg-white transition-transform duration-300"
   style="z-index: 5000"
   tabindex="-1"
   aria-labelledby="cart-drawer"
@@ -13,8 +13,8 @@
   role="dialog"
   data-item-count="{{ cart.item_count }}"
 >
-  <div class="flex flex-col items-start justify-between pt-[16px] pl-[24px] pr-[24px] text-black">
-    <div class="flex flex-row w-full justify-between items-center">
+  <div class="flex flex-col items-start justify-between pt-[16px] pl-[24px] pr-[24px]">
+    <div class="flex flex-row w-full justify-between">
       <div class="flex flex-col gap-[8px]">
         <div class="text-headline-medium font-display">Your cart</div>
 
@@ -30,6 +30,7 @@
       <cart-drawer-trigger
         role="button"
         aria-controls="cartDrawer"
+        class="pt-[16px]"
       >
         {{- 'cross-icon.svg' | inline_asset_content -}}
       </cart-drawer-trigger>
@@ -39,8 +40,8 @@
   <cart-drawer-content
     class="flex h-full w-full flex-col gap-[32px] divide-y overflow-hidden overflow-y-scroll pl-[24px] pr-[24px] pt-4"
   >
-    <div class="{% if cart == empty %}hidden{% endif %}">
-      <div class="flex justify-between items-center w-full text-secondary-{{ color_scheme }}">
+    <div class="pt-[16px] {% if cart == empty %}hidden{% endif %}">
+      <div class="flex justify-between items-center w-full">
         <span class="text-title-small font-display">Product</span>
         <span class="text-title-small font-display">Total</span>
       </div>
@@ -56,7 +57,7 @@
     >
       {%- if cart != empty -%}
         {%- for item in cart.items -%}
-          {% render 'cart-drawer-item', item: item, index: forloop.index %}
+          {% render 'cart-drawer-item', item: item, index: forloop.index, color_scheme: color_scheme %}
         {%- endfor -%}
       {%- endif -%}
 
@@ -79,9 +80,9 @@
 
     <div class="flex flex-col gap-[8px]">
       <div class="flex items-center justify-between">
-        <h4 class="text-title-medium font-display text-black">Estimated total</h4>
+        <h4 class="text-title-medium font-display">Estimated total</h4>
 
-        <cart-drawer-subtotal class="text-body-large font-display text-black">
+        <cart-drawer-subtotal class="text-body-large font-display">
           <span>{{ cart.original_total_price | money }}</span>
           {% render 'loader' %}
         </cart-drawer-subtotal>
