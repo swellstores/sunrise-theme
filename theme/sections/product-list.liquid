@@ -1,6 +1,7 @@
 {% # TODO set paginate size according to desktop column count setting %}
 
 {%- liquid
+  assign color_scheme = section.settings.color_scheme
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
 -%}
@@ -19,7 +20,7 @@
   }
 {% endstyle %}
 
-<div class="bg-{{section.settings.color_scheme}} max-w-[1366px] mx-auto p-6 responsive-padding-{{ section.id }}">
+<div class="bg-{{ color_scheme }} text-{{ color_scheme }} max-w-[1366px] mx-auto p-6 responsive-padding-{{ section.id }}">
   {% paginate collection.products by 12 %}
     <div class="max-w-[1046px] mx-auto 2xl:max-w-[1380px] w-full">
       <div class="flex flex-col py-4 text-left">
@@ -30,7 +31,7 @@
         request: request,
         results: collection,
         paginate: paginate,
-        color_scheme: section.settings.color_schem
+        color_scheme: color_scheme
       %}
 
       <div class="mt-[16px]">
@@ -138,11 +139,11 @@
           <div id="results" class="flex w-full flex-col gap-8">
             <div class="grid grid-cols-2  gap-x-[16px] gap-y-[24px] md:grid-cols-3 lg:grid-cols-4">
               {% for product in collection.products %}
-                {% render 'product-card', product: product, color_scheme: section.settings.color_scheme %}
+                {% render 'product-card', product: product, color_scheme: color_scheme %}
               {% endfor %}
             </div>
 
-            {% render 'pagination', paginate: paginate %}
+            {% render 'pagination', paginate: paginate, color_scheme %}
           </div>
         </div>
       </div>

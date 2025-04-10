@@ -1,4 +1,5 @@
 {%- liquid
+  assign color_scheme = section.settings.color_scheme
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
 -%}
@@ -17,21 +18,21 @@
   }
 {% endstyle %}
 
-<div class="bg-{{section.settings.color_scheme}} flex max-w-[1046px] flex-col pt-[16px] pb-[64px] pr-[32px] pl-[32px] gap-[24px] xl:pr-[0px] xl:pl-[0px] sm:flex-row sm:pt-[64px] sm:pb-[64px] mx-auto justify-center sm:gap-[32px] items-start responsive-padding-{{ section.id }}">
-  <a href="/account/" class="sm:hidden text-{{ section.settings.color_scheme }} font-display text-title-large"
+<div class="bg-{{ color_scheme }} text-{{ color_scheme }} flex max-w-[1046px] flex-col pt-[16px] pb-[64px] pr-[32px] pl-[32px] gap-[24px] xl:pr-[0px] xl:pl-[0px] sm:flex-row sm:pt-[64px] sm:pb-[64px] mx-auto justify-center sm:gap-[32px] items-start responsive-padding-{{ section.id }}">
+  <a href="/account/" class="sm:hidden text-{{ color_scheme }} font-display text-title-large"
     >Account Settings</a
   >
 
   <div class="flex flex-col items-start text-center w-[250px]">
     <a
       href="/account"
-      class="border-l px-[8px] py-[4px] font-display text-title-small {% if request.path == '/account' %}text-{{ section.settings.color_scheme }} border-[#222222] {% else %}text-secondary-{{ section.settings.color_scheme }} border-[#E0E0E0]{% endif %}"
+      class="border-l px-[8px] py-[4px] font-display text-title-small {% if request.path == '/account' %}text-{{ color_scheme }} border-color{{ color_scheme }} {% else %}text-secondary-{{ section.settings.color_scheme }} border-[#E0E0E0]{% endif %}"
     >
       My Orders
     </a>
     <a
       href="/account/addresses"
-      class="border-l px-[8px] py-[4px] font-display text-title-small {% if request.path == '/account/addresses' %}text-{{ section.settings.color_scheme }} {% else %}text-secondary-{{ section.settings.color_scheme }} border-[#E0E0E0]{% endif %}"
+      class="border-l px-[8px] py-[4px] font-display text-title-small {% if request.path == '/account/addresses' %}text-{{ color_scheme }} {% else %}text-secondary-{{ section.settings.color_scheme }} border-[#E0E0E0]{% endif %}"
     >
       Address Book
     </a>
@@ -44,18 +45,6 @@
   </div>
   <div class="flex flex-col gap-[32px] w-full">
     <h2 class="font-display text-headline-medium uppercase">My Orders</h2>
-    {% comment %}
-      <div>
-        <div class="flex items-start text-center w-[250px]">
-          <a
-            href="/account/"
-            class="text-black font-display text-title-small h-[38px] border-[#222222] border-b"
-            >Orders</a
-          >
-        </div>
-      </div>
-    {% endcomment %}
-
     <div>
       {% paginate customer.orders by 20 %}
         {%- if customer.orders.count > 0 -%}
@@ -69,7 +58,7 @@
                     </a>
                     {{ order.fulfillment_status_label }}
                   </div>
-                  <span class="font-display text-{{ section.settings.color_scheme }} text-body-small">
+                  <span class="font-display text-{{ color_scheme }} text-body-small">
                     {{ order.created_at | time_tag: format: 'date' }}
                   </span>
 
@@ -80,11 +69,11 @@
                       </li>
                     {%- endfor -%}
                   </ul>
-                  <p class="font-display text-{{ section.settings.color_scheme }} text-body-small">
+                  <p class="font-display text-{{ color_scheme }} text-body-small">
                     {{ order.line_items.size }} Items
                   </p>
                 </div>
-                <span class="text-title-small text-{{ section.settings.color_scheme }} font-display">
+                <span class="text-title-small text-{{ color_scheme }} font-display">
                   {{- order.total_net_amount | money_with_currency -}}
                 </span>
               </div>
