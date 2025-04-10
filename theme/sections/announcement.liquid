@@ -50,7 +50,7 @@
 
 {%- if announcement_bar and home_only -%}
   <announcement-root
-    class="cursor-default relative block font-{{ font_weight }} {{ text_uppercase }} {{ border_bottom }} text-{{color_scheme}} bg-{{color_scheme}} bg-[#222222] z-6"
+    class="bg-{{ color_scheme }} text-{{ color_scheme }} cursor-default relative block font-{{ font_weight }} {{ text_uppercase }} {{ border_bottom }} z-6"
     data-dismissible="true"
   >
     {%- if section.blocks.size == 1 -%}
@@ -64,7 +64,7 @@
         <announcement-trigger
           role="button"
           class="size-6 flex items-center justify-center"
-          aria-label="{{ 'sections.announcement.dismiss' | t }}"
+          aria-label="Dismiss announcement"
         >
           <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
         </announcement-trigger>
