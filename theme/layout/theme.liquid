@@ -185,9 +185,8 @@
   </head>
   <body class="antialiased scroll-smooth">
     <a class="sr-only" href="#main">
-      {{ 'accessibility.skip_to_text' | t }}
+      Skip to content
     </a>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     {% comment %} Render header group section {% endcomment %}
     {% sections 'header-group' %}
@@ -227,6 +226,8 @@
       window.theme.accordion_asset_url = '{{ 'accordion.js' | asset_url }}'
       window.moneyFormat = {{ shop.money_format | json }};
     </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
 
     <script src="{{ 'swiper-element-bundle.js' | asset_url }}" defer></script>
     <script src="{{ 'slideshow-navigation.js' | asset_url }}" defer></script>

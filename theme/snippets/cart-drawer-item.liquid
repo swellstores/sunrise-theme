@@ -8,9 +8,6 @@
 
   <div class="flex flex-col justify-between gap-1 w-full">
     <div>
-      {%- if settings.show_vendor -%}
-        <div class="font-medium uppercase text-xxs">{{ item.product.vendor }}</div>
-      {%- endif -%}
       <div class="flex justify-between w-full">
         <a href="{{ item.url }}">
           <h4 class="text-body-small font-display text-black">{{- item.product.title | escape -}}</h4>

@@ -170,7 +170,7 @@
                       </div>
                     </td>
                     <td class="pt-[32px] pb-[32px] align-top">
-                      <div class="flex items-center justify-end text-title-small font-display">
+                      <div class="flex items-center justify-end text-title-small font-display mt-[8px]">
                         {%- if item.original_line_price != item.final_line_price -%}
                           <dl>
                             <dd>
@@ -220,7 +220,6 @@
                   {{- cart.items_subtotal_price | money_with_currency -}}
                 </span>
               </div>
-              <span class="text-title-medium font-display">Shipping</span>
               <div class="flex justify-between">
                 <span class="text-title-medium font-display">Estimated total</span>
                 <cart-total
