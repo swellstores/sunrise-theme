@@ -32,8 +32,10 @@
 
     {{ content_for_header }}
 
-    {% comment %} add entrypoints below content_for_header {% endcomment %}
+    {% comment %} CSS files {% endcomment %}
+    {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'main.css' | asset_url | stylesheet_tag }}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
 
     {% liquid
       render 'color-schemes'
@@ -215,33 +217,26 @@
         cart_url: '{{ routes.cart_url }}',
         cart_clear_url: '{{ routes.cart_clear_url }}',
         predictive_search_url: '{{ routes.predictive_search_url }}',
-        product_recommendations_url: '{{ routes.product_recommendations_url }}'
+        product_recommendations_url: '{{ routes.product_recommendations_url }}',
       };
     </script>
 
-    {% comment %} Setup {% endcomment %}
+    {% comment %} Setup - these variables are needed for image_height to work {% endcomment %}
     <script>
       window.theme = window.theme || {};
-      window.theme.slideshow_asset_url = '{{ 'swiper-element-bundle.js' | asset_url }}'
-      window.theme.slideshow_navigation_asset_url = '{{ 'slideshow-navigation.js' | asset_url }}'
-      window.theme.accordion_asset_url = '{{ 'accordion.js' | asset_url }}'
-      window.moneyFormat = {{ shop.money_format | json }};
+      window.theme.slideshow_asset_url = '{{ 'swiper-element-bundle.js' | asset_url }}';
+      window.theme.slideshow_navigation_asset_url = '{{ 'slideshow-navigation.js' | asset_url }}';
+      window.theme.accordion_asset_url = '{{ 'accordion.js' | asset_url }}';
+      window.moneyFormat = '{{ shop.money_format }}';
     </script>
 
-    <script src="{{ 'swiper-element-bundle.js' | asset_url }}" defer></script>
-    <script src="{{ 'slideshow-navigation.js' | asset_url }}" defer></script>
+    {% comment %} Swiper Element Bundle {% endcomment %}
+    <script src="{{ 'swiper-element-bundle.js' | asset_url }}" defer="defer"></script>
 
-    {% comment %} Entrypoint {% endcomment %}
-    <script src="{{ 'htmx.min.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'main.js' | asset_url }}" defer></script>
-    <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'accordion.js' | asset_url }}" defer="defer"></script>
-    {% comment %} <script src="{{ 'utils.js' | asset_url }}" defer="defer"></script> {% endcomment %}
-    <script src="{{ 'filter.js' | asset_url }}" defer="defer"></script>
+    {% comment %} Bundled JavaScript file {% endcomment %}
+    <script src="{{ 'bundle.js' | asset_url }}" type="module" defer="defer"></script>
 
-    {{ 'base.css' | asset_url | stylesheet_tag }}
-
-    {% comment %} Ion Icons {% endcomment %}
+    {% comment %} IonIcons {% endcomment %}
     <script
       type="module"
       src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"

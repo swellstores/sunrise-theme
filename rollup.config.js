@@ -3,10 +3,10 @@ import commonjs from 'rollup-plugin-commonjs';
 import terser from '@rollup/plugin-terser';
 
 export default {
-  input: ['src/js/main.js', 'src/js/swiper-element-bundle.js', 'src/js/slideshow-navigation.js', 'src/js/accordion.js'],
+  input: 'src/js/main.js',
   output: [
     {
-      dir: 'theme/assets',
+      file: 'theme/assets/bundle.js',
       format: 'esm',
       sourcemap: false,
     },
