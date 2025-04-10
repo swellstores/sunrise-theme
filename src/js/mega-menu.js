@@ -103,10 +103,8 @@ export { megaMenuManager };
 
 export class MegaMenu extends HTMLElement {
   connectedCallback() {
-    // No need to reinitialize the manager, it's already initialized
-    // Just ensure the event listeners are set up
     if (window.megaMenuManager) {
-      window.megaMenuManager.setupEventListeners();
+      window.megaMenuManager.init();
     }
   }
 }
