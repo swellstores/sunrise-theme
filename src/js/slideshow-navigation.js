@@ -35,6 +35,8 @@
     }
   }
 
-  customElements.define('slideshow-button-prev', SlideshowButtonPrev);
-  customElements.define('slideshow-button-next', SlideshowButtonNext);
+  document.createElement("slideshow-button-prev").constructor !== HTMLElement &&
+    customElements.define("slideshow-button-prev", SlideshowButtonPrev);
+  document.createElement("slideshow-button-next").constructor !== HTMLElement &&
+    customElements.define("slideshow-button-next", SlideshowButtonNext);
 })();
