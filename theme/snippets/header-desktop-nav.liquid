@@ -16,16 +16,8 @@
           <a
             href="{{ link.url }}"
             class="flex h-full items-center whitespace-nowrap hover:underline font-normal font-heading leading-[20px] text-sm"
-            {% if link.links.size > 0 %}
-              {% assign has_nested_links = false %}
-              {% for child in link.links %}
-                {% if child.links.size > 0 %}
-                  {% assign has_nested_links = true %}
-                {% endif %}
-              {% endfor %}
-              {% if has_nested_links %}
-                data-mega-menu="mega-menu-{{ forloop.index }}"
-              {% endif %}
+            {% if link.links.size > 0 and section.settings.desktop_menu_type == 'mega' %}
+              data-mega-menu="mega-menu-{{ forloop.index }}"
             {% endif %}
           >
             {{ link.title }}
@@ -40,17 +32,8 @@
             {% endif %}
           </a>
 
-          {% if link.links.size > 0 %}
-            {% assign has_nested_links = false %}
-            {% for child in link.links %}
-              {% if child.links.size > 0 %}
-                {% assign has_nested_links = true %}
-              {% endif %}
-            {% endfor %}
-
-            {% unless has_nested_links %}
-              {% render 'standard-dropdown', links: link.links %}
-            {% endunless %}
+          {% if link.links.size > 0 and section.settings.desktop_menu_type == 'dropdown' %}
+            {% render 'standard-dropdown', links: link.links %}
           {% endif %}
         </li>
       {% endfor %}
@@ -60,22 +43,13 @@
 
 <div class="mega-menus-container">
   {% for link in menu_links %}
-    {% if link.links.size > 0 %}
-      {% assign has_nested_links = false %}
-      {% for child in link.links %}
-        {% if child.links.size > 0 %}
-          {% assign has_nested_links = true %}
-        {% endif %}
-      {% endfor %}
-
-      {% if has_nested_links %}
-        <div
-          id="mega-menu-{{ forloop.index }}"
-          class="mega-menu-wrapper"
-        >
-          {% render 'mega-menu', current_link: link %}
-        </div>
-      {% endif %}
+    {% if link.links.size > 0 and section.settings.desktop_menu_type == 'mega' %}
+      <div
+        id="mega-menu-{{ forloop.index }}"
+        class="mega-menu-wrapper"
+      >
+        {% render 'mega-menu', current_link: link %}
+      </div>
     {% endif %}
   {% endfor %}
 </div>
