@@ -25,6 +25,10 @@ ion-icon {
 
 /* Customers */
 
+#login, #recover {
+  scroll-margin-top: 20rem;
+}
+
 #recover {
   display: none;
 }
