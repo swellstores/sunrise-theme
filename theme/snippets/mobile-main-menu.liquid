@@ -1,16 +1,7 @@
-<div id="mobileTray" class="w-full inset-0 z-[101] bg-white text-black">
-  {% comment %}
-    <button class="absolute top-4 left-4" onclick="toggleMobileTray()" aria-label="Close mobile menu">
-      <!-- Close Icon -->
-      <svg class="w-6 h-6" fill="none" stroke="black" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-      </svg>
-    </button>
-  {% endcomment %}
-
+<div id="mobileTray" class="bg-{{ color_scheme }} text-{{ color-scheme }} w-full inset-0 z-[101]">
   <div id="trayContent">
     <!-- Main Menu -->
-    <ul id="mainMenu" class="flex flex-col text-black block">
+    <ul id="mainMenu" class="flex flex-col block">
       {% for link in links %}
         <li>
           {% if link.links and link.links.size > 0 %}
@@ -34,6 +25,7 @@
                       onclick="openSubMenu('submenu-{{ forloop.parentloop.index }}-{{ forloop.index }}', '{{ sublink.title | escape }}')"
                     >
                       {{ sublink.title | escape }}
+                      {{- 'nav-right-arrow-icon.svg' | inline_asset_content -}}
                     </button>
                     <ul id="submenu-{{ forloop.parentloop.index }}-{{ forloop.index }}" class="hidden">
                       <!-- Nested Sublinks -->

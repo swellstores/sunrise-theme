@@ -3,7 +3,7 @@
   assign terms = search.terms | escape
 -%}
 
-<div class="px-[24px] py-[32px] text-{{ color_scheme }} bg-{{ color_scheme }} flex flex-col">
+<div class="bg-{{ color_scheme }} text-{{ color_scheme }} px-[24px] py-[32px] flex flex-col">
   <div class="flex flex-col items-center w-full">
     <div class="flex flex-col items-start w-full max-w-[766px] mx-auto gap-[16px] pb-[32px]">
       <h2 class="text-title-large font-display">
@@ -62,7 +62,7 @@
             </div>
 
             {%- if paginate.pages > 1 -%}
-              {% render 'pagination', paginate: paginate %}
+              {% render 'pagination', paginate: paginate, color_scheme: color_scheme %}
             {%- endif -%}
           {%- endif -%}
         {%- endif -%}
