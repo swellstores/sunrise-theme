@@ -12,7 +12,7 @@
   position: absolute;
   top: 100%;
   margin-left: 24px;
-  padding: 32px 16px;
+  padding: 24px 16px;
   transform: translateY(-22px);
 }
 
@@ -24,6 +24,7 @@
   height: auto;
   position: absolute;
   left: 0;
+  top: 100%;
 }
 
 .mega-menu-wrapper.active {
@@ -39,27 +40,83 @@
 }
 
 .mega-menu-grid {
-  display: block;
-  column-width: 250px;
-  column-gap: 32px;
-  column-fill: auto;
   width: 100%;
-  max-width: 1440px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 32px 120px;
-  max-height: 628px;
-  overflow: hidden;
+  padding: 24px 40px;
+  overflow: visible;
   color: #111827;
   z-index: 1001;
   background-color: white;
+  display: flex;
+  justify-content: center;
+}
+
+.mega-menu-items {
+  display: grid;
+  gap: 32px;
+  width: max-content;
+  grid-auto-flow: dense;
+}
+
+/* Handle auto-width items in a multi-row grid */
+.mega-menu-items > .mega-menu-category:nth-child(4n) {
+  grid-column: 4;
+}
+
+.mega-menu-items > .mega-menu-category:nth-child(4n+1) {
+  grid-column: 1;
 }
 
 .mega-menu-category {
-  break-inside: avoid;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  width: 220px;
+}
+
+.mega-menu-category.auto-width {
+  width: auto;
+  min-width: auto;
+  max-width: 220px;
+}
+
+.mega-menu-grid.align-left {
+  justify-content: flex-start;
+}
+
+.mega-menu-grid.align-left .mega-menu-items {
+  justify-content: start;
+  margin: 0 !important;
+}
+
+.mega-menu-category > a {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 16px;
+  transition: border-color 0.2s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.mega-menu-category .flex {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin-bottom: 32px;
+  width: 100%;
+}
+
+.mega-menu-category .flex a {
+  font-size: 14px;
+  color: #4B5563;
+  transition: color 0.2s ease;
+  text-align: left;
+}
+
+.mega-menu-category .flex a:hover {
+  color: #111827;
 }
 
 .nav-item {
