@@ -4,6 +4,13 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  grid-template-columns: 100%;
+  min-height: 100vh;
+}
+
 /* Icons */
 
 ion-icon {
@@ -16,4 +23,20 @@ ion-icon {
   @apply inline-flex items-center justify-center px-4 py-3 !no-underline;
 }
 
-/* Inputs */
+/* Customers */
+
+#login, #recover {
+  scroll-margin-top: 20rem;
+}
+
+#recover {
+  display: none;
+}
+
+#recover:target {
+  display: block;
+}
+
+#recover:target ~ #login {
+  display: none;
+}
