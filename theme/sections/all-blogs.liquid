@@ -51,7 +51,7 @@
                     </p>
                   </div>
                   <div>
-                    <h2 class="font-display text-headline-large uppercase">{{ featured_article.title }}</h2>
+                    <h2 class="font-display text-headline-large">{{ featured_article.title }}</h2>
                   </div>
                 </div>
                 {% if featured_article.excerpt %}
@@ -87,7 +87,7 @@
                   <p class="text-body-medium font-display text-secondary-{{ section.settings.color_scheme }}">
                     {{ article.published_at | date: '%B %d %Y' }}
                   </p>
-                  <h3 class="font-display text-headline-small uppercase">
+                  <h3 class="font-display text-headline-small">
                     <a href="{{ article.url }}" class="hover:underline">{{ article.title }}</a>
                   </h3>
                 </div>
