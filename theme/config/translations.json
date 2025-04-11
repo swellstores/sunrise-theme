@@ -10,7 +10,7 @@
     "$locale": {
       "en": {
         "continue_shopping": "Continue shopping",
-        "slideshow_of": "of",
+        "slideshow_of": "of"
       }
     },
     "breadcrumbs": {
@@ -87,7 +87,7 @@
       "$locale": {
         "en": {
           "name": "Announcement",
-          "dismiss": "Dismiss",
+          "dismiss": "Dismiss"
         }
       },
       "blocks": {
