@@ -4,11 +4,11 @@
 -%}
 
 <quantity-selector-root
-  class="quantity-selector-root quantity-selector-cart flex items-center gap-3 text-black"
+  class="quantity-selector-root quantity-selector-cart flex items-center gap-3"
   data-context="cart"
 >
   <div
-    class="grid {% if size == 'lg' %}max-w-40{% else %} max-w-[118px]{% endif %} grid-cols-3 rounded-[4px] border border-black"
+    class="grid {% if size == 'lg' %}max-w-40{% else %} max-w-[118px]{% endif %} grid-cols-3 rounded-[4px] border border-color-{{ color_scheme }}"
     style="border-radius:{{ border_radius }}px"
   >
     <quantity-selector-decrement
@@ -20,7 +20,7 @@
     </quantity-selector-decrement>
 
     <input
-      class="text-center text-xxs number-input"
+      class="text-center text-xxs number-input border-color-{{ color_scheme }}"
       type="number"
       data-line="{{ index }}"
       value="{{ item.quantity }}"
