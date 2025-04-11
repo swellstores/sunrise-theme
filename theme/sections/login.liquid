@@ -1,6 +1,8 @@
 {%- liquid
+  assign color_scheme = section.settings.color_scheme
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+  assign section_padding = 'pt-[24px] pb-[64px] pl-[24px] pr-[24px] sm:pt-[32px] sm:pb-[96px]'
 -%}
 
 {% style %}
@@ -18,9 +20,12 @@
 {% endstyle %}
 
 <div
-  class="bg-{{section.settings.color_scheme}} flex min-h-dvh flex-col items-center justify-start gap-4 pt-[24px] pb-[64px] pl-[24px] pr-[24px] sm:pt-[32px] sm:pb-[96px] responsive-padding-{{ section.id }}"
+  class="bg-{{ color_scheme }} flex flex-col items-center justify-start"
 >
-  <div id="login-form" class="form-container flex flex-col gap-[32px] items-start w-full sm:w-auto">
+  <div id="recover" class="{{ section_padding }} responsive-padding-{{ section.id }} form-container hidden flex flex-col gap-[32px] items-start w-full sm:w-auto">
+    {% render 'recover-password' %}
+  </div>
+  <div id="login" class="{{ section_padding }} responsive-padding-{{ section.id }} form-container flex flex-col gap-[32px] items-start w-full sm:w-auto">
     <h1 class="font-display text-headline-medium">Login</h1>
 
     {% form 'customer_login', novalidate: 'novalidate', class: 'w-full' %}
@@ -61,7 +66,6 @@
         </div>
         <a
           href="#recover"
-          id="toggle-recover"
           class="font-display text-body-medium underline underline-offset-2"
         >
           Forgot your password?
@@ -87,10 +91,6 @@
         </div>
       </div>
     {% endform %}
-  </div>
-
-  <div id="recover-password-form" class="form-container hidden flex flex-col gap-[32px] items-start w-full sm:w-auto">
-    {% render 'recover-password', color_scheme: section.settings.color_scheme %}
   </div>
 </div>
 
