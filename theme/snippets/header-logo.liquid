@@ -1,5 +1,3 @@
-{%- assign logo_color = settings.logo_color -%}
-
 <a
   href="{{ routes.root_url }}"
   class="flex h-[81px] sm:h-[97px] justify-center min-[960px]:justify-start !decoration-transparent"
@@ -14,9 +12,8 @@
   {%- else -%}
     <h1
       class="flex items-center justify-center logo-text font-bold text-[22px] font-display"
-      style="color: {{ logo_color }};"
     >
-      {{ settings.logo_text }}
+      {{ settings.logo_text | default: store.name }}
     </h1>
   {%- endif -%}
 </a>

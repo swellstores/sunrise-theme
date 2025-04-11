@@ -136,7 +136,7 @@
                     id="sort-option-{{ forloop.index }}"
                     name="sort_by"
                     value="{{ option.value }}"
-                    class="h-4 w-4 mr-2 rounded border-gray-300 text-orange-600 cursor-pointer focus:ring-orange-600"
+                    class="border-color-{{ color_scheme }} h-4 w-4 mr-2 rounded border-gray-300 text-orange-600 cursor-pointer focus:ring-orange-600"
                     {% if option.value == sort_by %}
                       checked
                     {% endif %}
@@ -201,7 +201,7 @@
                         <div class="group flex items-center">
                           <input
                             type="checkbox"
-                            class="h-4 w-4 mr-2 rounded border-gray-300 text-orange-600 cursor-pointer focus:ring-orange-600"
+                            class="border-color-{{ color_scheme }} h-4 w-4 mr-2 rounded border-gray-300 text-orange-600 cursor-pointer focus:ring-orange-600"
                             id="filter-{{ filter.param_name }}"
                             name="{{ filter.param_name }}"
                             value="{{ filter.true_value.value }}"

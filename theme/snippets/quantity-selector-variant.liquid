@@ -8,7 +8,7 @@
   data-context="pdp"
 >
   <div
-    class="grid {% if size == 'lg' %}max-w-40{% else %} max-w-24{% endif %} grid-cols-3 border border-[#222222] rounded-[4px]"
+    class="border-color-{{ color_scheme }} grid {% if size == 'lg' %}max-w-40{% else %} max-w-24{% endif %} grid-cols-3 border rounded-[4px]"
     style="border-radius:{{ border_radius }}px"
   >
     <quantity-selector-decrement
