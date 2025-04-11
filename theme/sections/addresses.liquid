@@ -1,4 +1,5 @@
 {%- liquid
+  assign color_scheme = section.settings.color_scheme
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
 -%}
@@ -17,19 +18,19 @@
   }
 {% endstyle %}
 
-<div class="bg-{{section.settings.color_scheme}} flex max-w-[1046px] flex-col pt-[16px] pb-[64px] pr-[32px] pl-[32px] gap-[24px] xl:pr-[0px] xl:pl-[0px] sm:flex-row sm:pt-[64px] sm:pb-[64px] mx-auto justify-center sm:gap-[32px] items-start responsive-padding-{{ section.id }}">
+<div class="bg-{{ color_scheme }} text-{{ color_scheme }} flex max-w-[1046px] flex-col pt-[16px] pb-[64px] pr-[32px] pl-[32px] gap-[24px] xl:pr-[0px] xl:pl-[0px] sm:flex-row sm:pt-[64px] sm:pb-[64px] mx-auto justify-center sm:gap-[32px] items-start responsive-padding-{{ section.id }}">
   <a href="/account/" class="sm:hidden  font-display text-title-large">Account Settings</a>
 
   <div class="flex flex-col items-start text-center w-[250px]">
     <a
       href="/account"
-      class="border-l px-[8px] py-[4px] font-display text-title-small {% if request.path == '/account' %}text-{{ section.settings.color_scheme }} border-[#222222] {% else %}text-secondary-{{ section.settings.color_scheme }} border-[#E0E0E0]{% endif %}"
+      class="border-l px-[8px] py-[4px] font-display text-title-small {% if request.path == '/account' %}text-{{ color_scheme }} border-color-{{ color_scheme }} {% else %}text-secondary-{{ color_scheme }} border-[#E0E0E0]{% endif %}"
     >
       My Orders
     </a>
     <a
       href="/account/addresses"
-      class="border-l px-[8px] py-[4px] font-display text-title-small {% if request.path == '/account/addresses' %}text-{{ section.settings.color_scheme }} border-[#222222] {% else %}text-secondary-{{ section.settings.color_scheme }} border-[#E0E0E0]{% endif %}"
+      class="border-l px-[8px] py-[4px] font-display text-title-small {% if request.path == '/account/addresses' %}text-{{ color_scheme }} border0color-{{ color_scheme }} {% else %}text-secondary-{{ color_scheme }} border-[#E0E0E0]{% endif %}"
     >
       Address Book
     </a>
@@ -43,18 +44,6 @@
   {%- paginate customer.addresses by 5 -%}
     <div class="flex flex-col gap-[32px] w-full">
       <h2 class="font-display text-headline-medium uppercase">Addresses</h2>
-
-      {% comment %}
-        <div>
-          <div class="flex items-start text-center w-[250px]">
-            <a
-              href="/"
-              class="text-black font-display text-title-small h-[38px] border-[#222222] border-b"
-              >Your saved addresses</a
-            >
-          </div>
-        </div>
-      {% endcomment %}
 
       <div class="flex flex-col gap-[32px]">
         <ul id="saved-addresses" class="flex flex-col gap-[16px]">
@@ -71,7 +60,7 @@
                 {%- if address == customer.default_address -%}
                   <h2 class="font-display text-body-medium font-display font-bold">Default address</h2>
                 {%- endif -%}
-                <div class="text-{{ section.settings.color_scheme }} text-title-small font-display flex gap-[12px]">
+                <div class="text-{{ color_scheme }} text-title-small font-display flex gap-[12px]">
                   <button
                     id="edit-button-{{ address.id }}"
                     class="edit-address-button"
@@ -98,11 +87,10 @@
 
         <div id="add-address-button">
           {% render 'button',
-            variant: 'white',
             text: 'Add Address',
             type: 'button',
             name: 'toggle-new-address',
-            content_color_scheme: section.settings.color_scheme
+            color_scheme: color_scheme
           %}
         </div>
         <div id="new-address-form" class="hidden max-w-[500px] flex flex-col gap-[32px]">
@@ -223,12 +211,17 @@
                 <label class="">Set as default address</label>
               </div>
               <div class="flex gap-4 items-center justify-end">
-                {% render 'button', type: 'button', text: 'Cancel', name: 'cancel-button' %}
+                {% render 'button',
+                  type: 'button',
+                  text: 'Cancel',
+                  name: 'cancel-button',
+                  color_scheme: color_scheme,
+                  variant: 'secondary'
+                %}
                 {% render 'button',
                   type: 'submit',
                   text: 'Save address',
-                  variant: 'purple',
-                  content_color_scheme: section.settings.color_scheme
+                  color_scheme: color_scheme
                 %}
               </div>
             </div>
@@ -354,12 +347,17 @@
                   <label for="address[default]" class="">Set as default address</label>
                 </div>
                 <div class="flex gap-4 items-center">
-                  {% render 'button', type: 'button', text: 'Cancel', name: 'cancel-button' %}
+                  {% render 'button',
+                    type: 'button',
+                    text: 'Cancel',
+                    name: 'cancel-button',
+                    color_scheme: color_scheme,
+                    variant: 'secondary'
+                  %}
                   {% render 'button',
                     type: 'submit',
                     text: 'Update address',
-                    variant: 'purple',
-                    content_color_scheme: section.settings.color_scheme
+                    color_scheme: color_scheme
                   %}
                 </div>
               </div>

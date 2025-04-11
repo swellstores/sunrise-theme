@@ -25,10 +25,9 @@
 {% endstyle %}
 
 <div
-  class="flex justify-center text-black bg-{{ color_scheme}} text-{{ color_scheme }} bg-[#FAF7FF] pt-[64px] pb-[64px] pl-[24px] pr-[24px] lg:p-[160px] responsive-padding-{{ section.id }}"
-  {% comment %} style="padding-top: {{ section.settings.top_padding }}px; padding-bottom: {{ section.settings.bottom_padding }}px;" {% endcomment %}
+  class="bg-{{ color_scheme}} text-{{ color_scheme }} flex justify-center bg-[#FAF7FF] pt-[64px] pb-[64px] pl-[24px] pr-[24px] lg:p-[160px] responsive-padding-{{ section.id }}"
 >
-  <div class="max-w-[1046px] flex flex-col justify-center items-center gap-[32px]">
+  <div class="max-w-[1046px] flex flex-col justify-center items-center">
     {%- for block in section.blocks -%}
       {%- case block.type -%}
         {%- when 'pre_heading' -%}
@@ -36,13 +35,13 @@
             {{ block.settings.pre_heading }}
           </div>
         {%- when 'heading' -%}
-          <h2 class="font-display font-heading text-headline-small text-center">{{ block.settings.heading }}</h2>
+          <h2 class="font-display font-heading text-headline-small text-center mb-[8px]">{{ block.settings.heading }}</h2>
         {%- when 'text' -%}
           <div class="font-display text-body-large text-center formatted-text">
             {{ block.settings.text }}
           </div>
         {%- when 'email_form' -%}
-          <div class="flex w-full">
+          <div class="flex w-full pt-[32px]">
             {% form 'customer', class: 'newsletter-form w-full' %}
               <input type="hidden" name="contact[tags]" value="newsletter">
               <div class="flex gap-4 justify-center newsletter-form-container">
@@ -68,8 +67,8 @@
                 {% render 'button',
                   type: 'submit',
                   text: 'Submit',
-                  variant: section.settings.button_variant,
-                  content_color_scheme: color_scheme
+                  color_scheme: color_scheme,
+                  variant: section.settings.button_variant
                 %}
               </div>
               {%- if form.errors -%}

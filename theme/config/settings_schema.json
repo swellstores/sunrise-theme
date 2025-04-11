@@ -16,12 +16,6 @@
         "label": "Logo image"
       },
       {
-        "type": "color",
-        "id": "logo_color",
-        "label": "Logo color",
-        "default": "#121212"
-      },
-      {
         "type": "text",
         "id": "logo_text",
         "label": "Logo text"
@@ -210,7 +204,7 @@
       {
         "type": "text",
         "id": "social_x_url",
-        "label": "X",
+        "label": "X.com",
         "info": "https://x.com/"
       },
       {
@@ -253,10 +247,10 @@
         "default": "drawer"
       },
       {
-        "type": "color",
-        "id": "cart_color",
-        "label": "Cart quantity colour",
-        "default": "#FFFFFF"
+        "type": "color_scheme",
+        "id": "cart_color_scheme",
+        "label": "Color scheme",
+        "default": "scheme-1"
       }
     ]
   },
@@ -272,7 +266,10 @@
       {
         "type": "text",
         "id": "gorgias_chat_id",
-        "label": "Gorgias chat ID"
+        "label": "Gorgias chat ID",
+        "conditions": {
+          "gorgias_chat_enabled": true
+        }
       },
       {
         "type": "checkbox",
@@ -283,7 +280,10 @@
       {
         "type": "text",
         "id": "google_analytics_id",
-        "label": "Google Analytics ID"
+        "label": "Google Analytics ID",
+        "conditions": {
+          "google_analytics_enabled": true
+        }
       }
     ]
   }

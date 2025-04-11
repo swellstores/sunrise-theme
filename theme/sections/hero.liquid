@@ -24,7 +24,7 @@
            {% case section.settings.banner_height %}
            {% when 'small' %} h-48 sm:min-h-48 sm:max-h-48
            {% when 'medium' %} h-96 sm:min-h-96 sm:max-h-96
-           {% when 'large' %}h-[600px] sm:min-h-[600px] sm:max-h-[600px] 2xl:min-h-[800px] 2xl:max-h-[800px]
+           {% when 'large' %}h-[600px] sm:min-h-[600px] sm:max-h-[600px]
            {% when 'screen' %} h-screen
            {% else %} h-auto
          {% endcase %}
@@ -122,8 +122,8 @@
                   {% render 'button',
                     text: block.settings.button_label,
                     href: block.settings.button_link,
-                    variant: block.settings.button_variant,
-                    content_color_scheme: button_color_scheme
+                    color_scheme: button_color_scheme,
+                    variant: block.settings.button_variant
                   %}
                 </div>
             {%- endcase -%}
@@ -271,7 +271,7 @@
       "type": "select",
       "id": "content_alignment",
       "label": "Content position",
-      "default": "items-end justify-start",
+      "default": "items-center justify-start",
       "options": [
         {
           "value": "items-start justify-start",
