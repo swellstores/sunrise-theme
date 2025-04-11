@@ -12,7 +12,7 @@
   {%- for option in product.options_with_values -%}
     {%- if product_selector == 'radio' -%}
       <fieldset class="mb-4" id="product-variant-{{ forloop.index0 }}" name="{{ option.name | handleize }}">
-        <legend class="font-display text-label-medium uppercase mb-2">
+        <legend class="font-display text-label-medium mb-2">
           {{ option.name | escape }}
         </legend>
         <variant-radio class="flex flex-wrap items-center gap-[8px]">
@@ -47,7 +47,7 @@
               role="radio"
               tabindex="0"
               class="
-                border border-[#3B0B93] px-[12px] py-[12px] text-center transition-colors uppercase font-display text-label-small
+                border border-[#3B0B93] px-[12px] py-[12px] text-center transition-colors font-display text-label-small
                 {% if matched_variant.available %}
                 {% if current_variant.id != matched_variant.id %}
                  cursor-pointer
@@ -73,7 +73,7 @@
       </fieldset>
     {%- else -%} {% comment %} implicitly 'dropdown' {% endcomment %}
       <div class="flex flex-col gap-[4px]">
-        <label for="product-variant-option-{{ forloop.index0 }}" class="font-display text-label-medium uppercase mb-2">
+        <label for="product-variant-option-{{ forloop.index0 }}" class="font-display text-label-medium mb-2">
           {{ option.name | escape }}
         </label>
         <select

@@ -44,7 +44,7 @@
     >
   </div>
   <div class="flex flex-col gap-[32px] w-full">
-    <h2 class="font-display text-headline-medium uppercase">My Orders</h2>
+    <h2 class="font-display text-headline-medium">My Orders</h2>
     <div>
       {% paginate customer.orders by 20 %}
         {%- if customer.orders.count > 0 -%}
