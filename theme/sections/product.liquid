@@ -442,6 +442,7 @@
               {% when 'quantity_selector' %}
                 {% if block.settings.show_quantity_selector %}
                   <div
+                    id="quantity-selector-variant"
                     class="mb-[14px] mt-[14px]"
                     style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
                   >
@@ -453,7 +454,7 @@
                 {% endif %}
               {% when 'variant' %}
                 {% if block.settings.variant %}
-                  <div
+                  <div id="variant-radio-root"
                     class="variant-selection flex flex-col gap-[8px]"
                     style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
                   >
@@ -466,31 +467,33 @@
                 -%}
                 {% if block.settings.show_buy_buttons %}
                   {% comment %} {% render 'product-form', product: product, cart_type: settings.cart_type %} {% endcomment %}
-                  {% form 'product', product, class: 'flex flex-col w-full' %}
-                    <input type="hidden" name="id" value="{{ selected_or_first_available_variant.id }}">
+                  <div id="product-section-buy-buttons">
+                    {% form 'product', product, class: 'flex flex-col w-full' %}
+                      <input type="hidden" name="id" value="{{ selected_or_first_available_variant.id }}">
 
-                    {%- if variant.available -%}
-                      {%- if settings.cart_type == 'drawer' -%}
-                        <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
-                          {% render 'cart-drawer-button',
-                            variant_id: variant,
-                            color_scheme: color_scheme,
-                            button_text: block.settings.buy_button_text
-                          %}
-                        </div>
+                      {%- if variant.available -%}
+                        {%- if settings.cart_type == 'drawer' -%}
+                          <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
+                            {% render 'cart-drawer-button',
+                              variant: variant,
+                              color_scheme: color_scheme,
+                              button_text: block.settings.buy_button_text
+                            %}
+                          </div>
+                        {%- else -%}
+                          <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
+                            {% render 'button',
+                              type: 'submit',
+                              text: block.settings.buy_button_text,
+                              class: 'add-to-cart-button'
+                            %}
+                          </div>
+                        {%- endif -%}
                       {%- else -%}
-                        <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
-                          {% render 'button',
-                            type: 'submit',
-                            text: block.settings.buy_button_text,
-                            class: 'add-to-cart-button'
-                          %}
-                        </div>
+                        <span class="text-[#B3261E] font-display text-body-small">Currently unavailable</span>
                       {%- endif -%}
-                    {%- else -%}
-                      <span class="text-[#B3261E] font-display text-body-small">Currently unavailable</span>
-                    {%- endif -%}
-                  {% endform %}
+                    {% endform %}
+                  </div>
                 {% endif %}
               {% when 'description' %}
                 {% if block.settings.show_description %}
