@@ -43,20 +43,10 @@ export class VariantRadio extends HTMLElement {
     });
   }
 
-  updateProductElement(html, selector, replaceAttribute, replaceValue = false) {
+  updateProductElement(html, selector) {
     const currentItem = document.querySelector(selector);
     const newItem = html.querySelector(selector);
     if (currentItem && newItem) {
-      if (replaceAttribute) {
-        currentItem.setAttribute(replaceAttribute, newItem.getAttribute(replaceAttribute));
-        return;
-      }
-
-      if (replaceValue) {
-        currentItem.value = newItem.value;
-        return;
-      }
-
       currentItem.innerHTML = newItem.innerHTML;
     }
   }
@@ -83,8 +73,17 @@ export class VariantRadio extends HTMLElement {
       this.updateProductElement(html, "product-section #product-price");
       this.updateProductElement(html, "product-section #quantity-selector-variant");
       this.updateProductElement(html, "product-section product-variant-options");
-      this.updateProductElement(html, "product-section #product-section-buy-buttons > form > input[name='id']", "", true);
-      this.updateProductElement(html, "product-section cart-drawer-button", "data-variant-id");
+
+      // use selected variantId, cart button can be drawn differently in the response
+      const inputWithVariantId = document.querySelector("product-section #product-section-buy-buttons > form > input[name='id']");
+      if (inputWithVariantId) {
+        inputWithVariantId.value = variantId;
+      }
+      const drawerButton = document.querySelector("product-section cart-drawer-button");
+      if (drawerButton) {
+        drawerButton.setAttribute("data-variant-id", variantId);
+      }
+
       this.setLoading(false);
     } catch(error) {
       this.setLoading(false);
