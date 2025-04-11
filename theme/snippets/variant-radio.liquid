@@ -46,8 +46,8 @@
                         assign compareOptionValue = matched_options[variantOptionIndex] | downcase
                       endif
 
-                      assign variantOption = variant.options[variantOptionIndex] | downcase
-                      if variantOption != compareOptionValue
+                      assign compareVariantOption = variant.options[variantOptionIndex] | downcase
+                      if compareVariantOption != compareOptionValue
                         assign matched = false
                       endif
                     endfor

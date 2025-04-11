@@ -463,15 +463,16 @@
                 {% endif %}
               {% when 'buy_buttons' %}
                 {%- liquid
-                  assign variant = selected_or_first_available_variant
+                  unless product.has_only_default_variant
+                    assign variant = selected_or_first_available_variant
+                  endunless
                 -%}
                 {% if block.settings.show_buy_buttons %}
                   {% comment %} {% render 'product-form', product: product, cart_type: settings.cart_type %} {% endcomment %}
                   <div id="product-section-buy-buttons">
                     {% form 'product', product, class: 'flex flex-col w-full' %}
                       <input type="hidden" name="id" value="{{ selected_or_first_available_variant.id }}">
-
-                      {%- if variant.available -%}
+                      {%- if selected_or_first_available_variant.available -%}
                         {%- if settings.cart_type == 'drawer' -%}
                           <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
                             {% render 'cart-drawer-button',
