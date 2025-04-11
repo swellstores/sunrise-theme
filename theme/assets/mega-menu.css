@@ -126,7 +126,10 @@
   height: 100%;
 }
 
-.group:hover .standard-dropdown {
+/* Show dropdown on hover and keep it shown while interacting */
+.group:hover .standard-dropdown,
+.standard-dropdown:hover,
+.standard-dropdown:focus-within {
   display: block;
 }
 
@@ -156,4 +159,52 @@
 header {
   position: relative;
   z-index: 50;
+}
+
+/* Standard Dropdown Styles */
+.standard-dropdown-content {
+  min-width: 220px;
+}
+
+.standard-dropdown-parent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.standard-dropdown-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.standard-dropdown-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.standard-dropdown-toggle[aria-expanded="true"] ion-icon {
+  transform: rotate(180deg);
+}
+
+.standard-dropdown-toggle ion-icon {
+  transition: transform 0.2s ease;
+}
+
+.standard-dropdown-children {
+  max-height: 0;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+.standard-dropdown-children.expanded {
+  max-height: none;
+  opacity: 1;
 }
