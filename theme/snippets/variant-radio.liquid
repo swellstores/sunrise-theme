@@ -1,6 +1,5 @@
 {%- liquid
   assign current_variant = product.selected_or_first_available_variant
-  assign color_scheme = section.settings.color_scheme.id
   assign border_radius = settings.border_radius | default: 4
 -%}
 
@@ -84,7 +83,6 @@
                       {% else %}
                       cursor-pointer
                       btn-primary-{{ color_scheme }}
-                      bg-[#3B0B93] text-white
                     {% endif %}
                     {% else %}
                       cursor-not-allowed btn-disabled-{{ color_scheme }}

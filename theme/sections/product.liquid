@@ -459,7 +459,11 @@
                     class="variant-selection flex flex-col gap-[8px]"
                     style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
                   >
-                    {% render 'variant-radio', product: product, product_selector: block.settings.product_selector %}
+                    {% render 'variant-radio',
+                      product: product,
+                      product_selector: block.settings.product_selector,
+                      color_scheme: color_scheme
+                    %}
                   </div>
                 {% endif %}
               {% when 'buy_buttons' %}
