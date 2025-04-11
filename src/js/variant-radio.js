@@ -56,10 +56,24 @@ export class VariantRadio extends HTMLElement {
     if (rootDiv) {
       rootDiv.style.opacity = loading ? 0.6 : 1.0;
     }
+
+    const cartDrawerButton = document.querySelector("product-section cart-drawer-button");
+    if (cartDrawerButton) {
+      const buttonText = cartDrawerButton.querySelector("span");
+      const loader = cartDrawerButton.querySelector('div[role="status"]');
+
+      if (buttonText) {
+        buttonText.classList.toggle("hidden", loading);
+      }
+      if (loader) {
+        loader.classList.toggle("hidden", !loading);
+        loader.classList.toggle("flex", loading);
+      }
+    }
   }
 
   async selectVariant(product, variantId, sectionId) {
-    const requestUrl = `/products/${product}?section=page__products_product__${sectionId}&variant=${variantId}`;
+    const requestUrl = `/products/${product}?section=${sectionId}&variant=${variantId}`;
     this.abortController?.abort();
     this.abortController = new AbortController();
     this.setLoading(true);
