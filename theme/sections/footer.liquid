@@ -22,28 +22,10 @@
 {% endstyle %}
 
 <div
-  class="bg-{{ color_scheme }} pt-[64px] pb-[24px] pr-[24px] pl-[24px] md:pl-[160px] md:pr-[160px] md:pt-[96px] md:pb-[32px] responsive-padding-{{ section.id }}"
+  class="bg-{{ color_scheme }} bg-[#F5F5F5] pt-[64px] pb-[24px] pr-[44px] pl-[44px] md:pt-[96px] md:pb-[32px] responsive-padding-{{ section.id }}"
 >
-  <div class="max-w-container mx-auto">
-    {% assign all_menus_have_no_sublinks = true %}
-
-    {% for block in section.blocks %}
-      {% assign menu = block.settings.menu %}
-      {% if menu != blank and linklists[menu] %}
-        {% for link in linklists[menu].links %}
-          {% if link.links.size > 0 %}
-            {% assign all_menus_have_no_sublinks = false %}
-          {% endif %}
-        {% endfor %}
-      {% endif %}
-    {% endfor %}
-
-    {%- assign footer_classes = 'grid grid-cols-1 gap-[32px] text-' | append: color_scheme -%}
-    {%- if all_menus_have_no_sublinks == false -%}
-      {%- assign footer_classes = 'grid grid-cols-1 md:grid-cols-3 gap-[32px] text-' | append: color_scheme -%}
-    {%- endif -%}
-
-    <footer class="{{ footer_classes }}">
+  <div class="max-w-[1046px] 2xl:max-w-[1380px] mx-auto">
+    <footer class="grid grid-cols-[repeat(auto-fit,_minmax(315px,_1fr))] gap-[32px] text-{{ color_scheme }}">
       {%- for block in section.blocks -%}
         {% if block.type == 'menu' %}
           {% assign menu = block.settings.menu %}
@@ -57,7 +39,7 @@
 
             {% if menu_has_sublinks %}
               {% for link in linklists[menu].links %}
-                <div class="flex flex-col gap-4 md:w-[327px]">
+                <div class="flex flex-col gap-4">
                   <div class="flex flex-col gap-[24px]">
                     {%- if link.url == '#' -%}
                       <div class="font-display text-title-large">{{ link.title }}</div>
@@ -81,7 +63,7 @@
                 </div>
               {% endfor %}
             {% else %}
-              <div class="flex flex-col gap-4 md:w-[327px]">
+              <div class="flex flex-col gap-4">
                 <div class="font-display text-title-large">
                   {{ block.settings.single_column_heading | default: 'Quick Links' }}
                 </div>
@@ -133,7 +115,7 @@
             }}
           {%- else -%}
             <h1
-              class="flex items-center justify-center logo-text font-bold text-[22px] font-display"
+              class="flex items-center justify-center logo-text font-bold text-[22px] font-display text-{{ color_scheme }}"
             >
               {{ settings.logo_text | default: store.name }}
             </h1>
