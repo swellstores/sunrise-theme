@@ -1,12 +1,6 @@
-{% assign sort_by = results.sort_by | default: results.default_sort_by %}
-{% assign color_scheme = color_scheme %}
-
-{% assign current_sort_label = '' %}
-{% for option in results.sort_options %}
-  {% if option.value == sort_by %}
-    {% assign current_sort_label = option.name %}
-  {% endif %}
-{% endfor %}
+{%- liquid
+  assign sort_by = results.sort_by | default: results.default_sort_by
+-%}
 
 <div class="text-{{ color_scheme }}">
   <!--
@@ -305,8 +299,7 @@
             >
               <div class="group items-center gap-1 text-sm hidden md:flex">
                 <label for="sort-control" class="font-display text-title-small">
-                  {{- 'sections.collection.filters.sort_by' | t -}}
-                  :
+                  {{- 'sections.collection.filters.sort_by' | t -}}:
                 </label>
                 <select
                   name="sort_by"
@@ -326,16 +319,6 @@
                 </select>
               </div>
             </form>
-            {% comment %}
-              <span
-                id="results-count"
-                class="inline-block text-body-medium text-[#424242] font-display px-3"
-                hx-swap-oob="true"
-                hx-select-oob="true"
-              >
-                {{ 'item' | pluralize: 'items', paginate.items }} products
-              </span>
-            {% endcomment %}
           </div>
         </div>
       </div>

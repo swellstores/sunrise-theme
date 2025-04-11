@@ -28,7 +28,9 @@
   <div id="login" class="{{ section_padding }} responsive-padding-{{ section.id }} form-container flex flex-col gap-[32px] items-start w-full sm:w-auto">
     <h1 class="font-display text-headline-medium">Login</h1>
 
-    {% form 'customer_login', novalidate: 'novalidate', class: 'w-full' %}
+    {% form 'customer_login'
+      , class: 'w-full'
+    %}
       {%- if form.errors -%}
         <div class="bg-red-50 w-full flex flex-col rounded-md border border-red-600 mb-4 p-4">
           <h2 tabindex="-1" autofocus class="outline-none text-base text-red-600">
@@ -50,8 +52,7 @@
             name: 'customer[email]',
             id: 'customer[email]',
             autocomplete: 'email',
-            placeholder: email_text,
-            variant: 'account'
+            placeholder: email_text
           %}
         </div>
         <div class="relative">
@@ -60,8 +61,7 @@
             name: 'customer[password]',
             id: 'customer[password]',
             autocomplete: 'current-password',
-            placeholder: password_text,
-            variant: 'account'
+            placeholder: password_text
           %}
         </div>
         <a
@@ -80,11 +80,12 @@
             Create account
           </a>
         </div>
-        <div class="sm:w-[99px] w-full">
+        <div class="sm:w-auto w-full">
           {%- assign sign_in_text = 'Log in' -%}
           {% render 'button',
             type: 'submit',
             text: sign_in_text,
+            class: 'sm:w-auto w-full',
             color_scheme: section.settings.color_scheme,
             variant: section.settings.button_variant
           %}

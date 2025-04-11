@@ -10,12 +10,6 @@
     padding-bottom: {{ reduced_padding_bottom }}px;
   }
 
-  .newsletter-form-container {
-    input {
-      height: 48px;
-    }
-  }
-
   @media (min-width: 1024px) {
     .responsive-padding-{{ section.id }} {
       padding-top: {{ section.settings.top_padding }}px;
@@ -42,7 +36,9 @@
           </div>
         {%- when 'email_form' -%}
           <div class="flex w-full pt-[32px]">
-            {% form 'customer', class: 'newsletter-form w-full' %}
+            {% form 'customer'
+              , class: 'newsletter-form w-full'
+            %}
               <input type="hidden" name="contact[tags]" value="newsletter">
               <div class="flex gap-4 justify-center newsletter-form-container">
                 <div class="relative sm:min-w-96 w-full sm:w-[330px]">
@@ -50,18 +46,17 @@
                     render 'input',
                     id: 'contact[email]',
                     type: 'email',
-                    name: "contact[email]",
+                    name: 'contact[email]',
                     value: form.email,
-                    aria_required: "true",
-                    autocorrect: "off",
-                    autocapitalize: "off",
-                    autocomplete: "email",
-                    autofocus: form.errors,
-                    aria_invalid: form.errors,
-                    aria_describedby: form.errors ? "Newsletter-error--#{section.id}" : form.posted_successfully? ? "Newsletter-success--#{section.id}" : "",
-                    required: "true",
+                    autocorrect: 'off',
+                    autocapitalize: 'off',
+                    autocomplete: 'email',
                     placeholder: 'Email',
-                    variant: 'email'
+                    autofocus: form.errors,
+                    required: 'true',
+                    class: 'h-[48px]',
+                    aria_required: 'true',
+                    aria_invalid: form.errors
                   %}
                 </div>
                 {% render 'button',
