@@ -448,7 +448,8 @@
                   >
                     {% render 'quantity-selector-variant',
                       product: product,
-                      variant: selected_or_first_available_variant
+                      variant: product.selected_or_first_available_variant,
+                      color_scheme: color_scheme
                     %}
                   </div>
                 {% endif %}
@@ -487,6 +488,7 @@
                               type: 'submit',
                               text: block.settings.buy_button_text,
                               class: 'add-to-cart-button'
+                              color_scheme: color_scheme
                             %}
                           </div>
                         {%- endif -%}

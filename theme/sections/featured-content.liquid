@@ -357,11 +357,10 @@
                     {% endif %}
                   ">
                     {% render 'button',
-                      text: block.settings.button_text,
-                      href: block.settings.button_link
                       type: 'button',
-                      variant: 'solid',
-                      content_color_scheme: block.settings.color_scheme
+                      text: block.settings.button_text,
+                      href: block.settings.button_link,
+                      color_scheme: block.settings.color_scheme
                     %}
                   </div>
                 {%- endif -%}
@@ -689,8 +688,8 @@
     {
       "name": "Featured content",
       "settings": {
-        "pre_heading": "Pre heading",
-        "heading": "Top picks"
+        "pre_heading": "Top picks",
+        "heading": "Just for you"
       },
       "blocks": [
         {

@@ -1,4 +1,5 @@
 {%- liquid
+  assign color_scheme = section.settings.color_scheme
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
 -%}
@@ -18,10 +19,10 @@
 {% endstyle %}
 
 <div
-  class="flex min-h-dvh flex-col items-center justify-start gap-4 pt-[24px] pb-[64px] pl-[24px] pr-[24px] sm:pt-[32px] sm:pb-[96px] responsive-padding-{{ section.id }}"
+  class="bg-{{ color_scheme }} text-{{ color_scheme }} flex min-h-dvh flex-col items-center justify-start gap-4 pt-[24px] pb-[64px] pl-[24px] pr-[24px] sm:pt-[32px] sm:pb-[96px] responsive-padding-{{ section.id }}"
 >
   <div class="flex flex-col gap-[32px] items-start w-full sm:w-auto">
-    <h1 class="font-display text-headline-medium uppercase text-black">Create account</h1>
+    <h1 class="font-display text-headline-medium uppercase">Create account</h1>
     {%- form 'create_customer', novalidate: 'novalidate', class: 'w-full' -%}
       {%- if form.errors -%}
         <div class="bg-red-50 w-full flex flex-col rounded-md border border-red-600 mb-4 p-4">
@@ -83,7 +84,11 @@
             </a>
           </div>
           <div class="sm:w-[101px] w-full">
-            {% render 'button', type: 'submit', text: 'Create', variant: 'purple' %}
+            {% render 'button',
+              type: 'submit',
+              text: 'Create',
+              color_scheme: color_scheme
+            %}
           </div>
         </div>
       </div>
@@ -96,6 +101,12 @@
   "name": "Register",
   "tag": "section",
   "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
     {
       "type": "range",
       "id": "top_padding",
