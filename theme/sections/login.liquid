@@ -1,6 +1,8 @@
 {%- liquid
+  assign color_scheme = section.settings.color_scheme
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+  assign section_padding = 'pt-[24px] pb-[64px] pl-[24px] pr-[24px] sm:pt-[32px] sm:pb-[96px]'
 -%}
 
 {% style %}
@@ -18,17 +20,20 @@
 {% endstyle %}
 
 <div
-  class="bg-{{section.settings.color_scheme}} flex min-h-dvh flex-col items-center justify-start gap-4 pt-[24px] pb-[64px] pl-[24px] pr-[24px] sm:pt-[32px] sm:pb-[96px] responsive-padding-{{ section.id }}"
+  class="bg-{{ color_scheme }} flex flex-col items-center justify-start"
 >
-  <div id="login-form" class="form-container flex flex-col gap-[32px] items-start w-full sm:w-auto">
-    <h1 class="font-display text-headline-medium uppercase">Login</h1>
+  <div id="recover" class="{{ section_padding }} responsive-padding-{{ section.id }} form-container hidden flex flex-col gap-[32px] items-start w-full sm:w-auto">
+    {% render 'recover-password' %}
+  </div>
+  <div id="login" class="{{ section_padding }} responsive-padding-{{ section.id }} form-container flex flex-col gap-[32px] items-start w-full sm:w-auto">
+    <h1 class="font-display text-headline-medium">Login</h1>
 
     {% form 'customer_login', novalidate: 'novalidate', class: 'w-full' %}
       {%- if form.errors -%}
         <div class="bg-red-50 w-full flex flex-col rounded-md border border-red-600 mb-4 p-4">
           <h2 tabindex="-1" autofocus class="outline-none text-base text-red-600">
-            <span class="sr-only">{{ 'sections.login.error' | t }}</span>
-            {{ 'sections.login.error' | t }}
+            <span class="sr-only">Your login attempt was unsuccessful. Please try again.</span>
+            Your login attempt was unsuccessful. Please try again.
           </h2>
           <div class="font-display text-body-medium text-red-600">
             {{ form.errors | default_errors }}
@@ -37,8 +42,8 @@
       {%- endif -%}
       <div class="flex max-w-[354px] sm:w-[406px] max-w-full flex-col gap-4">
         <div class="relative">
-          {%- assign email_text = 'sections.login.email_placeholder' | t -%}
-          {%- assign password_text = 'sections.login.password_placeholder' | t -%}
+          {%- assign email_text = 'Email address' -%}
+          {%- assign password_text = 'Password' -%}
 
           {% render 'input',
             type: 'email',
@@ -61,10 +66,9 @@
         </div>
         <a
           href="#recover"
-          id="toggle-recover"
           class="font-display text-body-medium underline underline-offset-2"
         >
-          {{ 'sections.login.forgot_password' | t }}
+          Forgot your password?
         </a>
       </div>
       <div class="flex gap-[16px] sm:gap-[32px] items-center justify-end mt-[32px] flex-col-reverse sm:flex-row">
@@ -73,11 +77,11 @@
             href="{{ routes.account_register_url }}"
             class="font-display text-body-medium underline underline-offset-2"
           >
-            {{ 'sections.login.create_account' | t }}
+            Create account
           </a>
         </div>
         <div class="sm:w-[99px] w-full">
-          {%- assign sign_in_text = 'sections.login.sign_in' | t -%}
+          {%- assign sign_in_text = 'Log in' -%}
           {% render 'button',
             type: 'submit',
             text: sign_in_text,
@@ -87,10 +91,6 @@
         </div>
       </div>
     {% endform %}
-  </div>
-
-  <div id="recover-password-form" class="form-container hidden flex flex-col gap-[32px] items-start w-full sm:w-auto">
-    {% render 'recover-password', color_scheme: section.settings.color_scheme %}
   </div>
 </div>
 

@@ -33,18 +33,18 @@
   assign error_id = error_id | default: ''
   assign autofocus = autofocus | default: false
   assign border_radius = settings.border_radius | default: 4
-  assign color_scheme = section.settings.color_scheme | default: 'scheme-1'
+  assign color_scheme = section.settings.color_scheme
 
-  assign base_class = 'peer block w-full appearance-none p-[16px] focus:outline-none focus:ring-0 text-black'
+  assign base_class = 'peer block w-full appearance-none p-[16px] focus:outline-none focus:ring-0 text-' | append: color_scheme
   case variant
     when 'email'
-      assign class = 'h-[48px] font-display text-title-small border-[1.5px] rounded-md bg-transparent focus:border-slate-600 border-color-' | append: color_scheme
+      assign class = 'h-[48px] font-display text-title-small border-[1.5px] rounded-md bg-transparent border-color-' | append: color_scheme
     when 'default'
-      assign class = 'font-display text-title-small border rounded-md bg-transparent focus:border-slate-600 border-color-' | append: color_scheme
+      assign class = 'font-display text-title-small border rounded-md bg-transparent border-color-' | append: color_scheme
     when 'account'
-      assign class = 'font-display text-body-medium text-[#616161] border rounded-md bg-transparent focus:border-[#E8D9FF] border-color-' | append: color_scheme
+      assign class = 'font-display text-body-medium text-[#616161] border rounded-md bg-transparent border-color-' | append: color_scheme
     when 'error'
-      assign class = 'font-display text-title-small border border-red-600 rounded-md bg-red-50 focus:border-red-600'
+      assign class = 'font-display text-title-small border border-red-600 rounded-md bg-red-50'
     when 'search'
       assign class = 'font-display text-[#616161] text-body-medium border rounded-[4px] bg-transparent border-color-' | append: color_scheme
     else
