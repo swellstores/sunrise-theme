@@ -42,7 +42,9 @@
   <div class="max-w-[1366px] mx-auto pb-[32px] mt-[32px] border-t border-[#E0E0E0] sm:p-6 w-full">
     {% paginate search.results by 24 %}
       <div class="max-w-[1046px] mx-auto 2xl:max-w-[1380px] w-full">
-        {% render 'filter-bar', request: request, results: search, paginate: paginate %}
+        {%- if search.performed and search.results.size > 0 -%}
+          {% render 'filter-bar', request: request, results: search, paginate: paginate %}
+        {%- endif -%}
 
         {%- if search.performed -%}
           {%- if search.results.size == 0 -%}
