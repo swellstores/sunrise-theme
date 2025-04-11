@@ -1,7 +1,7 @@
 <div class="standard-dropdown">
   <div class="standard-dropdown-content">
     {% for link in links %}
-      <div class="standard-dropdown-item {% unless forloop.last %}pb-4{% endunless %}">
+      <div class="standard-dropdown-item">
         {% if link.links.size > 0 %}
           <div class="standard-dropdown-parent">
             <a 
@@ -25,7 +25,7 @@
           </div>
           <div 
             id="dropdown-{{ forloop.index }}"
-            class="standard-dropdown-children hidden pl-4 mt-4 space-y-4"
+            class="standard-dropdown-children hidden"
           >
             {% for child_link in link.links %}
               <div>

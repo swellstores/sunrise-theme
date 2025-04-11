@@ -164,6 +164,10 @@ header {
 /* Standard Dropdown Styles */
 .standard-dropdown-content {
   min-width: 220px;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .standard-dropdown-parent {
@@ -197,14 +201,25 @@ header {
   transition: transform 0.2s ease;
 }
 
+.standard-dropdown-item {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .standard-dropdown-children {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   max-height: 0;
   opacity: 0;
   transition: all 0.3s ease-in-out;
   overflow: hidden;
+  padding-left: 16px;
 }
 
 .standard-dropdown-children.expanded {
   max-height: none;
   opacity: 1;
+  margin-bottom: 16px;
 }
