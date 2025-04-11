@@ -12,7 +12,6 @@ export class VariantRadio extends HTMLElement {
     super();
     this.triggers = this.querySelectorAll("variant-radio-trigger");
     this.inputs = this.querySelectorAll('input[type="radio"]');
-    this.cartDrawerButton = document.querySelector("cart-drawer-button");
     this.init();
   }
 
@@ -35,28 +34,45 @@ export class VariantRadio extends HTMLElement {
           input.checked = true;
           input.setAttribute("checked", "checked");
 
-          const productSlug = trigger.getAttribute("data-product-slug");
+          const product = trigger.getAttribute("data-product-slug");
           const variantId = trigger.getAttribute("data-variant-id");
           const sectionId = trigger.getAttribute("data-section-id");
-          await this.selectVariant(productSlug, variantId, sectionId);
+          await this.selectVariant(product, variantId, sectionId);
         }
       });
     });
   }
 
-
-  updateProductElement(html, selector) {
+  updateProductElement(html, selector, replaceAttribute, replaceValue = false) {
     const currentItem = document.querySelector(selector);
     const newItem = html.querySelector(selector);
     if (currentItem && newItem) {
+      if (replaceAttribute) {
+        currentItem.setAttribute(replaceAttribute, newItem.getAttribute(replaceAttribute));
+        return;
+      }
+
+      if (replaceValue) {
+        currentItem.value = newItem.value;
+        return;
+      }
+
       currentItem.innerHTML = newItem.innerHTML;
     }
   }
 
-  async selectVariant(productSlug, variantId, sectionId) {
-    const requestUrl = `/products/${productSlug}?section=${"page__products_product__product"}&variant=${variantId}`;
+  setLoading(loading) {
+    const rootDiv = document.querySelector("product-section #variant-radio-root");
+    if (rootDiv) {
+      rootDiv.style.opacity = loading ? 0.6 : 1.0;
+    }
+  }
+
+  async selectVariant(product, variantId, sectionId) {
+    const requestUrl = `/products/${product}?section=page__products_product__${sectionId}&variant=${variantId}`;
     this.abortController?.abort();
     this.abortController = new AbortController();
+    this.setLoading(true);
 
     try {
       const response = await fetch(requestUrl, { signal: this.abortController.signal });
@@ -65,14 +81,13 @@ export class VariantRadio extends HTMLElement {
 
       // update elements individually to keep scroll position, selected image and opened accordion items
       this.updateProductElement(html, "product-section #product-price");
-      this.updateProductElement(html, "product-section quantity-selector-root > div > input");
+      this.updateProductElement(html, "product-section #quantity-selector-variant");
       this.updateProductElement(html, "product-section product-variant-options");
-
-      if (this.cartDrawerButton) {
-        const variantId = trigger.getAttribute("data-variant-id");
-        this.cartDrawerButton.setAttribute("data-variant-id", variantId);
-      }
+      this.updateProductElement(html, "product-section #product-section-buy-buttons > form > input[name='id']", "", true);
+      this.updateProductElement(html, "product-section cart-drawer-button", "data-variant-id");
+      this.setLoading(false);
     } catch(error) {
+      this.setLoading(false);
       if (error.name === 'AbortError') {
         console.log('Fetch aborted by user');
       } else {
