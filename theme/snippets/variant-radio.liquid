@@ -9,6 +9,7 @@
 {% comment %} We're also not setting the selected variant on change, preventing other controls from updating (e.g., price) {% endcomment %}
 
 {%- unless product.has_only_default_variant -%}
+  <product-variant-options>
   {%- for option in product.options_with_values -%}
     {%- assign optionIndex = forloop.index0 -%}
     {%- assign optionName = current_variant.options[optionIndex] | downcase -%}
@@ -79,7 +80,9 @@
                 {% endif %}
               "
               aria-labelledby="product-variant-{{ option.name | handleize }}-{{ value | escape }}"
-              data-variant-id="              {{- matched_variant.id -}}"
+              data-variant-id="{{- matched_variant.id -}}"
+              data-product-slug="{{ product.slug }}"
+              data-section-id="{{ section.id }}"
               style="border-radius:{{ border_radius }}px"
             >
               <span id="product-variant-option-{{ option.name | handleize }}-{{ value | escape }}">
@@ -112,10 +115,7 @@
               value="{{ value | escape }}"
               data-variant-id="{{ matched_variant.id }}"
               data-price="{{ matched_variant.price | money_without_trailing_zeros }}"
-              {% if current_variant.option1 == value
-                or current_variant.option2 == value
-                or current_variant.option3 == value
-              %}
+              {% if current_variant.options[optionIndex] == value %}
                 selected="selected"
               {% endif %}
             >
@@ -126,6 +126,7 @@
       </div>
     {%- endif -%}
   {%- endfor -%}
+  </product-variant-options>
 {%- endunless -%}
 
 <script type="application/json" data-variants-json>

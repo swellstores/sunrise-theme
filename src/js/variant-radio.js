@@ -18,10 +18,9 @@ export class VariantRadio extends HTMLElement {
 
   init() {
     this.triggers.forEach((trigger) => {
-      trigger.addEventListener("click", (event) => {
+      trigger.addEventListener("click", async (event) => {
         const target = event.currentTarget;
         const inputId = target.getAttribute("aria-labelledby");
-        // const input = this.querySelector(`#${inputId}`);
         const input = document.getElementById(inputId);
 
         if (input && !input.disabled) {
@@ -36,6 +35,10 @@ export class VariantRadio extends HTMLElement {
           input.checked = true;
           input.setAttribute("checked", "checked");
 
+          const productSlug = trigger.getAttribute("data-product-slug");
+          const variantId = trigger.getAttribute("data-variant-id");
+          const sectionId = trigger.getAttribute("data-section-id");
+          await this.updateProductSelectedVariant(productSlug, variantId, sectionId);
           this.updateSelectedVariant(input);
         }
 
@@ -72,5 +75,42 @@ export class VariantRadio extends HTMLElement {
         }
       }
     });
+  }
+
+  updateProductItem(html, selector) {
+    const currentItem = document.querySelector(selector);
+    const newItem = html.querySelector(selector);
+    if (currentItem && newItem) {
+      currentItem.innerHTML = newItem.innerHTML;
+    }
+  }
+
+  async updateProductSelectedVariant(productSlug, variantId, sectionId) {
+    const requestUrl = `/products/${productSlug}?section=${"page__products_product__product"}&variant=${variantId}`;
+    this.abortController = new AbortController();
+
+    await fetch(requestUrl, { signal: this.abortController.signal })
+      .then((response) => response.text())
+      .then((responseText) => {
+        const html = new DOMParser().parseFromString(responseText, 'text/html');
+        return html;
+      })
+      .then((html) => {
+        // update items individually to keep scroll position and opened accordion items
+        this.updateProductItem(html, "product-section #product-price");
+        this.updateProductItem(html, "product-section quantity-selector-root");
+        this.updateProductItem(html, "product-section product-variant-options");
+      })
+      .then(() => {
+        // set focus to last clicked option value
+       //  document.querySelector(`#${targetId}`)?.focus();
+      })
+      .catch((error) => {
+        if (error.name === 'AbortError') {
+          console.log('Fetch aborted by user');
+        } else {
+          console.error(error);
+        }
+      });
   }
 }
