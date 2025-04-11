@@ -271,8 +271,6 @@ export class CartDrawer extends HTMLElement {
         `cart-drawer-item[data-line="${line}"]`
       );
 
-      console.log({ cartItem });
-
       if (cartItem !== null) {
         cartItem.classList.add("opacity-20");
       }
