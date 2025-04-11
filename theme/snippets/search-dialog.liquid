@@ -17,12 +17,13 @@
   role="dialog"
   aria-hidden="true"
   tabindex="-1"
-  class="bg-{{ color_scheme_id }} absolute left-0 top-0 w-full py-[32px] px-[24px] flex overflow-hidden opacity-0 pointer-events-none transition-all duration-300 ease-in-out z-50"
+  class="bg-{{ color_scheme_id }} absolute left-0 top-0 w-full py-[32px] px-[24px] flex overflow-hidden transition-all duration-300 ease-in-out pointer-events-none opacity-0 z-50"
 >
   <div class="mx-auto w-[1046px] flex">
     <div class="w-full">
       <form action="/search" method="get" role="search" class="relative w-full">
         {% render 'input',
+          type: 'search',
           name: 'q',
           autocomplete: 'off',
           placeholder: 'Search',
@@ -43,7 +44,7 @@
       <search-trigger
         type="button"
         class="size-6 flex items-center justify-center cursor-pointer"
-        aria-label="{{ 'sections.announcement.dismiss' | t }}"
+        aria-label="Dismiss"
       >
         <button type="button" class="close-button">
           <div class="close-icon" aria-hidden="true">
