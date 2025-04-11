@@ -33,6 +33,8 @@
     {{ content_for_header }}
 
     {% comment %} CSS files {% endcomment %}
+    <link rel="preload" href="{{ 'base.css' | asset_url }}" as="style">
+    <link rel="preload" href="{{ 'main.css' | asset_url }}" as="style">
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'main.css' | asset_url | stylesheet_tag }}
 
@@ -47,11 +49,11 @@
     %}
 
     {% style %}
-          {{ settings.typography_body | font_face: font_display: 'swap' }}
+          {{ settings.typography_body | font_face: font_display: 'swap', preload: true }}
           {{ body_font_bold | font_face: font_display: 'swap' }}
           {{ body_font_italic | font_face: font_display: 'swap' }}
           {{ body_font_bold_italic | font_face: font_display: 'swap' }}
-          {{ settings.typography_heading | font_face: font_display: 'swap' }}
+          {{ settings.typography_heading | font_face: font_display: 'swap', preload: true }}
           {{ settings.typography_pre_heading | font_face: font_display: 'swap' }}
 
       :root {
@@ -196,7 +198,16 @@
 
     {% sections 'footer-group' %}
 
+    {% comment %} Bundle {% endcomment %}
+    <script src="{{ 'bundle.js' | asset_url }}" type="module" defer="defer"></script>
+
+    {% comment %} Setup - these variables are needed for image_height to work {% endcomment %}
     <script>
+      window.theme = window.theme || {};
+      window.theme.slideshow_asset_url = '{{ 'swiper-element-bundle.js' | asset_url }}';
+      window.theme.slideshow_navigation_asset_url = '{{ 'slideshow-navigation.js' | asset_url }}';
+      window.theme.accordion_asset_url = '{{ 'accordion.js' | asset_url }}';
+      window.moneyFormat = '{{ shop.money_format }}';
       window.shopUrl = '{{ request.origin }}';
       window.routes = {
         cart_add_url: '{{ routes.cart_add_url }}',
@@ -208,25 +219,6 @@
         product_recommendations_url: '{{ routes.product_recommendations_url }}',
       };
     </script>
-
-    {% comment %} Setup - these variables are needed for image_height to work {% endcomment %}
-    <script>
-      window.theme = window.theme || {};
-      window.theme.slideshow_asset_url = '{{ 'swiper-element-bundle.js' | asset_url }}';
-      window.theme.slideshow_navigation_asset_url = '{{ 'slideshow-navigation.js' | asset_url }}';
-      window.theme.accordion_asset_url = '{{ 'accordion.js' | asset_url }}';
-      window.moneyFormat = '{{ shop.money_format }}';
-    </script>
-
-    {% comment %} Bundle {% endcomment %}
-    <script src="{{ 'bundle.js' | asset_url }}" type="module" defer="defer"></script>
-
-    {% comment %} IonIcons {% endcomment %}
-    <script
-      type="module"
-      src="https://cdn.jsdelivr.net/npm/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
-      async
-    ></script>
 
     {% comment %} Integrations {% endcomment %}
     {% render 'gorgias-chat', enabled: settings.gorgias_chat_enabled, id: settings.gorgias_chat_id %}
