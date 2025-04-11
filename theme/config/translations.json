@@ -1,0 +1,135 @@
+{
+  "accessibility": {
+    "$locale": {
+      "en": {
+        "skip_to_text": "Skip to content"
+      }
+    }
+  },
+  "general": {
+    "$locale": {
+      "en": {
+        "continue_shopping": "Continue shopping",
+        "slideshow_of": "of"
+      }
+    },
+    "breadcrumbs": {
+      "$locale": {
+        "en": {
+          "home": "Home",
+          "collections": "Collections",
+          "products": "Products",
+          "account": "Account",
+          "register": "Register",
+          "addresses": "Addresses",
+          "activate_account": "Activate account"
+        }
+      }
+    }
+  },
+  "onboarding": {
+    "$locale": {
+      "en": {
+        "product_title": "Example product title",
+        "collection_title": "Your collection's name"
+      }
+    }
+  },
+  "gift_cards": {
+    "issued": {
+      "$locale": {
+        "en": {
+          "how_to_use_gift_card": "Use the gift card code online or QR code in-store",
+          "title": "Here's your {{ value }} gift card balance for {{ shop }}!",
+          "subtext": "Your gift card",
+          "gift_card_code": "Gift card code",
+          "shop_link": "Visit online store",
+          "add_to_apple_wallet": "Add to Apple Wallet",
+          "qr_image_alt": "QR code — scan to redeem gift card",
+          "copy_code": "Copy gift card code",
+          "expiration_date": "Expires {{ expires_on }}",
+          "copy_code_success": "Code copied successfully",
+          "expired": "Expired"
+        }
+      }
+    }
+  },
+  "sections": {
+    "collection-list": {
+      "$locale": {
+        "en": {
+          "placeholder": "Your collection's name"
+        }
+      }
+    },
+    "login": {
+      "$locale": {
+        "en": {
+          "title": "Login",
+          "email_placeholder": "Email",
+          "password_placeholder": "Password",
+          "forgot_password": "Forgot password?",
+          "create_account": "Create an account",
+          "sign_in": "Sign in",
+          "error": "Error"
+        }
+      }
+    },
+    "announcements": {
+      "$locale": {
+        "en": {
+          "announcement_slideshow": "Announcement slideshow",
+          "announcement": "Announcement"
+        }
+      }
+    },
+    "announcement": {
+      "$locale": {
+        "en": {
+          "name": "Announcement",
+          "dismiss": "Dismiss"
+        }
+      },
+      "blocks": {
+        "announcement": {
+          "$locale": {
+            "en": {
+              "name": "Announcement"
+            }
+          }
+        }
+      }
+    },
+    "related_products": {
+      "$locale": {
+        "en": {
+          "title": "You may also like",
+          "no_products": "No related products available."
+        }
+      }
+    },
+    "collection": {
+      "filters": {
+        "$locale": {
+          "en": {
+            "filters": "Filter",
+            "from": "From",
+            "to": "To",
+            "selected": "Selected",
+            "sort_by": "Sort by",
+            "reset": "Reset"
+          }
+        }
+      }
+    }
+  },
+  "templates": {
+    "404": {
+      "$locale": {
+        "en": {
+          "title": "Page not found"
+        }
+      }
+    }
+  }
+}
