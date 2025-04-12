@@ -20,6 +20,8 @@
       endunless
     endif
   endfor
+
+  assign selected_or_first_available_variant = product.selected_or_first_available_variant
 -%}
 
 {% style %}
@@ -41,6 +43,7 @@
 <div
   class="text-{{ color_scheme }} max-w-[1366px] mx-auto lg:pl-[96px] lg:pr-[96px] lg:pt-[64px] lg:pb-[64px] bg-{{ color_scheme }} responsive-padding-{{ section.id }}"
 >
+  <product-section>
   <div
     class="
       flex
@@ -408,7 +411,7 @@
                     class="product-price text-title-medium font-display text-{{ color_scheme }} mb-[2px] mt-[2px]"
                     style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
                   >
-                    {{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}
+                    {{ selected_or_first_available_variant.price | money_without_trailing_zeros }}
                   </div>
                 {% endif %}
               {% when 'category' %}
@@ -439,6 +442,7 @@
               {% when 'quantity_selector' %}
                 {% if block.settings.show_quantity_selector %}
                   <div
+                    id="quantity-selector-variant"
                     class="mb-[14px] mt-[14px]"
                     style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
                   >
@@ -451,44 +455,52 @@
                 {% endif %}
               {% when 'variant' %}
                 {% if block.settings.variant %}
-                  <div
+                  <div id="variant-radio-root"
                     class="variant-selection flex flex-col gap-[8px]"
                     style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
                   >
-                    {% render 'variant-radio', product: product, product_selector: block.settings.product_selector %}
+                    {% render 'variant-radio',
+                      product: product,
+                      product_selector: block.settings.product_selector,
+                      color_scheme: color_scheme
+                    %}
                   </div>
                 {% endif %}
               {% when 'buy_buttons' %}
                 {%- liquid
-                  assign variant = product.selected_or_first_available_variant
+                  unless product.has_only_default_variant
+                    assign variant = selected_or_first_available_variant
+                  endunless
                 -%}
                 {% if block.settings.show_buy_buttons %}
-                  {% form 'product', product, class: 'flex flex-col w-full' %}
-                    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-
-                    {%- if variant.available -%}
-                      {%- if settings.cart_type == 'drawer' -%}
-                        <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
-                          {% render 'cart-drawer-button',
-                            variant_id: variant,
-                            color_scheme: color_scheme,
-                            button_text: block.settings.buy_button_text
-                          %}
-                        </div>
+                  {% comment %} {% render 'product-form', product: product, cart_type: settings.cart_type %} {% endcomment %}
+                  <div id="product-section-buy-buttons">
+                    {% form 'product', product, class: 'flex flex-col w-full' %}
+                      <input type="hidden" name="id" value="{{ selected_or_first_available_variant.id }}">
+                      {%- if selected_or_first_available_variant.available -%}
+                        {%- if settings.cart_type == 'drawer' -%}
+                          <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
+                            {% render 'cart-drawer-button',
+                              variant: variant,
+                              color_scheme: color_scheme,
+                              button_text: block.settings.buy_button_text
+                            %}
+                          </div>
+                        {%- else -%}
+                          <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
+                            {% render 'button',
+                              type: 'submit',
+                              text: block.settings.buy_button_text,
+                              class: 'add-to-cart-button'
+                              color_scheme: color_scheme
+                            %}
+                          </div>
+                        {%- endif -%}
                       {%- else -%}
-                        <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
-                          {% render 'button',
-                            type: 'submit',
-                            text: block.settings.buy_button_text,
-                            class: 'add-to-cart-button',
-                            color_scheme: color_scheme,
-                          %}
-                        </div>
+                        <span class="text-[#B3261E] font-display text-body-small">Currently unavailable</span>
                       {%- endif -%}
-                    {%- else -%}
-                      <span class="text-[#B3261E] font-display text-body-small">Currently unavailable</span>
-                    {%- endif -%}
-                  {% endform %}
+                    {% endform %}
+                  </div>
                 {% endif %}
               {% when 'description' %}
                 {% if block.settings.show_description %}
@@ -541,6 +553,7 @@
       </div>
     </div>
   </div>
+  </product-section>
 </div>
 
 <script>
