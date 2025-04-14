@@ -7,7 +7,7 @@ import { VariantRadio } from "./variant-radio";
 import { Popover } from "./popover";
 import { CopyToClipboard } from "./copy-to-clipboard";
 import { QuantitySelector } from "./quantity-selector";
-import { Product } from "./product";
+import { AddProductForm } from "./add-product-form";
 
 (function () {
   function defineCustomElements() {
@@ -19,7 +19,7 @@ import { Product } from "./product";
     customElements.define("popover-root", Popover);
     customElements.define("copy-to-clipboard", CopyToClipboard);
     customElements.define("quantity-selector-root", QuantitySelector);
-    customElements.define("product-section", Product);
+    customElements.define("add-product-form", AddProductForm);
   }
 
   function loadSlideshowScripts() {
