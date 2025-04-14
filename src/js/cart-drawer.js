@@ -75,7 +75,9 @@ export class CartDrawer extends HTMLElement {
 
     this.subscriptions.push(
       eventBus.on("cart-update-before", this.beforeUpdateCart.bind(this)),
-      eventBus.on("cart-update-after", this.afterUpdateCart.bind(this))
+      eventBus.on("cart-update-after", this.afterUpdateCart.bind(this)),
+      eventBus.on("product-quantity-change", this.handleUpdateProductQuantity.bind(this)),
+      eventBus.on("product-variant-id-change", this.handleUpdateProductVariantId.bind(this)),
     );
   }
 
@@ -354,6 +356,22 @@ export class CartDrawer extends HTMLElement {
     this.backdropOverlay.classList.add("translate-x-full");
     this.target.classList.add("translate-x-full");
     this.target.setAttribute("aria-hidden", "true");
+  }
+
+  /**
+   * Handle updating product quantity
+   */
+  handleUpdateProductQuantity(event) {
+    const { quantity } = event;
+    this.cartDrawerButton.setAttribute("data-variant-quantity", quantity);
+  }
+
+  /**
+   * Handle updating product variant id
+   */
+  handleUpdateProductVariantId(event) {
+    const { variantId } = event;
+    this.cartDrawerButton.setAttribute("data-variant-id", variantId);
   }
 }
 
