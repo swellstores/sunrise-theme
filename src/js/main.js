@@ -14,6 +14,7 @@ import { QuantitySelector } from "./quantity-selector";
     customElements.define("cart-drawer-root", CartDrawer);
     customElements.define("search-dialog-root", SearchDialog);
     customElements.define("mega-menu-root", MegaMenu);
+    customElements.define("standard-dropdown-root", StandardDropdown);
     customElements.define("variant-radio", VariantRadio);
     customElements.define("popover-root", Popover);
     customElements.define("copy-to-clipboard", CopyToClipboard);
