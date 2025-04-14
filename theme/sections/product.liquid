@@ -477,6 +477,7 @@
                   <div id="product-section-buy-buttons">
                     {% form 'product', product, class: 'flex flex-col w-full' %}
                       <input type="hidden" name="id" value="{{ selected_or_first_available_variant.id }}">
+                      <input type="hidden" name="quantity" value="1">
                       {%- if selected_or_first_available_variant.available -%}
                         {%- if settings.cart_type == 'drawer' -%}
                           <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
