@@ -3,15 +3,15 @@
     {% for link in links %}
       <div class="standard-dropdown-item">
         {% if link.links.size > 0 %}
-          <div class="standard-dropdown-parent">
-            <a 
+          <div class="standard-dropdown-parent flex justify-between items-center">
+            <a
               href="{{ link.url }}"
-              class="block font-medium whitespace-nowrap font-heading hover:underline leading-[22px]"
+              class="block whitespace-nowrap font-semibold hover:underline leading-[22px]"
             >
               {{ link.title | escape }}
             </a>
             <button
-              class="standard-dropdown-toggle"
+              class="standard-dropdown-toggle ml-1"
               aria-expanded="false"
               aria-controls="dropdown-{{ forloop.index }}"
               onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'); document.getElementById('dropdown-{{ forloop.index }}').classList.toggle('expanded'); document.getElementById('dropdown-{{ forloop.index }}').classList.toggle('hidden');"
@@ -23,7 +23,7 @@
               ></ion-icon>
             </button>
           </div>
-          <div 
+          <div
             id="dropdown-{{ forloop.index }}"
             class="standard-dropdown-children hidden"
           >
@@ -31,7 +31,7 @@
               <div>
                 <a
                   href="{{ child_link.url }}"
-                  class="block font-medium whitespace-nowrap font-heading hover:underline leading-[22px]"
+                  class="block font-normal whitespace-nowrap hover:underline leading-[22px]"
                 >
                   {{ child_link.title | escape }}
                 </a>
@@ -41,7 +41,7 @@
         {% else %}
           <a
             href="{{ link.url }}"
-            class="block font-medium whitespace-nowrap font-heading hover:underline leading-[22px]"
+            class="block whitespace-nowrap font-semibold hover:underline leading-[22px]"
           >
             {{ link.title | escape }}
           </a>
