@@ -12,10 +12,12 @@ export class VariantRadio extends HTMLElement {
     super();
     this.triggers = this.querySelectorAll("variant-radio-trigger");
     this.inputs = this.querySelectorAll('input[type="radio"]');
+    this.select = this.querySelector("select");
     this.init();
   }
 
   init() {
+    // Pills mode
     this.triggers.forEach((trigger) => {
       trigger.addEventListener("click", async (event) => {
         const target = event.currentTarget;
@@ -41,6 +43,16 @@ export class VariantRadio extends HTMLElement {
         }
       });
     });
+
+    // Dropdown mode
+    if (this.select) {
+      this.select.addEventListener("change", async (event) => {
+        const product = this.select.getAttribute("data-product-slug");
+        const variantId = event.target.value;
+        const sectionId = this.select.getAttribute("data-section-id");
+        await this.selectVariant(product, variantId, sectionId);
+      })
+    }
   }
 
   updateProductElement(html, selector) {
