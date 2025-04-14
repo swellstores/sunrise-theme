@@ -475,8 +475,7 @@
                 {% if block.settings.show_buy_buttons %}
                   {% comment %} {% render 'product-form', product: product, cart_type: settings.cart_type %} {% endcomment %}
                   <div id="product-section-buy-buttons">
-                    {% form 'product', product, class: 'flex flex-col w-full' %}
-                      <input type="hidden" name="id" value="{{ selected_or_first_available_variant.id }}">
+                    <div class="flex flex-col w-full" >
                       {%- if selected_or_first_available_variant.available -%}
                         {%- if settings.cart_type == 'drawer' -%}
                           <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
@@ -487,19 +486,24 @@
                             %}
                           </div>
                         {%- else -%}
-                          <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
-                            {% render 'button',
-                              type: 'submit',
-                              text: block.settings.buy_button_text,
-                              class: 'add-to-cart-button'
-                              color_scheme: color_scheme
-                            %}
-                          </div>
+                          <add-product-form>
+                            <input type="hidden" name="product_id" value="{{ product.id }}">
+                            <input type="hidden" name="id" value="{{ selected_or_first_available_variant.id }}">
+                            <input type="hidden" name="quantity" value="1">                    
+                            <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
+                              {% render 'button',
+                                type: 'submit',
+                                text: block.settings.buy_button_text,
+                                class: 'add-to-cart-button'
+                                color_scheme: color_scheme
+                              %}
+                            </div>
+                          </add-product-form>
                         {%- endif -%}
                       {%- else -%}
                         <span class="text-[#B3261E] font-display text-body-small">Currently unavailable</span>
                       {%- endif -%}
-                    {% endform %}
+                    </div>
                   </div>
                 {% endif %}
               {% when 'description' %}

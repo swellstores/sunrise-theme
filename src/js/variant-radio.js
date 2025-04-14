@@ -1,4 +1,5 @@
 // @ts-nocheck
+import eventBus from './utils/event-bus';
 
 /**
  *
@@ -88,14 +89,18 @@ export class VariantRadio extends HTMLElement {
       this.updateProductElement(html, "product-section #quantity-selector-variant");
       this.updateProductElement(html, "product-section product-variant-options");
 
-      // use selected variantId, cart button can be drawn differently in the response
-      const inputWithVariantId = document.querySelector("product-section #product-section-buy-buttons > form > input[name='id']");
-      if (inputWithVariantId) {
-        inputWithVariantId.value = variantId;
-      }
-      const drawerButton = document.querySelector("product-section cart-drawer-button");
-      if (drawerButton) {
-        drawerButton.setAttribute("data-variant-id", variantId);
+      // use selected variantId
+      eventBus.emit('product-variant-id-change', {
+        variantId,
+      });
+
+      // use actual quantity that can be decreased to the stock level
+      const quantityInput = document.querySelector("product-section #quantity-selector-variant input");
+      if (quantityInput) {
+        const newQuantity = Number(quantityInput.value);
+        eventBus.emit('product-quantity-change', {
+          quantity: newQuantity,
+        });
       }
 
       this.setLoading(false);
