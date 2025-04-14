@@ -104,8 +104,8 @@
         "featured_collection_mYV9by": {
             "type": "featured-collection",
             "settings": {
-                "pre_heading": "",
-                "heading": "Featured collection",
+                "pre_heading": "Shop the best",
+                "heading": "Dive into favorites",
                 "heading_size": "small",
                 "header_alignment": "left",
                 "collection": "",
