@@ -1,5 +1,7 @@
 {{ 'mega-menu.css' | asset_url | stylesheet_tag }}
+{{ 'standard-dropdown.css' | asset_url | stylesheet_tag }}
 
+<standard-dropdown-root></standard-dropdown-root>
 <mega-menu-root></mega-menu-root>
 
 <nav role="navigation" class="flex justify-center h-full items-center w-full">
@@ -26,14 +28,14 @@
                 <ion-icon
                   name="chevron-down-outline"
                   aria-label="Toggle header dropdown item"
-                  class="h-5 w-5 transition-transform"
+                  class="w-[20px] h-[20px] transition-transform"
                 ></ion-icon>
               </div>
             {% endif %}
           </a>
 
           {% if link.links.size > 0 and section.settings.desktop_menu_type == 'dropdown' %}
-            {% render 'standard-dropdown', links: link.links %}
+            {% render 'standard-dropdown', link: link %}
           {% endif %}
         </li>
       {% endfor %}

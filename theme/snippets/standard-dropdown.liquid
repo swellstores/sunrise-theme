@@ -1,52 +1,55 @@
-<div class="standard-dropdown">
-  <div class="standard-dropdown-content">
-    {% for link in links %}
-      <div class="standard-dropdown-item">
-        {% if link.links.size > 0 %}
-          <div class="standard-dropdown-parent flex justify-between items-center">
-            <a
-              href="{{ link.url }}"
-              class="block whitespace-nowrap font-semibold hover:underline leading-[22px]"
-            >
-              {{ link.title | escape }}
-            </a>
-            <button
-              class="standard-dropdown-toggle ml-1"
-              aria-expanded="false"
-              aria-controls="dropdown-{{ forloop.index }}"
-              onclick="this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true'); document.getElementById('dropdown-{{ forloop.index }}').classList.toggle('expanded'); document.getElementById('dropdown-{{ forloop.index }}').classList.toggle('hidden');"
-            >
-              <ion-icon
-                name="chevron-down-outline"
-                aria-label="Toggle dropdown item"
-                class="h-5 w-5 transition-transform"
-              ></ion-icon>
-            </button>
-          </div>
-          <div
-            id="dropdown-{{ forloop.index }}"
-            class="standard-dropdown-children hidden"
-          >
-            {% for child_link in link.links %}
-              <div>
+<standard-dropdown>
+  <div class="standard-dropdown">
+    <div class="standard-dropdown-content">
+      {% if link and link.links.size > 0 %}
+        {% for child_link in link.links %}
+          <div class="standard-dropdown-item">
+            {% if child_link.links.size > 0 %}
+              <div class="standard-dropdown-parent flex justify-between items-center">
                 <a
                   href="{{ child_link.url }}"
-                  class="block font-normal whitespace-nowrap hover:underline leading-[22px]"
+                  class="block whitespace-nowrap font-semibold hover:underline leading-[22px]"
                 >
                   {{ child_link.title | escape }}
                 </a>
+                <button
+                  class="standard-dropdown-toggle ml-1"
+                  aria-expanded="false"
+                  aria-controls="dropdown-{{ section.id }}-{{ link.handle }}-{{ forloop.index }}"
+                >
+                  <ion-icon
+                    name="chevron-down-outline"
+                    aria-label="Toggle dropdown item"
+                    class="h-[20px] w-[20px]"
+                  ></ion-icon>
+                </button>
               </div>
-            {% endfor %}
+              <div
+                id="dropdown-{{ section.id }}-{{ link.handle }}-{{ forloop.index }}"
+                class="standard-dropdown-children hidden"
+              >
+                {% for grandchild_link in child_link.links %}
+                  <div>
+                    <a
+                      href="{{ grandchild_link.url }}"
+                      class="block font-normal whitespace-nowrap hover:underline leading-[22px]"
+                    >
+                      {{ grandchild_link.title | escape }}
+                    </a>
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <a
+                href="{{ child_link.url }}"
+                class="block whitespace-nowrap font-semibold hover:underline leading-[22px]"
+              >
+                {{ child_link.title | escape }}
+              </a>
+            {% endif %}
           </div>
-        {% else %}
-          <a
-            href="{{ link.url }}"
-            class="block whitespace-nowrap font-semibold hover:underline leading-[22px]"
-          >
-            {{ link.title | escape }}
-          </a>
-        {% endif %}
-      </div>
-    {% endfor %}
+        {% endfor %}
+      {% endif %}
+    </div>
   </div>
-</div>
+</standard-dropdown>
