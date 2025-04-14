@@ -44,9 +44,7 @@ class StandardDropdown extends HTMLElement {
         if (otherTarget) {
           otherButton.setAttribute('aria-expanded', 'false');
           otherTarget.classList.remove('expanded');
-          setTimeout(() => {
-            otherTarget.classList.add('hidden');
-          }, 300);
+          otherTarget.classList.add('hidden');
         }
       }
     });
@@ -56,9 +54,7 @@ class StandardDropdown extends HTMLElement {
     
     if (isExpanded) {
       target.classList.remove('expanded');
-      setTimeout(() => {
-        target.classList.add('hidden');
-      }, 300);
+      target.classList.add('hidden');
     } else {
       target.classList.remove('hidden');
       // Force a reflow to ensure the transition works
