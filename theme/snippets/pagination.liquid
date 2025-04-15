@@ -4,45 +4,47 @@
   {% assign hash = '' %}
 {% endif %}
 
-<div class="flex items-center justify-center gap-[16px] pt-[32px] pb-[64px]">
-  {% if paginate.previous %}
-    <a
-      href="{{ paginate.previous.url }}{{ hash }}"
-      class="inline-flex items-center text-body-medium font-display uppercase"
-    >
-      <ion-icon name="chevron-back-outline" aria-label="Previous"></ion-icon>
-    </a>
-  {% endif %}
+{% if paginate.previous or paginate.next %}
+  <div class="flex items-center justify-center gap-[16px] pt-[32px] pb-[64px]">
+    {% if paginate.previous %}
+      <a
+        href="{{ paginate.previous.url }}{{ hash }}"
+        class="inline-flex items-center text-body-medium font-display uppercase"
+      >
+        <ion-icon name="chevron-back-outline" aria-label="Previous"></ion-icon>
+      </a>
+    {% endif %}
 
-  <ul class="flex items-center gap-5  text-body-medium font-display">
-    {% for part in paginate.parts %}
-      {% if part.is_link %}
-        <li class="w-[17px]">
-          <a
-            href="{{ part.url }}{{ hash }}"
-            class="inline-flex items-center text-body-medium font-display"
-          >
-            {{- part.title -}}
-          </a>
-        </li>
-      {% else %}
-        {% if part.title == '&hellip;' %}
-          <li>&hellip;</li>
-        {% else %}
-          <li class="border-b border-color-{{ color_scheme }} font-display text-title-small flex justify-center w-[17px]">
-            {{ part.title }}
+    <ul class="flex items-center gap-5  text-body-medium font-display">
+      {% for part in paginate.parts %}
+        {% if part.is_link %}
+          <li class="w-[17px]">
+            <a
+              href="{{ part.url }}{{ hash }}"
+              class="inline-flex items-center text-body-medium font-display"
+            >
+              {{- part.title -}}
+            </a>
           </li>
+        {% else %}
+          {% if part.title == '&hellip;' %}
+            <li>&hellip;</li>
+          {% else %}
+            <li class="border-b border-color-{{ color_scheme }} font-display text-title-small flex justify-center w-[17px]">
+              {{ part.title }}
+            </li>
+          {% endif %}
         {% endif %}
-      {% endif %}
-    {% endfor %}
-  </ul>
+      {% endfor %}
+    </ul>
 
-  {% if paginate.next %}
-    <a
-      href="{{ paginate.next.url }}{{ hash }}"
-      class="inline-flex items-center text-body-medium font-display uppercase"
-    >
-      <ion-icon name="chevron-forward-outline" aria-label="Next"></ion-icon>
-    </a>
-  {% endif %}
-</div>
+    {% if paginate.next %}
+      <a
+        href="{{ paginate.next.url }}{{ hash }}"
+        class="inline-flex items-center text-body-medium font-display uppercase"
+      >
+        <ion-icon name="chevron-forward-outline" aria-label="Next"></ion-icon>
+      </a>
+    {% endif %}
+  </div>
+{% endif %}
