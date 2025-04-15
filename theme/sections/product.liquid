@@ -406,6 +406,10 @@
                 {% endif %}
               {% when 'price' %}
                 {% if block.settings.show_price %}
+                  {% render 'product-purchase-options',
+                      product: product,
+                      color_scheme: color_scheme
+                  %}
                   <div
                     id="product-price"
                     class="product-price text-title-medium font-display text-{{ color_scheme }} mb-[2px] mt-[2px]"
