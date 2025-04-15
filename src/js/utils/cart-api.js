@@ -25,7 +25,8 @@ export const CartAPI = {
         },
         body: JSON.stringify({
           product_id: productId,
-          variant_id: variantId ? variantId : undefined,
+          // in shopify_compatibility we use id as variantId
+          id: variantId ? variantId : undefined,
           quantity: quantity,
         }),
       });
