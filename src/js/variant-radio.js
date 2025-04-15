@@ -86,7 +86,7 @@ export class VariantRadio extends HTMLElement {
   }
 
   async selectVariant(product, variantId, sectionId) {
-    const requestUrl = `/products/${product}?section=${sectionId}&variant=${variantId}`;
+    const requestUrl = `/products/${product}?variant=${variantId}`;
     this.abortController?.abort();
     this.abortController = new AbortController();
     this.setLoading(true);
