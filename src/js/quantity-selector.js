@@ -1,3 +1,5 @@
+import eventBus from './utils/event-bus';
+
 /**
  * @export
  * @class QuantitySelector
@@ -101,11 +103,23 @@ export class QuantitySelector extends HTMLElement {
   }
 
   dispatchChangeEvent() {
+    const quantity = Number(this.quantity.value);
+    const quantityForProduct = this.quantity.getAttribute('data-is-product-quantity');
+    if (quantityForProduct === 'yes') {
+      // update product quantity
+      eventBus.emit('product-quantity-change', {
+        quantity,
+      });
+
+      return;
+    }
+
+    // update cart quantity
     this.dispatchEvent(
       new CustomEvent('quantity-change', {
         detail: {
           line: Number(this.quantity.getAttribute('data-line')),
-          quantity: Number(this.quantity.value),
+          quantity,
         },
         bubbles: true,
         composed: true,
