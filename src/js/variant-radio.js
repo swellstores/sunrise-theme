@@ -39,8 +39,7 @@ export class VariantRadio extends HTMLElement {
 
           const product = trigger.getAttribute("data-product-slug");
           const variantId = trigger.getAttribute("data-variant-id");
-          const sectionId = trigger.getAttribute("data-section-id");
-          await this.selectVariant(product, variantId, sectionId);
+          await this.selectVariant(product, variantId);
         }
       });
     });
@@ -50,8 +49,7 @@ export class VariantRadio extends HTMLElement {
       this.select.addEventListener("change", async (event) => {
         const product = this.select.getAttribute("data-product-slug");
         const variantId = event.target.value;
-        const sectionId = this.select.getAttribute("data-section-id");
-        await this.selectVariant(product, variantId, sectionId);
+        await this.selectVariant(product, variantId);
       })
     }
   }
@@ -85,7 +83,7 @@ export class VariantRadio extends HTMLElement {
     }
   }
 
-  async selectVariant(product, variantId, sectionId) {
+  async selectVariant(product, variantId) {
     const requestUrl = `/products/${product}?variant=${variantId}`;
     this.abortController?.abort();
     this.abortController = new AbortController();
