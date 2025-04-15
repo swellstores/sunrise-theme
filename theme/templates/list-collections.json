@@ -14,22 +14,6 @@
                 "gap": 4,
                 "mobile_layout": "1"
             }
-        },
-        "featured_collection_HjeDGb": {
-            "type": "featured-collection",
-            "settings": {
-                "pre_heading": "Pre-heading",
-                "heading": "Heading",
-                "heading_size": "small",
-                "header_alignment": "left",
-                "collection": "",
-                "max_products": 6,
-                "color_scheme": "",
-                "columns": 3,
-                "top_padding": 64,
-                "bottom_padding": 64,
-                "mobile_columns": "1 column"
-            }
         }
     },
     "order": [
