@@ -1,0 +1,51 @@
+{%- if product.purchase_options.subscription -%}
+  <product-purchase-options>
+    <div role="group>
+    {%- if product.purchase_options.standard -%}
+      <div class="radio-selector relative mb-2 block">
+        <input id="standard" type="checkbox" name="purchase-option" value="standard" class="absolute inset-0 opacity-0">
+        <label for="standard" class="relative flex w-full cursor-pointer rounded border border-color-gray px-6 py-4 text-sm transition-all focus:shadow-outline hover:border-color-{{ color_scheme }} peer-checked:border-primary-darkest">
+          <span>One-time Purchase</span>
+          <span class="ml-auto inline-block font-semibold">
+            <span>
+              $4.00 {{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}
+            </span> 
+          </span>
+        </label>
+      </div>
+    {%- endif -%}
+    {%- if product.purchase_options.subscription -%}
+      <div aria-role="listbox" class="relative text-sm focus:shadow-outline" aria-checked="true">
+        <button id="subscripton-dropdown-button" aria-label="Open plan selection dropdown" aria-checked="false" aria-haspopup="listbox" class="relative flex w-full cursor-pointer items-center rounded border border-primary-med py-4 pl-6 pr-5 hover:border-primary-darkest hover:text-primary-darkest focus:shadow-outline border-primary-darkest">
+          <div class="w-4 h-4 mr-2">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="vertical-align: -0.125em;-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" data-v-d8d66b18="" class="iconify icon:uil:sync w-4 h-4" data-icon="uil:sync"><path fill="currentColor" d="M19.91 15.51h-4.53a1 1 0 0 0 0 2h2.4A8 8 0 0 1 4 12a1 1 0 0 0-2 0a10 10 0 0 0 16.88 7.23V21a1 1 0 0 0 2 0v-4.5a1 1 0 0 0-.97-.99M12 2a10 10 0 0 0-6.88 2.77V3a1 1 0 0 0-2 0v4.5a1 1 0 0 0 1 1h4.5a1 1 0 0 0 0-2h-2.4A8 8 0 0 1 20 12a1 1 0 0 0 2 0A10 10 0 0 0 12 2"></path></svg>
+          </div>
+          <span class="font-normal first-letter:uppercase"> every  month</span> 
+          <div class="ml-auto">
+            <span class="font-semibold">$2.00/mo</span>
+          </div> 
+          <div class="mt-px transition">
+            <div class="h-5 w-5">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="vertical-align: -0.125em;-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" data-v-d8d66b18="" class="iconify icon:uil:angle-down h-5 w-5" data-icon="uil:angle-down"><path fill="currentColor" d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71L8.46 9.17a1 1 0 0 0-1.41 0a1 1 0 0 0 0 1.42l4.24 4.24a1 1 0 0 0 1.42 0L17 10.59a1 1 0 0 0 0-1.42"></path></svg>
+            </div>
+          </div>
+        </button>
+        <ul aria-role="listbox" class="absolute z-10 -mt-px block max-h-25vh w-full overflow-y-scroll rounded-md border border-primary-med bg-primary-lightest" style="display: none;">
+          {%- for plan in product.purchase_options.subscription.plans -%}
+            <li id="67bf43108a41226b7293398d" role="option" class="mx-4 my-3 flex cursor-pointer items-center rounded-md p-2 transition duration-200 text-primary-med">
+              <span class="first-letter:uppercase"> every  month</span> 
+              <div class="ml-auto">
+                <span class="font-semibold">$2.00/mo</span>
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+    </endif>
+  </product-purchase-options>
+{%- endif -%}
+
+<script type="application/json" data-variants-json>
+  {{ product.purchase_options | json }}
+</script>
