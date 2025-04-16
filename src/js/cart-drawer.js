@@ -78,6 +78,7 @@ export class CartDrawer extends HTMLElement {
       eventBus.on("cart-update-after", this.afterUpdateCart.bind(this)),
       eventBus.on("product-quantity-change", this.handleUpdateProductQuantity.bind(this)),
       eventBus.on("product-variant-id-change", this.handleUpdateProductVariantId.bind(this)),
+      eventBus.on("product-purchase-option-change", this.handleUpdateProductPurchaseOption.bind(this)),
     );
   }
 
@@ -206,6 +207,8 @@ export class CartDrawer extends HTMLElement {
 
     const productId = this.cartDrawerButton.getAttribute("data-product-id");
     const variantId = this.cartDrawerButton.getAttribute("data-variant-id");
+    const purchaseOptionType = this.cartDrawerButton.getAttribute("data-purchase-option-type");
+    const purchaseOptionPlan = this.cartDrawerButton.getAttribute("data-purchase-option-plan");
 
     const quantity = Number(
       this.cartDrawerButton.getAttribute("data-variant-quantity")
@@ -214,7 +217,7 @@ export class CartDrawer extends HTMLElement {
     this.toggleLoader(true);
 
     try {
-      await CartAPI.addToCart(productId, variantId, quantity);
+      await CartAPI.addToCart(productId, variantId, quantity, purchaseOptionType, purchaseOptionPlan);
 
       await this.fetchCartDrawerContent().then((html) =>
         this.updateCartDrawerContent(html)
@@ -366,6 +369,15 @@ export class CartDrawer extends HTMLElement {
     this.cartDrawerButton.setAttribute("data-variant-quantity", quantity);
   }
 
+  /**
+   * Handle updating product purchase options
+   */
+  handleUpdateProductPurchaseOption(event) {
+    const { type, planId } = event;
+    this.cartDrawerButton.setAttribute("data-purchase-option-type", type);
+    this.cartDrawerButton.setAttribute("data-purchase-option-plan", planId);
+  }
+  
   /**
    * Handle updating product variant id
    */
