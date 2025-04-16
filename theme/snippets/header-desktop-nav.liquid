@@ -16,7 +16,7 @@
         >
           <a
             href="{{ link.url }}"
-            class="flex h-full items-center whitespace-nowrap hover:underline font-normal font-heading leading-[20px] text-sm"
+            class="flex h-full items-center whitespace-nowrap hover:underline font-medium font-heading leading-[20px] text-sm"
             {% if link.links.size > 0 and section.settings.desktop_menu_type == 'mega' %}
               data-mega-menu="mega-menu-{{ forloop.index }}"
             {% endif %}
