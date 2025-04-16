@@ -1,3 +1,5 @@
+import hoverintent from "./hoverintent";
+
 /**
  * CascadingMenu module that handles cascading menu toggling
  */
@@ -6,8 +8,17 @@ class CascadingMenuManager {
     this.showMenu = this.showMenu.bind(this);
     this.hideMenu = this.hideMenu.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.currentHoveredItem = null;
+    this.activeSubmenu = null;
+    this.hoverIntentInstances = new Map();
+    this.menuItems = new Map();
 
-    this.init();
+    // Wait for DOM to be fully loaded
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", () => this.init());
+    } else {
+      this.init();
+    }
   }
 
   init() {
@@ -19,69 +30,134 @@ class CascadingMenuManager {
   }
 
   setupEventListeners() {
-    const menuItems = document.querySelectorAll('.cascading-menu-item.has-children');
-    
-    menuItems.forEach(item => {
-      const submenu = item.querySelector('.submenu-container');
-      if (!submenu) return;
+    const menuItems = document.querySelectorAll(
+      ".cascading-menu-item.has-children",
+    );
 
-      item.addEventListener('mouseenter', () => {
-        this.showMenu(submenu);
+    // Add mouseleave handler to the main menu container
+    const mainMenu = document.querySelector(".cascading-menu");
+    if (mainMenu) {
+      mainMenu.addEventListener("mouseleave", (e) => {
+        // Only close if we're not moving to a submenu
+        if (
+          !e.relatedTarget ||
+          !e.relatedTarget.closest(".cascading-submenu")
+        ) {
+          this.hideAllSubmenus();
+        }
       });
+    }
 
-      item.addEventListener('mouseleave', () => {
-        setTimeout(() => {
-          if (!submenu.matches(':hover') && !item.matches(':hover')) {
-            this.hideMenu(submenu);
+    menuItems.forEach((item) => {
+      const submenu = item.querySelector(".cascading-submenu");
+      if (!submenu) {
+        return;
+      }
+
+      // Store the menu item and submenu relationship
+      this.menuItems.set(item, submenu);
+
+      // Make sure submenu doesn't have show class initially
+      submenu.classList.remove("show");
+
+      const instance = hoverintent(
+        item,
+        function (e) {
+          if (this.activeSubmenu) {
+            this.hideMenu(this.activeSubmenu);
+            this.activeSubmenu = null;
           }
-        }, 50);
-      });
 
-      submenu.addEventListener('mouseenter', () => {
-        this.showMenu(submenu);
-      });
-
-      submenu.addEventListener('mouseleave', () => {
-        setTimeout(() => {
-          if (!submenu.matches(':hover') && !item.matches(':hover')) {
+          this.showMenu(submenu);
+          this.activeSubmenu = submenu;
+          this.currentHoveredItem = item;
+        }.bind(this),
+        function (e) {
+          // Only hide if we're not moving to the submenu or its parent
+          if (
+            this.activeSubmenu === submenu &&
+            (!e.relatedTarget ||
+              (!e.relatedTarget.closest(".cascading-submenu") &&
+                !e.relatedTarget.closest(".cascading-menu-item.has-children")))
+          ) {
             this.hideMenu(submenu);
+            this.activeSubmenu = null;
+            this.currentHoveredItem = null;
           }
-        }, 50);
+        }.bind(this),
+      ).options({
+        sensitivity: 1,
+        interval: 10,
+        timeout: 500,
       });
+
+      this.hoverIntentInstances.set(item, instance);
     });
   }
 
   setupClickOutsideHandler() {
-    document.addEventListener('click', this.handleClickOutside);
+    document.addEventListener("click", this.handleClickOutside);
   }
 
   handleClickOutside(event) {
-    const menus = document.querySelectorAll('.submenu-container');
-    menus.forEach(menu => {
+    const menus = document.querySelectorAll(".cascading-submenu");
+    menus.forEach((menu) => {
       if (!menu.contains(event.target)) {
         this.hideMenu(menu);
+        this.activeSubmenu = null;
+        this.currentHoveredItem = null;
       }
     });
   }
 
   showMenu(menu) {
     if (menu) {
-      menu.classList.add('mdc-menu-surface--open');
-      menu.style.display = 'block';
-      menu.style.opacity = '1';
-      menu.style.transform = 'scale(1)';
-      menu.style.visibility = 'visible';
+      menu.classList.add("show");
     }
   }
 
   hideMenu(menu) {
     if (menu) {
-      menu.classList.remove('mdc-menu-surface--open');
-      menu.style.display = 'none';
-      menu.style.opacity = '0';
-      menu.style.transform = 'scale(0.9)';
-      menu.style.visibility = 'hidden';
+      menu.classList.remove("show");
     }
+  }
+
+  hideAllSubmenus() {
+    // Hide all submenus and reset state
+    this.menuItems.forEach((submenu) => {
+      this.hideMenu(submenu);
+    });
+    this.activeSubmenu = null;
+    this.currentHoveredItem = null;
+  }
+
+  destroy() {
+    this.hoverIntentInstances.forEach((instance) => instance.remove());
+    this.hoverIntentInstances.clear();
+
+    document.removeEventListener("click", this.handleClickOutside);
+  }
+
+  isMovingToSubmenu(element) {
+    // Check if we're moving to/from a submenu or its parent menu item
+    const submenu = element.closest(".cascading-submenu");
+    const parentMenuItem = element.closest(".cascading-menu-item.has-children");
+
+    // If we're in a submenu, check if it belongs to the current active menu item
+    if (submenu) {
+      return this.activeSubmenu === submenu;
+    }
+
+    // If we're in a menu item, check if it's the current active item or if it's the parent of the active submenu
+    if (parentMenuItem) {
+      return (
+        this.currentHoveredItem === parentMenuItem ||
+        (this.activeSubmenu &&
+          this.menuItems.get(parentMenuItem) === this.activeSubmenu)
+      );
+    }
+
+    return false;
   }
 }
 
@@ -92,7 +168,14 @@ export { cascadingMenuManager };
 export class CascadingMenu extends HTMLElement {
   connectedCallback() {
     if (window.cascadingMenuManager) {
+      // Re-initialize to catch newly connected elements
       window.cascadingMenuManager.init();
+    }
+  }
+
+  disconnectedCallback() {
+    if (window.cascadingMenuManager) {
+      window.cascadingMenuManager.destroy();
     }
   }
 }
