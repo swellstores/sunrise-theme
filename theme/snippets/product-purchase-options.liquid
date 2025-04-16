@@ -1,10 +1,24 @@
-{%- if product.purchase_options.subscription -%}
+{%- assign activeBorderClass = "border-color-" | append: color_scheme -%}  
+{%- assign inactiveBorderClass = "bg-gray-50" -%}  
   <product-purchase-options>
+    <div
+      id="product-price"
+      class="product-price text-title-medium font-display text-{{ color_scheme }} mb-[2px] mt-[2px]"
+      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+      data-purchase-option="standard"
+      data-purchase-option-plan=""
+    >
+      {{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}
+    </div>
+  
+  {%- if product.purchase_options.subscription -%}
     <div role="group mt-2" class="flex flex-col gap-2 min-w-96">
       {%- if product.purchase_options.standard -%}
         <div class="relative mb-2 block">
-          <input id="standard" type="checkbox" name="purchase-option" value="standard" class="absolute inset-0 opacity-0">
-          <div class="relative flex w-full cursor-pointer rounded border bg-gray-50 px-6 py-4 text-sm transition-all focus:shadow-outline hover:border-color-{{ color_scheme }} peer-checked:border-primary-darkest focus:ring-blue-500 focus:border-blue-500">
+          <input id="standard" type="checkbox" name="purchase-option" value="standard" class="absolute inset-0 opacity-0" checked="checked">
+          <div id="standard-div" class="relative flex w-full cursor-pointer rounded border px-6 py-4 text-sm transition-all {{ activeBorderClass }}"
+            data-active-border-class="{{ activeBorderClass }}" data-inactive-border-class="{{ inactiveBorderClass }}" data-price="{{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}"
+          >
             <span>One-time Purchase</span>
             <span class="ml-auto inline-block font-semibold">
               <span>
@@ -16,8 +30,10 @@
       {%- endif -%}
       {%- if product.purchase_options.subscription -%}
         <div class="relative mb-2 block">
-          <input id="subscription" type="checkbox" name="purchase-option" value="subscription" class="absolute inset-0 opacity-0">
-          <div class="relative flex w-full cursor-pointer rounded border bg-gray-50 px-6 py-4 text-sm transition-all focus:shadow-outline hover:border-color-{{ color_scheme }} peer-checked:border-primary-darkest focus:ring-blue-500 focus:border-blue-500">
+          <input id="subscription" type="checkbox" name="purchase-option" value="subscription" class="absolute inset-0 opacity-0" {%- unless product.purchase_options.standard -%}checked="checked"{%- endunless -%}>
+          <div id="subscription-div" class="relative flex w-full cursor-pointer rounded border px-6 py-4 text-sm transition-all {%- if product.purchase_options.standard -%}{{ inactiveBorderClass }}{%- else -%}{{ activeBorderClass }}{%- endif -%}"
+            data-active-border-class="{{ activeBorderClass }}" data-inactive-border-class="{{ inactiveBorderClass }}"
+          >
             <div class="w-4 h-4 mr-2 mt-3">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="vertical-align: -0.125em;-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" data-v-d8d66b18="" class="iconify icon:uil:sync w-4 h-4" data-icon="uil:sync"><path fill="currentColor" d="M19.91 15.51h-4.53a1 1 0 0 0 0 2h2.4A8 8 0 0 1 4 12a1 1 0 0 0-2 0a10 10 0 0 0 16.88 7.23V21a1 1 0 0 0 2 0v-4.5a1 1 0 0 0-.97-.99M12 2a10 10 0 0 0-6.88 2.77V3a1 1 0 0 0-2 0v4.5a1 1 0 0 0 1 1h4.5a1 1 0 0 0 0-2h-2.4A8 8 0 0 1 20 12a1 1 0 0 0 2 0A10 10 0 0 0 12 2"></path></svg>
             </div>
@@ -69,7 +85,7 @@
                 assign optionText = text | append: trialText
                 assign optionText = text | append: moneyText
               -%}
-              <option id={{ plan.id }} role="option" value={{ plan.id }} class="mx-4 my-3 flex cursor-pointer items-center rounded-md p-2 transition duration-200 text-primary-med">
+              <option id={{ plan.id }} role="option" value={{ plan.id }} data-price="{{ plan.price | money_without_trailing_zeros }}" class="mx-4 my-3 flex cursor-pointer items-center rounded-md p-2 transition duration-200 text-primary-med">
                 {{ optionText }}
               </option>
             {%- endfor -%}
@@ -78,8 +94,8 @@
          </div>
       {%- endif -%}
     </div>
-  </product-purchase-options>
-{%- endif -%}
+  {%- endif -%}
+</product-purchase-options>
 
 <script type="application/json" data-variants-json>
   {{ product.purchase_options | json }}

@@ -2,6 +2,15 @@
   assign color_scheme = color_scheme
   assign class = 'add-to-cart-button p-4 text-[#3B0B93] border border-[#3B0B93] bg-white text-label-large font-display flex items-center justify-center rounded-md hover:bg-[#3B0B93] hover:text-white btn-primary-' | append: color_scheme
   assign border_radius = settings.border_radius | default: 4
+
+  assign purchaseOptionType = 'standard'
+  assign purchaseOptionPlan = ''
+  unless product.purchase_options.standard
+    if product.purchase_options.standard.subscription
+      assign purchaseOptionType = 'subscription'
+      assign purchaseOptionPlan = product.purchase_options.subscription.plans[0].id
+    endif
+  endunless
 -%}
 
 <cart-drawer-button
@@ -10,6 +19,8 @@
   data-product-id="{{ product.id }}"
   data-variant-id="{{ variant.id }}"
   data-variant-quantity="1"
+  data-purchase-option-type="{{ purchaseOptionType }}"
+  data-purchase-option-plan="{{ purchaseOptionPlan }}"
   style="border-radius:{{ border_radius }}px"
 >
   <span class="flex-grow-0 text-sm/4">{{ button_text }} </span>
