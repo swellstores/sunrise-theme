@@ -1,9 +1,8 @@
 {{ 'mega-menu.css' | asset_url | stylesheet_tag }}
-{{ 'standard-dropdown.css' | asset_url | stylesheet_tag }}
+{{ 'cascading-menu.css' | asset_url | stylesheet_tag }}
 
-<standard-dropdown-root></standard-dropdown-root>
 <mega-menu-root></mega-menu-root>
-
+<cascading-menu-root></cascading-menu-root>
 <nav role="navigation" class="flex justify-center h-full items-center w-full">
   <div class="nav-container">
     <ul class="flex gap-3 h-full justify-center items-center md:gap-[48px]">
@@ -35,7 +34,7 @@
           </a>
 
           {% if link.links.size > 0 and section.settings.desktop_menu_type == 'dropdown' %}
-            {% render 'standard-dropdown', link: link %}
+            {% render 'cascading-menu', link: link %}
           {% endif %}
         </li>
       {% endfor %}

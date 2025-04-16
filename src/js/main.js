@@ -3,6 +3,7 @@ import { Cart } from "./cart";
 import { CartDrawer } from "./cart-drawer";
 import { SearchDialog } from "./search-dialog";
 import { MegaMenu } from "./mega-menu";
+import { CascadingMenu } from "./cascading-menu";
 import { VariantRadio } from "./variant-radio";
 import { Popover } from "./popover";
 import { CopyToClipboard } from "./copy-to-clipboard";
@@ -14,11 +15,11 @@ import { QuantitySelector } from "./quantity-selector";
     customElements.define("cart-drawer-root", CartDrawer);
     customElements.define("search-dialog-root", SearchDialog);
     customElements.define("mega-menu-root", MegaMenu);
-    customElements.define("standard-dropdown-root", StandardDropdown);
     customElements.define("variant-radio", VariantRadio);
     customElements.define("popover-root", Popover);
     customElements.define("copy-to-clipboard", CopyToClipboard);
     customElements.define("quantity-selector-root", QuantitySelector);
+    customElements.define("cascading-menu-root", CascadingMenu);
   }
 
   function loadSlideshowScripts() {
