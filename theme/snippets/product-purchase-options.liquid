@@ -1,18 +1,27 @@
-{%- assign activeBorderClass = "border-color-" | append: color_scheme -%}  
-{%- assign inactiveBorderClass = "bg-gray-50" -%}  
+{%- liquid
+  assign activeBorderClass = "border-color-" | append: color_scheme
+  assign inactiveBorderClass = "bg-gray-50"
+
+  assign purchaseOptionType = 'standard'
+  assign purchaseOptionPlan = ''
+  if product.purchase_options.standard == blank and product.purchase_options.subscription
+    assign purchaseOptionType = 'subscription'
+    assign purchaseOptionPlan = product.purchase_options.subscription.plans[0].id
+  endif
+-%}  
   <product-purchase-options>
     <div
       id="product-price"
       class="product-price text-title-medium font-display text-{{ color_scheme }} mb-[2px] mt-[2px]"
       style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
-      data-purchase-option="standard"
-      data-purchase-option-plan=""
+      data-purchase-option-type="{{ purchaseOptionType}}"
+      data-purchase-option-plan="{{ purchaseOptionPlan }}"
     >
       {{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}
     </div>
   
   {%- if product.purchase_options.subscription -%}
-    <div role="group mt-2" class="flex flex-col gap-2 min-w-96">
+    <div role="group mt-2" class="flex flex-col gap-2 md:min-w-96 lg:min-w-96 xl:min-w-96 2xl:min-w-96">
       {%- if product.purchase_options.standard -%}
         <div class="relative mb-2 block">
           <input id="standard" type="checkbox" name="purchase-option" value="standard" class="absolute inset-0 opacity-0" checked="checked">
@@ -21,7 +30,7 @@
           >
             <span>One-time Purchase</span>
             <span class="ml-auto inline-block font-semibold">
-              <span>
+              <span id="standard-div-price">
                 {{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}
               </span> 
             </span>
@@ -30,7 +39,7 @@
       {%- endif -%}
       {%- if product.purchase_options.subscription -%}
         <div class="relative mb-2 block">
-          <input id="subscription" type="checkbox" name="purchase-option" value="subscription" class="absolute inset-0 opacity-0" {%- unless product.purchase_options.standard -%}checked="checked"{%- endunless -%}>
+          <input id="subscription" type="checkbox" name="purchase-option" value="subscription" class="absolute inset-0 opacity-0" {%- if purchaseOptionType == 'subscription' -%}checked="checked"{%- endif -%}>
           <div id="subscription-div" class="relative flex w-full cursor-pointer rounded border px-6 py-4 text-sm transition-all {%- if product.purchase_options.standard -%}{{ inactiveBorderClass }}{%- else -%}{{ activeBorderClass }}{%- endif -%}"
             data-active-border-class="{{ activeBorderClass }}" data-inactive-border-class="{{ inactiveBorderClass }}"
           >
@@ -39,7 +48,7 @@
             </div>
             <select
               id="subscription-select"
-              class="border bg-gray-50 border-[#757575] text-[#616161] text-sm max-h-25vh w-full overflow-y-scroll rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full pt-2.5 pb-2.5"
+              class="border bg-gray-50 text-sm max-h-25vh w-full overflow-y-scroll rounded-md block pt-2.5 pb-2.5"
               value={{ product.purchase_options.subscription.plans[0] }}
             >
             {%- for plan in product.purchase_options.subscription.plans -%}
@@ -79,11 +88,11 @@
                 endif
                 if plan.billing_schedule.trial_days > 1
                    assign trialText = 'Includes ' | append: plan.billing_schedule.trial_days
-                   assign trialText = trialText | append: ' days - '
+                   assign trialText = trialText | append: ' trial days - '
                 endif
 
                 assign optionText = text | append: trialText
-                assign optionText = text | append: moneyText
+                assign optionText = optionText | append: moneyText
               -%}
               <option id={{ plan.id }} role="option" value={{ plan.id }} data-price="{{ plan.price | money_without_trailing_zeros }}" class="mx-4 my-3 flex cursor-pointer items-center rounded-md p-2 transition duration-200 text-primary-med">
                 {{ optionText }}

@@ -5,12 +5,10 @@
 
   assign purchaseOptionType = 'standard'
   assign purchaseOptionPlan = ''
-  unless product.purchase_options.standard
-    if product.purchase_options.standard.subscription
-      assign purchaseOptionType = 'subscription'
-      assign purchaseOptionPlan = product.purchase_options.subscription.plans[0].id
-    endif
-  endunless
+  if product.purchase_options.standard == blank and product.purchase_options.subscription
+    assign purchaseOptionType = 'subscription'
+    assign purchaseOptionPlan = product.purchase_options.subscription.plans[0].id
+  endif
 -%}
 
 <cart-drawer-button
