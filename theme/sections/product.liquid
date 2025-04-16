@@ -406,10 +406,6 @@
                 {% endif %}
               {% when 'price' %}
                 {% if block.settings.show_price %}
-                  {% render 'product-purchase-options',
-                      product: product,
-                      color_scheme: color_scheme
-                  %}
                   <div
                     id="product-price"
                     class="product-price text-title-medium font-display text-{{ color_scheme }} mb-[2px] mt-[2px]"
@@ -417,6 +413,11 @@
                   >
                     {{ selected_or_first_available_variant.price | money_without_trailing_zeros }}
                   </div>
+
+                  {% render 'product-purchase-options',
+                      product: product,
+                      color_scheme: color_scheme
+                  %}
                 {% endif %}
               {% when 'category' %}
                 {% if block.settings.show_category %}
