@@ -8,6 +8,7 @@ import { Popover } from "./popover";
 import { CopyToClipboard } from "./copy-to-clipboard";
 import { QuantitySelector } from "./quantity-selector";
 import { AddProductForm } from "./add-product-form";
+import { ProductPurchaseOptions } from "./product-purchase-options";
 
 (function () {
   function defineCustomElements() {
@@ -20,6 +21,7 @@ import { AddProductForm } from "./add-product-form";
     customElements.define("copy-to-clipboard", CopyToClipboard);
     customElements.define("quantity-selector-root", QuantitySelector);
     customElements.define("add-product-form", AddProductForm);
+    customElements.define("product-purchase-options", ProductPurchaseOptions);
   }
 
   function loadSlideshowScripts() {
