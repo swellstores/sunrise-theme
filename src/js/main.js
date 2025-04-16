@@ -3,11 +3,15 @@ import { Cart } from "./cart";
 import { CartDrawer } from "./cart-drawer";
 import { SearchDialog } from "./search-dialog";
 import { MegaMenu } from "./mega-menu";
+import hoverintent from "./hoverintent";
 import { CascadingMenu } from "./cascading-menu";
 import { VariantRadio } from "./variant-radio";
 import { Popover } from "./popover";
 import { CopyToClipboard } from "./copy-to-clipboard";
 import { QuantitySelector } from "./quantity-selector";
+
+// Make hoverintent available globally
+window.hoverintent = hoverintent;
 
 (function () {
   function defineCustomElements() {

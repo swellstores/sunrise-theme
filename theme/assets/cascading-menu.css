@@ -6,7 +6,7 @@
   background-color: white;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  min-width: 150px;
+  min-width: 200px;
   width: auto;
   max-width: 275px;
   z-index: 1000;
@@ -22,14 +22,14 @@
   display: flex;
   flex-direction: row;
   padding: 6px 12px;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  margin: 0;
   cursor: pointer;
   transition: background-color 0.2s;
   align-items: flex-start;
-
-  &:not(:first-child) {
-    margin-top: 14px;
-  }
 }
+
 
 .cascading-menu-item.has-children {
   display: flex;
@@ -55,9 +55,13 @@
   padding: 8px 0;
 }
 
-.cascading-menu-item:hover > .cascading-submenu {
+.cascading-submenu.show {
   display: block;
+  opacity: 1;
+  visibility: visible;
 }
+
+/* Only control submenus with JavaScript */
 
 .cascading-menu-item a {
   color: inherit;
@@ -75,6 +79,7 @@
   position: relative;
 }
 
+/* Add back top-level menu hover */
 .nav-item:hover .cascading-menu {
   display: block;
 }
