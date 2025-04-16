@@ -13,10 +13,12 @@ export class VariantRadio extends HTMLElement {
     super();
     this.triggers = this.querySelectorAll("variant-radio-trigger");
     this.inputs = this.querySelectorAll('input[type="radio"]');
+    this.select = this.querySelector("select");
     this.init();
   }
 
   init() {
+    // Pills mode
     this.triggers.forEach((trigger) => {
       trigger.addEventListener("click", async (event) => {
         const target = event.currentTarget;
@@ -37,11 +39,19 @@ export class VariantRadio extends HTMLElement {
 
           const product = trigger.getAttribute("data-product-slug");
           const variantId = trigger.getAttribute("data-variant-id");
-          const sectionId = trigger.getAttribute("data-section-id");
-          await this.selectVariant(product, variantId, sectionId);
+          await this.selectVariant(product, variantId);
         }
       });
     });
+
+    // Dropdown mode
+    if (this.select) {
+      this.select.addEventListener("change", async (event) => {
+        const product = this.select.getAttribute("data-product-slug");
+        const variantId = event.target.value;
+        await this.selectVariant(product, variantId);
+      })
+    }
   }
 
   updateProductElement(html, selector) {
@@ -73,8 +83,8 @@ export class VariantRadio extends HTMLElement {
     }
   }
 
-  async selectVariant(product, variantId, sectionId) {
-    const requestUrl = `/products/${product}?section=${sectionId}&variant=${variantId}`;
+  async selectVariant(product, variantId) {
+    const requestUrl = `/products/${product}?variant=${variantId}`;
     this.abortController?.abort();
     this.abortController = new AbortController();
     this.setLoading(true);

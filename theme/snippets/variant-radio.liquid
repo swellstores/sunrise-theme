@@ -23,12 +23,26 @@
       {%- assign optionIndex = forloop.index0 -%}
       {%- assign optionName = current_variant.options[optionIndex] | downcase -%}
       <variant-radio>
-        {%- if product_selector == 'radio' -%}
+        {%- if product_selector == 'radio' -%} {% comment %} fieldset for radio {% endcomment %}
           <fieldset class="mb-4" id="product-variant-{{ forloop.index0 }}" name="{{ option.name | handleize }}">
             <legend class="font-display text-label-medium uppercase mb-2">
               {{ option.name | escape }}
             </legend>
             <div class="flex flex-wrap items-center gap-[8px]">
+        {%- else -%} {% comment %} select for dropdown {% endcomment %}
+          <div class="flex flex-col gap-[4px]">
+            <label for="product-variant-option-{{ forloop.index0 }}" class="font-display text-label-medium uppercase mb-2">
+              {{ option.name | escape }}
+            </label>
+            <variant-radio-trigger>
+              <select
+                id="product-variant-{{ forloop.index0 }}"
+                class="input-select bg-gray-50 border border-[#757575] text-[#616161] text-sm rounded-[4px] focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                data-index="option{{ forloop.index }}"
+                data-product-slug="{{ product.slug }}"
+                data-section-id="{{ section.id }}"
+              >
+        {%- endif -%} {% comment %} main tag {% endcomment %}
               {%- for value in option.values -%}
                 {%- liquid
                   assign matched_variant = null
@@ -56,86 +70,77 @@
                     endif
                   endfor
                 -%}
-                <input
-                  type="radio"
-                  {% if optionName == inputOptionName %}
-                    checked="checked"
-                  {% endif %}
-                  {% unless matched_variant.available %}
-                    disabled="disabled"
-                  {% endunless %}
-                  value="{{ matched_variant.id }}"
-                  data-index="option{{ forloop.index }}"
-                  name="{{ option.name | handleize }}"
-                  id="product-variant-{{ option.name | handleize }}-{{ value | escape }}"
-                  class="sr-only"
-                  data-price="{{ matched_variant.price | money_without_trailing_zeros }}"
-                >
-                <variant-radio-trigger
-                  role="radio"
-                  tabindex="0"
-                  class="
-                    border border-[#3B0B93] px-[12px] py-[12px] text-center transition-colors uppercase font-display text-label-small
-                    {% if matched_variant.available %}
-                      {% if current_variant.id != matched_variant.id %}
-                      cursor-pointer
-                      btn-secondary-{{ color_scheme }} text-{{ color_scheme }} cursor-pointer
+                {%- if product_selector == 'radio' -%} {% comment %} input and trigger for radio {% endcomment %}
+                  <input
+                    type="radio"
+                    {% if optionName == inputOptionName %}
+                      checked="checked"
+                    {% endif %}
+                    {% unless matched_variant.available %}
+                      disabled="disabled"
+                    {% endunless %}
+                    value="{{ matched_variant.id }}"
+                    data-index="option{{ forloop.index }}"
+                    name="{{ option.name | handleize }}"
+                    id="product-variant-{{ option.name | handleize }}-{{ value | escape }}"
+                    class="sr-only"
+                    data-price="{{ matched_variant.price | money_without_trailing_zeros }}"
+                  >
+                  <variant-radio-trigger
+                    role="radio"
+                    tabindex="0"
+                    class="
+                      border border-[#3B0B93] px-[12px] py-[12px] text-center transition-colors uppercase font-display text-label-small
+                      {% if matched_variant.available %}
+                        {% if current_variant.id != matched_variant.id %}
+                        cursor-pointer
+                        btn-secondary-{{ color_scheme }} text-{{ color_scheme }} cursor-pointer
+                        {% else %}
+                        cursor-pointer
+                        btn-primary-{{ color_scheme }}
+                      {% endif %}
                       {% else %}
-                      cursor-pointer
-                      btn-primary-{{ color_scheme }}
+                        cursor-not-allowed btn-disabled-{{ color_scheme }}
+                      {% endif %}
+                    "
+                    aria-labelledby="product-variant-{{ option.name | handleize }}-{{ value | escape }}"
+                    data-variant-id="{{- matched_variant.id -}}"
+                    data-product-slug="{{ product.slug }}"
+                    data-section-id="{{ section.id }}"
+                    style="border-radius:{{ border_radius }}px"
+                  >
+                    <span id="product-variant-option-{{ option.name | handleize }}-{{ value | escape }}">
+                      {{ value | escape }}
+                    </span>
+                  </variant-radio-trigger>
+                {%- else -%} {% comment %} option for dropdown {% endcomment %}
+                  <option
+                    value="{{ matched_variant.id }}"
+                    data-price="{{ matched_variant.price | money_without_trailing_zeros }}"
+                    {% if optionName == inputOptionName %}
+                      selected="selected"
                     {% endif %}
-                    {% else %}
-                      cursor-not-allowed btn-disabled-{{ color_scheme }}
-                    {% endif %}
-                  "
-                  aria-labelledby="product-variant-{{ option.name | handleize }}-{{ value | escape }}"
-                  data-variant-id="{{- matched_variant.id -}}"
-                  data-product-slug="{{ product.slug }}"
-                  data-section-id="{{ section.id }}"
-                  style="border-radius:{{ border_radius }}px"
-                >
-                  <span id="product-variant-option-{{ option.name | handleize }}-{{ value | escape }}">
+                    data-variant-id="{{- matched_variant.id -}}"
+                    data-product-slug="{{ product.slug }}"
+                    data-section-id="{{ section.id }}"
+                    {% unless matched_variant.available %}
+                      disabled=true
+                    {% endunless %}
+                  >
                     {{ value | escape }}
-                  </span>
-                </variant-radio-trigger>
-              {%- endfor -%}
+                  </option>
+                {%- endif -%}  {% comment %} option value element {% endcomment %}
+              {%- endfor -%}  {% comment %} for option values {% endcomment %}
+        {%- if product_selector == 'radio' -%} {% comment %} implicitly close tags {% endcomment %}
             </div>
           </fieldset>
-        {%- else -%} {% comment %} implicitly 'dropdown' {% endcomment %}
-          <div class="flex flex-col gap-[4px]">
-            <label for="product-variant-option-{{ forloop.index0 }}" class="font-display text-label-medium uppercase mb-2">
-              {{ option.name | escape }}
-            </label>
-            <select
-              id="product-variant-{{ forloop.index0 }}"
-              class="input-select bg-gray-50 border border-[#757575] text-[#616161] text-sm rounded-[4px] focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              data-index="option{{ forloop.index }}"
-            >
-              {%- for value in option.values -%}
-                {%- assign matched_variant = null -%}
-
-                {%- for variant in product.variants -%}
-                  {%- if variant.option1 == value or variant.option2 == value or variant.option3 == value -%}
-                    {%- assign matched_variant = variant -%}
-                  {%- endif -%}
-                {%- endfor -%}
-
-                <option
-                  value="{{ value | escape }}"
-                  data-variant-id="{{ matched_variant.id }}"
-                  data-price="{{ matched_variant.price | money_without_trailing_zeros }}"
-                  {% if current_variant.options[optionIndex] == value %}
-                    selected="selected"
-                  {% endif %}
-                >
-                  {{ value | escape }}
-                </option>
-              {%- endfor -%}
-            </select>
+        {%- else -%}
+              </select>
+            </variant-radio-trigger>
           </div>
-        {%- endif -%}
+        {%- endif -%} {% comment %} end close tags {% endcomment %}
       </variant-radio>
-    {%- endfor -%}
+    {%- endfor -%} {% comment %} for option {% endcomment %}
   </product-variant-options>
 {%- endunless -%}
 
