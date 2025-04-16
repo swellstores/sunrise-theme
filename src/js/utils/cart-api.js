@@ -14,7 +14,20 @@ export const CartAPI = {
    * @param {number} [quantity=1]
    * @return {*}
    */
-  async addToCart(productId, variantId, quantity = 1) {
+  async addToCart(productId, variantId, quantity = 1, purchaseOptionType = 'standard', purchaseOptionPlan = '') {
+    const requestBody = {
+      product_id: productId,
+      // in shopify_compatibility we use id as variantId
+      id: variantId ? variantId : undefined,
+      quantity: quantity,
+    };
+
+    if (purchaseOptionType === 'subscription') {
+      requestBody.purchase_option = {
+        type: 'subscription',
+        plan: purchaseOptionPlan,
+      }
+    }
     try {
       const response = await fetch(routes.addToCart, {
         method: 'POST',
@@ -23,12 +36,7 @@ export const CartAPI = {
           'Content-Type': 'application/json',
           'X-Requested-With': 'XMLHttpRequest',
         },
-        body: JSON.stringify({
-          product_id: productId,
-          // in shopify_compatibility we use id as variantId
-          id: variantId ? variantId : undefined,
-          quantity: quantity,
-        }),
+        body: JSON.stringify(requestBody),
       });
       if (!response.ok) {
         throw new Error('Network response was not ok');

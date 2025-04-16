@@ -95,7 +95,6 @@ export class VariantRadio extends HTMLElement {
       const html = new DOMParser().parseFromString(responseText, 'text/html');
 
       // update elements individually to keep scroll position, selected image and opened accordion items
-      this.updateProductElement(html, "product-section #product-price");
       this.updateProductElement(html, "product-section #quantity-selector-variant");
       this.updateProductElement(html, "product-section product-variant-options");
 
@@ -103,6 +102,14 @@ export class VariantRadio extends HTMLElement {
       eventBus.emit('product-variant-id-change', {
         variantId,
       });
+
+      // update price for standard purchase option
+      const priceInput = html.querySelector("product-section #product-price");
+      if (priceInput) {
+        eventBus.emit('product-price-change', {
+          price: priceInput.innerHTML,
+        });
+      }
 
       // use actual quantity that can be decreased to the stock level
       const quantityInput = document.querySelector("product-section #quantity-selector-variant input");

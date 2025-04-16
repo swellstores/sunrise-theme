@@ -406,13 +406,10 @@
                 {% endif %}
               {% when 'price' %}
                 {% if block.settings.show_price %}
-                  <div
-                    id="product-price"
-                    class="product-price text-title-medium font-display text-{{ color_scheme }} mb-[2px] mt-[2px]"
-                    style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
-                  >
-                    {{ selected_or_first_available_variant.price | money_without_trailing_zeros }}
-                  </div>
+                  {% render 'product-purchase-options',
+                      product: product,
+                      color_scheme: color_scheme
+                  %}
                 {% endif %}
               {% when 'category' %}
                 {% if block.settings.show_category %}
@@ -486,10 +483,20 @@
                             %}
                           </div>
                         {%- else -%}
+                          {%- liquid
+                            assign purchaseOptionType = 'standard'
+                            assign purchaseOptionPlan = ''
+                            if product.purchase_options.standard == blank and product.purchase_options.subscription
+                              assign purchaseOptionType = 'subscription'
+                              assign purchaseOptionPlan = product.purchase_options.subscription.plans[0].id
+                            endif
+                          -%}
                           <add-product-form>
                             <input type="hidden" name="product_id" value="{{ product.id }}">
                             <input type="hidden" name="id" value="{{ selected_or_first_available_variant.id }}">
-                            <input type="hidden" name="quantity" value="1">                    
+                            <input type="hidden" name="quantity" value="1">     
+                            <input type="hidden" name="purchase-option-type" value="{{ purchaseOptionType }}">
+                            <input type="hidden" name="purchase-option-plan" value="{{ purchaseOptionPlan }}">                   
                             <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
                               {% render 'button',
                                 type: 'submit',
