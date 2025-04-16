@@ -12,6 +12,7 @@ export class ProductPurchaseOptions extends HTMLElement {
     super();
     this.standardInput = null;
     this.standardDiv = null;
+    this.standardDivPrice = null;
     this.subscriptionInput = null;
     this.subscriptionDiv = null;
     this.priceInput = null;
@@ -26,6 +27,7 @@ export class ProductPurchaseOptions extends HTMLElement {
   connectedCallback() {
     this.standardInput = this.querySelector("#standard");
     this.standardDiv = this.querySelector("#standard-div");
+    this.standardDivPrice = this.querySelector("#standard-div-price");
     this.subscriptionInput = this.querySelector("#subscription");
     this.subscriptionDiv = this.querySelector("#subscription-div");
     this.priceInput = this.querySelector("#product-price");
@@ -85,6 +87,7 @@ export class ProductPurchaseOptions extends HTMLElement {
 
     this.standardInput = null;
     this.standardDiv = null;
+    this.standardDivPrice = null;
     this.subscriptionInput = null;
     this.subscriptionDiv = null;
     this.priceInput = null;
@@ -96,9 +99,22 @@ export class ProductPurchaseOptions extends HTMLElement {
    * Handle updating product price
    */
   handleUpdateProductPrice(event) {
-    console.log("handleUpdateProductPrice", event);
-    // const { quantity } = event;
-    // this.quantityInput.value = quantity;
+    const { price } = event;
+    if (this.priceInput) {
+      const purchaseOptionType = this.priceInput.getAttribute("data-purchase-option-type");
+      // ignore options price for subscriptions
+      if (purchaseOptionType !== 'subscription') {
+        this.priceInput.innerHTML = price;
+      }
+    }
+
+    // save updated price
+    if (this.standardDiv) {
+      this.standardDiv.setAttribute("data-price", price);
+    }
+    if (this.standardDivPrice) {
+      this.standardDivPrice.innerHTML = price;
+    }
   }
 
   toggleActive(activeDiv, inactiveDiv, activeInput, inactiveInput) {
@@ -126,7 +142,7 @@ export class ProductPurchaseOptions extends HTMLElement {
     this.toggleActive(this.standardDiv, this.subscriptionDiv, this.standardInput, this.subscriptionInput);
 
     if (this.priceInput) {
-      this.priceInput.setAttribute("data-purchase-option", "standard");
+      this.priceInput.setAttribute("data-purchase-option-type", "standard");
       this.priceInput.setAttribute("data-purchase-option-plan", "");
       const newPrice = this.standardDiv.getAttribute("data-price");
       this.priceInput.innerHTML = newPrice;
@@ -149,7 +165,7 @@ export class ProductPurchaseOptions extends HTMLElement {
         if (option.value === planId) {
           const newPrice = option.getAttribute("data-price");
 
-          this.priceInput.setAttribute("data-purchase-option", "subscription");
+          this.priceInput.setAttribute("data-purchase-option-type", "subscription");
           this.priceInput.setAttribute("data-purchase-option-plan", planId);
           this.priceInput.innerHTML = newPrice;
           eventBus.emit("product-purchase-option-change", {
