@@ -1,13 +1,22 @@
+{%- liquid
+  assign border_b = section.settings.border_b
+  assign menu_scheme = section.settings.menu_color_scheme
+-%}
+
 {% if link and link.links.size > 0 %}
-  <div class="cascading-menu">
+  <div class="cascading-menu bg-{{ menu_scheme }} text-{{ menu_scheme }}">
     {% for child_link in link.links %}
       <div class="cascading-menu-item {% if child_link.links.size > 0 %}has-children{% endif %}">
         <a href="{{ child_link.url }}" class="font-normal leading-[20px]">
           {{ child_link.title | escape }}
         </a>
         {% if child_link.links.size > 0 %}
-          <ion-icon name="chevron-down-outline" class="chevron-icon"></ion-icon>
-          <div class="cascading-submenu">
+          <ion-icon
+            name="chevron-down-outline"
+            aria-label="Toggle dropdown item"
+            class="chevron-icon h-[20px] w-[20px]"
+          ></ion-icon>
+          <div class="cascading-submenu bg-{{ menu_scheme }} text-{{ menu_scheme }}">
             {% for grandchild_link in child_link.links %}
               <div class="cascading-menu-item">
                 <a href="{{ grandchild_link.url }}" class="font-normal leading-[20px]">

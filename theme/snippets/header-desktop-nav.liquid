@@ -34,7 +34,7 @@
           </a>
 
           {% if link.links.size > 0 and section.settings.desktop_menu_type == 'dropdown' %}
-            {% render 'cascading-menu', link: link %}
+            {% render 'cascading-menu', link: link, menu_color_scheme: menu_color_scheme %}
           {% endif %}
         </li>
       {% endfor %}
@@ -47,9 +47,9 @@
     {% if link.links.size > 0 and section.settings.desktop_menu_type == 'mega' %}
       <div
         id="mega-menu-{{ forloop.index }}"
-        class="mega-menu-wrapper"
+        class="mega-menu-wrapper bg-{{ menu_color_scheme }}"
       >
-        {% render 'mega-menu', current_link: link %}
+        {% render 'mega-menu', current_link: link, menu_color_scheme: menu_color_scheme %}
       </div>
     {% endif %}
   {% endfor %}
