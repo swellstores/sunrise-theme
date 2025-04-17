@@ -17,23 +17,27 @@
 
 <div class="group relative flex flex-col gap-3">
   <a href="{{ slug }}" class="relative w-full h-fit aspect-square">
-    <img
-      src="{{ featured_image | image_url}}"
-      alt="{{ featured_image.alt }}"
-      class="primary-image rounded w-full h-full object-cover absolute inset-0 transition-opacity duration-300 opacity-100 group-hover:opacity-0"
-    >
-    {% if second_image %}
-      <img
-        src="{{ second_image | image_url}}"
-        alt="{{ second_image.alt }}"
-        class="secondary-image rounded w-full h-full object-cover absolute inset-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
-      >
-    {% else %}
+    {% if featured_image != blank %}
       <img
         src="{{ featured_image | image_url}}"
         alt="{{ featured_image.alt }}"
-        class="primary-image rounded w-full h-full object-cover absolute inset-0 transition-opacity duration-300 opacity-100"
+        class="primary-image rounded w-full h-full object-cover absolute inset-0 transition-opacity duration-300 opacity-100 group-hover:opacity-0"
       >
+      {% if second_image %}
+        <img
+          src="{{ second_image | image_url}}"
+          alt="{{ second_image.alt }}"
+          class="secondary-image rounded w-full h-full object-cover absolute inset-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+        >
+      {% else %}
+        <img
+          src="{{ featured_image | image_url}}"
+          alt="{{ featured_image.alt }}"
+          class="primary-image rounded w-full h-full object-cover absolute inset-0 transition-opacity duration-300 opacity-100"
+        >
+      {% endif %}
+    {% else %}
+      <div class="rounded w-full h-full absolute inset-0 bg-[#F5F5F5] border border-color-{{ color_scheme }}"></div>
     {% endif %}
   </a>
   <div class="flex flex-col gap-1">
