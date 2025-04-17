@@ -68,7 +68,6 @@
   position: relative;
 }
 
-/* Add back top-level menu hover */
 .nav-item:hover .cascading-menu {
   display: block;
 }
