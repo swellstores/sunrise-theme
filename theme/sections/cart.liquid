@@ -102,7 +102,7 @@
                                   <div class="flex items-center gap-1">
                                     <div>
                                       {{ option.value -}}
-                                      {%- unless forloop.last %}, {% endunless %}
+                                      {%- unless forloop.last or item.options_with_values.size == 1 %}, {% endunless %}
                                     </div>
                                   </div>
                                 {%- endfor -%}
@@ -127,25 +127,27 @@
                                 {%- endif -%}
                               {%- endfor -%}
 
-                              <p>{{ item.selling_plan_allocation.selling_plan.name }}</p>
+                              {%- if item.selling_plan_allocation != null -%}
+                                <p>{{ item.selling_plan_allocation.selling_plan.planPrice | money }} / {{ item.selling_plan_allocation.selling_plan.planPriceText }}</p>
+                              {%- endif -%}
                             </div>
                           {%- endif -%}
-                          {%- if item.variant.compare_at_price
-                            and item.variant.compare_at_price > item.variant.price
-                          -%}
-                            <div class="font-display text-body-small">
-                              <strong class="font-display text-body-small">
-                                {{ item.variant.price | money }}
-                              </strong>
-                              <s class="text-secondary-{{ color_scheme}} font-display text-body-small">
-                                {{- item.variant.compare_at_price | money -}}
-                              </s>
-                            </div>
-                          {%- else -%}
-                            <div class="font-display text-body-small">
-                              {{ item.variant.price | money }}
-                            </div>
-                          {%- endif -%}
+                          {%- unless item.selling_plan_allocation -%}
+                            {%- if item.original_price != item.final_price -%}
+                              <div class="font-display text-body-small">
+                                <strong class="font-display text-body-small">
+                                  {{ item.final_price  | money }}
+                                </strong>
+                                <s class="text-secondary-{{ color_scheme}} font-display text-body-small">
+                                  {{- item.original_price | money -}}
+                                </s>
+                              </div>
+                            {%- else -%}
+                              <div class="font-display text-body-small">
+                                {{ item.final_price | money }}
+                              </div>
+                            {%- endif -%}
+                          {%- endunless -%}
 
                           <ul role="list" aria-label="Discount">
                             {%- for discount in item.line_level_discount_allocations -%}

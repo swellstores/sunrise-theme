@@ -21,7 +21,7 @@
     </div>
   
   {%- if product.purchase_options.subscription -%}
-    <div role="group mt-2" class="flex flex-col gap-2 md:min-w-96 lg:min-w-96 xl:min-w-96 2xl:min-w-96">
+    <div role="group mt-2" class="flex flex-col gap-2 min-w-48 md:min-w-96 lg:min-w-120 xl:min-w-120 2xl:min-w-120">
       {%- if product.purchase_options.standard -%}
         <div class="relative mb-2 block">
           <input id="standard" type="checkbox" name="purchase-option" value="standard" class="absolute inset-0 opacity-0" checked="checked">
