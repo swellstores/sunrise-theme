@@ -41,46 +41,25 @@
     {%- endpaginate -%}
   {%- else -%}
     <div class="flex flex-col items-center gap-4 py-7 text-center">
-      <h1 class="font-heading text-display-large text-{{ color_scheme }}">Store highlights</h1>
+      <h1 class="font-heading text-display-large text-{{ color_scheme }}">Our blog</h1>
     </div>
     <div class="grid p-4 gap-y-[16px] sm:grid-cols-2 gap-x-[16px] lg:gap-y-[48px] lg:grid-cols-3 h-100 lg:grid-rows-1">
+
+    {%- for i in (1..3) -%}
+
       <div class="blog-card flex flex-col gap-[16px] overflow-hidden">
-        <div class="h-full w-full object-cover">
-          {{ 'blog-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
-        </div>
-        <div class="flex flex-col gap-[16px]">
-          <div class="flex flex-col gap-[4px]">
-            <h3 class="font-display text-headline-small text-{{ color_scheme }}">
-              New arrivals
-            </h3>
+          <div class="h-full w-full object-cover">
+            {{ 'blog-apparel-' | append: forloop.index | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
+          <div class="flex flex-col gap-[16px]">
+            <div class="flex flex-col gap-[4px]">
+              <h3 class="font-display text-headline-small text-{{ color_scheme }}">
+                Your blog title
+              </h3>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="blog-card flex flex-col gap-[16px] overflow-hidden">
-        <div class="h-full w-full object-cover">
-          {{ 'blog-apparel-2' | placeholder_svg_tag: 'placeholder-svg' }}
-        </div>
-        <div class="flex flex-col gap-[16px]">
-          <div class="flex flex-col gap-[4px]">
-            <h3 class="font-display text-headline-small text-{{ color_scheme }}">
-              New arrivals
-            </h3>
-          </div>
-        </div>
-      </div>
-      <div class="blog-card flex flex-col gap-[16px] overflow-hidden">
-        <div class="h-full w-full object-cover">
-          {{ 'blog-apparel-3' | placeholder_svg_tag: 'placeholder-svg' }}
-        </div>
-        <div class="flex flex-col gap-[16px]">
-          <div class="flex flex-col gap-[4px]">
-            <h3 class="font-display text-headline-small text-{{ color_scheme }}">
-              New arrivals
-            </h3>
-          </div>
-        </div>
-      </div>
-    </div>
+    {%- endfor -%}
   {%- endif -%}
 </div>
 

@@ -35,8 +35,10 @@
     }
   }
 
-  document.createElement("slideshow-button-prev").constructor !== HTMLElement &&
+  if (!customElements.get("slideshow-button-prev")) {
     customElements.define("slideshow-button-prev", SlideshowButtonPrev);
-  document.createElement("slideshow-button-next").constructor !== HTMLElement &&
+  }
+  if (!customElements.get("slideshow-button-next")) {
     customElements.define("slideshow-button-next", SlideshowButtonNext);
+  }
 })();
