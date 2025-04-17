@@ -20,7 +20,9 @@ class CascadingMenuManager {
   }
 
   checkForMenuItems() {
-    const menuItems = document.querySelectorAll(".cascading-menu-item.has-children");
+    const menuItems = document.querySelectorAll(
+      ".cascading-menu-item.has-children",
+    );
     if (menuItems.length > 0) {
       this.setupEventListeners();
       this.setupClickOutsideHandler();
@@ -50,7 +52,7 @@ class CascadingMenuManager {
     }
 
     // Check if hoverintent is available
-    if (typeof window.hoverintent !== 'function') {
+    if (typeof window.hoverintent !== "function") {
       setTimeout(() => this.setupEventListeners(), 100);
       return;
     }
@@ -69,38 +71,40 @@ class CascadingMenuManager {
       this.menuItems.set(item, submenu);
       submenu.classList.remove("show");
 
-      const instance = window.hoverintent(
-        item,
-        function (e) {
-          if (this.activeSubmenu) {
-            this.hideMenu(this.activeSubmenu);
-            this.activeSubmenu = null;
-          }
+      const instance = window
+        .hoverintent(
+          item,
+          function (e) {
+            // Only hide active submenu if it's not the parent of the current item
+            if (this.activeSubmenu && this.activeSubmenu !== submenu) {
+              this.hideMenu(this.activeSubmenu);
+            }
 
-          this.showMenu(submenu);
-          this.activeSubmenu = submenu;
-          this.currentHoveredItem = item;
-        }.bind(this),
-        function (e) {
-          // Only hide if we're not moving to the submenu or its parent
-          if (
-            this.activeSubmenu === submenu &&
-            (!e.relatedTarget ||
-              (!e.relatedTarget.closest(".cascading-submenu") &&
-                !e.relatedTarget.closest(
-                  ".cascading-menu-item.has-children",
-                )))
-          ) {
-            this.hideMenu(submenu);
-            this.activeSubmenu = null;
-            this.currentHoveredItem = null;
-          }
-        }.bind(this),
-      ).options({
-        sensitivity: 1,
-        interval: 10,
-        timeout: 500,
-      });
+            this.showMenu(submenu);
+            this.activeSubmenu = submenu;
+            this.currentHoveredItem = item;
+          }.bind(this),
+          function (e) {
+            // Only hide if we're not moving to the submenu or its parent
+            if (
+              this.activeSubmenu === submenu &&
+              (!e.relatedTarget ||
+                (!e.relatedTarget.closest(".cascading-submenu") &&
+                  !e.relatedTarget.closest(
+                    ".cascading-menu-item.has-children",
+                  )))
+            ) {
+              this.hideMenu(submenu);
+              this.activeSubmenu = null;
+              this.currentHoveredItem = null;
+            }
+          }.bind(this),
+        )
+        .options({
+          sensitivity: 4,
+          interval: 50,
+          timeout: 200,
+        });
 
       this.hoverIntentInstances.set(item, instance);
       this.initializedItems.add(item);
