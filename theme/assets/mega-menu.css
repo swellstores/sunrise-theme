@@ -1,8 +1,6 @@
 .mega-menu-wrapper,
 .standard-dropdown {
   display: none;
-  background-color: white;
-  border: 1px solid #f5f5f5;
   box-shadow:
     0px 2px 4px -2px #1717170f,
     0px 4px 8px -2px #1717171a;
@@ -45,9 +43,7 @@
   margin: 0 auto;
   padding: 24px 40px;
   overflow: visible;
-  color: #111827;
   z-index: 1001;
-  background-color: white;
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -65,11 +61,20 @@
 
 .mega-menu-row.incomplete-row {
   justify-content: flex-start;
-  margin-left: calc(50% - ((220px * var(--max-items) + 32px * (var(--max-items) - 1)) / 2));
+  margin-left: calc(
+    50% - ((220px * var(--max-items) + 32px * (var(--max-items) - 1)) / 2)
+  );
+}
+
+.mega-menu-grid.align-left {
+  justify-content: flex-start;
+  padding-left: 48px;
+  position: relative;
 }
 
 .mega-menu-grid.align-left .mega-menu-row {
   justify-content: flex-start;
+  margin-left: 0;
 }
 
 .mega-menu-category {
@@ -87,20 +92,9 @@
   max-width: 220px;
 }
 
-.mega-menu-grid.align-left {
-  justify-content: flex-start;
-  padding-left: 48px;
-}
-
-.mega-menu-grid.align-left .mega-menu-items {
-  justify-content: start;
-  margin: 0 !important;
-}
-
 .mega-menu-category > a {
   font-size: 15px;
   font-weight: 600;
-  color: #111827;
   margin-bottom: 16px;
   transition: border-color 0.2s ease;
   width: 100%;
@@ -116,13 +110,12 @@
 
 .mega-menu-category .flex a {
   font-size: 14px;
-  color: #4b5563;
   transition: color 0.2s ease;
   text-align: left;
 }
 
 .mega-menu-category .flex a:hover {
-  color: #111827;
+  text-decoration: underline;
 }
 
 .nav-item {

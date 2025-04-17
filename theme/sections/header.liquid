@@ -66,7 +66,10 @@
           </button>
           <div class="flex-grow">{%- render 'header-logo' -%}</div>
           <div class="hidden min-[960px]:flex justify-center items-center">
-            {%- render 'header-desktop-nav', text_uppercase: text_uppercase -%}
+            {%- render 'header-desktop-nav',
+              text_uppercase: text_uppercase,
+              menu_color_scheme: section.settings.menu_color_scheme
+            -%}
           </div>
           {%- render 'header-desktop-icon-list', color_scheme: color_scheme -%}
         {%- elsif logo_position == 'center' -%}
@@ -82,7 +85,10 @@
             </svg>
           </button>
           <div class="hidden min-[960px]:flex justify-start items-center">
-            {%- render 'header-desktop-nav', text_uppercase: text_uppercase -%}
+            {%- render 'header-desktop-nav',
+              text_uppercase: text_uppercase,
+              menu_color_scheme: section.settings.menu_color_scheme
+            -%}
           </div>
           <div class="flex justify-center items-center">
             {%- render 'header-logo' -%}
@@ -105,7 +111,11 @@
               {%- render 'header-logo' -%}
             </div>
             <div class="hidden min-[960px]:flex justify-start items-center">
-              {%- render 'header-desktop-nav', text_uppercase: text_uppercase -%}
+              {%- render 'header-desktop-nav',
+                text_uppercase: text_uppercase,
+                color_scheme: color_scheme,
+                menu_color_scheme: section.settings.menu_color_scheme
+              -%}
             </div>
           </div>
           <div class="hidden min-[960px]:block"></div>
@@ -128,7 +138,11 @@
               {%- render 'header-logo' -%}
             </div>
             <div class="hidden min-[960px]:flex justify-center items-start">
-              {%- render 'header-desktop-nav', text_uppercase: text_uppercase -%}
+              {%- render 'header-desktop-nav',
+                text_uppercase: text_uppercase,
+                color_scheme: color_scheme,
+                menu_color_scheme: section.settings.menu_color_scheme
+              -%}
             </div>
           </div>
           <div class="flex items-center justify-end gap-[16px] order-2 ">
@@ -152,7 +166,11 @@
               {%- render 'header-logo' -%}
             </div>
             <div class="hidden min-[960px]:flex justify-center items-center">
-              {%- render 'header-desktop-nav', text_uppercase: text_uppercase -%}
+              {%- render 'header-desktop-nav',
+                text_uppercase: text_uppercase,
+                color_scheme: color_scheme,
+                menu_color_scheme: section.settings.menu_color_scheme
+              -%}
             </div>
           </div>
           {%- render 'header-desktop-icon-list',
@@ -197,6 +215,12 @@
       "content": "Header"
     },
     {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
       "type": "link_list",
       "id": "selected_menu",
       "label": "Menu",
@@ -208,10 +232,15 @@
       "label": "Desktop menu type",
       "options": [
         { "value": "dropdown", "label": "Dropdown" },
-        { "value": "mega", "label": "Mega menu" },
-        { "value": "drawer", "label": "Drawer" }
+        { "value": "mega", "label": "Mega menu" }
       ],
       "default": "dropdown"
+    },
+    {
+      "type": "color_scheme",
+      "id": "menu_color_scheme",
+      "label": "Menu color scheme",
+      "default": "scheme-1"
     },
     {
       "type": "range",
@@ -231,12 +260,6 @@
         { "value": "center", "label": "Center" }
       ],
       "default": "center"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1"
     },
     {
       "type": "checkbox",

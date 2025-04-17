@@ -4,9 +4,10 @@
   assign max_items_per_row = section.settings.mega_menu_row_count
   assign total_items = current_link.links.size
   assign number_of_rows = total_items | divided_by: max_items_per_row | ceil
+  assign menu_scheme = section.settings.menu_color_scheme
 -%}
 
-<div class="mega-menu-grid {% if alignment == 'left' %}align-left{% endif %}">
+<div class="mega-menu-grid {% if alignment == 'left' %}align-left{% endif %} bg-{{ menu_scheme }} text-{{ menu_scheme }}">
   {% for i in (1..number_of_rows) %}
     {% assign start_index = forloop.index0 | times: max_items_per_row %}
     {% assign end_index = start_index | plus: max_items_per_row | minus: 1 %}
