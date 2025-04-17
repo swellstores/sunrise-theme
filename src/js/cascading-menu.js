@@ -12,21 +12,22 @@ class CascadingMenuManager {
     this.activeSubmenu = null;
     this.hoverIntentInstances = new Map();
     this.menuItems = new Map();
+    this.initializedItems = new Set();
 
-    // Wait for DOM to be fully loaded
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", () => this.init());
-    } else {
-      this.init();
-    }
+    window.cascadingMenuManager = this;
+
+    this.checkForMenuItems();
   }
 
-  init() {
-    this.setupEventListeners();
-    this.setupClickOutsideHandler();
-
-    // Make this instance globally available
-    window.cascadingMenuManager = this;
+  checkForMenuItems() {
+    const menuItems = document.querySelectorAll(".cascading-menu-item.has-children");
+    if (menuItems.length > 0) {
+      this.setupEventListeners();
+      this.setupClickOutsideHandler();
+    } else {
+      // If no menu items found, check again after a short delay
+      setTimeout(() => this.checkForMenuItems(), 100);
+    }
   }
 
   setupEventListeners() {
@@ -48,19 +49,27 @@ class CascadingMenuManager {
       });
     }
 
+    // Check if hoverintent is available
+    if (typeof window.hoverintent !== 'function') {
+      setTimeout(() => this.setupEventListeners(), 100);
+      return;
+    }
+
+    // Setup new items that haven't been initialized yet
     menuItems.forEach((item) => {
+      if (this.initializedItems.has(item)) {
+        return;
+      }
+
       const submenu = item.querySelector(".cascading-submenu");
       if (!submenu) {
         return;
       }
 
-      // Store the menu item and submenu relationship
       this.menuItems.set(item, submenu);
-
-      // Make sure submenu doesn't have show class initially
       submenu.classList.remove("show");
 
-      const instance = hoverintent(
+      const instance = window.hoverintent(
         item,
         function (e) {
           if (this.activeSubmenu) {
@@ -78,7 +87,9 @@ class CascadingMenuManager {
             this.activeSubmenu === submenu &&
             (!e.relatedTarget ||
               (!e.relatedTarget.closest(".cascading-submenu") &&
-                !e.relatedTarget.closest(".cascading-menu-item.has-children")))
+                !e.relatedTarget.closest(
+                  ".cascading-menu-item.has-children",
+                )))
           ) {
             this.hideMenu(submenu);
             this.activeSubmenu = null;
@@ -92,6 +103,7 @@ class CascadingMenuManager {
       });
 
       this.hoverIntentInstances.set(item, instance);
+      this.initializedItems.add(item);
     });
   }
 
@@ -134,21 +146,20 @@ class CascadingMenuManager {
   destroy() {
     this.hoverIntentInstances.forEach((instance) => instance.remove());
     this.hoverIntentInstances.clear();
+    this.initializedItems.clear();
+    this.menuItems.clear();
 
     document.removeEventListener("click", this.handleClickOutside);
   }
 
   isMovingToSubmenu(element) {
-    // Check if we're moving to/from a submenu or its parent menu item
     const submenu = element.closest(".cascading-submenu");
     const parentMenuItem = element.closest(".cascading-menu-item.has-children");
 
-    // If we're in a submenu, check if it belongs to the current active menu item
     if (submenu) {
       return this.activeSubmenu === submenu;
     }
 
-    // If we're in a menu item, check if it's the current active item or if it's the parent of the active submenu
     if (parentMenuItem) {
       return (
         this.currentHoveredItem === parentMenuItem ||
@@ -161,15 +172,13 @@ class CascadingMenuManager {
   }
 }
 
-// Create and export an instance of the CascadingMenu manager
 const cascadingMenuManager = new CascadingMenuManager();
 export { cascadingMenuManager };
 
 export class CascadingMenu extends HTMLElement {
   connectedCallback() {
     if (window.cascadingMenuManager) {
-      // Re-initialize to catch newly connected elements
-      window.cascadingMenuManager.init();
+      window.cascadingMenuManager.checkForMenuItems();
     }
   }
 
