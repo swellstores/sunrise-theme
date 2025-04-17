@@ -1,63 +1,42 @@
 {%- liquid
   assign border_b = section.settings.border_b
   assign alignment = section.settings.mega_menu_alignment | default: 'center'
-  
-  if alignment == 'center'
-    assign max_items_per_row = 4
-  else
-    assign max_items_per_row = 5
-  endif
-  
+  assign max_items_per_row = section.settings.mega_menu_row_count
   assign total_items = current_link.links.size
-  
-  if total_items < max_items_per_row and alignment == 'center'
-    assign items_per_row = total_items
-  else
-    assign items_per_row = max_items_per_row
-  endif
-  
-  assign number_of_rows = total_items | divided_by: items_per_row | ceil
-  assign columns_minus_one = total_items | minus: 1
+  assign number_of_rows = total_items | divided_by: max_items_per_row | ceil
 -%}
 
 <div class="mega-menu-grid {% if alignment == 'left' %}align-left{% endif %}">
-  <div class="mega-menu-items" 
-    {% if alignment == 'center' %}
-      {% if total_items < 4 %}
-        style="grid-template-columns: repeat({{ columns_minus_one }}, 220px) auto; margin: 0 auto;"
-      {% else %}
-        style="grid-template-columns: repeat(3, 220px) auto; margin: 0 auto;"
-      {% endif %}
-    {% else %}
-      style="grid-template-columns: repeat({{ items_per_row }}, 220px);"
+  {% for i in (1..number_of_rows) %}
+    {% assign start_index = forloop.index0 | times: max_items_per_row %}
+    {% assign end_index = start_index | plus: max_items_per_row | minus: 1 %}
+    {% if end_index >= total_items %}
+      {% assign end_index = total_items | minus: 1 %}
     {% endif %}
-  >
-    {% for child_link in current_link.links %}
-      {% assign is_fourth_item = forloop.index | modulo: 4 %}
-      {% assign is_last_item = forloop.index == total_items %}
-      
-      {% assign add_auto_width = false %}
-      {% if total_items >= 4 and is_fourth_item == 0 and alignment == 'center' %}
-        {% assign add_auto_width = true %}
+    {% assign items_in_row = end_index | minus: start_index | plus: 1 %}
+    
+    <div class="mega-menu-row {% if items_in_row < max_items_per_row %}incomplete-row{% endif %}" 
+      {% if items_in_row < max_items_per_row and alignment != 'left' %}
+        style="--max-items: {{ max_items_per_row }}"
       {% endif %}
-      {% if total_items < 4 and is_last_item and alignment == 'center' %}
-        {% assign add_auto_width = true %}
-      {% endif %}
-      
-      <div class="mega-menu-category {% if add_auto_width %}auto-width{% endif %}">
-        <a href="{{ child_link.url }}" class="font-semibold text-sm hover:underline leading-[22px]">
-          {{ child_link.title }}
-        </a>
-        {% if child_link.links.size > 0 %}
-          <div class="flex flex-col gap-4">
-            {% for grandchild in child_link.links %}
-              <a href="{{ grandchild.url }}" class="hover:underline font-normal font-heading leading-[20px]">
-                {{ grandchild.title }}
-              </a>
-            {% endfor %}
-          </div>
-        {% endif %}
-      </div>
-    {% endfor %}
-  </div>
+    >
+      {% for j in (start_index..end_index) %}
+        {% assign child_link = current_link.links[j] %}
+        <div class="mega-menu-category">
+          <a href="{{ child_link.url }}" class="font-semibold text-sm hover:underline leading-[22px]">
+            {{ child_link.title }}
+          </a>
+          {% if child_link.links.size > 0 %}
+            <div class="flex flex-col gap-4">
+              {% for grandchild in child_link.links %}
+                <a href="{{ grandchild.url }}" class="hover:underline font-normal font-heading leading-[20px]">
+                  {{ grandchild.title }}
+                </a>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  {% endfor %}
 </div>
