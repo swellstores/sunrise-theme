@@ -12,14 +12,14 @@
         <a href="{{ item.url }}">
           <h4 class="text-body-small sm:text-body-medium font-display">{{- item.product.title | escape -}}</h4>
         </a>
-        {%- if item.original_price != item.final_price -%}
+        {%- if item.original_line_price != item.final_line_price -%}
           <div class="text-body-small sm:text-body-medium  font-display flex items-center gap-1">
-            <s class="text-secondary-{{ color_scheme }} line-through">{{- item.original_price | money -}}</s>
-            {{ item.final_price | money }}
+            <s class="text-secondary-{{ color_scheme }} line-through">{{- item.original_line_price | money -}}</s>
+            {{ item.final_line_price | money }}
           </div>
         {%- else -%}
           <cart-drawer-item-price class="text-body-small sm:text-body-medium  font-display">
-            {{- item.final_price | money -}}
+            {{- item.final_line_price | money -}}
             {% render 'loader' %}
           </cart-drawer-item-price>
         {%- endif -%}
@@ -34,12 +34,11 @@
               <div class="flex items-center gap-1">
                 <div class="text-body-small font-display">
                   {{ option.value -}}
-                  {%- unless forloop.last %}, {% endunless %}
+                  {%- unless forloop.last or item.options_with_values.size == 1 %}, {% endunless %}
                 </div>
               </div>
             {%- endfor -%}
           {%- endif -%}
-
           {%- for property in item.properties -%}
             {%- assign property_first_char = property.first | slice: 0 -%}
             {%- if property.last != blank and property_first_char != '_' -%}
@@ -58,21 +57,23 @@
               </div>
             {%- endif -%}
           {%- endfor -%}
-
-          <p>{{ item.selling_plan_allocation.selling_plan.name }}</p>
+          {%- if item.selling_plan_allocation != null -%}
+            <p>{{ item.selling_plan_allocation.selling_plan.planPrice | money }} / {{ item.selling_plan_allocation.selling_plan.planPriceText }}</p>
+          {%- endif -%}
         </div>
       {%- endif -%}
-
-      {%- if item.original_price != item.final_price -%}
-        <div class="text-body-small font-display flex items-center gap-1">
-          <s class="line-through">{{- item.original_price | money -}}</s> {{ item.final_price | money }}
-        </div>
-      {%- else -%}
-        <cart-drawer-item-price class="text-body-small font-display">
-          {{- item.final_price | money -}}
-          {% render 'loader' %}
-        </cart-drawer-item-price>
-      {%- endif -%}
+      {%- unless item.selling_plan_allocation -%}
+        {%- if item.original_price != item.final_price -%}
+          <div class="text-body-small font-display flex items-center gap-1">
+            <s class="line-through">{{- item.original_price | money -}}</s> {{ item.final_price | money }}
+          </div>
+        {%- else -%}
+          <cart-drawer-item-price class="text-body-small font-display">
+            {{- item.final_price | money -}}
+            {% render 'loader' %}
+          </cart-drawer-item-price>
+        {%- endif -%}
+      {%- endunless -%}
     </div>
     <div class="cart-mini">
       {% render 'quantity-selector', item: item, index: index, color_scheme: color_scheme %}

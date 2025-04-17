@@ -9,6 +9,8 @@ import { VariantRadio } from "./variant-radio";
 import { Popover } from "./popover";
 import { CopyToClipboard } from "./copy-to-clipboard";
 import { QuantitySelector } from "./quantity-selector";
+import { AddProductForm } from "./add-product-form";
+import { ProductPurchaseOptions } from "./product-purchase-options";
 
 // Make hoverintent available globally
 window.hoverintent = hoverintent;
@@ -24,6 +26,8 @@ window.hoverintent = hoverintent;
     customElements.define("copy-to-clipboard", CopyToClipboard);
     customElements.define("quantity-selector-root", QuantitySelector);
     customElements.define("cascading-menu-root", CascadingMenu);
+    customElements.define("add-product-form", AddProductForm);
+    customElements.define("product-purchase-options", ProductPurchaseOptions);
   }
 
   function loadSlideshowScripts() {
