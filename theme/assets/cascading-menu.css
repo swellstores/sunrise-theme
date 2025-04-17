@@ -53,8 +53,6 @@
   visibility: visible;
 }
 
-/* Only control submenus with JavaScript */
-
 .cascading-menu-item a {
   text-decoration: none;
   flex-grow: 1;
