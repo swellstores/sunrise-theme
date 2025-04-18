@@ -19,12 +19,18 @@
 
 {%- unless product.has_only_default_variant -%}
   <product-variant-options>
-    {%- assign variantOnlyOptionIndex = -1 -%}
-    {%- assign nonVariantOnlyOptionIndex = -1 -%}
+    {%- liquid
+      assign variantOnlyOptionIndex = -1
+      assign nonVariantOnlyOptionIndex = -1
+      assign variantOptionsNumber = 0
+      for option in product.options_with_values
+        if option.variant_option
+          assign variantOptionsNumber = variantOptionsNumber | plus: 1
+        endif
+      endfor
+    -%}
     {%- for option in product.options_with_values -%}
       {%- liquid
-        assign optionIndex = forloop.index0
-        assign optionName = current_variant.options[optionIndex] | downcase
         if option.variant_option
           assign variantOnlyOptionIndex = variantOnlyOptionIndex | plus: 1
         else
@@ -55,6 +61,7 @@
               {%- for value in option.values -%}
                 {%- liquid
                   assign matched_variant = null
+
                   assign matched_options = current_variant.selected_option_values
 
                   if option.variant_option
@@ -81,7 +88,7 @@
                     assign replaceIndex = variantOnlyOptionIndex
                   else
                     assign matched_variant = current_variant
-                    assign replaceIndex = matched_options.size | plus: nonVariantOnlyOptionIndex | minus: 1
+                    assign replaceIndex = variantOptionsNumber | plus: nonVariantOnlyOptionIndex
                   endif
 
                   assign newOptions = ''

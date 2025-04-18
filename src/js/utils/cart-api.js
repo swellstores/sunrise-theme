@@ -14,14 +14,47 @@ export const CartAPI = {
    * @param {number} [quantity=1]
    * @return {*}
    */
-  async addToCart(productId, variantId, optionValues, quantity = 1, purchaseOptionType = 'standard', purchaseOptionPlan = '') {
+  async addToCart(productId, variantId, optionValues, allProductOptions, quantity = 1, purchaseOptionType = 'standard', purchaseOptionPlan = '') {
     const requestBody = {
       product_id: productId,
-      // in shopify_compatibility we use id as variantId
-      id: variantId ? variantId : undefined,
-      options: optionValues ? optionValues : undefined,
       quantity: quantity,
     };
+
+    if (variantId) {
+       // in shopify_compatibility we use id as variantId
+       requestBody.id = variantId ;
+    }
+
+    if (optionValues && allProductOptions) {
+      console.log("ADD", optionValues, allProductOptions)
+      try {
+        const productOptions = JSON.parse(decodeURIComponent(allProductOptions));
+        const optionValueArray = optionValues.split(',');
+        const options = [];
+        console.log(productOptions);
+        for (const productOption of productOptions) {
+          for (const productOptionValue of productOption.values) {
+            if (optionValueArray.includes(productOptionValue.id)) {
+              console.log('push', options)
+              options.push({
+                id: productOption.id,
+                name: productOption.name,
+                value: productOptionValue.name,
+                value_id: productOptionValue.id,
+                variant: productOption.variant_option,
+              })
+            }
+          }
+        }
+        
+        console.log('all opts', options);
+        if (options.length > 0 && options.length === optionValueArray.length) {
+          requestBody.options = options;
+        }
+      } catch {
+        // none 
+      }
+    }
 
     if (purchaseOptionType === 'subscription') {
       requestBody.purchase_option = {
