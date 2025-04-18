@@ -207,6 +207,7 @@ export class CartDrawer extends HTMLElement {
 
     const productId = this.cartDrawerButton.getAttribute("data-product-id");
     const optionValues = this.cartDrawerButton.getAttribute("data-option-values");
+    const allProductOptions = this.cartDrawerButton.getAttribute("data-product-options");
     const purchaseOptionType = this.cartDrawerButton.getAttribute("data-purchase-option-type");
     const purchaseOptionPlan = this.cartDrawerButton.getAttribute("data-purchase-option-plan");
 
@@ -217,7 +218,7 @@ export class CartDrawer extends HTMLElement {
     this.toggleLoader(true);
 
     try {
-      await CartAPI.addToCart(productId, '', optionValues, quantity, purchaseOptionType, purchaseOptionPlan);
+      await CartAPI.addToCart(productId, '', optionValues, allProductOptions, quantity, purchaseOptionType, purchaseOptionPlan);
 
       await this.fetchCartDrawerContent().then((html) =>
         this.updateCartDrawerContent(html)
