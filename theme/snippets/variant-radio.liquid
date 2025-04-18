@@ -81,7 +81,7 @@
                     assign replaceIndex = variantOnlyOptionIndex
                   else
                     assign matched_variant = current_variant
-                    assign replaceIndex = matched_options.size | plus: nonVariantOnlyOptionIndex
+                    assign replaceIndex = matched_options.size | plus: nonVariantOnlyOptionIndex | minus: 1
                   endif
 
                   assign newOptions = ''
@@ -95,8 +95,7 @@
                     if newOptions == ''
                       assign newOptions = newOption
                     else
-                      assign newOptions = newOptions | append: ','
-                      assign newOptions = newOptions | append: newOption
+                      assign newOptions = newOptions | append: ',' | append: newOption
                     endif
                   endfor
 
@@ -140,7 +139,6 @@
                       {% endif %}
                     "
                     aria-labelledby="product-variant-{{ option.name | handleize }}-{{ value | escape }}"
-                    data-variant-id="{{- matched_variant.id -}}"
                     data-product-slug="{{ product.slug }}"
                     data-section-id="{{ section.id }}"
                     data-option-values="{{ newOptions }}"
@@ -152,11 +150,10 @@
                   </variant-radio-trigger>
                 {%- else -%} {% comment %} option for dropdown {% endcomment %}
                   <option
-                    value="{{ matched_variant.id }}"
+                    value="{{ newOptions }}"
                     {% if isSelected %}
                       selected="selected"
                     {% endif %}
-                    data-variant-id="{{- matched_variant.id -}}"
                     data-product-slug="{{ product.slug }}"
                     data-section-id="{{ section.id }}"
                     data-option-values="{{ newOptions }}"

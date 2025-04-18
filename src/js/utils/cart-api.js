@@ -14,11 +14,12 @@ export const CartAPI = {
    * @param {number} [quantity=1]
    * @return {*}
    */
-  async addToCart(productId, variantId, quantity = 1, purchaseOptionType = 'standard', purchaseOptionPlan = '') {
+  async addToCart(productId, variantId, optionValues, quantity = 1, purchaseOptionType = 'standard', purchaseOptionPlan = '') {
     const requestBody = {
       product_id: productId,
       // in shopify_compatibility we use id as variantId
       id: variantId ? variantId : undefined,
+      options: optionValues ? optionValues : undefined,
       quantity: quantity,
     };
 
