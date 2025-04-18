@@ -1,5 +1,3 @@
-import hoverintent from "./hoverintent";
-
 /**
  * CascadingMenu module that handles cascading menu toggling
  */
@@ -13,10 +11,20 @@ class CascadingMenuManager {
     this.hoverIntentInstances = new Map();
     this.menuItems = new Map();
     this.initializedItems = new Set();
+    this.menuCheckStartTime = Date.now();
+    this.isInitialized = false;
 
     window.cascadingMenuManager = this;
 
     this.checkForMenuItems();
+    
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        if (!this.isInitialized) {
+          this.checkForMenuItems();
+        }
+      });
+    }
   }
 
   checkForMenuItems() {
@@ -26,9 +34,11 @@ class CascadingMenuManager {
     if (menuItems.length > 0) {
       this.setupEventListeners();
       this.setupClickOutsideHandler();
-    } else {
-      // If no menu items found, check again after a short delay
+      this.isInitialized = true;
+    } else if (Date.now() - this.menuCheckStartTime < 10000) {
       setTimeout(() => this.checkForMenuItems(), 100);
+    } else {
+      console.warn('Error loading cascading menu');
     }
   }
 
