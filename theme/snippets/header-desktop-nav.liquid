@@ -1,7 +1,8 @@
 {{ 'mega-menu.css' | asset_url | stylesheet_tag }}
+{{ 'cascading-menu.css' | asset_url | stylesheet_tag }}
 
 <mega-menu-root></mega-menu-root>
-
+<cascading-menu-root></cascading-menu-root>
 <nav role="navigation" class="flex justify-center h-full items-center w-full">
   <div class="nav-container">
     <ul class="flex gap-3 h-full justify-center items-center md:gap-[48px]">
@@ -15,17 +16,9 @@
         >
           <a
             href="{{ link.url }}"
-            class="flex h-full items-center whitespace-nowrap hover:underline font-normal font-heading leading-[20px] text-sm"
-            {% if link.links.size > 0 %}
-              {% assign has_nested_links = false %}
-              {% for child in link.links %}
-                {% if child.links.size > 0 %}
-                  {% assign has_nested_links = true %}
-                {% endif %}
-              {% endfor %}
-              {% if has_nested_links %}
-                data-mega-menu="mega-menu-{{ forloop.index }}"
-              {% endif %}
+            class="flex h-full items-center whitespace-nowrap hover:underline font-medium font-heading leading-[20px] text-sm"
+            {% if link.links.size > 0 and section.settings.desktop_menu_type == 'mega' %}
+              data-mega-menu="mega-menu-{{ forloop.index }}"
             {% endif %}
           >
             {{ link.title }}
@@ -34,23 +27,14 @@
                 <ion-icon
                   name="chevron-down-outline"
                   aria-label="Toggle header dropdown item"
-                  class="h-5 w-5 transition-transform"
+                  class="w-[20px] h-[20px]"
                 ></ion-icon>
               </div>
             {% endif %}
           </a>
 
-          {% if link.links.size > 0 %}
-            {% assign has_nested_links = false %}
-            {% for child in link.links %}
-              {% if child.links.size > 0 %}
-                {% assign has_nested_links = true %}
-              {% endif %}
-            {% endfor %}
-
-            {% unless has_nested_links %}
-              {% render 'standard-dropdown', links: link.links %}
-            {% endunless %}
+          {% if link.links.size > 0 and section.settings.desktop_menu_type == 'dropdown' %}
+            {% render 'cascading-menu', link: link, menu_color_scheme: menu_color_scheme %}
           {% endif %}
         </li>
       {% endfor %}
@@ -60,22 +44,13 @@
 
 <div class="mega-menus-container">
   {% for link in menu_links %}
-    {% if link.links.size > 0 %}
-      {% assign has_nested_links = false %}
-      {% for child in link.links %}
-        {% if child.links.size > 0 %}
-          {% assign has_nested_links = true %}
-        {% endif %}
-      {% endfor %}
-
-      {% if has_nested_links %}
-        <div
-          id="mega-menu-{{ forloop.index }}"
-          class="mega-menu-wrapper"
-        >
-          {% render 'mega-menu', current_link: link %}
-        </div>
-      {% endif %}
+    {% if link.links.size > 0 and section.settings.desktop_menu_type == 'mega' %}
+      <div
+        id="mega-menu-{{ forloop.index }}"
+        class="mega-menu-wrapper bg-{{ menu_color_scheme }}"
+      >
+        {% render 'mega-menu', current_link: link, menu_color_scheme: menu_color_scheme %}
+      </div>
     {% endif %}
   {% endfor %}
 </div>
