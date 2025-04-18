@@ -19,9 +19,18 @@
 
 {%- unless product.has_only_default_variant -%}
   <product-variant-options>
+    {%- assign variantOnlyOptionIndex = -1 -%}
+    {%- assign nonVariantOnlyOptionIndex = -1 -%}
     {%- for option in product.options_with_values -%}
-      {%- assign optionIndex = forloop.index0 -%}
-      {%- assign optionName = current_variant.options[optionIndex] | downcase -%}
+      {%- liquid
+        assign optionIndex = forloop.index0
+        assign optionName = current_variant.options[optionIndex] | downcase
+        if option.variant_option
+          assign variantOnlyOptionIndex = variantOnlyOptionIndex | plus: 1
+        else
+          assign nonVariantOnlyOptionIndex = nonVariantOnlyOptionIndex | plus: 1
+        endif
+      -%}
       <variant-radio>
         {%- if product_selector == 'radio' -%} {% comment %} fieldset for radio {% endcomment %}
           <fieldset class="mb-4" id="product-variant-{{ forloop.index0 }}" name="{{ option.name | handleize }}">
@@ -46,34 +55,62 @@
               {%- for value in option.values -%}
                 {%- liquid
                   assign matched_variant = null
-                  assign matched_options = current_variant.options
-                  assign inputOptionName = value | downcase
+                  assign matched_options = current_variant.selected_option_values
 
-                  for variant in product.variants
-                    assign matched = true
-                    for variantOption in variant.options
-                      assign variantOptionIndex = forloop.index0
-                      if variantOptionIndex == optionIndex
-                        assign compareOptionValue = value | downcase
-                      else
-                        assign compareOptionValue = matched_options[variantOptionIndex] | downcase
-                      endif
+                  if option.variant_option
+                    for variant in product.variants
+                      assign matched = true
+                      for variantOption in variant.selected_option_values
+                        assign variantOptionIndex = forloop.index0
+                        if variantOptionIndex == variantOnlyOptionIndex
+                          assign compareOptionValue = value.id
+                        else
+                          assign compareOptionValue = matched_options[variantOptionIndex]
+                        endif
 
-                      assign compareVariantOption = variant.options[variantOptionIndex] | downcase
-                      if compareVariantOption != compareOptionValue
-                        assign matched = false
+                        if variantOption != compareOptionValue
+                          assign matched = false
+                        endif
+                      endfor
+
+                      if matched
+                        assign matched_variant = variant
                       endif
                     endfor
 
-                    if matched
-                      assign matched_variant = variant
+                    assign replaceIndex = variantOnlyOptionIndex
+                  else
+                    assign matched_variant = current_variant
+                    assign replaceIndex = matched_options.size | plus: nonVariantOnlyOptionIndex
+                  endif
+
+                  assign newOptions = ''
+                  for opt in current_variant.selected_option_values
+                    if forloop.index0 == replaceIndex
+                      assign newOption = value.id
+                    else
+                      assign newOption = opt
+                    endif
+
+                    if newOptions == ''
+                      assign newOptions = newOption
+                    else
+                      assign newOptions = newOptions | append: ','
+                      assign newOptions = newOptions | append: newOption
+                    endif
+                  endfor
+
+                  assign isSelected = false
+                  for current in current_variant.selected_option_values
+                    if current == value.id
+                      assign isSelected = true
                     endif
                   endfor
                 -%}
                 {%- if product_selector == 'radio' -%} {% comment %} input and trigger for radio {% endcomment %}
                   <input
                     type="radio"
-                    {% if optionName == inputOptionName %}
+                    {% if isSelected %}
                       checked="checked"
                     {% endif %}
                     {% unless matched_variant.available %}
@@ -84,7 +121,6 @@
                     name="{{ option.name | handleize }}"
                     id="product-variant-{{ option.name | handleize }}-{{ value | escape }}"
                     class="sr-only"
-                    data-price="{{ matched_variant.price | money_without_trailing_zeros }}"
                   >
                   <variant-radio-trigger
                     role="radio"
@@ -92,13 +128,13 @@
                     class="
                       border border-[#3B0B93] px-[12px] py-[12px] text-center transition-colors uppercase font-display text-label-small
                       {% if matched_variant.available %}
-                        {% if current_variant.id != matched_variant.id %}
-                        cursor-pointer
-                        btn-secondary-{{ color_scheme }} text-{{ color_scheme }} cursor-pointer
+                        {% if isSelected %}
+                          cursor-pointer
+                          btn-primary-{{ color_scheme }}
                         {% else %}
-                        cursor-pointer
-                        btn-primary-{{ color_scheme }}
-                      {% endif %}
+                          cursor-pointer
+                          btn-secondary-{{ color_scheme }} text-{{ color_scheme }} cursor-pointer
+                        {% endif %}
                       {% else %}
                         cursor-not-allowed btn-disabled-{{ color_scheme }}
                       {% endif %}
@@ -107,6 +143,7 @@
                     data-variant-id="{{- matched_variant.id -}}"
                     data-product-slug="{{ product.slug }}"
                     data-section-id="{{ section.id }}"
+                    data-option-values="{{ newOptions }}"
                     style="border-radius:{{ border_radius }}px"
                   >
                     <span id="product-variant-option-{{ option.name | handleize }}-{{ value | escape }}">
@@ -116,13 +153,13 @@
                 {%- else -%} {% comment %} option for dropdown {% endcomment %}
                   <option
                     value="{{ matched_variant.id }}"
-                    data-price="{{ matched_variant.price | money_without_trailing_zeros }}"
-                    {% if optionName == inputOptionName %}
+                    {% if isSelected %}
                       selected="selected"
                     {% endif %}
                     data-variant-id="{{- matched_variant.id -}}"
                     data-product-slug="{{ product.slug }}"
                     data-section-id="{{ section.id }}"
+                    data-option-values="{{ newOptions }}"
                     {% unless matched_variant.available %}
                       disabled=true
                     {% endunless %}
