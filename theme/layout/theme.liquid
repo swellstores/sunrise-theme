@@ -184,9 +184,7 @@
     {% endstyle %}
   </head>
   <body class="antialiased scroll-smooth">
-    <a class="sr-only" href="#main">
-      Skip to content
-    </a>
+    <a class="sr-only" href="#main"> Skip to content </a>
 
     {% comment %} Render header group section {% endcomment %}
     {% sections 'header-group' %}
@@ -214,7 +212,7 @@
         cart_url: '{{ routes.cart_url }}',
         cart_clear_url: '{{ routes.cart_clear_url }}',
         predictive_search_url: '{{ routes.predictive_search_url }}',
-        product_recommendations_url: '{{ routes.product_recommendations_url }}'
+        product_recommendations_url: '{{ routes.product_recommendations_url }}',
       };
     </script>
 
@@ -234,11 +232,15 @@
 
     {% comment %} Entrypoint {% endcomment %}
     <script src="{{ 'htmx.min.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'main.js' | asset_url }}" defer></script>
+    <script src="{{ 'main.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'accordion.js' | asset_url }}" defer="defer"></script>
-    {% comment %} <script src="{{ 'utils.js' | asset_url }}" defer="defer"></script> {% endcomment %}
     <script src="{{ 'filter.js' | asset_url }}" defer="defer"></script>
+
+    {% comment %} Menu Components {% endcomment %}
+    <script src="{{ 'hoverintent.js' | asset_url }}" defer></script>
+    <script src="{{ 'cascading-menu.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'mega-menu.js' | asset_url }}" defer="defer"></script>
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
 
