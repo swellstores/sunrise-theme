@@ -191,7 +191,7 @@
         class="flex flex-col gap-5 items-start sm:items-center pt-[32px] pl-[24px] pr-[24px] pb-[64px]"
       >
         {%- render 'mobile-main-menu',
-          links: linklists[section.settings.selected_menu].links,
+          links: linklists[section.settings.menu].links,
           color_scheme: color_scheme
         -%}
       </div>
@@ -222,9 +222,8 @@
     },
     {
       "type": "link_list",
-      "id": "selected_menu",
-      "label": "Menu",
-      "default": "main-menu"
+      "id": "menu",
+      "label": "Menu"
     },
     {
       "type": "select",
