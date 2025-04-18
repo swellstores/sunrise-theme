@@ -47,7 +47,7 @@ class CascadingMenuManager {
 
     // Check if hoverintent is available
     if (typeof window.hoverintent !== "function") {
-      setTimeout(() => this.setupEventListeners(), 100);
+      setTimeout(() => this.checkForMenuItems(), 100);
       return;
     }
 
