@@ -17,9 +17,9 @@ class CascadingMenuManager {
     window.cascadingMenuManager = this;
 
     this.checkForMenuItems();
-    
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => {
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", () => {
         if (!this.isInitialized) {
           this.checkForMenuItems();
         }
@@ -37,8 +37,6 @@ class CascadingMenuManager {
       this.isInitialized = true;
     } else if (Date.now() - this.menuCheckStartTime < 10000) {
       setTimeout(() => this.checkForMenuItems(), 100);
-    } else {
-      console.warn('Error loading cascading menu');
     }
   }
 
@@ -46,20 +44,6 @@ class CascadingMenuManager {
     const menuItems = document.querySelectorAll(
       ".cascading-menu-item.has-children",
     );
-
-    // Add mouseleave handler to the main menu container
-    const mainMenu = document.querySelector(".cascading-menu");
-    if (mainMenu) {
-      mainMenu.addEventListener("mouseleave", (e) => {
-        // Only close if we're not moving to a submenu
-        if (
-          !e.relatedTarget ||
-          !e.relatedTarget.closest(".cascading-submenu")
-        ) {
-          this.hideAllSubmenus();
-        }
-      });
-    }
 
     // Check if hoverintent is available
     if (typeof window.hoverintent !== "function") {
@@ -158,11 +142,6 @@ class CascadingMenuManager {
   }
 
   destroy() {
-    this.hoverIntentInstances.forEach((instance) => instance.remove());
-    this.hoverIntentInstances.clear();
-    this.initializedItems.clear();
-    this.menuItems.clear();
-
     document.removeEventListener("click", this.handleClickOutside);
   }
 
