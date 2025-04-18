@@ -60,6 +60,11 @@
 }
 
 .mega-menu-row.incomplete-row {
+  justify-content: center;
+  margin-left: 0;
+}
+
+.mega-menu-row.incomplete-row:not(:first-child) {
   justify-content: flex-start;
   margin-left: calc(
     50% - ((220px * var(--max-items) + 32px * (var(--max-items) - 1)) / 2)
