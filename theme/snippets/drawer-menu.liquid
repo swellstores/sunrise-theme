@@ -1,0 +1,41 @@
+<desktop-drawer-menu-root class="absolute">
+  <div
+    class="fixed top-0 left-0 h-full w-[300px] bg-white z-[100] transform -translate-x-full transition-transform duration-300 ease-in-out shadow-lg"
+    aria-hidden="true"
+  >
+    <div class="flex flex-col h-full">
+      <div class="flex items-center justify-between p-4 border-b">
+        <h2 class="text-lg font-medium">Menu</h2>
+        <button
+          class="p-2 hover:bg-gray-100 rounded-full"
+          aria-label="Close menu"
+          data-drawer-close
+        >
+          <ion-icon name="close-outline" class="w-6 h-6"></ion-icon>
+        </button>
+      </div>
+      
+      <div class="flex-1 overflow-y-auto">
+        <ul class="py-2">
+          {% assign selected_menu = section.settings.selected_menu | default: 'main-menu' %}
+          {% for link in linklists[selected_menu].links %}
+            <li>
+              <a 
+                href="{{ link.url }}"
+                class="flex items-center justify-between px-4 py-2 hover:bg-gray-100"
+              >
+                <span>{{ link.title }}</span>
+                {% if link.links.size > 0 %}
+                  <ion-icon 
+                    name="chevron-forward-outline"
+                    class="w-5 h-5"
+                  ></ion-icon>
+                {% endif %}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</desktop-drawer-menu-root> 

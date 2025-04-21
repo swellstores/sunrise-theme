@@ -47,131 +47,207 @@
     <div
       class="sm:flex flex-col max-w-container mx-auto responsive-padding-{{ section.id }}"
     >
-      <div class="{%- if logo_position == 'top center' or logo_position == 'top left' -%}h-full min-[960px]:pb-[20px] {% else %}h-[81px]{% endif %} sm:px-[48px] sm:{%- if logo_position == 'top center' or logo_position == 'top left' -%}h-full{% else %}h-[97px]{% endif %} pl-[24px] pr-[24px] flex flex-row w-full sm:grid sm:grid-cols-3">
+      <div class="{%- if logo_position == 'top center' or logo_position == 'top left' -%}h-full min-[960px]:pb-[20px] {% else %}h-[81px]{% endif %} sm:px-[48px] sm:{%- if logo_position == 'top center' or logo_position == 'top left' -%}h-full{% else %}h-[97px]{% endif %} pl-[24px] pr-[24px] flex flex-row w-full sm:grid {% if logo_position == 'left' or logo_position == 'center left' or logo_position == 'top left' %}sm:grid-cols-[auto_1fr_auto]{% else %}sm:grid-cols-3{% endif %}">
         {%- if logo_position == 'left' or logo_position == blank -%}
-          <button
-            class="min-[960px]:hidden block min-w-min pr-[32px]"
-            data-mobile-trigger
-            aria-label="Open mobile menu"
-          >
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-          </button>
-          <div class="flex-grow">{%- render 'header-logo' -%}</div>
-          <div class="hidden min-[960px]:flex justify-center items-center">
-            {%- render 'header-desktop-nav',
-              text_uppercase: text_uppercase,
-              menu_color_scheme: section.settings.menu_color_scheme
-            -%}
-          </div>
-          {%- render 'header-desktop-icon-list', color_scheme: color_scheme -%}
-        {%- elsif logo_position == 'center' -%}
-          <button class="min-[960px]:hidden block min-w-min" data-mobile-trigger aria-label="Open mobile menu">
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-          </button>
-          <div class="hidden min-[960px]:flex justify-start items-center">
-            {%- render 'header-desktop-nav',
-              text_uppercase: text_uppercase,
-              menu_color_scheme: section.settings.menu_color_scheme
-            -%}
-          </div>
-          <div class="flex justify-center items-center">
-            {%- render 'header-logo' -%}
-          </div>
-          {%- render 'header-desktop-icon-list', color_scheme: color_scheme -%}
-        {%- elsif logo_position == 'center left' -%}
-          <button class="min-[960px]:hidden block min-w-min" data-mobile-trigger aria-label="Open mobile menu">
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-          </button>
-          <div class="flex gap-[50px] justify-center min-[960px]:justify-start">
-            <div class="flex justify-center items-center">
-              {%- render 'header-logo' -%}
+          {% if section.settings.desktop_menu_type == 'drawer' %}
+            <div class="flex items-center pl-0">
+              <button
+                class="min-w-min"
+                data-drawer-menu-trigger
+                aria-label="Open menu"
+              >
+                <ion-icon name="menu-outline" class="w-6 h-6"></ion-icon>
+              </button>
             </div>
+          {% else %}
+            <button
+              class="min-[960px]:hidden block min-w-min pl-0"
+              data-mobile-trigger
+              aria-label="Open mobile menu"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </button>
+          {% endif %}
+          <div class="flex justify-start items-center">{%- render 'header-logo' -%}</div>
+          {% if section.settings.desktop_menu_type == 'mega' or section.settings.desktop_menu_type == 'dropdown' %}
             <div class="hidden min-[960px]:flex justify-start items-center">
               {%- render 'header-desktop-nav',
                 text_uppercase: text_uppercase,
-                color_scheme: color_scheme,
                 menu_color_scheme: section.settings.menu_color_scheme
               -%}
             </div>
+          {% endif %}
+          <div class="flex items-center justify-end gap-[16px]">
+            {%- render 'header-desktop-icon-list', color_scheme: color_scheme -%}
           </div>
-          <div class="hidden min-[960px]:block"></div>
-          {%- render 'header-desktop-icon-list', color_scheme: color_scheme -%}
-        {%- elsif logo_position == 'top left' -%}
-          <button class="min-[960px]:hidden block min-w-min" data-mobile-trigger aria-label="Open mobile menu">
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-          </button>
-          <div class="hidden min-[960px]:block order-1"></div>
-          <div class="{%- if logo_position == 'top left' -%}items-start {% endif %} flex flex-col">
-            <div class="flex justify-center items-center">
+        {%- elsif logo_position == 'center left' -%}
+          {% if section.settings.desktop_menu_type == 'drawer' %}
+            <div class="flex items-center pl-0">
+              <button
+                class="min-w-min"
+                data-drawer-menu-trigger
+                aria-label="Open menu"
+              >
+                <ion-icon name="menu-outline" class="w-6 h-6"></ion-icon>
+              </button>
+            </div>
+          {% else %}
+            <button class="min-[960px]:hidden block min-w-min pl-0" data-mobile-trigger aria-label="Open mobile menu">
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </button>
+          {% endif %}
+          <div class="flex justify-start items-center">
+            <div class="flex justify-start items-center">
               {%- render 'header-logo' -%}
             </div>
-            <div class="hidden min-[960px]:flex justify-center items-start">
+            {% if section.settings.desktop_menu_type == 'mega' or section.settings.desktop_menu_type == 'dropdown' %}
+              <div class="hidden min-[960px]:flex justify-start items-center">
+                {%- render 'header-desktop-nav',
+                  text_uppercase: text_uppercase,
+                  color_scheme: color_scheme,
+                  menu_color_scheme: section.settings.menu_color_scheme
+                -%}
+              </div>
+            {% endif %}
+          </div>
+          <div class="flex items-center justify-end gap-[16px]">
+            {%- render 'header-desktop-icon-list', color_scheme: color_scheme -%}
+          </div>
+        {%- elsif logo_position == 'top left' -%}
+          {% if section.settings.desktop_menu_type == 'drawer' %}
+            <div class="flex items-center pl-0">
+              <button
+                class="min-w-min"
+                data-drawer-menu-trigger
+                aria-label="Open menu"
+              >
+                <ion-icon name="menu-outline" class="w-6 h-6"></ion-icon>
+              </button>
+            </div>
+          {% else %}
+            <button class="min-[960px]:hidden block min-w-min pl-0" data-mobile-trigger aria-label="Open mobile menu">
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </button>
+          {% endif %}
+          <div class="flex flex-col">
+            <div class="flex justify-start items-center">
+              {%- render 'header-logo' -%}
+            </div>
+            {% if section.settings.desktop_menu_type == 'mega' or section.settings.desktop_menu_type == 'dropdown' %}
+              <div class="hidden min-[960px]:flex justify-start items-start">
+                {%- render 'header-desktop-nav',
+                  text_uppercase: text_uppercase,
+                  color_scheme: color_scheme,
+                  menu_color_scheme: section.settings.menu_color_scheme
+                -%}
+              </div>
+            {% endif %}
+          </div>
+          <div class="flex items-center justify-end gap-[16px]">
+            {%- render 'header-desktop-icon-list', color_scheme: color_scheme -%}
+          </div>
+        {%- elsif logo_position == 'center' -%}
+          {% if section.settings.desktop_menu_type == 'drawer' %}
+            <div class="flex items-center">
+              <button
+                class="min-w-min"
+                data-drawer-menu-trigger
+                aria-label="Open menu"
+              >
+                <ion-icon name="menu-outline" class="w-6 h-6"></ion-icon>
+              </button>
+            </div>
+          {% else %}
+            <button class="min-[960px]:hidden block min-w-min" data-mobile-trigger aria-label="Open mobile menu">
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </button>
+          {% endif %}
+          {% if section.settings.desktop_menu_type == 'mega' or section.settings.desktop_menu_type == 'dropdown' %}
+            <div class="hidden min-[960px]:flex justify-start items-center">
               {%- render 'header-desktop-nav',
                 text_uppercase: text_uppercase,
-                color_scheme: color_scheme,
                 menu_color_scheme: section.settings.menu_color_scheme
               -%}
             </div>
+          {% endif %}
+          <div class="flex justify-center items-center">
+            {%- render 'header-logo' -%}
           </div>
-          <div class="flex items-center justify-end gap-[16px] order-2 ">
+          <div class="flex items-center justify-end gap-[16px]">
             {%- render 'header-desktop-icon-list', color_scheme: color_scheme -%}
           </div>
         {%- elsif logo_position == 'top center' -%}
-          <button class="min-[960px]:hidden block min-w-min" data-mobile-trigger aria-label="Open mobile menu">
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-          </button>
-          <div class="hidden min-[960px]:block"></div>
+          {% if section.settings.desktop_menu_type == 'drawer' %}
+            <div class="flex items-center pl-0">
+              <button
+                class="min-w-min"
+                data-drawer-menu-trigger
+                aria-label="Open menu"
+              >
+                <ion-icon name="menu-outline" class="w-6 h-6"></ion-icon>
+              </button>
+            </div>
+          {% else %}
+            <button class="min-[960px]:hidden block min-w-min" data-mobile-trigger aria-label="Open mobile menu">
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </button>
+          {% endif %}
+          {% if section.settings.desktop_menu_type == 'mega' or section.settings.desktop_menu_type == 'dropdown' %}
+            <div class="hidden min-[960px]:block"></div>
+          {% endif %}
           <div class="flex flex-col">
             <div class="flex justify-center items-center">
               {%- render 'header-logo' -%}
             </div>
-            <div class="hidden min-[960px]:flex justify-center items-center">
-              {%- render 'header-desktop-nav',
-                text_uppercase: text_uppercase,
-                color_scheme: color_scheme,
-                menu_color_scheme: section.settings.menu_color_scheme
-              -%}
-            </div>
+            {% if section.settings.desktop_menu_type == 'mega' or section.settings.desktop_menu_type == 'dropdown' %}
+              <div class="hidden min-[960px]:flex justify-center items-center">
+                {%- render 'header-desktop-nav',
+                  text_uppercase: text_uppercase,
+                  color_scheme: color_scheme,
+                  menu_color_scheme: section.settings.menu_color_scheme
+                -%}
+              </div>
+            {% endif %}
           </div>
           {%- render 'header-desktop-icon-list',
             color_scheme: color_scheme,
@@ -202,6 +278,10 @@
       </div>
     </div>
   </header>
+
+  {% if section.settings.desktop_menu_type == 'drawer' %}
+    {% render 'drawer-menu' %}
+  {% endif %}
 </div>
 
 {% render 'search-dialog' %}
@@ -232,7 +312,8 @@
       "label": "Desktop menu type",
       "options": [
         { "value": "dropdown", "label": "Dropdown" },
-        { "value": "mega", "label": "Mega menu" }
+        { "value": "mega", "label": "Mega menu" },
+        { "value": "drawer", "label": "Drawer menu" }
       ],
       "default": "dropdown"
     },
