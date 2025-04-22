@@ -3,12 +3,17 @@ import { Cart } from "./cart";
 import { CartDrawer } from "./cart-drawer";
 import { SearchDialog } from "./search-dialog";
 import { MegaMenu } from "./mega-menu";
+import hoverintent from "./hoverintent";
+import { CascadingMenu } from "./cascading-menu";
 import { VariantRadio } from "./variant-radio";
 import { Popover } from "./popover";
 import { CopyToClipboard } from "./copy-to-clipboard";
 import { QuantitySelector } from "./quantity-selector";
 import { AddProductForm } from "./add-product-form";
 import { ProductPurchaseOptions } from "./product-purchase-options";
+
+// Make hoverintent available globally
+window.hoverintent = hoverintent;
 
 (function () {
   function defineCustomElements() {
@@ -20,6 +25,7 @@ import { ProductPurchaseOptions } from "./product-purchase-options";
     customElements.define("popover-root", Popover);
     customElements.define("copy-to-clipboard", CopyToClipboard);
     customElements.define("quantity-selector-root", QuantitySelector);
+    customElements.define("cascading-menu-root", CascadingMenu);
     customElements.define("add-product-form", AddProductForm);
     customElements.define("product-purchase-options", ProductPurchaseOptions);
   }

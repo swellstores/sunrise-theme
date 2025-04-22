@@ -1,0 +1,79 @@
+.cascading-menu {
+  display: none;
+  position: absolute;
+  top: 76px;
+  left: -12px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  width: auto;
+  max-width: 275px;
+  z-index: 1000;
+  padding: 8px 0;
+}
+
+.cascading-menu.active {
+  display: block;
+}
+
+.cascading-menu-item {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  padding: 14px 20px 14px 20px;
+  margin: 0;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  align-items: flex-start;
+}
+
+
+.cascading-menu-item.has-children {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cascading-submenu {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  display: none;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  min-width: 150px;
+  max-width: 275px;
+  padding: 8px 0;
+}
+
+.cascading-submenu.show {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+}
+
+.cascading-menu-item a {
+  text-decoration: none;
+  flex-grow: 1;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.cascading-menu-item a:hover {
+  text-decoration: underline;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-item:hover .cascading-menu {
+  display: block;
+}
+
+.chevron-icon {
+  flex-shrink: 0;
+  margin-left: 8px;
+  rotate: -90deg;
+}

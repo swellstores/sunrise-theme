@@ -21,25 +21,25 @@
 -%}
 
 {% style %}
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}px;
+    padding-bottom: {{ reduced_padding_bottom }}px;
+  }
+
+  @media (min-width: 1024px) {
     .responsive-padding-{{ section.id }} {
-      padding-top: {{ reduced_padding_top }}px;
-      padding-bottom: {{ reduced_padding_bottom }}px;
+      padding-top: {{ section.settings.top_padding }}px;
+      padding-bottom: {{ section.settings.bottom_padding }}px;
     }
+  }
 
-    @media (min-width: 1024px) {
-      .responsive-padding-{{ section.id }} {
-        padding-top: {{ section.settings.top_padding }}px;
-        padding-bottom: {{ section.settings.bottom_padding }}px;
-      }
+  {%- if section.settings.sticky -%}
+    [id*="{{ section.id }}"] {
+      position: sticky !important;
+      top: 0;
+      z-index: 4999;
     }
-
-    {%- if section.settings.sticky -%}
-      [id*="{{ section.id }}"] {
-        position: sticky !important;
-        top: 0;
-        z-index: 4999;
-      }
-    {%- endif -%}
+  {%- endif -%}
 {% endstyle %}
 
 <div class="swell-section">
@@ -49,7 +49,11 @@
     >
       <div class="{%- if logo_position == 'top center' or logo_position == 'top left' -%}h-full min-[960px]:pb-[20px] {% else %}h-[81px]{% endif %} sm:px-[48px] sm:{%- if logo_position == 'top center' or logo_position == 'top left' -%}h-full{% else %}h-[97px]{% endif %} pl-[24px] pr-[24px] flex flex-row w-full sm:grid sm:grid-cols-3">
         {%- if logo_position == 'left' or logo_position == blank -%}
-          <button class="min-[960px]:hidden block min-w-min pr-[32px]" data-mobile-trigger aria-label="Open mobile menu">
+          <button
+            class="min-[960px]:hidden block min-w-min pr-[32px]"
+            data-mobile-trigger
+            aria-label="Open mobile menu"
+          >
             <svg
               class="w-6 h-6"
               fill="none"
@@ -62,11 +66,12 @@
           </button>
           <div class="flex-grow">{%- render 'header-logo' -%}</div>
           <div class="hidden min-[960px]:flex justify-center items-center">
-            {%- render 'header-desktop-nav', text_uppercase: text_uppercase -%}
+            {%- render 'header-desktop-nav',
+              text_uppercase: text_uppercase,
+              menu_color_scheme: section.settings.menu_color_scheme
+            -%}
           </div>
-          {%- render 'header-desktop-icon-list',
-            color_scheme: color_scheme
-          -%}
+          {%- render 'header-desktop-icon-list', color_scheme: color_scheme -%}
         {%- elsif logo_position == 'center' -%}
           <button class="min-[960px]:hidden block min-w-min" data-mobile-trigger aria-label="Open mobile menu">
             <svg
@@ -80,14 +85,15 @@
             </svg>
           </button>
           <div class="hidden min-[960px]:flex justify-start items-center">
-            {%- render 'header-desktop-nav', text_uppercase: text_uppercase -%}
+            {%- render 'header-desktop-nav',
+              text_uppercase: text_uppercase,
+              menu_color_scheme: section.settings.menu_color_scheme
+            -%}
           </div>
           <div class="flex justify-center items-center">
             {%- render 'header-logo' -%}
           </div>
-          {%- render 'header-desktop-icon-list',
-            color_scheme: color_scheme
-          -%}
+          {%- render 'header-desktop-icon-list', color_scheme: color_scheme -%}
         {%- elsif logo_position == 'center left' -%}
           <button class="min-[960px]:hidden block min-w-min" data-mobile-trigger aria-label="Open mobile menu">
             <svg
@@ -105,13 +111,15 @@
               {%- render 'header-logo' -%}
             </div>
             <div class="hidden min-[960px]:flex justify-start items-center">
-              {%- render 'header-desktop-nav', text_uppercase: text_uppercase -%}
+              {%- render 'header-desktop-nav',
+                text_uppercase: text_uppercase,
+                color_scheme: color_scheme,
+                menu_color_scheme: section.settings.menu_color_scheme
+              -%}
             </div>
           </div>
           <div class="hidden min-[960px]:block"></div>
-          {%- render 'header-desktop-icon-list',
-            color_scheme: color_scheme
-          -%}
+          {%- render 'header-desktop-icon-list', color_scheme: color_scheme -%}
         {%- elsif logo_position == 'top left' -%}
           <button class="min-[960px]:hidden block min-w-min" data-mobile-trigger aria-label="Open mobile menu">
             <svg
@@ -130,13 +138,15 @@
               {%- render 'header-logo' -%}
             </div>
             <div class="hidden min-[960px]:flex justify-center items-start">
-              {%- render 'header-desktop-nav', text_uppercase: text_uppercase -%}
+              {%- render 'header-desktop-nav',
+                text_uppercase: text_uppercase,
+                color_scheme: color_scheme,
+                menu_color_scheme: section.settings.menu_color_scheme
+              -%}
             </div>
           </div>
           <div class="flex items-center justify-end gap-[16px] order-2 ">
-            {%- render 'header-desktop-icon-list',
-              color_scheme: color_scheme
-            -%}
+            {%- render 'header-desktop-icon-list', color_scheme: color_scheme -%}
           </div>
         {%- elsif logo_position == 'top center' -%}
           <button class="min-[960px]:hidden block min-w-min" data-mobile-trigger aria-label="Open mobile menu">
@@ -156,7 +166,11 @@
               {%- render 'header-logo' -%}
             </div>
             <div class="hidden min-[960px]:flex justify-center items-center">
-              {%- render 'header-desktop-nav', text_uppercase: text_uppercase -%}
+              {%- render 'header-desktop-nav',
+                text_uppercase: text_uppercase,
+                color_scheme: color_scheme,
+                menu_color_scheme: section.settings.menu_color_scheme
+              -%}
             </div>
           </div>
           {%- render 'header-desktop-icon-list',
@@ -176,9 +190,8 @@
         id="trayContent"
         class="flex flex-col gap-5 items-start sm:items-center pt-[32px] pl-[24px] pr-[24px] pb-[64px]"
       >
-        {%- render
-          'mobile-main-menu',
-          links: linklists[section.settings.selected_menu].links,
+        {%- render 'mobile-main-menu',
+          links: linklists[section.settings.menu].links,
           color_scheme: color_scheme
         -%}
       </div>
@@ -202,16 +215,50 @@
       "content": "Header"
     },
     {
-      "type": "link_list",
-      "id": "selected_menu",
-      "label": "Menu",
-      "default": "main-menu"
-    },
-    {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
       "default": "scheme-1"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu"
+    },
+    {
+      "type": "select",
+      "id": "desktop_menu_type",
+      "label": "Desktop menu type",
+      "options": [
+        { "value": "dropdown", "label": "Dropdown" },
+        { "value": "mega", "label": "Mega menu" }
+      ],
+      "default": "dropdown"
+    },
+    {
+      "type": "color_scheme",
+      "id": "menu_color_scheme",
+      "label": "Menu color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "mega_menu_row_count",
+      "label": "Mega menu row count",
+      "min": 3,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "mega_menu_alignment",
+      "label": "Mega menu alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
     },
     {
       "type": "checkbox",
@@ -274,7 +321,7 @@
       "label": "Logo position",
       "options": [
         { "value": "top left", "label": "Top left" },
-        { "value": "top center", "label": "Top center" }, 
+        { "value": "top center", "label": "Top center" },
         { "value": "center left", "label": "Center left" },
         { "value": "left", "label": "Left" },
         { "value": "center", "label": "Center" }
