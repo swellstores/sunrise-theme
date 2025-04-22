@@ -1,32 +1,31 @@
 <desktop-drawer-menu-root class="absolute">
   <div
-    class="fixed top-0 left-0 h-full w-[300px] bg-white z-[100] transform -translate-x-full transition-transform duration-300 ease-in-out shadow-lg"
+    class="fixed top-0 left-0 h-full pl-[44px] pr-[16px] py-[24px] w-[408px] bg-white z-[100] transform -translate-x-full transition-transform duration-300 ease-in-out shadow-lg"
     aria-hidden="true"
   >
     <div class="flex flex-col h-full">
-      <div class="flex items-center justify-between p-4 border-b">
-        <h2 class="text-lg font-medium">Menu</h2>
+      <div class="flex items-center justify-between">
+        <h2 class="font-normal">Menu</h2>
         <button
-          class="p-2 hover:bg-gray-100 rounded-full"
           aria-label="Close menu"
           data-drawer-close
         >
           <ion-icon name="close-outline" class="w-6 h-6"></ion-icon>
         </button>
       </div>
-      
-      <div class="flex-1 overflow-y-auto">
-        <ul class="py-2">
+
+      <div class="flex-1 overflow-y-auto mt-[48px]">
+        <ul>
           {% assign selected_menu = section.settings.selected_menu | default: 'main-menu' %}
           {% for link in linklists[selected_menu].links %}
-            <li>
-              <a 
+            <li class="first:mt-0 mt-[32px] hover:underline">
+              <a
                 href="{{ link.url }}"
-                class="flex items-center justify-between px-4 py-2 hover:bg-gray-100"
+                class="flex items-center justify-between"
               >
-                <span>{{ link.title }}</span>
+                <span class="font-normal">{{ link.title }}</span>
                 {% if link.links.size > 0 %}
-                  <ion-icon 
+                  <ion-icon
                     name="chevron-forward-outline"
                     class="w-5 h-5"
                   ></ion-icon>
@@ -38,4 +37,4 @@
       </div>
     </div>
   </div>
-</desktop-drawer-menu-root> 
+</desktop-drawer-menu-root>
