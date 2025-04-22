@@ -14,13 +14,43 @@ export const CartAPI = {
    * @param {number} [quantity=1]
    * @return {*}
    */
-  async addToCart(productId, variantId, quantity = 1, purchaseOptionType = 'standard', purchaseOptionPlan = '') {
+  async addToCart(productId, variantId, optionValues, allProductOptions, quantity = 1, purchaseOptionType = 'standard', purchaseOptionPlan = '') {
     const requestBody = {
       product_id: productId,
-      // in shopify_compatibility we use id as variantId
-      id: variantId ? variantId : undefined,
       quantity: quantity,
     };
+
+    if (variantId) {
+       // in shopify_compatibility we use id as variantId
+       requestBody.id = variantId ;
+    }
+
+    if (optionValues && allProductOptions) {
+      try {
+        const productOptions = JSON.parse(decodeURIComponent(allProductOptions));
+        const optionValueArray = optionValues.split(',');
+        const options = [];
+        for (const productOption of productOptions) {
+          for (const productOptionValue of productOption.values) {
+            if (optionValueArray.includes(productOptionValue.id)) {
+              options.push({
+                id: productOption.id,
+                name: productOption.name,
+                value: productOptionValue.name,
+                value_id: productOptionValue.id,
+                variant: productOption.variant_option,
+              })
+            }
+          }
+        }
+        
+        if (options.length > 0 && options.length === optionValueArray.length) {
+          requestBody.options = options;
+        }
+      } catch {
+        // none 
+      }
+    }
 
     if (purchaseOptionType === 'subscription') {
       requestBody.purchase_option = {

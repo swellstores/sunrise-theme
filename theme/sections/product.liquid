@@ -493,8 +493,8 @@
                           -%}
                           <add-product-form>
                             <input type="hidden" name="product_id" value="{{ product.id }}">
-                            <input type="hidden" name="id" value="{{ selected_or_first_available_variant.id }}">
-                            <input type="hidden" name="quantity" value="1">     
+                            <input type="hidden" name="option_values" data-product-options="{{ product.options_with_values | json | url_encode }}" value="{{ selected_or_first_available_variant.selected_option_values | join: ',' }}">
+                            <input type="hidden" name="quantity" value="1">
                             <input type="hidden" name="purchase-option-type" value="{{ purchaseOptionType }}">
                             <input type="hidden" name="purchase-option-plan" value="{{ purchaseOptionPlan }}">                   
                             <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">

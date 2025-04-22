@@ -12,7 +12,7 @@ export class AddProductForm extends HTMLElement {
   constructor() {
     super();
     this.productIdInput = null;
-    this.variantIdInput = null;
+    this.optionValuesInput = null;
     this.purchaseOptionTypeInput = null;
     this.purchaseOptionPlanInput = null;
     this.quantityInput = null;
@@ -23,7 +23,7 @@ export class AddProductForm extends HTMLElement {
 
   connectedCallback() {
     this.productIdInput = this.querySelector("input[name='product_id']");
-    this.variantIdInput = this.querySelector("input[name='id']");
+    this.optionValuesInput = this.querySelector("input[name='option_values']");
     this.purchaseOptionTypeInput = this.querySelector("input[name='purchase-option-type']");
     this.purchaseOptionPlanInput = this.querySelector("input[name='purchase-option-plan']");
     this.quantityInput = this.querySelector("input[name='quantity']");
@@ -37,7 +37,7 @@ export class AddProductForm extends HTMLElement {
   
     this.subscriptions.push(
       eventBus.on("product-quantity-change", this.handleUpdateProductQuantity.bind(this)),
-      eventBus.on("product-variant-id-change", this.handleUpdateProductVariantId.bind(this)),
+      eventBus.on("product-options-change", this.handleUpdateProductOptions.bind(this)),
       eventBus.on("product-purchase-option-change", this.handleUpdateProductPurchaseOption.bind(this)),
     );
   }
@@ -46,7 +46,7 @@ export class AddProductForm extends HTMLElement {
     this.subscriptions.forEach((unsubscribe) => unsubscribe());
     this.subscriptions.length = 0;
     this.productIdInput = null;
-    this.variantIdInput = null;
+    this.optionValuesInput = null;
     this.purchaseOptionTypeInput = null;
     this.purchaseOptionPlanInput = null;
     this.quantityInput = null;
@@ -69,11 +69,11 @@ export class AddProductForm extends HTMLElement {
   }
 
   /**
-   * Handle updating product variant id
+   * Handle updating product options
    */
-  handleUpdateProductVariantId(event) {
-    const { variantId } = event;
-    this.variantIdInput.value = variantId;
+  handleUpdateProductOptions(event) {
+    const { optionValues } = event;
+    this.optionValuesInput.value = optionValues;
   }
 
   /**
@@ -102,7 +102,8 @@ export class AddProductForm extends HTMLElement {
     event.preventDefault();
 
     const productId = this.productIdInput.value;
-    const variantId = this.variantIdInput.value;
+    const optionValues = this.optionValuesInput.value;
+    const allProductOptions = this.optionValuesInput.getAttribute("data-product-options");
     const purchaseOptionType = this.purchaseOptionTypeInput.value;
     const purchaseOptionPlan = this.purchaseOptionPlanInput.value;
     const quantity = Number(this.quantityInput.value);
@@ -110,10 +111,10 @@ export class AddProductForm extends HTMLElement {
     this.toggleLoader(true);
 
     try {
-      await CartAPI.addToCart(productId, variantId, quantity, purchaseOptionType, purchaseOptionPlan);
+      await CartAPI.addToCart(productId, '', optionValues, allProductOptions, quantity, purchaseOptionType, purchaseOptionPlan);
       await this.updateCartCount()
     } catch (error) {
-      console.error("Error handling add to cart:", error);
+      console.error('Error handling add to cart:', error);
     } finally {
       this.toggleLoader(false);
     }
