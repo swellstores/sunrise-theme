@@ -26,7 +26,6 @@ export const CartAPI = {
     }
 
     if (optionValues && allProductOptions) {
-      console.log("ADD", optionValues, allProductOptions)
       try {
         const productOptions = JSON.parse(decodeURIComponent(allProductOptions));
         const optionValueArray = optionValues.split(',');
@@ -35,7 +34,6 @@ export const CartAPI = {
         for (const productOption of productOptions) {
           for (const productOptionValue of productOption.values) {
             if (optionValueArray.includes(productOptionValue.id)) {
-              console.log('push', options)
               options.push({
                 id: productOption.id,
                 name: productOption.name,
@@ -47,7 +45,6 @@ export const CartAPI = {
           }
         }
         
-        console.log('all opts', options);
         if (options.length > 0 && options.length === optionValueArray.length) {
           requestBody.options = options;
         }
