@@ -38,8 +38,8 @@ export class VariantRadio extends HTMLElement {
           input.setAttribute("checked", "checked");
 
           const product = trigger.getAttribute("data-product-slug");
-          const variantId = trigger.getAttribute("data-variant-id");
-          await this.selectVariant(product, variantId);
+          const optionValues = trigger.getAttribute("data-option-values");
+          await this.selectVariant(product, optionValues);
         }
       });
     });
@@ -48,8 +48,8 @@ export class VariantRadio extends HTMLElement {
     if (this.select) {
       this.select.addEventListener("change", async (event) => {
         const product = this.select.getAttribute("data-product-slug");
-        const variantId = event.target.value;
-        await this.selectVariant(product, variantId);
+        const optionValues = event.target.value;
+        await this.selectVariant(product, optionValues);
       })
     }
   }
@@ -83,8 +83,8 @@ export class VariantRadio extends HTMLElement {
     }
   }
 
-  async selectVariant(product, variantId) {
-    const requestUrl = `/products/${product}?variant=${variantId}`;
+  async selectVariant(product, optionValues) {
+    const requestUrl = `/products/${product}?option_values=${optionValues}`;
     this.abortController?.abort();
     this.abortController = new AbortController();
     this.setLoading(true);
@@ -98,9 +98,9 @@ export class VariantRadio extends HTMLElement {
       this.updateProductElement(html, "product-section #quantity-selector-variant");
       this.updateProductElement(html, "product-section product-variant-options");
 
-      // use selected variantId
-      eventBus.emit('product-variant-id-change', {
-        variantId,
+      // use selected options
+      eventBus.emit('product-options-change', {
+        optionValues,
       });
 
       // update price for standard purchase option
