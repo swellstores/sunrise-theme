@@ -30,7 +30,6 @@ export const CartAPI = {
         const productOptions = JSON.parse(decodeURIComponent(allProductOptions));
         const optionValueArray = optionValues.split(',');
         const options = [];
-        console.log(productOptions);
         for (const productOption of productOptions) {
           for (const productOptionValue of productOption.values) {
             if (optionValueArray.includes(productOptionValue.id)) {
