@@ -56,12 +56,20 @@
                 data-drawer-menu-trigger
                 aria-label="Open menu"
               >
-                <ion-icon name="menu-outline" class="w-6 h-6"></ion-icon>
+                <svg
+                  class="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
               </button>
             </div>
           {% endif %}
           <button
-            class="min-[960px]:hidden block min-w-min pl-0"
+            class="min-[960px]:hidden block min-w-min"
             data-mobile-trigger
             aria-label="Open mobile menu"
           >
@@ -79,14 +87,14 @@
             {%- render 'header-logo' -%}
           </div>
           {% if section.settings.desktop_menu_type == 'mega' or section.settings.desktop_menu_type == 'dropdown' %}
-            <div class="hidden min-[960px]:flex justify-start items-center">
+            <div class="hidden min-[960px]:flex justify-center items-center">
               {%- render 'header-desktop-nav',
                 text_uppercase: text_uppercase,
                 menu_color_scheme: section.settings.menu_color_scheme
               -%}
             </div>
           {% endif %}
-          <div class="flex items-center justify-end gap-[16px]">
+          <div class="flex items-center justify-end">
             {%- render 'header-desktop-icon-list', color_scheme: color_scheme -%}
           </div>
         {%- elsif logo_position == 'center left' -%}
@@ -97,7 +105,15 @@
                 data-drawer-menu-trigger
                 aria-label="Open menu"
               >
-                <ion-icon name="menu-outline" class="w-6 h-6"></ion-icon>
+                <svg
+                  class="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
               </button>
             </div>
           {% endif %}
@@ -112,20 +128,18 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
           </button>
-          <div class="flex justify-start items-center">
-            <div class="flex justify-start items-center {% if section.settings.desktop_menu_type == 'drawer' %}pl-[32px]{% endif %}">
-              {%- render 'header-logo' -%}
-            </div>
-            {% if section.settings.desktop_menu_type == 'mega' or section.settings.desktop_menu_type == 'dropdown' %}
-              <div class="hidden min-[960px]:flex justify-start items-center pl-[32px]">
-                {%- render 'header-desktop-nav',
-                  text_uppercase: text_uppercase,
-                  color_scheme: color_scheme,
-                  menu_color_scheme: section.settings.menu_color_scheme
-                -%}
-              </div>
-            {% endif %}
+          <div class="flex justify-start items-center {% if section.settings.desktop_menu_type == 'drawer' %}pl-[32px]{% endif %}">
+            {%- render 'header-logo' -%}
           </div>
+          {% if section.settings.desktop_menu_type == 'mega' or section.settings.desktop_menu_type == 'dropdown' %}
+            <div class="hidden min-[960px]:flex justify-start items-center pl-[32px]">
+              {%- render 'header-desktop-nav',
+                text_uppercase: text_uppercase,
+                color_scheme: color_scheme,
+                menu_color_scheme: section.settings.menu_color_scheme
+              -%}
+            </div>
+          {% endif %}
           <div class="flex items-center justify-end gap-[16px]">
             {%- render 'header-desktop-icon-list', color_scheme: color_scheme -%}
           </div>
@@ -137,7 +151,15 @@
                 data-drawer-menu-trigger
                 aria-label="Open menu"
               >
-                <ion-icon name="menu-outline" class="w-[24px] h-[24px]"></ion-icon>
+                <svg
+                  class="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
               </button>
             </div>
           {% endif %}
@@ -177,7 +199,15 @@
                 data-drawer-menu-trigger
                 aria-label="Open menu"
               >
-                <ion-icon name="menu-outline" class="w-6 h-6"></ion-icon>
+                <svg
+                  class="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
               </button>
             </div>
           {% else %}
@@ -215,7 +245,15 @@
                 data-drawer-menu-trigger
                 aria-label="Open menu"
               >
-                <ion-icon name="menu-outline" class="w-6 h-6"></ion-icon>
+                <svg
+                  class="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
               </button>
             </div>
           {% else %}
