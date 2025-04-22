@@ -47,7 +47,7 @@
     <div
       class="sm:flex flex-col max-w-container mx-auto responsive-padding-{{ section.id }}"
     >
-      <div class="{%- if logo_position == 'top center' or logo_position == 'top left' -%}h-full min-[960px]:pb-[20px] {% else %}h-[81px]{% endif %} {%- if logo_position == 'top center' or logo_position == 'top left' -%}h-full{% else %}h-[97px]{% endif %} pl-[24px] pr-[24px] flex flex-row w-full sm:grid {% if logo_position == 'left' or logo_position == 'center left' or logo_position == 'top left' %}sm:grid-cols-[auto_1fr_auto]{% else %}sm:grid-cols-3{% endif %}">
+      <div class="{%- if logo_position == 'top center' or logo_position == 'top left' -%}h-full min-[960px]:pb-[20px] {% else %}h-[81px]{% endif %} {%- if logo_position == 'top center' or logo_position == 'top left' -%}h-full{% else %}h-[97px]{% endif %} pl-[24px] pr-[24px] flex flex-row items-center justify-between w-full sm:grid {% if logo_position == 'left' or logo_position == 'center left' or logo_position == 'top left' %}sm:grid-cols-[auto_1fr_auto]{% else %}sm:grid-cols-3{% endif %}">
         {%- if logo_position == 'left' or logo_position == blank -%}
           {% if section.settings.desktop_menu_type == 'drawer' %}
             <div class="hidden min-[960px]:flex items-center pl-0 h-full">
@@ -83,7 +83,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
             </svg>
           </button>
-          <div class="flex justify-start items-center {% if section.settings.desktop_menu_type == 'drawer' %}pl-[32px]{% endif %}">
+          <div class="flex-1 flex justify-center items-center min-[960px]:justify-start {% if section.settings.desktop_menu_type == 'drawer' %}pl-[32px]{% endif %}">
             {%- render 'header-logo' -%}
           </div>
           {% if section.settings.desktop_menu_type == 'mega' or section.settings.desktop_menu_type == 'dropdown' %}
