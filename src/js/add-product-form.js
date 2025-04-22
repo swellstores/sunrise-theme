@@ -103,6 +103,7 @@ export class AddProductForm extends HTMLElement {
 
     const productId = this.productIdInput.value;
     const optionValues = this.optionValuesInput.value;
+    const allProductOptions = this.optionValuesInput.getAttribute("data-product-options");
     const purchaseOptionType = this.purchaseOptionTypeInput.value;
     const purchaseOptionPlan = this.purchaseOptionPlanInput.value;
     const quantity = Number(this.quantityInput.value);
@@ -110,7 +111,7 @@ export class AddProductForm extends HTMLElement {
     this.toggleLoader(true);
 
     try {
-      await CartAPI.addToCart(productId, '', optionValues, quantity, purchaseOptionType, purchaseOptionPlan);
+      await CartAPI.addToCart(productId, '', optionValues, allProductOptions, quantity, purchaseOptionType, purchaseOptionPlan);
       await this.updateCartCount()
     } catch (error) {
       console.error('Error handling add to cart:', error);
