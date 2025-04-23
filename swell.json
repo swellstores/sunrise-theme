@@ -3,7 +3,7 @@
 	"name": "Sunrise",
 	"description": "A sleek, fast, and modern ecommerce theme.",
 	"type": "theme",
-	"version": "1.0.36",
+	"version": "1.0.37",
 	"theme": {
 		"storefront": {
 			"app": "proxima"
