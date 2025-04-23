@@ -3,7 +3,7 @@
         "main": {
             "type": "collection-list-page",
             "settings": {
-                "color_scheme": "",
+                "color_scheme": "scheme-1",
                 "pre_heading": "Explore more",
                 "heading": "Discover our categories",
                 "heading_size": "small",

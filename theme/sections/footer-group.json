@@ -36,7 +36,16 @@
         "footer_text": "Quality materials, good designs, craftsmanship and sustainability.",
         "top_padding": 96,
         "bottom_padding": 96
-      }
+      },
+      "blocks": {
+        "menu": {
+          "type": "menu",
+          "settings": {
+            "menu": "footer_menu"
+          }
+        }
+      },
+      "block_order": ["menu"]
     }
   },
   "order": ["newsletter", "footer"]

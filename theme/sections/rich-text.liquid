@@ -4,13 +4,22 @@
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
 
-  assign text_alignment = section.settings.text_alignment
-  if text_alignment == 'center'
+  assign content_alignment = section.settings.content_alignment
+  if content_alignment == 'center'
     assign align_items_class = 'items-center'
-  elsif text_alignment == 'left'
+  elsif content_alignment == 'left'
     assign align_items_class = 'items-start'
   else
     assign align_items_class = 'items-end'
+  endif
+
+  assign desktop_content_width = section.settings.desktop_content_width
+  if desktop_content_width == 'medium'
+    assign content_width_class = 'max-w-[640px]'
+  elsif desktop_content_width == 'large'
+    assign content_width_class = 'max-w-[960px]'
+  else
+    assign content_width_class = 'max-w-[480px]'
   endif
 -%}
 
@@ -28,31 +37,33 @@
   }
 {% endstyle %}
 
-<div class="bg-[#F5F5F5] bg-{{ color_scheme }} text-{{ color_scheme }} text-{{ section.settings.text_alignment }} pl-[24px] pr-[24px] pt-[64px] pb-[64px] lg:p-[160px] responsive-padding-{{ section.id }}">
-  <div class="flex flex-col justify-center gap-[32px]">
+<div class="bg-[#F5F5F5] bg-{{ color_scheme }} text-{{ color_scheme }} text-{{ section.settings.content_alignment }} pl-[24px] pr-[24px] pt-[64px] pb-[64px] lg:p-[160px] responsive-padding-{{ section.id }}">
+  <div class="flex flex-col justify-center gap-[32px] w-full">
     <div class="flex flex-col gap-[4px] {{ align_items_class }}">
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'pre_heading' -%}
-            <div class="text-headline-x-small font-semibold font-pre-heading">
-              {{ block.settings.pre_heading }}
+            <div class="text-headline-x-small font-semibold font-pre-heading {{ content_width_class }}">
+              {{ block.settings.pre_heading | inline_editable: 'pre_heading' }}
             </div>
           {%- when 'heading' -%}
-            <h2 class="text-headline-small font-heading">{{ block.settings.heading }}</h2>
+            <h2 class="text-headline-small font-heading {{ content_width_class }}">
+              {{ block.settings.heading | inline_editable: 'heading' }}
+            </h2>
           {%- when 'text' -%}
-            <div class="font-display text-body-large formatted-text">
+            <div class="font-display text-body-large formatted-text {{ content_width_class }}">
               {{ block.settings.text | inline_editable: 'text' }}
             </div>
         {%- endcase -%}
       {%- endfor -%}
     </div>
 
-    <div class="flex flex-col gap-[16px] items-center">
+    <div class="flex flex-col gap-[16px] {{ align_items_class }}">
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'link' -%}
             {%- if block.settings.button_label != blank and block.settings.button_link -%}
-              <div class="flex">
+              <div class="flex flex-col {{ content_width_class }} {{ align_items_class }}">
                 {% render 'button',
                   text: block.settings.button_label,
                   href: block.settings.button_link,
@@ -82,8 +93,28 @@
     },
     {
       "type": "select",
-      "id": "text_alignment",
-      "label": "Text alignment",
+      "id": "desktop_content_width",
+      "label": "Desktop content width",
+      "default": "small",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
       "default": "left",
       "options": [
         {
@@ -202,7 +233,7 @@
     {
       "name": "Rich text",
       "settings": {
-        "text_alignment": "center",
+        "content_alignment": "center",
         "color_scheme": "scheme-1"
       },
       "blocks": [

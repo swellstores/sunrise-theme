@@ -26,7 +26,8 @@
     "header": {
       "type": "header",
       "settings": {
-        "color_scheme": "scheme-1"
+        "color_scheme": "scheme-1",
+        "menu": "main_menu"
       }
     }
   },

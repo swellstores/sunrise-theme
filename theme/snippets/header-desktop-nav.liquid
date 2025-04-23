@@ -5,7 +5,7 @@
   <nav role="navigation" class="flex justify-center h-full items-center w-full">
     <div class="nav-container">
       <ul class="flex h-full items-center {% if section.settings.logo_position == 'center' %}justify-start{% else %}justify-center{% endif %}">
-        {% assign selected_menu = section.settings.selected_menu | default: 'main-menu' %}
+        {% assign selected_menu = section.settings.menu | default: 'main-menu' %}
         {% assign menu_links = linklists[selected_menu].links %}
 
         {% for link in menu_links %}

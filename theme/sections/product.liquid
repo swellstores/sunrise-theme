@@ -493,8 +493,8 @@
                           -%}
                           <add-product-form>
                             <input type="hidden" name="product_id" value="{{ product.id }}">
-                            <input type="hidden" name="id" value="{{ selected_or_first_available_variant.id }}">
-                            <input type="hidden" name="quantity" value="1">     
+                            <input type="hidden" name="option_values" data-product-options="{{ product.options_with_values | json | url_encode }}" value="{{ selected_or_first_available_variant.selected_option_values | join: ',' }}">
+                            <input type="hidden" name="quantity" value="1">
                             <input type="hidden" name="purchase-option-type" value="{{ purchaseOptionType }}">
                             <input type="hidden" name="purchase-option-plan" value="{{ purchaseOptionPlan }}">                   
                             <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
@@ -533,31 +533,32 @@
         <accordion-root class="flex-col items-center justify-center gap-[16px]">
           <div class="flex flex-col gap-[16px]">
             {%- for block in section.blocks -%}
-              {%- if block.type == 'accordion_item' -%}
-                <div class="w-full overflow-hidden border-[#F5F5F5] border rounded-[4px] p-[16px]">
-                  <accordion-trigger
-                    role="button"
-                    aria-expanded="false"
-                    class="text-title-medium font-display flex w-full items-center justify-between h-full"
-                  >
-                    {{ block.settings.trigger }}
-                    <ion-icon
-                      name="chevron-down-outline"
-                      aria-label="Toggle accordion item"
-                      class="h-4 w-4 transition-transform"
+              {% case block.type %}
+                {% when 'accordion_item' %}
+                  <div class="w-full overflow-hidden border-[#F5F5F5] border rounded-[4px] p-[16px]">
+                    <accordion-trigger
+                      role="button"
+                      aria-expanded="false"
+                      class="text-title-medium font-display flex w-full items-center justify-between h-full"
                     >
-                    </ion-icon>
-                  </accordion-trigger>
-                  <accordion-content
-                    role="region"
-                    class="text-base grid grid-rows-[0fr] opacity-0 overflow-hidden transition-all duration-300 ease-in-out"
-                  >
-                    <div class="overflow-hidden text-left text-body-small font-display formatted-text">
-                      {{ block.settings.content }}
-                    </div>
-                  </accordion-content>
-                </div>
-              {%- endif -%}
+                      {{ block.settings.trigger | inline_editable: 'trigger' }}
+                      <ion-icon
+                        name="chevron-down-outline"
+                        aria-label="Toggle accordion item"
+                        class="h-4 w-4 transition-transform"
+                      >
+                      </ion-icon>
+                    </accordion-trigger>
+                    <accordion-content
+                      role="region"
+                      class="text-base grid grid-rows-[0fr] opacity-0 overflow-hidden transition-all duration-300 ease-in-out"
+                    >
+                      <div class="overflow-hidden text-left text-body-small font-display formatted-text">
+                        {{ block.settings.content | inline_editable: 'content' }}
+                      </div>
+                    </accordion-content>
+                  </div>
+                {% endcase %}
             {%- endfor -%}
           </div>
         </accordion-root>
