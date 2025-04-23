@@ -44,10 +44,12 @@
         {%- case block.type -%}
           {%- when 'pre_heading' -%}
             <div class="text-headline-x-small font-semibold font-pre-heading {{ content_width_class }}">
-              {{ block.settings.pre_heading }}
+              {{ block.settings.pre_heading | inline_editable: 'pre_heading' }}
             </div>
           {%- when 'heading' -%}
-            <h2 class="text-headline-small font-heading {{ content_width_class }}">{{ block.settings.heading }}</h2>
+            <h2 class="text-headline-small font-heading {{ content_width_class }}">
+              {{ block.settings.heading | inline_editable: 'heading' }}
+            </h2>
           {%- when 'text' -%}
             <div class="font-display text-body-large formatted-text {{ content_width_class }}">
               {{ block.settings.text | inline_editable: 'text' }}
