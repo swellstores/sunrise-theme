@@ -24,15 +24,13 @@
   <div class="max-w-[1046px] flex flex-col justify-center items-center">
     {%- for block in section.blocks -%}
       {%- case block.type -%}
-        {%- when 'pre_heading' -%}
-          <div class="font-display text-headline-small text-center font-pre-heading">
-            {{ block.settings.pre_heading }}
-          </div>
         {%- when 'heading' -%}
-          <h2 class="font-display font-heading text-headline-small text-center mb-[8px]">{{ block.settings.heading }}</h2>
+          <h2 class="font-display font-heading text-headline-small text-center mb-[8px]">
+            {{ block.settings.heading | inline_editable: 'heading' }}
+          </h2>
         {%- when 'text' -%}
           <div class="font-display text-body-large text-center formatted-text">
-            {{ block.settings.text }}
+            {{ block.settings.text | inline_editable: 'text' }}
           </div>
         {%- when 'email_form' -%}
           <div class="flex w-full pt-[32px]">
@@ -136,7 +134,7 @@
   "blocks": [
     {
       "type": "heading",
-        "name": "Heading",
+      "name": "Heading",
       "limit": 1,
       "settings": [
         {

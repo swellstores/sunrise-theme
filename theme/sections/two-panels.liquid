@@ -66,19 +66,19 @@
                 <div class="flex flex-col gap-[8px] text-{{ block.settings.text_alignment }}">
                   {%- if block.settings.pre_heading != blank -%}
                     <div class="font-display text-body-large font-normal">
-                      {{ block.settings.pre_heading }}
+                      {{ block.settings.pre_heading | inline_editable: 'pre_heading' }}
                     </div>
                   {%- endif -%}
 
                   {%- if block.settings.heading != blank -%}
                     <h2 class="font-display {% if block.settings.heading_size == 'small' %}text-headline-small{% elsif block.settings.heading_size == 'medium' %}text-headline-medium{% elsif block.settings.heading_size == 'large' %}text-headline-large{% endif %}">
-                      {{ block.settings.heading }}
+                      {{ block.settings.heading | inline_editable: 'heading' }}
                     </h2>
                   {%- endif -%}
 
                   {%- if block.settings.text != blank -%}
                     <div class="font-display text-body-large formatted-text">
-                      {{ block.settings.text }}
+                      {{ block.settings.text | inline_editable: 'text' }}
                     </div>
                   {%- endif -%}
                 </div>
