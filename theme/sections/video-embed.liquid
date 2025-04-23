@@ -69,7 +69,7 @@
                 {%- case block.type -%}
                   {%- when 'pre_heading' -%}
                     <p class="text-headline-x-small font-display font-pre-heading">
-                      {{ block.settings.pre_heading }}
+                      {{ block.settings.pre_heading | inline_editable: 'pre_heading' }}
                     </p>
                   {%- when 'heading' -%}
                     {% assign heading_exists = true %}
@@ -84,10 +84,12 @@
                     {%- case block.type -%}
                       {%- when 'heading' -%}
                         <h2 class="text-headline-small font-display font-heading">
-                          {{ block.settings.heading }}
+                          {{ block.settings.heading | inline_editable: 'heading' }}
                         </h2>
                       {%- when 'text' -%}
-                        <p class="text-body-large font-display formatted-text">{{ block.settings.text }}</p>
+                        <p class="text-body-large font-display formatted-text">
+                          {{ block.settings.text | inline_editable: 'text' }}
+                        </p>
                     {%- endcase -%}
                   {%- endfor -%}
                 </div>

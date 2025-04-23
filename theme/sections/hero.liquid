@@ -87,7 +87,7 @@
               {%- case block.type -%}
                 {%- when 'pre_heading' -%}
                   <p class="font-display text-title-medium font-pre-heading">
-                    {{ block.settings.pre_heading }}
+                    {{ block.settings.pre_heading | inline_editable: 'pre_heading' }}
                   </p>
                 {%- when 'heading' -%}
                   <h2
@@ -105,7 +105,7 @@
                   </h2>
                 {%- when 'text' -%}
                   <div class="font-display text-body-large sm:text-body-large formatted-text">
-                    {{ block.settings.text }}
+                    {{ block.settings.text | inline_editable: 'text' }}
                   </div>
               {%- endcase -%}
             {%- endfor -%}
