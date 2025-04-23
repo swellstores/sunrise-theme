@@ -17,7 +17,7 @@
       data-purchase-option-type="{{ purchaseOptionType}}"
       data-purchase-option-plan="{{ purchaseOptionPlan }}"
     >
-      {{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}
+      {{ product.selected_or_first_available_variant.price | money }}
     </div>
   
   {%- if product.purchase_options.subscription -%}
@@ -26,12 +26,12 @@
         <div class="relative mb-2 block">
           <input id="standard" type="checkbox" name="purchase-option" value="standard" class="absolute inset-0 opacity-0" checked="checked">
           <div id="standard-div" class="relative flex w-full cursor-pointer rounded border px-6 py-4 text-sm transition-all {{ activeBorderClass }}"
-            data-active-border-class="{{ activeBorderClass }}" data-inactive-border-class="{{ inactiveBorderClass }}" data-price="{{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}"
+            data-active-border-class="{{ activeBorderClass }}" data-inactive-border-class="{{ inactiveBorderClass }}" data-price="{{ product.selected_or_first_available_variant.price | money }}"
           >
             <span>One-time Purchase</span>
             <span class="ml-auto inline-block font-semibold">
               <span id="standard-div-price">
-                {{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}
+                {{ product.selected_or_first_available_variant.price | money }}
               </span> 
             </span>
           </div>
@@ -68,7 +68,7 @@
                 endif
 
                 assign intervalCount = plan.billing_schedule.interval_count
-                assign moneyText = plan.price | money_without_trailing_zeros
+                assign moneyText = plan.price | money
                 assign moneyText = moneyText | append: '/'
                 if intervalCount == 1
                   assign text = 'Every ' | append: interval
@@ -94,7 +94,7 @@
                 assign optionText = text | append: trialText
                 assign optionText = optionText | append: moneyText
               -%}
-              <option id={{ plan.id }} role="option" value={{ plan.id }} data-price="{{ plan.price | money_without_trailing_zeros }}" class="mx-4 my-3 flex cursor-pointer items-center rounded-md p-2 transition duration-200 text-primary-med">
+              <option id={{ plan.id }} role="option" value={{ plan.id }} data-price="{{ plan.price | money }}" class="mx-4 my-3 flex cursor-pointer items-center rounded-md p-2 transition duration-200 text-primary-med">
                 {{ optionText }}
               </option>
             {%- endfor -%}
