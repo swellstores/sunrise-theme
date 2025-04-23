@@ -1,0 +1,83 @@
+{
+  "accessibility": {
+    "skip_to_text": "Перейти к содержимому"
+  },
+  "general": {
+    "continue_shopping": "Продолжить покупки",
+    "slideshow_of": "из",
+    "breadcrumbs": {
+      "home": "Главная",
+      "collections": "Коллекции",
+      "products": "Товары",
+      "account": "Аккаунт",
+      "register": "Регистрация",
+      "addresses": "Адреса",
+      "activate_account": "Активировать аккаунт"
+    }
+  },
+  "onboarding": {
+    "product_title": "Пример названия товара",
+    "collection_title": "Название вашей коллекции"
+  },
+  "gift_cards": {
+    "issued": {
+      "how_to_use_gift_card": "Используйте код подарочной карты онлайн или QR-код в магазине",
+      "title": "Вот ваш баланс подарочной карты на {{ value }} для {{ shop }}!",
+      "subtext": "Ваша подарочная карта",
+      "gift_card_code": "Код подарочной карты",
+      "shop_link": "Посетить интернет-магазин",
+      "add_to_apple_wallet": "Добавить в Apple Wallet",
+      "qr_image_alt": "QR-код — отсканируйте для использования подарочной карты",
+      "copy_code": "Скопировать код подарочной карты",
+      "expiration_date": "Истекает {{ expires_on }}",
+      "copy_code_success": "Код успешно скопирован",
+      "expired": "Истек"
+    }
+  },
+  "sections": {
+    "collection-list": {
+      "placeholder": "Название вашей коллекции"
+    },
+    "login": {
+      "title": "Вход",
+      "email_placeholder": "Электронная почта",
+      "password_placeholder": "Пароль",
+      "forgot_password": "Забыли пароль?",
+      "create_account": "Создать аккаунт",
+      "sign_in": "Войти",
+      "error": "Ошибка"
+    },
+    "announcements": {
+      "announcement_slideshow": "Слайд-шоу объявлений",
+      "announcement": "Объявление"
+    },
+    "announcement": {
+      "name": "Объявление",
+      "dismiss": "Закрыть",
+      "blocks": {
+        "announcement": {
+          "name": "Объявление"
+        }
+      }
+    },
+    "related_products": {
+      "title": "Вам также может понравиться",
+      "no_products": "Нет доступных связанных товаров."
+    },
+    "collection": {
+      "filters": {
+        "filters": "Фильтр",
+        "from": "От",
+        "to": "До",
+        "selected": "Выбрано",
+        "sort_by": "Сортировать по",
+        "reset": "Сбросить"
+      }
+    }
+  },
+  "templates": {
+    "404": {
+      "title": "Страница не найдена"
+    }
+  }
+}
