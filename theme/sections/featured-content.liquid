@@ -336,14 +336,14 @@
                         {% endif %}
                     "
                   >
-                    {{ block.settings.heading }}
+                    {{ block.settings.heading | inline_editable: 'heading' }}
                   </h2>
                 {%- endif -%}
                 {%- if block.settings.description != blank -%}
                   <div
                     class="text-body-medium font-display overflow-hidden formatted-text"
                   >
-                    {{ block.settings.description }}
+                    {{ block.settings.description | inline_editable: 'description' }}
                   </div>
                 {%- endif -%}
                 {%- if block.settings.button_text != blank -%}
