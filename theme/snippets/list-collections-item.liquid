@@ -8,7 +8,12 @@
   endif
 -%}
 
-<a class="flex flex-col group" href="{{ collection.url }}">
+<a class="
+  flex flex-col group"
+  {% if collection.url %}
+    href="{{ collection.url }}"
+  {% endif %}
+>
   <div class="{{ ratio_class }} mb-3 overflow-hidden group">
     {% if collection.featured_image != blank %}
       {% render 'image',
@@ -16,19 +21,19 @@
         alt: collection.featured_image.alt,
         class: 'w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110'
       %}
-    {% else %}
+    {% else placeholder %}
       <div
         class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
       >
         {{ placeholder | placeholder_svg_tag }}
       </div>
+    {% else %}
+      <div class="w-full h-full bg-[#F5F5F5] border border-color-{{ color_scheme }}"></div>
     {% endif %}
   </div>
-  <h3 class="font-display text-body-large inline-flex items-center gap-3 justify-{{ justify_text }}">
-    {% if collection.title %}
+  {% if collection.title %}
+    <h3 class="font-display text-body-large inline-flex items-center gap-3 justify-{{ justify_text }}">
       {{ collection.title | escape }}
-    {% else %}
-      Your category's name
-    {% endif %}
-  </h3>
+    </h3>
+  {% endif %}
 </a>

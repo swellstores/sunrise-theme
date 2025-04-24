@@ -23,47 +23,50 @@
 {% endstyle %}
 
 <div
-  class="pl-[24px] pr-[24px] lg:px-[160px] lg:py-[96px] bg-{{ color_scheme }} responsive-padding-{{ section.id }}"
+  class="pl-[24px] pr-[24px] lg:px-[160px] lg:py-[96px] bg-{{ color_scheme }} text-{{ color_scheme }} responsive-padding-{{ section.id }}"
 >
-  {%- if section.settings.pre_heading != blank -%}
-    <p
-      class="
-        text-headline-x-small font-display font-pre-heading
-        {% case section.settings.header_alignment %}
-          {% when 'center' %} text-center
-          {% when 'right' %} text-right
-          {% else %} text-left
-        {% endcase %}
-      "
-    >
-      {{ section.settings.pre_heading }}
-    </p>
-  {%- endif -%}
+  <p
+    class="
+      text-headline-x-small font-display font-pre-heading
+      {% case section.settings.header_alignment %}
+        {% when 'center' %} text-center
+        {% when 'right' %} text-right
+        {% else %} text-left
+      {% endcase %}
+    "
+  >
+    {{ section.settings.pre_heading | default: 'Explore more' }}
+  </p>
 
-  {%- if section.settings.heading != blank -%}
-    <h2
-      class="
-        mb-[48px] font-display font-heading
-        {% case section.settings.heading_size %}
-          {% when 'small' %}text-headline-small
-          {% when 'medium' %}text-headline-medium
-          {% when 'large' %}text-headline-large
+  <h2
+    class="
+      mb-[48px] font-display font-heading
+      {% case section.settings.heading_size %}
+        {% when 'small' %}text-headline-small
+        {% when 'medium' %}text-headline-medium
+        {% when 'large' %}text-headline-large
+      {% endcase %}
+        {% case section.settings.header_alignment %}
+        {% when 'center' %} text-center
+        {% when 'right' %} text-right
+        {% else %} text-left
         {% endcase %}
-          {% case section.settings.header_alignment %}
-          {% when 'center' %} text-center
-          {% when 'right' %} text-right
-          {% else %} text-left
-          {% endcase %}
-      "
-    >
-      {{ section.settings.heading }}
-    </h2>
-  {%- endif -%}
+    "
+  >
+    {{ section.settings.heading | default: 'Discover our categories'}}
+  </h2>
 
   <div class="grid grid-cols-{{ mobile_layout }} sm:grid-cols-2 md:grid-cols-{{ columns }} gap-{{ gap }}">
-    {%- for collection in collections -%}
-      {% render 'list-collections-item', collection: collection %}
-    {%- endfor -%}
+    {% if collections.count > 0 %}
+      {%- for collection in collections -%}
+        {% render 'list-collections-item', collection: collection, color_scheme: color_scheme %}
+      {%- endfor -%}
+    {% else %}
+      {%- for i in (1..3) -%}
+        {% assign placeholder = 'collection-' | append: forloop.index %}
+        {% render 'list-collections-item', placeholder: placeholder %}
+      {%- endfor -%}
+    {% endif %}
   </div>
 </div>
 
