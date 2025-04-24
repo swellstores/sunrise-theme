@@ -76,9 +76,9 @@
         class="
           grid gap-[16px]
           items-stretch
-          {% if section.settings.mobile_columns == '1 column' %} auto-rows-fr
+          {% if section.settings.mobile_columns == '1 column' %} grid-cols-1
           {% else %} grid-cols-2
-          {% endif %} lg:grid-cols-{{ columns }}
+          {% endif %} md:grid-cols-{{ columns }}
         "
       >
         {%- for product in selected_collection.products limit: section.settings.max_products -%}
@@ -122,9 +122,9 @@
         class="
           grid gap-[16px]
           items-stretch
-          {% if section.settings.mobile_columns == '1 column' %} auto-rows-fr
+          {% if section.settings.mobile_columns == '1 column' %} grid-cols-1
           {% else %} grid-cols-2
-          {% endif %} lg:grid-cols-{{ columns }}
+          {% endif %} md:grid-cols-{{ columns }}
         "
       >
         {%- for i in (1..section.settings.columns) -%}
@@ -156,6 +156,8 @@
       </div>
     {% endif %}
   </div>
+  {%- comment -%}force tailwind to prepare necessary classes{%- endcomment -%}
+  <div class="hidden md:grid-cols-1 md:grid-cols-2 md:grid-cols-3 md:grid-cols-4 md:grid-cols-5" />
 </div>
 
 {% schema %}
