@@ -61,7 +61,7 @@
     ></div>
   </div>
   {%- if section.blocks.size > 0 -%}
-    <div class="absolute inset-0 w-full h-full pl-[24px] pr-[24px] lg:pl-[160px] lg:pr-[160px]">
+    <div class="absolute inset-0 w-full h-full">
       <div class="max-w-container m-auto w-full h-full flex {{ content_alignment }}">
         <div
           class="
@@ -80,6 +80,8 @@
           style="
             {% if content_alignment contains 'items-start' %} padding-top: {{ section.settings.vertical_padding }}px; {% endif %}
             {% if content_alignment contains 'items-end' %} padding-bottom: {{ section.settings.vertical_padding }}px; {% endif %}
+            {% if content_alignment contains 'justify-start' %} padding-left: {{ section.settings.horizontal_padding }}px; {% endif %}
+            {% if content_alignment contains 'justify-end' %} padding-right: {{ section.settings.horizontal_padding }}px; {% endif %}
           "
         >
           <div class="flex flex-col gap-[8px]">
@@ -316,10 +318,44 @@
       "id": "vertical_padding",
       "label": "Vertical padding",
       "default": 16,
-      "min": 4,
+      "min": 0,
       "max": 160,
       "step": 4,
-      "unit": "px"
+      "unit": "px",
+      "conditions": {
+        "content_alignment": {
+          "$in": [
+            "items-start justify-start",
+            "items-start justify-center",
+            "items-start justify-end",
+            "items-end justify-start",
+            "items-end justify-center",
+            "items-end justify-end"
+          ]
+        }
+      }
+    },
+    {
+      "type": "range",
+      "id": "horizontal_padding",
+      "label": "Horizontal padding",
+      "default": 16,
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "conditions": {
+        "content_alignment": {
+          "$in": [
+            "items-start justify-start",
+            "items-start justify-end",
+            "items-center justify-start",
+            "items-center justify-end",
+            "items-end justify-start",
+            "items-end justify-end"
+          ]
+        }
+      }
     },
     {
       "type": "checkbox",
