@@ -14,7 +14,7 @@
     <div class="flex flex-col gap-[4px]">
       {%- if show_date -%}
         <p class="text-body-medium font-display text-secondary-{{ section.settings.color_scheme }}">
-          {{ article.published_at | date: '%B %d %Y' }}
+          {{ article.published_at | time_tag: format: 'date' }}
         </p>
       {%- endif -%}
       {%- if show_author -%}
