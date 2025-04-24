@@ -59,7 +59,7 @@
                 </div>
                 {% render 'button',
                   type: 'submit',
-                  text: 'Submit',
+                  text: section.settings.button_text,
                   color_scheme: color_scheme,
                   variant: section.settings.button_variant
                 %}
@@ -109,6 +109,12 @@
         { "value": "outline", "label": "Outline" }
       ],
       "default": "solid"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Submit"
     },
     {
       "type": "range",
