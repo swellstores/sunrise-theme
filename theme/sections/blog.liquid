@@ -18,10 +18,10 @@
   }
 {% endstyle %}
 
-<div class="bg-{{ color_scheme }} text-{{ color_scheme }} all-blogs mx-auto p-[24px] lg:pl-[160px] lg:pr-[160px] responsive-padding-{{ section.id }}">
+<div class="bg-{{ color_scheme }} text-{{ color_scheme }} all-blogs mx-auto pl-[24px] pr-[24px] lg:pl-[160px] lg:pr-[160px] responsive-padding-{{ section.id }}">
   {%- if blog.articles.count > 0 -%}
     {%- paginate blog.articles by 6 -%}
-        <div class="flex flex-col items-center gap-4 py-7 text-center">
+        <div class="flex flex-col items-center gap-4 text-center">
           <h1 class="font-heading text-display-large">{{ blog.title | escape }}</h1>
         </div>
         <div class="grid p-4 gap-y-[16px] sm:grid-cols-2 gap-x-[16px] lg:gap-y-[48px] lg:grid-cols-3 h-100 lg:grid-rows-3">
@@ -40,7 +40,7 @@
         {%- endif -%}
     {%- endpaginate -%}
   {%- else -%}
-    <div class="flex flex-col items-center gap-4 py-7 text-center">
+    <div class="flex flex-col items-center gap-4 text-center">
       <h1 class="font-heading text-display-large text-{{ color_scheme }}">Our blog</h1>
     </div>
     <div class="grid p-4 gap-y-[16px] sm:grid-cols-2 gap-x-[16px] lg:gap-y-[48px] lg:grid-cols-3 h-100 lg:grid-rows-1">
