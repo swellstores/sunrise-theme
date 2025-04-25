@@ -30,8 +30,9 @@
       <p class="text-body-large font-display">{{ article.excerpt | truncate: 100 }}</p>
     {%- endif -%}
     <div class="flex">
+      {% assign read_more_text = 'sections.blog.read_more' | t %}
       {% render 'button',
-        text: 'sections.blog.read_more' | t,
+        text: read_more_text,
         href: article.url,
         color_scheme: section.settings.color_scheme
       %}

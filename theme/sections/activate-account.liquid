@@ -49,9 +49,10 @@
         {%- endif -%}
       </div>
     </div>
+    {% assign submit_text = 'customer.activate_account.submit' | t %}
     {% render 'button',
       type: 'submit',
-      text: 'customer.activate_account.submit' | t,
+      text: submit_text,
       color_scheme: section.settings.color_scheme
     %}
     <div class="flex items-center justify-center gap-1 text-xs">

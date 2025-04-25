@@ -82,9 +82,6 @@
     }
   },
   "sections": {
-    "collection-list": {
-      "placeholder": "Your collection's name"
-    },
     "login": {
       "title": "Login",
       "email": "Email address",
@@ -130,10 +127,6 @@
       "description": "Announcement slideshow",
       "dismiss": "Dismiss announcement",
       "slideshow_of": "of"
-    },
-    "related_products": {
-      "title": "You may also like",
-      "no_products": "No related products available."
     },
     "collection": {
       "filters": {

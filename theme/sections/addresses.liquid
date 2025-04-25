@@ -86,8 +86,9 @@
         </ul>
 
         <div id="add-address-button">
+          {% assign add_text = 'customer.addresses.add' | t %}
           {% render 'button',
-            text: 'customer.addresses.add' | t,
+            text: add_text,
             type: 'button',
             name: 'toggle-new-address',
             color_scheme: color_scheme
@@ -106,58 +107,64 @@
             <div class="mb-16 flex w-512 flex-col gap-4">
               <div class="flex gap-[16px]">
                 <div class="relative w-full">
+                  {% assign first_name_text = 'customer.addresses.first_name' | t %}
                   {% render 'input',
                     type: 'text',
                     name: 'address[first_name]',
                     id: 'address[first_name]',
                     value: form.first_name,
-                    placeholder: 'customer.addresses.first_name' | t
+                    placeholder: first_name_text
                   %}
                 </div>
                 <div class="relative w-full">
+                  {% assign last_name_text = 'customer.addresses.last_name' | t %}
                   {% render 'input',
                     type: 'text',
                     name: 'address[last_name]',
                     id: 'address[last_name]',
                     value: form.last_name,
-                    placeholder: 'customer.addresses.last_name' | t
+                    placeholder: last_name_text
                   %}
                 </div>
               </div>
               <div class="relative">
+                {% assign company_text = 'customer.addresses.company' | t %}
                 {% render 'input',
                   type: 'text',
                   name: 'address[company]',
                   id: 'address[company]',
                   value: form.company,
-                  placeholder: 'customer.addresses.company' | t
+                  placeholder: company_text
                 %}
               </div>
               <div class="relative">
+                {% assign address1_text = 'customer.addresses.address1' | t %}
                 {% render 'input',
                   type: 'text',
                   name: 'address[address1]',
                   id: 'address[address1]',
                   value: form.address1,
-                  placeholder: 'customer.addresses.address1' | t
+                  placeholder: address1_text
                 %}
               </div>
               <div class="relative">
+                {% assign address2_text = 'customer.addresses.address2' | t %}
                 {% render 'input',
                   type: 'text',
                   name: 'address[address2]',
                   id: 'address[address2]',
                   value: form.address2,
-                  placeholder: 'customer.addresses.address2' | t
+                  placeholder: address2_text
                 %}
               </div>
               <div class="relative">
+                {% assign city_text = 'customer.addresses.city' | t %}
                 {% render 'input',
                   type: 'text',
                   name: 'address[city]',
                   id: 'address[city]',
                   value: form.city,
-                  placeholder: 'customer.addresses.city' | t
+                  placeholder: city_text
                 %}
               </div>
               <div>
@@ -179,21 +186,23 @@
                 ></select>
               </div>
               <div class="relative">
+                {% assign zip_text = 'customer.addresses.zip' | t %}
                 {% render 'input',
                   type: 'text',
                   name: 'address[zip]',
                   id: 'address[zip]',
                   value: form.zip,
-                  placeholder: 'customer.addresses.zip' | t
+                  placeholder: zip_text
                 %}
               </div>
               <div class="relative">
+                {% assign phone_text = 'customer.addresses.phone' | t %}
                 {% render 'input',
                   type: 'tel',
                   name: 'address[phone]',
                   id: 'address[phone]',
                   value: form.zip,
-                  placeholder: 'customer.addresses.phone' | t
+                  placeholder: phone_text
                 %}
               </div>
               <div>
@@ -201,16 +210,18 @@
                 <label class="">{{ 'customer.addresses.set_default' | t }}</label>
               </div>
               <div class="flex gap-4 items-center justify-end">
+                {% assign cancel_text = 'customer.addresses.cancel' | t %}
                 {% render 'button',
                   type: 'button',
-                  text: 'customer.addresses.cancel' | t,
+                  text: cancel_text,
                   name: 'cancel-button',
                   color_scheme: color_scheme,
                   variant: 'secondary'
                 %}
+                {% assign submit_text = 'customer.addresses.submit' | t %}
                 {% render 'button',
                   type: 'submit',
-                  text: 'customer.addresses.submit' | t,
+                  text: submit_text,
                   color_scheme: color_scheme
                 %}
               </div>
@@ -230,48 +241,53 @@
             {%- form 'customer_address', address, return_to: '/account/addresses' -%}
               <div class="mb-16 flex w-512 flex-col gap-4">
                 <div class="relative">
+                  {% assign first_name_text = 'customer.addresses.first_name' | t %}
                   {% render 'input',
                     type: 'text',
                     name: 'address[first_name]',
                     id: 'address[first_name]',
                     value: form.first_name,
-                    placeholder: 'customer.addresses.first_name' | t
+                    placeholder: first_name_text
                   %}
                 </div>
                 <div class="relative">
+                  {% assign last_name_text = 'customer.addresses.last_name' | t %}
                   {% render 'input',
                     type: 'text',
                     name: 'address[last_name]',
                     id: 'address[last_name]',
                     value: form.last_name,
-                    placeholder: 'customer.addresses.last_name' | t
+                    placeholder: last_name_text
                   %}
                 </div>
                 <div class="relative">
+                  {% assign company_text = 'customer.addresses.company' | t %}
                   {% render 'input',
                     type: 'text',
                     name: 'address[company]',
                     id: 'address[company]',
                     value: form.company,
-                    placeholder: 'customer.addresses.company' | t
+                    placeholder: company_text
                   %}
                 </div>
                 <div class="relative">
+                  {% assign address1_text = 'customer.addresses.address1' | t %}
                   {% render 'input',
                     type: 'text',
                     name: 'address[address1]',
                     id: 'address[address1]',
                     value: form.address1,
-                    placeholder: 'customer.addresses.address1' | t
+                    placeholder: address1_text
                   %}
                 </div>
                 <div class="relative">
+                  {% assign address2_text = 'customer.addresses.address2' | t %}
                   {% render 'input',
                     type: 'text',
                     name: 'address[address2]',
                     id: 'address[address2]',
                     value: form.address2,
-                    placeholder: 'customer.addresses.address2' | t
+                    placeholder: address2_text
                   %}
                 </div>
                 <div class="relative">
@@ -299,21 +315,23 @@
                   ></select>
                 </div>
                 <div class="relative">
+                  {% assign zip_text = 'customer.addresses.zip' | t %}
                   {% render 'input',
                     type: 'text',
                     name: 'address[zip]',
                     id: 'address[zip]',
                     value: form.zip,
-                    placeholder: 'customer.addresses.zip' | t
+                    placeholder: zip_text
                   %}
                 </div>
                 <div class="relative">
+                  {% assign phone_text = 'customer.addresses.phone' | t %}
                   {% render 'input',
                     type: 'tel',
                     name: 'address[phone]',
                     id: 'address[phone]',
                     value: form.zip,
-                    placeholder: 'customer.addresses.phone' | t
+                    placeholder: phone_text
                   %}
                 </div>
                 <div>
@@ -330,16 +348,18 @@
                   <label for="address[default]" class="">{{ 'customer.addresses.set_default' | t }}</label>
                 </div>
                 <div class="flex gap-4 items-center">
+                  {% assign cancel_text = 'customer.addresses.cancel' | t %}
                   {% render 'button',
                     type: 'button',
-                    text: 'customer.addresses.cancel' | t,
+                    text: cancel_text,
                     name: 'cancel-button',
                     color_scheme: color_scheme,
                     variant: 'secondary'
                   %}
+                  {% assign submit_text = 'customer.addresses.submit' | t %}
                   {% render 'button',
                     type: 'submit',
-                    text: 'customer.addresses.submit' | t,
+                    text: submit_text,
                     color_scheme: color_scheme
                   %}
                 </div>

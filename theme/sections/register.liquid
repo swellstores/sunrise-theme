@@ -37,37 +37,41 @@
       {%- endif -%}
       <div class="flex max-w-[354px] sm:w-[406px] max-w-full flex-col gap-4">
         <div class="relative">
+          {% assign first_name_text = 'sections.register.first_name' | t %}
           {% render 'input',
             type: 'text',
             name: 'customer[first_name]',
             id: 'customer[first_name]',
-            placeholder: 'sections.register.first_name' | t
+            placeholder: first_name_text
           %}
         </div>
         <div class="relative">
+          {% assign last_name_text = 'sections.register.last_name' | t %}
           {% render 'input',
             type: 'text',
             name: 'customer[last_name]',
             id: 'customer[last_name]',
-            placeholder: 'sections.register.last_name' | t
+            placeholder: last_name_text
           %}
         </div>
         <div class="relative">
+          {% assign email_text = 'sections.register.email' | t %}
           {% render 'input',
             type: 'email',
             name: 'customer[email]',
             id: 'customer[email]',
             autocomplete: 'email',
-            placeholder: 'sections.register.email' | t
+            placeholder: email_text
           %}
         </div>
         <div class="relative">
+          {% assign password_text = 'sections.register.password' | t %}
           {% render 'input',
             type: 'password',
             name: 'customer[password]',
             id: 'customer[password]',
             autocomplete: 'current-password',
-            placeholder: 'sections.register.password' | t
+            placeholder: password_text
           %}
         </div>
         <div class="flex gap-[16px] sm:gap-[32px] items-center justify-end mt-[32px] flex-col-reverse sm:flex-row">
@@ -80,9 +84,10 @@
             </a>
           </div>
           <div class="sm:w-[101px] w-full">
+            {% assign create_account_text = 'sections.register.create_account' | t %}
             {% render 'button',
               type: 'submit',
-              text: 'sections.register.create_account' | t,
+              text: create_account_text,
               color_scheme: color_scheme
             %}
           </div>

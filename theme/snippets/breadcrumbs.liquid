@@ -40,7 +40,8 @@
         </a>
       </li>
       <li aria-current="page">
-        {{ current_tags.first | default: collection.title | default: 'general.breadcrumbs.products' | t }}
+        {% assign default_products_text = 'general.breadcrumbs.products' | t %}
+        {{ current_tags.first | default: collection.title | default: default_products_text }}
       </li>
 
     {% when 'article' %}
