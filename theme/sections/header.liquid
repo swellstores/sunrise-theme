@@ -163,6 +163,16 @@
           display: flex;
           align-items: center;
         }
+        {% if section.settings.desktop_menu_type == 'drawer' %}
+          .header-item--menu-trigger {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+          }
+        {% endif %}
       {% else %}
         .header-item--logo-nav {
           display: flex;
@@ -178,6 +188,37 @@
           display: flex;
           justify-content: flex-start;
         }
+        {% if section.settings.desktop_menu_type == 'drawer' %}
+          .header-inner {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding-bottom: 0;
+            height: 97px;
+          }
+          .header-item--menu-trigger {
+            order: 0;
+            margin-right: 32px;
+            display: flex;
+            align-items: center;
+            height: 100%;
+          }
+          .header-item--logo-nav {
+            order: 1;
+            display: flex;
+            align-items: center;
+            height: 100%;
+          }
+          .header-item--logo {
+            padding-bottom: 0;
+            height: 100%;
+          }
+          .header-item--icon-list {
+            order: 2;
+            margin-left: auto;
+            height: 100%;
+          }
+        {% endif %}
       {% endif %}
     }
   {% endif %}
@@ -200,6 +241,9 @@
           order: 1;
           flex: 0 0 auto;
           justify-content: flex-start;
+          {% if section.settings.desktop_menu_type == 'drawer' %}
+            margin-left: 32px;
+          {% endif %}
         {% else %}
           order: 2;
           flex: 0 0 auto;
@@ -243,6 +287,13 @@
         gap: 16px;
         margin-left: auto;
       }
+      {% if section.settings.desktop_menu_type == 'drawer' %}
+        .header-item--menu-trigger {
+          order: 0;
+          flex: 0 0 auto;
+          margin-right: 0;
+        }
+      {% endif %}
     }
   {% endif %}
 {% endstyle %}
