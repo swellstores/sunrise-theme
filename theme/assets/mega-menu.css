@@ -15,12 +15,12 @@
 }
 
 .mega-menu-wrapper {
-  width: 100%;
+  width: 100vw;
   visibility: hidden;
   opacity: 0;
   z-index: -1;
   height: auto;
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 100%;
 }
@@ -136,9 +136,9 @@
 }
 
 .mega-menus-container {
-  position: absolute;
+  position: fixed;
   left: 0;
-  width: 100%;
+  width: 100vw;
   z-index: 30;
   height: auto;
   pointer-events: none;
