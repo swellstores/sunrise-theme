@@ -1,0 +1,221 @@
+{
+  "general": {
+    "continue_shopping": "Continuar comprando",
+    "breadcrumbs": {
+      "label": "Migas de pan",
+      "home": "Inicio",
+      "collections": "Colecciones",
+      "products": "Productos",
+      "account": "Cuenta",
+      "register": "Registrarse",
+      "addresses": "Direcciones",
+      "activate_account": "Activar cuenta"
+    },
+    "pagination": {
+      "label": "Paginación",
+      "page": "Página {{ number }}",
+      "next": "Siguiente",
+      "previous": "Anterior"
+    },
+    "search": {
+      "placeholder": "Buscar",
+      "submit": "Enviar búsqueda",
+      "no_results": "No se encontraron resultados para “{{ terms }}”",
+      "store": "Buscar en {{ store_name }}",
+      "dismiss": "Cerrar búsqueda"
+    },
+    "localization": {
+      "language": "Idioma",
+      "currency": "Moneda",
+      "title_language_and_currency": "Elige tu idioma y moneda",
+      "title_language": "Elige tu idioma",
+      "title_currency": "Elige tu moneda",
+      "submit": "Continuar"
+    },
+    "accordion": {
+      "toggle": "Alternar elemento"
+    },
+    "page_not_found": "Página no encontrada",
+    "share": "Compartir",
+    "loading": "Cargando..."
+  },
+  "customer": {
+    "log_out": "Cerrar sesión",
+    "log_in": "Iniciar sesión",
+    "account": {
+      "title": "Cuenta",
+      "my_orders": "Mis pedidos",
+      "orders": "Pedidos",
+      "address_book": "Libreta de direcciones",
+      "addresses": "Direcciones",
+      "no_orders_found": "No se encontraron pedidos."
+    },
+    "activate_account": {
+      "title": "Activar cuenta",
+      "subtext": "Crea tu contraseña para activar tu cuenta.",
+      "submit": "Activar",
+      "cancel": "Cancelar"
+    },
+    "addresses": {
+      "title": "Direcciones",
+      "default": "Dirección predeterminada",
+      "edit_address": "Editar dirección",
+      "first_name": "Nombre",
+      "last_name": "Apellido",
+      "company": "Empresa",
+      "address1": "Línea de dirección 1",
+      "address2": "Línea de dirección 2",
+      "city": "Ciudad",
+      "country": "País/región",
+      "province": "Provincia",
+      "zip": "Código postal",
+      "phone": "Número de teléfono (opcional)",
+      "set_default": "Establecer como dirección predeterminada",
+      "add": "Agregar dirección",
+      "new": "Nueva dirección",
+      "back": "Volver a la libreta de direcciones",
+      "cancel": "Cancelar",
+      "submit": "Guardar dirección",
+      "edit": "Editar",
+      "remove": "Eliminar",
+      "remove_confirm": "¿Estás seguro de que quieres eliminar esta dirección?"
+    }
+  },
+  "sections": {
+    "login": {
+      "title": "Iniciar sesión",
+      "email": "Dirección de correo electrónico",
+      "password": "Contraseña",
+      "forgot_password": "¿Olvidaste tu contraseña?",
+      "create_account": "Crear una cuenta",
+      "sign_in": "Iniciar sesión",
+      "error": "Tu intento de inicio de sesión no tuvo éxito. Por favor, intenta de nuevo."
+    },
+    "register": {
+      "title": "Crear cuenta",
+      "first_name": "Nombre",
+      "last_name": "Apellido",
+      "email": "Dirección de correo electrónico",
+      "password": "Contraseña",
+      "already_have_account": "¿Ya tienes una cuenta?",
+      "create_account": "Crear cuenta",
+      "error": "No se pudo crear tu cuenta. Por favor, intenta de nuevo."
+    },
+    "reset-password": {
+      "title": "Restablecer contraseña",
+      "subtext": "Ingresa una nueva contraseña para tu cuenta.",
+      "email": "Dirección de correo electrónico",
+      "password": "Contraseña",
+      "submit": "Restablecer contraseña",
+      "cancel": "Cancelar",
+      "error": "No se pudo restablecer tu contraseña. Por favor, intenta de nuevo."
+    },
+    "recover-password": {
+      "title": "Recuperar contraseña",
+      "subtext": "Te enviaremos un correo electrónico para restablecer tu contraseña.",
+      "email": "Dirección de correo electrónico",
+      "password": "Contraseña",
+      "submit": "Recuperar contraseña",
+      "cancel": "Cancelar",
+      "sent": "Correo electrónico enviado"
+    },
+    "blog": {
+      "read_more": "Leer más"
+    },
+    "announcement": {
+      "label": "Anuncio",
+      "description": "Presentación de anuncios",
+      "dismiss": "Cerrar anuncio",
+      "slideshow_of": "de"
+    },
+    "collection": {
+      "filters": {
+        "filters": "Filtros",
+        "filter_and_sort": "Filtrar y ordenar",
+        "active": "Filtros activos",
+        "from": "Desde",
+        "to": "Hasta",
+        "selected": "Seleccionado",
+        "sort_by": "Ordenar por",
+        "reset": "Restablecer",
+        "close": "Cerrar",
+        "clear_all": "Borrar todo",
+        "remove_label": "Eliminar filtro para {{ attribute }}"
+      }
+    },
+    "header": {
+      "menu": "Menú",
+      "submenu": "Submenú",
+      "cart": "Carrito de compras"
+    },
+    "product": {
+      "quantity": {
+        "label": "Cantidad para {{ product_name }}",
+        "increment": "Aumentar cantidad",
+        "decrement": "Disminuir cantidad"
+      },
+      "purchase": {
+        "one_time": "Compra única",
+        "every_interval": "Cada {{ interval }}",
+        "interval_year": "año",
+        "interval_year_plural": "años",
+        "interval_month": "mes",
+        "interval_month_plural": "meses",
+        "interval_week": "semana",
+        "interval_week_plural": "semanas",
+        "interval_day": "día",
+        "interval_day_plural": "días",
+        "interval_year_abbreviated": "año",
+        "interval_month_abbreviated": "mes",
+        "interval_week_abbreviated": "sem"
+      }
+    },
+    "cart": {
+      "title": "Tu carrito",
+      "empty": "Tu carrito está vacío",
+      "estimated_total": "Total estimado",
+      "view_cart": "Ver carrito",
+      "checkout": "Finalizar compra",
+      "continue_checkout": "Continuar con la compra",
+      "subtotal": "Subtotal",
+      "taxes_discounts_shipping_at_checkout": "Impuestos, descuentos y envío calculados al finalizar la compra.",
+      "headings": {
+        "product": "Producto",
+        "total": "Total",
+        "quantity": "Cantidad",
+        "discount": "Descuento"
+      },
+      "login": {
+        "title": "¿Tienes una cuenta?",
+        "faster": "para un checkout más rápido"
+      },
+      "item_count": {
+        "one": "{{ count }} artículo",
+        "other": "{{ count }} artículos"
+      }
+    },
+    "newsletter": {
+      "email": "Correo electrónico",
+      "success": "Te has suscrito a nuestro boletín."
+    },
+    "slideshow": {
+      "label": "Presentación",
+      "next": "Siguiente diapositiva",
+      "previous": "Diapositiva anterior"
+    }
+  },
+  "accessibility": {
+    "skip_to_text": "Saltar al contenido",
+    "browser_video_support": "Tu navegador no soporta la etiqueta de video.",
+    "close": "Cerrar",
+    "error": "Error"
+  },
+  "onboarding": {
+    "product_title": "Producto de ejemplo",
+    "collection_title": "Colección de ejemplo",
+    "blog_title": "Título de blog de ejemplo",
+    "blog_post_title": "Publicación de blog de ejemplo",
+    "blog_post_summary": "Una breve descripción de tu artículo.",
+    "blog_post_content": "Este es tu espacio para brillar. Reemplaza este texto con tu propia publicación de blog. Comparte la historia de tu tienda, destaca qué hace especiales a tus productos o ofrece consejos para conectar con tu audiencia. Una gran publicación puede atraer clientes, generar confianza y hacer que regresen. Comienza a escribir aquí para mostrar tu marca y aumentar el compromiso."
+  }
+}

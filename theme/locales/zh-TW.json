@@ -1,0 +1,221 @@
+{
+  "general": {
+    "continue_shopping": "繼續購物",
+    "breadcrumbs": {
+      "label": "導航路徑",
+      "home": "首頁",
+      "collections": "商品系列",
+      "products": "商品",
+      "account": "帳戶",
+      "register": "註冊",
+      "addresses": "地址",
+      "activate_account": "啟用帳戶"
+    },
+    "pagination": {
+      "label": "分頁",
+      "page": "第 {{ number }} 頁",
+      "next": "下一頁",
+      "previous": "上一頁"
+    },
+    "search": {
+      "placeholder": "搜尋",
+      "submit": "提交搜尋",
+      "no_results": "未找到「{{ terms }}」的相關結果",
+      "store": "搜尋 {{ store_name }}",
+      "dismiss": "關閉搜尋"
+    },
+    "localization": {
+      "language": "語言",
+      "currency": "貨幣",
+      "title_language_and_currency": "選擇語言與貨幣",
+      "title_language": "選擇語言",
+      "title_currency": "選擇貨幣",
+      "submit": "繼續"
+    },
+    "accordion": {
+      "toggle": "切換項目"
+    },
+    "page_not_found": "頁面未找到",
+    "share": "分享",
+    "loading": "載入中..."
+  },
+  "customer": {
+    "log_out": "登出",
+    "log_in": "登入",
+    "account": {
+      "title": "帳戶",
+      "my_orders": "我的訂單",
+      "orders": "訂單",
+      "address_book": "地址簿",
+      "addresses": "地址",
+      "no_orders_found": "未找到訂單。"
+    },
+    "activate_account": {
+      "title": "啟用帳戶",
+      "subtext": "創建密碼以啟用您的帳戶。",
+      "submit": "啟用",
+      "cancel": "取消"
+    },
+    "addresses": {
+      "title": "地址",
+      "default": "預設地址",
+      "edit_address": "編輯地址",
+      "first_name": "名字",
+      "last_name": "姓氏",
+      "company": "公司",
+      "address1": "地址第一行",
+      "address2": " novela地址第二行",
+      "city": "城市",
+      "country": "國家/地區",
+      "province": "州/省",
+      "zip": "郵遞區號",
+      "phone": "電話號碼（選填）",
+      "set_default": "設為預設地址",
+      "add": "新增地址",
+      "new": "新地址",
+      "back": "返回地址簿",
+      "cancel": "取消",
+      "submit": "保存地址",
+      "edit": "編輯",
+      "remove": "刪除",
+      "remove_confirm": "您確定要刪除此地址嗎？"
+    }
+  },
+  "sections": {
+    "login": {
+      "title": "登入",
+      "email": "電子郵件地址",
+      "password": "密碼",
+      "forgot_password": "忘記密碼？",
+      "create_account": "創建帳戶",
+      "sign_in": "登入",
+      "error": "登入嘗試失敗，請重試。"
+    },
+    "register": {
+      "title": "創建帳戶",
+      "first_name": "名字",
+      "last_name": "姓氏",
+      "email": "電子郵件地址",
+      "password": "密碼",
+      "already_have_account": "已有帳戶？",
+      "create_account": "創建帳戶",
+      "error": "無法創建帳戶，請重試。"
+    },
+    "reset-password": {
+      "title": "重設密碼",
+      "subtext": "為您的帳戶輸入新密碼。",
+      "email": "電子郵件地址",
+      "password": "密碼",
+      "submit": "重設密碼",
+      "cancel": "取消",
+      "error": "無法重設密碼，請重試。"
+    },
+    "recover-password": {
+      "title": "找回密碼",
+      "subtext": "我們將向您發送一封電子郵件以重設密碼。",
+      "email": "電子郵件地址",
+      "password": "密碼",
+      "submit": "找回密碼",
+      "cancel": "取消",
+      "sent": "電子郵件已發送"
+    },
+    "blog": {
+      "read_more": "閱讀更多"
+    },
+    "announcement": {
+      "label": "公告",
+      "description": "公告幻燈片",
+      "dismiss": "關閉公告",
+      "slideshow_of": "共"
+    },
+    "collection": {
+      "filters": {
+        "filters": "篩選",
+        "filter_and_sort": "篩選與排序",
+        "active": "當前篩選",
+        "from": "從",
+        "to": "到",
+        "selected": "已選",
+        "sort_by": "排序方式",
+        "reset": "重置",
+        "close": "關閉",
+        "clear_all": "清除所有",
+        "remove_label": "移除 {{ attribute }} 的篩選"
+      }
+    },
+    "header": {
+      "menu": "選單",
+      "submenu": "子選單",
+      "cart": "購物車"
+    },
+    "product": {
+      "quantity": {
+        "label": "{{ product_name }} 的數量",
+        "increment": "增加數量",
+        "decrement": "減少數量"
+      },
+      "purchase": {
+        "one_time": "一次性購買",
+        "every_interval": "每 {{ interval }}",
+        "interval_year": "年",
+        "interval_year_plural": "年",
+        "interval_month": "月",
+        "interval_month_plural": "月",
+        "interval_week": "週",
+        "interval_week_plural": "週",
+        "interval_day": "天",
+        "interval_day_plural": "天",
+        "interval_year_abbreviated": "年",
+        "interval_month_abbreviated": "月",
+        "interval_week_abbreviated": "週"
+      }
+    },
+    "cart": {
+      "title": "您的購物車",
+      "empty": "您的購物車是空的",
+      "estimated_total": "預估總額",
+      "view_cart": "查看購物車",
+      "checkout": "結帳",
+      "continue_checkout": "繼續結帳",
+      "subtotal": "小計",
+      "taxes_discounts_shipping_at_checkout": "稅費、折扣和運費在結帳時計算。",
+      "headings": {
+        "product": "商品",
+        "total": "總計",
+        "quantity": "數量",
+        "discount": "折扣"
+      },
+      "login": {
+        "title": "有帳戶？",
+        "faster": "以加快結帳速度"
+      },
+      "item_count": {
+        "one": "{{ count }} 件商品",
+        "other": "{{ count }} 件商品"
+      }
+    },
+    "newsletter": {
+      "email": "電子郵件",
+      "success": "您已訂閱我們的電子報。"
+    },
+    "slideshow": {
+      "label": "幻燈片",
+      "next": "下一頁",
+      "previous": "上一頁"
+    }
+  },
+  "accessibility": {
+    "skip_to_text": "跳到內容",
+    "browser_video_support": "您的瀏覽器不支援視頻標籤。",
+    "close": "關閉",
+    "error": "錯誤"
+  },
+  "onboarding": {
+    "product_title": "範例商品",
+    "collection_title": "範例系列",
+    "blog_title": "範例部落格標題",
+    "blog_post_title": "範例部落格文章",
+    "blog_post_summary": "您的文章的簡短描述。",
+    "blog_post_content": "這是您大放異彩的空間。用您自己的部落格文章替換此文字。分享您的商店故事，強調您的商品特色，或提供建議以與您的受眾建立聯繫。優秀的文章可以吸引客戶，建立信任，並讓他們不斷回訪。從這裡開始撰寫，展示您的品牌並提升參與度。"
+  }
+}
