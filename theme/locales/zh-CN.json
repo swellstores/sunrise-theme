@@ -1,0 +1,221 @@
+{
+  "general": {
+    "continue_shopping": "继续购物",
+    "breadcrumbs": {
+      "label": "面包屑导航",
+      "home": "首页",
+      "collections": "商品系列",
+      "products": "商品",
+      "account": "账户",
+      "register": "注册",
+      "addresses": "地址",
+      "activate_account": "激活账户"
+    },
+    "pagination": {
+      "label": "分页",
+      "page": "第 {{ number }} 页",
+      "next": "下一页",
+      "previous": "上一页"
+    },
+    "search": {
+      "placeholder": "搜索",
+      "submit": "提交搜索",
+      "no_results": "未找到“{{ terms }}”的相关结果",
+      "store": "搜索 {{ store_name }}",
+      "dismiss": "关闭搜索"
+    },
+    "localization": {
+      "language": "语言",
+      "currency": "货币",
+      "title_language_and_currency": "选择语言和货币",
+      "title_language": "选择语言",
+      "title_currency": "选择货币",
+      "submit": "继续"
+    },
+    "accordion": {
+      "toggle": "切换项目"
+    },
+    "page_not_found": "页面未找到",
+    "share": "分享",
+    "loading": "加载中..."
+  },
+  "customer": {
+    "log_out": "退出登录",
+    "log_in": "登录",
+    "account": {
+      "title": "账户",
+      "my_orders": "我的订单",
+      "orders": "订单",
+      "address_book": "地址簿",
+      "addresses": "地址",
+      "no_orders_found": "未找到订单。"
+    },
+    "activate_account": {
+      "title": "激活账户",
+      "subtext": "创建密码以激活您的账户。",
+      "submit": "激活",
+      "cancel": "取消"
+    },
+    "addresses": {
+      "title": "地址",
+      "default": "默认地址",
+      "edit_address": "编辑地址",
+      "first_name": "名字",
+      "last_name": "姓氏",
+      "company": "公司",
+      "address1": "地址行 1",
+      "address2": "地址行 2",
+      "city": "城市",
+      "country": "国家/地区",
+      "province": "省份",
+      "zip": "邮政编码",
+      "phone": "电话号码（可选）",
+      "set_default": "设为默认地址",
+      "add": "添加地址",
+      "new": "新地址",
+      "back": "返回地址簿",
+      "cancel": "取消",
+      "submit": "保存地址",
+      "edit": "编辑",
+      "remove": "删除",
+      "remove_confirm": "您确定要删除此地址吗？"
+    }
+  },
+  "sections": {
+    "login": {
+      "title": "登录",
+      "email": "电子邮件地址",
+      "password": "密码",
+      "forgot_password": "忘记密码？",
+      "create_account": "创建账户",
+      "sign_in": "登录",
+      "error": "登录尝试失败。请重试。"
+    },
+    "register": {
+      "title": "创建账户",
+      "first_name": "名字",
+      "last_name": "姓氏",
+      "email": "电子邮件地址",
+      "password": "密码",
+      "already_have_account": "已有账户？",
+      "create_account": "创建账户",
+      "error": "无法创建账户。请重试。"
+    },
+    "reset-password": {
+      "title": "重置密码",
+      "subtext": "为您的账户输入新密码。",
+      "email": "电子邮件地址",
+      "password": "密码",
+      "submit": "重置密码",
+      "cancel": "取消",
+      "error": "无法重置密码。请重试。"
+    },
+    "recover-password": {
+      "title": "找回密码",
+      "subtext": "我们将向您发送一封电子邮件以重置密码。",
+      "email": "电子邮件地址",
+      "password": "密码",
+      "submit": "找回密码",
+      "cancel": "取消",
+      "sent": "电子邮件已发送"
+    },
+    "blog": {
+      "read_more": "阅读更多"
+    },
+    "announcement": {
+      "label": "公告",
+      "description": "公告幻灯片",
+      "dismiss": "关闭公告",
+      "slideshow_of": "共"
+    },
+    "collection": {
+      "filters": {
+        "filters": "筛选",
+        "filter_and_sort": "筛选和排序",
+        "active": "当前筛选",
+        "from": "从",
+        "to": "到",
+        "selected": "已选择",
+        "sort_by": "排序方式",
+        "reset": "重置",
+        "close": "关闭",
+        "clear_all": "清除所有",
+        "remove_label": "移除 {{ attribute }} 的筛选"
+      }
+    },
+    "header": {
+      "menu": "菜单",
+      "submenu": "子菜单",
+      "cart": "购物车"
+    },
+    "product": {
+      "quantity": {
+        "label": "{{ product_name }} 的数量",
+        "increment": "增加数量",
+        "decrement": "减少数量"
+      },
+      "purchase": {
+        "one_time": "一次性购买",
+        "every_interval": "每 {{ interval }}",
+        "interval_year": "年",
+        "interval_year_plural": "年",
+        "interval_month": "月",
+        "interval_month_plural": "月",
+        "interval_week": "周",
+        "interval_week_plural": "周",
+        "interval_day": "天",
+        "interval_day_plural": "天",
+        "interval_year_abbreviated": "年",
+        "interval_month_abbreviated": "月",
+        "interval_week_abbreviated": "周"
+      }
+    },
+    "cart": {
+      "title": "您的购物车",
+      "empty": "您的购物车是空的",
+      "estimated_total": "预计总计",
+      "view_cart": "查看购物车",
+      "checkout": "结账",
+      "continue_checkout": "继续结账",
+      "subtotal": "小计",
+      "taxes_discounts_shipping_at_checkout": "税费、折扣和运费在结账时计算。",
+      "headings": {
+        "product": "商品",
+        "total": "总计",
+        "quantity": "数量",
+        "discount": "折扣"
+      },
+      "login": {
+        "title": "有账户？",
+        "faster": "以加快结账速度"
+      },
+      "item_count": {
+        "one": "{{ count }} 件商品",
+        "other": "{{ count }} 件商品"
+      }
+    },
+    "newsletter": {
+      "email": "电子邮件",
+      "success": "您已订阅我们的新闻简讯。"
+    },
+    "slideshow": {
+      "label": "幻灯片",
+      "next": "下一页",
+      "previous": "上一页"
+    }
+  },
+  "accessibility": {
+    "skip_to_text": "跳到内容",
+    "browser_video_support": "您的浏览器不支持视频标签。",
+    "close": "关闭",
+    "error": "错误"
+  },
+  "onboarding": {
+    "product_title": "示例商品",
+    "collection_title": "示例系列",
+    "blog_title": "示例博客标题",
+    "blog_post_title": "示例博客文章",
+    "blog_post_summary": "您的文章的简短描述。",
+    "blog_post_content": "这是您大放异彩的空间。用您自己的博客文章替换此文本。分享您的店铺故事，突出您的商品特色，或提供建议以与您的受众建立联系。优秀的文章可以吸引客户，建立信任，并让他们不断回访。从这里开始撰写，展示您的品牌并提升参与度。"
+  }
+}

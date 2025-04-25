@@ -1,0 +1,221 @@
+{
+  "general": {
+    "continue_shopping": "買い物を続ける",
+    "breadcrumbs": {
+      "label": "パンくずリスト",
+      "home": "ホーム",
+      "collections": "コレクション",
+      "products": "商品",
+      "account": "アカウント",
+      "register": "登録",
+      "addresses": "住所",
+      "activate_account": "アカウントを有効化"
+    },
+    "pagination": {
+      "label": "ページネーション",
+      "page": "{{ number }}ページ",
+      "next": "次へ",
+      "previous": "前へ"
+    },
+    "search": {
+      "placeholder": "検索",
+      "submit": "検索する",
+      "no_results": "「{{ terms }}」に一致する結果が見つかりませんでした",
+      "store": "{{ store_name }}を検索",
+      "dismiss": "検索を閉じる"
+    },
+    "localization": {
+      "language": "言語",
+      "currency": "通貨",
+      "title_language_and_currency": "言語と通貨を選択",
+      "title_language": "言語を選択",
+      "title_currency": "通貨を選択",
+      "submit": "続ける"
+    },
+    "accordion": {
+      "toggle": "アイテムを切り替える"
+    },
+    "page_not_found": "ページが見つかりません",
+    "share": "共有",
+    "loading": "読み込み中..."
+  },
+  "customer": {
+    "log_out": "ログアウト",
+    "log_in": "ログイン",
+    "account": {
+      "title": "アカウント",
+      "my_orders": "私の注文",
+      "orders": "注文",
+      "address_book": "アドレス帳",
+      "addresses": "住所",
+      "no_orders_found": "注文が見つかりませんでした。"
+    },
+    "activate_account": {
+      "title": "アカウントを有効化",
+      "subtext": "アカウントを有効化するためにパスワードを作成してください。",
+      "submit": "有効化",
+      "cancel": "キャンセル"
+    },
+    "addresses": {
+      "title": "住所",
+      "default": "既定の住所",
+      "edit_address": "住所を編集",
+      "first_name": "名",
+      "last_name": "姓",
+      "company": "会社",
+      "address1": "住所1",
+      "address2": "住所2",
+      "city": "市区町村",
+      "country": "国/地域",
+      "province": "都道府県",
+      "zip": "郵便番号",
+      "phone": "電話番号（任意）",
+      "set_default": "既定の住所に設定",
+      "add": "住所を追加",
+      "new": "新しい住所",
+      "back": "アドレス帳に戻る",
+      "cancel": "キャンセル",
+      "submit": "住所を保存",
+      "edit": "編集",
+      "remove": "削除",
+      "remove_confirm": "この住所を削除してもよろしいですか？"
+    }
+  },
+  "sections": {
+    "login": {
+      "title": "ログイン",
+      "email": "メールアドレス",
+      "password": "パスワード",
+      "forgot_password": "パスワードを忘れた？",
+      "create_account": "アカウントを作成",
+      "sign_in": "ログイン",
+      "error": "ログインに失敗しました。もう一度お試しください。"
+    },
+    "register": {
+      "title": "アカウントを作成",
+      "first_name": "名",
+      "last_name": "姓",
+      "email": "メールアドレス",
+      "password": "パスワード",
+      "already_have_account": "すでにアカウントをお持ちですか？",
+      "create_account": "アカウントを作成",
+      "error": "アカウントを作成できませんでした。もう一度お試しください。"
+    },
+    "reset-password": {
+      "title": "パスワードをリセット",
+      "subtext": "アカウント用の新しいパスワードを入力してください。",
+      "email": "メールアドレス",
+      "password": "パスワード",
+      "submit": "パスワードをリセット",
+      "cancel": "キャンセル",
+      "error": "パスワードをリセットできませんでした。もう一度お試しください。"
+    },
+    "recover-password": {
+      "title": "パスワードを回復",
+      "subtext": "パスワードをリセットするためのメールを送信します。",
+      "email": "メールアドレス",
+      "password": "パスワード",
+      "submit": "パスワードを回復",
+      "cancel": "キャンセル",
+      "sent": "メールを送信しました"
+    },
+    "blog": {
+      "read_more": "もっと読む"
+    },
+    "announcement": {
+      "label": "お知らせ",
+      "description": "お知らせスライドショー",
+      "dismiss": "お知らせを閉じる",
+      "slideshow_of": "の"
+    },
+    "collection": {
+      "filters": {
+        "filters": "フィルター",
+        "filter_and_sort": "フィルターと並べ替え",
+        "active": "有効なフィルター",
+        "from": "から",
+        "to": "まで",
+        "selected": "選択済み",
+        "sort_by": "並べ替え",
+        "reset": "リセット",
+        "close": "閉じる",
+        "clear_all": "すべてクリア",
+        "remove_label": "{{ attribute }}のフィルターを削除"
+      }
+    },
+    "header": {
+      "menu": "メニュー",
+      "submenu": "サブメニュー",
+      "cart": "カート"
+    },
+    "product": {
+      "quantity": {
+        "label": "{{ product_name }}の数量",
+        "increment": "数量を増やす",
+        "decrement": "数量を減らす"
+      },
+      "purchase": {
+        "one_time": "1回限りの購入",
+        "every_interval": "毎{{ interval }}",
+        "interval_year": "年",
+        "interval_year_plural": "年",
+        "interval_month": "月",
+        "interval_month_plural": "月",
+        "interval_week": "週",
+        "interval_week_plural": "週",
+        "interval_day": "日",
+        "interval_day_plural": "日",
+        "interval_year_abbreviated": "年",
+        "interval_month_abbreviated": "月",
+        "interval_week_abbreviated": "週"
+      }
+    },
+    "cart": {
+      "title": "あなたのカート",
+      "empty": "カートは空です",
+      "estimated_total": "推定合計",
+      "view_cart": "カートを見る",
+      "checkout": "チェックアウト",
+      "continue_checkout": "チェックアウトに進む",
+      "subtotal": "小計",
+      "taxes_discounts_shipping_at_checkout": "税金、割引、送料はチェックアウト時に計算されます。",
+      "headings": {
+        "product": "商品",
+        "total": "合計",
+        "quantity": "数量",
+        "discount": "割引"
+      },
+      "login": {
+        "title": "アカウントをお持ちですか？",
+        "faster": "よりスムーズなチェックアウトのために"
+      },
+      "item_count": {
+        "one": "{{ count }}アイテム",
+        "other": "{{ count }}アイテム"
+      }
+    },
+    "newsletter": {
+      "email": "メール",
+      "success": "ニュースレターに登録しました。"
+    },
+    "slideshow": {
+      "label": "スライドショー",
+      "next": "次のスライド",
+      "previous": "前のスライド"
+    }
+  },
+  "accessibility": {
+    "skip_to_text": "コンテンツにスキップ",
+    "browser_video_support": "お使いのブラウザはビデオタグをサポートしていません。",
+    "close": "閉じる",
+    "error": "エラー"
+  },
+  "onboarding": {
+    "product_title": "サンプル商品",
+    "collection_title": "サンプルコレクション",
+    "blog_title": "サンプルブログタイトル",
+    "blog_post_title": "サンプルブログ投稿",
+    "blog_post_summary": "記事の簡単な説明。",
+    "blog_post_content": "ここはあなたが輝く場所です。このテキストをあなた自身のブログ投稿に置き換えてください。ストアのストーリーを共有したり、商品の特別な点を強調したり、顧客とのつながりを築くためのヒントを提供したりしてください。素晴らしい投稿は顧客を引きつけ、信頼を築き、リピートを促します。ブランドをアピールし、エンゲージメントを高めるためにここから書き始めてください。"
+  }
+}
