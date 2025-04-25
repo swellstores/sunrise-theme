@@ -26,7 +26,7 @@
     {% render 'recover-password' %}
   </div>
   <div id="login" class="{{ section_padding }} responsive-padding-{{ section.id }} form-container flex flex-col gap-[32px] items-start w-full sm:w-auto">
-    <h1 class="font-display text-headline-medium">Login</h1>
+    <h1 class="font-display text-headline-medium">{{ 'sections.login.title' | t }}</h1>
 
     {% form 'customer_login'
       , class: 'w-full'
@@ -34,8 +34,8 @@
       {%- if form.errors -%}
         <div class="bg-red-50 w-full flex flex-col rounded-md border border-red-600 mb-4 p-4">
           <h2 tabindex="-1" autofocus class="outline-none text-base text-red-600">
-            <span class="sr-only">Your login attempt was unsuccessful. Please try again.</span>
-            Your login attempt was unsuccessful. Please try again.
+            <span class="sr-only">{{ 'sections.login.error' | t }}</span>
+            {{ 'sections.login.error' | t }}
           </h2>
           <div class="font-display text-body-medium text-red-600">
             {{ form.errors | default_errors }}
@@ -44,15 +44,12 @@
       {%- endif -%}
       <div class="flex max-w-[354px] sm:w-[406px] max-w-full flex-col gap-4">
         <div class="relative">
-          {%- assign email_text = 'Email address' -%}
-          {%- assign password_text = 'Password' -%}
-
           {% render 'input',
             type: 'email',
             name: 'customer[email]',
             id: 'customer[email]',
             autocomplete: 'email',
-            placeholder: email_text
+            placeholder: 'sections.login.email' | t 
           %}
         </div>
         <div class="relative">
@@ -61,14 +58,14 @@
             name: 'customer[password]',
             id: 'customer[password]',
             autocomplete: 'current-password',
-            placeholder: password_text
+            placeholder: 'sections.login.password' | t
           %}
         </div>
         <a
           href="#recover"
           class="font-display text-body-medium underline underline-offset-2"
         >
-          Forgot your password?
+          {{ 'sections.login.forgot_password' | t }}
         </a>
       </div>
       <div class="flex gap-[16px] sm:gap-[32px] items-center justify-end mt-[32px] flex-col-reverse sm:flex-row">
@@ -77,14 +74,13 @@
             href="{{ routes.account_register_url }}"
             class="font-display text-body-medium underline underline-offset-2"
           >
-            Create account
+            {{ 'sections.login.create_account' | t}}
           </a>
         </div>
         <div class="sm:w-auto w-full">
-          {%- assign sign_in_text = 'Log in' -%}
           {% render 'button',
             type: 'submit',
-            text: sign_in_text,
+            text: 'sections.login.sign_in' | t,
             class: 'sm:w-auto w-full',
             color_scheme: section.settings.color_scheme,
             variant: section.settings.button_variant

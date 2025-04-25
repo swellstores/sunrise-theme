@@ -14,7 +14,7 @@
     <quantity-selector-decrement
       role="button"
       class="flex items-center justify-center {% if size == 'lg' %}m-4{% else %}m-2{% endif %}"
-      aria-label="Decrement"
+      aria-label="{{ 'sections.product.quantity.decrement' | t }}"
     >
       <ion-icon name="remove-outline" aria-hidden="true"></ion-icon>
     </quantity-selector-decrement>
@@ -29,14 +29,14 @@
       min="1"
       max="{{ product.selected_or_first_available_variant.inventory_quantity }}"
       step="1"
-      aria-label="Quantity for {{ product.title | escape }}"
+      aria-label="{{ 'sections.product.quantity.decrement' | t: product_name: product.title | escape }}"
       style="border-radius:{{ border_radius }}px"
     >
 
     <quantity-selector-increment
       role="button"
       class="flex items-center justify-center {% if size == 'lg' %}m-4{% else %}m-2{% endif %}"
-      aria-label="Increment"
+      aria-label="{{ 'sections.product.quantity.increment' | t }}"
     >
       <ion-icon name="add-outline" aria-hidden="true"></ion-icon>
     </quantity-selector-increment>

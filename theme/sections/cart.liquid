@@ -1,12 +1,6 @@
 {%- liquid
   assign color_scheme = section.settings.color_scheme
-  assign duties_included = cart.duties_included
-  assign taxes_included = cart.taxes_included
-  assign shipping_policy_body = shop.shipping_policy.body
-  assign shipping_policy_url = shop.shipping_policy.url
--%}
-
-{%- liquid
+  
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
 -%}
@@ -29,24 +23,23 @@
   <cart-root class="flex flex-col max-w-[1046px] mx-auto">
     {%- if cart.empty? == true -%}
       <div class="flex flex-col gap-[32px]">
-        <h2 class="text-headline-small font-display">Your cart is empty</h2>
+        <h2 class="text-headline-small font-display">{{ 'sections.cart.empty' | t }}</h2>
         <div class="flex-grow-0 flex flex-col items-start justify-center">
           {% render 'button',
-            text: 'Continue shopping',
+            text: 'general.continue_shopping' | t,
             href: routes.all_products_collection_url,
             color_scheme: color_scheme
           %}
         </div>
         {%- if customer == blank -%}
           <div class="flex flex-col gap-[8px]">
-            <span class="text-title-medium font-display text-secondary-{{ color_scheme }}">Have an account?</span>
+            <span class="text-title-medium font-display text-secondary-{{ color_scheme }}">{{ 'sections.cart.login.title' | t }}</span>
             <span class="text-body-large font-display text-secondary-{{ color_scheme }}">
               <a
                 href="{{ routes.account_login_url }}"
                 class="underline"
-                >Log in</a
-              >
-              to check out later
+                >{{ 'customer.log_in' | t }}</a
+              > {{ 'sections.cart.login.faster' | t }}
             </span>
           </div>
         {% endif %}
@@ -54,13 +47,13 @@
     {%- else -%}
       <div class="flex flex-col gap-[32px]">
         <div class="flex items-center justify-between">
-          <h2 class="text-headline-small font-display">Your cart</h2>
+          <h2 class="text-headline-small font-display">{{ 'sections.cart.title' | t }}</h2>
 
           <div class="inline-flex">
             <a
               href="{{ routes.all_products_collection_url }}"
               class="text-left text-body-medium font-display w-full underline underline-offset-4"
-              >Continue shopping</a
+              >{{ 'general.continue_shopping' | t }}</a
             >
           </div>
         </div>
@@ -69,11 +62,11 @@
             <table class="w-full">
               <thead class="text-title-small  border-b border-color-{{ color_scheme }} font-display">
                 <tr>
-                  <th class="text-title-small font-display pb-4 text-left">Product</th>
+                  <th class="text-title-small font-display pb-4 text-left">{{ 'sections.cart.headings.product' | t }}</th>
                   <th class="hidden sm:block text-title-small font-display pb-4 text-left">
-                    <span>Quantity</span>
+                    <span>{{ 'sections.cart.headings.quantity' | t }}</span>
                   </th>
-                  <th class="text-title-small font-display pb-4 text-right">Total</th>
+                  <th class="text-title-small font-display pb-4 text-right">{{ 'sections.cart.headings.total' | t }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -149,7 +142,7 @@
                             {%- endif -%}
                           {%- endunless -%}
 
-                          <ul role="list" aria-label="Discount">
+                          <ul role="list" aria-label="{{ 'sections.cart.headings.discount' | t }}">
                             {%- for discount in item.line_level_discount_allocations -%}
                               <li>
                                 {{ discount.discount_application.title | escape }}
@@ -198,28 +191,14 @@
               </tbody>
             </table>
             <div class="flex flex-col gap-[8px]">
-              {% comment %}
-                {%- if settings.show_cart_note -%}
-                  {% render 'label', for: 'note', class: 'sr-only' %}
-                  {% render 'text-area',
-                    name: 'note',
-                    form: 'cart',
-                    id: 'note',
-                    placeholder: 'Notes',
-                    text: cart.note,
-                    rows: 4,
-                    cols: 33
-                  %}
-                {%- endif -%}
-              {% endcomment %}
               <div class="flex justify-between">
-                <span class="text-title-medium font-display">Subtotal</span>
+                <span class="text-title-medium font-display">{{ 'sections.cart.subtotal' | t }}</span>
                 <span class="text-body-large font-display">
                   {{- cart.items_subtotal_price | money_with_currency -}}
                 </span>
               </div>
               <div class="flex justify-between">
-                <span class="text-title-medium font-display">Estimated total</span>
+                <span class="text-title-medium font-display">{{ 'sections.cart.estimated_total' | t }}</span>
                 <cart-total
                   ><span class="text-body-large font-display">
                     {{- cart.total_price | money_with_currency -}}
@@ -229,17 +208,11 @@
             </div>
             <div class="hidden sm:block"></div>
             <div class="hidden sm:block">
-              {% render 'cart-tax-notes',
-                duties_included: duties_included,
-                taxes_included: taxes_included,
-                shipping_policy_body: shipping_policy_body,
-                shipping_policy_url: shipping_policy_url,
-                color_scheme: color_scheme
-              %}
+              {{ 'sections.cart.taxes_discounts_shipping_at_checkout' | t }}
             </div>
             <div class="flex w-full ml-auto justify-end sm:w-fit">
               {% render 'button',
-                text: 'Continue to checkout',
+                text: 'sections.cart.continue_checkout' | t,
                 type: 'submit',
                 disabled: cart.empty?,
                 form: 'cart',

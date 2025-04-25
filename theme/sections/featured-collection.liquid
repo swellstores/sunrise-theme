@@ -11,9 +11,7 @@
   assign pre_heading = section.settings.pre_heading
   assign heading = section.settings.heading
   assign selected_collection = section.settings.collection
--%}
 
-{%- liquid
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
 -%}

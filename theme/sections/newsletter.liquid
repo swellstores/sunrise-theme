@@ -49,7 +49,7 @@
                     autocorrect: 'off',
                     autocapitalize: 'off',
                     autocomplete: 'email',
-                    placeholder: 'Email',
+                    placeholder: 'sections.newsletter.email' | t,
                     autofocus: form.errors,
                     required: 'true',
                     class: 'h-[48px]',
@@ -59,7 +59,7 @@
                 </div>
                 {% render 'button',
                   type: 'submit',
-                  text: 'Submit',
+                  text: 'sections.newsletter.submit' | t,
                   color_scheme: color_scheme,
                   variant: section.settings.button_variant
                 %}
@@ -68,7 +68,7 @@
                 <div class="text-red-600 mt-2 text-xs">{{ form.errors | default_errors }}</div>
               {%- endif -%}
               {%- if form.posted_successfully? -%}
-                <div class="mt-2 text-green-600 text-xs">Successfully subscribed.</div>
+                <div class="mt-2 text-green-600 text-xs">{{ 'sections.newsletter.success' | t }}</div>
               {%- endif -%}
             {% endform %}
           </div>
