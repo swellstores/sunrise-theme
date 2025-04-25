@@ -7,7 +7,6 @@
 
 {%- liquid
   assign color_scheme = section.settings.color_scheme
-  assign columns = section.settings.columns
   assign pre_heading = section.settings.pre_heading
   assign heading = section.settings.heading
   assign selected_collection = section.settings.collection
@@ -78,7 +77,7 @@
           items-stretch
           {% if section.settings.mobile_columns == '1 column' %} grid-cols-1
           {% else %} grid-cols-2
-          {% endif %} md:grid-cols-{{ columns }}
+          {% endif %} md:grid-cols-3 lg:grid-cols-4
         "
       >
         {%- for product in selected_collection.products limit: section.settings.max_products -%}
@@ -124,10 +123,10 @@
           items-stretch
           {% if section.settings.mobile_columns == '1 column' %} grid-cols-1
           {% else %} grid-cols-2
-          {% endif %} md:grid-cols-{{ columns }}
+          {% endif %} md:grid-cols-3 lg:grid-cols-4
         "
       >
-        {%- for i in (1..section.settings.columns) -%}
+        {%- for i in (1..4) -%}
           <div class="flex flex-col gap-[8px]">
             {% liquid
               assign ridx = forloop.rindex
@@ -170,7 +169,8 @@
   "settings": [
     {
       "type": "header",
-      "content": "Content"
+      "content": "Content",
+      "id": "header_content"
     },
     {
       "type": "text",
@@ -241,7 +241,8 @@
     },
     {
       "type": "header",
-      "content": "Colors"
+      "content": "Colors",
+      "id": "header_colors"
     },
     {
       "type": "color_scheme",
@@ -251,16 +252,8 @@
     },
     {
       "type": "header",
-      "content": "Layout"
-    },
-    {
-      "type": "range",
-      "id": "columns",
-      "label": "Number of columns (desktop)",
-      "min": 1,
-      "max": 5,
-      "step": 1,
-      "default": 3
+      "content": "Layout",
+      "id": "header_layout"
     },
     {
       "type": "range",
@@ -284,7 +277,8 @@
     },
     {
       "type": "header",
-      "content": "Mobile layout"
+      "content": "Mobile layout",
+      "id": "header_mobile_layout"
     },
     {
       "type": "select",
