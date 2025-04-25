@@ -63,10 +63,10 @@
 
       <div class="text-center flex-col items-center justify-center gap-[16px] flex-grow-0 h-full {% if cart == empty %}flex{% else %}hidden{% endif %}">
         <p class="text-body-large font-display">{{ 'sections.cart.empty' | t }}</p>
-
         <div class="inline-flex">
+          {% assign continue_text = 'general.continue_shopping' | t %}
           {% render 'button',
-            text: 'general.continue_shopping' | t,
+            text: continue_text,
             href: routes.all_products_collection_url,
             color_scheme: color_scheme
           %}
@@ -94,16 +94,17 @@
     </div>
 
     <div class="flex flex-col gap-[16px] {% if cart == empty %}hidden{% endif %}">
+      {% assign view_text = 'sections.cart.view_cart' | t %}
       {% render 'button',
-        text: 'sections.cart.view_cart' | t,
+        text: view_text,
         href: routes.cart_url,
         full_width: true,
         color_scheme: color_scheme,
         variant: 'secondary'
       %}
-
+      {% assign checkout_text = 'sections.cart.checkout' | t %}
       {% render 'button',
-        text: 'sections.cart.checkout' | t,
+        text: checkout_text,
         type: 'submit',
         form: 'cart',
         name: 'checkout',

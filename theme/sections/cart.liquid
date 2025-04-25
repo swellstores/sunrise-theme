@@ -25,8 +25,9 @@
       <div class="flex flex-col gap-[32px]">
         <h2 class="text-headline-small font-display">{{ 'sections.cart.empty' | t }}</h2>
         <div class="flex-grow-0 flex flex-col items-start justify-center">
+          {% assign continue_text = 'general.continue_shopping' | t %}
           {% render 'button',
-            text: 'general.continue_shopping' | t,
+            text: continue_text,
             href: routes.all_products_collection_url,
             color_scheme: color_scheme
           %}
@@ -211,8 +212,9 @@
               {{ 'sections.cart.taxes_discounts_shipping_at_checkout' | t }}
             </div>
             <div class="flex w-full ml-auto justify-end sm:w-fit">
+              {% assign continue_checkout_text = 'sections.cart.continue_checkout' | t %}
               {% render 'button',
-                text: 'sections.cart.continue_checkout' | t,
+                text: continue_checkout_text,
                 type: 'submit',
                 disabled: cart.empty?,
                 form: 'cart',

@@ -16,6 +16,7 @@
       <form action="{{ routes.search_url }}" method="get" role="search" class="flex items-center w-full">
         <div class="relative w-[766px]">
           <input name="options[prefix]" type="hidden" value="last">
+          {% assign placeholder_text = 'general.search.placeholder' | t %}
           {% render 'input',
             id: 'search',
             name: 'q',
@@ -24,10 +25,9 @@
             autocorrect: 'off',
             autocapitalize: 'off',
             autocomplete: 'off',
-            placeholder: 'general.search.placeholder' | t,
+            placeholder: placeholder_text,
             variant: 'search'
           %}
-
           <button
             type="submit"
             class="absolute inset-y-0 right-0 flex items-center pr-[16px] cursor-pointer"

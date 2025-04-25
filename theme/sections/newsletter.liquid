@@ -40,6 +40,7 @@
               <input type="hidden" name="contact[tags]" value="newsletter">
               <div class="flex gap-4 justify-center newsletter-form-container">
                 <div class="relative sm:min-w-96 w-full sm:w-[330px]">
+                  {% assign email_text = 'sections.newsletter.email' | t %}
                   {%
                     render 'input',
                     id: 'contact[email]',
@@ -49,7 +50,7 @@
                     autocorrect: 'off',
                     autocapitalize: 'off',
                     autocomplete: 'email',
-                    placeholder: 'sections.newsletter.email' | t,
+                    placeholder: email_text,
                     autofocus: form.errors,
                     required: 'true',
                     class: 'h-[48px]',

@@ -44,21 +44,23 @@
       {%- endif -%}
       <div class="flex max-w-[354px] sm:w-[406px] max-w-full flex-col gap-4">
         <div class="relative">
+          {% assign email_text = 'sections.login.email' | t %}
           {% render 'input',
             type: 'email',
             name: 'customer[email]',
             id: 'customer[email]',
             autocomplete: 'email',
-            placeholder: 'sections.login.email' | t 
+            placeholder: email_text
           %}
         </div>
         <div class="relative">
+          {% assign password_text = 'sections.login.password' | t %}
           {% render 'input',
             type: 'password',
             name: 'customer[password]',
             id: 'customer[password]',
             autocomplete: 'current-password',
-            placeholder: 'sections.login.password' | t
+            placeholder: password_text
           %}
         </div>
         <a
@@ -78,9 +80,10 @@
           </a>
         </div>
         <div class="sm:w-auto w-full">
+          {% assign sign_in_text = 'sections.login.sign_in' | t %}
           {% render 'button',
             type: 'submit',
-            text: 'sections.login.sign_in' | t,
+            text: sign_in_text,
             class: 'sm:w-auto w-full',
             color_scheme: section.settings.color_scheme,
             variant: section.settings.button_variant
