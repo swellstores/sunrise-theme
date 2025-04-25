@@ -11,7 +11,7 @@
         href="{{ paginate.previous.url }}{{ hash }}"
         class="inline-flex items-center text-body-medium font-display uppercase"
       >
-        <ion-icon name="chevron-back-outline" aria-label="Previous"></ion-icon>
+        <ion-icon name="chevron-back-outline" aria-label="{{ 'general.pagination.previous' | t }}"></ion-icon>
       </a>
     {% endif %}
 
@@ -43,7 +43,7 @@
         href="{{ paginate.next.url }}{{ hash }}"
         class="inline-flex items-center text-body-medium font-display uppercase"
       >
-        <ion-icon name="chevron-forward-outline" aria-label="Next"></ion-icon>
+        <ion-icon name="chevron-forward-outline" aria-label="{{ 'general.pagination.next' | t }}"></ion-icon>
       </a>
     {% endif %}
   </div>

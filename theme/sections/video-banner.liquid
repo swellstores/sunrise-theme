@@ -100,7 +100,7 @@
         muted
       >
         <source src="{{ section.settings.video_url }}" type="video/{{ file_extension }}">
-        Your browser does not support the video tag.
+        {{ 'accessibility.browser_video_support' | t }}
       </video>
     {% endif %}
   {% else %}
