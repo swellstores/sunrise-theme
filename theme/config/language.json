@@ -1,0 +1,678 @@
+{
+  "$default_locale": "en",
+  "accessibility": {
+    "skip_to_text": "Skip to content",
+    "$locale": {
+      "es": {
+        "skip_to_text": "Saltar al contenido"
+      },
+      "fr": {
+        "skip_to_text": "Passer au contenu"
+      },
+      "de": {
+        "skip_to_text": "Zum Inhalt springen"
+      },
+      "ru": {
+        "skip_to_text": "Перейти к содержимому"
+      },
+      "nl": {
+        "skip_to_text": "Naar de inhoud springen"
+      },
+      "zh": {
+        "skip_to_text": "跳到内容"
+      },
+      "ja": {
+        "skip_to_text": "コンテンツにスキップ"
+      },
+      "ko": {
+        "skip_to_text": "내용으로 건너뛰기"
+      }
+    }
+  },
+  "general": {
+    "continue_shopping": "Continue shopping",
+    "slideshow_of": "of",
+    "$locale": {
+      "es": {
+        "continue_shopping": "Seguir comprando",
+        "slideshow_of": "de"
+      },
+      "fr": {
+        "continue_shopping": "Continuer vos achats",
+        "slideshow_of": "de"
+      },
+      "de": {
+        "continue_shopping": "Einkauf fortsetzen",
+        "slideshow_of": "von"
+      },
+      "ru": {
+        "continue_shopping": "Продолжить покупки",
+        "slideshow_of": "из"
+      },
+      "nl": {
+        "continue_shopping": "Doorgaan met winkelen",
+        "slideshow_of": "van"
+      },
+      "zh": {
+        "continue_shopping": "继续购物",
+        "slideshow_of": "的"
+      },
+      "ja": {
+        "continue_shopping": "買い物を続ける",
+        "slideshow_of": "の"
+      },
+      "ko": {
+        "continue_shopping": "쇼핑 계속하기",
+        "slideshow_of": "의"
+      }
+    },
+    "breadcrumbs": {
+      "home": "Home",
+      "collections": "Collections",
+      "products": "Products",
+      "account": "Account",
+      "register": "Register",
+      "addresses": "Addresses",
+      "activate_account": "Activate account",
+      "$locale": {
+        "es": {
+          "home": "Inicio",
+          "collections": "Colecciones",
+          "products": "Productos",
+          "account": "Cuenta",
+          "register": "Registrar",
+          "addresses": "Direcciones",
+          "activate_account": "Activar cuenta"
+        },
+        "fr": {
+          "home": "Accueil",
+          "collections": "Collections",
+          "products": "Produits",
+          "account": "Compte",
+          "register": "S'inscrire",
+          "addresses": "Adresses",
+          "activate_account": "Activer le compte"
+        },
+        "de": {
+          "home": "Startseite",
+          "collections": "Sammlungen",
+          "products": "Produkte",
+          "account": "Konto",
+          "register": "Registrieren",
+          "addresses": "Adressen",
+          "activate_account": "Konto aktivieren"
+        },
+        "ru": {
+          "home": "Главная",
+          "collections": "Коллекции",
+          "products": "Продукты",
+          "account": "Аккаунт",
+          "register": "Регистрация",
+          "addresses": "Адреса",
+          "activate_account": "Активировать аккаунт"
+        },
+        "nl": {
+          "home": "Startpagina",
+          "collections": "Collecties",
+          "products": "Producten",
+          "account": "Account",
+          "register": "Registreren",
+          "addresses": "Adressen",
+          "activate_account": "Account activeren"
+        },
+        "zh": {
+          "home": "主页",
+          "collections": "收藏",
+          "products": "产品",
+          "account": "账户",
+          "register": "注册",
+          "addresses": "地址",
+          "activate_account": "激活账户"
+        },
+        "ja": {
+          "home": "ホーム",
+          "collections": "コレクション",
+          "products": "製品",
+          "account": "アカウント",
+          "register": "登録する",
+          "addresses": "アドレス",
+          "activate_account": "アカウントを有効にする"
+        },
+        "ko": {
+          "home": "홈",
+          "collections": "컬렉션",
+          "products": "제품",
+          "account": "계정",
+          "register": "등록하다",
+          "addresses": "주소",
+          "activate_account": "계정 활성화"
+        }
+      }
+    }
+  },
+  "onboarding": {
+    "product_title": "Example product title",
+    "collection_title": "Your collection's name",
+    "$locale": {
+      "es": {
+        "product_title": "Ejemplo de título de producto",
+        "collection_title": "El nombre de tu colección"
+      },
+      "fr": {
+        "product_title": "Titre d'exemple du produit",
+        "collection_title": "Le nom de votre collection"
+      },
+      "de": {
+        "product_title": "Beispieltitel des Produkts",
+        "collection_title": "Der Name Ihrer Kollektion"
+      },
+      "ru": {
+        "product_title": "Название примера продукта",
+        "collection_title": "Имя вашей коллекции"
+      },
+      "nl": {
+        "product_title": "Voorbeeld producttitel",
+        "collection_title": "De naam van uw collectie"
+      },
+      "zh": {
+        "product_title": "示例产品标题",
+        "collection_title": "您收藏的名称"
+      },
+      "ja": {
+        "product_title": "例の製品タイトル",
+        "collection_title": "コレクションの名前"
+      },
+      "ko": {
+        "product_title": "예제 제품 제목",
+        "collection_title": "컬렉션 이름"
+      }
+    }
+  },
+  "gift_cards": {
+    "issued": {
+      "how_to_use_gift_card": "Use the gift card code online or QR code in-store",
+      "title": "Here's your {{ value }} gift card balance for {{ shop }}!",
+      "subtext": "Your gift card",
+      "gift_card_code": "Gift card code",
+      "shop_link": "Visit online store",
+      "add_to_apple_wallet": "Add to Apple Wallet",
+      "qr_image_alt": "QR code — scan to redeem gift card",
+      "copy_code": "Copy gift card code",
+      "expiration_date": "Expires {{ expires_on }}",
+      "copy_code_success": "Code copied successfully",
+      "expired": "Expired",
+      "$locale": {
+        "es": {
+          "how_to_use_gift_card": "Usa el código de la tarjeta de regalo en línea o el código QR en la tienda",
+          "title": "¡Aquí está tu saldo de tarjeta de regalo de {{ value }} para {{ shop }}!",
+          "subtext": "Tu tarjeta de regalo",
+          "gift_card_code": "Código de tarjeta de regalo",
+          "shop_link": "Visitar tienda en línea",
+          "add_to_apple_wallet": "Agregar a Apple Wallet",
+          "qr_image_alt": "Código QR: escanear para canjear tarjeta de regalo",
+          "copy_code": "Copiar código de tarjeta de regalo",
+          "expiration_date": "Caduca {{ expires_on }}",
+          "copy_code_success": "Código copiado con éxito",
+          "expired": "Caducado"
+        },
+        "fr": {
+          "how_to_use_gift_card": "Utilisez le code de la carte-cadeau en ligne ou le code QR en magasin",
+          "title": "Voici votre solde de carte-cadeau de {{ value }} pour {{ shop }} !",
+          "subtext": "Votre carte-cadeau",
+          "gift_card_code": "Code de la carte-cadeau",
+          "shop_link": "Visiter la boutique en ligne",
+          "add_to_apple_wallet": "Ajouter à Apple Wallet",
+          "qr_image_alt": "QR code - scannez pour échanger la carte-cadeau",
+          "copy_code": "Copier le code de la carte-cadeau",
+          "expiration_date": "Expire {{ expires_on }}",
+          "copy_code_success": "Code copié avec succès",
+          "expired": "Expiré"
+        },
+        "de": {
+          "how_to_use_gift_card": "Verwenden Sie den Geschenkkartencode online oder den QR-Code im Geschäft",
+          "title": "Hier ist Ihr {{ value }} Geschenkkarten-Guthaben für {{ shop }}!",
+          "subtext": "Ihre Geschenkkarte",
+          "gift_card_code": "Geschenkkartencode",
+          "shop_link": "Online-Shop besuchen",
+          "add_to_apple_wallet": "Zu Apple Wallet hinzufügen",
+          "qr_image_alt": "QR-Code - scannen, um die Geschenkkarte einzulösen",
+          "copy_code": "Geschenkkartencode kopieren",
+          "expiration_date": "Läuft ab {{ expires_on }}",
+          "copy_code_success": "Code erfolgreich kopiert",
+          "expired": "Abgelaufen"
+        },
+        "ru": {
+          "how_to_use_gift_card": "Используйте код подарочной карты в Интернете или QR-код в магазине",
+          "title": "Вот ваш баланс подарочной карты {{ value }} для {{ shop }}!",
+          "subtext": "Ваша подарочная карта",
+          "gift_card_code": "Код подарочной карты",
+          "shop_link": "Посетить интернет-магазин",
+          "add_to_apple_wallet": "Добавить в Apple Wallet",
+          "qr_image_alt": "QR-код — отсканируйте, чтобы погасить подарочную карту",
+          "copy_code": "Скопировать код подарочной карты",
+          "expiration_date": "Истекает {{ expires_on }}",
+          "copy_code_success": "Код успешно скопирован",
+          "expired": "Истекший"
+        },
+        "nl": {
+          "how_to_use_gift_card": "Gebruik de cadeauboncode online of de QR-code in de winkel",
+          "title": "Hier is je {{ value }} cadeaubon saldo voor {{ shop }}!",
+          "subtext": "Je cadeaubon",
+          "gift_card_code": "Cadeauboncode",
+          "shop_link": "Bezoek online winkel",
+          "add_to_apple_wallet": "Toevoegen aan Apple Wallet",
+          "qr_image_alt": "QR-code - scannen om cadeaubon in te wisselen",
+          "copy_code": "Cadeauboncode kopiëren",
+          "expiration_date": "Verloopt {{ expires_on }}",
+          "copy_code_success": "Code succesvol gekopieerd",
+          "expired": "Verlopen"
+        },
+        "zh": {
+          "how_to_use_gift_card": "在线使用礼品卡代码或在商店使用二维码",
+          "title": "这是您在 {{ shop }} 的 {{ value }} 礼品卡余额！",
+          "subtext": "您的礼品卡",
+          "gift_card_code": "礼品卡代码",
+          "shop_link": "访问在线商店",
+          "add_to_apple_wallet": "添加到 Apple Wallet",
+          "qr_image_alt": "二维码 - 扫描以兑换礼品卡",
+          "copy_code": "复制礼品卡代码",
+          "expiration_date": "到期 {{ expires_on }}",
+          "copy_code_success": "代码复制成功",
+          "expired": "已过期"
+        },
+        "ja": {
+          "how_to_use_gift_card": "オンラインでギフトカードコードを使用するか、店舗でQRコードを使用してください",
+          "title": "{{ shop }}の{{ value }}ギフトカード残高はこちらです！",
+          "subtext": "あなたのギフトカード",
+          "gift_card_code": "ギフトカードコード",
+          "shop_link": "オンラインストアにアクセス",
+          "add_to_apple_wallet": "Apple Walletに追加",
+          "qr_image_alt": "QRコード - ギフトカードを引き換えるにはスキャンしてください",
+          "copy_code": "ギフトカードコードをコピー",
+          "expiration_date": "{{ expires_on }}に期限切れ",
+          "copy_code_success": "コードが正常にコピーされました",
+          "expired": "期限切れ"
+        },
+        "ko": {
+          "how_to_use_gift_card": "온라인에서 기프트 카드 코드를 사용하거나 매장에서 QR 코드를 사용하세요",
+          "title": "{{ shop }}의 {{ value }} 기프트 카드 잔액입니다!",
+          "subtext": "당신의 기프트 카드",
+          "gift_card_code": "기프트 카드 코드",
+          "shop_link": "온라인 상점 방문",
+          "add_to_apple_wallet": "Apple Wallet에 추가",
+          "qr_image_alt": "QR 코드 - 기프트 카드를 사용하려면 스캔하세요",
+          "copy_code": "기프트 카드 코드 복사",
+          "expiration_date": "{{ expires_on }}에 만료됨",
+          "copy_code_success": "코드가 성공적으로 복사됨",
+          "expired": "만료됨"
+        }
+      }
+    }
+  },
+  "sections": {
+    "collection-list": {
+      "placeholder": "Your collection's name",
+      "$locale": {
+        "es": {
+          "placeholder": "El nombre de tu colección"
+        },
+        "fr": {
+          "placeholder": "Le nom de votre collection"
+        },
+        "de": {
+          "placeholder": "Der Name Ihrer Kollektion"
+        },
+        "ru": {
+          "placeholder": "Имя вашей коллекции"
+        },
+        "nl": {
+          "placeholder": "De naam van uw collectie"
+        },
+        "zh": {
+          "placeholder": "您收藏的名称"
+        },
+        "ja": {
+          "placeholder": "コレクションの名前"
+        },
+        "ko": {
+          "placeholder": "컬렉션 이름"
+        }
+      }
+    },
+    "login": {
+      "title": "Login",
+      "email_placeholder": "Email",
+      "password_placeholder": "Password",
+      "forgot_password": "Forgot password?",
+      "create_account": "Create an account",
+      "sign_in": "Sign in",
+      "error": "Error",
+      "$locale": {
+        "es": {
+          "title": "Iniciar sesión",
+          "email_placeholder": "Correo electrónico",
+          "password_placeholder": "Contraseña",
+          "forgot_password": "¿Olvidaste tu contraseña?",
+          "create_account": "Crear una cuenta",
+          "sign_in": "Iniciar sesión",
+          "error": "Error"
+        },
+        "fr": {
+          "title": "Connexion",
+          "email_placeholder": "Email",
+          "password_placeholder": "Mot de passe",
+          "forgot_password": "Mot de passe oublié?",
+          "create_account": "Créer un compte",
+          "sign_in": "Se connecter",
+          "error": "Erreur"
+        },
+        "de": {
+          "title": "Anmelden",
+          "email_placeholder": "E-Mail",
+          "password_placeholder": "Passwort",
+          "forgot_password": "Passwort vergessen?",
+          "create_account": "Ein Konto erstellen",
+          "sign_in": "Einloggen",
+          "error": "Fehler"
+        },
+        "ru": {
+          "title": "Авторизоваться",
+          "email_placeholder": "Электронная почта",
+          "password_placeholder": "Пароль",
+          "forgot_password": "Забыли пароль?",
+          "create_account": "Создать аккаунт",
+          "sign_in": "Войти",
+          "error": "Ошибка"
+        },
+        "nl": {
+          "title": "Inloggen",
+          "email_placeholder": "E-mail",
+          "password_placeholder": "Wachtwoord",
+          "forgot_password": "Wachtwoord vergeten?",
+          "create_account": "Een account aanmaken",
+          "sign_in": "Inloggen",
+          "error": "Fout"
+        },
+        "zh": {
+          "title": "登录",
+          "email_placeholder": "电子邮件",
+          "password_placeholder": "密码",
+          "forgot_password": "忘记密码？",
+          "create_account": "创建账户",
+          "sign_in": "登录",
+          "error": "错误"
+        },
+        "ja": {
+          "title": "ログイン",
+          "email_placeholder": "メールアドレス",
+          "password_placeholder": "パスワード",
+          "forgot_password": "パスワードをお忘れですか？",
+          "create_account": "アカウントを作成する",
+          "sign_in": "サインイン",
+          "error": "エラー"
+        },
+        "ko": {
+          "title": "로그인",
+          "email_placeholder": "이메일",
+          "password_placeholder": "비밀번호",
+          "forgot_password": "비밀번호를 잊으셨나요?",
+          "create_account": "계정 만들기",
+          "sign_in": "로그인",
+          "error": "오류"
+        }
+      }
+    },
+    "announcements": {
+      "announcement_slideshow": "Announcement slideshow",
+      "announcement": "Announcement",
+      "$locale": {
+        "es": {
+          "announcement_slideshow": "Diapositiva de anuncio",
+          "announcement": "Anuncio"
+        },
+        "fr": {
+          "announcement_slideshow": "Diaporama d'annonce",
+          "announcement": "Annonce"
+        },
+        "de": {
+          "announcement_slideshow": "Ankündigungsdiashow",
+          "announcement": "Ankündigung"
+        },
+        "ru": {
+          "announcement_slideshow": "Слайд-шоу объявления",
+          "announcement": "Объявление"
+        },
+        "nl": {
+          "announcement_slideshow": "Aankondiging diashow",
+          "announcement": "Aankondiging"
+        },
+        "zh": {
+          "announcement_slideshow": "公告幻灯片",
+          "announcement": "公告"
+        },
+        "ja": {
+          "announcement_slideshow": "お知らせスライドショー",
+          "announcement": "お知らせ"
+        },
+        "ko": {
+          "announcement_slideshow": "공지 슬라이드쇼",
+          "announcement": "공지사항"
+        }
+      }
+    },
+    "announcement": {
+      "name": "Announcement",
+      "dismiss": "Dismiss",
+      "$locale": {
+        "es": {
+          "name": "Anuncio",
+          "dismiss": "Descartar"
+        },
+        "fr": {
+          "name": "Annonce",
+          "dismiss": "Rejeter"
+        },
+        "de": {
+          "name": "Ankündigung",
+          "dismiss": "Ablehnen"
+        },
+        "ru": {
+          "name": "Объявление",
+          "dismiss": "Отклонить"
+        },
+        "nl": {
+          "name": "Aankondiging",
+          "dismiss": "Afwijzen"
+        },
+        "zh": {
+          "name": "公告",
+          "dismiss": "关闭"
+        },
+        "ja": {
+          "name": "お知らせ",
+          "dismiss": "却下する"
+        },
+        "ko": {
+          "name": "공지사항",
+          "dismiss": "해제"
+        }
+      },
+      "blocks": {
+        "announcement": {
+          "name": "Announcement",
+          "$locale": {
+            "es": {
+              "name": "Anuncio"
+            },
+            "fr": {
+              "name": "Annonce"
+            },
+            "de": {
+              "name": "Ankündigung"
+            },
+            "ru": {
+              "name": "Объявление"
+            },
+            "nl": {
+              "name": "Aankondiging"
+            },
+            "zh": {
+              "name": "公告"
+            },
+            "ja": {
+              "name": "お知らせ"
+            },
+            "ko": {
+              "name": "공지사항"
+            }
+          }
+        }
+      }
+    },
+    "related_products": {
+      "title": "You may also like",
+      "no_products": "No related products available.",
+      "$locale": {
+        "es": {
+          "title": "También te puede gustar",
+          "no_products": "No hay productos relacionados disponibles."
+        },
+        "fr": {
+          "title": "Vous aimerez aussi",
+          "no_products": "Aucun produit connexe disponible."
+        },
+        "de": {
+          "title": "Das könnte Ihnen auch gefallen",
+          "no_products": "Keine verwandten Produkte verfügbar."
+        },
+        "ru": {
+          "title": "Вам также может понравиться",
+          "no_products": "Нет доступных связанных продуктов."
+        },
+        "nl": {
+          "title": "Je vindt misschien ook leuk",
+          "no_products": "Geen verwante producten beschikbaar."
+        },
+        "zh": {
+          "title": "你可能也喜欢",
+          "no_products": "没有相关产品可用。"
+        },
+        "ja": {
+          "title": "あなたも好きかもしれません",
+          "no_products": "関連商品はありません。"
+        },
+        "ko": {
+          "title": "당신도 좋아할지도 모릅니다",
+          "no_products": "관련 제품이 없습니다."
+        }
+      }
+    },
+    "collection": {
+      "filters": {
+        "filters": "Filter",
+        "from": "From",
+        "to": "To",
+        "selected": "Selected",
+        "sort_by": "Sort by",
+        "reset": "Reset",
+        "$locale": {
+          "es": {
+            "filters": "Filtrar",
+            "from": "De",
+            "to": "A",
+            "selected": "Seleccionado",
+            "sort_by": "Ordenar por",
+            "reset": "Reiniciar"
+          },
+          "fr": {
+            "filters": "Filtrer",
+            "from": "De",
+            "to": "À",
+            "selected": "Sélectionné",
+            "sort_by": "Trier par",
+            "reset": "Réinitialiser"
+          },
+          "de": {
+            "filters": "Filtern",
+            "from": "Von",
+            "to": "Bis",
+            "selected": "Ausgewählt",
+            "sort_by": "Sortieren nach",
+            "reset": "Zurücksetzen"
+          },
+          "ru": {
+            "filters": "Фильтры",
+            "from": "От",
+            "to": "К",
+            "selected": "Выбранный",
+            "sort_by": "Сортировать по",
+            "reset": "Сбросить"
+          },
+          "nl": {
+            "filters": "Filteren",
+            "from": "Van",
+            "to": "Aan",
+            "selected": "Geselecteerd",
+            "sort_by": "Sorteer op",
+            "reset": "Reset"
+          },
+          "zh": {
+            "filters": "过滤器",
+            "from": "从",
+            "to": "到",
+            "selected": "已选择",
+            "sort_by": "排序依据",
+            "reset": "重置"
+          },
+          "ja": {
+            "filters": "フィルター",
+            "from": "から",
+            "to": "まで",
+            "selected": "選択した",
+            "sort_by": "並べ替え",
+            "reset": "リセット"
+          },
+          "ko": {
+            "filters": "필터",
+            "from": "에서",
+            "to": "까지",
+            "selected": "선택됨",
+            "sort_by": "정렬 기준",
+            "reset": "재설정"
+          }
+        }
+      }
+    }
+  },
+  "templates": {
+    "404": {
+      "title": "Page not found",
+      "$locale": {
+        "es": {
+          "title": "Página no encontrada"
+        },
+        "fr": {
+          "title": "Page non trouvée"
+        },
+        "de": {
+          "title": "Seite nicht gefunden"
+        },
+        "ru": {
+          "title": "Страница не найдена"
+        },
+        "nl": {
+          "title": "Pagina niet gevonden"
+        },
+        "zh": {
+          "title": "页面未找到"
+        },
+        "ja": {
+          "title": "ページが見つかりません"
+        },
+        "ko": {
+          "title": "페이지를 찾을 수 없습니다"
+        }
+      }
+    }
+  }
+}
