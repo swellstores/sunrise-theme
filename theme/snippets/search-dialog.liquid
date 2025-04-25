@@ -34,7 +34,7 @@
         <button
           type="submit"
           class="absolute inset-y-0 right-0 flex items-center pr-[16px] cursor-pointer"
-          aria-label="Submit search"
+          aria-label="{{ 'general.search.submit' | t }}"
         >
           {{ 'search-dialog-icon.svg' | inline_asset_content }}
         </button>
@@ -44,7 +44,7 @@
       <search-trigger
         type="button"
         class="size-6 flex items-center justify-center cursor-pointer"
-        aria-label="Dismiss"
+        aria-label="{{ 'general.search.dismiss' | t }}"
       >
         <button type="button" class="close-button">
           <div class="close-icon" aria-hidden="true">

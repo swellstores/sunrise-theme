@@ -304,7 +304,7 @@
       <div class="lg:hidden">
         <swiper-container
           role="region"
-          aria-label="Mobile Slideshow"
+          aria-label="{{ 'sections.slideshow.label' | t }}"
           loop="{{ loop }}"
           direction="horizontal"
           slides-per-view="1"
@@ -544,7 +544,7 @@
                       {{ block.settings.trigger | inline_editable: 'trigger' }}
                       <ion-icon
                         name="chevron-down-outline"
-                        aria-label="Toggle accordion item"
+                        aria-label="{{ 'general.accordion.toggle' | t }}"
                         class="h-4 w-4 transition-transform"
                       >
                       </ion-icon>

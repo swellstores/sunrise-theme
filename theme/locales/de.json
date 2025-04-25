@@ -1,0 +1,221 @@
+{
+  "general": {
+    "continue_shopping": "Weiter einkaufen",
+    "breadcrumbs": {
+      "label": "Breadcrumbs",
+      "home": "Startseite",
+      "collections": "Kollektionen",
+      "products": "Produkte",
+      "account": "Konto",
+      "register": "Registrieren",
+      "addresses": "Adressen",
+      "activate_account": "Konto aktivieren"
+    },
+    "pagination": {
+      "label": "Paginierung",
+      "page": "Seite {{ number }}",
+      "next": "Weiter",
+      "previous": "Zurück"
+    },
+    "search": {
+      "placeholder": "Suche",
+      "submit": "Suche starten",
+      "no_results": "Keine Ergebnisse für „{{ terms }}“ gefunden",
+      "store": "Suche in {{ store_name }}",
+      "dismiss": "Suche schließen"
+    },
+    "localization": {
+      "language": "Sprache",
+      "currency": "Währung",
+      "title_language_and_currency": "Wähle deine Sprache und Währung",
+      "title_language": "Wähle deine Sprache",
+      "title_currency": "Wähle deine Währung",
+      "submit": "Weiter"
+    },
+    "accordion": {
+      "toggle": "Element umschalten"
+    },
+    "page_not_found": "Seite nicht gefunden",
+    "share": "Teilen",
+    "loading": "Laden..."
+  },
+  "customer": {
+    "log_out": "Abmelden",
+    "log_in": "Anmelden",
+    "account": {
+      "title": "Konto",
+      "my_orders": "Meine Bestellungen",
+      "orders": "Bestellungen",
+      "address_book": "Adressbuch",
+      "addresses": "Adressen",
+      "no_orders_found": "Keine Bestellungen gefunden."
+    },
+    "activate_account": {
+      "title": "Konto aktivieren",
+      "subtext": "Erstelle dein Passwort, um dein Konto zu aktivieren.",
+      "submit": "Aktivieren",
+      "cancel": "Abbrechen"
+    },
+    "addresses": {
+      "title": "Adressen",
+      "default": "Standardadresse",
+      "edit_address": "Adresse bearbeiten",
+      "first_name": "Vorname",
+      "last_name": "Nachname",
+      "company": "Firma",
+      "address1": "Adresszeile 1",
+      "address2": "Adresszeile 2",
+      "city": "Stadt",
+      "country mencionado": "Land/Region",
+      "province": "Bundesland",
+      "zip": "Postleitzahl",
+      "phone": "Telefonnummer (optional)",
+      "set_default": "Als Standardadresse festlegen",
+      "add": "Adresse hinzufügen",
+      "new": "Neue Adresse",
+      "back": "Zurück zum Adressbuch",
+      "cancel": "Abbrechen",
+      "submit": "Adresse speichern",
+      "edit": "Bearbeiten",
+      "remove": "Entfernen",
+      "remove_confirm": "Bist du sicher, dass du diese Adresse entfernen möchtest?"
+    }
+  },
+  "sections": {
+    "login": {
+      "title": "Anmelden",
+      "email": "E-Mail-Adresse",
+      "password": "Passwort",
+      "forgot_password": "Passwort vergessen?",
+      "create_account": "Konto erstellen",
+      "sign_in": "Anmelden",
+      "error": "Dein Anmeldeversuch war nicht erfolgreich. Bitte versuche es erneut."
+    },
+    "register": {
+      "title": "Konto erstellen",
+      "first_name": "Vorname",
+      "last_name": "Nachname",
+      "email": "E-Mail-Adresse",
+      "password": "Passwort",
+      "already_have_account": "Hast du bereits ein Konto?",
+      "create_account": "Konto erstellen",
+      "error": "Dein Konto konnte nicht erstellt werden. Bitte versuche es erneut."
+    },
+    "reset-password": {
+      "title": "Passwort zurücksetzen",
+      "subtext": "Gib ein neues Passwort für dein Konto ein.",
+      "email": "E-Mail-Adresse",
+      "password": "Passwort",
+      "submit": "Passwort zurücksetzen",
+      "cancel": "Abbrechen",
+      "error": "Dein Passwort konnte nicht zurückgesetzt werden. Bitte versuche es erneut."
+    },
+    "recover-password": {
+      "title": "Passwort wiederherstellen",
+      "subtext": "Wir senden dir eine E-Mail, um dein Passwort zurückzusetzen.",
+      "email": "E-Mail-Adresse",
+      "password": "Passwort",
+      "submit": "Passwort wiederherstellen",
+      "cancel": "Abbrechen",
+      "sent": "E-Mail gesendet"
+    },
+    "blog": {
+      "read_more": "Mehr lesen"
+    },
+    "announcement": {
+      "label": "Ankündigung",
+      "description": "Ankündigungs-Diashow",
+      "dismiss": "Ankündigung schließen",
+      "slideshow_of": "von"
+    },
+    "collection": {
+      "filters": {
+        "filters": "Filter",
+        "filter_and_sort": "Filtern und sortieren",
+        "active": "Aktive Filter",
+        "from": "Von",
+        "to": "Bis",
+        "selected": "Ausgewählt",
+        "sort_by": "Sortieren nach",
+        "reset": "Zurücksetzen",
+        "close": "Schließen",
+        "clear_all": "Alle löschen",
+        "remove_label": "Filter für {{ attribute }} entfernen"
+      }
+    },
+    "header": {
+      "menu": "Menü",
+      "submenu": "Untermenü",
+      "cart": "Warenkorb"
+    },
+    "product": {
+      "quantity": {
+        "label": "Menge für {{ product_name }}",
+        "increment": "Menge erhöhen",
+        "decrement": "Menge verringern"
+      },
+      "purchase": {
+        "one_time": "Einmaliger Kauf",
+        "every_interval": "Alle {{ interval }}",
+        "interval_year": "Jahr",
+        "interval_year_plural": "Jahre",
+        "interval_month": "Monat",
+        "interval_month_plural": "Monate",
+        "interval_week": "Woche",
+        "interval_week_plural": "Wochen",
+        "interval_day": "Tag",
+        "interval_day_plural": "Tage",
+        "interval_year_abbreviated": "Jahr",
+        "interval_month_abbreviated": "Mon.",
+        "interval_week_abbreviated": "Wo."
+      }
+    },
+    "cart": {
+      "title": "Dein Warenkorb",
+      "empty": "Dein Warenkorb ist leer",
+      "estimated_total": "Geschätzter Gesamtbetrag",
+      "view_cart": "Warenkorb ansehen",
+      "checkout": "Zur Kasse",
+      "continue_checkout": "Weiter zur Kasse",
+      "subtotal": "Zwischensumme",
+      "taxes_discounts_shipping_at_checkout": "Steuern, Rabatte und Versandkosten werden an der Kasse berechnet.",
+      "headings": {
+        "product": "Produkt",
+        "total": "Gesamt",
+        "quantity": "Menge",
+        "discount": "Rabatt"
+      },
+      "login": {
+        "title": "Hast du ein Konto?",
+        "faster": "für einen schnelleren Checkout"
+      },
+      "item_count": {
+        "one": "{{ count }} Artikel",
+        "other": "{{ count }} Artikel"
+      }
+    },
+    "newsletter": {
+      "email": "E-Mail",
+      "success": "Du hast unseren Newsletter abonniert."
+    },
+    "slideshow": {
+      "label": "Diashow",
+      "next": "Nächste Folie",
+      "previous": "Vorherige Folie"
+    }
+  },
+  "accessibility": {
+    "skip_to_text": "Zum Inhalt springen",
+    "browser_video_support": "Dein Browser unterstützt das Video-Tag nicht.",
+    "close": "Schließen",
+    "error": "Fehler"
+  },
+  "onboarding": {
+    "product_title": "Beispielprodukt",
+    "collection_title": "Beispielkollektion",
+    "blog_title": "Beispiel-Blogtitel",
+    "blog_post_title": "Beispiel-Blogbeitrag",
+    "blog_post_summary": "Eine kurze Beschreibung deines Artikels.",
+    "blog_post_content": "Hier kannst du glänzen. Ersetze diesen Text durch deinen eigenen Blogbeitrag. Teile die Geschichte deines Shops, hebe hervor, was deine Produkte besonders macht, oder biete Tipps, um eine Verbindung zu deinem Publikum aufzubauen. Ein großartiger Beitrag kann Kunden anziehen, Vertrauen aufbauen und sie dazu bringen, wiederzukommen. Beginne hier zu schreiben, um deine Marke zu präsentieren und das Engagement zu steigern."
+  }
+}
