@@ -234,7 +234,6 @@
     },
     "newsletter": {
       "email": "Email",
-      "submit": "Submit",
       "success": "You have been subscribed to our newsletter."
     },
     "slideshow": {

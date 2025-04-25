@@ -1,10 +1,28 @@
 {%- liquid
   assign color_scheme = section.settings.color_scheme
-  assign padding_x = section.settings.padding_x
-  assign padding_y = section.settings.padding_y
+  assign reduced_padding_x = section.settings.padding_x | times: 0.55 | round: 0
+  assign reduced_padding_y = section.settings.padding_y | times: 0.55 | round: 0
 -%}
 
-<article class="bg-{{ color_scheme }} text-{{ color_scheme }} flex flex-col items-center gap-4 px-{{ padding_x }} py-{{ padding_y }}">
+{% style %}
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_y }}px;
+    padding-bottom: {{ reduced_padding_y }}px;
+    padding-left: {{ reduced_padding_x }}px;
+    padding-right: {{ reduced_padding_x }}px;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ section.settings.padding_y }}px;
+      padding-bottom: {{ section.settings.padding_y }}px;
+      padding-left: {{ section.settings.padding_x }}px;
+      padding-right: {{ section.settings.padding_x }}px;
+    }
+  }
+{% endstyle %}
+
+<article class="bg-{{ color_scheme }} text-{{ color_scheme }} flex flex-col items-center gap-4 responsive-padding-{{ section.id }}">
   {% if article.title != blank %}
     {%- for block in section.blocks -%}
       {%- case block.type -%}
@@ -26,7 +44,7 @@
         {%- case block.type -%}
           {%- when 'title' -%}
             {%- if block.settings.show_date -%}
-              <div class="font-display text-body-medium text-secondary-{{ color_scheme }}">
+              <div class="text-body-medium font-display text-secondary-{{ color_scheme }}">
                 {{- article.published_at | time_tag: format: 'date' -}}
               </div>
             {%- endif -%}
@@ -34,7 +52,7 @@
               {{ article.title | escape }}
             </h1>
             {%- if block.settings.show_author -%}
-              <div>
+              <div class="text-body-medium font-display text-secondary-{{ color_scheme }}">
                 {{ article.author }}
               </div>
             {%- endif -%}
@@ -84,6 +102,7 @@
       "min": 0,
       "max": 96,
       "step": 1,
+      "unit": "px",
       "default": 12
     },
     {
@@ -94,6 +113,7 @@
       "min": 0,
       "max": 96,
       "step": 1,
+      "unit": "px",
       "default": 0
     }
   ],
@@ -101,7 +121,15 @@
     {
       "type": "featured_image",
       "name": "Featured image",
-      "limit": 1
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "id": "featured_image_message",
+          "content_type": "info",
+          "content": "There are no settings available"
+        }
+      ]
     },
     {
       "type": "title",
@@ -125,11 +153,27 @@
     {
       "type": "content",
       "name": "Content",
-      "limit": 1
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "id": "content_message",
+          "content_type": "link",
+          "content": "Edit your content in your blog post"
+        }
+      ]
     },
     {
       "type": "share",
-      "name": "Share"
+      "name": "Share",
+      "settings": [
+        {
+          "type": "header",
+          "id": "share_message",
+          "content_type": "info",
+          "content": "There are no settings available"
+        }
+      ]
     }
   ]
 }
