@@ -1,6 +1,5 @@
 {%- liquid
   assign color_scheme = section.settings.color_scheme
-  assign logo_position = section.settings.logo_position
 
   if section.settings.border_b == true
     assign border_b = 'border-b border-color-' | append: color_scheme
@@ -13,11 +12,16 @@
   else
     assign text_uppercase = 'normal-case'
   endif
--%}
 
-{%- liquid
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+
+  # Compute menu trigger padding-right for mobile
+  if section.settings.logo_position == 'left' or section.settings.logo_position == blank
+    assign menu_trigger_padding_right = '32px'
+  else
+    assign menu_trigger_padding_right = '0'
+  endif
 -%}
 
 {% style %}
@@ -40,18 +44,158 @@
       z-index: 4999;
     }
   {%- endif -%}
+
+  .header-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 81px;
+  }
+
+  @media (min-width: 960px) {
+    .header-container {
+      height: auto;
+    }
+  }
+
+  /* Mobile layout */
+  @media (max-width: 959px) {
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .header-item--menu-trigger {
+      flex: 0 0 auto;
+      order: 0;
+      justify-content: flex-start;
+    }
+    .header-item--logo {
+      flex: 1 1 auto;
+      order: 1;
+      display: flex;
+      justify-content: center;
+    }
+    .header-item--icon-list {
+      flex: 0 0 auto;
+      order: 3;
+      display: flex;
+      justify-content: flex-end;
+      gap: 16px;
+    }
+  }
+
+  /* Desktop layout for top left and top center */
+  {% if section.settings.logo_position == 'top left' or section.settings.logo_position == 'top center' %}
+    .header-container {
+      display: flex;
+      flex-direction: column;
+    }
+    @media (min-width: 960px) {
+      .header-inner {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        width: 100%;
+        padding-bottom: 20px;
+      }
+      .header-item--logo-nav {
+        display: flex;
+        flex-direction: column;
+        align-items: {% if section.settings.logo_position == 'top center' %}center{% else %}flex-start{% endif %};
+      }
+      .header-item--logo {
+        display: flex;
+        justify-content: {% if section.settings.logo_position == 'top center' %}center{% else %}flex-start{% endif %};
+        padding-bottom: 20px;
+      }
+      .header-item--desktop-nav {
+        display: flex;
+        justify-content: {% if section.settings.logo_position == 'top center' %}center{% else %}flex-start{% endif %};
+      }
+      .header-item--icon-list {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 16px;
+      }
+    }
+  {% endif %}
+
+  /* Desktop layout for left and center */
+  {% if section.settings.logo_position == 'left' or section.settings.logo_position == 'center' or section.settings.logo_position == 'center left' %}
+    @media (min-width: 960px) {
+      .header-inner {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        height: 97px;
+        position: relative;
+      }
+      .header-item--logo {
+        display: flex;
+        {% if section.settings.logo_position == 'left' or section.settings.logo_position == 'center left' %}
+          order: 1;
+          flex: 0 0 auto;
+          justify-content: flex-start;
+        {% else %}
+          order: 2;
+          flex: 0 0 auto;
+          justify-content: center;
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+        {% endif %}
+      }
+      .header-item--desktop-nav {
+        display: flex;
+        align-items: center;
+        {% if section.settings.logo_position == 'left' %}
+          order: 2;
+          flex: 0 1 auto;
+          justify-content: center;
+          width: auto;
+          margin: 0 auto;
+        {% elsif section.settings.logo_position == 'center' %}
+          order: 1;
+          flex: 0 1 auto;
+          justify-content: flex-start;
+          width: auto;
+          margin-right: auto;
+        {% else %}
+          order: 2;
+          flex: 0 1 auto;
+          justify-content: flex-start;
+          width: auto;
+          margin-left: 32px;
+        {% endif %}
+      }
+      .header-item--icon-list {
+        flex: 0 0 auto;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        order: 3;
+        gap: 16px;
+        margin-left: auto;
+      }
+    }
+  {% endif %}
 {% endstyle %}
 
 <div class="swell-section">
-  <header class="relative {{ border_b }} text-{{ color_scheme }} bg-{{color_scheme}}">
+  <header class="relative {{ border_b }} text-{{ color_scheme }} bg-{{ color_scheme }} responsive-padding-{{ section.id }}">
     <div class="w-full h-full">
-      <div class="pl-[24px] pr-[24px] lg:pl-[160px] lg:pr-[160px]">
-        <div class="max-w-container m-auto w-full h-full">
-          <div class="{%- if logo_position == 'top center' or logo_position == 'top left' -%}h-full min-[960px]:pb-[20px] {% else %}h-[81px]{% endif %} {%- if logo_position == 'top center' or logo_position == 'top left' -%}h-full{% else %}h-[97px]{% endif %} flex flex-row items-center justify-between w-full {% if logo_position == 'left' or logo_position == 'center left' or logo_position == 'top left' %}min-[960px]:flex{% else %}sm:grid sm:grid-cols-3{% endif %} responsive-padding-{{ section.id }}">
-            {%- if logo_position == 'left' or logo_position == blank -%}
-              <div class="flex items-center">
+      <div class="pl-[24px] pr-[24px] sm:px-[48px]">
+        <div class="max-w-container mx-auto w-full h-full">
+          <div class="header-container">
+            <div class="header-inner">
+              <!-- Menu Trigger -->
+              <div class="header-item header-item--menu-trigger">
                 {% if section.settings.desktop_menu_type == 'drawer' %}
-                  <div class="hidden min-[960px]:flex items-center pl-0 h-full">
+                  <div class="hidden min-[960px]:flex items-center h-full">
                     <button
                       class="min-w-min flex items-center justify-center h-full"
                       data-drawer-menu-trigger
@@ -84,106 +228,30 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                   </svg>
                 </button>
-                <div class="flex items-center pl-[24px] {% if section.settings.desktop_menu_type == 'drawer' %}pl-[32px]{% endif %} min-[1600px]:pl-[calc((100%-1600px)/2)]">
-                  {%- render 'header-logo' -%}
-                </div>
               </div>
-              {% if section.settings.desktop_menu_type == 'mega' or section.settings.desktop_menu_type == 'dropdown' %}
-                <div class="hidden min-[960px]:flex justify-center items-center flex-1">
-                  {%- render 'header-desktop-nav',
-                    text_uppercase: text_uppercase,
-                    menu_color_scheme: section.settings.menu_color_scheme
-                  -%}
-                </div>
-              {% endif %}
-              <div class="flex items-center justify-end">
-                {%- render 'header-desktop-icon-list', color_scheme: color_scheme -%}
-              </div>
-            {%- elsif logo_position == 'center' -%}
-              {% if section.settings.desktop_menu_type == 'drawer' %}
-                <div class="hidden min-[960px]:flex items-center">
-                  <button
-                    class="min-w-min"
-                    data-drawer-menu-trigger
-                    aria-label="Open menu"
-                  >
-                    <svg
-                      class="w-6 h-6"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                  </button>
+
+              <!-- Logo and Nav -->
+              {% if section.settings.logo_position == 'top left' or section.settings.logo_position == 'top center' %}
+                <div class="header-item header-item--logo-nav">
+                  <div class="header-item header-item--logo">
+                    {%- render 'header-logo' -%}
+                  </div>
+                  {% if section.settings.desktop_menu_type == 'mega' or section.settings.desktop_menu_type == 'dropdown' %}
+                    <div class="header-item header-item--desktop-nav hidden min-[960px]:flex items-center">
+                      {%- render 'header-desktop-nav',
+                        text_uppercase: text_uppercase,
+                        color_scheme: color_scheme,
+                        menu_color_scheme: section.settings.menu_color_scheme
+                      -%}
+                    </div>
+                  {% endif %}
                 </div>
               {% else %}
+                <div class="header-item header-item--logo">
+                  {%- render 'header-logo' -%}
+                </div>
                 {% if section.settings.desktop_menu_type == 'mega' or section.settings.desktop_menu_type == 'dropdown' %}
-                  <div class="hidden min-[960px]:flex justify-start items-center">
-                    {%- render 'header-desktop-nav',
-                      text_uppercase: text_uppercase,
-                      menu_color_scheme: section.settings.menu_color_scheme
-                    -%}
-                  </div>
-                {% endif %}
-                <button class="min-[960px]:hidden block min-w-min" data-mobile-trigger aria-label="Open mobile menu">
-                  <svg
-                    class="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                  </svg>
-                </button>
-              {% endif %}
-              <div class="flex justify-center items-center min-[1600px]:pl-[calc((100%-1600px)/2)]">
-                {%- render 'header-logo' -%}
-              </div>
-              <div class="flex items-center justify-end gap-[16px]">
-                {%- render 'header-desktop-icon-list', color_scheme: color_scheme -%}
-              </div>
-            {%- elsif logo_position == 'top left' -%}
-              {% if section.settings.desktop_menu_type == 'drawer' %}
-                <div class="hidden min-[960px]:flex items-center pl-0">
-                  <button
-                    class="min-w-min items-center justify-center h-full"
-                    data-drawer-menu-trigger
-                    aria-label="Open menu"
-                  >
-                    <svg
-                      class="w-6 h-6"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                  </button>
-                </div>
-              {% endif %}
-              <button class="min-[960px]:hidden block min-w-min pl-0" data-mobile-trigger aria-label="Open mobile menu">
-                <svg
-                  class="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-              </button>
-              <div class="flex flex-col">
-                <div class="flex justify-start items-center {% if section.settings.desktop_menu_type == 'drawer' %}pl-[32px]{% endif %}">
-                  {%- render 'header-logo' -%}
-                </div>
-                {% if section.settings.desktop_menu_type == 'mega'
-                  or section.settings.desktop_menu_type == 'dropdown'
-                %}
-                  <div class="hidden min-[960px]:flex justify-start items-start">
+                  <div class="header-item header-item--desktop-nav hidden min-[960px]:flex items-center">
                     {%- render 'header-desktop-nav',
                       text_uppercase: text_uppercase,
                       color_scheme: color_scheme,
@@ -191,266 +259,172 @@
                     -%}
                   </div>
                 {% endif %}
-              </div>
-              <div class="flex items-center justify-end gap-[16px]">
-                {%- render 'header-desktop-icon-list', color_scheme: color_scheme -%}
-              </div>
-            {%- elsif logo_position == 'center left' -%}
-              {% if section.settings.desktop_menu_type == 'drawer' %}
-                <div class="hidden min-[960px]:flex items-center pl-0 h-full">
-                  <button
-                    class="min-w-min items-center justify-center h-full"
-                    data-drawer-menu-trigger
-                    aria-label="Open menu"
-                  >
-                    <svg
-                      class="w-6 h-6"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                  </button>
-                </div>
               {% endif %}
-              <button class="min-[960px]:hidden block min-w-min pl-0" data-mobile-trigger aria-label="Open mobile menu">
-                <svg
-                  class="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-              </button>
-              <div class="flex justify-start items-center {% if section.settings.desktop_menu_type == 'drawer' %}pl-[32px]{% endif %} min-[1600px]:pl-[calc((100%-1600px)/2)]">
-                {%- render 'header-logo' -%}
+
+              <!-- Icon List -->
+              <div class="header-item header-item--icon-list flex items-center justify-end gap-[16px]">
+                {%- render 'header-desktop-icon-list',
+                  color_scheme: color_scheme,
+                  show_language_selector: section.settings.show_language_selector,
+                  show_currency_selector: section.settings.show_currency_selector
+                -%}
               </div>
-              {% if section.settings.desktop_menu_type == 'mega' or section.settings.desktop_menu_type == 'dropdown' %}
-                <div class="hidden min-[960px]:flex justify-start items-center pl-[32px]">
-                  {%- render 'header-desktop-nav',
-                    text_uppercase: text_uppercase,
-                    color_scheme: color_scheme,
-                    menu_color_scheme: section.settings.menu_color_scheme
-                  -%}
-                </div>
-              {% endif %}
-              <div class="flex items-center justify-end gap-[16px]">
-                {%- render 'header-desktop-icon-list', color_scheme: color_scheme -%}
-              </div>
-            {%- elsif logo_position == 'top center' -%}
-              {% if section.settings.desktop_menu_type == 'drawer' %}
-                <div class="hidden min-[960px]:flex items-center">
-                  <button
-                    class="min-w-min block"
-                    data-drawer-menu-trigger
-                    aria-label="Open menu"
-                  >
-                    <svg
-                      class="w-6 h-6"
-                      fill="none"
-                      stroke="currentColor"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 24 24"
-                    >
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                  </button>
-                </div>
-              {% else %}
-                <button class="min-[960px]:hidden block min-w-min" data-mobile-trigger aria-label="Open mobile menu">
-                  <svg
-                    class="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                  </svg>
-                </button>
-              {% endif %}
-              {% if section.settings.desktop_menu_type == 'mega' or section.settings.desktop_menu_type == 'dropdown' %}
-                <div class="hidden min-[960px]:block"></div>
-              {% endif %}
-              <div class="flex flex-col">
-                <div class="flex justify-center items-center min-[1600px]:pl-[calc((100%-1600px)/2)]">
-                  {%- render 'header-logo' -%}
-                </div>
-                {% if section.settings.desktop_menu_type == 'mega'
-                  or section.settings.desktop_menu_type == 'dropdown'
-                %}
-                  <div class="hidden min-[960px]:flex justify-center items-center">
-                    {%- render 'header-desktop-nav',
-                      text_uppercase: text_uppercase,
-                      color_scheme: color_scheme,
-                      menu_color_scheme: section.settings.menu_color_scheme
-                    -%}
-                  </div>
-                {% endif %}
-              </div>
-              {%- render 'header-desktop-icon-list',
-                color_scheme: color_scheme,
-                show_language_selector: section.settings.show_language_selector,
-                show_currency_selector: section.settings.show_currency_selector
-              -%}
-            {%- endif -%}
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div
-      id="mobileTray"
-      class="z-[101] top-[80px] w-full inset-0 bg-white hidden"
-    >
       <div
-        id="trayContent"
-        class="flex flex-col gap-5 items-start sm:items-center pt-[32px] pl-[24px] pr-[24px] pb-[64px]"
+        id="mobileTray"
+        class="z-[101] top-[80px] w-full inset-0 bg-white hidden"
       >
-        {%- render 'mobile-main-menu', links: linklists[section.settings.menu].links, color_scheme: color_scheme -%}
-      </div>
-      <div id="svg-assets" class="hidden">
-        <div id="nav-right-arrow-icon">
-          {{ 'nav-right-arrow-icon.svg' | inline_asset_content }}
+        <div
+          id="trayContent"
+          class="flex flex-col gap-5 items-start sm:items-center pt-[32px] pl-[24px] pr-[24px] pb-[64px]"
+        >
+          {%- render 'mobile-main-menu',
+            links: linklists[section.settings.menu].links,
+            color_scheme: color_scheme
+          -%}
+        </div>
+        <div id="svg-assets" class="hidden">
+          <div id="nav-right-arrow-icon">
+            {{ 'nav-right-arrow-icon.svg' | inline_asset_content }}
+          </div>
         </div>
       </div>
-    </div>
-  </header>
+    </header>
 
-  {% if section.settings.desktop_menu_type == 'drawer' %}
-    {% render 'drawer-menu' %}
-  {% endif %}
-</div>
+    {% if section.settings.desktop_menu_type == 'drawer' %}
+      {% render 'drawer-menu' %}
+    {% endif %}
+  </div>
 
-{% render 'search-dialog' %}
+  {% render 'search-dialog' %}
 
-{% schema %}
-{
-  "name": "Header",
-  "settings": [
-    {
-      "type": "header",
-      "content": "Header"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "link_list",
-      "id": "menu",
-      "label": "Menu"
-    },
-    {
-      "type": "select",
-      "id": "desktop_menu_type",
-      "label": "Desktop menu type",
-      "options": [
-        { "value": "dropdown", "label": "Dropdown" },
-        { "value": "mega", "label": "Mega menu" },
-        { "value": "drawer", "label": "Drawer menu" }
-      ],
-      "default": "dropdown"
-    },
-    {
-      "type": "color_scheme",
-      "id": "menu_color_scheme",
-      "label": "Menu color scheme",
-      "default": "scheme-1"
-    },
-    {
-      "type": "range",
-      "id": "mega_menu_row_count",
-      "label": "Mega menu row count",
-      "min": 3,
-      "max": 5,
-      "step": 1,
-      "default": 4
-    },
-    {
-      "type": "select",
-      "id": "mega_menu_alignment",
-      "label": "Mega menu alignment",
-      "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" }
-      ],
-      "default": "center"
-    },
-    {
-      "type": "checkbox",
-      "id": "sticky",
-      "label": "Sticky header",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "border_b",
-      "default": false,
-      "label": "Bottom border"
-    },
-    {
-      "type": "checkbox",
-      "id": "text_uppercase",
-      "default": true,
-      "label": "Uppercase text"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_language_selector",
-      "label": "Show language selector",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_currency_selector",
-      "label": "Show currency selector",
-      "default": true
-    },
-    {
-      "type": "header",
-      "content": "Desktop",
-      "info": "640px and wider, for more refer to Tailwind's responsive design [docs](https://tailwindcss.com/docs/responsive-design)"
-    },
-    {
-      "type": "range",
-      "id": "top_padding",
-      "label": "Top padding",
-      "min": 0,
-      "max": 96,
-      "step": 1,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "bottom_padding",
-      "label": "Bottom padding",
-      "min": 0,
-      "max": 96,
-      "step": 1,
-      "unit": "px",
-      "default": 0
-    },
-    {
-      "type": "select",
-      "id": "logo_position",
-      "label": "Logo position",
-      "options": [
-        { "value": "top left", "label": "Top left" },
-        { "value": "top center", "label": "Top center" },
-        { "value": "center left", "label": "Center left" },
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" }
-      ],
-      "default": "left"
-    }
-  ]
-}
-{% endschema %}
+  {% schema %}
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Header"
+      },
+      {
+        "type": "color_scheme",
+        "id": "color_scheme",
+        "label": "Color scheme",
+        "default": "scheme-1"
+      },
+      {
+        "type": "link_list",
+        "id": "menu",
+        "label": "Menu"
+      },
+      {
+        "type": "select",
+        "id": "desktop_menu_type",
+        "label": "Desktop menu type",
+        "options": [
+          { "value": "dropdown", "label": "Dropdown" },
+          { "value": "mega", "label": "Mega menu" },
+          { "value": "drawer", "label": "Drawer menu" }
+        ],
+        "default": "dropdown"
+      },
+      {
+        "type": "color_scheme",
+        "id": "menu_color_scheme",
+        "label": "Menu color scheme",
+        "default": "scheme-1"
+      },
+      {
+        "type": "range",
+        "id": "mega_menu_row_count",
+        "label": "Mega menu row count",
+        "min": 3,
+        "max": 5,
+        "step": 1,
+        "default": 4
+      },
+      {
+        "type": "select",
+        "id": "mega_menu_alignment",
+        "label": "Mega menu alignment",
+        "options": [
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" }
+        ],
+        "default": "center"
+      },
+      {
+        "type": "checkbox",
+        "id": "sticky",
+        "label": "Sticky header",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "border_b",
+        "default": false,
+        "label": "Bottom border"
+      },
+      {
+        "type": "checkbox",
+        "id": "text_uppercase",
+        "default": true,
+        "label": "Uppercase text"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_language_selector",
+        "label": "Show language selector",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_currency_selector",
+        "label": "Show currency selector",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Desktop",
+        "info": "640px and wider, for more refer to Tailwind's responsive design [docs](https://tailwindcss.com/docs/responsive-design)"
+      },
+      {
+        "type": "range",
+        "id": "top_padding",
+        "label": "Top padding",
+        "min": 0,
+        "max": 96,
+        "step": 1,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "type": "range",
+        "id": "bottom_padding",
+        "label": "Bottom padding",
+        "min": 0,
+        "max": 96,
+        "step": 1,
+        "unit": "px",
+        "default": 0
+      },
+      {
+        "type": "select",
+        "id": "logo_position",
+        "label": "Logo position",
+        "options": [
+          { "value": "top left", "label": "Top left" },
+          { "value": "top center", "label": "Top center" },
+          { "value": "center left", "label": "Center left" },
+          { "value": "left", "label": "Left" },
+          { "value": "center", "label": "Center" }
+        ],
+        "default": "left"
+      }
+    ]
+  }
+  {% endschema %}

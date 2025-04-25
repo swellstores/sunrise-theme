@@ -3,8 +3,8 @@
 
 {% unless section.settings.desktop_menu_type == 'drawer' %}
   <nav role="navigation" class="flex justify-center h-full items-center w-full">
-    <div class="nav-container">
-      <ul class="flex h-full items-center {% if section.settings.logo_position == 'center' %}justify-start{% else %}justify-center{% endif %}">
+    <div class="nav-container w-full">
+      <ul class="flex h-full items-center {% if section.settings.logo_position == 'top left' %}justify-start{% elsif section.settings.logo_position == 'top center' %}justify-center{% else %}justify-start{% endif %} w-full min-[960px]:justify-start">
         {% assign selected_menu = section.settings.menu | default: 'main-menu' %}
         {% assign menu_links = linklists[selected_menu].links %}
 
