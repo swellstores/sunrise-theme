@@ -24,7 +24,7 @@
         <div class="flex flex-col items-center gap-4 text-center">
           <h1 class="font-heading text-display-large">{{ blog.title | escape }}</h1>
         </div>
-        <div class="grid p-4 gap-y-[16px] sm:grid-cols-2 gap-x-[16px] lg:gap-y-[48px] lg:grid-cols-3 h-100 lg:grid-rows-3">
+        <div class="grid pl-4 pr-4 pt-4 gap-y-[16px] sm:grid-cols-2 gap-x-[16px] lg:gap-y-[48px] lg:grid-cols-3 h-100">
           {%- for article in blog.articles -%}
             {%- render 'blog-item',
               article: article,
@@ -43,7 +43,7 @@
     <div class="flex flex-col items-center gap-4 text-center">
       <h1 class="font-heading text-display-large text-{{ color_scheme }}">Our blog</h1>
     </div>
-    <div class="grid p-4 gap-y-[16px] sm:grid-cols-2 gap-x-[16px] lg:gap-y-[48px] lg:grid-cols-3 h-100 lg:grid-rows-1">
+    <div class="grid pl-4 pr-4 pt-4 gap-y-[16px] sm:grid-cols-2 gap-x-[16px] lg:gap-y-[48px] lg:grid-cols-3 h-100 lg:grid-rows-1">
 
     {%- for i in (1..3) -%}
 
