@@ -2,15 +2,15 @@
   class="bg-{{section.settings.color_scheme}} flex flex-col items-center justify-center gap-4"
 >
   <div class="flex flex-col gap-4 py-7 text-center">
-    <h1 class="font-medium text-4xl">Register</h1>
-    <p class="text-sm">New here? Create an account</p>
+    <h1 class="font-medium text-4xl">{{ 'customer.activate_account.title' | t }}</h1>
+    <p class="text-sm">{{ 'customer.activate_account.subtext' | t }}</p>
   </div>
   {%- form 'activate_customer_password' -%}
     {%- if form.errors -%}
       <div class="bg-red-50 w-full flex flex-col rounded-md border border-red-600 mb-4 p-4">
         <h2 tabindex="-1" autofocus class="outline-none text-base text-red-600">
-          <span class="sr-only">Error</span>
-          Error
+          <span class="sr-only">{{ 'accessibility.error' | t }}</span>
+          {{ 'accessibility.error' | t }}
         </h2>
         <div class="text-sm text-red-600">
           {{ form.errors | default_errors }}
@@ -49,9 +49,10 @@
         {%- endif -%}
       </div>
     </div>
+    {% assign submit_text = 'customer.activate_account.submit' | t %}
     {% render 'button',
       type: 'submit',
-      text: 'Activate account',
+      text: submit_text,
       color_scheme: section.settings.color_scheme
     %}
     <div class="flex items-center justify-center gap-1 text-xs">
@@ -59,7 +60,7 @@
         href="{{ routes.root_url }}"
         class="underline underline-offset-2"
       >
-        Cancel
+        {{ 'customer.activate_account.cancel' | t }}
       </a>
     </div>
   {%- endform -%}

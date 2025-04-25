@@ -10,9 +10,7 @@
   assign pre_heading = section.settings.pre_heading
   assign heading = section.settings.heading
   assign selected_collection = section.settings.collection
--%}
 
-{%- liquid
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
 -%}
@@ -143,10 +141,10 @@
             </div>
 
             <div class="flex flex-col items-start gap-[2px] text-{{ color_scheme }}">
-              <h3 class="font-display text-title-small">Example product title</h3>
+              <h3 class="font-display text-title-small">{{ 'onboarding.product_title' | t }}</h3>
               <p class="font-display text-body-medium">
                 <div class="font-display flex gap-[6px] text-body-medium flex-wrap">
-                  {{ 999 | money_with_currency }}
+                  {{ 99 | money_with_currency }}
                 </div>
               </p>
             </div>

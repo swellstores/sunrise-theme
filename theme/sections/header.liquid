@@ -52,7 +52,7 @@
           <button
             class="min-[960px]:hidden block min-w-min pr-[32px]"
             data-mobile-trigger
-            aria-label="Open mobile menu"
+            aria-label="{{ 'sections.header.menu' | t }}"
           >
             <svg
               class="w-6 h-6"
@@ -73,7 +73,7 @@
           </div>
           {%- render 'header-desktop-icon-list', color_scheme: color_scheme -%}
         {%- elsif logo_position == 'center' -%}
-          <button class="min-[960px]:hidden block min-w-min" data-mobile-trigger aria-label="Open mobile menu">
+          <button class="min-[960px]:hidden block min-w-min" data-mobile-trigger aria-label="{{ 'sections.header.menu' | t }}">
             <svg
               class="w-6 h-6"
               fill="none"
@@ -95,7 +95,7 @@
           </div>
           {%- render 'header-desktop-icon-list', color_scheme: color_scheme -%}
         {%- elsif logo_position == 'center left' -%}
-          <button class="min-[960px]:hidden block min-w-min" data-mobile-trigger aria-label="Open mobile menu">
+          <button class="min-[960px]:hidden block min-w-min" data-mobile-trigger aria-label="{{ 'sections.header.menu' | t }}">
             <svg
               class="w-6 h-6"
               fill="none"
@@ -121,7 +121,7 @@
           <div class="hidden min-[960px]:block"></div>
           {%- render 'header-desktop-icon-list', color_scheme: color_scheme -%}
         {%- elsif logo_position == 'top left' -%}
-          <button class="min-[960px]:hidden block min-w-min" data-mobile-trigger aria-label="Open mobile menu">
+          <button class="min-[960px]:hidden block min-w-min" data-mobile-trigger aria-label="{{ 'sections.header.menu' | t }}">
             <svg
               class="w-6 h-6"
               fill="none"
@@ -149,7 +149,7 @@
             {%- render 'header-desktop-icon-list', color_scheme: color_scheme -%}
           </div>
         {%- elsif logo_position == 'top center' -%}
-          <button class="min-[960px]:hidden block min-w-min" data-mobile-trigger aria-label="Open mobile menu">
+          <button class="min-[960px]:hidden block min-w-min" data-mobile-trigger aria-label="{{ 'sections.header.menu' | t }}">
             <svg
               class="w-6 h-6"
               fill="none"
