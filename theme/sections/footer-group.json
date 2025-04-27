@@ -7,6 +7,7 @@
       "settings": {
         "color_scheme": "scheme-1",
         "button_variant": "solid",
+        "button_text": "Submit",
         "top_padding": 64,
         "bottom_padding": 64,
         "$locale": null
@@ -64,10 +65,20 @@
             "menu": "footer_menu",
             "single_column_heading": "Quick Links"
           }
+        },
+        "brand_info": {
+          "type": "brand_info",
+          "disabled": false,
+          "settings": {
+            "footer_title": "Our Mission",
+            "footer_text": "Quality materials, good designs, craftsmanship, and sustainability.",
+            "show_social_icons": true
+          }
         }
       },
       "block_order": [
-        "footer"
+        "footer",
+        "brand_info"
       ]
     }
   },
