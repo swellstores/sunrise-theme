@@ -72,7 +72,7 @@
   display: block;
 }
 
-/* Add a pseudo-element to create the hover bridge, used to prevent the menu from closing when hovering over the gap */
+/* pseudo-element to create the hover bridge, used to prevent the menu from closing when hovering over the gap */
 .nav-item::after {
   content: '';
   position: absolute;
