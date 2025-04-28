@@ -198,11 +198,11 @@
 
                 <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
                   <h3 class="font-display text-title-small font-semibold">
-                    Your product name
+                    {{ 'onboarding.product_title' | t }}
                   </h3>
 
                   <p class="font-display text-body-medium text-center font-normal">
-                    {{ 39 | money_with_currency }}
+                    {{ 99 | money_with_currency }}
                   </p>
                 </div>
               {%- endif -%}
@@ -248,7 +248,7 @@
                 </div>
                 <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
                   <h3 class="font-display text-title-small font-semibold">
-                    Your category name
+                    {{ 'onboarding.collection_title' | t }}
                   </h3>
                   <p
                     class="font-display text-body-medium"
@@ -295,10 +295,10 @@
 
                 <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
                   <h3 class="font-display text-title-small font-semibold">
-                    Your article title
+                    {{ 'onboarding.blog_post_title' | t }}
                   </h3>
                   <p class="font-display text-body-medium font-normal">
-                    A short description of your featured article.
+                    {{ 'onboarding.blog_post_description' | t }}
                   </p>
                 </div>
               {%- endif -%}
@@ -364,13 +364,6 @@
                     %}
                   </div>
                 {%- endif -%}
-              {%- else -%}
-                {% comment %} Text placeholder {% endcomment %}
-                <div
-                  class="text-body-medium font-display"
-                >
-                  Use this space to discuss a benefit or feature. Pair it with images to grab attention and give customers a quick, clear reason to engage with your store.
-                </div>
               {%- endif -%}
               </div>
             </div>

@@ -53,7 +53,7 @@
   {%- endif -%}
   <swiper-container
     role="region"
-    aria-label="Slideshow"
+    aria-label="{{ 'sections.slideshow.label' | t }}"
     loop="{{ loop }}"
     direction="horizontal"
     slides-per-view="1"
@@ -78,12 +78,12 @@
       {% assign opacity = block.settings.overlay_opacity | times: 0.01 %}
       {% assign content_color_scheme = block.settings.color_scheme_content %}
       {% assign overlay_color = block.settings.overlay_color %}
-      {% assign placeholderImage = 'hero-apparel-1' %}
+      {% assign placeholder_image = 'hero-apparel-1' %}
       {% case forloop.index %}
         {% when 1 %}
-          {% assign placeholderImage = 'hero-apparel-3' %}
+          {% assign placeholder_image = 'hero-apparel-3' %}
         {% when 2 %}
-          {% assign placeholderImage = 'hero-apparel-2' %}
+          {% assign placeholder_image = 'hero-apparel-2' %}
       {% endcase %}
 
       {%- if transparent == false -%}
@@ -103,7 +103,7 @@
               {%
                 render 'image',
                 picture_class: 'svg-placeholder',
-                placeholder: placeholderImage | placeholder_svg_tag: 'placeholder-svg'
+                placeholder: placeholder_image | placeholder_svg_tag: 'placeholder-svg'
               %}
              {% else %}
               {% render 'image', image: block.settings.image, class: 'w-full h-full object-cover object-center', alt: block.settings.image.alt | default: "Slide {{ forloop.index }}" %}

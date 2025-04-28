@@ -1,0 +1,221 @@
+{
+  "general": {
+    "continue_shopping": "Continua lo shopping",
+    "breadcrumbs": {
+      "label": "Percorso di navigazione",
+      "home": "Home",
+      "collections": "Collezioni",
+      "products": "Prodotti",
+      "account": "Account",
+      "register": "Registrazione",
+      "addresses": "Indirizzi",
+      "activate_account": "Attiva account"
+    },
+    "pagination": {
+      "label": "Paginazione",
+      "page": "Pagina {{ number }}",
+      "next": "Successivo",
+      "previous": "Precedente"
+    },
+    "search": {
+      "placeholder": "Cerca",
+      "submit": "Invia ricerca",
+      "no_results": "Nessun risultato trovato per “{{ terms }}”",
+      "store": "Cerca in {{ store_name }}",
+      "dismiss": "Chiudi ricerca"
+    },
+    "localization": {
+      "language": "Lingua",
+      "currency": "Valuta",
+      "title_language_and_currency": "Scegli la tua lingua e valuta",
+      "title_language": "Scegli la tua lingua",
+      "title_currency": "Scegli la tua valuta",
+      "submit": "Continua"
+    },
+    "accordion": {
+      "toggle": "Attiva/disattiva elemento"
+    },
+    "page_not_found": "Pagina non trovata",
+    "share": "Condividi",
+    "loading": "Caricamento..."
+  },
+  "customer": {
+    "log_out": "Esci",
+    "log_in": "Accedi",
+    "account": {
+      "title": "Account",
+      "my_orders": "I miei ordini",
+      "orders": "Ordini",
+      "address_book": "Rubrica indirizzi",
+      "addresses": "Indirizzi",
+      "no_orders_found": "Nessun ordine trovato."
+    },
+    "activate_account": {
+      "title": "Attiva account",
+      "subtext": "Crea la tua password per attivare il tuo account.",
+      "submit": "Attiva",
+      "cancel": "Annulla"
+    },
+    "addresses": {
+      "title": "Indirizzi",
+      "default": "Indirizzo predefinito",
+      "edit_address": "Modifica indirizzo",
+      "first_name": "Nome",
+      "last_name": "Cognome",
+      "company": "Azienda",
+      "address1": "Riga indirizzo 1",
+      "address2": "Riga indirizzo 2",
+      "city": "Città",
+      "country": "Paese/regione",
+      "province": "Provincia",
+      "zip": "CAP",
+      "phone": "Numero di telefono (opzionale)",
+      "set_default": "Imposta come indirizzo predefinito",
+      "add": "Aggiungi indirizzo",
+      "new": "Nuovo indirizzo",
+      "back": "Torna alla rubrica indirizzi",
+      "cancel": "Annulla",
+      "submit": "Salva indirizzo",
+      "edit": "Modifica",
+      "remove": "Rimuovi",
+      "remove_confirm": "Sei sicuro di voler rimuovere questo indirizzo?"
+    }
+  },
+  "sections": {
+    "login": {
+      "title": "Accesso",
+      "email": "Indirizzo e-mail",
+      "password": "Password",
+      "forgot_password": "Password dimenticata?",
+      "create_account": "Crea un account",
+      "sign_in": "Accedi",
+      "error": "Il tuo tentativo di accesso non è riuscito. Riprova."
+    },
+    "register": {
+      "title": "Crea account",
+      "first_name": "Nome",
+      "last_name": "Cognome",
+      "email": "Indirizzo e-mail",
+      "password": "Password",
+      "already_have_account": "Hai già un account?",
+      "create_account": "Crea account",
+      "error": "Non è stato possibile creare il tuo account. Riprova."
+    },
+    "reset-password": {
+      "title": "Reimposta password",
+      "subtext": "Inserisci una nuova password per il tuo account.",
+      "email": "Indirizzo e-mail",
+      "password": "Password",
+      "submit": "Reimposta password",
+      "cancel": "Annulla",
+      "error": "Non è stato possibile reimpostare la password. Riprova."
+    },
+    "recover-password": {
+      "title": "Recupera password",
+      "subtext": "Ti invieremo un'e-mail per reimpostare la tua password.",
+      "email": "Indirizzo e-mail",
+      "password": "Password",
+      "submit": "Recupera password",
+      "cancel": "Annulla",
+      "sent": "E-mail inviata"
+    },
+    "blog": {
+      "read_more": "Leggi di più"
+    },
+    "announcement": {
+      "label": "Annuncio",
+      "description": "Presentazione di annunci",
+      "dismiss": "Chiudi annuncio",
+      "slideshow_of": "di"
+    },
+    "collection": {
+      "filters": {
+        "filters": "Filtri",
+        "filter_and_sort": "Filtra e ordina",
+        "active": "Filtri attivi",
+        "from": "Da",
+        "to": "A",
+        "selected": "Selezionato",
+        "sort_by": "Ordina per",
+        "reset": "Reimposta",
+        "close": "Chiudi",
+        "clear_all": "Cancella tutto",
+        "remove_label": "Rimuovi filtro per {{ attribute }}"
+      }
+    },
+    "header": {
+      "menu": "Menu",
+      "submenu": "Sottomenu",
+      "cart": "Carrello"
+    },
+    "product": {
+      "quantity": {
+        "label": "Quantità per {{ product_name }}",
+        "increment": "Aumenta quantità",
+        "decrement": "Diminuisci quantità"
+      },
+      "purchase": {
+        "one_time": "Acquisto singolo",
+        "every_interval": "Ogni {{ interval }}",
+        "interval_year": "anno",
+        "interval_year_plural": "anni",
+        "interval_month": "mese",
+        "interval_month_plural": "mesi",
+        "interval_week": "settimana",
+        "interval_week_plural": "settimane",
+        "interval_day": "giorno",
+        "interval_day_plural": "giorni",
+        "interval_year_abbreviated": "anno",
+        "interval_month_abbreviated": "mese",
+        "interval_week_abbreviated": "sett."
+      }
+    },
+    "cart": {
+      "title": "Il tuo carrello",
+      "empty": "Il tuo carrello è vuoto",
+      "estimated_total": "Totale stimato",
+      "view_cart": "Visualizza carrello",
+      "checkout": "Procedi al pagamento",
+      "continue_checkout": "Continua al pagamento",
+      "subtotal": "Subtotale",
+      "taxes_discounts_shipping_at_checkout": "Tasse, sconti e spedizione calcolati al momento del pagamento.",
+      "headings": {
+        "product": "Prodotto",
+        "total": "Totale",
+        "quantity": "Quantità",
+        "discount": "Sconto"
+      },
+      "login": {
+        "title": "Hai un account?",
+        "faster": "per un pagamento più veloce"
+      },
+      "item_count": {
+        "one": "{{ count }} articolo",
+        "other": "{{ count }} articoli"
+      }
+    },
+    "newsletter": {
+      "email": "E-mail",
+      "success": "Ti sei iscritto alla nostra newsletter."
+    },
+    "slideshow": {
+      "label": "Presentazione",
+      "next": "Diapositiva successiva",
+      "previous": "Diapositiva precedente"
+    }
+  },
+  "accessibility": {
+    "skip_to_text": "Passa al contenuto",
+    "browser_video_support": "Il tuo browser non supporta il tag video.",
+    "close": "Chiudi",
+    "error": "Errore"
+  },
+  "onboarding": {
+    "product_title": "Prodotto di esempio",
+    "collection_title": "Collezione di esempio",
+    "blog_title": "Titolo di blog di esempio",
+    "blog_post_title": "Post di blog di esempio",
+    "blog_post_summary": "Una breve descrizione del tuo articolo.",
+    "blog_post_content": "Questo è il tuo spazio per brillare. Sostituisci questo testo con il tuo post di blog. Condividi la storia del tuo negozio, evidenzia ciò che rende i tuoi prodotti speciali o offri suggerimenti per connetterti con il tuo pubblico. Un ottimo post può attirare clienti, costruire fiducia e farli tornare. Inizia a scrivere qui per mostrare il tuo marchio e aumentare il coinvolgimento."
+  }
+}

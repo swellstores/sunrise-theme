@@ -1,0 +1,221 @@
+{
+  "general": {
+    "continue_shopping": "Continue shopping",
+    "breadcrumbs": {
+      "label": "Breadcrumbs",
+      "home": "Home",
+      "collections": "Collections",
+      "products": "Products",
+      "account": "Account",
+      "register": "Register",
+      "addresses": "Addresses",
+      "activate_account": "Activate account"
+    },
+    "pagination": {
+      "label": "Pagination",
+      "page": "Page {{ number }}",
+      "next": "Next",
+      "previous": "Previous"
+    },
+    "search": {
+      "placeholder": "Search",
+      "submit": "Submit search",
+      "no_results": "No results found for “{{ terms }}”",
+      "store": "Search {{ store_name }}",
+      "dismiss": "Dismiss search"
+    },
+    "localization": {
+      "language": "Language",
+      "currency": "Currency",
+      "title_language_and_currency": "Choose your language and currency",
+      "title_language": "Choose your language",
+      "title_currency": "Chose your currency",
+      "submit": "Continue"
+    },
+    "accordion": {
+      "toggle": "Toggle item"
+    },
+    "page_not_found": "Page not found",
+    "share": "Share",
+    "loading": "Loading..."
+  },
+  "customer": {
+    "log_out": "Log out",
+    "log_in": "Log in",
+    "account": {
+      "title": "Account",
+      "my_orders": "My orders",
+      "orders": "Orders",
+      "address_book": "Address book",
+      "addresses": "Addresses",
+      "no_orders_found": "No orders found."
+    },
+    "activate_account": {
+      "title": "Activate account",
+      "subtext": "Create your password to activate your account.",
+      "submit": "Activate",
+      "cancel": "Cancel"
+    },
+    "addresses": {
+      "title": "Addresses",
+      "default": "Default address",
+      "edit_address": "Edit address",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "company": "Company",
+      "address1": "Address line 1",
+      "address2": "Address line 2",
+      "city": "City",
+      "country": "Country/region",
+      "province": "Province",
+      "zip": "Zip/Postal code",
+      "phone": "Phone number (optional)",
+      "set_default": "Set as default address",
+      "add": "Add address",
+      "new": "New address",
+      "back": "Back to address book",
+      "cancel": "Cancel",
+      "submit": "Save address",
+      "edit": "Edit",
+      "remove": "Remove",
+      "remove_confirm": "Are you sure you want to remove this address?"
+    }
+  },
+  "sections": {
+    "login": {
+      "title": "Login",
+      "email": "Email address",
+      "password": "Password",
+      "forgot_password": "Forgot password?",
+      "create_account": "Create an account",
+      "sign_in": "Sign in",
+      "error": "Your login attempt was unsuccessful. Please try again."
+    },
+    "register": {
+      "title": "Create account",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "email": "Email address",
+      "password": "Password",
+      "already_have_account": "Already have an account?",
+      "create_account": "Create account",
+      "error": "Your account could not be created. Please try again."
+    },
+    "reset-password": {
+      "title": "Reset password",
+      "subtext": "Enter a new password for your account.",
+      "email": "Email address",
+      "password": "Password",
+      "submit": "Reset password",
+      "cancel": "Cancel",
+      "error": "Your password could not be reset. Please try again."
+    },
+    "recover-password": {
+      "title": "Recover password",
+      "subtext": "We'll send you an email to reset your password.",
+      "email": "Email address",
+      "password": "Password",
+      "submit": "Recover password",
+      "cancel": "Cancel",
+      "sent": "Email sent"
+    },
+    "blog": {
+      "read_more": "Read more"
+    },
+    "announcement": {
+      "label": "Announcement",
+      "description": "Announcement slideshow",
+      "dismiss": "Dismiss announcement",
+      "slideshow_of": "of"
+    },
+    "collection": {
+      "filters": {
+        "filters": "Filters",
+        "filter_and_sort": "Filter and sort",
+        "active": "Active filters",
+        "from": "From",
+        "to": "To",
+        "selected": "Selected",
+        "sort_by": "Sort by",
+        "reset": "Reset",
+        "close": "Close",
+        "clear_all": "Clear all",
+        "remove_label": "Remove filter for {{ attribute }}"
+      }
+    },
+    "header": {
+      "menu": "Menu",
+      "submenu": "Submenu",
+      "cart": "Shopping cart"
+    },
+    "product": {
+      "quantity": {
+        "label": "Quantity for {{ product_name }}",
+        "increment": "Increase quantity",
+        "decrement": "Decrease quantity"
+      },
+      "purchase": {
+        "one_time": "One-time purchase",
+        "every_interval": "Every {{ interval }}",
+        "interval_year": "year",
+        "interval_year_plural": "years",
+        "interval_month": "month",
+        "interval_month_plural": "months",
+        "interval_week": "week",
+        "interval_week_plural": "weeks",
+        "interval_day": "day",
+        "interval_day_plural": "days",
+        "interval_year_abbreviated": "yr",
+        "interval_month_abbreviated": "mo",
+        "interval_week_abbreviated": "wk"
+      }
+    },
+    "cart": {
+      "title": "Your cart",
+      "empty": "Your cart is empty",
+      "estimated_total": "Estimated total",
+      "view_cart": "View cart",
+      "checkout": "Checkout",
+      "continue_checkout": "Continue to checkout",
+      "subtotal": "Subtotal",
+      "taxes_discounts_shipping_at_checkout": "Taxes, discounts and shipping calculated at checkout.",
+      "headings": {
+        "product": "Product",
+        "total": "Total",
+        "quantity": "Quantity",
+        "discount": "Discount"
+      },
+      "login": {
+        "title": "Have an account?",
+        "faster": "to checkout faster"
+      },
+      "item_count": {
+        "one": "{{ count }} item",
+        "other": "{{ count }} items"
+      }
+    },
+    "newsletter": {
+      "email": "Email",
+      "success": "You have been subscribed to our newsletter."
+    },
+    "slideshow": {
+      "label": "Slideshow",
+      "next": "Next slide",
+      "previous": "Previous slide"
+    }
+  },
+  "accessibility": {
+    "skip_to_text": "Skip to content",
+    "browser_video_support": "Your browser does not support the video tag.",
+    "close": "Close",
+    "error": "Error"
+  },
+  "onboarding": {
+    "product_title": "Example product",
+    "collection_title": "Example collection",
+    "blog_title": "Example blog title",
+    "blog_post_title": "Example blog post",
+    "blog_post_summary": "A short description of your article.",
+    "blog_post_content": "This is your space to shine. Replace this text with your own blog post. Share your store's story, highlight what makes your products special, or offer tips to connect with your audience. A great post can draw customers in, build trust, and keep them coming back. Start writing here to showcase your brand and boost engagement."
+  }
+}

@@ -61,7 +61,7 @@
     <div id="submenuTray" class="hidden">
       <div class="flex gap-[8px] items-center h-[48px]" onclick="closeSubLinkTray()">
         {{- 'nav-left-arrow-icon.svg' | inline_asset_content -}}
-        <h2 id="trayTitle" class="font-display text-body-large">Submenu</h2>
+        <h2 id="trayTitle" class="font-display text-body-large">{{ 'sections.header.submenu' | t }}</h2>
       </div>
       <ul id="sublinkTrayContent" class="flex flex-col font-display text-body-large"></ul>
     </div>
