@@ -15,13 +15,6 @@
 
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
-
-  # Compute menu trigger padding-right for mobile
-  if section.settings.logo_position == 'left' or section.settings.logo_position == blank
-    assign menu_trigger_padding_right = '32px'
-  else
-    assign menu_trigger_padding_right = '0'
-  endif
 -%}
 
 {% style %}
