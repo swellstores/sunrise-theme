@@ -31,18 +31,24 @@
 {% endstyle %}
 
 <div class="container-padding-{{ section.id }} bg-{{ color_scheme }}">
-  <div class="mx-auto flex flex-row section-gap-{{ section.id }} min-h-[400px]">
-    {% comment %} Image Column {% endcomment %}
-    <div class="w-1/2">
-      {%- for block in section.blocks -%}
-        {%- case block.type -%}
-          {%- when 'image' -%}
+  <div class="mx-auto grid grid-cols-2 section-gap-{{ section.id }} min-h-[200px]">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'image' -%}
+          {% comment %} Image Column {% endcomment %}
+          <div >
             {%- if block.settings.link != blank -%}
               <a href="{{ block.settings.link }}" class="block w-full h-full">
             {%- endif -%}
 
             {%- if block.settings.image != blank -%}
-              {% render 'image', image: block.settings.image, alt: block.settings.image.alt | default: '', class: "w-full h-full object-cover" %}
+              {% render 'image',
+                image: block.settings.image,
+                alt: block.settings.image.alt | default: '',
+                picture_class: 'svg-placeholder object-fit object-center',
+                class: 'object-contain h-full',
+                placeholder: 'detailed-apparel-1'
+              %}
             {%- else -%}
               <div class="bg-{{ color_scheme }} w-full h-full">
                 {{ 'detailed-apparel-1' | placeholder_svg_tag: 'w-full h-full object-cover p-12' }}
@@ -52,15 +58,10 @@
             {%- if block.settings.link != blank -%}
               </a>
             {%- endif -%}
-        {%- endcase -%}
-      {%- endfor -%}
-    </div>
-
-    {% comment %} Content Column {% endcomment %}
-    <div class="w-1/2 flex items-center">
-      {%- for block in section.blocks -%}
-        {%- case block.type -%}
-          {%- when 'content' -%}
+          </div>
+        {%- when 'content' -%}
+          {% comment %} Content Column {% endcomment %}
+          <div class="flex items-center">
             <div class="w-full">
               <div class="w-full flex flex-col gap-8 bg-{{ block.settings.color_scheme }} text-{{ block.settings.color_scheme }} content-padding-{{ section.id }}-{{ block.id }}">
                 <div class="flex flex-col gap-[8px] text-{{ block.settings.text_alignment }}">
@@ -94,9 +95,9 @@
                 {%- endif -%}
               </div>
             </div>
-        {%- endcase -%}
-      {%- endfor -%}
-    </div>
+          </div>
+      {%- endcase -%}
+    {%- endfor -%}
   </div>
 </div>
 
