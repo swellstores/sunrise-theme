@@ -37,6 +37,20 @@
   opacity: 1 !important;
 }
 
+.mega-menus-container {
+  position: fixed;
+  left: 0;
+  width: 100vw;
+  z-index: 30;
+  height: auto;
+  pointer-events: none;
+  transform: translateY(26px);
+}
+
+.mega-menus-container.logo-left {
+  left: auto;
+}
+
 .mega-menus-container .mega-menu-wrapper .mega-menu-grid {
   width: 100%;
   max-width: 1586px;
@@ -128,21 +142,10 @@
   height: 100%;
 }
 
-/* Show dropdown on hover and keep it shown while interacting */
 .group:hover .standard-dropdown,
 .standard-dropdown:hover,
 .standard-dropdown:focus-within {
   display: block;
-}
-
-.mega-menus-container {
-  position: fixed;
-  left: 0;
-  width: 100vw;
-  z-index: 30;
-  height: auto;
-  pointer-events: none;
-  transform: translateY(26px);
 }
 
 .mega-menu-wrapper.active {
