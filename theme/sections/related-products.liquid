@@ -1,8 +1,3 @@
-{%- liquid
-  assign product_count = product.recommendations | size
-  assign max_products = section.settings.limit | at_most: product_count
--%}
-
 {%- if product.recommendations.size > 0 -%}
   <div class="bg-{{section.settings.color_scheme}} max-w-[1366px] mx-auto p-6">
     <div class="max-w-[1046px] mx-auto 2xl:max-w-[1380px] w-full">

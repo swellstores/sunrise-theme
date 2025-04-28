@@ -32,7 +32,7 @@
   <search-trigger
     type="button"
     class="size-6 flex items-center justify-center cursor-pointer text-{{ color_scheme }}"
-    aria-label="Search {{ shop.name }}"
+    aria-label="{{ 'general.search.store' | t: store_name: shop.name }}"
   >
     {{- 'search-icon.svg' | inline_asset_content -}}
   </search-trigger>
@@ -40,7 +40,7 @@
     <cart-trigger
       role="button"
       class="relative size-6 flex items-center justify-center text-{{ color_scheme }}"
-      aria-label="Shopping cart"
+      aria-label="{{ 'sections.header.cart' | t }}"
     >
       {{- 'cart-icon-new.svg' | inline_asset_content -}}
       <div

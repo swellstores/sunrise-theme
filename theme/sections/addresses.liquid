@@ -19,31 +19,31 @@
 {% endstyle %}
 
 <div class="bg-{{ color_scheme }} text-{{ color_scheme }} flex max-w-[1046px] flex-col pt-[16px] pb-[64px] pr-[32px] pl-[32px] gap-[24px] xl:pr-[0px] xl:pl-[0px] sm:flex-row sm:pt-[64px] sm:pb-[64px] mx-auto justify-center sm:gap-[32px] items-start responsive-padding-{{ section.id }}">
-  <a href="/account/" class="sm:hidden  font-display text-title-large">Account Settings</a>
+  <a href="/account/" class="sm:hidden  font-display text-title-large">{{ 'customer.account.title' | t }}</a>
 
   <div class="flex flex-col items-start text-center w-[250px]">
     <a
       href="/account"
       class="border-l px-[8px] py-[4px] font-display text-title-small {% if request.path == '/account' %}text-{{ color_scheme }} border-color-{{ color_scheme }} {% else %}text-secondary-{{ color_scheme }} border-[#E0E0E0]{% endif %}"
     >
-      My Orders
+      {{ 'customer.account.my_orders' | t }}
     </a>
     <a
       href="/account/addresses"
       class="border-l px-[8px] py-[4px] font-display text-title-small {% if request.path == '/account/addresses' %}text-{{ color_scheme }} border0color-{{ color_scheme }} {% else %}text-secondary-{{ color_scheme }} border-[#E0E0E0]{% endif %}"
     >
-      Address Book
+      {{ 'customer.account.address_book' | t }}
     </a>
 
     <a
       href="{{ routes.account_logout_url }}"
       class="px-[8px] py-[4px] font-display text-title-small"
-      >Logout</a
+      >{{ 'customer.log_out' | t }}</a
     >
   </div>
   {%- paginate customer.addresses by 5 -%}
     <div class="flex flex-col gap-[32px] w-full">
-      <h2 class="font-display text-headline-medium">Addresses</h2>
+      <h2 class="font-display text-headline-medium">{{ 'customer.account.addresses' | t }}</h2>
 
       <div class="flex flex-col gap-[32px]">
         <ul id="saved-addresses" class="flex flex-col gap-[16px]">
@@ -58,7 +58,7 @@
               </div>
               <div class="flex flex-col items-end">
                 {%- if address == customer.default_address -%}
-                  <h2 class="font-display text-body-medium font-display font-bold">Default address</h2>
+                  <h2 class="font-display text-body-medium font-display font-bold">{{ 'customer.addresses.default' | t }}</h2>
                 {%- endif -%}
                 <div class="text-{{ color_scheme }} text-title-small font-display flex gap-[12px]">
                   <button
@@ -66,15 +66,15 @@
                     class="edit-address-button"
                     data-address-id="{{ address.id }}"
                   >
-                    Edit
+                    {{ 'customer.addresses.edit' | t }}
                   </button>
                   <button
                     class="remove-address-button"
                     data-address-id="{{ address.id }}"
                     data-target="/account/addresses/{{ address.id }}"
-                    data-confirm-message="Are you sure you want to delete this address?"
+                    data-confirm-message="{{ 'customer.addresses.remove_confirm' | t }}"
                   >
-                    Remove
+                    {{ 'customer.addresses.remove' | t }}
                   </button>
                 </div>
               </div>
@@ -86,8 +86,9 @@
         </ul>
 
         <div id="add-address-button">
+          {% assign add_text = 'customer.addresses.add' | t %}
           {% render 'button',
-            text: 'Add Address',
+            text: add_text,
             type: 'button',
             name: 'toggle-new-address',
             color_scheme: color_scheme
@@ -95,73 +96,79 @@
         </div>
         <div id="new-address-form" class="hidden max-w-[500px] flex flex-col gap-[32px]">
           <div class="flex justify-between items-end">
-            <h2 class="font-display text-display-small ">New address</h2>
+            <h2 class="font-display text-display-small ">{{ 'customer.addresses.new' | t }}</h2>
             <a
               href="/account/addresses"
               class="text-body-medium font-display  underline"
-              >Back to address book</a
+              >{{ 'customer.addresses.back' | t }}</a
             >
           </div>
           {%- form 'customer_address', customer.new_address -%}
             <div class="mb-16 flex w-512 flex-col gap-4">
               <div class="flex gap-[16px]">
                 <div class="relative w-full">
+                  {% assign first_name_text = 'customer.addresses.first_name' | t %}
                   {% render 'input',
                     type: 'text',
                     name: 'address[first_name]',
                     id: 'address[first_name]',
                     value: form.first_name,
-                    placeholder: 'First name'
+                    placeholder: first_name_text
                   %}
                 </div>
                 <div class="relative w-full">
+                  {% assign last_name_text = 'customer.addresses.last_name' | t %}
                   {% render 'input',
                     type: 'text',
                     name: 'address[last_name]',
                     id: 'address[last_name]',
                     value: form.last_name,
-                    placeholder: 'Last name'
+                    placeholder: last_name_text
                   %}
                 </div>
               </div>
               <div class="relative">
+                {% assign company_text = 'customer.addresses.company' | t %}
                 {% render 'input',
                   type: 'text',
                   name: 'address[company]',
                   id: 'address[company]',
                   value: form.company,
-                  placeholder: 'Company'
+                  placeholder: company_text
                 %}
               </div>
               <div class="relative">
+                {% assign address1_text = 'customer.addresses.address1' | t %}
                 {% render 'input',
                   type: 'text',
                   name: 'address[address1]',
                   id: 'address[address1]',
                   value: form.address1,
-                  placeholder: 'Address 1'
+                  placeholder: address1_text
                 %}
               </div>
               <div class="relative">
+                {% assign address2_text = 'customer.addresses.address2' | t %}
                 {% render 'input',
                   type: 'text',
                   name: 'address[address2]',
                   id: 'address[address2]',
                   value: form.address2,
-                  placeholder: 'Address 2'
+                  placeholder: address2_text
                 %}
               </div>
               <div class="relative">
+                {% assign city_text = 'customer.addresses.city' | t %}
                 {% render 'input',
                   type: 'text',
                   name: 'address[city]',
                   id: 'address[city]',
                   value: form.city,
-                  placeholder: 'City'
+                  placeholder: city_text
                 %}
               </div>
               <div>
-                <label for="address[country]" class="block mb-2 text-sm font-medium text-gray-900">Country</label>
+                <label for="address[country]" class="block mb-2 text-sm font-medium text-gray-900">{{ 'customer.addresses.country' | t }}</label>
                 <select
                   id="address[country]"
                   name="address[country]"
@@ -171,7 +178,7 @@
                 </select>
               </div>
               <div class="hidden">
-                <label for="address[province]" class="block mb-2 text-sm font-medium text-gray-900">Province</label>
+                <label for="address[province]" class="block mb-2 text-sm font-medium text-gray-900">{{ 'customer.addresses.province' | t }}</label>
                 <select
                   id="address[province]"
                   name="address[province]"
@@ -179,38 +186,42 @@
                 ></select>
               </div>
               <div class="relative">
+                {% assign zip_text = 'customer.addresses.zip' | t %}
                 {% render 'input',
                   type: 'text',
                   name: 'address[zip]',
                   id: 'address[zip]',
                   value: form.zip,
-                  placeholder: 'Postcode'
+                  placeholder: zip_text
                 %}
               </div>
               <div class="relative">
+                {% assign phone_text = 'customer.addresses.phone' | t %}
                 {% render 'input',
                   type: 'tel',
                   name: 'address[phone]',
                   id: 'address[phone]',
                   value: form.zip,
-                  placeholder: 'Phone number (Optional)'
+                  placeholder: phone_text
                 %}
               </div>
               <div>
                 {{ form.set_as_default_checkbox }}
-                <label class="">Set as default address</label>
+                <label class="">{{ 'customer.addresses.set_default' | t }}</label>
               </div>
               <div class="flex gap-4 items-center justify-end">
+                {% assign cancel_text = 'customer.addresses.cancel' | t %}
                 {% render 'button',
                   type: 'button',
-                  text: 'Cancel',
+                  text: cancel_text,
                   name: 'cancel-button',
                   color_scheme: color_scheme,
                   variant: 'secondary'
                 %}
+                {% assign submit_text = 'customer.addresses.submit' | t %}
                 {% render 'button',
                   type: 'submit',
-                  text: 'Save address',
+                  text: submit_text,
                   color_scheme: color_scheme
                 %}
               </div>
@@ -220,65 +231,70 @@
         {%- for address in customer.addresses -%}
           <div id="edit-address-form-{{ address.id }}" class="hidden max-w-[500px] flex flex-col gap-[32px]">
             <div class="flex justify-between items-end">
-              <h2 class="font-display text-display-small ">Edit address</h2>
+              <h2 class="font-display text-display-small ">{{ 'customer.addresses.edit_address' | t }}</h2>
               <a
                 href="/account/addresses"
                 class="text-body-medium font-display  underline"
-                >Back to address book</a
+                >{{ 'customer.addresses.back' | t }}</a
               >
             </div>
             {%- form 'customer_address', address, return_to: '/account/addresses' -%}
               <div class="mb-16 flex w-512 flex-col gap-4">
                 <div class="relative">
+                  {% assign first_name_text = 'customer.addresses.first_name' | t %}
                   {% render 'input',
                     type: 'text',
                     name: 'address[first_name]',
                     id: 'address[first_name]',
                     value: form.first_name,
-                    placeholder: 'First name'
+                    placeholder: first_name_text
                   %}
                 </div>
                 <div class="relative">
+                  {% assign last_name_text = 'customer.addresses.last_name' | t %}
                   {% render 'input',
                     type: 'text',
                     name: 'address[last_name]',
                     id: 'address[last_name]',
                     value: form.last_name,
-                    placeholder: 'Last name'
+                    placeholder: last_name_text
                   %}
                 </div>
                 <div class="relative">
+                  {% assign company_text = 'customer.addresses.company' | t %}
                   {% render 'input',
                     type: 'text',
                     name: 'address[company]',
                     id: 'address[company]',
                     value: form.company,
-                    placeholder: 'Company'
+                    placeholder: company_text
                   %}
                 </div>
                 <div class="relative">
+                  {% assign address1_text = 'customer.addresses.address1' | t %}
                   {% render 'input',
                     type: 'text',
                     name: 'address[address1]',
                     id: 'address[address1]',
                     value: form.address1,
-                    placeholder: 'Address 1'
+                    placeholder: address1_text
                   %}
                 </div>
                 <div class="relative">
+                  {% assign address2_text = 'customer.addresses.address2' | t %}
                   {% render 'input',
                     type: 'text',
                     name: 'address[address2]',
                     id: 'address[address2]',
                     value: form.address2,
-                    placeholder: 'Address 2'
+                    placeholder: address2_text
                   %}
                 </div>
                 <div class="relative">
                   {% render 'input', type: 'text', name: 'address[city]', id: 'address[city]', value: form.city %}
                 </div>
                 <div>
-                  <label for="address[country]" class="block mb-2 text-sm font-medium text-gray-900">Country</label>
+                  <label for="address[country]" class="block mb-2 text-sm font-medium text-gray-900">{{ 'customer.addresses.country' | t }}</label>
                   <select
                     id="address[country]"
                     name="address[country]"
@@ -290,7 +306,7 @@
                   </select>
                 </div>
                 <div class="hidden">
-                  <label for="address[province]" class="block mb-2 text-sm font-medium text-gray-900">Province</label>
+                  <label for="address[province]" class="block mb-2 text-sm font-medium text-gray-900">{{ 'customer.addresses.province' | t }}</label>
                   <select
                     id="address[province]"
                     name="address[province]"
@@ -299,21 +315,23 @@
                   ></select>
                 </div>
                 <div class="relative">
+                  {% assign zip_text = 'customer.addresses.zip' | t %}
                   {% render 'input',
                     type: 'text',
                     name: 'address[zip]',
                     id: 'address[zip]',
                     value: form.zip,
-                    placeholder: 'Postcode'
+                    placeholder: zip_text
                   %}
                 </div>
                 <div class="relative">
+                  {% assign phone_text = 'customer.addresses.phone' | t %}
                   {% render 'input',
                     type: 'tel',
                     name: 'address[phone]',
                     id: 'address[phone]',
                     value: form.zip,
-                    placeholder: 'Phone number (Optional)'
+                    placeholder: phone_text
                   %}
                 </div>
                 <div>
@@ -327,19 +345,21 @@
                       checked
                     {% endif %}
                   >
-                  <label for="address[default]" class="">Set as default address</label>
+                  <label for="address[default]" class="">{{ 'customer.addresses.set_default' | t }}</label>
                 </div>
                 <div class="flex gap-4 items-center">
+                  {% assign cancel_text = 'customer.addresses.cancel' | t %}
                   {% render 'button',
                     type: 'button',
-                    text: 'Cancel',
+                    text: cancel_text,
                     name: 'cancel-button',
                     color_scheme: color_scheme,
                     variant: 'secondary'
                   %}
+                  {% assign submit_text = 'customer.addresses.submit' | t %}
                   {% render 'button',
                     type: 'submit',
-                    text: 'Update address',
+                    text: submit_text,
                     color_scheme: color_scheme
                   %}
                 </div>
@@ -351,16 +371,16 @@
 
       {%- if paginate.pages > 1 -%}
         {%- if paginate.parts.size > 0 -%}
-          <nav class="inline-flex -space-x-px text-sm" role="navigation" aria-label="Pagination">
+          <nav class="inline-flex -space-x-px text-sm" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
             <ul role="list" class="inline-flex">
               {%- if paginate.previous -%}
                 <li>
                   <a
                     href="{{ paginate.previous.url }}"
-                    aria-label="Previous"
+                    aria-label="{{ 'general.pagination.previous' | t }}"
                     class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700"
                   >
-                    Previous
+                    {{ 'general.pagination.previous' | t }}
                   </a>
                 </li>
               {%- endif -%}
@@ -397,10 +417,10 @@
                 <li>
                   <a
                     href="{{ paginate.next.url }}"
-                    aria-label="Next"
+                    aria-label="{{ 'general.pagination.next' | t }}"
                     class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700"
                   >
-                    Next
+                    {{ 'general.pagination.next' | t }}
                   </a>
                 </li>
               {%- endif -%}

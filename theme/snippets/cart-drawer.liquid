@@ -16,14 +16,14 @@
   <div class="flex flex-col items-start justify-between pt-[16px] pl-[24px] pr-[24px]">
     <div class="flex flex-row w-full justify-between">
       <div class="flex flex-col gap-[8px]">
-        <div class="text-headline-medium font-display">Your cart</div>
+        <div class="text-headline-medium font-display">{{ 'sections.cart.title' | t }}</div>
 
         <cart-drawer-trigger
           role="button"
           class="text-left text-body-medium font-display w-full underline underline-offset-4 {% if cart == empty %}hidden{% endif %}"
           aria-controls="cartDrawer"
         >
-          Continue shopping
+          {{ 'general.continue_shopping' | t }}
         </cart-drawer-trigger>
       </div>
       
@@ -42,8 +42,8 @@
   >
     <div class="pt-[16px] {% if cart == empty %}hidden{% endif %}">
       <div class="flex justify-between items-center w-full">
-        <span class="text-title-small font-display">Product</span>
-        <span class="text-title-small font-display">Total</span>
+        <span class="text-title-small font-display">{{ 'sections.cart.headings.product' | t }}</span>
+        <span class="text-title-small font-display">{{ 'sections.cart.headings.total' | t }}</span>
       </div>
 
       <div class="border-t border-color-{{ color_scheme }} w-full mt-[16px] mb-[0px]"></div>
@@ -62,11 +62,11 @@
       {%- endif -%}
 
       <div class="text-center flex-col items-center justify-center gap-[16px] flex-grow-0 h-full {% if cart == empty %}flex{% else %}hidden{% endif %}">
-        <p class="text-body-large font-display">Your cart is currently empty</p>
-
+        <p class="text-body-large font-display">{{ 'sections.cart.empty' | t }}</p>
         <div class="inline-flex">
+          {% assign continue_text = 'general.continue_shopping' | t %}
           {% render 'button',
-            text: 'Continue shopping',
+            text: continue_text,
             href: routes.all_products_collection_url,
             color_scheme: color_scheme
           %}
@@ -80,7 +80,7 @@
 
     <div class="flex flex-col gap-[8px]">
       <div class="flex items-center justify-between">
-        <h4 class="text-title-medium font-display">Estimated total</h4>
+        <h4 class="text-title-medium font-display">{{ 'sections.cart.estimated_total' | t }}</h4>
 
         <cart-drawer-subtotal class="text-body-large font-display">
           <span>{{ cart.original_total_price | money }}</span>
@@ -89,21 +89,22 @@
       </div>
 
       <div class="text-body-small font-display text-secondary-{{ color_scheme }}">
-        Taxes, discounts and shipping calculated at checkout
+        {{ 'sections.cart.taxes_discounts_shipping_at_checkout' | t }}
       </div>
     </div>
 
     <div class="flex flex-col gap-[16px] {% if cart == empty %}hidden{% endif %}">
+      {% assign view_text = 'sections.cart.view_cart' | t %}
       {% render 'button',
-        text: 'View cart',
+        text: view_text,
         href: routes.cart_url,
         full_width: true,
         color_scheme: color_scheme,
         variant: 'secondary'
       %}
-
+      {% assign checkout_text = 'sections.cart.checkout' | t %}
       {% render 'button',
-        text: 'Checkout',
+        text: checkout_text,
         type: 'submit',
         form: 'cart',
         name: 'checkout',

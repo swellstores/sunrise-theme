@@ -46,7 +46,7 @@
             type="button"
             class="-mr-2 flex h-10 w-10 items-center justify-center rounded-md p-2"
           >
-            <span class="sr-only">Close menu</span>
+            <span class="sr-only">{{ 'sections.collection.filters.close' | t }}</span>
             <svg
               class="h-6 w-6"
               fill="none"
@@ -154,7 +154,7 @@
 
   <!-- Filters -->
   <section aria-labelledby="filter-heading">
-    <h2 id="filter-heading" class="sr-only">Filters</h2>
+    <h2 id="filter-heading" class="sr-only">{{ 'sections.collection.filters.filters' | t }}</h2>
 
     <div class="">
       <div class="flex items-end justify-between mb-[16px]">
@@ -188,7 +188,7 @@
                 >
                   <span class="flex gap-[8px] items-center">
                     {{- 'filter-sort-icon.svg' | inline_asset_content -}}
-                    Filter and sort</span
+                    {{ 'sections.collection.filters.filter_and_sort' | t }}</span
                   >
                 </button>
                 <div class="gap-[16px] hidden md:flex">
@@ -318,7 +318,7 @@
     <div id="active-filters" hx-swap-oob="true">
       {% if active_filter_count > 0 %}
         <div class="bg-{{ color_scheme }} py-3 sm:flex sm:justify-between sm:items-center">
-          <span class="sr-only">Active filters</span>
+          <span class="sr-only">{{ 'sections.collection.filters.active' | t }}</span>
           <div class="-m-1 flex flex-wrap items-center">
             {% for filter in results.filters %}
               {% if filter.type == 'price_range' %}
@@ -342,7 +342,7 @@
               hx-select="#results"
               hx-swap="outerHTML"
             >
-              Clear All
+              {{ 'sections.collection.filters.clear_all' | t }}
             </a>
           </div>
         </div>

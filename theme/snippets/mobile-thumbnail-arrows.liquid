@@ -10,7 +10,7 @@
 
 <slideshow-button-prev
   role="button"
-  aria-label="Previous slide"
+  aria-label="{{ 'general.pagination.previous' | t }}"
   type="button"
   class="text-accent-{{ color_scheme }} group absolute left-0 top-1/2 flex h-11 w-12 -translate-y-1/2 items-center justify-center border-none transition-colors z-10"
   style="border-radius: {{ border_radius | default: 8 }}px;"
@@ -19,7 +19,7 @@
 </slideshow-button-prev>
 <slideshow-button-next
   role="button"
-  aria-label="Next slide"
+  aria-label="{{ 'general.pagination.next' | t }}"
   type="button"
   class="text-accent-{{ color_scheme }} group absolute right-0 top-1/2 flex h-11 w-12 -translate-y-1/2 items-center justify-center border-none transition-colors z-10"
   style="border-radius: {{ border_radius | default: 8 }}px;"

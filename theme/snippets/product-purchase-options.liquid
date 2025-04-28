@@ -28,7 +28,7 @@
           <div id="standard-div" class="relative flex w-full cursor-pointer rounded border px-6 py-4 text-sm transition-all {{ activeBorderClass }}"
             data-active-border-class="{{ activeBorderClass }}" data-inactive-border-class="{{ inactiveBorderClass }}" data-price="{{ product.selected_or_first_available_variant.price | money }}"
           >
-            <span>One-time Purchase</span>
+            <span>{{ 'sections.product.purchase.one_time' | t }}</span>
             <span class="ml-auto inline-block font-semibold">
               <span id="standard-div-price">
                 {{ product.selected_or_first_available_variant.price | money }}
@@ -54,40 +54,46 @@
             {%- for plan in product.purchase_options.subscription.plans -%}
               {%- liquid
                 if plan.billing_schedule.interval == 'weekly'
-                  assign interval = 'week'
-                  assign perInterval = 'wk'
+                  assign interval = 'sections.product.purchase.interval_week' | t
+                  assign interval_plural = 'sections.product.purchase.interval_week_plural' | t
+                  assign perInterval = 'sections.product.purchase.interval_week_abbreviated' | t
                 elsif plan.billing_schedule.interval == 'monthly'
-                  assign interval = 'month'
-                  assign perInterval = 'mo'
+                  assign interval = 'sections.product.purchase.interval_month' | t
+                  assign interval_plural = 'sections.product.purchase.interval_month_plural' | t
+                  assign perInterval = 'sections.product.purchase.interval_month_abbreviated' | t
                 elsif plan.billing_schedule.interval == 'yearly'
-                  assign interval = 'year'
-                  assign perInterval = 'yr'
+                  assign interval = 'sections.product.purchase.interval_year' | t
+                  assign interval_plural = 'sections.product.purchase.interval_year_plural' | t
+                  assign perInterval = 'sections.product.purchase.interval_year_abbreviated' | t
                 else
-                  assign interval = 'day'
-                  assign perInterval = 'day'
+                  assign interval = 'sections.product.purchase.interval_day' | t
+                  assign interval_plural = 'sections.product.purchase.interval_day_plural' | t
+                  assign perInterval = interval
                 endif
 
                 assign intervalCount = plan.billing_schedule.interval_count
                 assign moneyText = plan.price | money
                 assign moneyText = moneyText | append: '/'
+
                 if intervalCount == 1
-                  assign text = 'Every ' | append: interval
+                  assign text = 'sections.product.purchase.every_interval' | t: interval: interval
                   assign text = text | append: ' - '
                 else
-                  assign text = 'Every ' | append: intervalCount
+                  assign text = 'sections.product.purchase.every_interval' | t: interval: intervalCount
                   assign text = text | append: ' '
-                  assign text = text | append: interval
+                  assign text = text | append: interval_plural
                   assign text = text | append: 's - '
                   assign moneyText = moneyText | append: intervalCount
                 endif
+
                 assign moneyText = moneyText | append: perInterval
 
                 assign trialText = ''
                 if plan.billing_schedule.trial_days == 1
-                   assign trialText = 'Includes 1 trial day - '
+                   assign trialText = ' Includes 1 trial day - '
                 endif
                 if plan.billing_schedule.trial_days > 1
-                   assign trialText = 'Includes ' | append: plan.billing_schedule.trial_days
+                   assign trialText = ' Includes ' | append: plan.billing_schedule.trial_days
                    assign trialText = trialText | append: ' trial days - '
                 endif
 

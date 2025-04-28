@@ -41,19 +41,41 @@
           assign image_class = 'object-fill h-full'
         endif
 
-        assign pictureClass = 'svg-placeholder object-fit object-center'
+        assign picture_class = 'svg-placeholder object-fit object-center'
+        assign mobile_picture_class = 'svg-placeholder flex justify-center'
 
         if section.settings.banner_height == 'adapt'
           assign image_class = 'w-full h-full object-cover object-center'
-          assign pictureClass = ''
+          assign picture_class = ''
+          assign mobile_picture_class = ''
+        endif
+
+        assign main_image_class = 'block'
+        if section.settings.mobile_image != blank
+          assign main_image_class = 'hidden sm:block'
         endif
       %}
-      {% render 'image',
-        placeholder: 'lifestyle-1',
-        image: section.settings.image,
-        picture_class: pictureClass,
-        class: image_class
-      %}
+      <div class="{{ main_image_class }}">
+        {% render 'image',
+          placeholder: 'lifestyle-1',
+          image: section.settings.image,
+          picture_class: picture_class,
+          class: image_class
+        %}
+      </div>
+      {%- if section.settings.mobile_image != blank -%}
+        {%- comment -%}
+          The mobile image is always displayed with full height and object-cover. It ignores image_height setting.
+        {%- endcomment -%}
+        <div class="block sm:hidden">
+          {% render 'image',
+            placeholder: 'lifestyle-1',
+            image: section.settings.mobile_image,
+            picture_class: mobile_picture_class,
+            class: 'object-cover w-fit h-full'
+          %}
+        </div>
+      {%- endif -%}
     </div>
     <div
       class="absolute inset-0 bg-black"
@@ -146,12 +168,18 @@
   "settings": [
     {
       "type": "header",
-      "content": "Content"
+      "content": "Content",
+      "id": "header_content"
     },
     {
       "type": "image_picker",
       "id": "image",
       "label": "Background image"
+    },
+     {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile image"
     },
     {
       "type": "color",
@@ -207,7 +235,13 @@
         { "value": "fixed_height", "label": "Fixed height" },
         { "value": "fill", "label": "Fill" },
         { "value": "contain", "label": "Contain" }
-      ]
+      ],
+      "info": "Background image placement",
+      "conditions": {
+        "banner_height": {
+          "$ne": "adapt"
+        }
+      }
     },
     {
       "type": "select",
@@ -251,7 +285,8 @@
     },
     {
       "type": "header",
-      "content": "Colors"
+      "content": "Colors",
+      "id": "header_colors"
     },
     {
       "type": "color_scheme",
@@ -267,13 +302,14 @@
     },
     {
       "type": "header",
-      "content": "Layout"
+      "content": "Layout",
+      "id": "header_layout"
     },
     {
       "type": "select",
       "id": "content_alignment",
       "label": "Content position",
-      "default": "items-center justify-start",
+      "default": "items-center justify-center",
       "options": [
         {
           "value": "items-start justify-start",
