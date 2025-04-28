@@ -1,0 +1,101 @@
+{%- liquid
+  assign selected_menu = section.settings.selected_menu | default: 'main-menu'
+-%}
+
+<desktop-drawer-menu-root class="absolute">
+  <div
+    class="fixed top-0 left-0 h-full pl-[44px] pr-[16px] py-[24px] w-[408px] bg-white z-[100] transform -translate-x-full transition-transform duration-300 ease-in-out shadow-lg"
+    aria-hidden="true"
+    data-drawer-menu
+  >
+    <div class="flex flex-col h-full">
+      <div class="menu-layer" data-layer="main">
+        <div class="flex items-center justify-between" data-header>
+          <h2 class="font-normal">Menu</h2>
+          <button
+            aria-label="Close menu"
+            data-drawer-close
+          >
+            <ion-icon name="close-outline" class="w-6 h-6"></ion-icon>
+          </button>
+        </div>
+
+        <div class="flex-1 overflow-y-auto mt-[48px]" data-menu-content>
+          <ul>
+            {% for link in linklists[menu].links %}
+              <li class="first:mt-0 mt-[32px]">
+                <div class="flex items-center justify-between">
+                  <a href="{{ link.url }}" class="font-normal hover:underline flex-1">{{ link.title }}</a>
+                  {% if link.links.size > 0 %}
+                    <button
+                      class="ml-2 p-1"
+                      data-submenu-trigger
+                      data-parent-title="{{ link.title }}"
+                      aria-label="Show {{ link.title }} submenu"
+                    >
+                      <ion-icon name="chevron-forward-outline" class="w-5 h-5"></ion-icon>
+                    </button>
+                  {% endif %}
+                </div>
+
+                {% if link.links.size > 0 %}
+                  <template data-submenu-content>
+                    <button class="flex items-center gap-2 mb-4" data-back-button>
+                      <ion-icon name="chevron-back-outline" class="w-5 h-5"></ion-icon>
+                      <span>Back</span>
+                    </button>
+
+                    <span class="text-base underline mb-8">{{ link.title }}</span>
+
+                    <ul>
+                      {% for child_link in link.links %}
+                        <li class="first:mt-0 mt-[32px]">
+                          <div class="flex items-center justify-between">
+                            <a href="{{ child_link.url }}" class="font-normal hover:underline flex-1">
+                              {{- child_link.title -}}
+                            </a>
+                            {% if child_link.links.size > 0 %}
+                              <button
+                                class="ml-2 p-1"
+                                data-submenu-trigger
+                                data-parent-title="{{ child_link.title }}"
+                                aria-label="Show {{ child_link.title }} submenu"
+                              >
+                                <ion-icon name="chevron-forward-outline" class="w-5 h-5"></ion-icon>
+                              </button>
+                            {% endif %}
+                          </div>
+
+                          {% if child_link.links.size > 0 %}
+                            <template data-submenu-content>
+                              <button class="flex items-center gap-2 mb-4" data-back-button>
+                                <ion-icon name="chevron-back-outline" class="w-5 h-5"></ion-icon>
+                                <span>Back</span>
+                              </button>
+
+                              <span class="text-base underline mb-8">{{ child_link.title }}</span>
+
+                              <ul>
+                                {% for grandchild in child_link.links %}
+                                  <li class="first:mt-0 mt-[32px]">
+                                    <a href="{{ grandchild.url }}" class="font-normal hover:underline">
+                                      {{- grandchild.title -}}
+                                    </a>
+                                  </li>
+                                {% endfor %}
+                              </ul>
+                            </template>
+                          {% endif %}
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </template>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</desktop-drawer-menu-root>

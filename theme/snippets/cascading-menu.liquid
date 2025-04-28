@@ -4,6 +4,7 @@
 -%}
 
 {% if link and link.links.size > 0 %}
+  <div class="hover-bridge"></div>
   <div class="cascading-menu bg-{{ menu_scheme }} text-{{ menu_scheme }}">
     {% for child_link in link.links %}
       <div class="cascading-menu-item {% if child_link.links.size > 0 %}has-children{% endif %}">
