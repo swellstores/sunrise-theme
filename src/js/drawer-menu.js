@@ -18,15 +18,19 @@ export class DrawerMenu extends HTMLElement {
     this.announcement = null;
     this.header = null;
     this.searchDialog = null;
+    this.menuStack = [];
 
     this.openUiManagerBound = openUiManager.bind(this);
     this.closeUiManagerBound = closeUiManager.bind(this);
     this.onDocumentKeyDownBound = this.onDocumentKeyDown.bind(this);
-    this.onClickBackgroundOverlayBound = this.onClickBackgroundOverlay.bind(this);
+    this.onClickBackgroundOverlayBound =
+      this.onClickBackgroundOverlay.bind(this);
+    this.handleSubmenuTriggerBound = this.handleSubmenuTrigger.bind(this);
+    this.handleBackButtonBound = this.handleBackButton.bind(this);
   }
 
   connectedCallback() {
-    this.drawer = this.querySelector('div');  // Get the drawer div inside the component
+    this.drawer = this.querySelector("div");
     this.body = document.body;
     this.trigger = document.querySelector("[data-drawer-menu-trigger]");
     this.backdropOverlay = document.querySelector("backdrop-root");
@@ -34,25 +38,25 @@ export class DrawerMenu extends HTMLElement {
     this.header = document.querySelector("header");
     this.searchDialog = document.querySelector("search-dialog-root");
     this.closeButton = this.querySelector("[data-drawer-close]");
+    this.menuContent = this.querySelector("[data-menu-content]");
+    this.menuTitle = this.querySelector("[data-header] h2");
 
     if (this.trigger) {
       this.trigger.addEventListener("click", this.openUiManagerBound);
-      console.log("Drawer trigger found and click event added");
-    } else {
-      console.warn("Drawer trigger not found");
     }
 
     if (this.closeButton) {
       this.closeButton.addEventListener("click", this.closeUiManagerBound);
     }
 
-    // Close drawer menu on escape key press
+    this.setupSubmenuListeners();
+
     document.addEventListener("keydown", this.onDocumentKeyDownBound);
 
     if (this.backdropOverlay) {
       this.backdropOverlay.addEventListener(
         "click",
-        this.onClickBackgroundOverlayBound
+        this.onClickBackgroundOverlayBound,
       );
     }
   }
@@ -66,12 +70,14 @@ export class DrawerMenu extends HTMLElement {
       this.closeButton.removeEventListener("click", this.closeUiManagerBound);
     }
 
+    this.removeSubmenuListeners();
+
     document.removeEventListener("keydown", this.onDocumentKeyDownBound);
 
     if (this.backdropOverlay) {
       this.backdropOverlay.removeEventListener(
         "click",
-        this.onClickBackgroundOverlayBound
+        this.onClickBackgroundOverlayBound,
       );
     }
 
@@ -83,6 +89,97 @@ export class DrawerMenu extends HTMLElement {
     this.header = null;
     this.searchDialog = null;
     this.closeButton = null;
+    this.menuContent = null;
+    this.menuTitle = null;
+    this.menuStack = [];
+  }
+
+  setupSubmenuListeners() {
+    const submenuTriggers = this.querySelectorAll("[data-submenu-trigger]");
+    submenuTriggers.forEach((trigger) => {
+      trigger.addEventListener("click", this.handleSubmenuTriggerBound);
+    });
+  }
+
+  removeSubmenuListeners() {
+    const submenuTriggers = this.querySelectorAll("[data-submenu-trigger]");
+    submenuTriggers.forEach((trigger) => {
+      trigger.removeEventListener("click", this.handleSubmenuTriggerBound);
+    });
+  }
+
+  handleSubmenuTrigger(event) {
+    const trigger = event.currentTarget;
+    const parentTitle = trigger.getAttribute("data-parent-title");
+    const parentUrl = trigger.getAttribute("data-parent-url");
+    const submenuTemplate = trigger
+      .closest("li")
+      .querySelector("[data-submenu-content]");
+    
+    if (!submenuTemplate || !this.menuContent) return;
+
+    // Store current menu state
+    const currentMenu = this.menuContent.innerHTML;
+    this.menuStack.push({
+      content: currentMenu,
+      title: this.menuTitle.textContent,
+    });
+
+    // Update header to show back button
+    const headerLeft = this.querySelector('[data-header-left]');
+    if (headerLeft) {
+      headerLeft.innerHTML = `
+        <button class="flex items-center gap-2" data-back-button>
+          <ion-icon name="chevron-back-outline" class="w-5 h-5"></ion-icon>
+          <span>Back</span>
+        </button>
+      `;
+      const backButton = headerLeft.querySelector('[data-back-button]');
+      if (backButton) {
+        backButton.addEventListener("click", this.handleBackButtonBound);
+      }
+    }
+
+    // Update menu content with submenu
+    const submenuContent = submenuTemplate.content.cloneNode(true);
+    this.menuContent.innerHTML = "";
+    this.menuContent.appendChild(submenuContent);
+
+    // Setup listeners for new content
+    this.setupSubmenuListeners();
+  }
+
+  handleBackButton() {
+    if (!this.menuStack.length) return;
+
+    const previousMenu = this.menuStack.pop();
+    
+    // Update header based on whether we're returning to the main menu
+    const headerLeft = this.querySelector('[data-header-left]');
+    if (headerLeft) {
+      if (this.menuStack.length === 0) {
+        // If we're going back to the main menu, show "Menu"
+        headerLeft.innerHTML = `<h2 class="font-normal">Menu</h2>`;
+      } else {
+        // If we're going back to a submenu, keep the back button
+        headerLeft.innerHTML = `
+          <button class="flex items-center gap-2" data-back-button>
+            <ion-icon name="chevron-back-outline" class="w-5 h-5"></ion-icon>
+            <span>Back</span>
+          </button>
+        `;
+        const backButton = headerLeft.querySelector('[data-back-button]');
+        if (backButton) {
+          backButton.addEventListener("click", this.handleBackButtonBound);
+        }
+      }
+    }
+
+    // Restore previous menu content
+    this.menuContent.innerHTML = previousMenu.content;
+
+    // Setup listeners for restored content
+    this.setupSubmenuListeners();
   }
 
   /** @param {KeyboardEvent} event */
