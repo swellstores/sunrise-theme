@@ -20,6 +20,10 @@
         <div class="flex items-center justify-between mb-[48px]" data-header>
           <div class="flex items-center gap-2" data-header-left>
             <h2 class="font-normal">Menu</h2>
+            <button class="flex items-center gap-2 hidden" data-back-button>
+              <ion-icon name="chevron-back-outline" class="w-5 h-5 -ml-1"></ion-icon>
+              <span>Back</span>
+            </button>
           </div>
           <button
             aria-label="Close menu"
@@ -32,7 +36,7 @@
         <div class="flex-1" data-menu-content>
           <ul>
             {% for link in linklists[menu].links %}
-              <li class="first:mt-0 mt-[32px]">
+              <li class="first:mt-0 mt-[24px]">
                 <div class="flex items-center justify-between">
                   <a href="{{ link.url }}" class="font-normal hover:underline flex-1">{{ link.title }}</a>
                   {% if link.links.size > 0 %}

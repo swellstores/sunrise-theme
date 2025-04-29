@@ -40,6 +40,7 @@ export class DrawerMenu extends HTMLElement {
     this.closeButton = this.querySelector("[data-drawer-close]");
     this.menuContent = this.querySelector("[data-menu-content]");
     this.menuTitle = this.querySelector("[data-header] h2");
+    this.backButton = this.querySelector("[data-back-button]");
 
     if (this.trigger) {
       this.trigger.addEventListener("click", this.openUiManagerBound);
@@ -47,6 +48,10 @@ export class DrawerMenu extends HTMLElement {
 
     if (this.closeButton) {
       this.closeButton.addEventListener("click", this.closeUiManagerBound);
+    }
+
+    if (this.backButton) {
+      this.backButton.addEventListener("click", this.handleBackButtonBound);
     }
 
     this.setupSubmenuListeners();
@@ -70,6 +75,10 @@ export class DrawerMenu extends HTMLElement {
       this.closeButton.removeEventListener("click", this.closeUiManagerBound);
     }
 
+    if (this.backButton) {
+      this.backButton.removeEventListener("click", this.handleBackButtonBound);
+    }
+
     this.removeSubmenuListeners();
 
     document.removeEventListener("keydown", this.onDocumentKeyDownBound);
@@ -91,6 +100,7 @@ export class DrawerMenu extends HTMLElement {
     this.closeButton = null;
     this.menuContent = null;
     this.menuTitle = null;
+    this.backButton = null;
     this.menuStack = [];
   }
 
@@ -125,19 +135,13 @@ export class DrawerMenu extends HTMLElement {
       title: this.menuTitle.textContent,
     });
 
-    // Update header to show back button
+    // Show back button and hide menu title
     const headerLeft = this.querySelector('[data-header-left]');
-    if (headerLeft) {
-      headerLeft.innerHTML = `
-        <button class="flex items-center gap-2" data-back-button>
-          <ion-icon name="chevron-back-outline" class="w-5 h-5 -ml-1"></ion-icon>
-          <span>Back</span>
-        </button>
-      `;
-      const backButton = headerLeft.querySelector('[data-back-button]');
-      if (backButton) {
-        backButton.addEventListener("click", this.handleBackButtonBound);
-      }
+    const menuTitle = headerLeft.querySelector('h2');
+    const backButton = headerLeft.querySelector('[data-back-button]');
+    if (headerLeft && menuTitle && backButton) {
+      menuTitle.classList.add('hidden');
+      backButton.classList.remove('hidden');
     }
 
     // Update menu content with submenu
@@ -156,22 +160,18 @@ export class DrawerMenu extends HTMLElement {
     
     // Update header based on whether we're returning to the main menu
     const headerLeft = this.querySelector('[data-header-left]');
-    if (headerLeft) {
+    const menuTitle = headerLeft.querySelector('h2');
+    const backButton = headerLeft.querySelector('[data-back-button]');
+    
+    if (headerLeft && menuTitle && backButton) {
       if (this.menuStack.length === 0) {
-        // If we're going back to the main menu, show "Menu"
-        headerLeft.innerHTML = `<h2 class="font-normal">Menu</h2>`;
+        // If we're going back to the main menu, show "Menu" and hide back button
+        menuTitle.classList.remove('hidden');
+        backButton.classList.add('hidden');
       } else {
-        // If we're going back to a submenu, keep the back button
-        headerLeft.innerHTML = `
-          <button class="flex items-center gap-2" data-back-button>
-            <ion-icon name="chevron-back-outline" class="w-5 h-5 -ml-1"></ion-icon>
-            <span>Back</span>
-          </button>
-        `;
-        const backButton = headerLeft.querySelector('[data-back-button]');
-        if (backButton) {
-          backButton.addEventListener("click", this.handleBackButtonBound);
-        }
+        // If we're going back to a submenu, keep the back button visible
+        menuTitle.classList.add('hidden');
+        backButton.classList.remove('hidden');
       }
     }
 
