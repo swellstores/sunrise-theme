@@ -130,7 +130,7 @@ export class DrawerMenu extends HTMLElement {
     if (headerLeft) {
       headerLeft.innerHTML = `
         <button class="flex items-center gap-2" data-back-button>
-          <ion-icon name="chevron-back-outline" class="w-5 h-5"></ion-icon>
+          <ion-icon name="chevron-back-outline" class="w-5 h-5 -ml-1"></ion-icon>
           <span>Back</span>
         </button>
       `;
@@ -164,7 +164,7 @@ export class DrawerMenu extends HTMLElement {
         // If we're going back to a submenu, keep the back button
         headerLeft.innerHTML = `
           <button class="flex items-center gap-2" data-back-button>
-            <ion-icon name="chevron-back-outline" class="w-5 h-5"></ion-icon>
+            <ion-icon name="chevron-back-outline" class="w-5 h-5 -ml-1"></ion-icon>
             <span>Back</span>
           </button>
         `;
