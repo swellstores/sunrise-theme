@@ -138,8 +138,7 @@
           </div>
 
           {%- if section.settings.show_thumbnails or section.settings.mobile_layout == 'show_mobile_thumbnails' -%}
-            {% liquid
-              
+            {% liquid            
               if section.settings.show_thumbnails
                 assign visibility_class = 'hidden sm:flex'
                 if section.settings.mobile_layout == 'show_mobile_thumbnails'
