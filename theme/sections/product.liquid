@@ -40,15 +40,6 @@
   assign media_urls = media_urls | split: ','
   assign media_alts = media_alts | split: ','
 
-  assign variant_media_ids = ''
-  for variant in product.variants
-    if variant.featured_media
-      unless variant_media_ids contains variant.featured_media.id
-        assign variant_media_ids = variant_media_ids | append: variant.featured_media.id | append: ','
-      endunless
-    endif
-  endfor
-
   assign selected_or_first_available_variant = product.selected_or_first_available_variant
 -%}
 
@@ -65,8 +56,6 @@
     }
   }
 {% endstyle %}
-
-{% comment %} TODO: See if we can't handle the different display modes in CSS, rather than a bunch of nearly-identical loops {% endcomment %}
 
 <div
   class="text-{{ color_scheme }} max-w-[1366px] mx-auto lg:pl-[96px] lg:pr-[96px] lg:pt-[64px] lg:pb-[64px] bg-{{ color_scheme }} responsive-padding-{{ section.id }}"
@@ -87,9 +76,7 @@
     "
   >
     <div
-      {% if media_position == 'right' %}
-        style="order:1"
-      {% endif %}
+      class="{% if media_urls.size < 1 %}hidden{% endif %} {% if media_position == 'right' %}order-1{% endif %}"
     >
       <div class="hidden sm:flex">
         {%- if desktop_layout == 'thumbnail_gallery' -%}
@@ -161,28 +148,11 @@
             {%- endif -%}
           </div>
 
-        {% elsif desktop_layout == 'stacked' %}
+        {% else %} {% comment %} 'stacked' or implicitly 'two_column' {% endcomment %}
           <div class="gap-[16px] w-full">
             <div class="grid grid-cols-2 gap-4 w-full">
               {% for url in media_urls %}
-                <div class="w-full h-auto {% if forloop.index0 == 0 %}col-span-2 pl-[100px] pr-[100px]{% endif %}">
-                  <img
-                    width="100%"
-                    height="100%"
-                    src="{{ url }}"
-                    alt="{{ media_alts[forloop.index0] }}"
-                    class="w-full h-full object-cover"
-                  >
-                </div>
-              {%- endfor -%}
-            </div>
-          </div>
-
-        {% else %} {% comment %} Implicitly two_column {% endcomment %}
-          <div class="gap-[16px] w-full">
-            <div class="grid grid-cols-2 gap-4 w-full">
-              {% for url in media_urls %}
-                <div class="w-full h-auto">
+                <div class="w-full h-auto {% if desktop_layout == 'stacked' and forloop.index0 == 0 %}col-span-2 pl-[100px] pr-[100px]{% endif %}">
                   <img
                     width="100%"
                     height="100%"
@@ -492,7 +462,10 @@
       "type": "checkbox",
       "id": "show_thumbnails",
       "label": "Show thumbnails",
-      "default": true
+      "default": true,
+      "conditions": {
+        "desktop_layout": "thumbnail_gallery"
+      }
     },
     {
       "type": "select",
@@ -502,7 +475,10 @@
         { "value": "left", "label": "Left" },
         { "value": "right", "label": "Right" }
       ],
-      "default": "left"
+      "default": "left",
+      "conditions": {
+        "desktop_layout": "thumbnail_gallery"
+      }
     },
     {
       "id": "mobile_layout",
