@@ -308,7 +308,7 @@
             <div class="header-inner">
               <!-- Menu Trigger -->
               {% if section.settings.menu != blank and linklists[section.settings.menu].links.size > 0 %}
-                <div class="header-item header-item--menu-trigger {% if section.settings.desktop_menu_type != 'drawer' %}hidden min-[960px]:hidden{% else %}flex{% endif %}">
+                <div class="header-item header-item--menu-trigger flex min-[960px]:{% if section.settings.desktop_menu_type != 'drawer' %}hidden{% else %}flex{% endif %}">
                   <button
                     class="flex items-center justify-center h-full"
                     data-drawer-menu-trigger
@@ -324,7 +324,9 @@
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                   </button>
-                </div> 
+                </div>
+              {% else %}
+                <div class="header-item header-item--menu-trigger hidden"></div>
               {% endif %}
 
               <!-- Logo and Nav -->
