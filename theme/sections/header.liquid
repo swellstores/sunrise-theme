@@ -308,7 +308,11 @@
             <div class="header-inner">
               <!-- Menu Trigger -->
               {% if section.settings.menu != blank and linklists[section.settings.menu].links.size > 0 %}
-                <div class="header-item header-item--menu-trigger flex min-[960px]:{% if section.settings.desktop_menu_type != 'drawer' %}hidden{% else %}flex{% endif %}">
+                {% if section.settings.desktop_menu_type == 'drawer' %}
+                  <div class="header-item header-item--menu-trigger flex">
+                {% else %}
+                  <div class="header-item header-item--menu-trigger flex min-[960px]:hidden">
+                {% endif %}
                   <button
                     class="flex items-center justify-center h-full"
                     data-drawer-menu-trigger
