@@ -209,6 +209,11 @@
             padding-bottom: 0;
             height: 100%;
           }
+          {% if section.settings.menu != blank and linklists[section.settings.menu].links.size > 0 %}
+            .header-item--logo {
+              margin-left: 32px;
+            }
+          {% endif %}
           .header-item--icon-list {
             order: 2;
             margin-left: auto;
@@ -237,7 +242,7 @@
           order: 1;
           flex: 0 0 auto;
           justify-content: flex-start;
-          {% if section.settings.desktop_menu_type == 'drawer' %}
+          {% if section.settings.desktop_menu_type == 'drawer' and linklists[section.settings.menu].links.size > 0%}
             margin-left: 32px;
           {% endif %}
         {% else %}
@@ -302,7 +307,7 @@
           <div class="header-container">
             <div class="header-inner">
               <!-- Menu Trigger -->
-              {% if section.settings.menu != blank %}
+              {% if section.settings.menu != blank and linklists[section.settings.menu].links.size > 0 %}
                 <div class="header-item header-item--menu-trigger {% if section.settings.desktop_menu_type != 'drawer' %}hidden min-[960px]:hidden{% else %}flex{% endif %}">
                   <button
                     class="flex items-center justify-center h-full"
@@ -319,7 +324,7 @@
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                     </svg>
                   </button>
-                </div>
+                </div> 
               {% endif %}
 
               <!-- Logo and Nav -->
