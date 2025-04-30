@@ -52,7 +52,7 @@
 
                     <template data-submenu-content>
                       <div>
-                        <a href="{{ link.url }}" class="block font-semibold underline leading-[26px] mt-[48px]">{{ link.title }}</a>
+                        <a href="{{ link.url }}" class="block font-semibold underline leading-[26px]">{{ link.title }}</a>
                       </div>
                       <ul class="mt-[48px]">
                         {% for child_link in link.links %}
@@ -74,7 +74,7 @@
 
                                 <template data-submenu-content>
                                   <div>
-                                    <a href="{{ child_link.url }}" class="block font-semibold underline leading-[26px] mt-[48px]">{{ child_link.title }}</a>
+                                    <a href="{{ child_link.url }}" class="block font-semibold underline leading-[26px]">{{ child_link.title }}</a>
                                   </div>
                                   <ul class="mt-[48px]">
                                     {% for grandchild in child_link.links %}
