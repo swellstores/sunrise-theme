@@ -19,6 +19,9 @@ export class DrawerMenu extends HTMLElement {
     this.header = null;
     this.searchDialog = null;
     this.menuStack = [];
+    this.touchStartX = 0;
+    this.touchEndX = 0;
+    this.swipeThreshold = 50; // Minimum distance for a swipe
 
     this.openUiManagerBound = openUiManager.bind(this);
     this.closeUiManagerBound = closeUiManager.bind(this);
@@ -27,6 +30,9 @@ export class DrawerMenu extends HTMLElement {
       this.onClickBackgroundOverlay.bind(this);
     this.handleSubmenuTriggerBound = this.handleSubmenuTrigger.bind(this);
     this.handleBackButtonBound = this.handleBackButton.bind(this);
+    this.handleTouchStartBound = this.handleTouchStart.bind(this);
+    this.handleTouchMoveBound = this.handleTouchMove.bind(this);
+    this.handleTouchEndBound = this.handleTouchEnd.bind(this);
   }
 
   connectedCallback() {
@@ -64,6 +70,11 @@ export class DrawerMenu extends HTMLElement {
         this.onClickBackgroundOverlayBound,
       );
     }
+
+    // Add touch event listeners
+    this.drawer.addEventListener("touchstart", this.handleTouchStartBound);
+    this.drawer.addEventListener("touchmove", this.handleTouchMoveBound);
+    this.drawer.addEventListener("touchend", this.handleTouchEndBound);
   }
 
   disconnectedCallback() {
@@ -89,6 +100,11 @@ export class DrawerMenu extends HTMLElement {
         this.onClickBackgroundOverlayBound,
       );
     }
+
+    // Remove touch event listeners
+    this.drawer.removeEventListener("touchstart", this.handleTouchStartBound);
+    this.drawer.removeEventListener("touchmove", this.handleTouchMoveBound);
+    this.drawer.removeEventListener("touchend", this.handleTouchEndBound);
 
     this.drawer = null;
     this.body = null;
@@ -255,6 +271,42 @@ export class DrawerMenu extends HTMLElement {
     this.backdropOverlay.classList.add("translate-x-full");
     this.drawer.classList.add("-translate-x-full");
     this.drawer.setAttribute("aria-hidden", "true");
+  }
+
+  handleTouchStart(event) {
+    this.touchStartX = event.touches[0].clientX;
+  }
+
+  handleTouchMove(event) {
+    if (!this.drawer || this.drawer.getAttribute("aria-hidden") === "true") return;
+
+    const touchX = event.touches[0].clientX;
+    const diff = this.touchStartX - touchX;
+
+    // Allow both left and right swipes
+    event.preventDefault();
+    this.drawer.style.transform = `translateX(${diff}px)`;
+  }
+
+  handleTouchEnd(event) {
+    if (!this.drawer || this.drawer.getAttribute("aria-hidden") === "true") return;
+
+    this.touchEndX = event.changedTouches[0].clientX;
+    const diff = this.touchStartX - this.touchEndX;
+    const absDiff = Math.abs(diff);
+
+    // Reset transform
+    this.drawer.style.transform = "";
+
+    if (absDiff > this.swipeThreshold) {
+      if (diff > 0) {
+        // Swipe left - close menu
+        uiManager.close(this);
+      } else if (this.menuStack.length > 0) {
+        // Swipe right - go back to previous menu (only if in submenu)
+        this.handleBackButton();
+      }
+    }
   }
 }
 
