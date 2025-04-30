@@ -70,6 +70,9 @@
       flex: 0 0 auto;
       order: 0;
       justify-content: flex-start;
+      display: flex;
+      align-items: center;
+      height: 100%;
     }
     .header-item--logo {
       flex: 1 1 auto;
@@ -300,29 +303,10 @@
             <div class="header-inner">
               <!-- Menu Trigger -->
               <div class="header-item header-item--menu-trigger">
-                {% if section.settings.desktop_menu_type == 'drawer' %}
-                  <div class="hidden min-[960px]:flex items-center h-full">
-                    <button
-                      class="min-w-min flex items-center justify-center h-full"
-                      data-drawer-menu-trigger
-                      aria-label="Open menu"
-                    >
-                      <svg
-                        class="w-6 h-6"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                      </svg>
-                    </button>
-                  </div>
-                {% endif %}
                 <button
-                  class="min-[960px]:hidden block min-w-min"
-                  data-mobile-trigger
-                  aria-label="Open mobile menu"
+                  class="flex items-center justify-center h-full"
+                  data-drawer-menu-trigger
+                  aria-label="Open menu"
                 >
                   <svg
                     class="w-6 h-6"
@@ -342,7 +326,9 @@
                   <div class="header-item header-item--logo">
                     {%- render 'header-logo' -%}
                   </div>
-                  {% if section.settings.desktop_menu_type == 'mega' or section.settings.desktop_menu_type == 'dropdown' %}
+                  {% if section.settings.desktop_menu_type == 'mega'
+                    or section.settings.desktop_menu_type == 'dropdown'
+                  %}
                     <div class="header-item header-item--desktop-nav hidden min-[960px]:flex items-center">
                       {%- render 'header-desktop-nav',
                         text_uppercase: text_uppercase,
@@ -356,7 +342,9 @@
                 <div class="header-item header-item--logo">
                   {%- render 'header-logo' -%}
                 </div>
-                {% if section.settings.desktop_menu_type == 'mega' or section.settings.desktop_menu_type == 'dropdown' %}
+                {% if section.settings.desktop_menu_type == 'mega'
+                  or section.settings.desktop_menu_type == 'dropdown'
+                %}
                   <div class="header-item header-item--desktop-nav hidden min-[960px]:flex items-center">
                     {%- render 'header-desktop-nav',
                       text_uppercase: text_uppercase,
@@ -380,25 +368,7 @@
         </div>
       </div>
 
-      <div
-        id="mobileTray"
-        class="z-[101] top-[80px] w-full inset-0 bg-white hidden"
-      >
-        <div
-          id="trayContent"
-          class="flex flex-col gap-5 items-start sm:items-center pt-[32px] pl-[24px] pr-[24px] pb-[64px]"
-        >
-          {%- render 'mobile-main-menu',
-            links: linklists[section.settings.menu].links,
-            color_scheme: color_scheme
-          -%}
-        </div>
-        <div id="svg-assets" class="hidden">
-          <div id="nav-right-arrow-icon">
-            {{ 'nav-right-arrow-icon.svg' | inline_asset_content }}
-          </div>
-        </div>
-      </div>
+      {% render 'drawer-menu' %}
     </header>
 
     {% if section.settings.desktop_menu_type == 'drawer' %}
@@ -407,130 +377,131 @@
   </div>
 
   {% render 'search-dialog' %}
+</div>
 
-  {% schema %}
-  {
-    "name": "Header",
-    "settings": [
-      {
-        "type": "header",
-        "content": "Header"
-      },
-      {
-        "type": "color_scheme",
-        "id": "color_scheme",
-        "label": "Color scheme",
-        "default": "scheme-1"
-      },
-      {
-        "type": "link_list",
-        "id": "menu",
-        "label": "Menu"
-      },
-      {
-        "type": "select",
-        "id": "desktop_menu_type",
-        "label": "Desktop menu type",
-        "options": [
-          { "value": "dropdown", "label": "Dropdown" },
-          { "value": "mega", "label": "Mega menu" },
-          { "value": "drawer", "label": "Drawer menu" }
-        ],
-        "default": "dropdown"
-      },
-      {
-        "type": "color_scheme",
-        "id": "menu_color_scheme",
-        "label": "Menu color scheme",
-        "default": "scheme-1"
-      },
-      {
-        "type": "range",
-        "id": "mega_menu_row_count",
-        "label": "Mega menu row count",
-        "min": 3,
-        "max": 5,
-        "step": 1,
-        "default": 4
-      },
-      {
-        "type": "select",
-        "id": "mega_menu_alignment",
-        "label": "Mega menu alignment",
-        "options": [
-          { "value": "left", "label": "Left" },
-          { "value": "center", "label": "Center" }
-        ],
-        "default": "center"
-      },
-      {
-        "type": "checkbox",
-        "id": "sticky",
-        "label": "Sticky header",
-        "default": false
-      },
-      {
-        "type": "checkbox",
-        "id": "border_b",
-        "default": false,
-        "label": "Bottom border"
-      },
-      {
-        "type": "checkbox",
-        "id": "text_uppercase",
-        "default": true,
-        "label": "Uppercase text"
-      },
-      {
-        "type": "checkbox",
-        "id": "show_language_selector",
-        "label": "Show language selector",
-        "default": true
-      },
-      {
-        "type": "checkbox",
-        "id": "show_currency_selector",
-        "label": "Show currency selector",
-        "default": true
-      },
-      {
-        "type": "header",
-        "content": "Desktop",
-        "info": "640px and wider, for more refer to Tailwind's responsive design [docs](https://tailwindcss.com/docs/responsive-design)"
-      },
-      {
-        "type": "range",
-        "id": "top_padding",
-        "label": "Top padding",
-        "min": 0,
-        "max": 96,
-        "step": 1,
-        "unit": "px",
-        "default": 0
-      },
-      {
-        "type": "range",
-        "id": "bottom_padding",
-        "label": "Bottom padding",
-        "min": 0,
-        "max": 96,
-        "step": 1,
-        "unit": "px",
-        "default": 0
-      },
-      {
-        "type": "select",
-        "id": "logo_position",
-        "label": "Logo position",
-        "options": [
-          { "value": "top left", "label": "Top left" },
-          { "value": "top center", "label": "Top center" },
-          { "value": "center left", "label": "Center left" },
-          { "value": "left", "label": "Left" },
-          { "value": "center", "label": "Center" }
-        ],
-        "default": "left"
-      }
-    ]
-  }
-  {% endschema %}
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu"
+    },
+    {
+      "type": "select",
+      "id": "desktop_menu_type",
+      "label": "Desktop menu type",
+      "options": [
+        { "value": "dropdown", "label": "Dropdown" },
+        { "value": "mega", "label": "Mega menu" },
+        { "value": "drawer", "label": "Drawer menu" }
+      ],
+      "default": "dropdown"
+    },
+    {
+      "type": "color_scheme",
+      "id": "menu_color_scheme",
+      "label": "Menu color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "mega_menu_row_count",
+      "label": "Mega menu row count",
+      "min": 3,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "mega_menu_alignment",
+      "label": "Mega menu alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": "Sticky header",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "border_b",
+      "default": false,
+      "label": "Bottom border"
+    },
+    {
+      "type": "checkbox",
+      "id": "text_uppercase",
+      "default": true,
+      "label": "Uppercase text"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_language_selector",
+      "label": "Show language selector",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_currency_selector",
+      "label": "Show currency selector",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Desktop",
+      "info": "640px and wider, for more refer to Tailwind's responsive design [docs](https://tailwindcss.com/docs/responsive-design)"
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "Top padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "logo_position",
+      "label": "Logo position",
+      "options": [
+        { "value": "top left", "label": "Top left" },
+        { "value": "top center", "label": "Top center" },
+        { "value": "center left", "label": "Center left" },
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "left"
+    }
+  ]
+}
+{% endschema %}
