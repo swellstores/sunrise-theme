@@ -79,76 +79,8 @@
       class="{% if media_urls.size < 1 %}hidden{% endif %} {% if media_position == 'right' %}order-1{% endif %}"
     >
       <div class="hidden sm:flex">
-        {%- if desktop_layout == 'thumbnail_gallery' -%}
-          <div class="grid gap-[16px] aspect-square {% if section.settings.show_thumbnails %}grid-cols-2{% else %}grid-cols-1{% endif %}">
-            <div class="flex w-full flex-col items-center {% if section.settings.show_thumbnails and section.settings.thumbnail_position == 'left' %}order-2{% else %}order-1{% endif %}">
-              <swiper-container
-                role="region"
-                aria-label="{{ 'sections.slideshow.label' | t }}"
-                loop="{{ loop }}"
-                direction="horizontal"
-                slides-per-view="1"
-                class="text-{{ color_scheme }} swiper-container w-full h-full"
-                space-between="16"
-                pagination="true"
-                thumbs-swiper=".thumbnail-swiper"
-                style="--swiper-pagination-color: black; --swiper-pagination-bottom:0px;"
-                {%- if auto_rotate -%}
-                  autoplay-delay="{{ auto_rotate_speed }}"
-                  autoplay-pause-on-mouse-enter="true"
-                {%- endif -%}
-              >
-                {% for url in media_urls %}
-                  <swiper-slide class="flex flex-col items-center text-center gap-[32px] pb-[32px]">
-                    <div class="aspect-square m-auto">
-                      <div class="aspect-square w-full h-full">
-                        <img
-                          height="100%"
-                          width="100%"
-                          src="{{ url }}"
-                          alt="{{ media_alts[forloop.index0] }}"
-                          class="thumbnail-image cursor-pointer w-full h-full object-cover"
-                        >
-                      </div>
-                    </div>
-                  </swiper-slide>
-                {% endfor %}
-                <div class="swiper-pagination"></div>
-              </swiper-container>
-            </div>
-
-            {%- if section.settings.show_thumbnails -%}
-              <div class="flex w-full flex-col items-center justify-center {% if section.settings.thumbnail_position == 'right' %}order-2{% else %}order-1{% endif %}">
-                <div class="relative flex w-full flex-col gap-[8px] items-center justify-center max-h-[700px] overflow-auto">
-                  {% render 'mobile-thumbnail-arrows', color_scheme: color_scheme, border_radius: settings.border_radius %}
-                  <swiper-container
-                    class="thumbnail-swiper mt-4 w-full pr-[50px] pl-[50px]"
-                    slides-per-view="3"
-                    space-between="10"
-                    watch-slides-progress="true"
-                    watch-slides-visibility="true"
-                    loop="true"
-                  >
-                    {% for url in media_urls %}
-                      <swiper-slide class="cursor-pointer">
-                        <div class="aspect-square border border-gray-300">
-                          <img
-                            height="100%"
-                            width="100%"
-                            src="{{ url }}"
-                            alt="{{ media_alts[forloop.index0] }}"
-                            class="w-full h-full object-cover"
-                          >
-                        </div>
-                      </swiper-slide>
-                    {% endfor %}
-                  </swiper-container>
-                </div>
-              </div>
-            {%- endif -%}
-          </div>
-
-        {% else %} {% comment %} 'stacked' or implicitly 'two_column' {% endcomment %}
+        {%- if desktop_layout != 'thumbnail_gallery' -%}
+          {% comment %} 'stacked' or implicitly 'two_column' {% endcomment %}
           <div class="gap-[16px] w-full">
             <div class="grid grid-cols-2 gap-4 w-full">
               {% for url in media_urls %}
@@ -167,69 +99,87 @@
         {% endif %}
       </div>
 
-      <div class="sm:hidden">
-        <swiper-container
-          role="region"
-          aria-label="{{ 'sections.slideshow.label' | t }}"
-          loop="{{ loop }}"
-          direction="horizontal"
-          slides-per-view="1"
-          class="text-{{ color_scheme }} swiper-container w-full h-auto"
-          space-between="16"
-          pagination="true"
-          thumbs-swiper=".thumbnail-swiper"
-          style="--swiper-pagination-color: black; --swiper-pagination-bottom:0px;"
-          {%- if auto_rotate -%}
-            autoplay-delay="{{ auto_rotate_speed }}"
-            autoplay-pause-on-mouse-enter="true"
-          {%- endif -%}
-        >
-          {% for url in media_urls %}
-            <swiper-slide class="flex flex-col items-center text-center gap-[32px] pb-[32px]">
-              <div class="aspect-square m-auto">
-                <div class="aspect-square w-full h-full">
-                  <img
-                    height="100%"
-                    width="100%"
-                    src="{{ url }}"
-                    alt="{{ media_alts[forloop.index0] }}"
-                    class="w-full h-full object-cover"
-                  >
-                </div>
-              </div>
-            </swiper-slide>
-          {% endfor %}
-          <div class="swiper-pagination"></div>
-        </swiper-container>
-
-        {%- if section.settings.mobile_layout == 'show_mobile_thumbnails' -%}
-          <div class="relative">
-            {% render 'mobile-thumbnail-arrows', color_scheme: color_scheme, border_radius: settings.border_radius %}
-
+      <div class="{% if desktop_layout != 'thumbnail_gallery' %}sm:hidden{% endif %}">
+        <div class="sm:grid sm:gap-[16px] {% if section.settings.show_thumbnails %}sm:grid-cols-2{% else %}sm:grid-cols-1{% endif %}">
+          <div class="sm:flex-col sm:items-center {% if section.settings.show_thumbnails and section.settings.thumbnail_position == 'left' %}sm:order-2{% else %}sm:order-1{% endif %}">
             <swiper-container
-              class="thumbnail-swiper mt-4 w-full pr-[50px] pl-[50px]"
-              slides-per-view="3"
-              space-between="10"
-              watch-slides-progress="true"
-              watch-slides-visibility="true"
-              loop="true"
+              role="region"
+              aria-label="{{ 'sections.slideshow.label' | t }}"
+              loop="{{ loop }}"
+              direction="horizontal"
+              slides-per-view="1"
+              class="text-{{ color_scheme }} swiper-container w-full h-auto"
+              space-between="16"
+              pagination="true"
+              thumbs-swiper=".thumbnail-swiper"
+              style="--swiper-pagination-color: black; --swiper-pagination-bottom:0px;"
+              {%- if auto_rotate -%}
+                autoplay-delay="{{ auto_rotate_speed }}"
+                autoplay-pause-on-mouse-enter="true"
+              {%- endif -%}
             >
               {% for url in media_urls %}
-                <swiper-slide class="cursor-pointer">
-                  <div class="aspect-square border border-gray-300">
-                    <img
-                      height="100%"
-                      width="100%"
-                      src="{{ url }}"
-                      alt="{{ media_alts[forloop.index0] }}"
-                      class="w-full h-full object-cover"
-                    >
+                <swiper-slide class="flex flex-col items-center text-center gap-[32px] pb-[32px]">
+                  <div class="aspect-square m-auto">
+                    <div class="aspect-square w-full h-full">
+                      <img
+                        height="100%"
+                        width="100%"
+                        src="{{ url }}"
+                        alt="{{ media_alts[forloop.index0] }}"
+                        class="thumbnail-image cursor-pointer w-full h-full object-cover"
+                      >
+                    </div>
                   </div>
                 </swiper-slide>
               {% endfor %}
+              <div class="swiper-pagination"></div>
             </swiper-container>
           </div>
-        {% endif %}
+
+          {%- if section.settings.show_thumbnails or section.settings.mobile_layout == 'show_mobile_thumbnails' -%}
+            {% liquid
+              
+              if section.settings.show_thumbnails
+                assign visibility_class = 'hidden sm:flex'
+                if section.settings.mobile_layout == 'show_mobile_thumbnails'
+                  assign visibility_class = 'flex'
+                endif
+              else
+                assign visibility_class = 'flex sm:hidden'
+              endif
+            %}
+            <div class="{{ visibility_class }} w-full sm:flex-col sm:items-center sm:justify-center {% if section.settings.thumbnail_position == 'right' %}sm:order-2{% else %}sm:order-1{% endif %}">
+              <div class="relative flex w-full sm:flex-col sm:gap-[8px] sm:max-h-[700px] sm:overflow-auto">
+                {%- if media_urls.size > 3 -%}
+                  {% render 'mobile-thumbnail-arrows', color_scheme: color_scheme, border_radius: settings.border_radius %}
+                {%- endif -%}
+                <swiper-container
+                  class="thumbnail-swiper mt-4 w-full pr-[50px] pl-[50px]"
+                  slides-per-view="3"
+                  space-between="10"
+                  watch-slides-progress="true"
+                  watch-slides-visibility="true"
+                  loop="true"
+                >
+                  {% for url in media_urls %}
+                    <swiper-slide class="cursor-pointer">
+                      <div class="aspect-square border border-gray-300">
+                        <img
+                          height="100%"
+                          width="100%"
+                          src="{{ url }}"
+                          alt="{{ media_alts[forloop.index0] }}"
+                          class="w-full h-full object-cover"
+                        >
+                      </div>
+                    </swiper-slide>
+                  {% endfor %}
+                </swiper-container>
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
       </div>
     </div>
 
