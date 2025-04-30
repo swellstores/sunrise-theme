@@ -200,7 +200,7 @@ export class DrawerMenu extends HTMLElement {
       this.drawer.getAttribute("aria-hidden") === "false" &&
       !this.drawer.contains(event.target)
     ) {
-      closeUiManager.call(this);
+      uiManager.close(this);
     }
   }
 
@@ -228,7 +228,7 @@ export class DrawerMenu extends HTMLElement {
     }
 
     this.searchDialog.classList.remove("z-50");
-    this.backdropOverlay.classList.remove("-translate-x-full");
+    this.backdropOverlay.classList.remove("translate-x-full");
     this.drawer.classList.remove("-translate-x-full");
     this.drawer.setAttribute("aria-hidden", "false");
   }
@@ -252,7 +252,7 @@ export class DrawerMenu extends HTMLElement {
     }
 
     this.searchDialog.classList.add("z-50");
-    this.backdropOverlay.classList.add("-translate-x-full");
+    this.backdropOverlay.classList.add("translate-x-full");
     this.drawer.classList.add("-translate-x-full");
     this.drawer.setAttribute("aria-hidden", "true");
   }
