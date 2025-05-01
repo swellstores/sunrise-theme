@@ -25,6 +25,9 @@
 
     <meta name="description" content="{{ page_description | default: shop.name | escape }}">
 
+    {% comment %} Bundle {% endcomment %}
+    <script src="{{ 'bundle.js' | asset_url }}" type="module" defer="defer"></script>
+
     <script>
       document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
       window.addEventListener('load', () => document.documentElement.classList.add('ready'));
@@ -197,9 +200,6 @@
     </main>
 
     {% sections 'footer-group' %}
-
-    {% comment %} Bundle {% endcomment %}
-    <script src="{{ 'bundle.js' | asset_url }}" type="module" defer="defer"></script>
 
     {% comment %} Setup - these variables are needed for image_height to work {% endcomment %}
     <script>

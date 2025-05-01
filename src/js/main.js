@@ -16,14 +16,14 @@ import { DrawerMenu } from "./drawer-menu";
 window.hoverintent = hoverintent;
 
 // Import vendor libraries
-import { loadIonIcons } from './vendor';
+import { loadIonIcons } from "./vendor";
 
 // Import all modules that are currently loaded separately
-import './swiper-element-bundle';
-import './slideshow-navigation';
-import './accordion';
-import './filter';
-import './htmx.min';
+import "./swiper-element-bundle";
+import "./slideshow-navigation";
+import "./accordion";
+import "./filter";
+import "./htmx.min";
 
 // Initialize before IIFE to ensure global availability
 window.theme = window.theme || {};
@@ -49,6 +49,7 @@ window.theme.accordion_rendered = true;
 
   // Call functions
   defineCustomElements();
+
   // Load IonIcons
   loadIonIcons();
 })();
