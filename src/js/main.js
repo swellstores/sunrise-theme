@@ -18,7 +18,7 @@ window.hoverintent = hoverintent;
 // Import vendor libraries
 import { loadIonIcons } from "./vendor";
 
-// Import all modules that are currently loaded separately
+// Import modules
 import "./swiper-element-bundle";
 import "./slideshow-navigation";
 import "./accordion";
