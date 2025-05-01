@@ -98,7 +98,6 @@ class MegaMenuManager {
   }
 }
 
-// Create and export an instance of the MegaMenu manager
 const megaMenuManager = new MegaMenuManager();
 export { megaMenuManager };
 

@@ -15,6 +15,22 @@ import { DrawerMenu } from "./drawer-menu";
 // Make hoverintent available globally
 window.hoverintent = hoverintent;
 
+// Import vendor libraries
+import { loadIonIcons } from "./vendor";
+
+// Import modules
+import "./swiper-element-bundle";
+import "./slideshow-navigation";
+import "./accordion";
+import "./filter";
+import "./htmx.min";
+
+// Initialize before IIFE to ensure global availability
+window.theme = window.theme || {};
+window.theme.slideshow_rendered = true;
+window.theme.slideshow_navigation = true;
+window.theme.accordion_rendered = true;
+
 (function () {
   function defineCustomElements() {
     customElements.define("cart-root", Cart);
@@ -31,28 +47,9 @@ window.hoverintent = hoverintent;
     customElements.define("desktop-drawer-menu-root", DrawerMenu);
   }
 
-  function loadSlideshowScripts() {
-    if (window.theme) {
-      function appendScript(src) {
-        var script = document.createElement("script");
-        script.src = src;
-        script.defer = true;
-        document.body.appendChild(script);
-      }
-
-      // Slideshow scripts
-      if (window.theme.slideshow_rendered)
-        appendScript(window.theme.slideshow_asset_url);
-      // Slideshow navigation scripts
-      if (window.theme.slideshow_navigation)
-        appendScript(window.theme.slideshow_navigation_asset_url);
-      // Accordion scripts
-      if (window.theme.accordion_rendered)
-        appendScript(window.theme.accordion_asset_url);
-    }
-  }
-
   // Call functions
   defineCustomElements();
-  loadSlideshowScripts();
+
+  // Load IonIcons
+  loadIonIcons();
 })();
