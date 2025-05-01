@@ -36,8 +36,6 @@
     {{ content_for_header }}
 
     {% comment %} CSS files {% endcomment %}
-    <link rel="preload" href="{{ 'base.css' | asset_url }}" as="style">
-    <link rel="preload" href="{{ 'main.css' | asset_url }}" as="style">
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'main.css' | asset_url | stylesheet_tag }}
 
