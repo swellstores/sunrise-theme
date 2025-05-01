@@ -1,7 +1,5 @@
 {%- liquid
-  assign color_scheme = section.settings.color_scheme | default: 'scheme-1'
-  assign sticky = section.settings.sticky
-  assign logo_position = section.settings.logo_position
+  assign color_scheme = section.settings.color_scheme
 
   if section.settings.border_b == true
     assign border_b = 'border-b border-color-' | append: color_scheme
@@ -14,195 +12,466 @@
   else
     assign text_uppercase = 'normal-case'
   endif
--%}
 
-{%- liquid
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
 -%}
 
 {% style %}
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}px;
+    padding-bottom: {{ reduced_padding_bottom }}px;
+  }
+
+  @media (min-width: 1024px) {
     .responsive-padding-{{ section.id }} {
-      padding-top: {{ reduced_padding_top }}px;
-      padding-bottom: {{ reduced_padding_bottom }}px;
+      padding-top: {{ section.settings.top_padding }}px;
+      padding-bottom: {{ section.settings.bottom_padding }}px;
     }
+  }
 
-    @media (min-width: 1024px) {
-      .responsive-padding-{{ section.id }} {
-        padding-top: {{ section.settings.top_padding }}px;
-        padding-bottom: {{ section.settings.bottom_padding }}px;
-      }
+  {%- if section.settings.sticky -%}
+    [id*="{{ section.id }}"] {
+      position: sticky !important;
+      top: 0;
+      z-index: 4999;
     }
+  {%- endif -%}
 
-    {%- if section.settings.sticky -%}
-      [id*="{{ section.id }}"] {
-        position: sticky !important;
-        top: 0;
-        z-index: 9999;
+  .header-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 81px;
+  }
+
+  @media (min-width: 960px) {
+    .header-container {
+      height: auto;
+    }
+  }
+
+  /* Mobile and Tablet layout */
+  @media (max-width: 959px) {
+    .header-container {
+      display: flex;
+      flex-direction: row;
+      height: 81px;
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      position: relative;
+      height: 100%;
+    }
+    .header-item--menu-trigger {
+      flex: 0 0 auto;
+      order: 0;
+      justify-content: flex-start;
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
+    .header-item--logo {
+      flex: 1 1 auto;
+      order: 1;
+      display: flex;
+      justify-content: center;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: auto;
+      padding-bottom: 0;
+      text-align: center;
+    }
+    .header-item--icon-list {
+      flex: 0 0 auto;
+      order: 3;
+      display: flex;
+      justify-content: flex-end;
+      gap: 16px;
+    }
+    /* Override any desktop positioning */
+    .header-item--desktop-nav {
+      display: none;
+    }
+    /* Handle top left/center specific structure */
+    .header-item--logo-nav {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
+    .header-item--logo-nav .header-item--logo {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: auto;
+      text-align: center;
+    }
+  }
+
+  /* Desktop layout for top left and top center */
+  {% if section.settings.logo_position == 'top left' or section.settings.logo_position == 'top center' %}
+    .header-container {
+      display: flex;
+      flex-direction: column;
+    }
+    @media (min-width: 960px) {
+      .header-inner {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        width: 100%;
+        padding-bottom: 20px;
       }
-    {%- endif -%}
+      {% if section.settings.logo_position == 'top center' %}
+        .header-inner {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          position: relative;
+        }
+        .header-item--logo-nav {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .header-item--logo {
+          display: flex;
+          justify-content: center;
+          padding-bottom: 20px;
+          width: 100%;
+        }
+        .header-item--desktop-nav {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+        }
+        .header-item--icon-list {
+          position: absolute;
+          right: 0;
+          top: 0;
+          height: 100%;
+          display: flex;
+          align-items: center;
+        }
+        {% if section.settings.desktop_menu_type == 'drawer' %}
+          .header-item--menu-trigger {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+          }
+        {% endif %}
+      {% else %}
+        .header-item--logo-nav {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .header-item--logo {
+          display: flex;
+          justify-content: flex-start;
+          padding-bottom: 20px;
+        }
+        .header-item--desktop-nav {
+          display: flex;
+          justify-content: flex-start;
+        }
+        {% if section.settings.desktop_menu_type == 'drawer' %}
+          .header-inner {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding-bottom: 0;
+            height: 97px;
+          }
+          .header-item--menu-trigger {
+            order: 0;
+            margin-right: 32px;
+            display: flex;
+            align-items: center;
+            height: 100%;
+          }
+          .header-item--logo-nav {
+            order: 1;
+            display: flex;
+            align-items: center;
+            height: 100%;
+          }
+          .header-item--logo {
+            padding-bottom: 0;
+            height: 100%;
+          }
+          {% if section.settings.menu != blank and linklists[section.settings.menu].links.size > 0 %}
+            .header-item--logo {
+              margin-left: 32px;
+            }
+          {% endif %}
+          .header-item--icon-list {
+            order: 2;
+            margin-left: auto;
+            height: 100%;
+          }
+        {% endif %}
+      {% endif %}
+    }
+  {% endif %}
+
+  /* Desktop layout for left and center */
+  {% if section.settings.logo_position == 'left' or section.settings.logo_position == 'center' or section.settings.logo_position == 'center left' %}
+    @media (min-width: 960px) {
+      .header-inner {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        height: 97px;
+        position: relative;
+      }
+      .header-item--logo {
+        display: flex;
+        {% if section.settings.logo_position == 'left' or section.settings.logo_position == 'center left' %}
+          order: 1;
+          flex: 0 0 auto;
+          justify-content: flex-start;
+          {% if section.settings.desktop_menu_type == 'drawer' and linklists[section.settings.menu].links.size > 0%}
+            margin-left: 32px;
+          {% endif %}
+        {% else %}
+          order: 2;
+          flex: 0 0 auto;
+          justify-content: center;
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+        {% endif %}
+      }
+      .header-item--desktop-nav {
+        display: flex;
+        align-items: center;
+        {% if section.settings.logo_position == 'left' %}
+          order: 2;
+          flex: 0 1 auto;
+          justify-content: center;
+          width: auto;
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+        {% elsif section.settings.logo_position == 'center' %}
+          order: 1;
+          flex: 0 1 auto;
+          justify-content: flex-start;
+          width: auto;
+          margin-right: auto;
+        {% else %}
+          order: 2;
+          flex: 0 1 auto;
+          justify-content: flex-start;
+          width: auto;
+          margin-left: 32px;
+        {% endif %}
+      }
+      .header-item--icon-list {
+        flex: 0 0 auto;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        order: 3;
+        gap: 16px;
+        margin-left: auto;
+      }
+      {% if section.settings.desktop_menu_type == 'drawer' %}
+        .header-item--menu-trigger {
+          order: 0;
+          flex: 0 0 auto;
+          margin-right: 0;
+        }
+      {% endif %}
+    }
+  {% endif %}
 {% endstyle %}
 
 <div class="swell-section">
-  <header class="relative {{ border_b }} text-{{ color_scheme }} bg-{{color_scheme}}">
-    <div
-      class="sm:flex flex-col max-w-[1900px] mx-auto responsive-padding-{{ section.id }}"
-      {% comment %} style="padding-top: {{ section.settings.top_padding }}px; padding-bottom: {{ section.settings.bottom_padding }}px;" {% endcomment %}
-    >
-      <div class="{%- if logo_position == 'top center' or logo_position == 'top left' -%}h-full min-[960px]:pb-[20px] {% else %}h-[81px]{% endif %} sm:px-[48px] sm:{%- if logo_position == 'top center' or logo_position == 'top left' -%}h-full{% else %}h-[97px]{% endif %} pl-[24px] pr-[24px] grid grid-cols-3">
-        {%- if logo_position == 'left' or logo_position == blank -%}
-          <button class="min-[960px]:hidden block min-w-min" onclick="toggleMobileTray()" aria-label="Open mobile menu">
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-          </button>
-          {%- render 'header-logo' -%}
-          <div class="hidden min-[960px]:flex justify-center items-center">
-            {%- render 'header-desktop-nav', text_uppercase: text_uppercase -%}
-          </div>
-          {%- render 'header-desktop-icon-list',
-            color_scheme: color_scheme
-          -%}
-        {%- elsif logo_position == 'center' -%}
-          <button class="min-[960px]:hidden block min-w-min" onclick="toggleMobileTray()" aria-label="Open mobile menu">
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-          </button>
-          <div class="hidden min-[960px]:flex justify-start items-center">
-            {%- render 'header-desktop-nav', text_uppercase: text_uppercase -%}
-          </div>
-          <div class="flex justify-center items-center">
-            {%- render 'header-logo' -%}
-          </div>
-          {%- render 'header-desktop-icon-list',
-            color_scheme: color_scheme
-          -%}
-        {%- elsif logo_position == 'center left' -%}
-          <button class="min-[960px]:hidden block min-w-min" onclick="toggleMobileTray()" aria-label="Open mobile menu">
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-          </button>
-          <div class="flex gap-[50px] justify-center min-[960px]:justify-start">
-            <div class="flex justify-center items-center">
-              {%- render 'header-logo' -%}
-            </div>
-            <div class="hidden min-[960px]:flex justify-start items-center">
-              {%- render 'header-desktop-nav', text_uppercase: text_uppercase -%}
-            </div>
-          </div>
-          <div class="hidden min-[960px]:block"></div>
-          {%- render 'header-desktop-icon-list',
-            color_scheme: color_scheme
-          -%}
-        {%- elsif logo_position == 'top left' -%}
-          <button class="min-[960px]:hidden block min-w-min" onclick="toggleMobileTray()" aria-label="Open mobile menu">
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-          </button>
-          <div class="hidden min-[960px]:block order-1"></div>
-          <div class="{%- if logo_position == 'top left' -%}items-start {% endif %} flex flex-col">
-            <div class="flex justify-center items-center">
-              {%- render 'header-logo' -%}
-            </div>
-            <div class="hidden min-[960px]:flex justify-center items-start">
-              {%- render 'header-desktop-nav', text_uppercase: text_uppercase -%}
-            </div>
-          </div>
-          <div class="flex items-center justify-end gap-[16px] order-2 ">
-            {%- render 'header-desktop-icon-list',
-              color_scheme: color_scheme
-            -%}
-          </div>
-        {%- elsif logo_position == 'top center' -%}
-          <button class="min-[960px]:hidden block min-w-min" onclick="toggleMobileTray()" aria-label="Open mobile menu">
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-          </button>
-          <div class="hidden min-[960px]:block"></div>
-          <div class="flex flex-col">
-            <div class="flex justify-center items-center">
-              {%- render 'header-logo' -%}
-            </div>
-            <div class="hidden min-[960px]:flex justify-center items-center">
-              {%- render 'header-desktop-nav', text_uppercase: text_uppercase -%}
-            </div>
-          </div>
-          {%- render 'header-desktop-icon-list',
-            color_scheme: color_scheme,
-            show_language_selector: section.settings.show_language_selector,
-            show_currency_selector: section.settings.show_currency_selector
-          -%}
-        {%- endif -%}
-      </div>
-    </div>
+  <header class="relative {{ border_b }} text-{{ color_scheme }} bg-{{ color_scheme }} responsive-padding-{{ section.id }}">
+    <div class="w-full h-full">
+      <div class="pl-[24px] pr-[24px] lg:px-[160px]">
+        <div class="max-w-container mx-auto w-full h-full">
+          <div class="header-container">
+            <div class="header-inner">
+              <!-- Menu Trigger -->
+              {% if section.settings.menu != blank and linklists[section.settings.menu].links.size > 0 %}
+                {% if section.settings.desktop_menu_type == 'drawer' %}
+                  <div class="header-item header-item--menu-trigger flex">
+                {% else %}
+                  <div class="header-item header-item--menu-trigger flex min-[960px]:hidden">
+                {% endif %}
+                  <button
+                    class="flex items-center justify-center h-full"
+                    data-drawer-menu-trigger
+                    aria-label="Open menu"
+                  >
+                    <svg
+                      class="w-6 h-6"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                  </button>
+                </div>
+              {% else %}
+                <div class="header-item header-item--menu-trigger hidden"></div>
+              {% endif %}
 
-    <div
-      id="mobileTray"
-      class="z-[101] top-[80px] w-full inset-0 bg-white text-black hidden"
-    >
-      <div
-        id="trayContent"
-        class="text-black flex flex-col gap-5 items-start sm:items-center pt-[32px] pl-[24px] pr-[24px] pb-[64px]"
-      >
-        {%- render 'mobile-main-menu', links: linklists[section.settings.selected_menu].links -%}
-      </div>
-      <div id="svg-assets" class="hidden">
-        <div id="nav-right-arrow-icon">
-          {{ 'nav-right-arrow-icon.svg' | inline_asset_content }}
+              <!-- Logo and Nav -->
+              {% if section.settings.logo_position == 'top left' or section.settings.logo_position == 'top center' %}
+                <div class="header-item header-item--logo-nav">
+                  <div class="header-item header-item--logo">
+                    {%- render 'header-logo' -%}
+                  </div>
+                  {% if section.settings.desktop_menu_type == 'mega'
+                    or section.settings.desktop_menu_type == 'dropdown'
+                  %}
+                    <div class="header-item header-item--desktop-nav hidden min-[960px]:flex items-center">
+                      {%- render 'header-desktop-nav',
+                        text_uppercase: text_uppercase,
+                        color_scheme: color_scheme,
+                        menu_color_scheme: section.settings.menu_color_scheme
+                      -%}
+                    </div>
+                  {% endif %}
+                </div>
+              {% else %}
+                <div class="header-item header-item--logo">
+                  {%- render 'header-logo' -%}
+                </div>
+                {% if section.settings.desktop_menu_type == 'mega'
+                  or section.settings.desktop_menu_type == 'dropdown'
+                %}
+                  <div class="header-item header-item--desktop-nav hidden min-[960px]:flex items-center">
+                    {%- render 'header-desktop-nav',
+                      text_uppercase: text_uppercase,
+                      color_scheme: color_scheme,
+                      menu_color_scheme: section.settings.menu_color_scheme
+                    -%}
+                  </div>
+                {% endif %}
+              {% endif %}
+
+              <!-- Icon List -->
+              <div class="header-item header-item--icon-list flex items-center justify-end gap-[16px]">
+                {%- render 'header-desktop-icon-list',
+                  color_scheme: color_scheme,
+                  show_language_selector: section.settings.show_language_selector,
+                  show_currency_selector: section.settings.show_currency_selector
+                -%}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </header>
-</div>
+    </header>
+  </div>
 
-{% render 'search-dialog' %}
+  {% render 'search-dialog' %}
+  {% render 'drawer-menu' %}
+</div>
 
 {% schema %}
 {
   "name": "Header",
   "settings": [
-    { "type": "header", "content": "Header" },
-    { "type": "link_list", "id": "selected_menu", "label": "Menu", "default": "main_menu" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
-    { "type": "checkbox", "id": "sticky", "label": "Sticky header", "default": false },
-    { "type": "checkbox", "id": "border_b", "default": false, "label": "Bottom border" },
-    { "type": "checkbox", "id": "text_uppercase", "default": true, "label": "Uppercase text" },
-    { "type": "checkbox", "id": "show_language_selector", "label": "Show language selector", "default": true },
-    { "type": "checkbox", "id": "show_currency_selector", "label": "Show currency selector", "default": true },
+    {
+      "type": "header",
+      "content": "Header"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu"
+    },
+    {
+      "type": "select",
+      "id": "desktop_menu_type",
+      "label": "Desktop menu type",
+      "options": [
+        { "value": "dropdown", "label": "Dropdown" },
+        { "value": "mega", "label": "Mega menu" },
+        { "value": "drawer", "label": "Drawer menu" }
+      ],
+      "default": "dropdown"
+    },
+    {
+      "type": "color_scheme",
+      "id": "menu_color_scheme",
+      "label": "Menu color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "mega_menu_row_count",
+      "label": "Mega menu row count",
+      "min": 3,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "mega_menu_alignment",
+      "label": "Mega menu alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": "Sticky header",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "border_b",
+      "default": false,
+      "label": "Bottom border"
+    },
+    {
+      "type": "checkbox",
+      "id": "text_uppercase",
+      "default": true,
+      "label": "Uppercase text"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_language_selector",
+      "label": "Show language selector",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_currency_selector",
+      "label": "Show currency selector",
+      "default": true
+    },
     {
       "type": "header",
       "content": "Desktop",
@@ -234,7 +503,7 @@
       "label": "Logo position",
       "options": [
         { "value": "top left", "label": "Top left" },
-        { "value": "top center", "label": "Top center" }, 
+        { "value": "top center", "label": "Top center" },
         { "value": "center left", "label": "Center left" },
         { "value": "left", "label": "Left" },
         { "value": "center", "label": "Center" }

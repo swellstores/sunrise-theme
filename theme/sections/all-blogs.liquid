@@ -30,17 +30,13 @@
               {% assign featured_article = blog.articles[0] %}
               {% if featured_article.image %}
                 <div class="w-full max-w-[1046px] h-auto">
-                  {% if featured_article.image %}
-                    <img
-                      src="{{ featured_article.image | image_url }}"
-                      alt="{{ featured_article.title }}"
-                      class="w-full h-full object-cover"
-                      height=""
-                      width=""
-                    >
-                  {% else %}
-                    <p>No image available</p>
-                  {% endif %}
+                  <img
+                    src="{{ featured_article.image | image_url }}"
+                    alt="{{ featured_article.title }}"
+                    class="w-full h-full object-cover"
+                    height=""
+                    width=""
+                  >
                 </div>
               {% endif %}
               <div class="flex flex-col gap-[16px] items-center">
@@ -51,7 +47,7 @@
                     </p>
                   </div>
                   <div>
-                    <h2 class="font-display text-headline-large uppercase">{{ featured_article.title }}</h2>
+                    <h2 class="font-display text-headline-large">{{ featured_article.title }}</h2>
                   </div>
                 </div>
                 {% if featured_article.excerpt %}
@@ -69,17 +65,13 @@
             <div class="blog-card flex flex-col gap-[16px] overflow-hidden">
               {% if article.image %}
                 <div class="h-[250px] sm:w-full">
-                  {% if article.image %}
-                    <img
-                      src="{{ article.image | image_url }}"
-                      alt="{{ article.title }}"
-                      class="w-full h-full object-cover"
-                      height=""
-                      width=""
-                    >
-                  {% else %}
-                    <p>No image available</p>
-                  {% endif %}
+                  <img
+                    src="{{ article.image | image_url }}"
+                    alt="{{ article.title }}"
+                    class="w-full h-full object-cover"
+                    height=""
+                    width=""
+                  >
                 </div>
               {% endif %}
               <div class="flex flex-col gap-[16px]">
@@ -87,7 +79,7 @@
                   <p class="text-body-medium font-display text-secondary-{{ section.settings.color_scheme }}">
                     {{ article.published_at | date: '%B %d %Y' }}
                   </p>
-                  <h3 class="font-display text-headline-small uppercase">
+                  <h3 class="font-display text-headline-small">
                     <a href="{{ article.url }}" class="hover:underline">{{ article.title }}</a>
                   </h3>
                 </div>
@@ -95,8 +87,9 @@
                   <p class="text-body-large font-display">{{ article.excerpt | truncate: 100 }}</p>
                 {% endif %}
                 <div class="flex">
+                  {% assign read_more_text = 'sections.blog.read_more' | t %}
                   {% render 'button',
-                    text: 'Read more',
+                    text: read_more_text,
                     href: article.url,
                     color_scheme: section.settings.color_scheme
                   %}

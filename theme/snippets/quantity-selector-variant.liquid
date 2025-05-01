@@ -4,17 +4,17 @@
 -%}
 
 <quantity-selector-root
-  class="quantity-selector-root quantity-selector-pdp flex items-center gap-3 text-black"
+  class="quantity-selector-root quantity-selector-pdp flex items-center gap-3"
   data-context="pdp"
 >
   <div
-    class="grid {% if size == 'lg' %}max-w-40{% else %} max-w-24{% endif %} grid-cols-3 border border-[#222222] rounded-[4px]"
+    class="border-color-{{ color_scheme }} grid {% if size == 'lg' %}max-w-40{% else %} max-w-24{% endif %} grid-cols-3 border rounded-[4px]"
     style="border-radius:{{ border_radius }}px"
   >
     <quantity-selector-decrement
       role="button"
       class="flex items-center justify-center {% if size == 'lg' %}m-4{% else %}m-2{% endif %}"
-      aria-label="Decrement"
+      aria-label="{{ 'sections.product.quantity.decrement' | t }}"
     >
       <ion-icon name="remove-outline" aria-hidden="true"></ion-icon>
     </quantity-selector-decrement>
@@ -22,20 +22,21 @@
     <input
       class="text-center text-xxs number-input"
       type="number"
+      data-is-product-quantity="yes"
       data-product-id="{{ product.id }}"
       data-variant-id="{{ product.selected_or_first_available_variant.id }}"
       value="1"
       min="1"
       max="{{ product.selected_or_first_available_variant.inventory_quantity }}"
       step="1"
-      aria-label="Quantity for {{ product.title | escape }}"
+      aria-label="{{ 'sections.product.quantity.decrement' | t: product_name: product.title | escape }}"
       style="border-radius:{{ border_radius }}px"
     >
 
     <quantity-selector-increment
       role="button"
       class="flex items-center justify-center {% if size == 'lg' %}m-4{% else %}m-2{% endif %}"
-      aria-label="Increment"
+      aria-label="{{ 'sections.product.quantity.increment' | t }}"
     >
       <ion-icon name="add-outline" aria-hidden="true"></ion-icon>
     </quantity-selector-increment>

@@ -1,41 +1,91 @@
 {
-  "type": "footer",
-  "name": "Footer",
   "sections": {
     "newsletter": {
       "type": "newsletter",
+      "disabled": false,
+      "custom_css": "",
       "settings": {
         "color_scheme": "scheme-1",
-        "padding_x": 12,
-        "padding_y": 24
+        "button_variant": "solid",
+        "button_text": "Submit",
+        "top_padding": 64,
+        "bottom_padding": 64,
+        "$locale": null
       },
       "blocks": {
-        "block-2": {
+        "newsletter": {
           "type": "heading",
+          "disabled": false,
           "settings": {
+            "$locale": null,
             "heading": "Subscribe to our emails"
           }
         },
-        "block-3": {
+        "newsletter_1": {
           "type": "text",
+          "disabled": false,
           "settings": {
+            "$locale": null,
             "text": "<p>Be the first to know about new collections and exclusive offers.</p>"
           }
         },
-        "block-4": {
+        "newsletter_2": {
           "type": "email_form",
-          "settings": {}
+          "disabled": false,
+          "settings": {
+            "$locale": null
+          }
         }
       },
-      "block_order": ["block-2", "block-3", "block-4"]
+      "block_order": [
+        "newsletter",
+        "newsletter_1",
+        "newsletter_2"
+      ]
     },
     "footer": {
       "type": "footer",
+      "disabled": false,
+      "custom_css": "",
       "settings": {
-        "footer_title": "Our mission",
-        "footer_text": "Quality materials, good designs, craftsmanship and sustainability."
-      }
+        "show_copyright": true,
+        "show_language_selector": true,
+        "show_currency_selector": true,
+        "color_scheme": "scheme-2",
+        "top_padding": 96,
+        "bottom_padding": 96,
+        "$locale": null
+      },
+      "blocks": {
+        "footer": {
+          "type": "menu",
+          "disabled": false,
+          "settings": {
+            "$locale": null,
+            "menu": "footer_menu",
+            "single_column_heading": "Quick Links"
+          }
+        },
+        "brand_info": {
+          "type": "brand_info",
+          "disabled": false,
+          "settings": {
+            "footer_title": "Our Mission",
+            "footer_text": "Quality materials, good designs, craftsmanship, and sustainability.",
+            "show_social_icons": true
+          }
+        }
+      },
+      "block_order": [
+        "footer",
+        "brand_info"
+      ]
     }
   },
-  "order": ["newsletter", "footer"]
+  "order": [
+    "newsletter",
+    "footer"
+  ],
+  "type": "footer",
+  "name": "Footer"
 }

@@ -10,12 +10,6 @@
     padding-bottom: {{ reduced_padding_bottom }}px;
   }
 
-  .newsletter-form-container {
-    input {
-      height: 48px;
-    }
-  }
-
   @media (min-width: 1024px) {
     .responsive-padding-{{ section.id }} {
       padding-top: {{ section.settings.top_padding }}px;
@@ -25,49 +19,48 @@
 {% endstyle %}
 
 <div
-  class="flex justify-center text-black bg-{{ color_scheme}} text-{{ color_scheme }} bg-[#FAF7FF] pt-[64px] pb-[64px] pl-[24px] pr-[24px] lg:p-[160px] responsive-padding-{{ section.id }}"
-  {% comment %} style="padding-top: {{ section.settings.top_padding }}px; padding-bottom: {{ section.settings.bottom_padding }}px;" {% endcomment %}
+  class="bg-{{ color_scheme}} text-{{ color_scheme }} flex justify-center bg-[#FAF7FF] pt-[64px] pb-[64px] pl-[24px] pr-[24px] lg:p-[160px] responsive-padding-{{ section.id }}"
 >
-  <div class="max-w-[1046px] flex flex-col justify-center items-center gap-[32px]">
+  <div class="max-w-[1046px] flex flex-col justify-center items-center">
     {%- for block in section.blocks -%}
       {%- case block.type -%}
-        {%- when 'pre_heading' -%}
-          <div class="font-display text-headline-small text-center font-pre-heading">
-            {{ block.settings.pre_heading }}
-          </div>
         {%- when 'heading' -%}
-          <h2 class="font-display font-heading text-headline-small text-center">{{ block.settings.heading }}</h2>
+          <h2 class="font-display font-heading text-headline-small text-center mb-[8px]">
+            {{ block.settings.heading | inline_editable: 'heading' }}
+          </h2>
         {%- when 'text' -%}
           <div class="font-display text-body-large text-center formatted-text">
-            {{ block.settings.text }}
+            {{ block.settings.text | inline_editable: 'text' }}
           </div>
         {%- when 'email_form' -%}
-          <div class="flex w-full">
-            {% form 'customer', class: 'newsletter-form w-full' %}
+          <div class="flex w-full pt-[32px]">
+            {% form 'customer'
+              , class: 'newsletter-form w-full'
+            %}
               <input type="hidden" name="contact[tags]" value="newsletter">
               <div class="flex gap-4 justify-center newsletter-form-container">
                 <div class="relative sm:min-w-96 w-full sm:w-[330px]">
+                  {% assign email_text = 'sections.newsletter.email' | t %}
                   {%
                     render 'input',
                     id: 'contact[email]',
                     type: 'email',
-                    name: "contact[email]",
+                    name: 'contact[email]',
                     value: form.email,
-                    aria_required: "true",
-                    autocorrect: "off",
-                    autocapitalize: "off",
-                    autocomplete: "email",
+                    autocorrect: 'off',
+                    autocapitalize: 'off',
+                    autocomplete: 'email',
+                    placeholder: email_text,
                     autofocus: form.errors,
-                    aria_invalid: form.errors,
-                    aria_describedby: form.errors ? "Newsletter-error--#{section.id}" : form.posted_successfully? ? "Newsletter-success--#{section.id}" : "",
-                    required: "true",
-                    placeholder: 'Email',
-                    variant: 'email'
+                    required: 'true',
+                    class: 'h-[48px]',
+                    aria_required: 'true',
+                    aria_invalid: form.errors
                   %}
                 </div>
                 {% render 'button',
                   type: 'submit',
-                  text: 'Submit',
+                  text: section.settings.button_text,
                   color_scheme: color_scheme,
                   variant: section.settings.button_variant
                 %}
@@ -76,7 +69,7 @@
                 <div class="text-red-600 mt-2 text-xs">{{ form.errors | default_errors }}</div>
               {%- endif -%}
               {%- if form.posted_successfully? -%}
-                <div class="mt-2 text-green-600 text-xs">Successfully subscribed.</div>
+                <div class="mt-2 text-green-600 text-xs">{{ 'sections.newsletter.success' | t }}</div>
               {%- endif -%}
             {% endform %}
           </div>
@@ -119,6 +112,12 @@
       "default": "solid"
     },
     {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Submit"
+    },
+    {
       "type": "range",
       "id": "top_padding",
       "label": "Top padding",
@@ -142,7 +141,7 @@
   "blocks": [
     {
       "type": "heading",
-        "name": "Heading",
+      "name": "Heading",
       "limit": 1,
       "settings": [
         {

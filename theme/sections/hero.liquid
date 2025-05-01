@@ -24,7 +24,7 @@
            {% case section.settings.banner_height %}
            {% when 'small' %} h-48 sm:min-h-48 sm:max-h-48
            {% when 'medium' %} h-96 sm:min-h-96 sm:max-h-96
-           {% when 'large' %}h-[600px] sm:min-h-[600px] sm:max-h-[600px] 2xl:min-h-[800px] 2xl:max-h-[800px]
+           {% when 'large' %}h-[600px] sm:min-h-[600px] sm:max-h-[600px]
            {% when 'screen' %} h-screen
            {% else %} h-auto
          {% endcase %}
@@ -41,19 +41,41 @@
           assign image_class = 'object-fill h-full'
         endif
 
-        assign pictureClass = 'svg-placeholder object-fit object-center'
+        assign picture_class = 'svg-placeholder object-fit object-center'
+        assign mobile_picture_class = 'svg-placeholder flex justify-center'
 
         if section.settings.banner_height == 'adapt'
           assign image_class = 'w-full h-full object-cover object-center'
-          assign pictureClass = ''
+          assign picture_class = ''
+          assign mobile_picture_class = ''
+        endif
+
+        assign main_image_class = 'block'
+        if section.settings.mobile_image != blank
+          assign main_image_class = 'hidden sm:block'
         endif
       %}
-      {% render 'image',
-        placeholder: 'lifestyle-1',
-        image: section.settings.image,
-        picture_class: pictureClass,
-        class: image_class
-      %}
+      <div class="{{ main_image_class }}">
+        {% render 'image',
+          placeholder: 'lifestyle-1',
+          image: section.settings.image,
+          picture_class: picture_class,
+          class: image_class
+        %}
+      </div>
+      {%- if section.settings.mobile_image != blank -%}
+        {%- comment -%}
+          The mobile image is always displayed with full height and object-cover. It ignores image_height setting.
+        {%- endcomment -%}
+        <div class="block sm:hidden">
+          {% render 'image',
+            placeholder: 'lifestyle-1',
+            image: section.settings.mobile_image,
+            picture_class: mobile_picture_class,
+            class: 'object-cover w-fit h-full'
+          %}
+        </div>
+      {%- endif -%}
     </div>
     <div
       class="absolute inset-0 bg-black"
@@ -80,6 +102,8 @@
           style="
             {% if content_alignment contains 'items-start' %} padding-top: {{ section.settings.vertical_padding }}px; {% endif %}
             {% if content_alignment contains 'items-end' %} padding-bottom: {{ section.settings.vertical_padding }}px; {% endif %}
+            {% if content_alignment contains 'justify-start' %} padding-left: {{ section.settings.horizontal_padding }}px; {% endif %}
+            {% if content_alignment contains 'justify-end' %} padding-right: {{ section.settings.horizontal_padding }}px; {% endif %}
           "
         >
           <div class="flex flex-col gap-[8px]">
@@ -87,7 +111,7 @@
               {%- case block.type -%}
                 {%- when 'pre_heading' -%}
                   <p class="font-display text-title-medium font-pre-heading">
-                    {{ block.settings.pre_heading }}
+                    {{ block.settings.pre_heading | inline_editable: 'pre_heading' }}
                   </p>
                 {%- when 'heading' -%}
                   <h2
@@ -105,7 +129,7 @@
                   </h2>
                 {%- when 'text' -%}
                   <div class="font-display text-body-large sm:text-body-large formatted-text">
-                    {{ block.settings.text }}
+                    {{ block.settings.text | inline_editable: 'text' }}
                   </div>
               {%- endcase -%}
             {%- endfor -%}
@@ -144,12 +168,18 @@
   "settings": [
     {
       "type": "header",
-      "content": "Content"
+      "content": "Content",
+      "id": "header_content"
     },
     {
       "type": "image_picker",
       "id": "image",
       "label": "Background image"
+    },
+     {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile image"
     },
     {
       "type": "color",
@@ -205,7 +235,13 @@
         { "value": "fixed_height", "label": "Fixed height" },
         { "value": "fill", "label": "Fill" },
         { "value": "contain", "label": "Contain" }
-      ]
+      ],
+      "info": "Background image placement",
+      "conditions": {
+        "banner_height": {
+          "$ne": "adapt"
+        }
+      }
     },
     {
       "type": "select",
@@ -249,7 +285,8 @@
     },
     {
       "type": "header",
-      "content": "Colors"
+      "content": "Colors",
+      "id": "header_colors"
     },
     {
       "type": "color_scheme",
@@ -265,13 +302,14 @@
     },
     {
       "type": "header",
-      "content": "Layout"
+      "content": "Layout",
+      "id": "header_layout"
     },
     {
       "type": "select",
       "id": "content_alignment",
       "label": "Content position",
-      "default": "items-center justify-start",
+      "default": "items-center justify-center",
       "options": [
         {
           "value": "items-start justify-start",
@@ -316,10 +354,44 @@
       "id": "vertical_padding",
       "label": "Vertical padding",
       "default": 16,
-      "min": 4,
+      "min": 0,
       "max": 160,
       "step": 4,
-      "unit": "px"
+      "unit": "px",
+      "conditions": {
+        "content_alignment": {
+          "$in": [
+            "items-start justify-start",
+            "items-start justify-center",
+            "items-start justify-end",
+            "items-end justify-start",
+            "items-end justify-center",
+            "items-end justify-end"
+          ]
+        }
+      }
+    },
+    {
+      "type": "range",
+      "id": "horizontal_padding",
+      "label": "Horizontal padding",
+      "default": 0,
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "conditions": {
+        "content_alignment": {
+          "$in": [
+            "items-start justify-start",
+            "items-start justify-end",
+            "items-center justify-start",
+            "items-center justify-end",
+            "items-end justify-start",
+            "items-end justify-end"
+          ]
+        }
+      }
     },
     {
       "type": "checkbox",

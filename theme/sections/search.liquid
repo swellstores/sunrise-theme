@@ -3,7 +3,7 @@
   assign terms = search.terms | escape
 -%}
 
-<div class="px-[24px] py-[32px] text-{{ color_scheme }} bg-{{ color_scheme }} flex flex-col">
+<div class="bg-{{ color_scheme }} text-{{ color_scheme }} px-[24px] py-[32px] flex flex-col">
   <div class="flex flex-col items-center w-full">
     <div class="flex flex-col items-start w-full max-w-[766px] mx-auto gap-[16px] pb-[32px]">
       <h2 class="text-title-large font-display">
@@ -16,6 +16,7 @@
       <form action="{{ routes.search_url }}" method="get" role="search" class="flex items-center w-full">
         <div class="relative w-[766px]">
           <input name="options[prefix]" type="hidden" value="last">
+          {% assign placeholder_text = 'general.search.placeholder' | t %}
           {% render 'input',
             id: 'search',
             name: 'q',
@@ -24,14 +25,13 @@
             autocorrect: 'off',
             autocapitalize: 'off',
             autocomplete: 'off',
-            placeholder: 'Search',
+            placeholder: placeholder_text,
             variant: 'search'
           %}
-
           <button
             type="submit"
             class="absolute inset-y-0 right-0 flex items-center pr-[16px] cursor-pointer"
-            aria-label="Submit search"
+            aria-label="{{ 'general.search.submit' | t }}"
           >
             {{ 'search-dialog-icon.svg' | inline_asset_content }}
           </button>
@@ -42,11 +42,13 @@
   <div class="max-w-[1366px] mx-auto pb-[32px] mt-[32px] border-t border-[#E0E0E0] sm:p-6 w-full">
     {% paginate search.results by 24 %}
       <div class="max-w-[1046px] mx-auto 2xl:max-w-[1380px] w-full">
-        {% render 'filter-bar', request: request, results: search, paginate: paginate %}
+        {%- if search.performed and search.results.size > 0 -%}
+          {% render 'filter-bar', request: request, results: search, paginate: paginate %}
+        {%- endif -%}
 
         {%- if search.performed -%}
           {%- if search.results.size == 0 -%}
-            <div class="mt-2 text-xs">No results found for "{{ terms }}"</div>
+            <div class="mt-2 text-xs">{{ 'general.search.no_results' | t: terms: terms }}</div>
           {%- else -%}
             <div id="results" class="flex w-full flex-col gap-8">
               <div class="grid grid-cols-2  gap-x-[16px] gap-y-[24px] md:grid-cols-3 lg:grid-cols-4">
@@ -62,7 +64,7 @@
             </div>
 
             {%- if paginate.pages > 1 -%}
-              {% render 'pagination', paginate: paginate %}
+              {% render 'pagination', paginate: paginate, color_scheme: color_scheme %}
             {%- endif -%}
           {%- endif -%}
         {%- endif -%}

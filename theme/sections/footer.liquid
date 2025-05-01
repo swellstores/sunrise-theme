@@ -1,9 +1,5 @@
 {%- liquid
   assign color_scheme = section.settings.color_scheme
-  assign logo_color = settings.logo_color
--%}
-
-{%- liquid
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
 -%}
@@ -23,28 +19,10 @@
 {% endstyle %}
 
 <div
-  class="bg-{{ color_scheme }} bg-[#F5F5F5] pt-[64px] pb-[24px] pr-[24px] pl-[24px] md:pl-[160px] md:pr-[160px] md:pt-[96px] md:pb-[32px] responsive-padding-{{ section.id }}"
+  class="bg-{{ color_scheme }} bg-[#F5F5F5] pt-[64px] pb-[24px] pr-[44px] pl-[44px] md:pt-[96px] md:pb-[32px] responsive-padding-{{ section.id }}"
 >
   <div class="max-w-[1046px] 2xl:max-w-[1380px] mx-auto">
-    {% assign all_menus_have_no_sublinks = true %}
-
-    {% for block in section.blocks %}
-      {% assign menu = block.settings.menu %}
-      {% if menu != blank and linklists[menu] %}
-        {% for link in linklists[menu].links %}
-          {% if link.links.size > 0 %}
-            {% assign all_menus_have_no_sublinks = false %}
-          {% endif %}
-        {% endfor %}
-      {% endif %}
-    {% endfor %}
-
-    {%- assign footer_classes = 'grid grid-cols-1 gap-[32px] text-' | append: color_scheme -%}
-    {%- if all_menus_have_no_sublinks == false -%}
-      {%- assign footer_classes = 'grid grid-cols-1 md:grid-cols-3 gap-[32px] text-' | append: color_scheme -%}
-    {%- endif -%}
-
-    <footer class="{{ footer_classes }}">
+    <footer class="grid grid-cols-[repeat(auto-fit,_minmax(315px,_1fr))] gap-[32px] text-{{ color_scheme }}">
       {%- for block in section.blocks -%}
         {% if block.type == 'menu' %}
           {% assign menu = block.settings.menu %}
@@ -58,7 +36,7 @@
 
             {% if menu_has_sublinks %}
               {% for link in linklists[menu].links %}
-                <div class="flex flex-col gap-4 md:w-[327px]">
+                <div class="flex flex-col gap-4">
                   <div class="flex flex-col gap-[24px]">
                     {%- if link.url == '#' -%}
                       <div class="font-display text-title-large">{{ link.title }}</div>
@@ -82,7 +60,7 @@
                 </div>
               {% endfor %}
             {% else %}
-              <div class="flex flex-col gap-4 md:w-[327px]">
+              <div class="flex flex-col gap-4">
                 <div class="font-display text-title-large">
                   {{ block.settings.single_column_heading | default: 'Quick Links' }}
                 </div>
@@ -116,12 +94,12 @@
       {%- endfor -%}
     </footer>
 
-    <div class="border-t border-[#E0E0E0] w-full mt-[32px] mb-[32px]"></div>
+    {% if section.blocks != empty %}
+      <div class="border-t border-color-{{ color_scheme }} w-full mt-[32px] mb-[32px]"></div>
+    {% endif %}
 
     <div class="flex flex-col items-start gap-[8px]">
       <div class="flex w-full justify-between">
-        {%- assign logo_color = settings.logo_color -%}
-
         <a
           href="{{ routes.root_url }}"
         >
@@ -134,41 +112,20 @@
             }}
           {%- else -%}
             <h1
-              class="flex items-center justify-center logo-text font-bold text-[22px] font-display"
-              style="color: {{ logo_color }};"
+              class="flex items-center justify-center logo-text font-bold text-[22px] font-display text-{{ color_scheme }}"
             >
-              {{ settings.logo_text }}
+              {{ settings.logo_text | default: shop.name }}
             </h1>
           {%- endif -%}
         </a>
-
-        {% if section.settings.show_payment_icons %}
-          <ul class="flex gap-[12px]" role="list">
-            {%- for type in shop.enabled_payment_types -%}
-              <li class="list-payment__item hidden sm:block">
-                {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
-              </li>
-            {%- endfor -%}
-          </ul>
-        {% endif %}
       </div>
 
       {%- render 'localization-form' -%}
 
-      {% if section.settings.show_payment_icons %}
-        <ul class="flex gap-[12px] flex-wrap" role="list">
-          {%- for type in shop.enabled_payment_types -%}
-            <li class="list-payment__item block sm:hidden">
-              {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
-            </li>
-          {%- endfor -%}
-        </ul>
-      {% endif %}
-
       {% if section.settings.show_copyright %}
-        <div class="text-xs text-[#616161] font-display text-body-medium">
+        <div class="text-body-small text-secondary-{{ color_scheme }} font-display text-body-medium pt-[32px]">
           © {{ 'now' | date: '%Y' }}
-          {{ shop.name -}}
+          {{ shop.name -}}. <a href="https://www.swell.is">Powered by Swell</a>
         </div>
       {% endif %}
     </div>
@@ -181,18 +138,13 @@
   "settings": [
     {
       "type": "header",
-      "content": "Content"
+      "content": "Content",
+      "id": "header_content"
     },
     {
       "type": "checkbox",
       "id": "show_copyright",
       "label": "Show copyright",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_payment_icons",
-      "label": "Show payment icons",
       "default": true
     },
     {
@@ -209,7 +161,8 @@
     },
     {
       "type": "header",
-      "content": "Colors"
+      "content": "Colors",
+      "id": "header_colors"
     },
     {
       "type": "color_scheme",
@@ -219,7 +172,8 @@
     },
     {
       "type": "header",
-      "content": "Layout"
+      "content": "Layout",
+      "id": "header_layout"
     },
     {
       "type": "range",
@@ -239,7 +193,7 @@
       "max": 96,
       "step": 1,
       "unit": "px",
-      "default": 32
+      "default": 96
     }
   ],
   "blocks": [
@@ -250,7 +204,7 @@
         {
           "type": "link_list",
           "id": "menu",
-          "label": "Select a Menu"
+          "label": "Menu"
         },
         {
           "type": "text",

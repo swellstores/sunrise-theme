@@ -1,4 +1,5 @@
 {%- liquid
+  assign color_scheme = section.settings.color_scheme
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
 -%}
@@ -17,45 +18,33 @@
   }
 {% endstyle %}
 
-<div class="bg-{{section.settings.color_scheme}} flex max-w-[1046px] flex-col pt-[16px] pb-[64px] pr-[32px] pl-[32px] gap-[24px] xl:pr-[0px] xl:pl-[0px] sm:flex-row sm:pt-[64px] sm:pb-[64px] mx-auto justify-center sm:gap-[32px] items-start responsive-padding-{{ section.id }}">
-  <a href="/account/" class="sm:hidden text-{{ section.settings.color_scheme }} font-display text-title-large"
-    >Account Settings</a
+<div class="bg-{{ color_scheme }} text-{{ color_scheme }} flex max-w-[1046px] flex-col pt-[16px] pb-[64px] pr-[32px] pl-[32px] gap-[24px] xl:pr-[0px] xl:pl-[0px] sm:flex-row sm:pt-[64px] sm:pb-[64px] mx-auto justify-center sm:gap-[32px] items-start responsive-padding-{{ section.id }}">
+  <a href="/account/" class="sm:hidden text-{{ color_scheme }} font-display text-title-large"
+    >{{ 'customer.account.title' | t }}</a
   >
 
   <div class="flex flex-col items-start text-center w-[250px]">
     <a
       href="/account"
-      class="border-l px-[8px] py-[4px] font-display text-title-small {% if request.path == '/account' %}text-{{ section.settings.color_scheme }} border-[#222222] {% else %}text-secondary-{{ section.settings.color_scheme }} border-[#E0E0E0]{% endif %}"
+      class="border-l px-[8px] py-[4px] font-display text-title-small {% if request.path == '/account' %}text-{{ color_scheme }} border-color{{ color_scheme }} {% else %}text-secondary-{{ section.settings.color_scheme }} border-[#E0E0E0]{% endif %}"
     >
-      My Orders
+      {{ 'customer.account.my_orders' | t }}
     </a>
     <a
       href="/account/addresses"
-      class="border-l px-[8px] py-[4px] font-display text-title-small {% if request.path == '/account/addresses' %}text-{{ section.settings.color_scheme }} {% else %}text-secondary-{{ section.settings.color_scheme }} border-[#E0E0E0]{% endif %}"
+      class="border-l px-[8px] py-[4px] font-display text-title-small {% if request.path == '/account/addresses' %}text-{{ color_scheme }} {% else %}text-secondary-{{ section.settings.color_scheme }} border-[#E0E0E0]{% endif %}"
     >
-      Address Book
+      {{ 'customer.account.address_book' | t }}
     </a>
 
     <a
       href="{{ routes.account_logout_url }}"
       class="px-[8px] py-[4px] font-display text-title-small"
-      >Logout</a
+      >{{ 'customer.log_out' | t }}</a
     >
   </div>
   <div class="flex flex-col gap-[32px] w-full">
-    <h2 class="font-display text-headline-medium uppercase">My Orders</h2>
-    {% comment %}
-      <div>
-        <div class="flex items-start text-center w-[250px]">
-          <a
-            href="/account/"
-            class="text-black font-display text-title-small h-[38px] border-[#222222] border-b"
-            >Orders</a
-          >
-        </div>
-      </div>
-    {% endcomment %}
-
+    <h2 class="font-display text-headline-medium">{{ 'customer.account.orders' | t }}</h2>
     <div>
       {% paginate customer.orders by 20 %}
         {%- if customer.orders.count > 0 -%}
@@ -69,7 +58,7 @@
                     </a>
                     {{ order.fulfillment_status_label }}
                   </div>
-                  <span class="font-display text-{{ section.settings.color_scheme }} text-body-small">
+                  <span class="font-display text-{{ color_scheme }} text-body-small">
                     {{ order.created_at | time_tag: format: 'date' }}
                   </span>
 
@@ -80,11 +69,15 @@
                       </li>
                     {%- endfor -%}
                   </ul>
-                  <p class="font-display text-{{ section.settings.color_scheme }} text-body-small">
-                    {{ order.line_items.size }} Items
+                  <p class="font-display text-{{ color_scheme }} text-body-small">
+                    {%- if order.line_items.size == 1 -%}
+                      {{ 'sections.cart.item_count.one' | t: count: order.line_items.size }}
+                    {%- else -%}
+                      {{ 'sections.cart.item_count.other' | t: count: order.line_items.size }}
+                    {%- endif -%}
                   </p>
                 </div>
-                <span class="text-title-small text-{{ section.settings.color_scheme }} font-display">
+                <span class="text-title-small text-{{ color_scheme }} font-display">
                   {{- order.total_net_amount | money_with_currency -}}
                 </span>
               </div>
@@ -94,20 +87,20 @@
             {%- endfor -%}
           </div>
         {%- else -%}
-          <p class="text-sm">No orders found.</p>
+          <p class="text-sm">{{ 'customer.account.no_orders_found' | t }}</p>
         {%- endif -%}
         {%- if paginate.pages > 1 -%}
           {%- if paginate.parts.size > 0 -%}
-            <nav class="inline-flex -space-x-px text-sm" role="navigation" aria-label="Pagination">
+            <nav class="inline-flex -space-x-px text-sm" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
               <ul role="list" class="inline-flex">
                 {%- if paginate.previous -%}
                   <li>
                     <a
                       href="{{ paginate.previous.url }}"
-                      aria-label="Previous"
+                      aria-label="{{ 'general.pagination.previous' | t }}"
                       class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700"
                     >
-                      Previous
+                      {{ 'general.pagination.previous' | t }}
                     </a>
                   </li>
                 {%- endif -%}
@@ -144,10 +137,10 @@
                   <li>
                     <a
                       href="{{ paginate.next.url }}"
-                      aria-label="Next"
+                      aria-label="{{ 'general.pagination.next' | t }}"
                       class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700"
                     >
-                      Next
+                      {{ 'general.pagination.next' | t }}
                     </a>
                   </li>
                 {%- endif -%}

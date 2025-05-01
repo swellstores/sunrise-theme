@@ -14,7 +14,50 @@ export const CartAPI = {
    * @param {number} [quantity=1]
    * @return {*}
    */
-  async addToCart(productId, variantId, quantity = 1) {
+  async addToCart(productId, variantId, optionValues, allProductOptions, quantity = 1, purchaseOptionType = 'standard', purchaseOptionPlan = '') {
+    const requestBody = {
+      product_id: productId,
+      quantity: quantity,
+    };
+
+    if (variantId) {
+       // in shopify_compatibility we use id as variantId
+       requestBody.id = variantId ;
+    }
+
+    if (optionValues && allProductOptions) {
+      try {
+        const productOptions = JSON.parse(decodeURIComponent(allProductOptions));
+        const optionValueArray = optionValues.split(',');
+        const options = [];
+        for (const productOption of productOptions) {
+          for (const productOptionValue of productOption.values) {
+            if (optionValueArray.includes(productOptionValue.id)) {
+              options.push({
+                id: productOption.id,
+                name: productOption.name,
+                value: productOptionValue.name,
+                value_id: productOptionValue.id,
+                variant: productOption.variant_option,
+              })
+            }
+          }
+        }
+        
+        if (options.length > 0 && options.length === optionValueArray.length) {
+          requestBody.options = options;
+        }
+      } catch {
+        // none 
+      }
+    }
+
+    if (purchaseOptionType === 'subscription') {
+      requestBody.purchase_option = {
+        type: 'subscription',
+        plan: purchaseOptionPlan,
+      }
+    }
     try {
       const response = await fetch(routes.addToCart, {
         method: 'POST',
@@ -23,11 +66,7 @@ export const CartAPI = {
           'Content-Type': 'application/json',
           'X-Requested-With': 'XMLHttpRequest',
         },
-        body: JSON.stringify({
-          product_id: productId,
-          variant_id: variantId ? variantId : undefined,
-          quantity: quantity,
-        }),
+        body: JSON.stringify(requestBody),
       });
       if (!response.ok) {
         throw new Error('Network response was not ok');

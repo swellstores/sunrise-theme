@@ -1,3 +1,5 @@
+import eventBus from './utils/event-bus';
+
 /**
  * @export
  * @class QuantitySelector
@@ -56,8 +58,9 @@ export class QuantitySelector extends HTMLElement {
   handleIncrement() {
     if (this.quantity) {
       const step = parseInt(this.quantity.step) || 1;
-      const max = parseInt(this.quantity.max) || Infinity;
-      let newValue = Math.min(parseInt(this.quantity.value) + step, max);
+      const maxValue = parseInt(this.quantity.max);
+      const max = maxValue || maxValue === 0 ? maxValue : Infinity;
+      const newValue = Math.min(parseInt(this.quantity.value) + step, max);
       this.quantity.value = newValue.toString();
       this.quantity.setAttribute('value', newValue);
       this.dispatchChangeEvent();
@@ -68,7 +71,7 @@ export class QuantitySelector extends HTMLElement {
     if (this.quantity) {
       const step = parseInt(this.quantity.step) || 1;
       const min = parseInt(this.quantity.min) || 0;
-      let newValue = Math.max(parseInt(this.quantity.value) - step, min);
+      const newValue = Math.max(parseInt(this.quantity.value) - step, min);
       this.quantity.value = newValue.toString();
       this.quantity.setAttribute('value', newValue);
       this.dispatchChangeEvent();
@@ -100,11 +103,23 @@ export class QuantitySelector extends HTMLElement {
   }
 
   dispatchChangeEvent() {
+    const quantity = Number(this.quantity.value);
+    const quantityForProduct = this.quantity.getAttribute('data-is-product-quantity');
+    if (quantityForProduct === 'yes') {
+      // update product quantity
+      eventBus.emit('product-quantity-change', {
+        quantity,
+      });
+
+      return;
+    }
+
+    // update cart quantity
     this.dispatchEvent(
       new CustomEvent('quantity-change', {
         detail: {
           line: Number(this.quantity.getAttribute('data-line')),
-          quantity: Number(this.quantity.value),
+          quantity,
         },
         bubbles: true,
         composed: true,

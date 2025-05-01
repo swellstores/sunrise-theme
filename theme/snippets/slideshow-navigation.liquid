@@ -10,18 +10,18 @@
 
 <slideshow-button-prev
   role="button"
-  aria-label="Previous slide"
+  aria-label="{{ 'sections.slideshow.previous' | t }}"
   type="button"
-  class="group absolute left-[-70px] top-1/2 flex h-11 w-12 -translate-y-1/2 items-center justify-center border-none transition-colors z-10 text-black"
+  class="text-accent-{{ color_scheme }} group absolute left-[-70px] top-1/2 flex h-11 w-12 -translate-y-1/2 items-center justify-center border-none transition-colors z-10"
   style="border-radius: {{ border_radius | default: 8 }}px;"
 >
   {{- 'arrow-left-icon.svg' | inline_asset_content -}}
 </slideshow-button-prev>
 <slideshow-button-next
   role="button"
-  aria-label="Next slide"
+  aria-label="{{ 'sections.slideshow.next' | t }}"
   type="button"
-  class="group absolute right-[-70px] top-1/2 flex h-11 w-12 -translate-y-1/2 items-center justify-center border-none transition-colors z-10 text-black"
+  class="text-accent-{{ color_scheme }} group absolute right-[-70px] top-1/2 flex h-11 w-12 -translate-y-1/2 items-center justify-center border-none transition-colors z-10"
   style="border-radius: {{ border_radius | default: 8 }}px;"
 >
   {{- 'arrow-right-icon.svg' | inline_asset_content -}}
