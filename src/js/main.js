@@ -1,4 +1,3 @@
-import { Header } from "./header";
 import { Cart } from "./cart";
 import { CartDrawer } from "./cart-drawer";
 import { SearchDialog } from "./search-dialog";
