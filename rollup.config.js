@@ -11,5 +11,13 @@ export default {
       sourcemap: false,
     },
   ],
-  plugins: [resolve(), commonjs(), terser()],
+  plugins: [
+    resolve(),
+    commonjs(),
+    terser({
+      /* compress: {
+        drop_debugger: false, // Preserve debugger statements
+      }, */
+    }),
+  ],
 };

@@ -1,6 +1,7 @@
 {% # TODO set paginate size according to desktop column count setting %}
 
 {%- liquid
+  assign color_scheme = section.settings.color_scheme
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
 -%}
@@ -19,130 +20,37 @@
   }
 {% endstyle %}
 
-<div class="bg-{{section.settings.color_scheme}} max-w-[1366px] mx-auto p-6 responsive-padding-{{ section.id }}">
+<div class="bg-{{ color_scheme }} text-{{ color_scheme }} p-6 responsive-padding-{{ section.id }}">
   {% paginate collection.products by 12 %}
     <div class="max-w-[1046px] mx-auto 2xl:max-w-[1380px] w-full">
       <div class="flex flex-col py-4 text-left">
-        <h1 class="font-display text-headline-medium">{{ collection.title }}</h1>
-        {% comment %} <p class="mt-5 max-w-2xl text-gray-700">{{ collection.description }}</p> {% endcomment %}
+        <h1 class="font-display text-headline-medium">{{ collection.title | default: 'Products' }}</h1>
       </div>
+
       {% render 'filter-bar',
         request: request,
         results: collection,
         paginate: paginate,
-        color_scheme: section.settings.color_schem
+        color_scheme: color_scheme,
       %}
 
       <div class="mt-[16px]">
         <div class="flex gap-16">
-          {% comment %}
-            <aside class='sticky top-0 w-80'>
-            <h3 class='pb-6 text-xl'>Filters</h3>
-            <div hx-boost="true" hx-replace-url="true">
-            {% for filter in collection.filters %}
-            <details class="my-6" open>
-            <summary class='flex flex-col divide-y'>
-            <div class='flex items-center justify-between pb-2'>
-            <span class="text-base font-semibold">{{ filter.label }}</span>
-            <span class='h-4 w-4'>
-            {% render 'icon-chevron-down' %}
-            </span>
-            </div>
-            </summary>
-            <div class="flex align-middle justify-between pb-2 text-sm">
-            <span class="text-gray-500">{{ 'sections.collection.filters.selected' | t: count: filter.active_values.size }}</span>
-            <a href="{{ filter.url_to_remove }}" class="underline decoration-2 underline-offset-2 hover:decoration-orange-600">{{ 'sections.collection.filters.reset' | t }}</a>
-            </div>
-            <form
-            data-target="filter-form"
-            hx-get="#"
-            hx-trigger="change from:input"
-            hx-on="htmx:configRequest: updateSortFilters(event)"
-            hx-target="#main"
-            hx-select="#main">
-            {% case filter.type %}
-            {% when 'boolean' %}
-            {% assign disabled = false %}
-            {% if filter.true_value.count == 0 and filter.true_value.active == false %}
-            {% assign disabled = true %}
-            {% endif %}
-            <ul>
-            <li>
-            <label for="{{ filter.param_name }}-{{ forloop.index }}">
-            <input
-            type="checkbox"
-            id="{{ filter.param_name }}-{{ forloop.index }}"
-            class="h-4 w-4 mr-2 rounded border-gray-300 text-orange-600 focus:ring-orange-600"
-            name="{{ filter.param_name }}"
-            value="{{ filter.true_value.value }}"
-            {% if filter.true_value.active %}
-            checked{% endif %}
-            {% if disabled %}
-            disabled{% endif %}>
-            {{ filter.true_value.label }}
-            </label>
-            </li>
-            </ul>
-
-            {% when 'list' %}
-            <ul>
-            {% for option in filter.values %}
-            <li>
-            <label for="{{ filter.param_name }}-{{ forloop.index }}">
-            <input
-            type="checkbox"
-            id="{{ filter.param_name }}-{{ forloop.index }}"
-            class="h-4 w-4 mr-2 rounded border-gray-300 text-orange-600 focus:ring-orange-600"
-            name="{{ filter.param_name }}"
-            value="{{ option.value }}"
-            {% if option.active == false and option.count == 0 %}
-            disabled{% endif %}
-            {% if option.active %}
-            checked{% endif %}>
-            {{ option.label }} ({{ option.count }})
-            </label>
-            </li>
-            {% endfor %}
-            </ul>
-
-            {% when 'price_range' %}
-            <div class="flex gap-2">
-            <div class="relative w-1/2">
-            {% render 'input'
-            , type: 'text'
-            , id: 'PriceMin'
-            , name: '{{ filter.min_value.param_name }}'
-            , placeholder: '0' %}
-            {% render 'label'
-            , for_id: 'PriceMin'
-            , label: 'sections.collection.filters.from' %}
-            </div>
-            <div class="relative w-1/2">
-            {% render 'input'
-            , type: 'text'
-            , id: 'PriceMax'
-            , name: '{{ filter.max_value.param_name }}'
-            , placeholder: '{{ filter.range_max }}' %}
-            {% render 'label'
-            , for_id: 'PriceMax'
-            , label: 'sections.collection.filters.to' %}
-            </div>
-            </div>
-            {% endcase %}
-            </form>
-            </details>
-            {% endfor %}
-            </div>
-            </aside>
-          {% endcomment %}
           <div id="results" class="flex w-full flex-col gap-8">
-            <div class="grid grid-cols-2  gap-x-[16px] gap-y-[24px] md:grid-cols-3 lg:grid-cols-4">
-              {% for product in collection.products %}
-                {% render 'product-card', product: product, color_scheme: section.settings.color_scheme %}
-              {% endfor %}
+            <div class="grid grid-cols-2 gap-x-[16px] gap-y-[24px] md:grid-cols-3 lg:grid-cols-4">
+              {% if collection.products.size > 0 %}
+                {% for product in collection.products %}
+                  {% render 'product-card', product: product, color_scheme: color_scheme %}
+                {% endfor %}
+              {% else %}
+                {{ 'product-1' | placeholder_svg_tag }}
+                {{ 'product-2' | placeholder_svg_tag }}
+                {{ 'product-3' | placeholder_svg_tag }}
+                {{ 'product-4' | placeholder_svg_tag }}
+              {% endif %}
             </div>
 
-            {% render 'pagination', paginate: paginate %}
+            {% render 'pagination', paginate: paginate, color_scheme %}
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 {%- liquid
   assign text_alignment = section.settings.text_alignment
+  
   if text_alignment == 'center'
     assign align_items_class = 'items-center'
   elsif text_alignment == 'left'
@@ -7,9 +8,7 @@
   else
     assign align_items_class = 'items-end'
   endif
--%}
 
-{%- liquid
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
 -%}

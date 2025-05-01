@@ -1,125 +1,93 @@
 {
-    "sections": {
-        "hero": {
-            "type": "hero",
-            "blocks": {
-                "block-1": {
-                    "type": "pre_heading",
-                    "settings": {
-                        "pre_heading": "Introduction"
-                    }
-                },
-                "block-2": {
-                    "type": "heading",
-                    "settings": {
-                        "heading": "Tell your story"
-                    }
-                },
-                "block-3": {
-                    "type": "text",
-                    "settings": {
-                        "text": "Let your customers know who you are."
-                    }
-                },
-                "block-4": {
-                    "type": "button",
-                    "settings": {
-                        "button_label": "Learn More",
-                        "button_link": "/collections/all",
-                        "button_variant": "solid"
-                    }
-                }
-            },
-            "block_order": [
-                "block-1",
-                "block-2",
-                "block-3",
-                "block-4"
-            ],
-            "settings": {
-                "image": "",
-                "overlay_color": "#404040",
-                "overlay_opacity": 0,
-                "banner_height": "large",
-                "heading_size": "medium",
-                "text_alignment": "left",
-                "color_scheme": "scheme-1",
-                "content_color_scheme": "scheme-1",
-                "content_alignment": "items-center justify-start",
-                "vertical_padding": 16,
-                "transparent": true
-            }
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "disabled": false,
+      "custom_css": "",
+      "settings": {
+        "image": "",
+        "overlay_color": "#404040",
+        "overlay_opacity": 0,
+        "banner_height": "large",
+        "image_height": "contain",
+        "heading_size": "medium",
+        "text_alignment": "left",
+        "color_scheme": "scheme-1",
+        "content_color_scheme": "scheme-1",
+        "content_alignment": "items-center justify-start",
+        "vertical_padding": 16,
+        "transparent": true,
+        "$locale": null
+      },
+      "blocks": {
+        "block-1": {
+          "type": "pre_heading",
+          "disabled": false,
+          "settings": {
+            "$locale": null,
+            "pre_heading": "Introduction"
+          }
         },
-        "featured-content": {
-            "type": "featured-content",
-            "blocks": {
-                "featured-1": {
-                    "type": "product",
-                    "settings": {
-                        "product": "men-s-zip-up-jacket",
-                        "col_span": 1
-                    }
-                },
-                "featured-2": {
-                    "type": "product",
-                    "settings": {
-                        "product": "item-1",
-                        "col_span": 1
-                    }
-                },
-                "featured-3": {
-                    "type": "product",
-                    "settings": {
-                        "product": "product-name",
-                        "col_span": 1
-                    }
-                },
-                "product_KLNLBf": {
-                    "type": "product",
-                    "settings": {
-                        "product": "",
-                        "col_span": 1
-                    }
-                }
-            },
-            "block_order": [
-                "featured-1",
-                "featured-2",
-                "featured-3",
-                "product_KLNLBf"
-            ],
-            "disabled": true,
-            "settings": {
-                "pre_heading": "",
-                "heading": "Featured products",
-                "heading_size": "small",
-                "header_alignment": "left",
-                "color_scheme": "scheme-1",
-                "columns": 4,
-                "top_padding": 96,
-                "bottom_padding": 96,
-                "mobile_columns": "1 column"
-            }
+        "block-2": {
+          "type": "heading",
+          "disabled": false,
+          "settings": {
+            "$locale": null,
+            "heading": "Tell your story"
+          }
         },
-        "featured_collection_mYV9by": {
-            "type": "featured-collection",
-            "settings": {
-                "pre_heading": "",
-                "heading": "Dive into favorites",
-                "heading_size": "small",
-                "header_alignment": "left",
-                "collection": "",
-                "max_products": 4,
-                "color_scheme": "scheme-1",
-                "columns": 4,
-                "top_padding": 96,
-                "bottom_padding": 48,
-                "mobile_columns": "1 column"
-            }
+        "block-3": {
+          "type": "text",
+          "disabled": false,
+          "settings": {
+            "$locale": null,
+            "text": "Let your customers know who you are."
+          }
+        },
+        "block-4": {
+          "type": "button",
+          "disabled": false,
+          "settings": {
+            "$locale": null,
+            "button_label": "Learn More",
+            "button_link": "/collections/all",
+            "button_variant": "solid"
+          }
         }
+      },
+      "block_order": [
+        "block-1",
+        "block-2",
+        "block-3",
+        "block-4"
+      ]
     },
-    "order": [
-        "hero",
-        "featured_collection_mYV9by"
-    ]
+    "featured_collection": {
+      "type": "featured-collection",
+      "disabled": false,
+      "custom_css": "",
+      "settings": {
+        "pre_heading": "Shop the best",
+        "heading": "Dive into favorites",
+        "heading_size": "small",
+        "header_alignment": "left",
+        "collection": "",
+        "max_products": 4,
+        "color_scheme": "scheme-1",
+        "columns": 4,
+        "top_padding": 96,
+        "bottom_padding": 48,
+        "mobile_columns": "1 column",
+        "$locale": null
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "featured_collection"
+  ],
+  "id": "index",
+  "page": {
+    "label": "Home"
+  }
 }

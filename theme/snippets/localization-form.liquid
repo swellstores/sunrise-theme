@@ -1,4 +1,5 @@
 {%- liquid
+  assign color_scheme = section.settings.color_scheme
   assign show_language_selector = section.settings.show_language_selector and localization.available_languages.size > 1
   assign show_currency_selector = section.settings.show_currency_selector and localization.available_countries.size > 1
   assign show_localization = show_language_selector or show_currency_selector
@@ -25,18 +26,12 @@
           <div class="h-full flex flex-col gap-[32px]">
             <div class="flex justify-between items-center">
               <h2 class="text-title-medium font-display text-black">
-                Choose your
-
-                {% if show_language_selector %}
-                  language
-                {% endif %}
-
                 {% if show_language_selector and show_currency_selector %}
-                  and
-                {% endif %}
-
-                {% if show_currency_selector %}
-                  currency
+                  {{ 'general.localization.title_language_and_currency' | t }}
+                {% elsif show_language_selector %}
+                  {{ 'general.localization.title_language' | t }}
+                {% elsif show_currency_selector %}
+                  {{ 'general.localization.title_currency' | t }}
                 {% endif %}
               </h2>
               <button data-target="[data-modal='localization']" class="w-4 h-4 flex items-center">
@@ -49,7 +44,7 @@
               <div class="flex gap-4 absolute w-full text-[#121212]">
                 {% if show_language_selector %}
                   <div class="flex flex-col flex-[3] gap-2">
-                    <label class="text-label-small">Language</label>
+                    <label class="text-label-small">{{ 'general.localization.language' | t }}</label>
                     <div class="py-3 bg-white border border-[#121212]">
                       <button
                         id="language-selector"
@@ -85,7 +80,7 @@
                 {% endif %}
                 {% if show_currency_selector %}
                   <div class="flex flex-col flex-[1] gap-2">
-                    <label class="text-label-small">Currency</label>
+                    <label class="text-label-small">{{ 'general.localization.currency' | t }}</label>
                     <div class="py-3 bg-white border border-[#121212]">
                       <button
                         id="currency-selector"
@@ -125,7 +120,7 @@
                 {% endif %}
               </div>
               <button type="submit" class="w-full p-4 mt-auto text-label-large bg-[#121212] text-white">
-                Continue
+                {{ 'general.localization.submit' | t }}
               </button>
             {%- endform -%}
           </div>

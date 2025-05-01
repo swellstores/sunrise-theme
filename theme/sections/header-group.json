@@ -1,34 +1,74 @@
 {
-  "type": "header",
-  "name": "Header",
   "sections": {
     "announcement": {
       "type": "announcement",
+      "disabled": false,
+      "custom_css": "",
       "settings": {
-        "color_scheme": "scheme-3"
+        "dismissible": false,
+        "home_only": false,
+        "border_bottom": false,
+        "text_uppercase": false,
+        "font_weight": "normal",
+        "color_scheme": "scheme-3",
+        "loop": true,
+        "auto_rotate": true,
+        "direction": "horizontal",
+        "auto_rotate_speed": 5,
+        "$locale": null
       },
       "blocks": {
-        "announcement-1": {
+        "announcement": {
           "type": "announcement",
+          "disabled": false,
           "settings": {
-            "text": "Welcome to our store"
+            "$locale": null,
+            "text": "Welcome to our store",
+            "link": null
           }
         },
-        "announcement-2": {
+        "announcement_1": {
           "type": "announcement",
+          "disabled": false,
           "settings": {
-            "text": "Use this section to display announcements"
+            "$locale": null,
+            "text": "Use this section to display announcements",
+            "link": null
           }
         }
       },
-      "block_order": ["announcement-1", "announcement-2"]
+      "block_order": [
+        "announcement",
+        "announcement_1"
+      ]
     },
     "header": {
       "type": "header",
+      "disabled": false,
+      "custom_css": "",
       "settings": {
-        "color_scheme": "scheme-1"
+        "color_scheme": "scheme-1",
+        "menu": "main_menu",
+        "desktop_menu_type": "dropdown",
+        "menu_color_scheme": "scheme-1",
+        "mega_menu_row_count": 4,
+        "mega_menu_alignment": "center",
+        "sticky": false,
+        "border_b": false,
+        "text_uppercase": true,
+        "show_language_selector": true,
+        "show_currency_selector": true,
+        "top_padding": 0,
+        "bottom_padding": 0,
+        "logo_position": "left",
+        "$locale": null
       }
     }
   },
-  "order": ["announcement", "header"]
+  "order": [
+    "announcement",
+    "header"
+  ],
+  "type": "header",
+  "name": "Header"
 }

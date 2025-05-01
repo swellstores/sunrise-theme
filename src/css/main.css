@@ -2,10 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Icons */
-
-ion-icon {
-  @apply text-base/4;
+body {
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  grid-template-columns: 100%;
+  min-height: 100vh;
 }
 
 /* Buttons */
@@ -14,4 +15,26 @@ ion-icon {
   @apply inline-flex items-center justify-center px-4 py-3 !no-underline;
 }
 
-/* Inputs */
+/* Icons */
+
+ion-icon {
+  @apply text-base/4;
+}
+
+/* Customers */
+
+#login, #recover {
+  scroll-margin-top: 20rem;
+}
+
+#recover {
+  display: none;
+}
+
+#recover:target {
+  display: block;
+}
+
+#recover:target ~ #login {
+  display: none;
+}

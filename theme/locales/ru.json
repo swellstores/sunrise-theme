@@ -1,0 +1,221 @@
+{
+  "general": {
+    "continue_shopping": "Продолжить покупки",
+    "breadcrumbs": {
+      "label": "Навигационная цепочка",
+      "home": "Главная",
+      "collections": "Коллекции",
+      "products": "Товары",
+      "account": "Аккаунт",
+      "register": "Регистрация",
+      "addresses": "Адреса",
+      "activate_account": "Активировать аккаунт"
+    },
+    "pagination": {
+      "label": "Пагинация",
+      "page": "Страница {{ number }}",
+      "next": "Следующая",
+      "previous": "Предыдущая"
+    },
+    "search": {
+      "placeholder": "Поиск",
+      "submit": "Искать",
+      "no_results": "Ничего не найдено по запросу «{{ terms }}»",
+      "store": "Поиск в {{ store_name }}",
+      "dismiss": "Закрыть поиск"
+    },
+    "localization": {
+      "language": "Язык",
+      "currency": "Валюта",
+      "title_language_and_currency": "Выберите язык и валюту",
+      "title_language": "Выберите язык",
+      "title_currency": "Выберите валюту",
+      "submit": "Продолжить"
+    },
+    "accordion": {
+      "toggle": "Переключить элемент"
+    },
+    "page_not_found": "Страница не найдена",
+    "share": "Поделиться",
+    "loading": "Загрузка..."
+  },
+  "customer": {
+    "log_out": "Выйти",
+    "log_in": "Войти",
+    "account": {
+      "title": "Аккаунт",
+      "my_orders": "Мои заказы",
+      "orders": "Заказы",
+      "address_book": "Адресная книга",
+      "addresses": "Адреса",
+      "no_orders_found": "Заказы не найдены."
+    },
+    "activate_account": {
+      "title": "Активировать аккаунт",
+      "subtext": "Создайте пароль для активации вашего аккаунта.",
+      "submit": "Активировать",
+      "cancel": "Отмена"
+    },
+    "addresses": {
+      "title": "Адреса",
+      "default": "Адрес по умолчанию",
+      "edit_address": "Редактировать адрес",
+      "first_name": "Имя",
+      "last_name": "Фамилия",
+      "company": "Компания",
+      "address1": "Адрес, строка 1",
+      "address2": "Адрес, строка 2",
+      "city": "Город",
+      "country": "Страна/регион",
+      "province": "Область",
+      "zip": "Почтовый индекс",
+      "phone": "Номер телефона (необязательно)",
+      "set_default": "Установить как адрес по умолчанию",
+      "add": "Добавить адрес",
+      "new": "Новый адрес",
+      "back": "Вернуться к адресной книге",
+      "cancel": "Отмена",
+      "submit": "Сохранить адрес",
+      "edit": "Редактировать",
+      "remove": "Удалить",
+      "remove_confirm": "Вы уверены, что хотите удалить этот адрес?"
+    }
+  },
+  "sections": {
+    "login": {
+      "title": "Вход",
+      "email": "Электронная почта",
+      "password": "Пароль",
+      "forgot_password": "Забыли пароль?",
+      "create_account": "Создать аккаунт",
+      "sign_in": "Войти",
+      "error": "Вход не удался. Пожалуйста, попробуйте снова."
+    },
+    "register": {
+      "title": "Создать аккаунт",
+      "first_name": "Имя",
+      "last_name": "Фамилия",
+      "email": "Электронная почта",
+      "password": "Пароль",
+      "already_have_account": "Уже есть аккаунт?",
+      "create_account": "Создать аккаунт",
+      "error": "Не удалось создать аккаунт. Пожалуйста, попробуйте снова."
+    },
+    "reset-password": {
+      "title": "Сбросить пароль",
+      "subtext": "Введите новый пароль для вашего аккаунта.",
+      "email": "Электронная почта",
+      "password": "Пароль",
+      "submit": "Сбросить пароль",
+      "cancel": "Отмена",
+      "error": "Не удалось сбросить пароль. Пожалуйста, попробуйте снова."
+    },
+    "recover-password": {
+      "title": "Восстановить пароль",
+      "subtext": "Мы отправим вам письмо для сброса пароля.",
+      "email": "Электронная почта",
+      "password": "Пароль",
+      "submit": "Восстановить пароль",
+      "cancel": "Отмена",
+      "sent": "Письмо отправлено"
+    },
+    "blog": {
+      "read_more": "Читать далее"
+    },
+    "announcement": {
+      "label": "Объявление",
+      "description": "Слайд-шоу объявлений",
+      "dismiss": "Закрыть объявление",
+      "slideshow_of": "из"
+    },
+    "collection": {
+      "filters": {
+        "filters": "Фильтры",
+        "filter_and_sort": "Фильтровать и сортировать",
+        "active": "Активные фильтры",
+        "from": "От",
+        "to": "До",
+        "selected": "Выбрано",
+        "sort_by": "Сортировать по",
+        "reset": "Сбросить",
+        "close": "Закрыть",
+        "clear_all": "Очистить все",
+        "remove_label": "Удалить фильтр для {{ attribute }}"
+      }
+    },
+    "header": {
+      "menu": "Меню",
+      "submenu": "Подменю",
+      "cart": "Корзина"
+    },
+    "product": {
+      "quantity": {
+        "label": "Количество для {{ product_name }}",
+        "increment": "Увеличить количество",
+        "decrement": "Уменьшить количество"
+      },
+      "purchase": {
+        "one_time": "Разовая покупка",
+        "every_interval": "Каждые {{ interval }}",
+        "interval_year": "год",
+        "interval_year_plural": "года",
+        "interval_month": "месяц",
+        "interval_month_plural": "месяца",
+        "interval_week": "неделя",
+        "interval_week_plural": "недели",
+        "interval_day": "день",
+        "interval_day_plural": "дня",
+        "interval_year_abbreviated": "г",
+        "interval_month_abbreviated": "мес",
+        "interval_week_abbreviated": "нед"
+      }
+    },
+    "cart": {
+      "title": "Ваша корзина",
+      "empty": "Ваша корзина пуста",
+      "estimated_total": "Предполагаемая сумма",
+      "view_cart": "Просмотреть корзину",
+      "checkout": "Оформить заказ",
+      "continue_checkout": "Продолжить оформление заказа",
+      "subtotal": "Подытог",
+      "taxes_discounts_shipping_at_checkout": "Налоги, скидки и доставка рассчитываются при оформлении заказа.",
+      "headings": {
+        "product": "Товар",
+        "total": "Итого",
+        "quantity": "Количество",
+        "discount": "Скидка"
+      },
+      "login": {
+        "title": "Есть аккаунт?",
+        "faster": "для более быстрого оформления заказа"
+      },
+      "item_count": {
+        "one": "{{ count }} товар",
+        "other": "{{ count }} товаров"
+      }
+    },
+    "newsletter": {
+      "email": "Электронная почта",
+      "success": "Вы подписались на нашу рассылку."
+    },
+    "slideshow": {
+      "label": "Слайд-шоу",
+      "next": "Следующий слайд",
+      "previous": "Предыдущий слайд"
+    }
+  },
+  "accessibility": {
+    "skip_to_text": "Перейти к содержимому",
+    "browser_video_support": "Ваш браузер не поддерживает видео.",
+    "close": "Закрыть",
+    "error": "Ошибка"
+  },
+  "onboarding": {
+    "product_title": "Пример товара",
+    "collection_title": "Пример коллекции",
+    "blog_title": "Пример заголовка блога",
+    "blog_post_title": "Пример поста в блоге",
+    "blog_post_summary": "Краткое описание вашей статьи.",
+    "blog_post_content": "Это ваше пространство для творчества. Замените этот текст своим постом в блоге. Расскажите историю вашего магазина, подчеркните, что делает ваши товары особенными, или предложите советы, чтобы установить связь с аудиторией. Отличный пост может привлечь клиентов, укрепить доверие и побудить их возвращаться. Начните писать здесь, чтобы продемонстрировать ваш бренд и повысить вовлеченность."
+  }
+}

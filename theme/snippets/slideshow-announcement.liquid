@@ -31,8 +31,8 @@
 
 <swiper-container
   role="region"
-  aria-roledescription="{{ 'sections.announcements.announcement_slideshow' | t }}"
-  aria-label="{{ 'sections.announcements.announcement' | t }}"
+  aria-label="{{ 'sections.announcement.label' | t }}"
+  aria-roledescription="{{ 'sections.announcement.description' | t }}"
   loop="{{ loop }}"
   direction="{{ direction }}"
   slides-per-view="1"
@@ -49,8 +49,8 @@
             role="group"
             href="{{ block.settings.link }}"
             class="flex w-full items-center justify-center gap-2 text-center text-xs hover:underline underline-offset-2"
-            aria-roledescription="{{ 'sections.announcements.announcement' | t }}"
-            aria-label="{{ forloop.index }} {{ 'general.slideshow.of' | t }} {{ forloop.length }}"
+            aria-roledescription="{{ 'sections.announcement.description' | t }}"
+            aria-label="{{ forloop.index }} {{ 'sections.announcement.slideshow_of' | t }} {{ forloop.length }}"
           >
         {%- endif -%}
         {{ block.settings.text | escape }}

@@ -7,13 +7,10 @@
 
 {%- liquid
   assign color_scheme = section.settings.color_scheme
-  assign columns = section.settings.columns
   assign pre_heading = section.settings.pre_heading
   assign heading = section.settings.heading
   assign selected_collection = section.settings.collection
--%}
 
-{%- liquid
   assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
   assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
 -%}
@@ -76,9 +73,9 @@
         class="
           grid gap-[16px]
           items-stretch
-          {% if section.settings.mobile_columns == '1 column' %} auto-rows-fr
+          {% if section.settings.mobile_columns == '1 column' %} grid-cols-1
           {% else %} grid-cols-2
-          {% endif %} lg:grid-cols-{{ columns }}
+          {% endif %} md:grid-cols-3 lg:grid-cols-4
         "
       >
         {%- for product in selected_collection.products limit: section.settings.max_products -%}
@@ -122,12 +119,12 @@
         class="
           grid gap-[16px]
           items-stretch
-          {% if section.settings.mobile_columns == '1 column' %} auto-rows-fr
+          {% if section.settings.mobile_columns == '1 column' %} grid-cols-1
           {% else %} grid-cols-2
-          {% endif %} lg:grid-cols-{{ columns }}
+          {% endif %} md:grid-cols-3 lg:grid-cols-4
         "
       >
-        {%- for i in (1..section.settings.columns) -%}
+        {%- for i in (1..4) -%}
           <div class="flex flex-col gap-[8px]">
             {% liquid
               assign ridx = forloop.rindex
@@ -143,11 +140,11 @@
               {{ placeholder_image | placeholder_svg_tag: 'placeholder-svg' }}
             </div>
 
-            <div class="flex flex-col items-center gap-[2px] items-start text-{{ color_scheme }}">
-              <h3 class="font-display text-title-small">Example product title</h3>
+            <div class="flex flex-col items-start gap-[2px] text-{{ color_scheme }}">
+              <h3 class="font-display text-title-small">{{ 'onboarding.product_title' | t }}</h3>
               <p class="font-display text-body-medium">
                 <div class="font-display flex gap-[6px] text-body-medium flex-wrap">
-                  {{ 999 | money_with_currency }}
+                  {{ 99 | money_with_currency }}
                 </div>
               </p>
             </div>
@@ -156,6 +153,8 @@
       </div>
     {% endif %}
   </div>
+  {%- comment -%}force tailwind to prepare necessary classes{%- endcomment -%}
+  <div class="hidden md:grid-cols-1 md:grid-cols-2 md:grid-cols-3 md:grid-cols-4 md:grid-cols-5" />
 </div>
 
 {% schema %}
@@ -168,7 +167,8 @@
   "settings": [
     {
       "type": "header",
-      "content": "Content"
+      "content": "Content",
+      "id": "header_content"
     },
     {
       "type": "text",
@@ -239,7 +239,8 @@
     },
     {
       "type": "header",
-      "content": "Colors"
+      "content": "Colors",
+      "id": "header_colors"
     },
     {
       "type": "color_scheme",
@@ -249,16 +250,8 @@
     },
     {
       "type": "header",
-      "content": "Layout"
-    },
-    {
-      "type": "range",
-      "id": "columns",
-      "label": "Number of columns (desktop)",
-      "min": 1,
-      "max": 5,
-      "step": 1,
-      "default": 3
+      "content": "Layout",
+      "id": "header_layout"
     },
     {
       "type": "range",
@@ -282,7 +275,8 @@
     },
     {
       "type": "header",
-      "content": "Mobile layout"
+      "content": "Mobile layout",
+      "id": "header_mobile_layout"
     },
     {
       "type": "select",

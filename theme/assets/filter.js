@@ -3,57 +3,58 @@ function filters() {
 
   showHideFilterDrawer();
   showHideFilterMenus();
-  toggleMenu();
+}
+
+function onClickFilterDrawer() {
+  const target = document.querySelector('[data-target="filter-drawer"]');
+  const isExpanded = target.getAttribute("aria-expanded") === "true";
+
+  target.setAttribute("aria-expanded", !isExpanded);
+  target.classList.toggle("hidden");
 }
 
 function showHideFilterDrawer() {
   const triggers = document.querySelectorAll('[data-trigger="filter-drawer"]');
-  const target = document.querySelector('[data-target="filter-drawer"]');
 
   triggers.forEach((trigger) => {
-    trigger.addEventListener("click", function (event) {
-      const isExpanded = target.getAttribute("aria-expanded") === "true";
-      target.setAttribute("aria-expanded", !isExpanded);
-      target.classList.toggle("hidden");
-    });
+    trigger.addEventListener("click", onClickFilterDrawer);
   });
 }
 
+function getFilterMenuTriggers() {
+  return document.querySelectorAll('[data-trigger="filter-menu"]');
+}
+
+function onClickFilterMenu(event) {
+  const triggers = getFilterMenuTriggers();
+  const trigger = event.currentTarget;
+  const targetMenu = trigger.nextElementSibling;
+  const isExpanded = trigger.getAttribute("aria-expanded") === "true";
+  // When trigger is clicked, close all other menus
+  triggers.forEach((t) => {
+    if (t !== trigger) {
+      t.setAttribute("aria-expanded", false);
+      t.nextElementSibling.classList.add("hidden");
+    }
+  });
+
+  // Toggle the target menu visibility
+  // Toggle the aria-expanded attribute on the trigger
+  trigger.setAttribute("aria-expanded", !isExpanded);
+  // Toggle the visibility of the target
+  targetMenu.classList.toggle("hidden");
+}
+
 function showHideFilterMenus() {
-  const triggers = document.querySelectorAll('[data-trigger="filter-menu"]');
+  const triggers = getFilterMenuTriggers();
 
   if (!triggers.length) {
     return null;
   }
 
   triggers.forEach((trigger) => {
-    trigger.addEventListener("click", function (event) {
-      const targetMenu = trigger.nextElementSibling;
-      const isExpanded = trigger.getAttribute("aria-expanded") === "true";
-      // When trigger is clicked, close all other menus
-      triggers.forEach((t) => {
-        if (t !== trigger) {
-          t.setAttribute("aria-expanded", false);
-          t.nextElementSibling.classList.add("hidden");
-        }
-      });
-
-      // Toggle the target menu visibility
-      // Toggle the aria-expanded attribute on the trigger
-      trigger.setAttribute("aria-expanded", !isExpanded);
-      // Toggle the visibility of the target
-      targetMenu.classList.toggle("hidden");
-    });
+    trigger.addEventListener("click", onClickFilterMenu);
   });
-}
-
-function toggleMenu() {
-  const menus = document.querySelectorAll('[data-target="filter-menu"]');
-
-  // Toggle the aria-expanded attribute
-  target.setAttribute("aria-expanded", !isExpanded);
-  // Toggle the visibility of the target
-  target.classList.toggle("hidden");
 }
 
 // Handle sort/filter change
@@ -66,13 +67,13 @@ function updateSortFilters(event) {
   let requestParams = {};
 
   const filterForm =
-    event.target.id === "filter-form-bar" ? filterFormBar : filterFormStack;
+    event.target.id === "filter-form-stack" ? filterFormStack : filterFormBar;
 
   [filterForm, sortForm].forEach((form) => {
     const formData = new FormData(form);
 
     // Convert form data to query string for updating URL
-    const formQuery = formDataToQueryString(formData, searchParams);
+    const formQuery = formDataToQueryString(form, formData, searchParams);
 
     if (formQuery) {
       searchParams.push(formQuery);
@@ -81,7 +82,7 @@ function updateSortFilters(event) {
     // Convert form data to object for setting HTMX request parameters
     requestParams = {
       ...requestParams,
-      ...formDataToObject(formData),
+      ...formDataToObject(form, formData),
     };
   });
 
@@ -94,11 +95,29 @@ function updateSortFilters(event) {
   event.detail.parameters = requestParams;
 }
 
+function shouldApplyFilterValue(form, key, value) {
+  const field = form.querySelector(`[name="${key}"]`);
+
+  if (!field) {
+    return false;
+  }
+
+  if (field.type === "range" && [field.max, field.min].includes(value)) {
+    return false;
+  }
+
+  return true;
+}
+
 // Convert FormData object to URLSearchParams string with falsy values removed
-function formDataToQueryString(formData, searchParams) {
+function formDataToQueryString(form, formData, searchParams) {
   const params = new URLSearchParams();
 
   formData.forEach((value, key) => {
+    if (!shouldApplyFilterValue(form, key, value)) {
+      return;
+    }
+
     // Only include key-value pairs with truthy values, and not already included in searchParams
     if (value && !searchParams.includes(`${key}=${value}`)) {
       params.append(key, value);
@@ -109,26 +128,30 @@ function formDataToQueryString(formData, searchParams) {
 }
 
 // Convert FormData to regular object with duplicates combined into arrays and falsy values removed
-function formDataToObject(formData) {
+function formDataToObject(form, formData) {
   let params = {};
 
   formData.forEach((value, key) => {
     // Only include key-value pairs with truthy values
-    if (value) {
-      // If the key already exists in the params object
-      if (params.hasOwnProperty(key)) {
-        // If the existing entry is not already an array, convert it to an array
-        if (!Array.isArray(params[key])) {
-          params[key] = [params[key]];
-        }
-        // Push the new value to the array
-        params[key].push(value);
-      } else {
-        // If the key does not exist, add it to the params object
-        params[key] = value;
+    if (!value || !shouldApplyFilterValue(form, key, value)) {
+      return;
+    }
+
+    // If the key already exists in the params object
+    if (params.hasOwnProperty(key)) {
+      // If the existing entry is not already an array, convert it to an array
+      if (!Array.isArray(params[key])) {
+        params[key] = [params[key]];
       }
+      // Push the new value to the array
+      params[key].push(value);
+    } else {
+      // If the key does not exist, add it to the params object
+      params[key] = value;
     }
   });
 
   return params;
 }
+
+filters();

@@ -33,25 +33,15 @@
   assign error_id = error_id | default: ''
   assign autofocus = autofocus | default: false
   assign border_radius = settings.border_radius | default: 4
-  assign color_scheme = section.settings.color_scheme | default: 'scheme-1'
+  assign color_scheme = section.settings.color_scheme
 
-  assign base_class = 'peer block w-full appearance-none p-[16px] focus:outline-none focus:ring-0 text-black'
+  assign variant_class = class
   case variant
-    when 'email'
-      assign class = 'h-[48px] font-display text-title-small border-[1.5px] rounded-md bg-transparent focus:border-slate-600 border-color-' | append: color_scheme
-    when 'default'
-      assign class = 'font-display text-title-small border rounded-md bg-transparent focus:border-slate-600 border-color-' | append: color_scheme
-    when 'account'
-      assign class = 'font-display text-body-medium text-[#616161] border rounded-md bg-transparent focus:border-[#E8D9FF] border-color-' | append: color_scheme
-    when 'error'
-      assign class = 'font-display text-title-small border border-red-600 rounded-md bg-red-50 focus:border-red-600'
     when 'search'
-      assign class = 'font-display text-[#616161] text-body-medium border rounded-[4px] bg-transparent border-color-' | append: color_scheme
+      assign variant_class = variant_class | append: ' font-display text-body-medium border'
     else
-      assign class = 'font-display text-title-small border border-gray-400 rounded-md bg-transparent'
+      assign variant_class = variant_class | append: ' font-display text-title-small border bg-transparent'
   endcase
-
-  assign final_class = class | append: ' ' | append: base_class
 -%}
 
 <input
@@ -59,7 +49,7 @@
   name="{{ name }}"
   value="{{ value }}"
   placeholder="{{ placeholder }}"
-  class="{{ final_class }}"
+  class="bg-{{ color_scheme }} text-{{ color_scheme }} border-color-{{ color_scheme }} {{ variant_class }} peer block w-full appearance-none p-[16px] focus:outline-none focus:ring-0"
   autocomplete="{{ autocomplete }}"
   spellcheck="{{ spellcheck }}"
   {% if id != '' %}
