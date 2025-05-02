@@ -23,6 +23,9 @@ export class CartDrawer extends HTMLElement {
     this.searchDialog = null;
     this.cartDrawerButton = null;
     this.cartCount = null;
+    this.touchStartX = 0;
+    this.touchEndX = 0;
+    this.swipeThreshold = 50; // Minimum distance for a swipe
 
     this.subscriptions = [];
 
@@ -33,6 +36,9 @@ export class CartDrawer extends HTMLElement {
     this.onDocumentKeyDownBound = this.onDocumentKeyDown.bind(this);
     this.onClickBackgroundOverlayBound =
       this.onClickBackgroundOverlay.bind(this);
+    this.handleTouchStartBound = this.handleTouchStart.bind(this);
+    this.handleTouchMoveBound = this.handleTouchMove.bind(this);
+    this.handleTouchEndBound = this.handleTouchEnd.bind(this);
   }
 
   connectedCallback() {
@@ -70,6 +76,11 @@ export class CartDrawer extends HTMLElement {
       );
     }
 
+    // Add touch event listeners
+    this.target.addEventListener("touchstart", this.handleTouchStartBound);
+    this.target.addEventListener("touchmove", this.handleTouchMoveBound);
+    this.target.addEventListener("touchend", this.handleTouchEndBound);
+
     // Handle quantity change events
     this.addEventListener("quantity-change", this.handleUpdateCartBound);
 
@@ -104,6 +115,11 @@ export class CartDrawer extends HTMLElement {
         this.onClickBackgroundOverlayBound
       );
     }
+
+    // Remove touch event listeners
+    this.target.removeEventListener("touchstart", this.handleTouchStartBound);
+    this.target.removeEventListener("touchmove", this.handleTouchMoveBound);
+    this.target.removeEventListener("touchend", this.handleTouchEndBound);
 
     this.removeEventListener("quantity-change", this.handleUpdateCartBound);
 
@@ -385,6 +401,43 @@ export class CartDrawer extends HTMLElement {
   handleUpdateProductOptions(event) {
     const { optionValues } = event;
     this.cartDrawerButton.setAttribute("data-option-values", optionValues);
+  }
+
+  /**
+   * Handle touch start, move, and end events
+   */
+  handleTouchStart(event) {
+    this.touchStartX = event.touches[0].clientX;
+  }
+
+  handleTouchMove(event) {
+    if (!this.target || this.target.getAttribute("aria-hidden") === "true") return;
+
+    const touchX = event.touches[0].clientX;
+    const diff = this.touchStartX - touchX;
+
+    // Only allow right swipes
+    if (diff < 0) {
+      event.preventDefault();
+      this.target.style.transform = `translateX(${diff}px)`;
+    }
+  }
+
+  handleTouchEnd(event) {
+    if (!this.target || this.target.getAttribute("aria-hidden") === "true") return;
+
+    this.touchEndX = event.changedTouches[0].clientX;
+    const diff = this.touchStartX - this.touchEndX;
+    const absDiff = Math.abs(diff);
+
+    this.target.style.transform = "";
+
+    if (absDiff > this.swipeThreshold) {
+      if (diff < 0) {
+        // Swipe right - close menu
+        uiManager.close(this);
+      }
+    }
   }
 }
 
