@@ -34,14 +34,14 @@
         </div>
 
         <div class="flex-1" data-menu-content>
-          <ul>
+          <ul class="flex flex-col gap-6">
             {% for link in linklists[menu].links %}
-              <li class="first:mt-0 mt-[24px]">
+              <li>
                 <div class="flex items-center justify-between">
                   <a href="{{ link.url }}" class="font-normal hover:underline flex-1">{{ link.title }}</a>
                   {% if link.links.size > 0 %}
                     <button
-                      class="ml-2 p-1"
+                      class="ml-2 w-7 h-7 flex items-center justify-center"
                       data-submenu-trigger
                       data-parent-title="{{ link.title }}"
                       data-parent-url="{{ link.url }}"
@@ -52,18 +52,18 @@
 
                     <template data-submenu-content>
                       <div>
-                        <a href="{{ link.url }}" class="block font-semibold underline leading-[26px]">{{ link.title }}</a>
+                        <a href="{{ link.url }}" class="block font-semibold leading-[26px]">{{ link.title }}</a>
                       </div>
-                      <ul class="mt-[48px]">
+                      <ul class="mt-[48px] flex flex-col gap-6">
                         {% for child_link in link.links %}
-                          <li class="first:mt-0 mt-[32px]">
+                          <li>
                             <div class="flex items-center justify-between">
                               <a href="{{ child_link.url }}" class="font-normal hover:underline flex-1">
                                 {{- child_link.title -}}
                               </a>
                               {% if child_link.links.size > 0 %}
                                 <button
-                                  class="ml-2 p-1"
+                                  class="ml-2 w-7 h-7 flex items-center justify-center"
                                   data-submenu-trigger
                                   data-parent-title="{{ child_link.title }}"
                                   data-parent-url="{{ child_link.url }}"
@@ -74,14 +74,16 @@
 
                                 <template data-submenu-content>
                                   <div>
-                                    <a href="{{ child_link.url }}" class="block font-semibold underline leading-[26px]">{{ child_link.title }}</a>
+                                    <a href="{{ child_link.url }}" class="block font-semibold leading-[26px]">{{ child_link.title }}</a>
                                   </div>
-                                  <ul class="mt-[48px]">
+                                  <ul class="mt-[48px] flex flex-col gap-6">
                                     {% for grandchild in child_link.links %}
-                                      <li class="first:mt-0 mt-[32px]">
-                                        <a href="{{ grandchild.url }}" class="font-normal hover:underline">
-                                          {{- grandchild.title -}}
-                                        </a>
+                                      <li>
+                                        <div class="flex items-center justify-between">
+                                          <a href="{{ grandchild.url }}" class="font-normal hover:underline flex-1">
+                                            {{- grandchild.title -}}
+                                          </a>
+                                        </div>
                                       </li>
                                     {% endfor %}
                                   </ul>
