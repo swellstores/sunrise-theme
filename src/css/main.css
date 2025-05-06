@@ -38,3 +38,9 @@ ion-icon {
 #recover:target ~ #login {
   display: none;
 }
+
+/* Long text wrapping */
+
+.fr-view, span[data-swell-inline-editable] {
+  overflow-wrap: anywhere;
+}
