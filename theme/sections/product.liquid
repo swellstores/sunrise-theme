@@ -328,42 +328,41 @@
                     {% endif %}
                   </div>
                 {% endif %}
+              {% when 'accordion_item' %}
+                {% if forloop.index0 < 1 or section.blocks[forloop.index0 - 1] != 'accordion_item' %}
+                  <accordion-root class="flex-col items-center justify-center gap-[16px]">
+                    <div class="flex flex-col gap-[16px]">
+                {% endif %}
+                      <div class="w-full overflow-hidden border-[#F5F5F5] border rounded-[4px] p-[16px]">
+                        <accordion-trigger
+                          role="button"
+                          aria-expanded="false"
+                          class="text-title-medium font-display flex w-full items-center justify-between h-full"
+                        >
+                          {{ block.settings.trigger | inline_editable: 'trigger' }}
+                          <ion-icon
+                            name="chevron-down-outline"
+                            aria-label="{{ 'general.accordion.toggle' | t }}"
+                            class="h-4 w-4 transition-transform"
+                          >
+                          </ion-icon>
+                        </accordion-trigger>
+                        <accordion-content
+                          role="region"
+                          class="text-base grid grid-rows-[0fr] opacity-0 overflow-hidden transition-all duration-300 ease-in-out"
+                        >
+                          <div class="overflow-hidden text-left text-body-small font-display formatted-text">
+                            {{ block.settings.content | inline_editable: 'content' }}
+                          </div>
+                        </accordion-content>
+                      </div>
+                {% if forloop.index0 >= section.blocks.size - 1 or section.blocks[forloop.index0 + 1] != 'accordion_item' %}
+                    </div>
+                   </accordion-root>
+                {% endif %}
             {% endcase %}
           {% endfor %}
         </div>
-
-        <accordion-root class="flex-col items-center justify-center gap-[16px]">
-          <div class="flex flex-col gap-[16px]">
-            {%- for block in section.blocks -%}
-              {% case block.type %}
-                {% when 'accordion_item' %}
-                  <div class="w-full overflow-hidden border-[#F5F5F5] border rounded-[4px] p-[16px]">
-                    <accordion-trigger
-                      role="button"
-                      aria-expanded="false"
-                      class="text-title-medium font-display flex w-full items-center justify-between h-full"
-                    >
-                      {{ block.settings.trigger | inline_editable: 'trigger' }}
-                      <ion-icon
-                        name="chevron-down-outline"
-                        aria-label="{{ 'general.accordion.toggle' | t }}"
-                        class="h-4 w-4 transition-transform"
-                      >
-                      </ion-icon>
-                    </accordion-trigger>
-                    <accordion-content
-                      role="region"
-                      class="text-base grid grid-rows-[0fr] opacity-0 overflow-hidden transition-all duration-300 ease-in-out"
-                    >
-                      <div class="overflow-hidden text-left text-body-small font-display formatted-text">
-                        {{ block.settings.content | inline_editable: 'content' }}
-                      </div>
-                    </accordion-content>
-                  </div>
-                {% endcase %}
-            {%- endfor -%}
-          </div>
-        </accordion-root>
       </div>
     </div>
   </div>
