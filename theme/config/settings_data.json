@@ -127,7 +127,7 @@
     "google_analytics_id": ""
   },
   "presets": {
-    "Default": {
+    "Light": {
       "color_schemes": {
         "scheme-1": {
           "settings": {
@@ -140,8 +140,6 @@
             "shadow": "#121212"
           }
         },
-        "card_style": "standard",
-        "collection_card_style": "standard",
         "scheme-2": {
           "settings": {
             "background": "#F3F3F3",
@@ -184,6 +182,65 @@
             "button_label": "#334FB4",
             "secondary_button_label": "#FFFFFF",
             "shadow": "#121212"
+          }
+        }
+      }
+    },
+    "Dark": {
+      "color_schemes": {
+        "scheme-1": {
+          "settings": {
+            "background": "#000000",
+            "background_gradient": "",
+            "text": "#f0f0f0",
+            "button": "#f0f0f0",
+            "button_label": "#000000",
+            "secondary_button_label": "#f0f0f0",
+            "shadow": "#f0f0f0"
+          }
+        },
+        "scheme-2": {
+          "settings": {
+            "background": "#333333",
+            "background_gradient": "",
+            "text": "#f0f0f0",
+            "button": "#f0f0f0",
+            "button_label": "#333333",
+            "secondary_button_label": "#f0f0f0",
+            "shadow": "#f0f0f0"
+          }
+        },
+        "scheme-3": {
+          "settings": {
+            "background": "#242833",
+            "background_gradient": "",
+            "text": "#000000",
+            "button": "#000000",
+            "button_label": "#000000",
+            "secondary_button_label": "#000000",
+            "shadow": "#f0f0f0"
+          }
+        },
+        "scheme-4": {
+          "settings": {
+            "background": "#f0f0f0",
+            "background_gradient": "",
+            "text": "#000000",
+            "button": "#000000",
+            "button_label": "#f0f0f0",
+            "secondary_button_label": "#000000",
+            "shadow": "#f0f0f0"
+          }
+        },
+        "scheme-5": {
+          "settings": {
+            "background": "#334FB4",
+            "background_gradient": "",
+            "text": "#000000",
+            "button": "#000000",
+            "button_label": "#334FB4",
+            "secondary_button_label": "#000000",
+            "shadow": "#f0f0f0"
           }
         }
       }
