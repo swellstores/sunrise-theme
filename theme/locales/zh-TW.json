@@ -165,9 +165,7 @@
         "interval_week_plural": "週",
         "interval_day": "天",
         "interval_day_plural": "天",
-        "interval_year_abbreviated": "年",
-        "interval_month_abbreviated": "月",
-        "interval_week_abbreviated": "週"
+        "includes_trial": "包含 {{ trial_days }} 天的免費試用"
       }
     },
     "cart": {
