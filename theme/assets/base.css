@@ -130,3 +130,40 @@ input[type="number"].number-input::-webkit-outer-spin-button {
     list-style: auto;
   }
 }
+
+/* heading styles */
+.text-heading-small {
+  font-size: 24px;
+  line-height: 32px;
+  font-weight: 400;
+}
+
+.text-heading-medium {
+  font-size: 36px;
+  line-height: 44px;
+  font-weight: 400;
+}
+
+.text-heading-large {
+  font-size: 48px;
+  line-height: 60px;
+  font-weight: 400;
+}
+
+.text-heading-extra-large {
+  font-size: 60px;
+  line-height: 72px;
+  font-weight: 400;
+}
+
+.text-pre-heading {
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 400;
+}
+
+.text-content {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+}
