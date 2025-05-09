@@ -165,9 +165,7 @@
         "interval_week_plural": "недели",
         "interval_day": "день",
         "interval_day_plural": "дня",
-        "interval_year_abbreviated": "г",
-        "interval_month_abbreviated": "мес",
-        "interval_week_abbreviated": "нед"
+        "includes_trial": "Включает бесплатный пробный период на {{ trial_days }} дней"
       }
     },
     "cart": {

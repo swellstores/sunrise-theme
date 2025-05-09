@@ -165,9 +165,7 @@
         "interval_week_plural": "viikkoa",
         "interval_day": "päivä",
         "interval_day_plural": "päivää",
-        "interval_year_abbreviated": "v",
-        "interval_month_abbreviated": "kk",
-        "interval_week_abbreviated": "vk"
+        "includes_trial": "Sisältää {{ trial_days }} päivän ilmaisen kokeilujakson"
       }
     },
     "cart": {
