@@ -66,19 +66,19 @@
               <div class="w-full flex flex-col gap-8 bg-{{ block.settings.color_scheme }} text-{{ block.settings.color_scheme }} content-padding-{{ section.id }}-{{ block.id }}">
                 <div class="flex flex-col gap-[8px] text-{{ block.settings.text_alignment }}">
                   {%- if block.settings.pre_heading != blank -%}
-                    <div class="font-display text-body-large font-normal">
+                    <div class="font-display font-pre-heading text-pre-heading">
                       {{ block.settings.pre_heading | inline_editable: 'pre_heading' }}
                     </div>
                   {%- endif -%}
 
                   {%- if block.settings.heading != blank -%}
-                    <h2 class="font-display {% if block.settings.heading_size == 'small' %}text-headline-small{% elsif block.settings.heading_size == 'medium' %}text-headline-medium{% elsif block.settings.heading_size == 'large' %}text-headline-large{% endif %}">
+                    <h2 class="font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }}">
                       {{ block.settings.heading | inline_editable: 'heading' }}
                     </h2>
                   {%- endif -%}
 
                   {%- if block.settings.text != blank -%}
-                    <div class="font-display text-body-large formatted-text">
+                    <div class="font-display formatted-text text-content">
                       {{ block.settings.text | inline_editable: 'text' }}
                     </div>
                   {%- endif -%}
@@ -155,8 +155,15 @@
       "name": "Content",
       "limit": 1,
       "settings": [
-        { "type": "text", "id": "pre_heading", "label": "Pre-heading" },
-        { "type": "text", "id": "heading", "label": "Heading" },
+        { 
+          "type": "inline_richtext",
+          "id": "pre_heading",
+          "label": "Pre-heading",
+          "params": {
+            "toolbar_options": "bold,italic,underline"
+          }
+        },
+        { "type": "inline_richtext", "id": "heading", "label": "Heading" },
         {
           "type": "select",
           "id": "heading_size",
@@ -165,7 +172,8 @@
           "options": [
             { "value": "small", "label": "Small" },
             { "value": "medium", "label": "Medium" },
-            { "value": "large", "label": "Large" }
+            { "value": "large", "label": "Large" },
+            { "value": "extra-large", "label": "Extra large" }
           ]
         },
         { "type": "richtext", "id": "text", "label": "Text" },
