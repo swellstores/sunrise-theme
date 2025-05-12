@@ -67,17 +67,19 @@
             <div class="flex flex-col gap-[24px] {% if section.settings.layout == 'section' %} text-{{ section.settings.container_color_scheme }} {% else %} text-{{ section.settings.color_scheme }} {% endif %}">
               <div class="text-{{ section.settings.header_alignment | default: 'center' }} flex flex-col gap-[8px]">
                 {% if section.settings.pre_heading %}
-                  <h2 class="text-pre-heading font-display font-pre-heading">
+                  <h2 class="font-display font-pre-heading text-pre-heading">
                     {{ section.settings.pre_heading }}
                   </h2>
                 {% endif %}
                 {% if section.settings.heading %}
-                  <h2 class="font-display font-heading formatted-text text-heading-{{ section.settings.heading_size | default: 'small' }}">
+                  <h2 class="font-display font-heading text-heading-{{ section.settings.heading_size | default: 'small' }}">
                     {{ section.settings.heading }}
                   </h2>
                 {% endif %}
                 {% if section.settings.text %}
-                  <p class="text-content font-display">{{ section.settings.text }}</p>
+                  <div class="formatted-text flex flex-col items-{% if section.settings.header_alignment == 'left' %}start{% elsif section.settings.header_alignment == 'right' %}end{% else %}center{% endif %}">
+                    <p class="font-display text-content>{{ section.settings.text }}</p>
+                  </div>
                 {% endif %}
               </div>
 
@@ -123,17 +125,19 @@
             <div class="flex flex-col gap-[24px] text-{{ section.settings.container_color_scheme }}">
               <div class="text-{{ section.settings.header_alignment | default: 'center' }} flex flex-col gap-[8px]">
                 {% if section.settings.pre_heading %}
-                  <p class="text-pre-heading font-display font-pre-heading">
+                  <p class="font-display font-pre-heading text-pre-heading">
                     {{ section.settings.pre_heading }}
                   </p>
                 {% endif %}
                 {% if section.settings.heading %}
-                  <h2 class="font-display font-heading formatted-text text-heading-{{ section.settings.heading_size | default: 'small' }}">
+                  <h2 class="font-display font-heading text-heading-{{ section.settings.heading_size | default: 'small' }}">
                     {{ section.settings.heading }}
                   </h2>
                 {% endif %}
                 {% if section.settings.text %}
-                  <p class="font-display text-content">{{ section.settings.text }}</p>
+                  <div class="formatted-text flex flex-col items-{% if section.settings.header_alignment == 'left' %}start{% elsif section.settings.header_alignment == 'right' %}end{% else %}center{% endif %}">
+                    <p class=""font-display text-content">{{ section.settings.text }}</p>
+                  </div>
                 {% endif %}
               </div>
 

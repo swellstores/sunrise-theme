@@ -117,6 +117,7 @@ input[type="number"].number-input::-webkit-outer-spin-button {
     margin: 10px;
     padding: 10px;
     padding-inline-start: 2.5rem;
+    width: fit-content;
     > li {
       text-align: left;
     }
