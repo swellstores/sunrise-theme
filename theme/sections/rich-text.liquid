@@ -43,15 +43,15 @@
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'pre_heading' -%}
-            <div class="text-headline-x-small font-semibold font-pre-heading {{ content_width_class }}">
+            <div class="font-display font-pre-heading text-pre-heading {{ content_width_class }}">
               {{ block.settings.pre_heading | inline_editable: 'pre_heading' }}
             </div>
           {%- when 'heading' -%}
-            <h2 class="text-headline-small font-heading {{ content_width_class }}">
+            <h2 class="font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }} {{ content_width_class }}">
               {{ block.settings.heading | inline_editable: 'heading' }}
             </h2>
           {%- when 'text' -%}
-            <div class="font-display text-body-large formatted-text {{ content_width_class }}">
+            <div class="font-display formatted-text text-content {{ content_width_class }}">
               {{ block.settings.text | inline_editable: 'text' }}
             </div>
         {%- endcase -%}
@@ -89,7 +89,8 @@
   "settings": [
     {
       "type": "header",
-      "content": "Layout"
+      "content": "Layout",
+      "id": "header_layout"
     },
     {
       "type": "select",
@@ -153,7 +154,8 @@
     },
     {
       "type": "header",
-      "content": "Colors"
+      "content": "Colors",
+      "id": "header_colors"
     },
     {
       "type": "color_scheme",
@@ -169,9 +171,12 @@
       "limit": 1,
       "settings": [
         {
-          "type": "text",
+          "type": "inline_richtext",
           "id": "pre_heading",
-          "label": "Pre-heading"
+          "label": "Content",
+          "params": {
+            "toolbar_options": "bold,italic,underline"
+          },
         }
       ]
     },
@@ -181,10 +186,22 @@
       "limit": 3,
       "settings": [
         {
-          "type": "text",
+          "type": "inline_richtext",
           "id": "heading",
-          "label": "Heading",
+          "label": "Content",
           "default": "Quality you can trust"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "Heading size",
+          "default": "small",
+          "options": [
+            { "value": "small", "label": "Small" },
+            { "value": "medium", "label": "Medium" },
+            { "value": "large", "label": "Large" },
+            { "value": "extra-large", "label": "Extra large" }
+          ]
         }
       ]
     },
@@ -196,7 +213,7 @@
         {
           "type": "richtext",
           "id": "text",
-          "label": "Text",
+          "label": "Content",
           "default": "Use this section to share your story, details, or key information. Keep it simple and engaging to connect with your visitors and encourage them to explore further."
         }
       ]
