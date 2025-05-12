@@ -165,9 +165,7 @@
         "interval_week_plural": "週",
         "interval_day": "日",
         "interval_day_plural": "日",
-        "interval_year_abbreviated": "年",
-        "interval_month_abbreviated": "月",
-        "interval_week_abbreviated": "週"
+        "includes_trial": "{{ trial_days }}日間の無料トライアルが含まれます"
       }
     },
     "cart": {
