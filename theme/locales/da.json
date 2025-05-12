@@ -165,9 +165,7 @@
         "interval_week_plural": "uger",
         "interval_day": "dag",
         "interval_day_plural": "dage",
-        "interval_year_abbreviated": "år",
-        "interval_month_abbreviated": "md.",
-        "interval_week_abbreviated": "uge"
+        "includes_trial": "Inkluderer en {{ trial_days }}-dages gratis prøveperiode"
       }
     },
     "cart": {

@@ -1,12 +1,12 @@
 {%- liquid
-  assign activeBorderClass = "border-color-" | append: color_scheme
-  assign inactiveBorderClass = "bg-gray-50"
+  assign active_border_class = "border-color-" | append: color_scheme
+  assign inactive_border_class = "bg-gray-50"
 
-  assign purchaseOptionType = 'standard'
-  assign purchaseOptionPlan = ''
+  assign purchase_option_type = 'standard'
+  assign purchase_option_plan = ''
   if product.purchase_options.standard == blank and product.purchase_options.subscription
-    assign purchaseOptionType = 'subscription'
-    assign purchaseOptionPlan = product.purchase_options.subscription.plans[0].id
+    assign purchase_option_type = 'subscription'
+    assign purchase_option_plan = product.purchase_options.subscription.plans[0].id
   endif
 -%}  
   <product-purchase-options>
@@ -14,8 +14,8 @@
       id="product-price"
       class="product-price text-title-medium font-display text-{{ color_scheme }} mb-[2px] mt-[2px]"
       style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
-      data-purchase-option-type="{{ purchaseOptionType}}"
-      data-purchase-option-plan="{{ purchaseOptionPlan }}"
+      data-purchase-option-type="{{ purchase_option_type}}"
+      data-purchase-option-plan="{{ purchase_option_plan }}"
     >
       {{ product.selected_or_first_available_variant.price | money }}
     </div>
@@ -25,8 +25,8 @@
       {%- if product.purchase_options.standard -%}
         <div class="relative mb-2 block">
           <input id="standard" type="checkbox" name="purchase-option" value="standard" class="absolute inset-0 opacity-0" checked="checked">
-          <div id="standard-div" class="relative flex w-full cursor-pointer rounded border px-6 py-4 text-sm transition-all {{ activeBorderClass }}"
-            data-active-border-class="{{ activeBorderClass }}" data-inactive-border-class="{{ inactiveBorderClass }}" data-price="{{ product.selected_or_first_available_variant.price | money }}"
+          <div id="standard-div" class="relative flex w-full cursor-pointer rounded border px-6 py-4 text-sm transition-all {{ active_border_class }}"
+            data-active-border-class="{{ active_border_class }}" data-inactive-border-class="{{ inactive_border_class }}" data-price="{{ product.selected_or_first_available_variant.price | money }}"
           >
             <span>{{ 'sections.product.purchase.one_time' | t }}</span>
             <span class="ml-auto inline-block font-semibold">
@@ -39,9 +39,9 @@
       {%- endif -%}
       {%- if product.purchase_options.subscription -%}
         <div class="relative mb-2 block">
-          <input id="subscription" type="checkbox" name="purchase-option" value="subscription" class="absolute inset-0 opacity-0" {%- if purchaseOptionType == 'subscription' -%}checked="checked"{%- endif -%}>
-          <div id="subscription-div" class="relative flex w-full cursor-pointer rounded border px-6 py-4 text-sm transition-all {%- if product.purchase_options.standard -%}{{ inactiveBorderClass }}{%- else -%}{{ activeBorderClass }}{%- endif -%}"
-            data-active-border-class="{{ activeBorderClass }}" data-inactive-border-class="{{ inactiveBorderClass }}"
+          <input id="subscription" type="checkbox" name="purchase-option" value="subscription" class="absolute inset-0 opacity-0" {%- if purchase_option_type == 'subscription' -%}checked="checked"{%- endif -%}>
+          <div id="subscription-div" class="relative flex w-full cursor-pointer rounded border px-6 py-4 text-sm transition-all {%- if product.purchase_options.standard -%}{{ inactive_border_class }}{%- else -%}{{ active_border_class }}{%- endif -%}"
+            data-active-border-class="{{ active_border_class }}" data-inactive-border-class="{{ inactive_border_class }}"
           >
             <div class="w-4 h-4 mr-2 mt-3">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="vertical-align: -0.125em;-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" data-v-d8d66b18="" class="iconify icon:uil:sync w-4 h-4" data-icon="uil:sync"><path fill="currentColor" d="M19.91 15.51h-4.53a1 1 0 0 0 0 2h2.4A8 8 0 0 1 4 12a1 1 0 0 0-2 0a10 10 0 0 0 16.88 7.23V21a1 1 0 0 0 2 0v-4.5a1 1 0 0 0-.97-.99M12 2a10 10 0 0 0-6.88 2.77V3a1 1 0 0 0-2 0v4.5a1 1 0 0 0 1 1h4.5a1 1 0 0 0 0-2h-2.4A8 8 0 0 1 20 12a1 1 0 0 0 2 0A10 10 0 0 0 12 2"></path></svg>
@@ -56,52 +56,40 @@
                 if plan.billing_schedule.interval == 'weekly'
                   assign interval = 'sections.product.purchase.interval_week' | t
                   assign interval_plural = 'sections.product.purchase.interval_week_plural' | t
-                  assign perInterval = 'sections.product.purchase.interval_week_abbreviated' | t
                 elsif plan.billing_schedule.interval == 'monthly'
                   assign interval = 'sections.product.purchase.interval_month' | t
                   assign interval_plural = 'sections.product.purchase.interval_month_plural' | t
-                  assign perInterval = 'sections.product.purchase.interval_month_abbreviated' | t
                 elsif plan.billing_schedule.interval == 'yearly'
                   assign interval = 'sections.product.purchase.interval_year' | t
                   assign interval_plural = 'sections.product.purchase.interval_year_plural' | t
-                  assign perInterval = 'sections.product.purchase.interval_year_abbreviated' | t
                 else
                   assign interval = 'sections.product.purchase.interval_day' | t
                   assign interval_plural = 'sections.product.purchase.interval_day_plural' | t
-                  assign perInterval = interval
                 endif
 
-                assign intervalCount = plan.billing_schedule.interval_count
-                assign moneyText = plan.price | money
-                assign moneyText = moneyText | append: '/'
+                assign interval_count = plan.billing_schedule.interval_count
+                assign money_text = plan.price | money
 
-                if intervalCount == 1
+                if interval_count == 1
                   assign text = 'sections.product.purchase.every_interval' | t: interval: interval
                   assign text = text | append: ' - '
                 else
-                  assign text = 'sections.product.purchase.every_interval' | t: interval: intervalCount
+                  assign text = 'sections.product.purchase.every_interval' | t: interval: interval_count
                   assign text = text | append: ' '
                   assign text = text | append: interval_plural
-                  assign text = text | append: 's - '
-                  assign moneyText = moneyText | append: intervalCount
+                  assign text = text | append: ' - '
                 endif
 
-                assign moneyText = moneyText | append: perInterval
+                assign option_text = text | append: money_text
 
-                assign trialText = ''
-                if plan.billing_schedule.trial_days == 1
-                   assign trialText = ' Includes 1 trial day - '
+                assign trial_text = ''
+                if plan.billing_schedule.trial_days > 0
+                   assign trial_text = 'sections.product.purchase.includes_trial' | t: trial_days: plan.billing_schedule.trial_days
+                   assign option_text = option_text | append: ' - ' | append: trial_text
                 endif
-                if plan.billing_schedule.trial_days > 1
-                   assign trialText = ' Includes ' | append: plan.billing_schedule.trial_days
-                   assign trialText = trialText | append: ' trial days - '
-                endif
-
-                assign optionText = text | append: trialText
-                assign optionText = optionText | append: moneyText
               -%}
               <option id={{ plan.id }} role="option" value={{ plan.id }} data-price="{{ plan.price | money }}" class="mx-4 my-3 flex cursor-pointer items-center rounded-md p-2 transition duration-200 text-primary-med">
-                {{ optionText }}
+                {{ option_text }}
               </option>
             {%- endfor -%}
           </select>

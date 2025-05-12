@@ -85,10 +85,6 @@
 
     {% comment %} Render header group section {% endcomment %}
     {% sections 'header-group' %}
-    {% comment %} Render the cart drawer snippet {% endcomment %}
-    {% if settings.cart_type == 'drawer' %}
-      {% render 'cart-drawer' %}
-    {% endif %}
 
     <main
       id="main"

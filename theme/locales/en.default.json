@@ -165,9 +165,7 @@
         "interval_week_plural": "weeks",
         "interval_day": "day",
         "interval_day_plural": "days",
-        "interval_year_abbreviated": "yr",
-        "interval_month_abbreviated": "mo",
-        "interval_week_abbreviated": "wk"
+        "includes_trial": "Includes a {{ trial_days }}-day free trial"
       }
     },
     "cart": {
