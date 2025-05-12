@@ -165,9 +165,7 @@
         "interval_week_plural": "semanas",
         "interval_day": "dia",
         "interval_day_plural": "dias",
-        "interval_year_abbreviated": "ano",
-        "interval_month_abbreviated": "mês",
-        "interval_week_abbreviated": "sem."
+        "includes_trial": "Inclui um período de teste gratuito de {{ trial_days }} dias"
       }
     },
     "cart": {
