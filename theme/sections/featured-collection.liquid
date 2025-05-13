@@ -33,36 +33,12 @@
   <div class="flex flex-col gap-[48px] max-w-container w-full mx-auto">
     <div class="text-start flex flex-col gap-[16px] text-{{ color_scheme }}">
       {%- if pre_heading != blank -%}
-        <p
-          class="
-            text-headline-x-small font-display font-pre-heading
-            {% case section.settings.header_alignment %}
-              {% when 'center' %} text-center
-              {% when 'right' %} text-right
-              {% else %} text-left
-            {% endcase %}
-          "
-        >
+        <p class="font-display font-pre-heading text-pre-heading text-{{ section.settings.header_alignment | default: 'left' }}">
           {{ pre_heading }}
         </p>
       {%- endif -%}
       {%- if heading != blank -%}
-        <h2
-          class="
-               font-display
-               font-heading
-               {% case section.settings.heading_size %}
-                 {% when 'small' %}text-headline-small
-                 {% when 'medium' %}text-headline-medium
-                 {% when 'large' %}text-headline-large
-               {% endcase %}
-              {% case section.settings.header_alignment %}
-              {% when 'center' %} text-center
-              {% when 'right' %} text-right
-              {% else %} text-left
-            {% endcase %}
-          "
-        >
+        <h2 class="font-display font-heading text-heading-{{ section.settings.heading_size | default: 'small' }} text-{{ section.settings.header_alignment | default: 'left' }}">
           {{ heading }}
         </h2>
       {%- endif -%}
@@ -171,13 +147,13 @@
       "id": "header_content"
     },
     {
-      "type": "text",
+      "type": "inline_richtext_pre_heading",
       "id": "pre_heading",
       "label": "Pre-heading",
       "default": "Shop the best"
     },
     {
-      "type": "text",
+      "type": "inline_richtext",
       "id": "heading",
       "label": "Heading",
       "default": "Dive into favorites"
@@ -188,18 +164,10 @@
       "label": "Heading size",
       "default": "small",
       "options": [
-        {
-          "value": "small",
-          "label": "Small"
-        },
-        {
-          "value": "medium",
-          "label": "Medium"
-        },
-        {
-          "value": "large",
-          "label": "Large"
-        }
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "extra-large", "label": "Extra large" }
       ]
     },
     {

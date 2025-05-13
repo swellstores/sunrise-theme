@@ -61,39 +61,47 @@
             "
           >
             <div class="flex flex-col gap-[16px]">
-              {% liquid
-                assign heading_exists = false
-                assign text_exists = false
-              %}
               {%- for block in section.blocks -%}
+                {%- assign need_open_div = true -%}
+                {%- if forloop.index0 > 0 -%}
+                  {%- if section.blocks[forloop.index0 - 1] == 'heading' or section.blocks[forloop.index0 - 1] == 'text' -%}
+                    {%- assign need_open_div = false -%}
+                  {%- endif -%}
+                {%- endif -%}
+                {%- assign need_close_div = true -%}
+                {%- if forloop.index0 < section.blocks.size - 1 -%}
+                  {%- if section.blocks[forloop.index0 + 1] == 'heading' or section.blocks[forloop.index0 + 1] == 'text' -%}
+                    {%- assign need_close_div = false -%}
+                  {%- endif -%}
+                {%- endif -%}
+
                 {%- case block.type -%}
                   {%- when 'pre_heading' -%}
-                    <p class="text-headline-x-small font-display font-pre-heading">
+                    <p class="font-display font-pre-heading text-pre-heading">
                       {{ block.settings.pre_heading | inline_editable: 'pre_heading' }}
                     </p>
                   {%- when 'heading' -%}
-                    {% assign heading_exists = true %}
+                    {%- if need_open_div -%}
+                      <div class="flex flex-col gap-[4px]">
+                    {%- endif -%}
+                      <h2 class="font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }}">
+                          {{ block.settings.heading | inline_editable: 'heading' }}
+                      </h2>
+                    {%- if need_close_div -%}
+                      </div>
+                    {%- endif -%}
                   {%- when 'text' -%}
-                    {% assign text_exists = true %}
+                    {%- if need_open_div -%}
+                      <div class="flex flex-col gap-[4px]">
+                    {%- endif -%}
+                      <p class="font-display formatted-text text-content">
+                        {{ block.settings.text | inline_editable: 'text' }}
+                      </p>
+                    {%- if need_close_div -%}
+                      </div>
+                    {%- endif -%}
                 {%- endcase -%}
               {%- endfor -%}
-
-              {% if heading_exists or text_exists %}
-                <div class="flex flex-col gap-[4px]">
-                  {%- for block in section.blocks -%}
-                    {%- case block.type -%}
-                      {%- when 'heading' -%}
-                        <h2 class="text-headline-small font-display font-heading">
-                          {{ block.settings.heading | inline_editable: 'heading' }}
-                        </h2>
-                      {%- when 'text' -%}
-                        <p class="text-body-large font-display formatted-text">
-                          {{ block.settings.text | inline_editable: 'text' }}
-                        </p>
-                    {%- endcase -%}
-                  {%- endfor -%}
-                </div>
-              {% endif %}
             </div>
             {%- for block in section.blocks -%}
               {%- if block.type == 'button' -%}
@@ -203,9 +211,9 @@
       "limit": 1,
       "settings": [
         {
-          "type": "text",
+          "type": "inline_richtext_pre_heading",
           "id": "pre_heading",
-          "label": "Pre-heading"
+          "label": "Content"
         }
       ]
     },
@@ -215,9 +223,21 @@
       "limit": 1,
       "settings": [
         {
-          "type": "text",
+          "type": "inline_richtext",
           "id": "heading",
-          "label": "Heading"
+          "label": "Content"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "Heading size",
+          "default": "small",
+          "options": [
+            { "value": "small", "label": "Small" },
+            { "value": "medium", "label": "Medium" },
+            { "value": "large", "label": "Large" },
+            { "value": "extra-large", "label": "Extra large" }
+          ]
         }
       ]
     },
@@ -227,9 +247,9 @@
       "limit": 1,
       "settings": [
         {
-          "type": "inline_richtext",
+          "type": "richtext",
           "id": "text",
-          "label": "Description",
+          "label": "Content",
           "default": "Tell your customer about the video content, why they should click on it, and what they can expect."
         }
       ]

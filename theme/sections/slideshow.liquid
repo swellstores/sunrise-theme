@@ -143,22 +143,13 @@
                   {% endcase %}
                 "
               >
-                <p class="font-display text-title-x-small font-pre-heading">
+                <p class="font-display font-pre-heading text-pre-heading">
                   {{ block.settings.pre_heading }}
                 </p>
-                <h2
-                  class="
-                    font-display font-heading
-                    {% case section.settings.heading_size %}
-                    {% when 'small' %}text-headline-small
-                    {% when 'medium' %}text-headline-medium
-                    {% when 'large' %}text-headline-large
-                    {% endcase %}
-                  "
-                >
+                <h2 class="font-display font-heading text-heading-{{ section.settings.heading_size | default: 'small' }}">
                   {{ block.settings.heading }}
                 </h2>
-                <div class="font-display text-body-large formatted-text">
+                <div class="font-display formatted-text text-content">
                   {{ block.settings.text }}
                 </div>
 
@@ -192,7 +183,8 @@
   "settings": [
     {
       "type": "header",
-      "content": "Colors"
+      "content": "Colors",
+      "id": "header_colors"
     },
     {
       "type": "color_scheme",
@@ -202,7 +194,8 @@
     },
     {
       "type": "header",
-      "content": "Layout"
+      "content": "Layout",
+      "id": "header_layout"
     },
     {
       "type": "select",
@@ -210,18 +203,10 @@
       "label": "Heading size",
       "default": "medium",
       "options": [
-        {
-          "value": "small",
-          "label": "Small"
-        },
-        {
-          "value": "medium",
-          "label": "Medium"
-        },
-        {
-          "value": "large",
-          "label": "Large"
-        }
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "extra-large", "label": "Extra large" }
       ]
     },
     {
@@ -332,19 +317,19 @@
           "info": "A container that sits on top of the slide image or background."
         },
         {
-          "type": "text",
+          "type": "inline_richtext_pre_heading",
           "id": "pre_heading",
           "label": "Pre-heading",
           "default": "Featured now"
         },
         {
-          "type": "text",
+          "type": "inline_richtext",
           "id": "heading",
           "label": "Heading",
           "default": "See what's new"
         },
         {
-          "type": "inline_richtext",
+          "type": "richtext",
           "id": "text",
           "label": "Text",
           "default": "Scroll through the slideshow to explore our latest highlights. Each image brings you closer to discovering something special—start browsing today!"
@@ -361,7 +346,8 @@
         },
         {
           "type": "header",
-          "content": "Layout"
+          "content": "Layout",
+          "id": "header_layout"
         },
         {
           "type": "select",
