@@ -25,11 +25,11 @@
     {%- for block in section.blocks -%}
       {%- case block.type -%}
         {%- when 'heading' -%}
-          <h2 class="font-display font-heading text-headline-small text-center mb-[8px]">
+          <h2 class="font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }} text-center mb-[8px]">
             {{ block.settings.heading | inline_editable: 'heading' }}
           </h2>
         {%- when 'text' -%}
-          <div class="font-display text-body-large text-center formatted-text">
+          <div class="font-display formatted-text text-content text-center">
             {{ block.settings.text | inline_editable: 'text' }}
           </div>
         {%- when 'email_form' -%}
@@ -89,7 +89,8 @@
   "settings": [
     {
       "type": "header",
-      "content": "Colors"
+      "content": "Colors",
+      "id": "header_colors"
     },
     {
       "type": "color_scheme",
@@ -99,7 +100,8 @@
     },
     {
       "type": "header",
-      "content": "Layout"
+      "content": "Layout",
+      "id": "header_layout"
     },
     {
       "type": "select",
@@ -145,10 +147,22 @@
       "limit": 1,
       "settings": [
         {
-          "type": "text",
+          "type": "inline_richtext",
           "id": "heading",
           "default": "Subscribe to our emails",
-          "label": "Heading"
+          "label": "Content"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "Heading size",
+          "default": "small",
+          "options": [
+            { "value": "small", "label": "Small" },
+            { "value": "medium", "label": "Medium" },
+            { "value": "large", "label": "Large" },
+            { "value": "extra-large", "label": "Extra large" }
+          ]
         }
       ]
     },
@@ -161,7 +175,7 @@
           "type": "richtext",
           "id": "text",
           "default": "<p>Be the first to know about new collections and exclusive offers.</p>",
-          "label": "Text"
+          "label": "Content"
         }
       ]
     },

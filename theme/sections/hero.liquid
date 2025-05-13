@@ -9,13 +9,7 @@
 <div
   class="
         w-full relative bg-{{ color_scheme }}
-        h-auto
-    {% case section.settings.text_alignment %}
-      {% when 'center' %} text-center
-      {% when 'right' %} text-right
-      {% else %} text-left
-      {% endcase %}
-  "
+        h-auto text-{{ section.settings.text_alignment | default: 'left' }}"
 >
   <div class="relative w-full h-full">
     <div
@@ -94,9 +88,9 @@
             {% else %}
             {% endif %}
             {% case section.settings.text_alignment %}
-            {% when 'center' %} items-center
-            {% when 'right' %} items-end
-            {% else %} items-start
+              {% when 'center' %} items-center
+              {% when 'right' %} items-end
+              {% else %} items-start
             {% endcase %}
           "
           style="
@@ -110,25 +104,15 @@
             {%- for block in section.blocks -%}
               {%- case block.type -%}
                 {%- when 'pre_heading' -%}
-                  <p class="font-display text-title-medium font-pre-heading">
+                  <p class="font-display font-pre-heading text-pre-heading ">
                     {{ block.settings.pre_heading | inline_editable: 'pre_heading' }}
                   </p>
                 {%- when 'heading' -%}
-                  <h2
-                    class="
-                      font-display
-                      font-heading
-                      {% case section.settings.heading_size %}
-                       {% when 'small' %}text-display-small
-                        {% when 'medium' %}text-display-medium
-                         {% when 'large' %}text-display-large
-                          {% endcase %}
-                    "
-                  >
+                  <h2 class="font-display font-heading text-heading-{{ section.settings.heading_size | default: 'small' }}">
                     {{ block.settings.heading | inline_editable: 'heading' }}
                   </h2>
                 {%- when 'text' -%}
-                  <div class="font-display text-body-large sm:text-body-large formatted-text">
+                  <div class="font-display formatted-text text-content">
                     {{ block.settings.text | inline_editable: 'text' }}
                   </div>
               {%- endcase -%}
@@ -249,18 +233,10 @@
       "label": "Heading size",
       "default": "medium",
       "options": [
-        {
-          "value": "small",
-          "label": "Small"
-        },
-        {
-          "value": "medium",
-          "label": "Medium"
-        },
-        {
-          "value": "large",
-          "label": "Large"
-        }
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "extra-large", "label": "Extra large" }
       ]
     },
     {
@@ -408,9 +384,9 @@
       "limit": 1,
       "settings": [
         {
-          "type": "text",
+          "type": "inline_richtext_pre_heading",
           "id": "pre_heading",
-          "label": "Pre-heading",
+          "label": "Content",
           "default": "Special offer"
         }
       ]
@@ -421,9 +397,9 @@
       "limit": 1,
       "settings": [
         {
-          "type": "text",
+          "type": "inline_richtext",
           "id": "heading",
-          "label": "Heading",
+          "label": "Content",
           "default": "Unlock exclusive savings"
         }
       ]
@@ -434,9 +410,9 @@
       "limit": 1,
       "settings": [
         {
-          "type": "inline_richtext",
+          "type": "richtext",
           "id": "text",
-          "label": "Text"
+          "label": "Content"
         }
       ]
     },

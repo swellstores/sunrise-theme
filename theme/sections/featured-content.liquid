@@ -62,36 +62,12 @@
   <div class="flex flex-col gap-[48px] max-w-container w-full mx-auto">
     <div class="text-start flex flex-col gap-[16px] text-{{ color_scheme }}">
       {%- if pre_heading != blank -%}
-        <p
-          class="
-            text-headline-x-small font-display font-pre-heading
-            {% case section.settings.header_alignment %}
-              {% when 'center' %} text-center
-              {% when 'right' %} text-right
-              {% else %} text-left
-            {% endcase %}
-          "
-        >
+        <p class="font-display font-pre-heading text-pre-heading text-{{ section.settings.header_alignment | default: 'left' }}">
           {{ pre_heading }}
         </p>
       {%- endif -%}
       {%- if heading != blank -%}
-        <h2
-          class="
-               font-display
-               font-heading
-               {% case section.settings.heading_size %}
-                 {% when 'small' %}text-headline-small
-                 {% when 'medium' %}text-headline-medium
-                 {% when 'large' %}text-headline-large
-               {% endcase %}
-              {% case section.settings.header_alignment %}
-              {% when 'center' %} text-center
-              {% when 'right' %} text-right
-              {% else %} text-left
-            {% endcase %}
-          "
-        >
+        <h2 class="font-display font-heading text-heading-{{ section.settings.heading_size | default: 'small' }} text-{{ section.settings.header_alignment | default: 'left' }}">
           {{ heading }}
         </h2>
       {%- endif -%}
@@ -325,24 +301,12 @@
               " style="padding: {{ block.settings.section_padding }}px;">
               {%- if block.settings.heading != blank or block.settings.description != blank or block.settings.button_text != blank -%}
                 {%- if block.settings.heading != blank -%}
-                  <h2
-                    class="overflow-hidden
-                        {% if block.settings.heading_size == 'small' %}
-                          featured-content-text-heading-small
-                        {% elsif block.settings.heading_size == 'medium' %}
-                          featured-content-text-heading-medium
-                        {% elsif block.settings.heading_size == 'large' %}
-                          featured-content-text-heading-large
-                        {% endif %}
-                    "
-                  >
+                  <h2 class="overflow-hidden font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }}">
                     {{ block.settings.heading | inline_editable: 'heading' }}
                   </h2>
                 {%- endif -%}
                 {%- if block.settings.description != blank -%}
-                  <div
-                    class="text-body-medium font-display overflow-hidden formatted-text"
-                  >
+                  <div class="overflow-hidden font-display formatted-text text-content">
                     {{ block.settings.description | inline_editable: 'description' }}
                   </div>
                 {%- endif -%}
@@ -384,16 +348,17 @@
   "settings": [
     {
       "type": "header",
-      "content": "Content"
+      "content": "Content",
+      "id": "header_content"
     },
     {
-      "type": "text",
+      "type": "inline_richtext_pre_heading",
       "id": "pre_heading",
       "label": "Pre-heading",
       "default": "Top picks"
     },
     {
-      "type": "text",
+      "type": "inline_richtext",
       "id": "heading",
       "label": "Heading",
       "default": "Featured just for you"
@@ -406,7 +371,8 @@
       "options": [
         { "value": "small", "label": "Small" },
         { "value": "medium", "label": "Medium" },
-        { "value": "large", "label": "Large" }
+        { "value": "large", "label": "Large" },
+        { "value": "extra-large", "label": "Extra large" }
       ]
     },
     {
@@ -422,7 +388,8 @@
     },
     {
       "type": "header",
-      "content": "Colors"
+      "content": "Colors",
+      "id": "header_colors"
     },
     {
       "type": "color_scheme",
@@ -432,7 +399,8 @@
     },
     {
       "type": "header",
-      "content": "Layout"
+      "content": "Layout",
+      "id": "header_layout"
     },
     {
       "type": "range",
@@ -466,7 +434,8 @@
     },
     {
       "type": "header",
-      "content": "Mobile layout"
+      "content": "Mobile layout",
+      "id": "header_mobile_layout"
     },
     {
       "type": "select",
@@ -541,7 +510,7 @@
       "name": "Text",
       "settings": [
         {
-          "type": "text",
+          "type": "inline_richtext",
           "id": "heading",
           "label": "Heading"
         },
@@ -553,11 +522,12 @@
           "options": [
             { "value": "small", "label": "Small" },
             { "value": "medium", "label": "Medium" },
-            { "value": "large", "label": "Large" }
+            { "value": "large", "label": "Large" },
+            { "value": "extra-large", "label": "Extra large" }
           ]
         },
         {
-          "type": "inline_richtext",
+          "type": "richtext",
           "id": "description",
           "label": "Text"
         },

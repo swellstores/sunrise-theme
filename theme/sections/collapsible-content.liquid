@@ -65,19 +65,21 @@
             {% endif %}
 
             <div class="flex flex-col gap-[24px] {% if section.settings.layout == 'section' %} text-{{ section.settings.container_color_scheme }} {% else %} text-{{ section.settings.color_scheme }} {% endif %}">
-              <div class="text-{{ section.settings.heading_alignment }} flex flex-col gap-[8px]">
+              <div class="text-{{ section.settings.header_alignment | default: 'center' }} flex flex-col gap-[8px]">
                 {% if section.settings.pre_heading %}
-                  <h2 class="font-display font-pre-heading text-headline-x-small">
+                  <h2 class="font-display font-pre-heading text-pre-heading">
                     {{ section.settings.pre_heading }}
                   </h2>
                 {% endif %}
                 {% if section.settings.heading %}
-                  <h2 class="font-display text-headline-small font-heading text-{{ section.settings.heading_size }} formatted-text">
+                  <h2 class="font-display font-heading text-heading-{{ section.settings.heading_size | default: 'small' }}">
                     {{ section.settings.heading }}
                   </h2>
                 {% endif %}
                 {% if section.settings.text %}
-                  <p class="font-display text-title-medium ">{{ section.settings.text | escape }}</p>
+                  <div class="formatted-text flex flex-col items-{% if section.settings.header_alignment == 'left' %}start{% elsif section.settings.header_alignment == 'right' %}end{% else %}center{% endif %}">
+                    <p class="font-display text-content>{{ section.settings.text }}</p>
+                  </div>
                 {% endif %}
               </div>
 
@@ -92,20 +94,21 @@
                         <accordion-trigger
                           role="button"
                           aria-expanded="{% if section.settings.open_first_collapsible_row and forloop.first %}true{% else %}false{% endif %}"
-                          class="text-title-medium font-display font-heading flex w-full items-center justify-between"
+                          class="text-heading-{{ block.settings.heading_size | default: 'small' }} font-display font-heading flex w-full items-center justify-between"
                         >
-                          {{ block.settings.heading | default: block.settings.page.title | escape }}
+                          {% assign pageTitle = block.settings.page.title | escape %}
+                          {{ block.settings.heading | default: pageTitle }}
                           <ion-icon
                             name="chevron-down-outline"
                             aria-label="{{ 'general.accordion.toggle' | t }}"
-                            class="h-4 w-4 transition-transform"
+                            class="{% if block.settings.heading_size == 'small' %}h-4 w-4{% else %}h-8 w-8{% endif %} transition-transform"
                           ></ion-icon>
                         </accordion-trigger>
                         <accordion-content
                           role="region"
                           class="text-base grid grid-rows-[{% if section.settings.open_first_collapsible_row and forloop.first %}1fr{% else %}0fr{% endif %}] opacity-{% if section.settings.open_first_collapsible_row and forloop.first %}100{% else %}0{% endif %} overflow-hidden transition-all duration-300 ease-in-out"
                         >
-                          <div class="overflow-hidden text-left text-body-small font-display">
+                          <div class="overflow-hidden text-left text-content font-display">
                             <div class="mt-[4px]">
                               <span class="formatted-text">{{ block.settings.row_content }}</span>
                               {{ block.settings.page.content }}
@@ -120,19 +123,21 @@
             </div>
           {%- else -%}
             <div class="flex flex-col gap-[24px] text-{{ section.settings.container_color_scheme }}">
-              <div class="text-{{ section.settings.heading_alignment }} flex flex-col gap-[8px]">
+              <div class="text-{{ section.settings.header_alignment | default: 'center' }} flex flex-col gap-[8px]">
                 {% if section.settings.pre_heading %}
-                  <p class="font-display font-pre-heading text-headline-small">
+                  <p class="font-display font-pre-heading text-pre-heading">
                     {{ section.settings.pre_heading }}
                   </p>
                 {% endif %}
                 {% if section.settings.heading %}
-                  <h2 class="font-display text-display-small font-heading text-{{ section.settings.heading_size }} formatted-text">
+                  <h2 class="font-display font-heading text-heading-{{ section.settings.heading_size | default: 'small' }}">
                     {{ section.settings.heading }}
                   </h2>
                 {% endif %}
                 {% if section.settings.text %}
-                  <p class="font-display text-title-medium">{{ section.settings.text | escape }}</p>
+                  <div class="formatted-text flex flex-col items-{% if section.settings.header_alignment == 'left' %}start{% elsif section.settings.header_alignment == 'right' %}end{% else %}center{% endif %}">
+                    <p class=""font-display text-content">{{ section.settings.text }}</p>
+                  </div>
                 {% endif %}
               </div>
 
@@ -147,20 +152,21 @@
                         <accordion-trigger
                           role="button"
                           aria-expanded="{% if section.settings.open_first_collapsible_row and forloop.first %}true{% else %}false{% endif %}"
-                          class="text-title-medium font-display font-heading flex w-full items-center justify-between"
+                          class="text-heading-{{ block.settings.heading_size | default: 'small' }} font-display font-heading flex w-full items-center justify-between"
                         >
-                          {{ block.settings.heading | default: block.settings.page.title | escape }}
+                          {% assign pageTitle = block.settings.page.title | escape %}
+                          {{ block.settings.heading | default: pageTitle }}
                           <ion-icon
                             name="chevron-down-outline"
                             aria-label="{{ 'general.accordion.toggle' | t }}"
-                            class="h-4 w-4 transition-transform"
+                            class="{% if block.settings.heading_size == 'small' %}h-4 w-4{% else %}h-8 w-8{% endif %} transition-transform"
                           ></ion-icon>
                         </accordion-trigger>
                         <accordion-content
                           role="region"
                           class="text-base grid grid-rows-[{% if section.settings.open_first_collapsible_row and forloop.first %}1fr{% else %}0fr{% endif %}] opacity-{% if section.settings.open_first_collapsible_row and forloop.first %}100{% else %}0{% endif %} overflow-hidden transition-all duration-300 ease-in-out"
                         >
-                          <div class="overflow-hidden text-left text-body-small font-display">
+                          <div class="overflow-hidden text-left text-content font-display">
                             <div class="mt-[4px]">
                               <span class="formatted-text">{{ block.settings.row_content }}</span>
                               {{ block.settings.page.content }}
@@ -212,7 +218,12 @@
   },
   "settings": [
     {
-      "type": "text",
+      "type": "header",
+      "content": "Content",
+      "id": "header_content"
+    },
+    {
+      "type": "inline_richtext_pre_heading",
       "id": "pre_heading",
       "label": "Pre-heading"
     },
@@ -223,14 +234,26 @@
       "default": "Collapsible content"
     },
     {
-      "type": "text",
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": "small",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "extra-large", "label": "Extra large" }
+      ]
+    },
+    {
+      "type": "richtext",
       "id": "text",
       "label": "Text"
     },
     {
       "type": "select",
-      "id": "heading_alignment",
-      "label": "Heading alignment",
+      "id": "header_alignment",
+      "label": "Header alignment",
       "options": [
         {
           "value": "left",
@@ -268,6 +291,11 @@
       "default": "none"
     },
     {
+      "type": "header",
+      "content": "Colors",
+      "id": "header_colors"
+    },
+    {
       "type": "color_scheme",
       "id": "color_scheme",
       "label": "Color scheme",
@@ -294,7 +322,8 @@
     },
     {
       "type": "header",
-      "content": "Image layout"
+      "content": "Image layout",
+      "id": "header_image_layout"
     },
     {
       "type": "image_picker",
@@ -331,7 +360,8 @@
     },
     {
       "type": "header",
-      "content": "Section padding"
+      "content": "Section padding",
+      "id": "header_section_padding"
     },
     {
       "type": "range",
@@ -360,11 +390,23 @@
       "name": "Collapsible row",
       "settings": [
         {
-          "type": "text",
+          "type": "inline_richtext",
           "id": "heading",
           "label": "Heading",
           "default": "Collapsible row",
           "info": "Include a heading that explains the content."
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "Heading size",
+          "default": "small",
+          "options": [
+            { "value": "small", "label": "Small" },
+            { "value": "medium", "label": "Medium" },
+            { "value": "large", "label": "Large" },
+            { "value": "extra-large", "label": "Extra large" }
+          ]
         },
         {
           "type": "richtext",
