@@ -77,7 +77,7 @@
                   </h2>
                 {% endif %}
                 {% if section.settings.text %}
-                  <div class="formatted-text flex flex-col items-{% if section.settings.header_alignment == 'left' %}start{% elsif section.settings.header_alignment == 'right' %}end{% else %}center{% endif %}">
+                  <div class="formatted-text">
                     <p class="font-display text-content>{{ section.settings.text }}</p>
                   </div>
                 {% endif %}
@@ -135,7 +135,7 @@
                   </h2>
                 {% endif %}
                 {% if section.settings.text %}
-                  <div class="formatted-text flex flex-col items-{% if section.settings.header_alignment == 'left' %}start{% elsif section.settings.header_alignment == 'right' %}end{% else %}center{% endif %}">
+                  <div class="formatted-text">
                     <p class=""font-display text-content">{{ section.settings.text }}</p>
                   </div>
                 {% endif %}
