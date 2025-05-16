@@ -48,7 +48,7 @@
         return;
       }
 
-      const icon = trigger.querySelector("ion-icon");
+      const icon = trigger.querySelector("ion-icon") || trigger.querySelector("chevron-icon");
       const shouldExpand = trigger.getAttribute("aria-expanded") === "false";
 
       return shouldExpand

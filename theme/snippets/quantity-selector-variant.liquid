@@ -16,7 +16,9 @@
       class="flex items-center justify-center {% if size == 'lg' %}m-4{% else %}m-2{% endif %}"
       aria-label="{{ 'sections.product.quantity.decrement' | t }}"
     >
-      <ion-icon name="remove-outline" aria-hidden="true"></ion-icon>
+      <span name="remove-outline" aria-hidden="true">
+        {{- 'icon-minus.svg' | inline_asset_content -}}
+      </span>
     </quantity-selector-decrement>
 
     <input
@@ -38,7 +40,9 @@
       class="flex items-center justify-center {% if size == 'lg' %}m-4{% else %}m-2{% endif %}"
       aria-label="{{ 'sections.product.quantity.increment' | t }}"
     >
-      <ion-icon name="add-outline" aria-hidden="true"></ion-icon>
+      <span name="add-outline" aria-hidden="true">
+        {{- 'icon-plus.svg' | inline_asset_content -}}
+      </span>
     </quantity-selector-increment>
   </div>
 </quantity-selector-root>

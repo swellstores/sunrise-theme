@@ -340,12 +340,12 @@
                           class="text-title-medium font-display flex w-full items-center justify-between h-full"
                         >
                           {{ block.settings.trigger | inline_editable: 'trigger' }}
-                          <ion-icon
-                            name="chevron-down-outline"
+                          <chevron-icon
+                            class="transition-transform"
                             aria-label="{{ 'general.accordion.toggle' | t }}"
-                            class="h-4 w-4 transition-transform"
                           >
-                          </ion-icon>
+                            {{- 'icon-chevron-down.svg' | inline_asset_content -}}
+                          </chevron-icon>
                         </accordion-trigger>
                         <accordion-content
                           role="region"
@@ -756,7 +756,8 @@
         {
           "type": "text",
           "id": "trigger",
-          "label": "Label"
+          "label": "Label",
+          "default": "Accordion item"
         },
         {
           "type": "richtext",
