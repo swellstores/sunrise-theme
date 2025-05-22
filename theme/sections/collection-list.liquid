@@ -25,42 +25,46 @@
 <div
   class="pl-[24px] pr-[24px] lg:px-[160px] lg:py-[96px] bg-{{ color_scheme }} text-{{ color_scheme }} responsive-padding-{{ section.id }}"
 >
-  <p
-    class="
-      text-headline-x-small font-display font-pre-heading
-      {% case section.settings.header_alignment %}
-        {% when 'center' %} text-center
-        {% when 'right' %} text-right
-        {% else %} text-left
-      {% endcase %}
-    "
-  >
-    {{ section.settings.pre_heading | default: 'Explore more' }}
-  </p>
-
-  <h2
-    class="
-      mb-[48px] font-display font-heading
-      {% case section.settings.heading_size %}
-        {% when 'small' %}text-headline-small
-        {% when 'medium' %}text-headline-medium
-        {% when 'large' %}text-headline-large
-      {% endcase %}
-        {% case section.settings.header_alignment %}
-        {% when 'center' %} text-center
-        {% when 'right' %} text-right
-        {% else %} text-left
-        {% endcase %}
-    "
-  >
-    {{ section.settings.heading  | default: 'Discover our categories' }}
-  </h2>
+  <div class="flex flex-col gap-[8px]">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'pre_heading' -%}
+          <p
+            class="
+              font-display font-pre-heading text-pre-heading
+              {% case section.settings.header_alignment %}
+                {% when 'center' %} text-center
+                {% when 'right' %} text-right
+                {% else %} text-left
+              {% endcase %}
+            "
+          >
+            {{ block.settings.pre_heading | inline_editable: 'pre_heading' }}
+          </p>
+        {%- when 'heading' -%}
+          <h2
+            class="
+              mb-[48px] font-display font-heading text-heading-{{ section.settings.heading_size | default: 'small' }}
+              {% case section.settings.header_alignment %}
+                {% when 'center' %} text-center
+                {% when 'right' %} text-right
+                {% else %} text-left
+              {% endcase %}
+            "
+          >
+            {{ block.settings.heading | inline_editable: 'heading' }}
+          </h2>
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
 
   <div class="grid grid-cols-{{ mobile_layout }} sm:grid-cols-2 md:grid-cols-{{ columns }} gap-{{ gap }}">
     {%- for block in section.blocks -%}
-      {% assign idx = forloop.index0 | modulo: 6 | plus: 1  %}
-      {% assign placeholder = 'collection-' | append: idx %}
-      {% render 'list-collections-item', collection: block.settings.collection, placeholder: placeholder %}
+      {%- if block.type == 'featured_collection' -%}
+        {% assign idx = forloop.index0 | modulo: 6 | plus: 1 %}
+        {% assign placeholder = 'collection-' | append: idx %}
+        {% render 'list-collections-item', collection: block.settings.collection, placeholder: placeholder %}
+      {%- endif -%}
     {%- endfor -%}
   </div>
 </div>
@@ -87,18 +91,6 @@
     {
       "type": "header",
       "content": "Content"
-    },
-    {
-      "type": "text",
-      "id": "pre_heading",
-      "label": "Pre-heading",
-      "default": "Explore more"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "Discover our categories"
     },
     {
       "type": "select",
@@ -178,6 +170,32 @@
   ],
   "blocks": [
     {
+      "type": "pre_heading",
+      "name": "Pre-heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "pre_heading",
+          "label": "Content",
+          "default": "Explore more"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "Content",
+          "default": "Discover our categories"
+        }
+      ]
+    },
+    {
       "type": "featured_collection",
       "name": "Category",
       "settings": [
@@ -202,6 +220,18 @@
     {
       "name": "Collections",
       "blocks": [
+        {
+          "type": "pre_heading",
+          "settings": {
+            "pre_heading": "Explore more"
+          }
+        },
+        {
+          "type": "heading",
+          "settings": {
+            "heading": "Discover our categories"
+          }
+        },
         { "type": "featured_collection" },
         { "type": "featured_collection" },
         { "type": "featured_collection" }
