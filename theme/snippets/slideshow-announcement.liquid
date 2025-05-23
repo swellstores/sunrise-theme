@@ -29,6 +29,18 @@
   </script>
 {% endcomment %}
 
+{% style %}
+  .announcement-url {
+    pointer-events: auto !important;
+    text-decoration: none !important;
+  }
+  .announcement-url:hover {
+    text-decoration: underline !important;
+    text-underline-offset: 2px !important;
+    cursor: pointer !important;
+  }
+{% endstyle %}
+
 <swiper-container
   role="region"
   aria-label="{{ 'sections.announcement.label' | t }}"
@@ -43,19 +55,25 @@
 >
   {%- for block in section.blocks -%}
     {%- if block.settings.text != blank -%}
-      <swiper-slide class="flex w-full items-center justify-center gap-2 py-2 text-center font-display text-body-medium">
+      <swiper-slide
+        class="flex w-full items-center justify-center gap-2 py-2 text-center font-display text-body-medium"
+      >
         {%- if block.settings.link != blank -%}
           <a
             role="group"
             href="{{ block.settings.link }}"
-            class="flex w-full items-center justify-center gap-2 text-center text-xs hover:underline underline-offset-2"
+            class="flex w-full items-center justify-center gap-2 text-center text-xs announcement-url"
             aria-roledescription="{{ 'sections.announcement.description' | t }}"
             aria-label="{{ forloop.index }} {{ 'sections.announcement.slideshow_of' | t }} {{ forloop.length }}"
+            {%- assign link_downcase = block.settings.link | downcase -%}
+            {%- if link_downcase contains 'http' or link_downcase contains 'https' -%}
+              target="_blank"
+            {%- endif -%}
           >
-        {%- endif -%}
-        {{ block.settings.text | escape }}
-        {%- if block.settings.link != blank -%}
+            {{ block.settings.text | escape }}
           </a>
+        {%- else -%}
+          {{ block.settings.text | escape }}
         {%- endif -%}
       </swiper-slide>
     {%- endif -%}
