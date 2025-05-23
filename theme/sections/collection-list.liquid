@@ -32,11 +32,7 @@
           <p
             class="
               font-display font-pre-heading text-pre-heading
-              {% case section.settings.header_alignment %}
-                {% when 'center' %} text-center
-                {% when 'right' %} text-right
-                {% else %} text-left
-              {% endcase %}
+              text-{{ section.settings.header_alignment | default: 'left' }}
             "
           >
             {{ block.settings.pre_heading | inline_editable: 'pre_heading' }}
@@ -45,11 +41,7 @@
           <h2
             class="
               mb-[48px] font-display font-heading text-heading-{{ section.settings.heading_size | default: 'small' }}
-              {% case section.settings.header_alignment %}
-                {% when 'center' %} text-center
-                {% when 'right' %} text-right
-                {% else %} text-left
-              {% endcase %}
+              text-{{ section.settings.header_alignment | default: 'left' }}
             "
           >
             {{ block.settings.heading | inline_editable: 'heading' }}
