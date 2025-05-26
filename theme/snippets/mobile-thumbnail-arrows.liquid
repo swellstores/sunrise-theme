@@ -5,7 +5,7 @@
     - color_scheme: {string} The color scheme ID for styling the buttons (required)
 
   Usage:
-   {% render 'mobile-thumbnail-arrows', color_scheme: color_scheme %}
+   {% render 'mobile-thumbnail-arrows', color_scheme: color_scheme, border_radius: settings.border_radius %}
 {% endcomment %}
 
 <slideshow-button-prev
@@ -13,7 +13,7 @@
   aria-label="{{ 'general.pagination.previous' | t }}"
   type="button"
   class="text-accent-{{ color_scheme }} group absolute left-0 top-1/2 flex h-11 w-12 -translate-y-1/2 items-center justify-center border-none transition-colors z-10"
-  style="border-radius: {{ border_radius | default: 8 }}px;"
+  style="border-radius: {{ border_radius | default: 6 }}px;"
 >
   {{- 'product-arrow-left.svg' | inline_asset_content -}}
 </slideshow-button-prev>
@@ -22,7 +22,7 @@
   aria-label="{{ 'general.pagination.next' | t }}"
   type="button"
   class="text-accent-{{ color_scheme }} group absolute right-0 top-1/2 flex h-11 w-12 -translate-y-1/2 items-center justify-center border-none transition-colors z-10"
-  style="border-radius: {{ border_radius | default: 8 }}px;"
+  style="border-radius: {{ border_radius | default: 6 }}px;"
 >
   {{- 'product-arrow-right.svg' | inline_asset_content -}}
 </slideshow-button-next>

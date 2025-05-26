@@ -5,7 +5,7 @@
     - color_scheme: {string} The color scheme ID for styling the buttons (required)
 
   Usage:
-   {% render 'slideshow-navigation', color_scheme: color_scheme %}
+   {% render 'slideshow-arrows', color_scheme: color_scheme, border_radius: settings.border_radius %}
 {% endcomment %}
 
 <slideshow-button-prev
@@ -13,7 +13,7 @@
   aria-label="{{ 'sections.slideshow.previous' | t }}"
   type="button"
   class="text-accent-{{ color_scheme }} group absolute left-[96px] top-1/2 flex h-11 w-12 -translate-y-1/2 items-center justify-center border-none transition-colors z-10 text-white"
-  style="border-radius: {{ border_radius | default: 8 }}px;"
+  style="border-radius: {{ border_radius | default: 6 }}px;"
 >
   {{- 'arrow-left-icon.svg' | inline_asset_content -}}
 </slideshow-button-prev>
@@ -22,7 +22,7 @@
   aria-label="{{ 'sections.slideshow.next' | t }}"
   type="button"
   class="text-accent-{{ color_scheme }} group absolute right-[96px] top-1/2 flex h-11 w-12 -translate-y-1/2 items-center justify-center border-none transition-colors z-10 text-white"
-  style="border-radius: {{ border_radius | default: 8 }}px;"
+  style="border-radius: {{ border_radius | default: 6 }}px;"
 >
   {{- 'arrow-right-icon.svg' | inline_asset_content -}}
 </slideshow-button-next>
