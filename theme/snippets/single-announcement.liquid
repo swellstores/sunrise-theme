@@ -9,6 +9,16 @@
     {% render 'single-announcement' %}
 {% endcomment %}
 
+{% style %}
+  .announcement-url {
+    pointer-events: auto !important;
+    text-decoration: none !important;
+  }
+  .announcement-url:hover {
+    cursor: pointer !important;
+  }
+{% endstyle %}
+
 <div
   role="region"
   aria-label="{{ 'sections.announcement.label' | t }}"
@@ -18,12 +28,16 @@
     {%- if section.blocks.first.settings.link != blank -%}
       <a
         href="{{ section.blocks.first.settings.link }}"
-        class="group cursor-pointer hover:underline hover:underline-offset-2 overflow-hidden"
+        class="group cursor-pointer announcement-url"
+        {%- assign link = section.blocks.first.settings.link | downcase -%}
+        {%- if link contains 'http' or link contains 'https' -%}
+          target="_blank"
+        {%- endif -%}
       >
-    {%- endif -%}
-    {{ section.blocks.first.settings.text | escape }}
-    {%- if section.blocks.first.settings.link != blank -%}
+        {{ section.blocks.first.settings.text | escape }}
       </a>
+    {%- else -%}
+      {{ section.blocks.first.settings.text | escape }}
     {%- endif -%}
   {%- endif -%}
 </div>
