@@ -89,7 +89,10 @@ input[type="number"].number-input::-webkit-outer-spin-button {
 
 /* FROALA editors */
 .formatted-text {
-  h1, h2, h3, h4 {
+  h1,
+  h2,
+  h3,
+  h4 {
     font-weight: bolder;
   }
 
@@ -113,7 +116,8 @@ input[type="number"].number-input::-webkit-outer-spin-button {
     line-height: 1.6rem;
   }
 
-  ul, ol {
+  ul,
+  ol {
     margin: 10px;
     padding: 10px;
     padding-inline-start: 2.5rem;
@@ -167,4 +171,11 @@ input[type="number"].number-input::-webkit-outer-spin-button {
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
+}
+
+/* Apply border radius to all input fields and dropdowns */
+input,
+select,
+textarea {
+  border-radius: var(--border-radius);
 }
