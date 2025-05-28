@@ -312,21 +312,21 @@
               {% else %}
                 <div class="header-item header-item--menu-trigger flex min-[960px]:hidden">
               {% endif %}
-                <button
-                  class="flex items-center justify-center h-full"
-                  data-drawer-menu-trigger
-                  aria-label="Open menu"
+              <button
+                class="flex items-center justify-center h-full"
+                data-drawer-menu-trigger
+                aria-label="Open menu"
+              >
+                <svg
+                  class="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <svg
-                    class="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                  </svg>
-                </button>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+              </button>
               </div>
             {% else %}
               <div class="header-item header-item--menu-trigger hidden"></div>
@@ -354,9 +354,7 @@
               <div class="header-item header-item--logo">
                 {%- render 'header-logo' -%}
               </div>
-              {% if section.settings.desktop_menu_type == 'mega'
-                or section.settings.desktop_menu_type == 'dropdown'
-              %}
+              {% if section.settings.desktop_menu_type == 'mega' or section.settings.desktop_menu_type == 'dropdown' %}
                 <div class="header-item header-item--desktop-nav hidden min-[960px]:flex items-center">
                   {%- render 'header-desktop-nav',
                     text_uppercase: text_uppercase,
@@ -432,7 +430,12 @@
       "min": 3,
       "max": 5,
       "step": 1,
-      "default": 4
+      "default": 4,
+      "conditions": {
+        "desktop_menu_type": {
+          "$in": "mega"
+        }
+      }
     },
     {
       "type": "select",
@@ -442,7 +445,12 @@
         { "value": "left", "label": "Left" },
         { "value": "center", "label": "Center" }
       ],
-      "default": "center"
+      "default": "center",
+      "conditions": {
+        "desktop_menu_type": {
+          "$in": "mega"
+        }
+      }
     },
     {
       "type": "checkbox",
