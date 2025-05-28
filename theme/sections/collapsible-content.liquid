@@ -54,18 +54,20 @@
                 <div
                   class="
                     {% if section.settings.image_size == 'small' %}
-                         h-90 md:h-[20rem]
+                          h-90 md:h-[20rem] object-cover
                     {% elsif section.settings.image_size == 'large' %}
-                         h-90 md:h-[60rem]
+                           h-90 md:h-[60rem] object-contain
                     {% endif %}
                   "
                 >
-                  {{ section.settings.image | image_url: width: 3200 | image_tag: class: 'w-full h-full object-cover' }}
+                  {{ section.settings.image | image_url: width: 3200 | image_tag: class: 'w-full h-full' }}
                 </div>
               </div>
             {% endif %}
 
-            <div class="flex flex-col gap-[24px] {% if section.settings.layout == 'section' %} text-{{ section.settings.container_color_scheme }} {% else %} text-{{ section.settings.color_scheme }} {% endif %}">
+            <div class="flex flex-col gap-[24px] 
+                        {% if section.settings.layout == 'section' %}text-{{ section.settings.container_color_scheme }}
+                        {% else %} text-{{ section.settings.color_scheme }} {% endif %}">
               <div class="text-{{ section.settings.header_alignment | default: 'center' }} flex flex-col gap-[8px]">
                 {% if section.settings.pre_heading %}
                   <h2 class="font-display font-pre-heading text-pre-heading">
@@ -85,8 +87,9 @@
               </div>
 
               <accordion-root
-                class="flex flex-col items-center justify-center text-{{ section.settings.container_color_scheme }}"
-                data-bg-color="{{ section.settings.accordion_open_bg_color }}"
+                class="flex flex-col items-center justify-center 
+                       {% if section.settings.layout == 'row' or section.settings.layout == 'section' %}text-{{ section.settings.container_color_scheme }}
+                       {% else %} text-{{ section.settings.color_scheme }} {% endif %}"
               >
                 <div class="flex flex-col {% if section.settings.layout == 'row' %}gap-[16px]{% endif %} w-full">
                   {%- for block in section.blocks -%}
@@ -123,7 +126,9 @@
               </accordion-root>
             </div>
           {%- else -%}
-            <div class="flex flex-col gap-[24px] text-{{ section.settings.container_color_scheme }}">
+            <div class="flex flex-col gap-[24px] 
+                        {% if section.settings.layout == 'section' %}text-{{ section.settings.container_color_scheme }}
+                        {% else %} text-{{ section.settings.color_scheme }} {% endif %}">
               <div class="text-{{ section.settings.header_alignment | default: 'center' }} flex flex-col gap-[8px]">
                 {% if section.settings.pre_heading %}
                   <p class="font-display font-pre-heading text-pre-heading">
@@ -143,8 +148,9 @@
               </div>
 
               <accordion-root
-                class="flex flex-col items-center justify-center text-{{ section.settings.container_color_scheme }}"
-                data-bg-color="{{ section.settings.accordion_open_bg_color }}"
+                class="flex flex-col items-center justify-center 
+                       {% if section.settings.layout == 'row' or section.settings.layout == 'section' %}text-{{ section.settings.container_color_scheme }}
+                       {% else %} text-{{ section.settings.color_scheme }} {% endif %}"
               >
                 <div class="flex flex-col {% if section.settings.layout == 'row' %}gap-[16px]{% endif %} w-full">
                   {%- for block in section.blocks -%}
@@ -186,19 +192,13 @@
                 <div
                   class="
                     {% if section.settings.image_size == 'small' %}
-                      h-90 md:h-[20rem]
+                         h-90 md:h-[20rem] object-cover
                     {% elsif section.settings.image_size == 'large' %}
-                      h-90 md:h-[60rem]
+                         h-90 md:h-[60rem] object-contain
                     {% endif %}
                   "
                 >
-                  {% if section.settings.image != blank %}
-                    {{
-                      section.settings.image
-                      | image_url: width: 3200
-                      | image_tag: class: 'w-full h-full object-cover'
-                    }}
-                  {% endif %}
+                  {{ section.settings.image | image_url: width: 3200 | image_tag: class: 'w-full h-full' }}
                 </div>
               </div>
             {% endif %}
@@ -306,20 +306,18 @@
       "type": "color_scheme",
       "id": "container_color_scheme",
       "label": "Row color scheme",
-      "info": "Visible when Layout is set to Row or Section container.",
-      "default": "scheme-1"
+      "default": "scheme-1",
+      "conditions": {
+        "layout": {
+          "$in": ["row", "section"]
+        }
+      }
     },
     {
       "type": "checkbox",
       "id": "open_first_collapsible_row",
       "default": false,
       "label": "Open first collapsible row"
-    },
-    {
-      "type": "color",
-      "id": "accordion_open_bg_color",
-      "label": "Accordion open background color",
-      "default": "#FFFFFF"
     },
     {
       "type": "header",
