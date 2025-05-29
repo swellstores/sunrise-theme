@@ -51,16 +51,45 @@
           {%- if section.settings.desktop_layout == 'image_first' -%}
             {% if section.settings.image != blank %}
               <div class="">
-                <div
-                  class="
-                    {% if section.settings.image_size == 'small' %}
-                          h-90 md:h-[20rem] object-cover
-                    {% elsif section.settings.image_size == 'large' %}
-                           h-90 md:h-[60rem] object-contain
-                    {% endif %}
-                  "
-                >
-                  {{ section.settings.image | image_url: width: 3200 | image_tag: class: 'w-full h-full' }}
+                <div class="w-full">
+                  {% assign img = section.settings.image %}
+                  {% assign img_width = img.file.width %}
+                  {% assign img_height = img.file.height %}
+                  {% assign size_setting = section.settings.image_size %}
+                 
+                  {% if size_setting == 'small' %}
+                    {% assign base_width = 400 %}
+                    {% assign max_width = '400px' %}
+                  {% elsif size_setting == 'large' %}
+                    {% assign base_width = 1800 %}
+                    {% assign max_width = '1800px' %}
+                  {% else %}
+                    {% assign base_width = img_width %}
+                    {% assign max_width = img_width | append: 'px' %}
+                  {% endif %}
+                  <img
+                    srcset="
+                      {%- if img.file.width >= 165 -%}{{ img.file.url }}?width=165 165w,{%- endif -%}
+                      {%- if img.file.width >= 360 -%}{{ img.file.url }}?width=360 360w,{%- endif -%}
+                      {%- if img.file.width >= 533 -%}{{ img.file.url }}?width=533 533w,{%- endif -%}
+                      {%- if img.file.width >= 720 -%}{{ img.file.url }}?width=720 720w,{%- endif -%}
+                      {%- if img.file.width >= 1000 -%}{{ img.file.url }}?width=1000 1000w,{%- endif -%}
+                      {%- if img.file.width >= 1500 -%}{{ img.file.url }}?width=1500 1500w,{%- endif -%}
+                      {%- if img.file.width >= 1800 -%}{{ img.file.url }}?width=1800 1800w,{%- endif -%}
+                      {{ img.file.url }} {{ img.file.width }}w
+                    "
+                    src="{{ img.file.url }}?width={{ base_width }}"
+                    sizes="
+                      {% if size_setting == 'small' %}(max-width: 800px) 100vw, 800px
+                      {% elsif size_setting == 'large' %}(max-width: 1800px) 100vw, 1800px
+                      {% else %}100vw, {{ img_width }}px{% endif %}"
+                    alt="{{ img.file.filename | escape }}"
+                    class="w-full h-auto ml-auto mr-auto"
+                    style="max-width:{{ max_width }};"
+                    loading="lazy"
+                    width="{{ base_width }}"
+                    height="{{ img_height | divided_by: img_width | times: base_width | round }}"
+                  >
                 </div>
               </div>
             {% endif %}
@@ -188,17 +217,45 @@
             </div>
 
             {% if section.settings.image != blank %}
-              <div class="order-2 md:order-2 flex flex-col gap-10">
-                <div
-                  class="
-                    {% if section.settings.image_size == 'small' %}
-                         h-90 md:h-[20rem] object-cover
-                    {% elsif section.settings.image_size == 'large' %}
-                         h-90 md:h-[60rem] object-contain
-                    {% endif %}
-                  "
-                >
-                  {{ section.settings.image | image_url: width: 3200 | image_tag: class: 'w-full h-full' }}
+              <div>
+                <div class="w-full">
+                  {% assign img = section.settings.image %}
+                  {% assign img_width = img.file.width %}
+                  {% assign img_height = img.file.height %}
+                  {% assign size_setting = section.settings.image_size %}
+                  {% if size_setting == 'small' %}
+                    {% assign base_width = 400 %}
+                    {% assign max_width = '400px' %}
+                  {% elsif size_setting == 'large' %}
+                    {% assign base_width = 1800 %}
+                    {% assign max_width = '1800px' %}
+                  {% else %}
+                    {% assign base_width = img_width %}
+                    {% assign max_width = img_width | append: 'px' %}
+                  {% endif %}
+                  <img
+                    srcset="
+                      {%- if img.file.width >= 165 -%}{{ img.file.url }}?width=165 165w,{%- endif -%}
+                      {%- if img.file.width >= 360 -%}{{ img.file.url }}?width=360 360w,{%- endif -%}
+                      {%- if img.file.width >= 533 -%}{{ img.file.url }}?width=533 533w,{%- endif -%}
+                      {%- if img.file.width >= 720 -%}{{ img.file.url }}?width=720 720w,{%- endif -%}
+                      {%- if img.file.width >= 1000 -%}{{ img.file.url }}?width=1000 1000w,{%- endif -%}
+                      {%- if img.file.width >= 1500 -%}{{ img.file.url }}?width=1500 1500w,{%- endif -%}
+                      {%- if img.file.width >= 1800 -%}{{ img.file.url }}?width=1800 1800w,{%- endif -%}
+                      {{ img.file.url }} {{ img.file.width }}w
+                    "
+                    src="{{ img.file.url }}?width={{ base_width }}"
+                    sizes="
+                      {% if size_setting == 'small' %}(max-width: 800px) 100vw, 800px
+                      {% elsif size_setting == 'large' %}(max-width: 1800px) 100vw, 1800px
+                      {% else %}100vw, {{ img_width }}px{% endif %}"
+                    alt="{{ img.file.filename | escape }}"
+                    class="w-full h-auto ml-auto mr-auto"
+                    style="max-width:{{ max_width }};"
+                    loading="lazy"
+                    width="{{ base_width }}"
+                    height="{{ img_height | divided_by: img_width | times: base_width | round }}"
+                  >
                 </div>
               </div>
             {% endif %}
