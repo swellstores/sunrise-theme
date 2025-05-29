@@ -1,5 +1,5 @@
-<ul class="flex items-center text-xs gap-4" role="navigation" aria-label="{{ 'general.breadcrumbs.label' | t }}">
-  <li class="after:content-[''] after:ml-2 bg-after-{{ color_scheme }} after:w-1 after:h-1 after:rounded-full after:inline-block after:align-middle">
+<ul class="flex items-center text-body-medium gap-16" role="navigation" aria-label="{{ 'general.breadcrumbs.label' | t }}">
+  <li class="after:content-[''] after:ml-8 bg-after-{{ color_scheme }} after:w-4 after:h-4 after:rounded-full after:inline-block after:align-middle">
     <a
       href="{{ routes.root_url }}"
       class="underline underline-offset-4 decoration-accent-{{ color_scheme }}"
@@ -10,7 +10,7 @@
   {% case template %}
     {% when 'product' %}
       {% if collection %}
-        <li class="after:content-[''] after:ml-2 bg-after-{{ color_scheme }} after:w-1 after:h-1 after:rounded-full after:inline-block after:align-middle">
+        <li class="after:content-[''] after:ml-8 bg-after-{{ color_scheme }} after:w-4 after:h-4 after:rounded-full after:inline-block after:align-middle">
           <a
             href="{{ routes.collections_url }}"
             class="underline underline-offset-4 decoration-accent-{{ color_scheme }}"
@@ -19,7 +19,7 @@
           </a>
         </li>
       {% else %}
-        <li class="after:content-[''] after:ml-2 bg-after-{{ color_scheme }} after:w-1 after:h-1 after:rounded-full after:inline-block after:align-middle">
+        <li class="after:content-[''] after:ml-8 bg-after-{{ color_scheme }} after:w-4 after:h-4 after:rounded-full after:inline-block after:align-middle">
           <a
             href="{{ routes.all_products_collection_url }}"
             class="underline underline-offset-4 decoration-accent-{{ color_scheme }}"
@@ -31,7 +31,7 @@
       <li aria-current="page">{{ product.title }}</li>
 
     {% when 'collection' %}
-      <li class="after:content-[''] after:ml-2 bg-after-{{ color_scheme }} after:w-1 after:h-1 after:rounded-full after:inline-block after:align-middle">
+      <li class="after:content-[''] after:ml-8 bg-after-{{ color_scheme }} after:w-4 after:h-4 after:rounded-full after:inline-block after:align-middle">
         <a
           href="{{ routes.collections_url }}"
           class="underline underline-offset-4 decoration-accent-{{ color_scheme }}"
@@ -45,7 +45,7 @@
       </li>
 
     {% when 'article' %}
-      <li class="after:content-[''] after:ml-2 bg-after-{{ color_scheme }} after:w-1 after:h-1 after:rounded-full after:inline-block after:align-middle">
+      <li class="after:content-[''] after:ml-8 bg-after-{{ color_scheme }} after:w-4 after:h-4 after:rounded-full after:inline-block after:align-middle">
         <a href="{{ blog.url }}" class="underline underline-offset-4 decoration-accent-{{ color_scheme }}">
           {{- blog.title -}}
         </a>

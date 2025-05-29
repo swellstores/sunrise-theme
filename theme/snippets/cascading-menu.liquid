@@ -8,19 +8,19 @@
   <div class="cascading-menu bg-{{ menu_scheme }} text-{{ menu_scheme }}">
     {% for child_link in link.links %}
       <div class="cascading-menu-item {% if child_link.links.size > 0 %}has-children{% endif %}">
-        <a href="{{ child_link.url }}" class="font-normal leading-[20px]">
+        <a href="{{ child_link.url }}" class="font-normal leading-[2rem]">
           {{ child_link.title | escape }}
         </a>
         {% if child_link.links.size > 0 %}
           <ion-icon
             name="chevron-down-outline"
             aria-label="{{ 'general.accordion.toggle' | t }}"
-            class="chevron-icon h-[20px] w-[20px]"
+            class="chevron-icon h-20 w-20"
           ></ion-icon>
           <div class="cascading-submenu bg-{{ menu_scheme }} text-{{ menu_scheme }}">
             {% for grandchild_link in child_link.links %}
               <div class="cascading-menu-item">
-                <a href="{{ grandchild_link.url }}" class="font-normal leading-[20px]">
+                <a href="{{ grandchild_link.url }}" class="font-normal leading-[2rem]">
                   {{ grandchild_link.title | escape }}
                 </a>
               </div>

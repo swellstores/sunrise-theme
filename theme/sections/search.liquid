@@ -3,9 +3,9 @@
   assign terms = search.terms | escape
 -%}
 
-<div class="bg-{{ color_scheme }} text-{{ color_scheme }} px-[24px] py-[32px] flex flex-col">
+<div class="bg-{{ color_scheme }} text-{{ color_scheme }} px-24 py-32 flex flex-col">
   <div class="flex flex-col items-center w-full">
-    <div class="flex flex-col items-start w-full max-w-[766px] mx-auto gap-[16px] pb-[32px]">
+    <div class="flex flex-col items-start w-full max-w-766 mx-auto gap-16 pb-32">
       <h2 class="text-title-large font-display">
         {%- if search.performed -%}
           Search results
@@ -14,7 +14,7 @@
         {%- endif -%}
       </h2>
       <form action="{{ routes.search_url }}" method="get" role="search" class="flex items-center w-full">
-        <div class="relative w-[766px]">
+        <div class="relative w-766">
           <input name="options[prefix]" type="hidden" value="last">
           {% assign placeholder_text = 'general.search.placeholder' | t %}
           {% render 'input',
@@ -30,7 +30,7 @@
           %}
           <button
             type="submit"
-            class="absolute inset-y-0 right-0 flex items-center pr-[16px] cursor-pointer"
+            class="absolute inset-y-0 right-0 flex items-center pr-16 cursor-pointer"
             aria-label="{{ 'general.search.submit' | t }}"
           >
             {{ 'search-dialog-icon.svg' | inline_asset_content }}
@@ -39,19 +39,19 @@
       </form>
     </div>
   </div>
-  <div class="max-w-[1366px] mx-auto pb-[32px] mt-[32px] border-t border-[#E0E0E0] sm:p-6 w-full">
+  <div class="max-w-container mx-auto pb-32 mt-32 border-t border-[#E0E0E0] sm:p-24 w-full">
     {% paginate search.results by 24 %}
-      <div class="max-w-[1046px] mx-auto 2xl:max-w-[1380px] w-full">
+      <div class="max-w-content mx-auto 2xl:max-w-container w-full">
         {%- if search.performed and search.results.size > 0 -%}
           {% render 'filter-bar', request: request, results: search, paginate: paginate %}
         {%- endif -%}
 
         {%- if search.performed -%}
           {%- if search.results.size == 0 -%}
-            <div class="mt-2 text-xs">{{ 'general.search.no_results' | t: terms: terms }}</div>
+            <div class="mt-8 text-body-medium">{{ 'general.search.no_results' | t: terms: terms }}</div>
           {%- else -%}
-            <div id="results" class="flex w-full flex-col gap-8">
-              <div class="grid grid-cols-2  gap-x-[16px] gap-y-[24px] md:grid-cols-3 lg:grid-cols-4">
+            <div id="results" class="flex w-full flex-col gap-32">
+              <div class="grid grid-cols-2  gap-x-16 gap-y-24 md:grid-cols-3 lg:grid-cols-4">
                 {%- for item in search.results -%}
                   {%- case item.object_type -%}
                     {%- when 'product' -%}

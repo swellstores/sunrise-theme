@@ -1,17 +1,17 @@
 {%- if product.recommendations.size > 0 -%}
-  <div class="bg-{{section.settings.color_scheme}} max-w-[1366px] mx-auto p-6">
-    <div class="max-w-[1046px] mx-auto 2xl:max-w-[1380px] w-full">
-      <div class="flex flex-col gap-[48px]">
+  <div class="bg-{{section.settings.color_scheme}} max-w-container mx-auto p-24">
+    <div class="max-w-content mx-auto 2xl:max-w-container w-full">
+      <div class="flex flex-col gap-48">
         {%- if section.settings.heading != blank -%}
           <h2 class="font-display text-headline-small">
             {{ section.settings.heading }}
           </h2>
         {%- endif -%}
 
-        <div class="flex flex-col gap-8">
-          <div class="grid grid-cols-2 gap-x-[16px] gap-y-[24px] {% if section.settings.limit <= 2 %} lg:grid-cols-2 {% else %} lg:grid-cols-4 {% endif %}">
+        <div class="flex flex-col gap-32">
+          <div class="grid grid-cols-2 gap-x-16 gap-y-24 {% if section.settings.limit <= 2 %} lg:grid-cols-2 {% else %} lg:grid-cols-4 {% endif %}">
             {%- for recommended_product in product.recommendations limit: section.settings.limit -%}
-              <div class="flex flex-col gap-[8px]">
+              <div class="flex flex-col gap-8">
                 {% render 'product-card', product: recommended_product, color_scheme: section.settings.color_scheme %}
               </div>
             {%- endfor -%}

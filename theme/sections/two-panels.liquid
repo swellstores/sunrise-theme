@@ -7,31 +7,31 @@
 
 {%- liquid
   assign color_scheme = section.settings.color_scheme
-  assign vertical_padding = section.settings.vertical_padding
-  assign horizontal_padding = section.settings.horizontal_padding
-  assign gap = section.settings.gap
+  assign vertical_padding = section.settings.vertical_padding | times: 0.1 | round: 1
+  assign horizontal_padding = section.settings.horizontal_padding | times: 0.1 | round: 1
+  assign gap = section.settings.gap | times: 0.1 | round: 1
 -%}
 
 {% style %}
   .container-padding-{{ section.id }} {
-    padding: {{ vertical_padding }}px {{ horizontal_padding }}px;
+    padding: {{ vertical_padding }}rem {{ horizontal_padding }}rem;
   }
 
   .section-gap-{{ section.id }} {
-    gap: {{ gap }}px;
+    gap: {{ gap }}rem;
   }
 
   {% for block in section.blocks %}
     {% if block.type == 'content' %}
     .content-padding-{{ section.id }}-{{ block.id }} {
-      padding: {{ block.settings.section_padding }}px;
+      padding: {{ block.settings.section_padding | times: 0.1 | round: 1 }}rem;
     }
     {% endif %}
   {% endfor %}
 {% endstyle %}
 
 <div class="container-padding-{{ section.id }} bg-{{ color_scheme }}">
-  <div class="mx-auto grid grid-cols-2 section-gap-{{ section.id }} min-h-[200px]">
+  <div class="mx-auto grid grid-cols-2 section-gap-{{ section.id }} min-h-200">
     {%- for block in section.blocks -%}
       {%- case block.type -%}
         {%- when 'image' -%}
@@ -51,7 +51,7 @@
               %}
             {%- else -%}
               <div class="bg-{{ color_scheme }} w-full h-full">
-                {{ 'detailed-apparel-1' | placeholder_svg_tag: 'w-full h-full object-cover p-12' }}
+                {{ 'detailed-apparel-1' | placeholder_svg_tag: 'w-full h-full object-cover p-48' }}
               </div>
             {%- endif -%}
 
@@ -63,8 +63,8 @@
           {% comment %} Content Column {% endcomment %}
           <div class="flex items-center">
             <div class="w-full">
-              <div class="w-full flex flex-col gap-8 bg-{{ block.settings.color_scheme }} text-{{ block.settings.color_scheme }} content-padding-{{ section.id }}-{{ block.id }}">
-                <div class="flex flex-col gap-[8px] text-{{ block.settings.text_alignment }}">
+              <div class="w-full flex flex-col gap-32 bg-{{ block.settings.color_scheme }} text-{{ block.settings.color_scheme }} content-padding-{{ section.id }}-{{ block.id }}">
+                <div class="flex flex-col gap-8 text-{{ block.settings.text_alignment }}">
                   {%- if block.settings.pre_heading != blank -%}
                     <div class="font-display font-pre-heading text-pre-heading">
                       {{ block.settings.pre_heading | inline_editable: 'pre_heading' }}
@@ -85,7 +85,7 @@
                 </div>
 
                 {%- if block.settings.button_text != blank and block.settings.button_link != blank -%}
-                  <div class="flex mt-[19px] {% if block.settings.text_alignment == 'center' %}justify-center{% elsif block.settings.text_alignment == 'right' %}justify-end{% endif %}">
+                  <div class="flex mt-20 {% if block.settings.text_alignment == 'center' %}justify-center{% elsif block.settings.text_alignment == 'right' %}justify-end{% endif %}">
                     {% render 'button',
                       text: block.settings.button_text,
                       href: block.settings.button_link,

@@ -1,18 +1,21 @@
 {%- liquid
-  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
-  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+  assign color_scheme = section.settings.color_scheme
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
 -%}
 
 {% style %}
   .responsive-padding-{{ section.id }} {
-    padding-top: {{ reduced_padding_top }}px;
-    padding-bottom: {{ reduced_padding_bottom }}px;
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
   }
 
   @media (min-width: 1024px) {
     .responsive-padding-{{ section.id }} {
-      padding-top: {{ section.settings.top_padding }}px;
-      padding-bottom: {{ section.settings.bottom_padding }}px;
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
     }
   }
 {% endstyle %}
@@ -21,31 +24,31 @@
   <div
     class="
             relative isolate
-            md:p-35
+            md:p-140
             {% if section.settings.layout == 'section' %}
               max-w-screen-lg mx-auto bg-{{ section.settings.container_color_scheme }}
             {% elsif section.settings.layout == 'none' %}
               w-full
             {% endif %}
-             pl-[24px]
-             pr-[24px]
-             pt-[64px]
-             pb-[64px]
-             lg:pl-[160px]
-             lg:pr-[160px]
-             lg:pt-[96px]
-             lg:pb-[96px]
+             pl-24
+             pr-24
+             pt-64
+             pb-64
+             lg:pl-160
+             lg:pr-160
+             lg:pt-96
+             lg:pb-96
       responsive-padding-{{ section.id }}
     "
   >
     <div class="section-{{ section.id }}-padding w-full">
-      <div class="{% if section.settings.image == blank %} max-w-[617px] mx-auto {% else %} w-full {% endif %}">
+      <div class="{% if section.settings.image == blank %} max-w-620 mx-auto {% else %} w-full {% endif %}">
         <div
           class="
             items-center
             grid grid-cols-1
             {% if section.settings.image != blank %}
-             md:grid-cols-2 {% endif %} gap-10
+             md:grid-cols-2 {% endif %} gap-40
           "
         >
           {%- if section.settings.desktop_layout == 'image_first' -%}
@@ -94,10 +97,19 @@
               </div>
             {% endif %}
 
-            <div class="flex flex-col gap-[24px] 
-                        {% if section.settings.layout == 'section' %}text-{{ section.settings.container_color_scheme }}
-                        {% else %} text-{{ section.settings.color_scheme }} {% endif %}">
-              <div class="text-{{ section.settings.header_alignment | default: 'center' }} flex flex-col gap-[8px]">
+            <div
+              class="
+                flex
+                flex-col
+                gap-24
+                {% if section.settings.layout == 'section' %}
+                  text-{{ section.settings.container_color_scheme }}
+                {% else %}
+                  text-{{ section.settings.color_scheme }}
+                {% endif %}
+              "
+            >
+              <div class="text-{{ section.settings.header_alignment | default: 'center' }} flex flex-col gap-8">
                 {% if section.settings.pre_heading %}
                   <h2 class="font-display font-pre-heading text-pre-heading">
                     {{ section.settings.pre_heading }}
@@ -110,20 +122,30 @@
                 {% endif %}
                 {% if section.settings.text %}
                   <div class="formatted-text">
-                    <p class="font-display text-content>{{ section.settings.text }}</p>
+                    <p class="font-display text-content">
+                      {{ section.settings.text }}
+                    </p>
                   </div>
                 {% endif %}
               </div>
 
               <accordion-root
-                class="flex flex-col items-center justify-center 
-                       {% if section.settings.layout == 'row' or section.settings.layout == 'section' %}text-{{ section.settings.container_color_scheme }}
-                       {% else %} text-{{ section.settings.color_scheme }} {% endif %}"
+                class="
+                  flex
+                  flex-col
+                  items-center
+                  justify-center
+                  {% if section.settings.layout == 'row' or section.settings.layout == 'section' %}
+                    text-{{ section.settings.container_color_scheme }}
+                  {% else %}
+                    text-{{ section.settings.color_scheme }}
+                  {% endif %}
+                "
               >
-                <div class="flex flex-col {% if section.settings.layout == 'row' %}gap-[16px]{% endif %} w-full">
+                <div class="flex flex-col {% if section.settings.layout == 'row' %}gap-16{% endif %} w-full">
                   {%- for block in section.blocks -%}
                     {%- if block.type == 'collapsible_row' -%}
-                      <div class="w-full overflow-hidden {% if section.settings.layout == 'row' %} bg-{{ section.settings.container_color_scheme }}{% endif %} border-[#F5F5F5] border rounded-[4px] p-[16px]">
+                      <div class="w-full overflow-hidden {% if section.settings.layout == 'row' %} bg-{{ section.settings.container_color_scheme }}{% endif %} border-[#F5F5F5] border rounded-4 p-16">
                         <accordion-trigger
                           role="button"
                           aria-expanded="{% if section.settings.open_first_collapsible_row and forloop.first %}true{% else %}false{% endif %}"
@@ -134,15 +156,15 @@
                           <ion-icon
                             name="chevron-down-outline"
                             aria-label="{{ 'general.accordion.toggle' | t }}"
-                            class="{% if block.settings.heading_size == 'small' %}h-4 w-4{% else %}h-8 w-8{% endif %} transition-transform"
+                            class="{% if block.settings.heading_size == 'small' %}h-16 w-16{% else %}h-32 w-32{% endif %} transition-transform"
                           ></ion-icon>
                         </accordion-trigger>
                         <accordion-content
                           role="region"
-                          class="text-base grid grid-rows-[{% if section.settings.open_first_collapsible_row and forloop.first %}1fr{% else %}0fr{% endif %}] opacity-{% if section.settings.open_first_collapsible_row and forloop.first %}100{% else %}0{% endif %} overflow-hidden transition-all duration-300 ease-in-out"
+                          class="body-large grid grid-rows-[{% if section.settings.open_first_collapsible_row and forloop.first %}1fr{% else %}0fr{% endif %}] opacity-{% if section.settings.open_first_collapsible_row and forloop.first %}100{% else %}0{% endif %} overflow-hidden transition-all duration-300 ease-in-out"
                         >
                           <div class="overflow-hidden text-left text-content font-display">
-                            <div class="mt-[4px]">
+                            <div class="mt-4">
                               <span class="formatted-text">{{ block.settings.row_content }}</span>
                               {{ block.settings.page.content }}
                             </div>
@@ -155,10 +177,19 @@
               </accordion-root>
             </div>
           {%- else -%}
-            <div class="flex flex-col gap-[24px] 
-                        {% if section.settings.layout == 'section' %}text-{{ section.settings.container_color_scheme }}
-                        {% else %} text-{{ section.settings.color_scheme }} {% endif %}">
-              <div class="text-{{ section.settings.header_alignment | default: 'center' }} flex flex-col gap-[8px]">
+            <div
+              class="
+                flex
+                flex-col
+                gap-24
+                {% if section.settings.layout == 'section' %}
+                  text-{{ section.settings.container_color_scheme }}
+                {% else %}
+                  text-{{ section.settings.color_scheme }}
+                {% endif %}
+              "
+            >
+              <div class="text-{{ section.settings.header_alignment | default: 'center' }} flex flex-col gap-8">
                 {% if section.settings.pre_heading %}
                   <p class="font-display font-pre-heading text-pre-heading">
                     {{ section.settings.pre_heading }}
@@ -177,14 +208,22 @@
               </div>
 
               <accordion-root
-                class="flex flex-col items-center justify-center 
-                       {% if section.settings.layout == 'row' or section.settings.layout == 'section' %}text-{{ section.settings.container_color_scheme }}
-                       {% else %} text-{{ section.settings.color_scheme }} {% endif %}"
+                class="
+                  flex
+                  flex-col
+                  items-center
+                  justify-center
+                  {% if section.settings.layout == 'row' or section.settings.layout == 'section' %}
+                    text-{{ section.settings.container_color_scheme }}
+                  {% else %}
+                    text-{{ section.settings.color_scheme }}
+                  {% endif %}
+                "
               >
-                <div class="flex flex-col {% if section.settings.layout == 'row' %}gap-[16px]{% endif %} w-full">
+                <div class="flex flex-col {% if section.settings.layout == 'row' %}gap-16{% endif %} w-full">
                   {%- for block in section.blocks -%}
                     {%- if block.type == 'collapsible_row' -%}
-                      <div class="w-full overflow-hidden {% if section.settings.layout == 'row' %} bg-{{ section.settings.container_color_scheme }}{% endif %} border-[#F5F5F5] border rounded-[4px] p-[16px]">
+                      <div class="w-full overflow-hidden {% if section.settings.layout == 'row' %} bg-{{ section.settings.container_color_scheme }}{% endif %} border-[#F5F5F5] border rounded-4 p-16">
                         <accordion-trigger
                           role="button"
                           aria-expanded="{% if section.settings.open_first_collapsible_row and forloop.first %}true{% else %}false{% endif %}"
@@ -195,15 +234,15 @@
                           <ion-icon
                             name="chevron-down-outline"
                             aria-label="{{ 'general.accordion.toggle' | t }}"
-                            class="{% if block.settings.heading_size == 'small' %}h-4 w-4{% else %}h-8 w-8{% endif %} transition-transform"
+                            class="{% if block.settings.heading_size == 'small' %}h-16 w-16{% else %}h-32 w-32{% endif %} transition-transform"
                           ></ion-icon>
                         </accordion-trigger>
                         <accordion-content
                           role="region"
-                          class="text-base grid grid-rows-[{% if section.settings.open_first_collapsible_row and forloop.first %}1fr{% else %}0fr{% endif %}] opacity-{% if section.settings.open_first_collapsible_row and forloop.first %}100{% else %}0{% endif %} overflow-hidden transition-all duration-300 ease-in-out"
+                          class="body-large grid grid-rows-[{% if section.settings.open_first_collapsible_row and forloop.first %}1fr{% else %}0fr{% endif %}] opacity-{% if section.settings.open_first_collapsible_row and forloop.first %}100{% else %}0{% endif %} overflow-hidden transition-all duration-300 ease-in-out"
                         >
                           <div class="overflow-hidden text-left text-content font-display">
-                            <div class="mt-[4px]">
+                            <div class="mt-4">
                               <span class="formatted-text">{{ block.settings.row_content }}</span>
                               {{ block.settings.page.content }}
                             </div>

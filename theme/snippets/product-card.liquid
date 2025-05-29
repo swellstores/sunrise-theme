@@ -15,7 +15,7 @@
 {% assign title = product.name | default: product.title %}
 {% assign slug = product.slug | default: product.url %}
 
-<div class="group relative flex flex-col gap-3">
+<div class="group relative flex flex-col gap-12">
   <a href="{{ slug }}" class="relative w-full h-fit aspect-square">
     {% if featured_image != blank %}
       <img
@@ -40,11 +40,11 @@
       <div class="rounded w-full h-full absolute inset-0 bg-[#F5F5F5] border border-color-{{ color_scheme }}"></div>
     {% endif %}
   </a>
-  <div class="flex flex-col gap-1">
+  <div class="flex flex-col gap-4">
     <a href="{{ slug }}" class="text-body-small font-display">
       <h5>{{ title }}</h5>
     </a>
-    <div class="flex gap-2">
+    <div class="flex gap-8">
       <span class="text-body-medium font-display">
         {% if product.variants.size > 1 %}
           From {{ lowest_price }}

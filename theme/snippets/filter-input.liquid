@@ -2,10 +2,10 @@
 
 {% case filter.type %}
   {% when 'boolean' %}
-    <div class="flex items-center flex-nowrap h-[40px]">
+    <div class="flex items-center flex-nowrap h-40">
       <input
         type="checkbox"
-        class="size-5 mr-3 rounded border-gray-300"
+        class="size-20 mr-12 rounded border-gray-300"
         id="{{ filter.param_name }}"
         name="{{ filter.param_name }}"
         value="{{ filter.true_value.value }}"
@@ -20,10 +20,10 @@
     {% if option.active == false and option.count == 0 %}
       {% assign disabled = true %}
     {% endif %}
-    <label class="flex items-center flex-nowrap h-[40px]">
+    <label class="flex items-center flex-nowrap h-40">
       <input
         type="checkbox"
-        class="size-5 mr-3 rounded border-gray-300 text-orange-600  {% if disabled %}bg-gray-200{% endif %}"
+        class="size-20 mr-12 rounded border-gray-300 text-orange-600 {% if disabled %}bg-gray-200{% endif %}"
         name="{{ filter.param_name }}"
         value="{{ option.value }}"
         {% if disabled %}
@@ -42,22 +42,22 @@
     <div class="price-range-wrapper flex flex-col">
       <div
         class="
-          form_control relative flex justify-between text-[24px]
-          mb-[10px]
+          form_control relative flex justify-between text-24
+          mb-10
         "
       >
-        <div class="form_control_container min-w-[70px]">
+        <div class="form_control_container min-w-70">
           <span class="currency-label-from text-body-medium font-display">
             {{ 0 | money }}
           </span>
         </div>
-        <div class="form_control_container min-w-[70px] text-right">
+        <div class="form_control_container min-w-70 text-right">
           <span class="currency-label-to text-body-medium font-display">
             {{ filter.range_max | money }}
           </span>
         </div>
       </div>
-      <div class="sliders_control relative min-h-[12px]">
+      <div class="sliders_control relative min-h-12">
         <input
           class="fromSlider"
           type="range"
@@ -82,8 +82,8 @@
   .price-range-wrapper input[type='range']::-webkit-slider-thumb {
     -webkit-appearance: none;
     pointer-events: all;
-    width: 12px;
-    height: 12px;
+    width: 1.2rem;
+    height: 1.2rem;
     background-color: #3b0b93;
     border-radius: 50%;
     box-shadow: 0 0 0 1px #3b0b93;
@@ -93,8 +93,8 @@
   .price-range-wrapper input[type='range']::-moz-range-thumb {
     -webkit-appearance: none;
     pointer-events: all;
-    width: 12px;
-    height: 12px;
+    width: 1.2rem;
+    height: 1.2rem;
     background-color: #3b0b93;
     border-radius: 50%;
     box-shadow: 0 0 0 1px #3b0b93;
@@ -113,7 +113,7 @@
   .price-range-wrapper input[type='range'] {
     -webkit-appearance: none;
     appearance: none;
-    height: 2px;
+    height: 0.2rem;
     width: 100%;
     position: absolute;
     background-color: #3b0b93;

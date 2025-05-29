@@ -16,9 +16,9 @@
       class="
         relative w-full
            {% case section.settings.banner_height %}
-           {% when 'small' %} h-48 sm:min-h-48 sm:max-h-48
-           {% when 'medium' %} h-96 sm:min-h-96 sm:max-h-96
-           {% when 'large' %}h-[600px] sm:min-h-[600px] sm:max-h-[600px]
+           {% when 'small' %} h-192 sm:min-h-192 sm:max-h-192
+           {% when 'medium' %} h-384 sm:min-h-384 sm:max-h-384
+           {% when 'large' %}h-600 sm:min-h-600 sm:max-h-600
            {% when 'screen' %} h-screen
            {% else %} h-auto
          {% endcase %}
@@ -77,11 +77,11 @@
     ></div>
   </div>
   {%- if section.blocks.size > 0 -%}
-    <div class="absolute inset-0 w-full h-full pl-[24px] pr-[24px] lg:pl-[160px] lg:pr-[160px]">
+    <div class="absolute inset-0 w-full h-full pl-24 pr-24 lg:pl-160 lg:pr-160">
       <div class="max-w-container m-auto w-full h-full flex {{ content_alignment }}">
         <div
           class="
-            flex flex-col gap-[32px] max-w-[454px] p-6
+            flex flex-col gap-32 max-w-450 p-24
             {% if transparent %}bg-transparent text-{{ section.settings.color_scheme }} {% else %}bg-{{ content_color_scheme }} text-{{ content_color_scheme }} {% endif %}
             {% if content_alignment == 'items-center justify-start' %}
             {% elsif content_alignment == 'items-center justify-end' %}
@@ -94,13 +94,13 @@
             {% endcase %}
           "
           style="
-            {% if content_alignment contains 'items-start' %} padding-top: {{ section.settings.vertical_padding }}px; {% endif %}
-            {% if content_alignment contains 'items-end' %} padding-bottom: {{ section.settings.vertical_padding }}px; {% endif %}
-            {% if content_alignment contains 'justify-start' %} padding-left: {{ section.settings.horizontal_padding }}px; {% endif %}
-            {% if content_alignment contains 'justify-end' %} padding-right: {{ section.settings.horizontal_padding }}px; {% endif %}
+            {% if content_alignment contains 'items-start' %} padding-top: {{ section.settings.vertical_padding | times: 0.1 | round: 1 }}rem; {% endif %}
+            {% if content_alignment contains 'items-end' %} padding-bottom: {{ section.settings.vertical_padding | times: 0.1 | round: 1 }}rem; {% endif %}
+            {% if content_alignment contains 'justify-start' %} padding-left: {{ section.settings.horizontal_padding | times: 0.1 | round: 1 }}rem; {% endif %}
+            {% if content_alignment contains 'justify-end' %} padding-right: {{ section.settings.horizontal_padding | times: 0.1 | round: 1 }}rem; {% endif %}
           "
         >
-          <div class="flex flex-col gap-[8px]">
+          <div class="flex flex-col gap-8">
             {%- for block in section.blocks -%}
               {%- case block.type -%}
                 {%- when 'pre_heading' -%}

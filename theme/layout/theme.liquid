@@ -67,14 +67,11 @@
               --font-pre-heading-style: {{ settings.typography_pre_heading.style }};
               --font-pre-heading-weight: {{ settings.typography_pre_heading.weight }};
 
-
               --font-heading-family: {{ settings.typography_heading.family }}, {{ settings.typography_heading.fallback_families }};
               --font-heading-style: {{ settings.typography_heading.style }};
               --font-heading-weight: {{ settings.typography_heading.weight }};
 
-              --font-body-scale: {{ settings.body_scale | divided_by: 100.0 }};
-              --font-pre-heading-scale: {{ settings.pre_heading_scale | times: 1.0 | divided_by: settings.body_scale }};
-              --font-heading-scale: {{ settings.heading_scale | times: 1.0 | divided_by: settings.body_scale }};
+              --font-scale: {{ settings.typography_scale | divided_by: 100.0 }}
             }
     {% endstyle %}
   </head>

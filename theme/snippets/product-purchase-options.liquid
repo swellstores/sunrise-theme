@@ -12,8 +12,8 @@
   <product-purchase-options>
     <div
       id="product-price"
-      class="product-price text-title-medium font-display text-{{ color_scheme }} mb-[2px] mt-[2px]"
-      style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+      class="product-price text-title-medium font-display text-{{ color_scheme }} mb-2 mt-2"
+      style="margin-top: {{ block.settings.margin_top | times: 0.1 | round: 1 }}rem; margin-bottom: {{ block.settings.margin_bottom | times: 0.1 | round: 1 }}rem;"
       data-purchase-option-type="{{ purchase_option_type}}"
       data-purchase-option-plan="{{ purchase_option_plan }}"
     >
@@ -21,11 +21,11 @@
     </div>
   
   {%- if product.purchase_options.subscription -%}
-    <div role="group mt-2" class="flex flex-col gap-2 min-w-48 md:min-w-96 lg:min-w-120 xl:min-w-120 2xl:min-w-120">
+    <div role="group mt-8" class="flex flex-col gap-8 min-w-192 md:min-w-360">
       {%- if product.purchase_options.standard -%}
-        <div class="relative mb-2 block">
+        <div class="relative mb-8 block">
           <input id="standard" type="checkbox" name="purchase-option" value="standard" class="absolute inset-0 opacity-0" checked="checked">
-          <div id="standard-div" class="relative flex w-full cursor-pointer rounded border px-6 py-4 text-sm transition-all {{ active_border_class }}"
+          <div id="standard-div" class="relative flex w-full cursor-pointer rounded border px-24 py-16 text-body-large transition-all {{ active_border_class }}"
             data-active-border-class="{{ active_border_class }}" data-inactive-border-class="{{ inactive_border_class }}" data-price="{{ product.selected_or_first_available_variant.price | money }}"
           >
             <span>{{ 'sections.product.purchase.one_time' | t }}</span>
@@ -38,17 +38,17 @@
         </div>
       {%- endif -%}
       {%- if product.purchase_options.subscription -%}
-        <div class="relative mb-2 block">
+        <div class="relative mb-8 block">
           <input id="subscription" type="checkbox" name="purchase-option" value="subscription" class="absolute inset-0 opacity-0" {%- if purchase_option_type == 'subscription' -%}checked="checked"{%- endif -%}>
-          <div id="subscription-div" class="relative flex w-full cursor-pointer rounded border px-6 py-4 text-sm transition-all {%- if product.purchase_options.standard -%}{{ inactive_border_class }}{%- else -%}{{ active_border_class }}{%- endif -%}"
+          <div id="subscription-div" class="relative flex w-full cursor-pointer rounded border px-24 py-16 text-body-large transition-all {%- if product.purchase_options.standard -%}{{ inactive_border_class }}{%- else -%}{{ active_border_class }}{%- endif -%}"
             data-active-border-class="{{ active_border_class }}" data-inactive-border-class="{{ inactive_border_class }}"
           >
-            <div class="w-4 h-4 mr-2 mt-3">
-              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="vertical-align: -0.125em;-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" data-v-d8d66b18="" class="iconify icon:uil:sync w-4 h-4" data-icon="uil:sync"><path fill="currentColor" d="M19.91 15.51h-4.53a1 1 0 0 0 0 2h2.4A8 8 0 0 1 4 12a1 1 0 0 0-2 0a10 10 0 0 0 16.88 7.23V21a1 1 0 0 0 2 0v-4.5a1 1 0 0 0-.97-.99M12 2a10 10 0 0 0-6.88 2.77V3a1 1 0 0 0-2 0v4.5a1 1 0 0 0 1 1h4.5a1 1 0 0 0 0-2h-2.4A8 8 0 0 1 20 12a1 1 0 0 0 2 0A10 10 0 0 0 12 2"></path></svg>
+            <div class="w-16 h-16 mr-8 mt-12">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="vertical-align: -0.125em;-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24" data-v-d8d66b18="" class="iconify icon:uil:sync w-16 h-16" data-icon="uil:sync"><path fill="currentColor" d="M19.91 15.51h-4.53a1 1 0 0 0 0 2h2.4A8 8 0 0 1 4 12a1 1 0 0 0-2 0a10 10 0 0 0 16.88 7.23V21a1 1 0 0 0 2 0v-4.5a1 1 0 0 0-.97-.99M12 2a10 10 0 0 0-6.88 2.77V3a1 1 0 0 0-2 0v4.5a1 1 0 0 0 1 1h4.5a1 1 0 0 0 0-2h-2.4A8 8 0 0 1 20 12a1 1 0 0 0 2 0A10 10 0 0 0 12 2"></path></svg>
             </div>
             <select
               id="subscription-select"
-              class="border bg-gray-50 text-sm max-h-25vh w-full overflow-y-scroll rounded-md block pt-2.5 pb-2.5"
+              class="border bg-gray-50 text-body-large max-h-25vh w-full overflow-y-scroll rounded-md block pt-10 pb-10"
               value={{ product.purchase_options.subscription.plans[0] }}
             >
             {%- for plan in product.purchase_options.subscription.plans -%}
@@ -88,7 +88,7 @@
                    assign option_text = option_text | append: ' - ' | append: trial_text
                 endif
               -%}
-              <option id={{ plan.id }} role="option" value={{ plan.id }} data-price="{{ plan.price | money }}" class="mx-4 my-3 flex cursor-pointer items-center rounded-md p-2 transition duration-200 text-primary-med">
+              <option id={{ plan.id }} role="option" value={{ plan.id }} data-price="{{ plan.price | money }}" class="mx-16 my-12 flex cursor-pointer items-center rounded-md p-8 transition duration-200 text-primary-med">
                 {{ option_text }}
               </option>
             {%- endfor -%}

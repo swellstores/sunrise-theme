@@ -4,28 +4,30 @@
   assign gap = section.settings.gap
   assign mobile_layout = section.settings.mobile_layout
 
-  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
-  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
 -%}
 
 {% style %}
   .responsive-padding-{{ section.id }} {
-    padding-top: {{ reduced_padding_top }}px;
-    padding-bottom: {{ reduced_padding_bottom }}px;
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
   }
 
   @media (min-width: 1024px) {
     .responsive-padding-{{ section.id }} {
-      padding-top: {{ section.settings.top_padding }}px;
-      padding-bottom: {{ section.settings.bottom_padding }}px;
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
     }
   }
 {% endstyle %}
 
 <div
-  class="pl-[24px] pr-[24px] lg:px-[160px] lg:py-[96px] bg-{{ color_scheme }} text-{{ color_scheme }} responsive-padding-{{ section.id }}"
+  class="pl-24 pr-24 lg:px-160 lg:py-96 bg-{{ color_scheme }} text-{{ color_scheme }} responsive-padding-{{ section.id }}"
 >
-  <div class="flex flex-col gap-[8px]">
+  <div class="flex flex-col gap-8">
     {%- for block in section.blocks -%}
       {%- case block.type -%}
         {%- when 'pre_heading' -%}
@@ -40,7 +42,7 @@
         {%- when 'heading' -%}
           <h2
             class="
-              mb-[48px] font-display font-heading text-heading-{{ section.settings.heading_size | default: 'small' }}
+              mb-48 font-display font-heading text-heading-{{ section.settings.heading_size | default: 'small' }}
               text-{{ section.settings.header_alignment | default: 'left' }}
             "
           >

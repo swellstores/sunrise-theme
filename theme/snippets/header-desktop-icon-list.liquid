@@ -2,13 +2,13 @@
   assign cart_type = settings.cart_type
 -%}
 
-<div class="flex items-center justify-end gap-[16px] ">
+<div class="flex items-center justify-end gap-16 ">
   {%- render 'localization-form', mdHidden: true -%}
 
   {%- if shop.customer_accounts_enabled -%}
     <ul class="hidden sm:flex divide-x">
       {%- if customer -%}
-        <li class="px-2 uppercase text-label-large">
+        <li class="px-8 uppercase text-label-large">
           <a
             href="{{ routes.account_url }}"
             class="text-{{ color_scheme }}"
@@ -17,7 +17,7 @@
           </a>
         </li>
       {%- else -%}
-        <li class="px-2 uppercase text-label-large">
+        <li class="px-8 uppercase text-label-large">
           <a
             href="{{ routes.account_login_url }}"
             class="text-{{ color_scheme }}"
@@ -31,7 +31,7 @@
 
   <search-trigger
     type="button"
-    class="size-6 flex items-center justify-center cursor-pointer text-{{ color_scheme }}"
+    class="size-24 flex items-center justify-center cursor-pointer text-{{ color_scheme }}"
     aria-label="{{ 'general.search.store' | t: store_name: shop.name }}"
   >
     {{- 'search-icon.svg' | inline_asset_content -}}
@@ -39,23 +39,23 @@
   {% if cart_type == 'drawer' %}
     <cart-trigger
       role="button"
-      class="relative size-6 flex items-center justify-center text-{{ color_scheme }}"
+      class="relative size-24 flex items-center justify-center text-{{ color_scheme }}"
       aria-label="{{ 'sections.header.cart' | t }}"
     >
       {{- 'cart-icon-new.svg' | inline_asset_content -}}
       <div
-        class="absolute right-[-4px] top-[6px] flex h-[16px] w-[18px] items-center justify-center rounded-full bg-accent-{{ color_scheme }}"
+        class="absolute -right-4 top-6 flex h-18 w-18 items-center justify-center rounded-full bg-accent-{{ color_scheme }}"
       >
-        <cart-count class="font-display text-[10px] btn-primary-{{ color_scheme }}">{{ cart.item_count }}</cart-count>
+        <cart-count class="font-display text-label-small leading-[1.4rem] btn-primary-{{ color_scheme }}">{{ cart.item_count }}</cart-count>
       </div>
     </cart-trigger>
   {% else %}
-    <a href="{{ routes.cart_url }}" class="relative size-6 flex items-center justify-center text-{{ color_scheme }}">
+    <a href="{{ routes.cart_url }}" class="relative size-24 flex items-center justify-center text-{{ color_scheme }}">
       {{- 'cart-icon-new.svg' | inline_asset_content -}}
       <div
-        class="absolute right-[-4px] top-[6px] flex h-[16px] w-[18px] items-center justify-center rounded-full bg-accent-{{ color_scheme }}"
+        class="absolute -right-4 top-6 flex h-18 w-18 items-center justify-center rounded-full bg-accent-{{ color_scheme }}"
       >
-        <cart-count class="font-display text-[10px] btn-primary-{{ color_scheme }}">{{ cart.item_count }}</cart-count>
+        <cart-count class="font-display text-label-small leading-[1.4rem] btn-primary-{{ color_scheme }}">{{ cart.item_count }}</cart-count>
       </div>
     </a>
   {% endif %}

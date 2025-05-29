@@ -14,7 +14,7 @@
     href="{{ collection.url }}"
   {% endif %}
 >
-  <div class="{{ ratio_class }} mb-3 overflow-hidden group">
+  <div class="{{ ratio_class }} mb-12 overflow-hidden group">
     {% if collection.featured_image != blank %}
       {% render 'image',
         image: collection.featured_image,
@@ -32,7 +32,7 @@
     {% endif %}
   </div>
   {% if collection.title %}
-    <h3 class="font-display text-body-large inline-flex items-center gap-3 justify-{{ justify_text }}">
+    <h3 class="font-display text-body-large inline-flex items-center gap-12 justify-{{ justify_text }}">
       {{ collection.title | escape }}
     </h3>
   {% endif %}
