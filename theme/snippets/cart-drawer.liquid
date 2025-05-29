@@ -4,7 +4,7 @@
 -%}
 
 <cart-drawer-root
-  class="bg-{{ color_scheme }} text-{{ color_scheme }} fixed right-0 top-0 flex h-screen w-[340px] sm:w-[500px] translate-x-full flex-col overflow-y-auto bg-white transition-transform duration-300"
+  class="bg-{{ color_scheme }} text-{{ color_scheme }} fixed right-0 top-0 flex h-screen w-340 sm:w-500 translate-x-full flex-col overflow-y-auto bg-white transition-transform duration-300"
   style="z-index: 5000"
   tabindex="-1"
   aria-labelledby="cart-drawer"
@@ -13,9 +13,9 @@
   role="dialog"
   data-item-count="{{ cart.item_count }}"
 >
-  <div class="flex flex-col items-start justify-between pt-[16px] pl-[24px] pr-[24px]">
+  <div class="flex flex-col items-start justify-between pt-16 pl-24 pr-24">
     <div class="flex flex-row w-full justify-between">
-      <div class="flex flex-col gap-[8px]">
+      <div class="flex flex-col gap-8">
         <div class="text-headline-medium font-display">{{ 'sections.cart.title' | t }}</div>
 
         <cart-drawer-trigger
@@ -30,7 +30,7 @@
       <cart-drawer-trigger
         role="button"
         aria-controls="cartDrawer"
-        class="pt-[16px]"
+        class="pt-16"
       >
         {{- 'cross-icon.svg' | inline_asset_content -}}
       </cart-drawer-trigger>
@@ -38,22 +38,22 @@
   </div>
 
   <cart-drawer-content
-    class="flex h-full w-full flex-col gap-[32px] divide-y overflow-hidden overflow-y-scroll pl-[24px] pr-[24px] pt-4"
+    class="flex h-full w-full flex-col gap-32 divide-y overflow-hidden overflow-y-scroll pl-24 pr-24 pt-16"
   >
-    <div class="pt-[16px] {% if cart == empty %}hidden{% endif %}">
+    <div class="pt-16 {% if cart == empty %}hidden{% endif %}">
       <div class="flex justify-between items-center w-full">
         <span class="text-title-small font-display">{{ 'sections.cart.headings.product' | t }}</span>
         <span class="text-title-small font-display">{{ 'sections.cart.headings.total' | t }}</span>
       </div>
 
-      <div class="border-t border-color-{{ color_scheme }} w-full mt-[16px] mb-[0px]"></div>
+      <div class="border-t border-color-{{ color_scheme }} w-full mt-16 mb-0"></div>
     </div>
 
     <form
       action="{{ routes.cart_url }}"
       method="post"
       id="cart"
-      class="flex flex-col h-full border-none gap-[32px]"
+      class="flex flex-col h-full border-none gap-32"
     >
       {%- if cart != empty -%}
         {%- for item in cart.items -%}
@@ -61,7 +61,7 @@
         {%- endfor -%}
       {%- endif -%}
 
-      <div class="text-center flex-col items-center justify-center gap-[16px] flex-grow-0 h-full {% if cart == empty %}flex{% else %}hidden{% endif %}">
+      <div class="text-center flex-col items-center justify-center gap-16 flex-grow-0 h-full {% if cart == empty %}flex{% else %}hidden{% endif %}">
         <p class="text-body-large font-display">{{ 'sections.cart.empty' | t }}</p>
         <div class="inline-flex">
           {% assign continue_text = 'general.continue_shopping' | t %}
@@ -75,10 +75,10 @@
     </form>
   </cart-drawer-content>
 
-  <div class="flex flex-col gap-[32px] pl-[24px] pr-[24px] pb-[64px] {% if cart == empty %}hidden{% endif %}">
-    <div class="border-t border-color-{{ color_scheme }} w-full mt-[16px] mb-[0px]"></div>
+  <div class="flex flex-col gap-32 pl-24 pr-24 pb-64 {% if cart == empty %}hidden{% endif %}">
+    <div class="border-t border-color-{{ color_scheme }} w-full mt-16 mb-0"></div>
 
-    <div class="flex flex-col gap-[8px]">
+    <div class="flex flex-col gap-8">
       <div class="flex items-center justify-between">
         <h4 class="text-title-medium font-display">{{ 'sections.cart.estimated_total' | t }}</h4>
 
@@ -93,7 +93,7 @@
       </div>
     </div>
 
-    <div class="flex flex-col gap-[16px] {% if cart == empty %}hidden{% endif %}">
+    <div class="flex flex-col gap-16 {% if cart == empty %}hidden{% endif %}">
       {% assign view_text = 'sections.cart.view_cart' | t %}
       {% render 'button',
         text: view_text,

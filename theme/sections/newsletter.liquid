@@ -1,31 +1,33 @@
 {%- liquid
   assign color_scheme = section.settings.color_scheme | default: 'scheme-4'
-  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
-  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
 -%}
 
 {% style %}
   .responsive-padding-{{ section.id }} {
-    padding-top: {{ reduced_padding_top }}px;
-    padding-bottom: {{ reduced_padding_bottom }}px;
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
   }
 
   @media (min-width: 1024px) {
     .responsive-padding-{{ section.id }} {
-      padding-top: {{ section.settings.top_padding }}px;
-      padding-bottom: {{ section.settings.bottom_padding }}px;
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
     }
   }
 {% endstyle %}
 
 <div
-  class="bg-{{ color_scheme}} text-{{ color_scheme }} flex justify-center bg-[#FAF7FF] pt-[64px] pb-[64px] pl-[24px] pr-[24px] lg:p-[160px] responsive-padding-{{ section.id }}"
+  class="bg-{{ color_scheme}} text-{{ color_scheme }} flex justify-center bg-[#FAF7FF] pt-64 pb-64 pl-24 pr-24 lg:p-160 responsive-padding-{{ section.id }}"
 >
-  <div class="max-w-[1046px] flex flex-col justify-center items-center">
+  <div class="max-w-content flex flex-col justify-center items-center">
     {%- for block in section.blocks -%}
       {%- case block.type -%}
         {%- when 'heading' -%}
-          <h2 class="font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }} text-center mb-[8px]">
+          <h2 class="font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }} text-center mb-8">
             {{ block.settings.heading | inline_editable: 'heading' }}
           </h2>
         {%- when 'text' -%}
@@ -33,13 +35,13 @@
             {{ block.settings.text | inline_editable: 'text' }}
           </div>
         {%- when 'email_form' -%}
-          <div class="flex w-full pt-[32px]">
+          <div class="flex w-full pt-32">
             {% form 'customer'
               , class: 'newsletter-form w-full'
             %}
               <input type="hidden" name="contact[tags]" value="newsletter">
               <div class="flex gap-4 justify-center newsletter-form-container">
-                <div class="relative sm:min-w-96 w-full sm:w-[330px]">
+                <div class="relative sm:min-w-384 w-full sm:w-330">
                   {% assign email_text = 'sections.newsletter.email' | t %}
                   {%
                     render 'input',
@@ -53,7 +55,7 @@
                     placeholder: email_text,
                     autofocus: form.errors,
                     required: 'true',
-                    class: 'h-[48px]',
+                    class: 'h-48',
                     aria_required: 'true',
                     aria_invalid: form.errors
                   %}
@@ -66,10 +68,10 @@
                 %}
               </div>
               {%- if form.errors -%}
-                <div class="text-red-600 mt-2 text-xs">{{ form.errors | default_errors }}</div>
+                <div class="text-red-600 mt-8 text-body-medium">{{ form.errors | default_errors }}</div>
               {%- endif -%}
               {%- if form.posted_successfully? -%}
-                <div class="mt-2 text-green-600 text-xs">{{ 'sections.newsletter.success' | t }}</div>
+                <div class="mt-8 text-green-600 text-body-medium">{{ 'sections.newsletter.success' | t }}</div>
               {%- endif -%}
             {% endform %}
           </div>

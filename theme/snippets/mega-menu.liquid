@@ -24,13 +24,13 @@
       {% for j in (start_index..end_index) %}
         {% assign child_link = current_link.links[j] %}
         <div class="mega-menu-category">
-          <a href="{{ child_link.url }}" class="font-semibold text-sm hover:underline leading-[22px]">
+          <a href="{{ child_link.url }}" class="text-body-large font-semibold hover:underline">
             {{ child_link.title }}
           </a>
           {% if child_link.links.size > 0 %}
-            <div class="flex flex-col gap-4">
+            <div class="flex flex-col gap-16">
               {% for grandchild in child_link.links %}
-                <a href="{{ grandchild.url }}" class="hover:underline font-normal font-heading leading-[20px]">
+                <a href="{{ grandchild.url }}" class="text-body-medium hover:underline">
                   {{ grandchild.title }}
                 </a>
               {% endfor %}

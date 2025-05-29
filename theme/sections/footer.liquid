@@ -1,28 +1,30 @@
 {%- liquid
   assign color_scheme = section.settings.color_scheme
-  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
-  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
 -%}
 
 {% style %}
   .responsive-padding-{{ section.id }} {
-    padding-top: {{ reduced_padding_top }}px;
-    padding-bottom: {{ reduced_padding_bottom }}px;
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
   }
 
   @media (min-width: 1024px) {
     .responsive-padding-{{ section.id }} {
-      padding-top: {{ section.settings.top_padding }}px;
-      padding-bottom: {{ section.settings.bottom_padding }}px;
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
     }
   }
 {% endstyle %}
 
 <div
-  class="bg-{{ color_scheme }} bg-[#F5F5F5] pt-[64px] pb-[24px] pr-[44px] pl-[44px] md:pt-[96px] md:pb-[32px] responsive-padding-{{ section.id }}"
+  class="bg-{{ color_scheme }} bg-[#F5F5F5] pt-64 pb-24 pr-44 pl-44 md:pt-96 md:pb-32 responsive-padding-{{ section.id }}"
 >
-  <div class="max-w-[1046px] 2xl:max-w-[1380px] mx-auto">
-    <footer class="grid grid-cols-[repeat(auto-fit,_minmax(315px,_1fr))] gap-[32px] text-{{ color_scheme }}">
+  <div class="max-w-content 2xl:max-w-container mx-auto">
+    <footer class="grid grid-cols-[repeat(auto-fit,_minmax(31.5rem,_1fr))] gap-32 text-{{ color_scheme }}">
       {%- for block in section.blocks -%}
         {% if block.type == 'menu' %}
           {% assign menu = block.settings.menu %}
@@ -36,8 +38,8 @@
 
             {% if menu_has_sublinks %}
               {% for link in linklists[menu].links %}
-                <div class="flex flex-col gap-4">
-                  <div class="flex flex-col gap-[24px]">
+                <div class="flex flex-col gap-16">
+                  <div class="flex flex-col gap-24">
                     {%- if link.url == '#' -%}
                       <div class="font-display text-title-large">{{ link.title }}</div>
                     {%- else -%}
@@ -46,7 +48,7 @@
                       </a>
                     {%- endif -%}
                     {%- if link.links.size > 0 -%}
-                      <ul class="flex flex-col gap-[16px] text-body-large font-display text-secondary-{{ color_scheme }}">
+                      <ul class="flex flex-col gap-16 text-body-large font-display text-secondary-{{ color_scheme }}">
                         {%- for child_link in link.links -%}
                           <li>
                             <a href="{{ child_link.url }}" title="{{ child_link.title }}">
@@ -60,11 +62,11 @@
                 </div>
               {% endfor %}
             {% else %}
-              <div class="flex flex-col gap-4">
+              <div class="flex flex-col gap-16">
                 <div class="font-display text-title-large">
                   {{ block.settings.single_column_heading | default: 'Quick Links' }}
                 </div>
-                <ul class="flex flex-col gap-[16px] text-body-large font-display text-secondary-{{ color_scheme }}">
+                <ul class="flex flex-col gap-16 text-body-large font-display text-secondary-{{ color_scheme }}">
                   {% for link in linklists[menu].links %}
                     <li>
                       <a href="{{ link.url }}" title="{{ link.title }}">
@@ -78,13 +80,13 @@
           {% endif %}
         {% elsif block.type == 'brand_info' %}
           <div class="flex flex-col">
-            <div class="flex flex-col gap-[24px]">
+            <div class="flex flex-col gap-24">
               <h2 class="font-display text-title-large text-{{ color_scheme }}">{{ block.settings.footer_title }}</h2>
-              <div class="flex flex-col gap-[16px] text-body-large font-display text-secondary-{{ color_scheme }}">
+              <div class="flex flex-col gap-16 text-body-large font-display text-secondary-{{ color_scheme }}">
                 {{ block.settings.footer_text }}
               </div>
               {%- if block.settings.show_social_icons -%}
-                <div class="flex gap-4 pt-[16px] pb-[16px]">
+                <div class="flex gap-16 pt-16 pb-16">
                   {% render 'social-icon-list' %}
                 </div>
               {%- endif -%}
@@ -95,10 +97,10 @@
     </footer>
 
     {% if section.blocks != empty %}
-      <div class="border-t border-color-{{ color_scheme }} w-full mt-[32px] mb-[32px]"></div>
+      <div class="border-t border-color-{{ color_scheme }} w-full mt-32 mb-32"></div>
     {% endif %}
 
-    <div class="flex flex-col items-start gap-[8px]">
+    <div class="flex flex-col items-start gap-8">
       <div class="flex w-full justify-between">
         <a
           href="{{ routes.root_url }}"
@@ -112,7 +114,7 @@
             }}
           {%- else -%}
             <h1
-              class="flex items-center justify-center logo-text font-bold text-[22px] font-display text-{{ color_scheme }}"
+              class="flex items-center justify-center text-logo-text font-display text-{{ color_scheme }}"
             >
               {{ settings.logo_text | default: shop.name }}
             </h1>
@@ -123,7 +125,7 @@
       {%- render 'localization-form' -%}
 
       {% if section.settings.show_copyright %}
-        <div class="text-body-small text-secondary-{{ color_scheme }} font-display text-body-medium pt-[32px]">
+        <div class="text-body-small text-secondary-{{ color_scheme }} font-display text-body-medium pt-32">
           © {{ 'now' | date: '%Y' }}
           {{ shop.name -}}. <a href="https://www.swell.is">Powered by Swell</a>
         </div>

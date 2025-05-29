@@ -26,23 +26,25 @@
 </script>
 
 {%- liquid
-  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
-  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
 -%}
 
-{%- style -%}
+{% style %}
   .responsive-padding-{{ section.id }} {
-    padding-top: {{ reduced_padding_top }}px;
-    padding-bottom: {{ reduced_padding_bottom }}px;
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
   }
 
   @media (min-width: 1024px) {
     .responsive-padding-{{ section.id }} {
-      padding-top: {{ section.settings.top_padding }}px;
-      padding-bottom: {{ section.settings.bottom_padding }}px;
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
     }
   }
-{%- endstyle -%}
+{% endstyle %}
 
 <div class="relative responsive-padding-{{ section.id }}">
   {%- if navigation -%}
@@ -57,12 +59,12 @@
     loop="{{ loop }}"
     direction="horizontal"
     slides-per-view="1"
-    class="w-full h-[600px] 2xl:min-h-[800px] 2xl:max-h-[800px]"
+    class="w-full h-600 2xl:min-h-800 2xl:max-h-800"
     {%- if navigation -%}
       pagination="true"
       style="
         --swiper-pagination-color: var(--color-{{ color_scheme }}-text);
-        --swiper-pagination-bottom: 24px;
+        --swiper-pagination-bottom: 2.4rem;
         --swiper-pagination-bullet-inactive-color: white;
       "
     {%- endif -%}
@@ -98,7 +100,7 @@
             class="absolute inset-0 bg-black z-[10]"
             style="background-color: {{ overlay_color | color_to_hex }}; opacity: {{ opacity }};"
           ></div>
-          <div class="relative w-full h-[600px] sm:min-h-[600px] sm:max-h-[600px] 2xl:min-h-[800px] 2xl:max-h-[800px] overflow-hidden">
+          <div class="relative w-full h-600 sm:min-h-600 sm:max-h-600 2xl:min-h-800 2xl:max-h-800 overflow-hidden">
             {% if block.settings.image == blank %}
               {%
                 render 'image',
@@ -110,16 +112,16 @@
             {% endif %}
           </div>
         </div>
-        <div class="absolute inset-0 w-full h-full pl-[24px] pr-[24px] lg:pl-[160px] lg:pr-[160px]">
+        <div class="absolute inset-0 w-full h-full pl-24 pr-24 lg:pl-160 lg:pr-160">
           <div class="max-w-container m-auto w-full h-full flex {{ content_alignment }}">
             <div
               class="
-                flex flex-col gap-[32px] max-w-[454px] z-[10] text-{{ color_scheme }}
+                flex flex-col gap-32 max-w-450 z-[10] text-{{ color_scheme }}
                 {% if transparent %}bg-transparent {% else %}bg-{{ content_color_scheme }} text-{{ content_color_scheme }} {% endif %}
                 {% if content_alignment == 'items-center justify-start' %}
                 {% elsif content_alignment == 'items-center justify-end' %}
                 {% else %}
-                  sm:pr-[0px] lg:pr-[0px]
+                  sm:pr-0 lg:pr-0
                 {% endif %}
                 {% case text_alignment %}
                 {% when 'center' %} items-center
@@ -128,14 +130,14 @@
                 {% endcase %}
               "
               style="
-                {% if content_alignment contains 'items-start' %} padding-top: {{ block.settings.vertical_padding }}px; {% endif %}
-                {% if content_alignment contains 'items-end' %} padding-bottom: {{ block.settings.vertical_padding }}px; {% endif %}
+                {% if content_alignment contains 'items-start' %} padding-top: {{ block.settings.vertical_padding | times: 0.1 | round: 1 }}rem; {% endif %}
+                {% if content_alignment contains 'items-end' %} padding-bottom: {{ block.settings.vertical_padding | times: 0.1 | round: 1 }}rem; {% endif %}
               "
             >
               <div
                 class="
                   p-2
-                  flex flex-col gap-[8px]
+                  flex flex-col gap-8
                   {% case text_alignment %}
                   {% when 'center' %} items-center text-center
                   {% when 'right' %} items-end text-right

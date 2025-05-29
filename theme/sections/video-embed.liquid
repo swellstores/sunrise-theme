@@ -14,33 +14,35 @@
 %}
 
 {%- liquid
-  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
-  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
 -%}
 
 {% style %}
   .responsive-padding-{{ section.id }} {
-    padding-top: {{ reduced_padding_top }}px;
-    padding-bottom: {{ reduced_padding_bottom }}px;
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
   }
 
   @media (min-width: 1024px) {
     .responsive-padding-{{ section.id }} {
-      padding-top: {{ section.settings.top_padding }}px;
-      padding-bottom: {{ section.settings.bottom_padding }}px;
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
     }
   }
 {% endstyle %}
 
 <div
-  class="w-full h-full pt-[64px] pb-[64px] lg:pl-[96px] lg:pr-[96px] text-{{ text_alignment }} bg-{{ color_scheme }} text-{{ color_scheme }}  lg:pt-[160px] lg:pb-[160px] responsive-padding-{{ section.id }}"
+  class="w-full h-full pt-64 pb-64 lg:pl-96 lg:pr-96 text-{{ text_alignment }} bg-{{ color_scheme }} text-{{ color_scheme }} lg:pt-160 lg:pb-160 responsive-padding-{{ section.id }}"
   {% comment %}
-    style="padding-top: {{ section.settings.top_padding }}px; padding-bottom: {{ section.settings.bottom_padding }}px;"
+    style="padding-top: {{ section.settings.top_padding | times: 0.1 | round: 1 }}rem; padding-bottom: {{ section.settings.bottom_padding | times: 0.1 | round: 1 }}rem;"
   {% endcomment %}
 >
-  <div class="max-w-[1366px] 2xl:max-w-container mx-auto">
-    <div class="flex flex-col max-w-[1174px] mx-auto lg:h-[374px] lg:flex-row gap-[64px] {% if video_position == 'right' %} lg:flex-row-reverse {% endif %}">
-      <div class="flex items-center justify-center lg:w-[555px] aspect-video relative {% if grid_order %}order-last{% endif %}">
+  <div class="max-w-container 2xl:max-w-container mx-auto">
+    <div class="flex flex-col max-w-content mx-auto lg:h-384 lg:flex-row gap-64 {% if video_position == 'right' %} lg:flex-row-reverse {% endif %}">
+      <div class="flex items-center justify-center lg:w-550 aspect-video relative {% if grid_order %}order-last{% endif %}">
         {% if section.settings.cover_image %}
           <div class="absolute inset-0 z-10 cursor-pointer" onclick="this.style.display='none';">
             {% render 'image', image: section.settings.cover_image, alt: section.settings.image.alt | default: "Image banner", class: 'w-full h-full object-cover' %}
@@ -49,10 +51,10 @@
         {{ iframe }}
       </div>
       {%- if section.blocks.size >= 1 -%}
-        <div class="flex items-center justify-center flex-col max-w-555 lg:p-0 pl-[24px] pr-[24px]">
+        <div class="flex items-center justify-center flex-col max-w-555 lg:p-0 pl-24 pr-24">
           <div
             class="
-              flex flex-col gap-[32px]
+              flex flex-col gap-32
               {% case section.settings.text_alignment %}
               {% when 'center' %} items-center
               {% when 'right' %} items-end
@@ -60,7 +62,7 @@
               {% endcase %}
             "
           >
-            <div class="flex flex-col gap-[16px]">
+            <div class="flex flex-col gap-16">
               {%- for block in section.blocks -%}
                 {%- assign need_open_div = true -%}
                 {%- if forloop.index0 > 0 -%}
@@ -82,7 +84,7 @@
                     </p>
                   {%- when 'heading' -%}
                     {%- if need_open_div -%}
-                      <div class="flex flex-col gap-[4px]">
+                      <div class="flex flex-col gap-4">
                     {%- endif -%}
                       <h2 class="font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }}">
                           {{ block.settings.heading | inline_editable: 'heading' }}
@@ -92,7 +94,7 @@
                     {%- endif -%}
                   {%- when 'text' -%}
                     {%- if need_open_div -%}
-                      <div class="flex flex-col gap-[4px]">
+                      <div class="flex flex-col gap-4">
                     {%- endif -%}
                       <p class="font-display formatted-text text-content">
                         {{ block.settings.text | inline_editable: 'text' }}

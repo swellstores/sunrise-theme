@@ -2,10 +2,10 @@
   assign bg = bg | default: 'light'
 -%}
 
-<div role="status" class="w-4 h-4 items-center justify-center hidden">
+<div role="status" class="w-16 h-16 items-center justify-center hidden">
   <svg
     aria-hidden="true"
-    class="inline w-4 h-4 animate-spin {% if bg == 'light' %}text-white/10 fill-white{% else %} text-black/10 fill-black{% endif %}"
+    class="inline w-16 h-16 animate-spin {% if bg == 'light' %}text-white/10 fill-white{% else %} text-black/10 fill-black{% endif %}"
     viewBox="0 0 100 101"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"

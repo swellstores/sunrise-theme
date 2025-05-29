@@ -52,7 +52,7 @@ input[type="number"].number-input::-webkit-outer-spin-button {
   border: unset;
 
   width: 100%;
-  max-width: 400px;
+  max-width: 40rem;
   padding: 0.75rem;
   border: 1px solid rgba(0, 0, 0, 0.1);
 
@@ -118,8 +118,8 @@ input[type="number"].number-input::-webkit-outer-spin-button {
 
   ul,
   ol {
-    margin: 10px;
-    padding: 10px;
+    margin: 1rem;
+    padding: 1rem;
     padding-inline-start: 2.5rem;
     width: fit-content;
     > li {
@@ -138,38 +138,135 @@ input[type="number"].number-input::-webkit-outer-spin-button {
 
 /* heading styles */
 .text-heading-small {
-  font-size: 24px;
-  line-height: 32px;
+  font-size: calc(2.4rem * var(--font-scale));
+  line-height: calc(3.2rem * var(--font-scale));
   font-weight: 400;
 }
 
 .text-heading-medium {
-  font-size: 36px;
-  line-height: 44px;
+  font-size: calc(3.6rem * var(--font-scale));
+  line-height: calc(4.4rem * var(--font-scale));
   font-weight: 400;
 }
 
 .text-heading-large {
-  font-size: 48px;
-  line-height: 60px;
+  font-size: calc(4.8rem * var(--font-scale));
+  line-height: calc(6rem * var(--font-scale));
   font-weight: 400;
 }
 
 .text-heading-extra-large {
-  font-size: 60px;
-  line-height: 72px;
+  font-size: calc(6rem * var(--font-scale));
+  line-height: calc(7.2rem * var(--font-scale));
   font-weight: 400;
 }
 
 .text-pre-heading {
-  font-size: 14px;
-  line-height: 18px;
+  font-size: calc(1.4rem * var(--font-scale));
+  line-height: calc(1.8rem * var(--font-scale));
   font-weight: 400;
 }
 
+.text-display-large {
+  font-size: calc(6.4rem * var(--font-scale));
+  line-height: calc(7.2rem * var(--font-scale));
+  font-weight: 600;
+}
+
+.text-display-medium {
+  font-size: calc(4rem * var(--font-scale));
+  line-height: calc(5rem * var(--font-scale));
+  font-weight: 600;
+}
+
+.text-display-small {
+  font-size: calc(3.2rem * var(--font-scale));
+  line-height: calc(4rem * var(--font-scale));
+  font-weight: 600;
+}
+
+.text-headline-large {
+  font-size: calc(4rem * var(--font-scale));
+  line-height: calc(5rem * var(--font-scale));
+  font-weight: 600;
+}
+
+.text-headline-medium {
+  font-size: calc(3.2rem * var(--font-scale));
+  line-height: calc(4rem * var(--font-scale));
+  font-weight: 600;
+}
+
+.text-headline-small {
+  font-size: calc(2.4rem * var(--font-scale));
+  line-height: calc(3.6rem * var(--font-scale));
+  font-weight: 600;
+}
+
+/* content styles */
+.text-title-large {
+  font-size: calc(2.2rem * var(--font-scale));
+  line-height: calc(2.8rem * var(--font-scale));
+  font-weight: 500;
+}
+
+.text-title-medium {
+  font-size: calc(1.6rem * var(--font-scale));
+  line-height: calc(2.4rem * var(--font-scale));
+  font-weight: 500;
+}
+
+.text-title-small {
+  font-size: calc(1.4rem * var(--font-scale));
+  line-height: calc(2rem * var(--font-scale));
+  font-weight: 500;
+}
+
+.text-body-large {
+  font-size: calc(1.6rem * var(--font-scale));
+  line-height: calc(2.4rem * var(--font-scale));
+  font-weight: 400;
+}
+
+.text-body-medium {
+  font-size: calc(1.4rem * var(--font-scale));
+  line-height: calc(2rem * var(--font-scale));
+  font-weight: 400;
+}
+
+.text-body-small {
+  font-size: calc(1.2rem * var(--font-scale));
+  line-height: calc(1.6rem * var(--font-scale));
+  font-weight: 400;
+}
+
+.text-label-large {
+  font-size: calc(1.4rem * var(--font-scale));
+  line-height: calc(1.8rem * var(--font-scale));
+  font-weight: 500;
+}
+
+.text-label-medium {
+  font-size: calc(1.2rem * var(--font-scale));
+  line-height: calc(1.4rem * var(--font-scale));
+  font-weight: 500;
+}
+
+.text-label-small {
+  font-size: calc(1.1rem * var(--font-scale));
+  line-height: calc(1.4rem * var(--font-scale));
+  font-weight: 500;
+}
+
+.text-logo-text {
+  font-size: calc(2.2rem * var(--font-scale));
+  line-height: calc(3.3rem * var(--font-scale));
+  font-weight: 700;
+}
+
 .text-content {
-  font-size: 16px;
-  line-height: 24px;
+  font-size: calc(1.6rem * var(--font-scale));
+  line-height: calc(2.4rem * var(--font-scale));
   font-weight: 400;
 }
 

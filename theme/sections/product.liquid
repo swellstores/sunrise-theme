@@ -9,8 +9,10 @@
     assign auto_rotate_speed = section.settings.auto_rotate_speed | times: 1000
   endif
 
-  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
-  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
 
   assign media_urls = ''
   assign media_alts = ''
@@ -45,33 +47,33 @@
 
 {% style %}
   .responsive-padding-{{ section.id }} {
-    padding-top: {{ reduced_padding_top }}px;
-    padding-bottom: {{ reduced_padding_bottom }}px;
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
   }
 
   @media (min-width: 1024px) {
     .responsive-padding-{{ section.id }} {
-      padding-top: {{ section.settings.top_padding }}px;
-      padding-bottom: {{ section.settings.bottom_padding }}px;
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
     }
   }
 {% endstyle %}
 
 <div
-  class="text-{{ color_scheme }} max-w-[1366px] mx-auto lg:pl-[96px] lg:pr-[96px] lg:pt-[64px] lg:pb-[64px] bg-{{ color_scheme }} responsive-padding-{{ section.id }}"
+  class="text-{{ color_scheme }} max-w-container mx-auto lg:pl-96 lg:pr-96 lg:pt-64 lg:pb-64 bg-{{ color_scheme }} responsive-padding-{{ section.id }}"
 >
   <product-section>
   <div
     class="
       flex
       lg:grid
-      lg:gap-[44px]
-      2xl:gap-[64px]
+      lg:gap-44
+      2xl:gap-64
       desktop-media
       {%- if media_position == 'right' -%}
-        {{ ' lg:grid-cols-[minmax(0,292px)_minmax(0,748px)] 2xl:grid-cols-[minmax(0,362px)_minmax(0,748px)] flex-col-reverse' }}
+        {{ ' lg:grid-cols-[minmax(0,29.2rem)_minmax(0,74.8rem)] 2xl:grid-cols-[minmax(0,36.2rem)_minmax(0,74.8rem)] flex-col-reverse' }}
       {%- else -%}
-        {{ ' lg:grid-cols-[minmax(0,748px)_minmax(0,292px)] 2xl:grid-cols-[minmax(0,748px)_minmax(0,362px)] flex-col' }}
+        {{ ' lg:grid-cols-[minmax(0,74.8rem)_minmax(0,29.2rem)] 2xl:grid-cols-[minmax(0,74.8rem)_minmax(0,36.2rem)] flex-col' }}
       {%- endif -%}
     "
   >
@@ -90,10 +92,10 @@
         <div class="hidden sm:flex">
           {%- if desktop_layout != 'thumbnail_gallery' -%}
             {% comment %} 'stacked' or implicitly 'two_column' {% endcomment %}
-            <div class="gap-[16px] w-full">
-              <div class="grid grid-cols-2 gap-4 w-full">
+            <div class="gap-16 w-full">
+              <div class="grid grid-cols-2 gap-16 w-full">
                 {% for url in media_urls %}
-                  <div class="w-full h-auto {% if desktop_layout == 'stacked' and forloop.index0 == 0 %}col-span-2 pl-[100px] pr-[100px]{% endif %}">
+                  <div class="w-full h-auto {% if desktop_layout == 'stacked' and forloop.index0 == 0 %}col-span-2 pl-100 pr-100{% endif %}">
                     <img
                       width="100%"
                       height="100%"
@@ -109,7 +111,7 @@
         </div>
 
         <div class="{% if desktop_layout != 'thumbnail_gallery' %}sm:hidden{% endif %}">
-          <div class="sm:grid sm:gap-[16px] {% if section.settings.show_thumbnails %}sm:grid-cols-2{% else %}sm:grid-cols-1{% endif %}">
+          <div class="sm:grid sm:gap-16 {% if section.settings.show_thumbnails %}sm:grid-cols-2{% else %}sm:grid-cols-1{% endif %}">
             <div class="sm:flex-col sm:items-center {% if section.settings.show_thumbnails and section.settings.thumbnail_position == 'left' %}sm:order-2{% else %}sm:order-1{% endif %}">
               <swiper-container
                 role="region"
@@ -121,14 +123,14 @@
                 space-between="16"
                 pagination="true"
                 thumbs-swiper=".thumbnail-swiper"
-                style="--swiper-pagination-color: black; --swiper-pagination-bottom:0px;"
+                style="--swiper-pagination-color: black; --swiper-pagination-bottom:0;"
                 {%- if auto_rotate -%}
                   autoplay-delay="{{ auto_rotate_speed }}"
                   autoplay-pause-on-mouse-enter="true"
                 {%- endif -%}
               >
                 {% for url in media_urls %}
-                  <swiper-slide class="flex flex-col items-center text-center gap-[32px] pb-[32px]">
+                  <swiper-slide class="flex flex-col items-center text-center gap-32 pb-32">
                     <div class="aspect-square m-auto">
                       <div class="aspect-square w-full h-full">
                         <img
@@ -147,7 +149,7 @@
             </div>
 
             {%- if section.settings.show_thumbnails or section.settings.mobile_layout == 'show_mobile_thumbnails' -%}
-              {% liquid            
+              {% liquid
                 if section.settings.show_thumbnails
                   assign visibility_class = 'hidden sm:flex'
                   if section.settings.mobile_layout == 'show_mobile_thumbnails'
@@ -158,12 +160,12 @@
                 endif
               %}
               <div class="{{ visibility_class }} w-full sm:flex-col sm:items-center sm:justify-center {% if section.settings.thumbnail_position == 'right' %}sm:order-2{% else %}sm:order-1{% endif %}">
-                <div class="relative flex w-full sm:flex-col sm:gap-[8px] sm:max-h-[700px] sm:overflow-auto">
+                <div class="relative flex w-full sm:flex-col sm:gap-8 sm:max-h-700 sm:overflow-auto">
                   {%- if media_urls.size > 3 -%}
                     {% render 'mobile-thumbnail-arrows', color_scheme: color_scheme, border_radius: settings.border_radius %}
                   {%- endif -%}
                   <swiper-container
-                    class="thumbnail-swiper mt-4 w-full pr-[50px] pl-[50px]"
+                    class="thumbnail-swiper mt-4 w-full pr-50 pl-50"
                     slides-per-view="3"
                     space-between="10"
                     watch-slides-progress="true"
@@ -193,15 +195,15 @@
     </div>
 
     <div class="w-full flex">
-      <div class="flex flex-col gap-[24px] pt-[24px] pr-[24px] pl-[24px] lg:pt-0 lg:pr-0 lg:pl-0">
+      <div class="flex flex-col gap-24 pt-24 pr-24 pl-24 lg:pt-0 lg:pr-0 lg:pl-0">
         <div class="flex flex-col">
           {% for block in section.blocks %}
             {% case block.type %}
               {% when 'title' %}
                 {% if block.settings.show_title %}
                   <div
-                    class="text-title-large font-display text-{{ color_scheme }} mb-[2px] mt-[2px]"
-                    style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    class="text-title-large font-display text-{{ color_scheme }} mb-2 mt-2"
+                    style="margin-top: {{ block.settings.margin_top | times: 0.1 | round: 1 }}rem; margin-bottom: {{ block.settings.margin_bottom | times: 0.1 | round: 1 }}rem;"
                   >
                     {{ product.title }}
                   </div>
@@ -216,8 +218,8 @@
               {% when 'category' %}
                 {% if block.settings.show_category %}
                   <div
-                    class="vendor text-title-large font-display mb-[2px] mt-[2px]"
-                    style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    class="vendor text-title-large font-display mb-2 mt-2"
+                    style="margin-top: {{ block.settings.margin_top | times: 0.1 | round: 1 }}rem; margin-bottom: {{ block.settings.margin_bottom | times: 0.1 | round: 1 }}rem;"
                   >
                     {% if product.vendor == blank %}
                       No category set
@@ -230,8 +232,8 @@
                 {% if block.settings.show_sku %}
                   <div
                     id="product-sku"
-                    class="sku-span text-body-medium font-display mb-[4px] mt-[4px]"
-                    style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    class="sku-span text-body-medium font-display mb-4 mt-4"
+                    style="margin-top: {{ block.settings.margin_top | times: 0.1 | round: 1 }}rem; margin-bottom: {{ block.settings.margin_bottom | times: 0.1 | round: 1 }}rem;"
                   >
                     {% if product.sku != blank %}
                       {{ product.sku }}
@@ -242,8 +244,8 @@
                 {% if block.settings.show_quantity_selector %}
                   <div
                     id="quantity-selector-variant"
-                    class="mb-[14px] mt-[14px]"
-                    style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    class="mb-14 mt-14"
+                    style="margin-top: {{ block.settings.margin_top | times: 0.1 | round: 1 }}rem; margin-bottom: {{ block.settings.margin_bottom | times: 0.1 | round: 1 }}rem;"
                   >
                     {% render 'quantity-selector-variant',
                       product: product,
@@ -255,8 +257,8 @@
               {% when 'variant' %}
                 {% if block.settings.variant %}
                   <div id="variant-radio-root"
-                    class="variant-selection flex flex-col gap-[8px]"
-                    style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    class="variant-selection flex flex-col gap-8"
+                    style="margin-top: {{ block.settings.margin_top | times: 0.1 | round: 1 }}rem; margin-bottom: {{ block.settings.margin_bottom | times: 0.1 | round: 1 }}rem;"
                   >
                     {% render 'variant-radio',
                       product: product,
@@ -277,7 +279,7 @@
                     <div class="flex flex-col w-full" >
                       {%- if selected_or_first_available_variant.available -%}
                         {%- if settings.cart_type == 'drawer' -%}
-                          <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
+                          <div style="margin-top: {{ block.settings.margin_top | times: 0.1 | round: 1 }}rem; margin-bottom: {{ block.settings.margin_bottom | times: 0.1 | round: 1 }}rem;">
                             {% render 'cart-drawer-button',
                               variant: variant,
                               color_scheme: color_scheme,
@@ -298,8 +300,8 @@
                             <input type="hidden" name="option_values" data-product-options="{{ product.options_with_values | json | url_encode }}" value="{{ selected_or_first_available_variant.selected_option_values | join: ',' }}">
                             <input type="hidden" name="quantity" value="1">
                             <input type="hidden" name="purchase-option-type" value="{{ purchaseOptionType }}">
-                            <input type="hidden" name="purchase-option-plan" value="{{ purchaseOptionPlan }}">                   
-                            <div style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;">
+                            <input type="hidden" name="purchase-option-plan" value="{{ purchaseOptionPlan }}">
+                            <div style="margin-top: {{ block.settings.margin_top | times: 0.1 | round: 1 }}rem; margin-bottom: {{ block.settings.margin_bottom | times: 0.1 | round: 1 }}rem;">
                               {% render 'button',
                                 type: 'submit',
                                 text: block.settings.buy_button_text,
@@ -318,8 +320,8 @@
               {% when 'description' %}
                 {% if block.settings.show_description %}
                   <div
-                    class="description font-display text-body-medium mb-[10px] mt-[10px]"
-                    style="margin-top: {{ block.settings.margin_top }}px; margin-bottom: {{ block.settings.margin_bottom }}px;"
+                    class="description font-display text-body-medium mb-10 mt-10"
+                    style="margin-top: {{ block.settings.margin_top | times: 0.1 | round: 1 }}rem; margin-bottom: {{ block.settings.margin_bottom | times: 0.1 | round: 1 }}rem;"
                   >
                     {% if product.description != blank %}
                       {{ product.description }}
@@ -330,10 +332,10 @@
                 {% endif %}
               {% when 'accordion_item' %}
                 {% if forloop.index0 < 1 or section.blocks[forloop.index0 - 1] != 'accordion_item' %}
-                  <accordion-root class="flex-col items-center justify-center gap-[16px]">
-                    <div class="flex flex-col gap-[16px]">
+                  <accordion-root class="flex-col items-center justify-center gap-16">
+                    <div class="flex flex-col gap-16">
                 {% endif %}
-                      <div class="w-full overflow-hidden border-[#F5F5F5] border rounded-[4px] p-[16px]">
+                      <div class="w-full overflow-hidden border-[#F5F5F5] border rounded-4 p-16">
                         <accordion-trigger
                           role="button"
                           aria-expanded="false"
@@ -349,7 +351,7 @@
                         </accordion-trigger>
                         <accordion-content
                           role="region"
-                          class="text-base grid grid-rows-[0fr] opacity-0 overflow-hidden transition-all duration-300 ease-in-out"
+                          class="body-large grid grid-rows-[0fr] opacity-0 overflow-hidden transition-all duration-300 ease-in-out"
                         >
                           <div class="overflow-hidden text-left text-body-small font-display formatted-text">
                             {{ block.settings.content | inline_editable: 'content' }}
@@ -380,8 +382,8 @@
     @apply border border-solid;
     border-color: black;
     border-width: 1px;
-    border-radius: 4px;
-    padding: 6px;
+    border-radius: 0.4rem;
+    padding: 0.6rem;
   }
 {% endstyle %}
 

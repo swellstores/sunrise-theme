@@ -1,6 +1,6 @@
-<div class="blog-card flex flex-col gap-[16px] overflow-hidden">
+<div class="blog-card flex flex-col gap-16 overflow-hidden">
   {%- if show_image and article.image -%}
-    <div class="h-[250px] sm:w-full">
+    <div class="h-250 sm:w-full">
         <img
           src="{{ article.image | image_url }}"
           alt="{{ article.title }}"
@@ -10,8 +10,8 @@
         >
     </div>
   {%- endif -%}
-  <div class="flex flex-col gap-[16px]">
-    <div class="flex flex-col gap-[4px]">
+  <div class="flex flex-col gap-16">
+    <div class="flex flex-col gap-4">
       {%- if show_date -%}
         <p class="text-body-medium font-display text-secondary-{{ section.settings.color_scheme }}">
           {{ article.published_at | time_tag: format: 'date' }}

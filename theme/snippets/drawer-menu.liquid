@@ -11,17 +11,17 @@
 
 <desktop-drawer-menu-root class="absolute">
   <div
-    class="fixed top-0 left-0 h-full pl-[44px] pr-[16px] py-[24px] w-[340px] lg:w-[408px] bg-white z-[100] transform -translate-x-full transition-transform duration-300 ease-in-out shadow-lg"
+    class="fixed top-0 left-0 h-full pl-44 pr-16 py-24 w-340 lg:w-400 bg-white z-[100] transform -translate-x-full transition-transform duration-300 ease-in-out shadow-lg"
     aria-hidden="true"
     data-drawer-menu
   >
     <div class="flex flex-col h-full">
       <div class="menu-layer" data-layer="main">
-        <div class="flex items-center justify-between mb-[48px]" data-header>
-          <div class="flex items-center gap-2" data-header-left>
+        <div class="flex items-center justify-between mb-48" data-header>
+          <div class="flex items-center gap-8" data-header-left>
             <h2 class="font-normal">Menu</h2>
-            <button class="flex items-center gap-2 hidden" data-back-button>
-              <ion-icon name="chevron-back-outline" class="w-5 h-5 -ml-1"></ion-icon>
+            <button class="flex items-center gap-8 hidden" data-back-button>
+              <ion-icon name="chevron-back-outline" class="w-20 h-20 -ml-4"></ion-icon>
               <span>Back</span>
             </button>
           </div>
@@ -29,32 +29,32 @@
             aria-label="Close menu"
             data-drawer-close
           >
-            <ion-icon name="close-outline" class="w-6 h-6"></ion-icon>
+            <ion-icon name="close-outline" class="w-24 h-24"></ion-icon>
           </button>
         </div>
 
         <div class="flex-1" data-menu-content>
-          <ul class="flex flex-col gap-6">
+          <ul class="flex flex-col gap-24">
             {% for link in linklists[menu].links %}
               <li>
                 <div class="flex items-center justify-between">
                   <a href="{{ link.url }}" class="font-normal hover:underline flex-1">{{ link.title }}</a>
                   {% if link.links.size > 0 %}
                     <button
-                      class="ml-2 w-7 h-7 flex items-center justify-center"
+                      class="ml-8 w-28 h-28 flex items-center justify-center"
                       data-submenu-trigger
                       data-parent-title="{{ link.title }}"
                       data-parent-url="{{ link.url }}"
                       aria-label="Show {{ link.title }} submenu"
                     >
-                      <ion-icon name="chevron-forward-outline" class="w-5 h-5"></ion-icon>
+                      <ion-icon name="chevron-forward-outline" class="w-20 h-20"></ion-icon>
                     </button>
 
                     <template data-submenu-content>
                       <div>
-                        <a href="{{ link.url }}" class="block font-semibold leading-[26px]">{{ link.title }}</a>
+                        <a href="{{ link.url }}" class="block text-title-medium font-semibold">{{ link.title }}</a>
                       </div>
-                      <ul class="mt-[48px] flex flex-col gap-6">
+                      <ul class="mt-48 flex flex-col gap-24">
                         {% for child_link in link.links %}
                           <li>
                             <div class="flex items-center justify-between">
@@ -63,20 +63,20 @@
                               </a>
                               {% if child_link.links.size > 0 %}
                                 <button
-                                  class="ml-2 w-7 h-7 flex items-center justify-center"
+                                  class="ml-8 w-28 h-28 flex items-center justify-center"
                                   data-submenu-trigger
                                   data-parent-title="{{ child_link.title }}"
                                   data-parent-url="{{ child_link.url }}"
                                   aria-label="Show {{ child_link.title }} submenu"
                                 >
-                                  <ion-icon name="chevron-forward-outline" class="w-5 h-5"></ion-icon>
+                                  <ion-icon name="chevron-forward-outline" class="w-20 h-20"></ion-icon>
                                 </button>
 
                                 <template data-submenu-content>
                                   <div>
-                                    <a href="{{ child_link.url }}" class="block font-semibold leading-[26px]">{{ child_link.title }}</a>
+                                    <a href="{{ child_link.url }}" class="block text-title-medium font-semibold">{{ child_link.title }}</a>
                                   </div>
-                                  <ul class="mt-[48px] flex flex-col gap-6">
+                                  <ul class="mt-48 flex flex-col gap-24">
                                     {% for grandchild in child_link.links %}
                                       <li>
                                         <div class="flex items-center justify-between">

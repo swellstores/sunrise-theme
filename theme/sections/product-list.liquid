@@ -2,28 +2,30 @@
 
 {%- liquid
   assign color_scheme = section.settings.color_scheme
-  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
-  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
 -%}
 
 {% style %}
   .responsive-padding-{{ section.id }} {
-    padding-top: {{ reduced_padding_top }}px;
-    padding-bottom: {{ reduced_padding_bottom }}px;
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
   }
 
   @media (min-width: 1024px) {
     .responsive-padding-{{ section.id }} {
-      padding-top: {{ section.settings.top_padding }}px;
-      padding-bottom: {{ section.settings.bottom_padding }}px;
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
     }
   }
 {% endstyle %}
 
-<div class="bg-{{ color_scheme }} text-{{ color_scheme }} p-6 responsive-padding-{{ section.id }}">
+<div class="bg-{{ color_scheme }} text-{{ color_scheme }} p-24 responsive-padding-{{ section.id }}">
   {% paginate collection.products by 12 %}
-    <div class="max-w-[1046px] mx-auto 2xl:max-w-[1380px] w-full">
-      <div class="flex flex-col pb-4 text-left">
+    <div class="max-w-content mx-auto 2xl:max-w-container w-full">
+      <div class="flex flex-col pb-16 text-left">
         <h1 class="font-display text-headline-medium">{{ collection.title | default: 'Products' }}</h1>
       </div>
 
@@ -34,10 +36,10 @@
         color_scheme: color_scheme,
       %}
 
-      <div class="mt-[16px]">
-        <div class="flex gap-16">
-          <div id="results" class="flex w-full flex-col gap-8">
-            <div class="grid grid-cols-2 gap-x-[16px] gap-y-[24px] md:grid-cols-3 lg:grid-cols-4">
+      <div class="mt-16">
+        <div class="flex gap-64">
+          <div id="results" class="flex w-full flex-col gap-32">
+            <div class="grid grid-cols-2 gap-x-16 gap-y-24 md:grid-cols-3 lg:grid-cols-4">
               {% if collection.products.size > 0 %}
                 {% for product in collection.products %}
                   {% render 'product-card', product: product, color_scheme: color_scheme %}
