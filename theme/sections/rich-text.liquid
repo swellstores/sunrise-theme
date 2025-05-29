@@ -1,8 +1,10 @@
 {%- liquid
   assign color_scheme = section.settings.color_scheme
 
-  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
-  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
 
   assign content_alignment = section.settings.content_alignment
   if content_alignment == 'center'
@@ -15,31 +17,31 @@
 
   assign desktop_content_width = section.settings.desktop_content_width
   if desktop_content_width == 'medium'
-    assign content_width_class = 'max-w-[640px]'
+    assign content_width_class = 'max-w-640'
   elsif desktop_content_width == 'large'
-    assign content_width_class = 'max-w-[960px]'
+    assign content_width_class = 'max-w-960'
   else
-    assign content_width_class = 'max-w-[480px]'
+    assign content_width_class = 'max-w-480'
   endif
 -%}
 
 {% style %}
   .responsive-padding-{{ section.id }} {
-    padding-top: {{ reduced_padding_top }}px;
-    padding-bottom: {{ reduced_padding_bottom }}px;
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
   }
 
   @media (min-width: 1024px) {
     .responsive-padding-{{ section.id }} {
-      padding-top: {{ section.settings.top_padding }}px;
-      padding-bottom: {{ section.settings.bottom_padding }}px;
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
     }
   }
 {% endstyle %}
 
-<div class="bg-[#F5F5F5] bg-{{ color_scheme }} text-{{ color_scheme }} text-{{ section.settings.content_alignment }} pl-[24px] pr-[24px] pt-[64px] pb-[64px] lg:p-[160px] responsive-padding-{{ section.id }}">
-  <div class="flex flex-col justify-center gap-[32px] w-full">
-    <div class="flex flex-col gap-[4px] {{ align_items_class }}">
+<div class="bg-[#F5F5F5] bg-{{ color_scheme }} text-{{ color_scheme }} text-{{ section.settings.content_alignment }} pl-24 pr-24 pt-64 pb-64 lg:p-160 responsive-padding-{{ section.id }}">
+  <div class="flex flex-col justify-center gap-32 w-full">
+    <div class="flex flex-col gap-4 {{ align_items_class }}">
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'pre_heading' -%}
@@ -58,7 +60,7 @@
       {%- endfor -%}
     </div>
 
-    <div class="flex flex-col gap-[16px] {{ align_items_class }}">
+    <div class="flex flex-col gap-16 {{ align_items_class }}">
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'link' -%}

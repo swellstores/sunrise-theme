@@ -13,20 +13,22 @@
     assign text_uppercase = 'normal-case'
   endif
 
-  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
-  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
 -%}
 
 {% style %}
   .responsive-padding-{{ section.id }} {
-    padding-top: {{ reduced_padding_top }}px;
-    padding-bottom: {{ reduced_padding_bottom }}px;
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
   }
 
   @media (min-width: 1024px) {
     .responsive-padding-{{ section.id }} {
-      padding-top: {{ section.settings.top_padding }}px;
-      padding-bottom: {{ section.settings.bottom_padding }}px;
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
     }
   }
 
@@ -42,7 +44,7 @@
     display: flex;
     align-items: center;
     width: 100%;
-    height: 81px;
+    height: 8.1rem;
   }
 
   @media (min-width: 960px) {
@@ -56,7 +58,7 @@
     .header-container {
       display: flex;
       flex-direction: row;
-      height: 81px;
+      height: 8.1rem;
     }
     .header-inner {
       display: flex;
@@ -91,7 +93,7 @@
       order: 3;
       display: flex;
       justify-content: flex-end;
-      gap: 16px;
+      gap: 1.6rem;
     }
     /* Override any desktop positioning */
     .header-item--desktop-nav {
@@ -125,7 +127,7 @@
         display: grid;
         grid-template-columns: auto 1fr auto;
         width: 100%;
-        padding-bottom: 20px;
+        padding-bottom: 2rem;
       }
       {% if section.settings.logo_position == 'top center' %}
         .header-inner {
@@ -143,7 +145,7 @@
         .header-item--logo {
           display: flex;
           justify-content: center;
-          padding-bottom: 20px;
+          padding-bottom: 2rem;
           width: 100%;
         }
         .header-item--desktop-nav {
@@ -178,7 +180,7 @@
         .header-item--logo {
           display: flex;
           justify-content: flex-start;
-          padding-bottom: 20px;
+          padding-bottom: 2rem;
         }
         .header-item--desktop-nav {
           display: flex;
@@ -190,11 +192,11 @@
             flex-direction: row;
             align-items: center;
             padding-bottom: 0;
-            height: 97px;
+            height: 9.7rem;
           }
           .header-item--menu-trigger {
             order: 0;
-            margin-right: 32px;
+            margin-right: 3.2rem;
             display: flex;
             align-items: center;
             height: 100%;
@@ -211,7 +213,7 @@
           }
           {% if section.settings.menu != blank and linklists[section.settings.menu].links.size > 0 %}
             .header-item--logo {
-              margin-left: 32px;
+              margin-left: 3.2rem;
             }
           {% endif %}
           .header-item--icon-list {
@@ -233,7 +235,7 @@
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        height: 97px;
+        height: 9.7rem;
         position: relative;
       }
       .header-item--logo {
@@ -243,7 +245,7 @@
           flex: 0 0 auto;
           justify-content: flex-start;
           {% if section.settings.desktop_menu_type == 'drawer' and linklists[section.settings.menu].links.size > 0%}
-            margin-left: 32px;
+            margin-left: 3.2rem;
           {% endif %}
         {% else %}
           order: 2;
@@ -276,7 +278,7 @@
           flex: 0 1 auto;
           justify-content: flex-start;
           width: auto;
-          margin-left: 32px;
+          margin-left: 3.2rem;
         {% endif %}
       }
       .header-item--icon-list {
@@ -285,7 +287,7 @@
         justify-content: flex-end;
         align-items: center;
         order: 3;
-        gap: 16px;
+        gap: 1.6rem;
         margin-left: auto;
       }
       {% if section.settings.desktop_menu_type == 'drawer' %}
@@ -301,7 +303,7 @@
 
 <header class="relative {{ border_b }} text-{{ color_scheme }} bg-{{ color_scheme }} responsive-padding-{{ section.id }}">
   <div class="w-full h-full">
-    <div class="pl-[24px] pr-[24px] lg:px-[160px]">
+    <div class="pl-24 pr-24 lg:px-160">
       <div class="max-w-container mx-auto w-full h-full">
         <div class="header-container">
           <div class="header-inner">
@@ -310,7 +312,7 @@
               {% if section.settings.desktop_menu_type == 'drawer' %}
                 <div class="header-item header-item--menu-trigger flex">
               {% else %}
-                <div class="header-item header-item--menu-trigger flex min-[960px]:hidden">
+                <div class="header-item header-item--menu-trigger flex min-960:hidden">
               {% endif %}
                 <button
                   class="flex items-center justify-center h-full"
@@ -318,7 +320,7 @@
                   aria-label="Open menu"
                 >
                   <svg
-                    class="w-6 h-6"
+                    class="w-24 h-24"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -341,7 +343,7 @@
                 {% if section.settings.desktop_menu_type == 'mega'
                   or section.settings.desktop_menu_type == 'dropdown'
                 %}
-                  <div class="header-item header-item--desktop-nav hidden min-[960px]:flex items-center">
+                  <div class="header-item header-item--desktop-nav hidden min-960:flex items-center">
                     {%- render 'header-desktop-nav',
                       text_uppercase: text_uppercase,
                       color_scheme: color_scheme,
@@ -357,7 +359,7 @@
               {% if section.settings.desktop_menu_type == 'mega'
                 or section.settings.desktop_menu_type == 'dropdown'
               %}
-                <div class="header-item header-item--desktop-nav hidden min-[960px]:flex items-center">
+                <div class="header-item header-item--desktop-nav hidden min-960:flex items-center">
                   {%- render 'header-desktop-nav',
                     text_uppercase: text_uppercase,
                     color_scheme: color_scheme,
@@ -368,7 +370,7 @@
             {% endif %}
 
             <!-- Icon List -->
-            <div class="header-item header-item--icon-list flex items-center justify-end gap-[16px]">
+            <div class="header-item header-item--icon-list flex items-center justify-end gap-16">
               {%- render 'header-desktop-icon-list',
                 color_scheme: color_scheme,
                 show_language_selector: section.settings.show_language_selector,

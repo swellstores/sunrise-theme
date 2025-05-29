@@ -1,6 +1,6 @@
 #language-selector .icon-caret,
 #currency-selector .icon-caret {
-  width: 9px;
+  width: 0.9rem;
 }
 
 #language-selector[aria-expanded="true"] .icon-caret,

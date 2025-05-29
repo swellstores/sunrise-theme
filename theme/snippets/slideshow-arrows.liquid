@@ -8,12 +8,16 @@
    {% render 'slideshow-arrows', color_scheme: color_scheme, border_radius: settings.border_radius %}
 {% endcomment %}
 
+{% liquid
+  assign border_radius = settings.border_radius | default: 6 | times: 0.1 | round: 1
+%}
+
 <slideshow-button-prev
   role="button"
   aria-label="{{ 'sections.slideshow.previous' | t }}"
   type="button"
-  class="text-accent-{{ color_scheme }} group absolute left-[96px] top-1/2 flex h-11 w-12 -translate-y-1/2 items-center justify-center border-none transition-colors z-10 text-white"
-  style="border-radius: {{ border_radius | default: 6 }}px;"
+  class="text-accent-{{ color_scheme }} group absolute left-96 top-1/2 flex h-44 w-48 -translate-y-1/2 items-center justify-center border-none transition-colors z-10 text-white"
+  style="border-radius: {{ border_radius }}rem;"
 >
   {{- 'arrow-left-icon.svg' | inline_asset_content -}}
 </slideshow-button-prev>
@@ -21,8 +25,8 @@
   role="button"
   aria-label="{{ 'sections.slideshow.next' | t }}"
   type="button"
-  class="text-accent-{{ color_scheme }} group absolute right-[96px] top-1/2 flex h-11 w-12 -translate-y-1/2 items-center justify-center border-none transition-colors z-10 text-white"
-  style="border-radius: {{ border_radius | default: 6 }}px;"
+  class="text-accent-{{ color_scheme }} group absolute right-96 top-1/2 flex h-44 w-48 -translate-y-1/2 items-center justify-center border-none transition-colors z-10 text-white"
+  style="border-radius: {{ border_radius }}rem;"
 >
   {{- 'arrow-right-icon.svg' | inline_asset_content -}}
 </slideshow-button-next>

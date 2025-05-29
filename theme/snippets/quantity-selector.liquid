@@ -1,26 +1,26 @@
 {%- liquid
   assign size = size | default: 'sm'
-  assign border_radius = settings.border_radius | default: 6
+  assign border_radius = settings.border_radius | default: 6 | times: 0.1 | round: 1
 -%}
 
 <quantity-selector-root
-  class="quantity-selector-root quantity-selector-cart flex items-center gap-3"
+  class="quantity-selector-root quantity-selector-cart flex items-center gap-12"
   data-context="cart"
 >
   <div
-    class="grid {% if size == 'lg' %}max-w-40{% else %} max-w-[118px]{% endif %} grid-cols-3 rounded-[4px] border border-color-{{ color_scheme }}"
-    style="border-radius:{{ border_radius }}px"
+    class="grid {% if size == 'lg' %}max-w-160{% else %} max-w-120{% endif %} grid-cols-3 rounded-4 border border-color-{{ color_scheme }}"
+    style="border-radius:{{ border_radius }}rem"
   >
     <quantity-selector-decrement
       role="button"
-      class="flex items-center justify-center {% if size == 'lg' %}m-4{% else %}m-2{% endif %}"
+      class="flex items-center justify-center {% if size == 'lg' %}m-16{% else %}m-8{% endif %}"
       aria-label="{{ 'sections.product.quantity.decrement' | t }}"
     >
       <ion-icon name="remove-outline" aria-hidden="true"></ion-icon>
     </quantity-selector-decrement>
 
     <input
-      class="text-center text-xxs number-input border-color-{{ color_scheme }}"
+      class="text-center text-body-small number-input border-color-{{ color_scheme }}"
       type="number"
       data-line="{{ index }}"
       value="{{ item.quantity }}"
@@ -32,14 +32,14 @@
       {% endif %}
       step="{{ item.variant.quantity_rule.increment }}"
       aria-label="{{ 'sections.product.quantity.label' | t: product_name: item.product.title | escape }}"
-      style="border-radius:{{ border_radius }}px"
+      style="border-radius:{{ border_radius }}rem"
     >
 
     <quantity-selector-increment
       role="button"
-      class="flex items-center justify-center {% if size == 'lg' %}m-4{% else %}m-2{% endif %}"
+      class="flex items-center justify-center {% if size == 'lg' %}m-16{% else %}m-8{% endif %}"
       aria-label="{{ 'sections.product.quantity.increment' | t }}"
-      class="{% if size == 'lg' %}p-10{% endif %}"
+      class="{% if size == 'lg' %}p-40{% endif %}"
     >
       <ion-icon name="add-outline" aria-hidden="true"></ion-icon>
     </quantity-selector-increment>

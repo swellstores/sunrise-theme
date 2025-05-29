@@ -1,52 +1,54 @@
 {%- liquid
   assign color_scheme = section.settings.color_scheme
-  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
-  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
 -%}
 
 {% style %}
   .responsive-padding-{{ section.id }} {
-    padding-top: {{ reduced_padding_top }}px;
-    padding-bottom: {{ reduced_padding_bottom }}px;
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
   }
 
   @media (min-width: 1024px) {
     .responsive-padding-{{ section.id }} {
-      padding-top: {{ section.settings.top_padding }}px;
-      padding-bottom: {{ section.settings.bottom_padding }}px;
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
     }
   }
 {% endstyle %}
 
-<div class="bg-{{ color_scheme }} text-{{ color_scheme }} flex max-w-[1046px] flex-col pt-[16px] pb-[64px] pr-[32px] pl-[32px] gap-[24px] xl:pr-[0px] xl:pl-[0px] sm:flex-row sm:pt-[64px] sm:pb-[64px] mx-auto justify-center sm:gap-[32px] items-start responsive-padding-{{ section.id }}">
-  <a href="/account/" class="sm:hidden  font-display text-title-large">{{ 'customer.account.title' | t }}</a>
+<div class="bg-{{ color_scheme }} text-{{ color_scheme }} flex max-w-content flex-col pt-16 pb-64 pr-32 pl-32 gap-24 xl:pr-0 xl:pl-0 sm:flex-row sm:pt-64 sm:pb-64 mx-auto justify-center sm:gap-32 items-start responsive-padding-{{ section.id }}">
+  <a href="/account/" class="sm:hidden font-display text-title-large">{{ 'customer.account.title' | t }}</a>
 
-  <div class="flex flex-col items-start text-center w-[250px]">
+  <div class="flex flex-col items-start text-center w-250">
     <a
       href="/account"
-      class="border-l px-[8px] py-[4px] font-display text-title-small {% if request.path == '/account' %}text-{{ color_scheme }} border-color-{{ color_scheme }} {% else %}text-secondary-{{ color_scheme }} border-[#E0E0E0]{% endif %}"
+      class="border-l px-8 py-4 font-display text-title-small {% if request.path == '/account' %}text-{{ color_scheme }} border-color-{{ color_scheme }} {% else %}text-secondary-{{ color_scheme }} border-[#E0E0E0]{% endif %}"
     >
       {{ 'customer.account.my_orders' | t }}
     </a>
     <a
       href="/account/addresses"
-      class="border-l px-[8px] py-[4px] font-display text-title-small {% if request.path == '/account/addresses' %}text-{{ color_scheme }} border0color-{{ color_scheme }} {% else %}text-secondary-{{ color_scheme }} border-[#E0E0E0]{% endif %}"
+      class="border-l px-8 py-4 font-display text-title-small {% if request.path == '/account/addresses' %}text-{{ color_scheme }} border0color-{{ color_scheme }} {% else %}text-secondary-{{ color_scheme }} border-[#E0E0E0]{% endif %}"
     >
       {{ 'customer.account.address_book' | t }}
     </a>
 
     <a
       href="{{ routes.account_logout_url }}"
-      class="px-[8px] py-[4px] font-display text-title-small"
+      class="px-8 py-4 font-display text-title-small"
       >{{ 'customer.log_out' | t }}</a
     >
   </div>
   {%- paginate customer.addresses by 5 -%}
-    <div class="flex flex-col gap-[32px] w-full">
+    <div class="flex flex-col gap-32 w-full">
       <h2 class="font-display text-headline-medium">{{ 'customer.account.addresses' | t }}</h2>
 
-      <div class="flex flex-col gap-[32px]">
-        <ul id="saved-addresses" class="flex flex-col gap-[16px]">
+      <div class="flex flex-col gap-32">
+        <ul id="saved-addresses" class="flex flex-col gap-16">
           {%- for address in customer.addresses -%}
             <script type="application/json" id="address-data-{{ address.id }}">
               {{ address | json }}
@@ -60,7 +62,7 @@
                 {%- if address == customer.default_address -%}
                   <h2 class="font-display text-body-medium font-display font-bold">{{ 'customer.addresses.default' | t }}</h2>
                 {%- endif -%}
-                <div class="text-{{ color_scheme }} text-title-small font-display flex gap-[12px]">
+                <div class="text-{{ color_scheme }} text-title-small font-display flex gap-12">
                   <button
                     id="edit-button-{{ address.id }}"
                     class="edit-address-button"
@@ -94,18 +96,18 @@
             color_scheme: color_scheme
           %}
         </div>
-        <div id="new-address-form" class="hidden max-w-[500px] flex flex-col gap-[32px]">
+        <div id="new-address-form" class="hidden max-w-500 flex flex-col gap-32">
           <div class="flex justify-between items-end">
             <h2 class="font-display text-display-small ">{{ 'customer.addresses.new' | t }}</h2>
             <a
               href="/account/addresses"
-              class="text-body-medium font-display  underline"
+              class="text-body-medium font-display underline"
               >{{ 'customer.addresses.back' | t }}</a
             >
           </div>
           {%- form 'customer_address', customer.new_address -%}
-            <div class="mb-16 flex w-512 flex-col gap-4">
-              <div class="flex gap-[16px]">
+            <div class="flex flex-col w-512 mb-48 gap-16">
+              <div class="flex gap-16">
                 <div class="relative w-full">
                   {% assign first_name_text = 'customer.addresses.first_name' | t %}
                   {% render 'input',
@@ -168,21 +170,21 @@
                 %}
               </div>
               <div>
-                <label for="address[country]" class="block mb-2 text-sm font-medium text-gray-900">{{ 'customer.addresses.country' | t }}</label>
+                <label for="address[country]" class="block mb-8 text-body-medium font-medium text-gray-900">{{ 'customer.addresses.country' | t }}</label>
                 <select
                   id="address[country]"
                   name="address[country]"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-body-medium focus:ring-blue-500 focus:border-blue-500 block w-full p-10"
                 >
                   {{ all_country_option_tags }}
                 </select>
               </div>
               <div class="hidden">
-                <label for="address[province]" class="block mb-2 text-sm font-medium text-gray-900">{{ 'customer.addresses.province' | t }}</label>
+                <label for="address[province]" class="block mb-8 text-body-medium font-medium text-gray-900">{{ 'customer.addresses.province' | t }}</label>
                 <select
                   id="address[province]"
                   name="address[province]"
-                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-body-medium focus:ring-blue-500 focus:border-blue-500 block w-full p-10"
                 ></select>
               </div>
               <div class="relative">
@@ -209,7 +211,7 @@
                 {{ form.set_as_default_checkbox }}
                 <label class="">{{ 'customer.addresses.set_default' | t }}</label>
               </div>
-              <div class="flex gap-4 items-center justify-end">
+              <div class="flex gap-16 items-center justify-end">
                 {% assign cancel_text = 'customer.addresses.cancel' | t %}
                 {% render 'button',
                   type: 'button',
@@ -229,7 +231,7 @@
           {%- endform -%}
         </div>
         {%- for address in customer.addresses -%}
-          <div id="edit-address-form-{{ address.id }}" class="hidden max-w-[500px] flex flex-col gap-[32px]">
+          <div id="edit-address-form-{{ address.id }}" class="hidden max-w-500 flex flex-col gap-32">
             <div class="flex justify-between items-end">
               <h2 class="font-display text-display-small ">{{ 'customer.addresses.edit_address' | t }}</h2>
               <a
@@ -239,7 +241,7 @@
               >
             </div>
             {%- form 'customer_address', address, return_to: '/account/addresses' -%}
-              <div class="mb-16 flex w-512 flex-col gap-4">
+              <div class="flex flex-col w-512 mb-48 gap-16">
                 <div class="relative">
                   {% assign first_name_text = 'customer.addresses.first_name' | t %}
                   {% render 'input',
@@ -294,24 +296,24 @@
                   {% render 'input', type: 'text', name: 'address[city]', id: 'address[city]', value: form.city %}
                 </div>
                 <div>
-                  <label for="address[country]" class="block mb-2 text-sm font-medium text-gray-900">{{ 'customer.addresses.country' | t }}</label>
+                  <label for="address[country]" class="block mb-8 text-body-medium font-medium text-gray-900">{{ 'customer.addresses.country' | t }}</label>
                   <select
                     id="address[country]"
                     name="address[country]"
                     data-default="{{ form.country }}"
                     data-provinces="address[province]"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-body-medium focus:ring-blue-500 focus:border-blue-500 block w-full p-10"
                   >
                     {{ all_country_option_tags }}
                   </select>
                 </div>
                 <div class="hidden">
-                  <label for="address[province]" class="block mb-2 text-sm font-medium text-gray-900">{{ 'customer.addresses.province' | t }}</label>
+                  <label for="address[province]" class="block mb-8 text-body-medium font-medium text-gray-900">{{ 'customer.addresses.province' | t }}</label>
                   <select
                     id="address[province]"
                     name="address[province]"
                     data-default="{{ form.province }}"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-body-medium focus:ring-blue-500 focus:border-blue-500 block w-full p-10"
                   ></select>
                 </div>
                 <div class="relative">
@@ -347,7 +349,7 @@
                   >
                   <label for="address[default]" class="">{{ 'customer.addresses.set_default' | t }}</label>
                 </div>
-                <div class="flex gap-4 items-center">
+                <div class="flex gap-16 items-center">
                   {% assign cancel_text = 'customer.addresses.cancel' | t %}
                   {% render 'button',
                     type: 'button',
@@ -371,14 +373,14 @@
 
       {%- if paginate.pages > 1 -%}
         {%- if paginate.parts.size > 0 -%}
-          <nav class="inline-flex -space-x-px text-sm" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
+          <nav class="inline-flex -space-x-1 text-body-medium" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
             <ul role="list" class="inline-flex">
               {%- if paginate.previous -%}
                 <li>
                   <a
                     href="{{ paginate.previous.url }}"
                     aria-label="{{ 'general.pagination.previous' | t }}"
-                    class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700"
+                    class="flex items-center justify-center px-12 h-32 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700"
                   >
                     {{ 'general.pagination.previous' | t }}
                   </a>
@@ -391,7 +393,7 @@
                     <a
                       href="{{ part.url }}"
                       aria-label="{{ part.title }}"
-                      class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+                      class="flex items-center justify-center px-12 h-32 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
                     >
                       {{- part.title -}}
                     </a>
@@ -400,12 +402,12 @@
                       <span
                         aria-current="page"
                         aria-label="{{ part.title }}"
-                        class="flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700"
+                        class="flex items-center justify-center px-12 h-32 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700"
                       >
                         {{- part.title -}}
                       </span>
                     {%- else -%}
-                      <span class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
+                      <span class="flex items-center justify-center px-12 h-32 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
                         {{- part.title -}}
                       </span>
                     {%- endif -%}
@@ -418,7 +420,7 @@
                   <a
                     href="{{ paginate.next.url }}"
                     aria-label="{{ 'general.pagination.next' | t }}"
-                    class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700"
+                    class="flex items-center justify-center px-12 h-32 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700"
                   >
                     {{ 'general.pagination.next' | t }}
                   </a>

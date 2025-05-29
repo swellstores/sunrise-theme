@@ -11,27 +11,29 @@
   assign heading = section.settings.heading
   assign selected_collection = section.settings.collection
 
-  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
-  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
 -%}
 
 {% style %}
   .responsive-padding-{{ section.id }} {
-    padding-top: {{ reduced_padding_top }}px;
-    padding-bottom: {{ reduced_padding_bottom }}px;
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
   }
 
   @media (min-width: 1024px) {
     .responsive-padding-{{ section.id }} {
-      padding-top: {{ section.settings.top_padding }}px;
-      padding-bottom: {{ section.settings.bottom_padding }}px;
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
     }
   }
 {% endstyle %}
 
-<div class="pl-[24px] pr-[24px] lg:px-[160px] lg:py-[96px] bg-{{ color_scheme }} responsive-padding-{{ section.id }}">
-  <div class="flex flex-col gap-[48px] max-w-container w-full mx-auto">
-    <div class="text-start flex flex-col gap-[16px] text-{{ color_scheme }}">
+<div class="pl-24 pr-24 lg:px-160 lg:py-96 bg-{{ color_scheme }} responsive-padding-{{ section.id }}">
+  <div class="flex flex-col gap-48 max-w-container w-full mx-auto">
+    <div class="text-start flex flex-col gap-16 text-{{ color_scheme }}">
       {%- if pre_heading != blank -%}
         <p class="font-display font-pre-heading text-pre-heading text-{{ section.settings.header_alignment | default: 'left' }}">
           {{ pre_heading }}
@@ -47,7 +49,7 @@
     {% if selected_collection.products.size > 0 %}
       <div
         class="
-          grid gap-[16px]
+          grid gap-16
           items-stretch
           {% if section.settings.mobile_columns == '1 column' %} grid-cols-1
           {% else %} grid-cols-2
@@ -55,7 +57,7 @@
         "
       >
         {%- for product in selected_collection.products limit: section.settings.max_products -%}
-          <div class="flex flex-col gap-[8px]">
+          <div class="flex flex-col gap-8">
             <a href="{{ product.url }}">
               <div class="aspect-square w-full">
                 {%
@@ -66,14 +68,14 @@
             </a>
 
             <a href="{{ product.url }}">
-              <div class="flex flex-col gap-[2px] items-start text-{{ color_scheme }}">
+              <div class="flex flex-col gap-2 items-start text-{{ color_scheme }}">
                 <h3 class="font-display text-title-small">
                   {{ product.title }}
                 </h3>
 
                 <p class="font-display text-body-medium">
                   {%- if product.compare_at_price > product.price -%}
-                    <div class="font-display flex gap-[6px] text-body-medium flex-wrap">
+                    <div class="font-display flex gap-6 text-body-medium flex-wrap">
                       <span class="">
                         {{ product.price | money_with_currency }}
                       </span>
@@ -93,7 +95,7 @@
     {% else %}
       <div
         class="
-          grid gap-[16px]
+          grid gap-16
           items-stretch
           {% if section.settings.mobile_columns == '1 column' %} grid-cols-1
           {% else %} grid-cols-2
@@ -101,7 +103,7 @@
         "
       >
         {%- for i in (1..4) -%}
-          <div class="flex flex-col gap-[8px]">
+          <div class="flex flex-col gap-8">
             {% liquid
               assign ridx = forloop.rindex
               case ridx
@@ -116,10 +118,10 @@
               {{ placeholder_image | placeholder_svg_tag: 'placeholder-svg' }}
             </div>
 
-            <div class="flex flex-col items-start gap-[2px] text-{{ color_scheme }}">
+            <div class="flex flex-col items-start gap-2 text-{{ color_scheme }}">
               <h3 class="font-display text-title-small">{{ 'onboarding.product_title' | t }}</h3>
               <p class="font-display text-body-medium">
-                <div class="font-display flex gap-[6px] text-body-medium flex-wrap">
+                <div class="font-display flex gap-6 text-body-medium flex-wrap">
                   {{ 99 | money_with_currency }}
                 </div>
               </p>

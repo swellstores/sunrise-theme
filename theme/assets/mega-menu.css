@@ -9,9 +9,9 @@
 .standard-dropdown {
   position: absolute;
   top: 100%;
-  padding: 32px 16px;
-  transform: translateY(-22px);
-  left: -12px;
+  padding: 3.2rem 1.6rem;
+  transform: translateY(-2.2rem);
+  left: -1.2rem;
 }
 
 .mega-menu-wrapper {
@@ -44,7 +44,7 @@
   z-index: 30;
   height: auto;
   pointer-events: none;
-  transform: translateY(26px);
+  transform: translateY(2.6rem);
 }
 
 .mega-menus-container.logo-left {
@@ -53,19 +53,19 @@
 
 .mega-menus-container .mega-menu-wrapper .mega-menu-grid {
   width: 100%;
-  max-width: 1586px;
+  max-width: 158.6rem;
   margin: 0 auto;
-  padding: 24px 40px;
+  padding: 2.4rem 4rem;
   overflow: visible;
   z-index: 1001;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 3.2rem;
 }
 
 .mega-menus-container .mega-menu-wrapper .mega-menu-row {
   display: flex;
-  gap: 32px;
+  gap: 3.2rem;
   width: 100%;
 }
 
@@ -81,13 +81,13 @@
 .mega-menu-row.incomplete-row:not(:first-child) {
   justify-content: flex-start;
   margin-left: calc(
-    50% - ((220px * var(--max-items) + 32px * (var(--max-items) - 1)) / 2)
+    50% - ((22rem * var(--max-items) + 3.2rem * (var(--max-items) - 1)) / 2)
   );
 }
 
 .mega-menu-grid.align-left {
   justify-content: flex-start;
-  padding-left: 48px;
+  padding-left: 4.8rem;
   position: relative;
 }
 
@@ -101,20 +101,20 @@
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
-  width: 220px;
+  width: 22rem;
   flex-shrink: 0;
 }
 
 .mega-menu-category.auto-width {
   width: auto;
   min-width: auto;
-  max-width: 220px;
+  max-width: 22rem;
 }
 
 .mega-menu-category > a {
-  font-size: 15px;
+  font-size: 1.5rem;
   font-weight: 600;
-  margin-bottom: 16px;
+  margin-bottom: 1.6rem;
   transition: border-color 0.2s ease;
   width: 100%;
   text-align: left;
@@ -123,12 +123,12 @@
 .mega-menu-category .flex {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1.6rem;
   width: 100%;
 }
 
 .mega-menu-category .flex a {
-  font-size: 14px;
+  font-size: 1.4rem;
   transition: color 0.2s ease;
   text-align: left;
 }
@@ -155,7 +155,7 @@
 .nav-container {
   position: relative;
   width: 100%;
-  max-width: 1440px;
+  max-width: 144rem;
   margin: 0 auto;
   z-index: 40;
   height: 100%;
