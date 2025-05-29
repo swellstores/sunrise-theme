@@ -10,16 +10,16 @@
 
 {%- liquid
   assign color_scheme_id = section.settings.color_scheme.id
-  assign input_class = 'w-full text-base outline-none py-2'
+  assign input_class = 'w-full text-body-large outline-none py-8'
 -%}
 
 <search-dialog-root
   role="dialog"
   aria-hidden="true"
   tabindex="-1"
-  class="bg-{{ color_scheme_id }} absolute left-0 top-0 w-full py-[32px] px-[24px] flex overflow-hidden transition-all duration-300 ease-in-out pointer-events-none opacity-0 z-50"
+  class="bg-{{ color_scheme_id }} absolute left-0 top-0 w-full py-32 px-24 flex overflow-hidden transition-all duration-300 ease-in-out pointer-events-none opacity-0 z-50"
 >
-  <div class="mx-auto w-[1046px] flex">
+  <div class="mx-auto w-content flex">
     <div class="w-full">
       <form action="/search" method="get" role="search" class="relative w-full">
         {% render 'input',
@@ -33,17 +33,17 @@
         %}
         <button
           type="submit"
-          class="absolute inset-y-0 right-0 flex items-center pr-[16px] cursor-pointer"
+          class="absolute inset-y-0 right-0 flex items-center pr-16 cursor-pointer"
           aria-label="{{ 'general.search.submit' | t }}"
         >
           {{ 'search-dialog-icon.svg' | inline_asset_content }}
         </button>
       </form>
     </div>
-    <div class="flex items-center justify-center px-2 h-full">
+    <div class="flex items-center justify-center px-8 h-full">
       <search-trigger
         type="button"
-        class="size-6 flex items-center justify-center cursor-pointer"
+        class="size-24 flex items-center justify-center cursor-pointer"
         aria-label="{{ 'general.search.dismiss' | t }}"
       >
         <button type="button" class="close-button">

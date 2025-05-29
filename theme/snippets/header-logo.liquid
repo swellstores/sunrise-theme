@@ -1,6 +1,6 @@
 <a
   href="{{ routes.root_url }}"
-  class="flex h-[81px] sm:h-[97px] justify-center min-[960px]:justify-start !decoration-transparent"
+  class="flex h-80 sm:h-100 justify-center min-960:justify-start !decoration-transparent"
 >
   {%- if settings.logo != blank -%}
     {{
@@ -11,7 +11,7 @@
     }}
   {%- else -%}
     <h1
-      class="flex items-center justify-center logo-text font-bold text-[22px] font-display"
+      class="flex items-center justify-center font-display text-logo-text"
     >
       {{ settings.logo_text | default: store.name }}
     </h1>

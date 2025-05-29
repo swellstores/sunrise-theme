@@ -28,22 +28,24 @@
     endif
   endif
 
-  assign reduced_padding_top = section.settings.top_padding | times: 0.55 | round: 0
-  assign reduced_padding_bottom = section.settings.bottom_padding | times: 0.55 | round: 0
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
 
   assign visible_blocks = section.blocks.size
 -%}
 
 {%- style -%}
   .responsive-padding-{{ section.id }} {
-    padding-top: {{ reduced_padding_top }}px;
-    padding-bottom: {{ reduced_padding_bottom }}px;
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
   }
 
   @media (min-width: 1024px) {
     .responsive-padding-{{ section.id }} {
-      padding-top: {{ section.settings.top_padding }}px;
-      padding-bottom: {{ section.settings.bottom_padding }}px;
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
     }
   }
 
@@ -111,7 +113,7 @@
     <div class="absolute inset-0 flex h-full w-full {{ section.settings.content_alignment }}">
       <div
         class="
-          max-w-[454px] m-8 flex flex-col p-8 {% if transparent %}bg-transparent text-{{ color_scheme }} {% else %}bg-{{ content_color_scheme }} text-{{ content_color_scheme }} {% endif %} text-{{ content_text_alignment }}
+          max-w-450 m-32 flex flex-col p-32 {% if transparent %}bg-transparent text-{{ color_scheme }} {% else %}bg-{{ content_color_scheme }} text-{{ content_color_scheme }} {% endif %} text-{{ content_text_alignment }}
           {% case section.settings.content_text_alignment %}
           {% when 'center' %} items-center
           {% when 'right' %} items-end
@@ -119,7 +121,7 @@
           {% endcase %}
         "
       >
-        <div class="flex flex-col gap-[8px]">
+        <div class="flex flex-col gap-8">
           {%- for block in section.blocks -%}
             {%- case block.type -%}
               {%- when 'pre_heading' -%}
@@ -146,7 +148,7 @@
           {%- endif -%}
           {%- for block in section.blocks -%}
             {%- if block.settings.button_label != blank -%}
-              <div class="flex {% if visible_blocks > 1 %}mt-[32px]{% endif %}">
+              <div class="flex {% if visible_blocks > 1 %}mt-32{% endif %}">
                 {% render 'button',
                   text: block.settings.button_label,
                   href: block.settings.button_link,

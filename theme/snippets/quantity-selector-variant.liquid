@@ -1,19 +1,19 @@
 {%- liquid
   assign size = size | default: 'sm'
-  assign border_radius = settings.border_radius | default: 6
+  assign border_radius = settings.border_radius | default: 6 | times: 0.1 | round: 1
 -%}
 
 <quantity-selector-root
-  class="quantity-selector-root quantity-selector-pdp flex items-center gap-3"
+  class="quantity-selector-root quantity-selector-pdp flex items-center gap-12"
   data-context="pdp"
 >
   <div
-    class="border-color-{{ color_scheme }} grid {% if size == 'lg' %}max-w-40{% else %} max-w-24{% endif %} grid-cols-3 border rounded-[4px]"
-    style="border-radius:{{ border_radius }}px"
+    class="border-color-{{ color_scheme }} grid {% if size == 'lg' %}max-w-160{% else %} max-w-96{% endif %} grid-cols-3 border rounded-4"
+    style="border-radius:{{ border_radius }}rem"
   >
     <quantity-selector-decrement
       role="button"
-      class="flex items-center justify-center {% if size == 'lg' %}m-4{% else %}m-2{% endif %}"
+      class="flex items-center justify-center {% if size == 'lg' %}m-16{% else %}m-8{% endif %}"
       aria-label="{{ 'sections.product.quantity.decrement' | t }}"
     >
       <span name="remove-outline" aria-hidden="true">
@@ -22,7 +22,7 @@
     </quantity-selector-decrement>
 
     <input
-      class="text-center text-xxs number-input"
+      class="text-center text-body-small number-input"
       type="number"
       data-is-product-quantity="yes"
       data-product-id="{{ product.id }}"
@@ -32,12 +32,12 @@
       max="{{ product.selected_or_first_available_variant.inventory_quantity }}"
       step="1"
       aria-label="{{ 'sections.product.quantity.decrement' | t: product_name: product.title | escape }}"
-      style="border-radius:{{ border_radius }}px"
+      style="border-radius:{{ border_radius }}rem"
     >
 
     <quantity-selector-increment
       role="button"
-      class="flex items-center justify-center {% if size == 'lg' %}m-4{% else %}m-2{% endif %}"
+      class="flex items-center justify-center {% if size == 'lg' %}m-16{% else %}m-8{% endif %}"
       aria-label="{{ 'sections.product.quantity.increment' | t }}"
     >
       <span name="add-outline" aria-hidden="true">

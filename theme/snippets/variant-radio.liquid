@@ -1,6 +1,6 @@
 {%- liquid
   assign current_variant = product.selected_or_first_available_variant
-  assign border_radius = settings.border_radius | default: 6
+  assign border_radius = settings.border_radius | default: 6 | times: 0.1 | round: 1
 -%}
 
 {% comment %} 
@@ -23,20 +23,20 @@
       {%- assign optionIndex = forloop.index0 -%}
       <variant-radio>
         {%- if product_selector == 'radio' -%} {% comment %} fieldset for radio {% endcomment %}
-          <fieldset class="mb-4" id="product-variant-{{ forloop.index0 }}" name="{{ option.name | handleize }}">
-            <legend class="font-display text-label-medium uppercase mb-2">
+          <fieldset class="mb-16" id="product-variant-{{ forloop.index0 }}" name="{{ option.name | handleize }}">
+            <legend class="font-display text-label-medium uppercase mb-8">
               {{ option.name | escape }}
             </legend>
-            <div class="flex flex-wrap items-center gap-[8px]">
+            <div class="flex flex-wrap items-center gap-8">
         {%- else -%} {% comment %} select for dropdown {% endcomment %}
-          <div class="flex flex-col gap-[4px]">
-            <label for="product-variant-option-{{ forloop.index0 }}" class="font-display text-label-medium uppercase mb-2">
+          <div class="flex flex-col gap-4">
+            <label for="product-variant-option-{{ forloop.index0 }}" class="font-display text-label-medium uppercase mb-8">
               {{ option.name | escape }}
             </label>
             <variant-radio-trigger>
               <select
                 id="product-variant-{{ forloop.index0 }}"
-                class="input-select bg-gray-50 border border-[#757575] text-[#616161] text-sm rounded-[4px] focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="input-select bg-gray-50 border border-[#757575] text-[#616161] text-body-small text-[1.6rem] rounded-4 focus:ring-blue-500 focus:border-blue-500 block w-full p-10 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 data-index="option{{ forloop.index }}"
                 data-product-slug="{{ product.slug }}"
                 data-section-id="{{ section.id }}"
@@ -113,7 +113,7 @@
                     role="radio"
                     tabindex="0"
                     class="
-                      border border-[#3B0B93] px-[12px] py-[12px] text-center transition-colors uppercase font-display text-label-small
+                      border border-[#3B0B93] px-12 py-12 text-center transition-colors uppercase font-display text-label-small
                       {% if matched_variant.available %}
                         {% if isSelected %}
                           cursor-pointer
@@ -130,7 +130,7 @@
                     data-product-slug="{{ product.slug }}"
                     data-section-id="{{ section.id }}"
                     data-option-values="{{ newOptions }}"
-                    style="border-radius:{{ border_radius }}px"
+                    style="border-radius:{{ border_radius }}rem"
                   >
                     <span id="product-variant-option-{{ option.name | handleize }}-{{ value | escape }}">
                       {{ value | escape }}

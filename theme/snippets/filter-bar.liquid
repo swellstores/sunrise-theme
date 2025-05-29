@@ -38,17 +38,17 @@
         From: "translate-x-0"
         To: "translate-x-full"
       -->
-      <div class="relative ml-auto flex h-full w-full max-w-xs p-[24px] flex-col overflow-y-auto shadow-xl bg-{{ color_scheme }}">
+      <div class="relative ml-auto flex h-full w-full max-w-xs p-24 flex-col overflow-y-auto shadow-xl bg-{{ color_scheme }}">
         <div class="flex items-center justify-between">
           <h3 class="font-display text-headline-medium">{{ 'sections.collection.filters.filters' | t }}</h3>
           <button
             data-trigger="filter-drawer"
             type="button"
-            class="-mr-2 flex h-10 w-10 items-center justify-center rounded-md p-2"
+            class="-mr-28 flex h-40 w-40 items-center justify-center rounded-md p-8"
           >
             <span class="sr-only">{{ 'sections.collection.filters.close' | t }}</span>
             <svg
-              class="h-6 w-6"
+              class="h-24 w-24"
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
@@ -75,13 +75,13 @@
           hx-swap-oob="true"
         >
           {% for filter in results.filters %}
-            <details class="border-t py-2" open>
-              <summary class="flex items-center justify-between py-2 list-none cursor-pointer">
+            <details class="border-t py-8" open>
+              <summary class="flex items-center justify-between py-8 list-none cursor-pointer">
                 <h4 class="text-title-small font-display">
                   {{ filter.label }}
                 </h4>
                 <svg
-                  class="-mr-1 ml-1 h-5 w-5 flex-shrink-0"
+                  class="-mr-4 ml-4 h-20 w-20 flex-shrink-0"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                   aria-hidden="true"
@@ -107,13 +107,13 @@
           {% endfor %}
 
           <!-- Sort-By Controls -->
-          <details class="border-t py-2" open>
-            <summary class="flex items-center justify-between py-2 list-none cursor-pointer">
+          <details class="border-t py-8" open>
+            <summary class="flex items-center justify-between py-8 list-none cursor-pointer">
               <h4 class="text-title-small font-display">
                 {{ 'sections.collection.filters.sort_by' | t }}
               </h4>
               <svg
-                class="-mr-1 ml-1 h-5 w-5 flex-shrink-0"
+                class="-mr-4 ml-4 h-20 w-20 flex-shrink-0"
                 viewBox="0 0 20 20"
                 fill="currentColor"
                 aria-hidden="true"
@@ -126,13 +126,13 @@
             </summary>
             <fieldset class="flex flex-col">
               {% for option in results.sort_options %}
-                <div class="flex items-center flex-nowrap h-[40px]">
+                <div class="flex items-center flex-nowrap h-40">
                   <input
                     type="radio"
                     id="sort-option-{{ forloop.index }}"
                     name="sort_by"
                     value="{{ option.value }}"
-                    class="border-color-{{ color_scheme }} h-4 w-4 mr-2 rounded border-gray-300 text-orange-600 cursor-pointer focus:ring-orange-600"
+                    class="border-color-{{ color_scheme }} h-16 w-16 mr-8 rounded border-gray-300 text-orange-600 cursor-pointer focus:ring-orange-600"
                     {% if option.value == sort_by %}
                       checked
                     {% endif %}
@@ -157,7 +157,7 @@
     <h2 id="filter-heading" class="sr-only">{{ 'sections.collection.filters.filters' | t }}</h2>
 
     <div class="">
-      <div class="flex items-end justify-between mb-[16px]">
+      <div class="flex items-end justify-between mb-16">
         <!-- Filter drawer toggle -->
 
         <!-- Filter bar (horizontal layout) -->
@@ -175,9 +175,9 @@
             >
               <fieldset
                 class="
-                  pt-4
+                  pt-16
                   flex items-center
-                  gap-4
+                  gap-16
                 "
               >
                 <button
@@ -186,19 +186,19 @@
                   aria-expanded="false"
                   class="md:hidden inline-block text-title-small font-display"
                 >
-                  <span class="flex gap-[8px] items-center">
+                  <span class="flex gap-8 items-center">
                     {{- 'filter-sort-icon.svg' | inline_asset_content -}}
                     {{ 'sections.collection.filters.filter_and_sort' | t }}</span
                   >
                 </button>
-                <div class="gap-[16px] hidden md:flex">
+                <div class="gap-16 hidden md:flex">
                   {% for filter in results.filters %}
                     <div class="relative flex">
                       {% if filter.type == 'boolean' %}
                         <div class="group flex items-center">
                           <input
                             type="checkbox"
-                            class="border-color-{{ color_scheme }} h-4 w-4 mr-2 rounded border-gray-300 text-orange-600 cursor-pointer focus:ring-orange-600"
+                            class="border-color-{{ color_scheme }} h-16 w-16 mr-8 rounded border-gray-300 text-orange-600 cursor-pointer focus:ring-orange-600"
                             id="filter-{{ filter.param_name }}"
                             name="{{ filter.param_name }}"
                             value="{{ filter.true_value.value }}"
@@ -221,7 +221,7 @@
                           data-trigger="filter-menu"
                         >
                           <span>{{ filter.label }}</span>
-                          <span class="ml-1 size-4 text-gray-400 flex-shrink-0">
+                          <span class="ml-4 size-16 text-gray-400 flex-shrink-0">
                             {% render 'icon-chevron-down' %}
                           </span>
                         </button>
@@ -238,7 +238,7 @@
                         -->
                         <div
                           data-target="filter-menu"
-                          class="hidden absolute left-0 z-10 min-w-32 mt-8 origin-top-left rounded bg-{{ color_scheme }} p-[12px] shadow-xl outline-none border border-color-{{ color_scheme }}"
+                          class="hidden absolute left-0 z-10 min-w-128 mt-32 origin-top-left rounded bg-{{ color_scheme }} p-12 shadow-xl outline-none border border-color-{{ color_scheme }}"
                         >
                           <fieldset class="">
                             {% if filter.type == 'list' %}
@@ -273,7 +273,7 @@
               hx-select="#results"
               hx-swap="outerHTML"
             >
-              <div class="group items-center gap-1 text-sm hidden md:flex">
+              <div class="group items-center gap-4 text-body-medium hidden md:flex">
                 <select
                   name="sort_by"
                   id="sort-control"
@@ -317,9 +317,9 @@
 
     <div id="active-filters" hx-swap-oob="true">
       {% if active_filter_count > 0 %}
-        <div class="bg-{{ color_scheme }} py-3 sm:flex sm:justify-between sm:items-center">
+        <div class="bg-{{ color_scheme }} py-12 sm:flex sm:justify-between sm:items-center">
           <span class="sr-only">{{ 'sections.collection.filters.active' | t }}</span>
-          <div class="-m-1 flex flex-wrap items-center">
+          <div class="-m-4 flex flex-wrap items-center">
             {% for filter in results.filters %}
               {% if filter.type == 'price_range' %}
                 {% if active_price_range %}
@@ -396,20 +396,20 @@
 
 {% style %}
   input[type='checkbox'] {
-    width: 20px;
-    height: 20px;
-    border-radius: 2px;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.2rem;
     appearance: none;
     background-color: #fff;
     display: inline-block;
     cursor: pointer;
-    border: 1.5px solid #222222;
+    border: 1px solid #222222;
     position: relative;
   }
 
   input[type='checkbox']:disabled {
     background-color: #e0e0e0;
-    border: 1.5px solid #bdbdbd;
+    border: 1px solid #bdbdbd;
     cursor: not-allowed;
     opacity: 0.6;
   }
@@ -424,8 +424,8 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 12px;
-    height: 7px;
+    width: 1.2rem;
+    height: 0.7rem;
     background-image: url('{{ 'checkbox-icon.svg' | asset_url }}');
     background-repeat: no-repeat;
     background-size: contain;
@@ -433,13 +433,13 @@
   }
 
   input[type='radio'] {
-    width: 22px;
-    height: 22px;
+    width: 2.2rem;
+    height: 2.2rem;
     border-radius: 50%;
     appearance: none;
     background-color: #fff;
     cursor: pointer;
-    border: 1.5px solid #222222;
+    border: 1px solid #222222;
     position: relative;
   }
 
@@ -448,8 +448,8 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 12px;
-    height: 12px;
+    width: 1.2rem;
+    height: 1.2rem;
     background-color: #3b0b93;
     border-radius: 50%;
     transform: translate(-50%, -50%);

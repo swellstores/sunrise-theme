@@ -5,7 +5,7 @@
 {% endif %}
 
 {% if paginate.previous or paginate.next %}
-  <div class="flex items-center justify-center gap-[16px] pt-[32px] pb-[64px]">
+  <div class="flex items-center justify-center gap-16 pt-32 pb-64">
     {% if paginate.previous %}
       <a
         href="{{ paginate.previous.url }}{{ hash }}"
@@ -15,10 +15,10 @@
       </a>
     {% endif %}
 
-    <ul class="flex items-center gap-5  text-body-medium font-display">
+    <ul class="flex items-center gap-20 text-body-medium font-display">
       {% for part in paginate.parts %}
         {% if part.is_link %}
-          <li class="w-[17px]">
+          <li class="w-18">
             <a
               href="{{ part.url }}{{ hash }}"
               class="inline-flex items-center text-body-medium font-display"
@@ -30,7 +30,7 @@
           {% if part.title == '&hellip;' %}
             <li>&hellip;</li>
           {% else %}
-            <li class="border-b border-color-{{ color_scheme }} font-display text-title-small flex justify-center w-[17px]">
+            <li class="border-b border-color-{{ color_scheme }} font-display text-title-small flex justify-center w-18">
               {{ part.title }}
             </li>
           {% endif %}

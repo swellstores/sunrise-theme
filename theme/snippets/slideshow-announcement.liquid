@@ -46,21 +46,19 @@
   loop="{{ loop }}"
   direction="{{ direction }}"
   slides-per-view="1"
-  class="max-w-720 h-11"
+  class="max-w-720 h-44"
   {%- if auto_rotate -%}
     autoplay-delay="{{ auto_rotate_speed }}"
   {%- endif -%}
 >
   {%- for block in section.blocks -%}
     {%- if block.settings.text != blank -%}
-      <swiper-slide
-        class="flex w-full items-center justify-center gap-2 py-2 text-center font-display text-body-medium"
-      >
+      <swiper-slide class="flex w-full items-center justify-center gap-8 py-8 text-center font-display text-body-medium">
         {%- if block.settings.link != blank -%}
           <a
             role="group"
             href="{{ block.settings.link }}"
-            class="flex w-full items-center justify-center gap-2 text-center text-xs announcement-url"
+            class="flex w-full items-center justify-center gap-8 text-center text-body-small announcement-url"
             aria-roledescription="{{ 'sections.announcement.description' | t }}"
             aria-label="{{ forloop.index }} {{ 'sections.announcement.slideshow_of' | t }} {{ forloop.length }}"
             {%- assign link_downcase = block.settings.link | downcase -%}

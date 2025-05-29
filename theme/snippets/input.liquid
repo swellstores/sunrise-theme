@@ -32,7 +32,7 @@
   assign invalid = invalid | default: false
   assign error_id = error_id | default: ''
   assign autofocus = autofocus | default: false
-  assign border_radius = settings.border_radius | default: 6
+  assign border_radius = settings.border_radius | default: 6 | times: 0.1 | round: 1
   assign color_scheme = section.settings.color_scheme
 
   assign variant_class = class
@@ -49,7 +49,7 @@
   name="{{ name }}"
   value="{{ value }}"
   placeholder="{{ placeholder }}"
-  class="bg-{{ color_scheme }} text-{{ color_scheme }} border-color-{{ color_scheme }} {{ variant_class }} peer block w-full appearance-none p-[16px] focus:outline-none focus:ring-0"
+  class="bg-{{ color_scheme }} text-{{ color_scheme }} border-color-{{ color_scheme }} {{ variant_class }} peer block w-full appearance-none p-16 focus:outline-none focus:ring-0"
   autocomplete="{{ autocomplete }}"
   spellcheck="{{ spellcheck }}"
   {% if id != '' %}
@@ -73,5 +73,5 @@
   {% if autofocus %}
     autofocus
   {% endif %}
-  style="border-radius:{{ border_radius }}px"
+  style="border-radius:{{ border_radius }}rem"
 >
