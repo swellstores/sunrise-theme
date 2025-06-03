@@ -48,7 +48,7 @@
             {% render 'image', image: section.settings.cover_image, alt: section.settings.image.alt | default: "Image banner", class: 'w-full h-full object-cover' %}
           </div>
         {% endif %}
-        {{ iframe }}
+        {{ iframe | embedded_video }}
       </div>
       {%- if section.blocks.size >= 1 -%}
         <div class="flex items-center justify-center flex-col max-w-555 lg:p-0 pl-24 pr-24">
@@ -296,7 +296,7 @@
     {
       "name": "Video embed",
       "settings": {
-        "iframe": "<iframe width='100%' height='100%' src='https://www.youtube.com/embed/NpEaa2P7qZI?si=NQcMz0-jycTcGeaq' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' referrerpolicy='strict-origin-when-cross-origin' allowfullscreen></iframe>",
+        "iframe": "&lt;iframe width='100%' height='100%' src='https://www.youtube.com/embed/NpEaa2P7qZI?si=NQcMz0-jycTcGeaq' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' referrerpolicy='strict-origin-when-cross-origin' allowfullscreen&gt;&lt;/iframe&gt;",
         "color_scheme": "scheme-1"
       },
       "blocks": [
