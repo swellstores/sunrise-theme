@@ -36,13 +36,14 @@
       {%- case block.type -%}
         {%- when 'image' -%}
           {% comment %} Image Column {% endcomment %}
-          <div >
+          <div>
             {%- if block.settings.link != blank -%}
               <a href="{{ block.settings.link }}" class="block w-full h-full">
             {%- endif -%}
 
             {%- if block.settings.image != blank -%}
-              {% render 'image',
+              {%
+                render 'image',
                 image: block.settings.image,
                 alt: block.settings.image.alt | default: '',
                 picture_class: 'svg-placeholder object-fit object-center',
@@ -84,12 +85,12 @@
                   {%- endif -%}
                 </div>
 
-                {%- if block.settings.button_text != blank and block.settings.button_link != blank -%}
+                {%- if block.settings.button_text != blank -%}
                   <div class="flex mt-20 {% if block.settings.text_alignment == 'center' %}justify-center{% elsif block.settings.text_alignment == 'right' %}justify-end{% endif %}">
                     {% render 'button',
                       text: block.settings.button_text,
                       href: block.settings.button_link,
-                      color_scheme: block.settings.color_scheme,
+                      color_scheme: block.settings.color_scheme
                     %}
                   </div>
                 {%- endif -%}
@@ -155,7 +156,7 @@
       "name": "Content",
       "limit": 1,
       "settings": [
-        { 
+        {
           "type": "inline_richtext",
           "id": "pre_heading",
           "label": "Pre-heading"
@@ -186,7 +187,7 @@
           ]
         },
         { "type": "header", "content": "Button" },
-        { "type": "text", "id": "button_text", "label": "Button text" },
+        { "type": "text", "id": "button_text", "label": "Button text", "info": "Leave blank to hide the button" },
         { "type": "url", "id": "button_link", "label": "Link", "info": "Paste a link or search" },
         { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
         {
