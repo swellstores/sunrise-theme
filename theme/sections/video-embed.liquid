@@ -48,7 +48,7 @@
             {% render 'image', image: section.settings.cover_image, alt: section.settings.image.alt | default: "Image banner", class: 'w-full h-full object-cover' %}
           </div>
         {% endif %}
-        {{ iframe | embedded_video }}
+        {{ iframe | embedded_content }}
       </div>
       {%- if section.blocks.size >= 1 -%}
         <div class="flex items-center justify-center flex-col max-w-555 lg:p-0 pl-24 pr-24">
