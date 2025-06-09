@@ -75,6 +75,9 @@ module.exports = {
       fontFamily: {
         display: ["sans-serif"],
       },
+      screens: {
+        'min-960': '960px',
+      },
       spacing,
       width: spacing,
       height: spacing,
