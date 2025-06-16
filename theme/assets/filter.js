@@ -70,6 +70,7 @@ function updateSortFilters(event) {
     event.target.id === "filter-form-stack" ? filterFormStack : filterFormBar;
 
   [filterForm, sortForm].forEach((form) => {
+    if (!form) return;
     const formData = new FormData(form);
 
     // Convert form data to query string for updating URL
