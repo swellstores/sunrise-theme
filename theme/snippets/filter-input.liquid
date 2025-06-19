@@ -36,91 +36,25 @@
       <span class="font-display text-nowrap">
         {{- option.label -}}
       </span>
+      <span class="ml-auto text-gray-500 text-body-small">{{ option.count }}</span>
     </label>
 
   {% when 'price_range' %}
-    <div class="price-range-wrapper flex flex-col">
-      <div
-        class="
-          form_control relative flex justify-between text-24
-          mb-10
-        "
-      >
-        <div class="form_control_container min-w-70">
-          <span class="currency-label-from text-body-medium font-display">
-            {{ 0 | money }}
-          </span>
-        </div>
-        <div class="form_control_container min-w-70 text-right">
-          <span class="currency-label-to text-body-medium font-display">
-            {{ filter.range_max | money }}
-          </span>
-        </div>
+    <div
+      class="price-slider w-full"
+      data-min="{{ 0 }}"
+      data-max="{{ filter.range_max }}"
+      data-start-min="{{ filter.min_value.value | default: 0 }}"
+      data-start-max="{{ filter.max_value.value | default: filter.range_max }}"
+      data-step="1"
+      data-input-name="{{ filter.param_name }}"
+    >
+      <div class="flex justify-between mb-8">
+        <span class="text-body-small text-gray-700 min-value">{{ filter.min_value.value | default: 0 | money }}</span>
+        <span class="text-body-small text-gray-700 max-value">
+          {{- filter.max_value.value | default: filter.range_max | money -}}
+        </span>
       </div>
-      <div class="sliders_control relative min-h-12">
-        <input
-          class="fromSlider"
-          type="range"
-          value="{{ filter.min_value.value | default: 0 }}"
-          name="{{ filter.min_value.param_name }}"
-          min="0"
-          max="{{ filter.range_max }}"
-        >
-        <input
-          class="toSlider"
-          type="range"
-          value="{{ filter.max_value.value | default: filter.range_max }}"
-          name="{{ filter.max_value.param_name }}"
-          min="0"
-          max="{{ filter.range_max }}"
-        >
-      </div>
+      <div class="slider-track"></div>
     </div>
 {% endcase %}
-
-{% style %}
-  .price-range-wrapper input[type='range']::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    pointer-events: all;
-    width: 1.2rem;
-    height: 1.2rem;
-    background-color: #3b0b93;
-    border-radius: 50%;
-    box-shadow: 0 0 0 1px #3b0b93;
-    cursor: pointer;
-  }
-
-  .price-range-wrapper input[type='range']::-moz-range-thumb {
-    -webkit-appearance: none;
-    pointer-events: all;
-    width: 1.2rem;
-    height: 1.2rem;
-    background-color: #3b0b93;
-    border-radius: 50%;
-    box-shadow: 0 0 0 1px #3b0b93;
-    cursor: pointer;
-  }
-
-  .price-range-wrapper input[type='range']::-webkit-slider-thumb:hover {
-    background: #f7f7f7;
-  }
-
-  .price-range-wrapper input[type='range']::-webkit-slider-thumb:active {
-    box-shadow: inset 0 0 3px #387bbe, 0 0 9px #387bbe;
-    -webkit-box-shadow: inset 0 0 3px #387bbe, 0 0 9px #387bbe;
-  }
-
-  .price-range-wrapper input[type='range'] {
-    -webkit-appearance: none;
-    appearance: none;
-    height: 0.2rem;
-    width: 100%;
-    position: absolute;
-    background-color: #3b0b93;
-    pointer-events: none;
-  }
-
-  .price-range-wrapper input[type='range'].toSlider {
-    background-color: transparent;
-  }
-{% endstyle %}

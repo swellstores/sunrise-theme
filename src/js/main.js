@@ -11,9 +11,12 @@ import { QuantitySelector } from "./quantity-selector";
 import { AddProductForm } from "./add-product-form";
 import { ProductPurchaseOptions } from "./product-purchase-options";
 import { DrawerMenu } from "./drawer-menu";
+import { initPriceSliders } from './price-slider';
 
 // Make hoverintent available globally
 window.hoverintent = hoverintent;
+
+window.initPriceSliders = initPriceSliders;
 
 // Import vendor libraries
 import { loadIonIcons } from "./vendor";
@@ -52,4 +55,7 @@ window.theme.accordion_rendered = true;
 
   // Load IonIcons
   loadIonIcons();
+
+  // Initialize price sliders
+  initPriceSliders();
 })();

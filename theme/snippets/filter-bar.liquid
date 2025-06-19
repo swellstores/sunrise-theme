@@ -17,45 +17,33 @@
     </span>
   </button>
 
-  <!--
-    Mobile filter dialog
-
-    Off-canvas filters for mobile, show/hide based on off-canvas filters state.
-  -->
+  <!-- Filter drawer -->
   <div
     data-target="filter-drawer"
-    class="fixed top-0 left-0 h-full w-340 lg:w-400 bg-{{ color_scheme }} hidden"
+    class="fixed top-0 left-0 h-full w-340 lg:w-400 bg-white hidden"
     style="z-index: 5000"
     role="dialog"
     aria-modal="true"
     aria-expanded="false"
   >
-    <div class="flex flex-col h-full p-24">
-      <div class="flex items-center justify-between mb-48">
-        <h3 class="font-display text-headline-medium">{{ 'sections.collection.filters.filters' | t }}</h3>
+    <div class="flex flex-col h-full">
+      <!-- Header -->
+      <div class="flex items-center justify-between p-16 border-b border-gray-200">
+        <h3 class="font-display text-title-large">{{ 'sections.collection.filters.filters' | t }}</h3>
         <button
           data-trigger="filter-drawer"
           type="button"
-          class="flex h-40 w-40 items-center justify-center rounded-md p-8"
+          class="flex h-40 w-40 items-center justify-center"
         >
           <span class="sr-only">{{ 'sections.collection.filters.close' | t }}</span>
-          <svg
-            class="h-24 w-24"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18L18 6M6 6l12 12" />
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M1 1L13 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
         </button>
       </div>
 
-      <!-- Filters -->
+      <!-- Filters Form -->
       <form
         id="filter-form-stack"
         hx-get="{{ request_path }}"
@@ -67,79 +55,60 @@
         hx-swap-oob="true"
         class="flex-1 overflow-y-auto"
       >
-        {% for filter in results.filters %}
-          <details class="border-t py-8" open>
-            <summary class="flex items-center justify-between py-8 list-none cursor-pointer">
-              <h4 class="text-title-small font-display">
-                {{ filter.label }}
-              </h4>
-              <svg
-                class="-mr-4 ml-4 h-20 w-20 flex-shrink-0"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                  clip-rule="evenodd" />
-              </svg>
-            </summary>
-            <fieldset class="flex flex-col">
-              {% if filter.type == 'list' %}
-                <div class="flex flex-col">
-                  {% for option in filter.values %}
-                    {% render 'filter-input', filter: filter, option: option %}
-                  {% endfor %}
-                </div>
-              {% else %}
-                {% render 'filter-input', filter: filter %}
-              {% endif %}
-            </fieldset>
-          </details>
-        {% endfor %}
-
-        <!-- Sort-By Controls -->
-        <details class="border-t py-8" open>
-          <summary class="flex items-center justify-between py-8 list-none cursor-pointer">
-            <h4 class="text-title-small font-display">
-              {{ 'sections.collection.filters.sort_by' | t }}
-            </h4>
-            <svg
-              class="-mr-4 ml-4 h-20 w-20 flex-shrink-0"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
+        <div class="p-16">
+          {% for filter in results.filters %}
+            <details
+              class="filter-section mb-16"
+              {% unless forloop.first %}
+                open
+              {% endunless %}
             >
-              <path
-                fill-rule="evenodd"
-                d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                clip-rule="evenodd" />
-            </svg>
-          </summary>
-          <fieldset class="flex flex-col">
-            {% for option in results.sort_options %}
-              <div class="flex items-center flex-nowrap h-40">
-                <input
-                  type="radio"
-                  id="sort-option-{{ forloop.index }}"
-                  name="sort_by"
-                  value="{{ option.value }}"
-                  class="border-color-{{ color_scheme }} h-16 w-16 mr-8 rounded border-gray-300 text-orange-600 cursor-pointer focus:ring-orange-600"
-                  {% if option.value == sort_by %}
-                    checked
-                  {% endif %}
-                >
-                <label
-                  for="sort-option-{{ forloop.index }}"
-                  class="text-body-medium font-display cursor-pointer"
-                >
-                  {{ option.name }}
-                </label>
+              <summary class="flex items-center justify-between py-8 list-none cursor-pointer">
+                <h4 class="text-title-medium font-display">{{ filter.label }}</h4>
+                <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </summary>
+              <div class="filter-options mt-8">
+                {% if filter.type == 'list' %}
+                  <div class="flex flex-col gap-12">
+                    <!-- Add "All" option -->
+                    <label class="flex items-center justify-between">
+                      <div class="flex items-center">
+                        <input
+                          type="checkbox"
+                          class="mr-12"
+                          name="{{ filter.param_name }}_all"
+                          value="all"
+                          {% if filter.active_values.size == 0 %}
+                            checked
+                          {% endif %}
+                        >
+                        <span class="font-display">All</span>
+                      </div>
+                    </label>
+                    {% for option in filter.values %}
+                      {% render 'filter-input', filter: filter, option: option %}
+                    {% endfor %}
+                  </div>
+                {% else %}
+                  {% render 'filter-input', filter: filter %}
+                {% endif %}
               </div>
-            {% endfor %}
-          </fieldset>
-        </details>
+            </details>
+          {% endfor %}
+        </div>
+
+        <!-- Clear All Button -->
+        <div class="border-t border-gray-200 p-16">
+          <button
+            type="button"
+            class="w-full py-12 px-24 bg-white border border-gray-900 text-center text-body-large font-display"
+            onclick="window.location.href = '{{ results.url }}'"
+          >
+            {{ 'sections.collection.filters.clear_all' | t }}
+          </button>
+        </div>
       </form>
     </div>
   </div>
@@ -203,36 +172,41 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     const filterDrawer = document.querySelector('[data-target="filter-drawer"]');
     const header = document.querySelector('header');
     const announcement = document.querySelector('announcement-root');
     const searchDialog = document.querySelector('search-dialog-root');
 
     // Override the original onClickFilterDrawer function
-    window.onClickFilterDrawer = function() {
+    window.onClickFilterDrawer = function () {
       const target = document.querySelector('[data-target="filter-drawer"]');
-      const isExpanded = target.getAttribute("aria-expanded") === "true";
-      
+      const isExpanded = target.getAttribute('aria-expanded') === 'true';
+
       // Toggle drawer
-      target.setAttribute("aria-expanded", !isExpanded);
-      target.classList.toggle("hidden");
-      
+      target.setAttribute('aria-expanded', !isExpanded);
+      target.classList.toggle('hidden');
+
       // Update z-index of other components
       if (header) {
         header.classList.toggle('z-60');
         header.classList.toggle('z-10');
       }
-      
+
       if (announcement) {
         announcement.classList.toggle('z-60');
         announcement.classList.toggle('z-10');
       }
-      
+
       if (searchDialog) {
         searchDialog.classList.toggle('z-50');
       }
     };
+
+    // Initialize price sliders on DOM load
+    if (window.initPriceSliders) {
+      window.initPriceSliders();
+    }
   });
 
   document.addEventListener('htmx:afterSwap', function () {
@@ -251,6 +225,10 @@
 
     if (results) {
       results.classList.add('opacity-20');
+    }
+
+    if (window.initPriceSliders) {
+      window.initPriceSliders();
     }
   });
 
@@ -280,10 +258,30 @@
 {{ 'filter.js' | asset_url | script_tag }}
 
 {% style %}
+  .filter-section {
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .filter-section:last-child {
+    border-bottom: none;
+  }
+
+  .filter-section[open] summary svg {
+    transform: rotate(180deg);
+  }
+
+  .filter-section .filter-options {
+    padding-bottom: 1.5rem;
+  }
+
+  .price-slider {
+    margin-top: 1rem !important;
+  }
+
   input[type='checkbox'] {
-    width: 2rem;
-    height: 2rem;
-    border-radius: 0.2rem;
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
     appearance: none;
     background-color: #fff;
     display: inline-block;
@@ -292,16 +290,9 @@
     position: relative;
   }
 
-  input[type='checkbox']:disabled {
-    background-color: #e0e0e0;
-    border: 1px solid #bdbdbd;
-    cursor: not-allowed;
-    opacity: 0.6;
-  }
-
   input[type='checkbox']:checked {
-    background-color: #3b0b93;
-    border-color: #3b0b93;
+    background-color: #222222;
+    border-color: #222222;
   }
 
   input[type='checkbox']:checked::after {
@@ -309,34 +300,17 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 1.2rem;
-    height: 0.7rem;
-    background-image: url('{{ 'checkbox-icon.svg' | asset_url }}');
-    background-repeat: no-repeat;
-    background-size: contain;
-    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 8px;
+    border: 2px solid #fff;
+    border-top: 0;
+    border-right: 0;
+    transform: translate(-50%, -65%) rotate(-45deg);
   }
 
-  input[type='radio'] {
-    width: 2.2rem;
-    height: 2.2rem;
-    border-radius: 50%;
-    appearance: none;
-    background-color: #fff;
-    cursor: pointer;
-    border: 1px solid #222222;
-    position: relative;
-  }
-
-  input[type='radio']:checked::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 1.2rem;
-    height: 1.2rem;
-    background-color: #3b0b93;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
+  input[type='checkbox']:disabled {
+    background-color: #e5e5e5;
+    border-color: #e5e5e5;
+    cursor: not-allowed;
   }
 {% endstyle %}
