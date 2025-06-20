@@ -28,18 +28,15 @@
   >
     <div class="flex flex-col h-full">
       <!-- Header -->
-      <div class="flex items-center justify-between p-16 border-b border-gray-200">
-        <h3 class="font-display text-title-large">{{ 'sections.collection.filters.filters' | t }}</h3>
+      <div class="flex items-center justify-between p-24 border-b border-gray-200">
+        <h3 class="font-display filter-drawer-title">{{ 'sections.collection.filters.filters' | t }}</h3>
         <button
           data-trigger="filter-drawer"
           type="button"
-          class="flex h-40 w-40 items-center justify-center"
+          class="flex h-40 items-center justify-center"
         >
           <span class="sr-only">{{ 'sections.collection.filters.close' | t }}</span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M1 1L13 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
+          <ion-icon name="close" aria-hidden="true" class="w-24 h-24"></ion-icon>
         </button>
       </div>
 
@@ -55,7 +52,7 @@
         hx-swap-oob="true"
         class="flex-1 overflow-y-auto"
       >
-        <div class="p-16">
+        <div class="px-24">
           {% for filter in results.filters %}
             <details
               class="filter-section mb-16"
@@ -64,28 +61,28 @@
               {% endunless %}
             >
               <summary class="flex items-center justify-between py-8 list-none cursor-pointer">
-                <h4 class="text-title-medium font-display">{{ filter.label }}</h4>
-                <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
+                <h4 class="filter-title font-display">{{ filter.label }}</h4>
+                <ion-icon
+                  name="chevron-down-outline"
+                  aria-label="{{ 'general.accordion.toggle' | t }}"
+                  class="h-20 w-20 transition-transform"
+                ></ion-icon>
               </summary>
-              <div class="filter-options mt-8">
+              <div class="filter-options mt-4">
                 {% if filter.type == 'list' %}
-                  <div class="flex flex-col gap-12">
-                    <!-- Add "All" option -->
-                    <label class="flex items-center justify-between">
-                      <div class="flex items-center">
-                        <input
-                          type="checkbox"
-                          class="mr-12"
-                          name="{{ filter.param_name }}_all"
-                          value="all"
-                          {% if filter.active_values.size == 0 %}
-                            checked
-                          {% endif %}
-                        >
-                        <span class="font-display">All</span>
-                      </div>
+                  <div class="flex flex-col">
+                    <!-- "All" option -->
+                    <label class="flex items-center flex-nowrap filter-checkbox-height">
+                      <input
+                        type="checkbox"
+                        class="size-20 mr-12 rounded border-gray-300"
+                        name="{{ filter.param_name }}_all"
+                        value="all"
+                        {% if filter.active_values.size == 0 %}
+                          checked
+                        {% endif %}
+                      >
+                      <span class="font-display text-nowrap">All</span>
                     </label>
                     {% for option in filter.values %}
                       {% render 'filter-input', filter: filter, option: option %}
@@ -98,18 +95,17 @@
             </details>
           {% endfor %}
         </div>
-
-        <!-- Clear All Button -->
-        <div class="border-t border-gray-200 p-16">
-          <button
-            type="button"
-            class="w-full py-12 px-24 bg-white border border-gray-900 text-center text-body-large font-display"
-            onclick="window.location.href = '{{ results.url }}'"
-          >
-            {{ 'sections.collection.filters.clear_all' | t }}
-          </button>
-        </div>
       </form>
+
+      <div class="p-24">
+        <button
+          type="button"
+          class="w-full py-12 px-24 bg-black text-white text-body-large font-display"
+          onclick="window.location.href = '{{ request_path }}' + window.location.search"
+        >
+          View results
+        </button>
+      </div>
     </div>
   </div>
 
@@ -262,11 +258,15 @@
     border-bottom: 1px solid #e5e5e5;
   }
 
+  .filter-section:first-child {
+    margin-top: 2.6rem;
+  }
+
   .filter-section:last-child {
     border-bottom: none;
   }
 
-  .filter-section[open] summary svg {
+  .filter-section[open] summary ion-icon {
     transform: rotate(180deg);
   }
 
@@ -274,13 +274,25 @@
     padding-bottom: 1.5rem;
   }
 
+  .filter-drawer-title {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 24px;
+  }
+
+  .filter-title {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+  }
+
   .price-slider {
     margin-top: 1rem !important;
   }
 
   input[type='checkbox'] {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border-radius: 2px;
     appearance: none;
     background-color: #fff;
@@ -312,5 +324,22 @@
     background-color: #e5e5e5;
     border-color: #e5e5e5;
     cursor: not-allowed;
+  }
+
+  .filter-checkbox-height {
+    height: 3.6rem;
+  }
+
+  .filter-count-badge {
+    background-color: #f3f4f6;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 0.4rem;
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    color: #757575;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 {% endstyle %}
