@@ -41,6 +41,11 @@ export function initPriceSliders() {
       return;
     }
 
+    // Check if slider is already initialized
+    if (sliderTrack.noUiSlider) {
+      return;
+    }
+
     noUiSlider.create(sliderTrack, {
       start: [startMin, startMax],
       connect: true,
