@@ -49,9 +49,9 @@
       data-step="1"
       data-input-name="{{ filter.param_name }}"
     >
-      <div class="flex justify-between mb-8">
-        <span class="text-body-small text-gray-700 min-value">{{ filter.min_value.value | default: 0 | money }}</span>
-        <span class="text-body-small text-gray-700 max-value">
+      <div class="flex justify-between mb-[10px]">
+        <span class="text-body-medium text-gray-700 min-value">{{ filter.min_value.value | default: 0 | money }}</span>
+        <span class="text-body-medium text-gray-700 max-value">
           {{- filter.max_value.value | default: filter.range_max | money -}}
         </span>
       </div>

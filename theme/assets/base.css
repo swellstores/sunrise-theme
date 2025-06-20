@@ -297,15 +297,15 @@ textarea {
 }
 
 .noUi-connect {
-  background: #222 !important;
+  background: #222;
 }
 
 .noUi-handle {
   background: #222 !important;
   border: none !important;
   border-radius: 50% !important;
-  width: 20px !important;
-  height: 20px !important;
+  width: 14px !important;
+  height: 14px !important;
   top: 50% !important;
   transform: translateY(-50%) !important;
   box-shadow: none !important;
@@ -313,8 +313,8 @@ textarea {
   margin-top: 0 !important;
 }
 
-.noUi-handle:after,
-.noUi-handle:before {
+.noUi-handle:before,
+.noUi-handle:after {
   display: none !important;
 }
 
@@ -325,7 +325,7 @@ textarea {
 /* Price slider specific styles */
 .price-slider {
   position: relative;
-  padding: 0 10px;
+  padding: 0 0 10px 0;
   margin: 20px 0;
 }
 
@@ -346,16 +346,11 @@ textarea {
 }
 
 .price-slider .noUi-handle {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #222;
-  border: none;
-  box-shadow: none;
-  cursor: pointer;
-  top: -9px;
-  right: -10px;
-  transform: translate(50%, 0);
+  right: -2px !important;
+}
+
+.price-slider .noUi-origin:nth-child(2) .noUi-handle {
+  right: -12px !important;
 }
 
 .price-slider .noUi-handle:before,
