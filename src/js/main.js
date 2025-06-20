@@ -11,7 +11,8 @@ import { QuantitySelector } from "./quantity-selector";
 import { AddProductForm } from "./add-product-form";
 import { ProductPurchaseOptions } from "./product-purchase-options";
 import { DrawerMenu } from "./drawer-menu";
-import { initPriceSliders } from './price-slider';
+import { FilterDrawer } from "./filter-drawer";
+import { initPriceSliders } from "./price-slider";
 
 // Make hoverintent available globally
 window.hoverintent = hoverintent;
@@ -48,6 +49,7 @@ window.theme.accordion_rendered = true;
     customElements.define("add-product-form", AddProductForm);
     customElements.define("product-purchase-options", ProductPurchaseOptions);
     customElements.define("desktop-drawer-menu-root", DrawerMenu);
+    customElements.define("filter-drawer-root", FilterDrawer);
   }
 
   // Call functions
