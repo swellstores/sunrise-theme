@@ -4,7 +4,7 @@
   assign request_path = request.path | default: '#'
 -%}
 
-<div class="text-{{ color_scheme }}">
+<filter-drawer-root class="text-{{ color_scheme }}">
   <button
     data-trigger="filter-drawer"
     type="button"
@@ -44,7 +44,6 @@
       <form
         id="filter-form-stack"
         hx-get="{{ request_path }}"
-        hx-trigger="change from:(#filter-form-stack input)"
         hx-on="htmx:configRequest: updateSortFilters(event)"
         hx-target="#results"
         hx-select="#results"
@@ -56,9 +55,7 @@
           {% for filter in results.filters %}
             <details
               class="filter-section mb-16"
-              {% unless forloop.first %}
-                open
-              {% endunless %}
+              open
             >
               <summary class="flex items-center justify-between py-8 list-none cursor-pointer">
                 <h4 class="filter-title font-display">{{ filter.label }}</h4>
@@ -99,9 +96,9 @@
 
       <div class="p-24">
         <button
-          type="button"
+          type="submit"
+          form="filter-form-stack"
           class="w-full py-12 px-24 bg-black text-white text-body-large font-display"
-          onclick="window.location.href = '{{ request_path }}' + window.location.search"
         >
           View results
         </button>
@@ -165,40 +162,10 @@
       {% endif %}
     </div>
   </section>
-</div>
+</filter-drawer-root>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const filterDrawer = document.querySelector('[data-target="filter-drawer"]');
-    const header = document.querySelector('header');
-    const announcement = document.querySelector('announcement-root');
-    const searchDialog = document.querySelector('search-dialog-root');
-
-    // Override the original onClickFilterDrawer function
-    window.onClickFilterDrawer = function () {
-      const target = document.querySelector('[data-target="filter-drawer"]');
-      const isExpanded = target.getAttribute('aria-expanded') === 'true';
-
-      // Toggle drawer
-      target.setAttribute('aria-expanded', !isExpanded);
-      target.classList.toggle('hidden');
-
-      // Update z-index of other components
-      if (header) {
-        header.classList.toggle('z-60');
-        header.classList.toggle('z-10');
-      }
-
-      if (announcement) {
-        announcement.classList.toggle('z-60');
-        announcement.classList.toggle('z-10');
-      }
-
-      if (searchDialog) {
-        searchDialog.classList.toggle('z-50');
-      }
-    };
-
     // Initialize price sliders on DOM load
     if (window.initPriceSliders) {
       window.initPriceSliders();
