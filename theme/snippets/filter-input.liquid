@@ -2,7 +2,7 @@
 
 {% case filter.type %}
   {% when 'boolean' %}
-    <div class="flex items-center flex-nowrap h-40">
+    <div class="flex items-center flex-nowrap filter-checkbox-height">
       <input
         type="checkbox"
         class="size-20 mr-12 rounded border-gray-300"
@@ -20,7 +20,7 @@
     {% if option.active == false and option.count == 0 %}
       {% assign disabled = true %}
     {% endif %}
-    <label class="flex items-center flex-nowrap h-40">
+    <label class="flex items-center flex-nowrap filter-checkbox-height">
       <input
         type="checkbox"
         class="size-20 mr-12 rounded border-gray-300 text-orange-600 {% if disabled %}bg-gray-200{% endif %}"
@@ -36,7 +36,7 @@
       <span class="font-display text-nowrap">
         {{- option.label -}}
       </span>
-      <span class="ml-auto text-gray-500 text-body-small">{{ option.count }}</span>
+      <span class="ml-auto filter-count-badge">{{ option.count }}</span>
     </label>
 
   {% when 'price_range' %}
@@ -49,9 +49,11 @@
       data-step="1"
       data-input-name="{{ filter.param_name }}"
     >
-      <div class="flex justify-between mb-[10px]">
-        <span class="text-body-medium text-gray-700 min-value">{{ filter.min_value.value | default: 0 | money }}</span>
-        <span class="text-body-medium text-gray-700 max-value">
+      <div class="flex justify-between mb-[12px]">
+        <span class="text-headline-medium text-gray-700 min-value">
+          {{- filter.min_value.value | default: 0 | money -}}
+        </span>
+        <span class="text-headline-medium text-gray-700 max-value">
           {{- filter.max_value.value | default: filter.range_max | money -}}
         </span>
       </div>
