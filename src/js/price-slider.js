@@ -64,13 +64,56 @@ export function initPriceSliders() {
       },
     });
 
+    function updateMaxValuePosition() {
+      const values = sliderTrack.noUiSlider.get();
+      const maxSliderValue = values[1];
+
+      const sliderWidth = sliderTrack.offsetWidth;
+      const range = sliderTrack.noUiSlider.options.range;
+      const rangeMin = range.min;
+      const rangeMax = range.max;
+
+      const percentage =
+        ((maxSliderValue - rangeMin) / (rangeMax - rangeMin)) * 100;
+
+      const positionInPixels = (percentage / 100) * sliderWidth;
+      maxValue.style.left = positionInPixels + "px";
+
+      if (maxSliderValue >= rangeMax) {
+        // At maximum - right align with handle
+        maxValue.style.transform = "translateX(-100%)";
+      } else {
+        // otherwise center above handle
+        maxValue.style.transform = "translateX(-67%)";
+      }
+    }
+
     sliderTrack.noUiSlider.on("update", function (values, handle) {
       const minVal = Math.round(values[0]);
       const maxVal = Math.round(values[1]);
+
       minValue.textContent = `$${minVal}`;
       maxValue.textContent = `$${maxVal}`;
+
       inputMin.value = minVal;
       inputMax.value = maxVal;
+
+      updateMaxValuePosition();
     });
+
+    sliderTrack.noUiSlider.on("set", function () {
+      updateMaxValuePosition();
+    });
+
+    const initialValues = sliderTrack.noUiSlider.get();
+    const initialMin = Math.round(initialValues[0]);
+    const initialMax = Math.round(initialValues[1]);
+
+    minValue.textContent = `$${initialMin}`;
+    maxValue.textContent = `$${initialMax}`;
+    inputMin.value = initialMin;
+    inputMax.value = initialMax;
+
+    maxValue.style.left = "100%";
   });
 }

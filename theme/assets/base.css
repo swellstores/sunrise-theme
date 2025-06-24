@@ -389,7 +389,14 @@ textarea {
   color: #666;
 }
 
-/* Price slider container width constraints */
+.price-slider .max-value {
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: transform 0.1s ease;
+}
+
 .price-slider {
   width: 100% !important;
   max-width: 100% !important;

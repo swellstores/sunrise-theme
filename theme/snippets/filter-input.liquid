@@ -5,7 +5,7 @@
     <div class="flex items-center flex-nowrap filter-checkbox-height">
       <input
         type="checkbox"
-        class="size-20 mr-12 rounded border-gray-300"
+        class="size-16 mr-8 rounded border-gray-300"
         id="{{ filter.param_name }}"
         name="{{ filter.param_name }}"
         value="{{ filter.true_value.value }}"
@@ -23,7 +23,7 @@
     <label class="flex items-center flex-nowrap filter-checkbox-height">
       <input
         type="checkbox"
-        class="size-20 mr-12 rounded border-gray-300 text-orange-600 {% if disabled %}bg-gray-200{% endif %}"
+        class="size-16 mr-8 rounded border-gray-300 {% if disabled %}bg-gray-200{% endif %}"
         name="{{ filter.param_name }}"
         value="{{ option.value }}"
         {% if disabled %}
@@ -57,6 +57,7 @@
           {{- filter.max_value.value | default: filter.range_max | money -}}
         </span>
       </div>
+
       <div class="slider-track"></div>
     </div>
 {% endcase %}
