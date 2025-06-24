@@ -54,10 +54,10 @@
         <div class="px-24">
           {% for filter in results.filters %}
             <details
-              class="filter-section mb-16"
+              class="filter-section"
               open
             >
-              <summary class="flex items-center justify-between py-8 list-none cursor-pointer">
+              <summary class="flex items-center justify-between py-16 list-none cursor-pointer">
                 <h4 class="filter-title font-display">{{ filter.label }}</h4>
                 <ion-icon
                   name="chevron-down-outline"
@@ -65,14 +65,14 @@
                   class="h-20 w-20 transition-transform"
                 ></ion-icon>
               </summary>
-              <div class="filter-options mt-4">
+              <div class="filter-options">
                 {% if filter.type == 'list' %}
                   <div class="flex flex-col">
                     <!-- "All" option -->
                     <label class="flex items-center flex-nowrap filter-checkbox-height">
                       <input
                         type="checkbox"
-                        class="size-20 mr-12 rounded border-gray-300"
+                        class="size-16 mr-8 rounded border-gray-300"
                         name="{{ filter.param_name }}_all"
                         value="all"
                         {% if filter.active_values.size == 0 %}
@@ -221,16 +221,9 @@
 {{ 'filter.js' | asset_url | script_tag }}
 
 {% style %}
-  .filter-section {
-    border-bottom: 1px solid #e5e5e5;
-  }
 
   .filter-section:first-child {
-    margin-top: 2.6rem;
-  }
-
-  .filter-section:last-child {
-    border-bottom: none;
+    margin-top: 0;
   }
 
   .filter-section[open] summary ion-icon {
@@ -249,7 +242,7 @@
 
   .filter-title {
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 500;
     line-height: 20px;
   }
 
@@ -258,8 +251,8 @@
   }
 
   input[type='checkbox'] {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     border-radius: 2px;
     appearance: none;
     background-color: #fff;
@@ -279,8 +272,8 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 12px;
-    height: 8px;
+    width: 10px;
+    height: 6px;
     border: 2px solid #fff;
     border-top: 0;
     border-right: 0;
