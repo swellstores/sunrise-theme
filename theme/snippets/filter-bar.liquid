@@ -43,14 +43,13 @@
       <!-- Filters Form -->
       <form
         id="filter-form-stack"
-        hx-get="{{ request_path }}"
-        hx-trigger="change from:(#filter-form-stack input), change from:(.price-slider)"
-        hx-on="htmx:configRequest: updateSortFilters(event)"
-        hx-target="#results"
-        hx-select="#results, #active-filters"
-        hx-swap="outerHTML"
-        hx-on="htmx:afterRequest: handleFilterResponse(event)"
         class="flex-1 overflow-y-auto"
+        hx-get="{{ request_path }}"
+        hx-trigger="change"
+        hx-target="#results"
+        hx-select="#results"
+        hx-swap="outerHTML"
+        hx-sync="this:replace"
       >
         <div class="px-24">
           {% for filter in results.filters %}
@@ -140,6 +139,8 @@
                   {% render 'filter-tag', filter: filter, color_scheme: color_scheme %}
                 {% endif %}
               {% else %}
+                <!-- DEBUG: Show filter info -->
+                {% comment %} DEBUG: {{ filter.label }} has {{ filter.active_values.size }} active values {% endcomment %}
                 {% for value in filter.active_values %}
                   {% render 'filter-tag', filter: filter, value: value, color_scheme: color_scheme %}
                 {% endfor %}
@@ -169,23 +170,76 @@
 </filter-drawer-root>
 
 <script>
-  document.addEventListener('htmx:afterSwap', function () {
-    const params = new URLSearchParams(window.location.search);
+  let filterInitialized = false;
+  let isFormSubmitting = false;
+  let formSubmissionTimestamp = 0;
 
-    document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
-      const paramName = checkbox.name;
-      const paramValue = checkbox.value;
+  function initializeFilters() {
+    if (filterInitialized) return;
+    filterInitialized = true;
 
-      if (!params.has(paramName) || !params.getAll(paramName).includes(paramValue)) {
-        checkbox.checked = false;
+    document.addEventListener('htmx:afterSwap', handleAfterSwap);
+    document.body.addEventListener('htmx:beforeRequest', handleBeforeRequest);
+    document.addEventListener('htmx:afterRequest', handleAfterRequest);
+    document.addEventListener('htmx:configRequest', handleConfigRequest);
+    document.addEventListener('priceSliderChanged', () => updateOpacity(true));
+    document.addEventListener('htmx:oobAfterSwap', handleOobAfterSwap);
+    document.addEventListener('change', handleCheckboxChange);
+
+    setupInitialState();
+  }
+
+  let savedCheckboxStates = new Map();
+
+  function saveCheckboxStates() {
+    const filterForm = document.querySelector('#filter-form-stack');
+    if (!filterForm) return;
+
+    const checkboxes = filterForm.querySelectorAll('input[type="checkbox"]');
+    savedCheckboxStates.clear();
+
+    checkboxes.forEach((checkbox) => {
+      savedCheckboxStates.set(checkbox.name + '|' + checkbox.value, checkbox.checked);
+    });
+  }
+
+  function restoreCheckboxStates() {
+    const filterForm = document.querySelector('#filter-form-stack');
+    if (!filterForm || savedCheckboxStates.size === 0) return;
+
+    const checkboxes = filterForm.querySelectorAll('input[type="checkbox"]');
+    let restoredCount = 0;
+
+    checkboxes.forEach((checkbox) => {
+      const key = checkbox.name + '|' + checkbox.value;
+      if (savedCheckboxStates.has(key)) {
+        checkbox.checked = savedCheckboxStates.get(key);
+        restoredCount++;
       }
     });
+  }
 
-    const results = document.querySelector('#results');
+  function handleAfterSwap(event) {
+    const now = Date.now();
+    const timeSinceFormSubmission = now - formSubmissionTimestamp;
+    const isOutOfBandSwap = event.detail.isOOB === true;
+    const isMainResultsSwap = event.target && event.target.id === 'results';
+    const isFilterFormSwap = event.target && event.target.closest('#filter-form-stack');
 
-    if (results) {
-      results.classList.remove('opacity-20');
+    const requestPath = event.detail.xhr?.responseURL || '';
+    const hasFilterParams = requestPath.includes('filter_') || requestPath.includes('price');
+    const isFormRelatedSwap =
+      (formSubmissionTimestamp > 0 && timeSinceFormSubmission < 10000) || isFormSubmitting || hasFilterParams;
+
+    if (isFormRelatedSwap) {
+      restoreCheckboxStates();
+    } else {
+      syncCheckboxStates();
+      isFormSubmitting = false;
+      formSubmissionTimestamp = 0;
     }
+
+    updateOpacity(false);
 
     if (window.initPriceSliders) {
       window.initPriceSliders();
@@ -193,66 +247,208 @@
 
     if (window.filters) {
       window.filters();
-    }
-  });
 
-  document.addEventListener('htmx:oobAfterSwap', (event) => {
-    const element = event.target;
-
-    if (element.id === 'filter-form-bar' && window.filters) {
-      window.filters();
-    }
-  });
-
-  document.body.addEventListener('htmx:beforeRequest', function (event) {
-    const results = document.querySelector('#results');
-
-    if (results) {
-      results.classList.add('opacity-20');
-    }
-
-    // Track the current request for cancellation
-    currentRequest = event.detail.xhr;
-  });
-
-  document.addEventListener('htmx:afterRequest', function (event) {
-    // Clear the current request reference when it completes
-    if (event.detail.xhr === currentRequest) {
-      currentRequest = null;
-      isSelectingAll = false;
-      currentAllFilterGroup = null;
-    }
-  });
-
-  document.addEventListener('htmx:responseError', function (event) {
-    if (event.detail.xhr === currentRequest) {
-      currentRequest = null;
-      if (isSelectingAll) {
-        isSelectingAll = false;
-        currentAllFilterGroup = null;
+      if (isFormRelatedSwap) {
+        setTimeout(() => {
+          restoreCheckboxStates();
+        }, 10);
       }
     }
-  });
+  }
 
-  document.addEventListener('htmx:configRequest', (event) => {
-    // Only prevent requests from "All" checkboxes that are being checked
-    const trigger = event.detail.elt;
-    if (trigger && trigger.classList.contains('all-checkbox') && trigger.checked) {
-      event.preventDefault();
-      return false;
+  function handleBeforeRequest(event) {
+    saveCheckboxStates();
+
+    if (event.target.id === 'filter-form-stack') {
+      isFormSubmitting = true;
+      formSubmissionTimestamp = Date.now();
     }
 
+    updateOpacity(true);
+  }
+
+  function handleAfterRequest(event) {
+    updateOpacity(false);
+    
+    if (isFormSubmitting) {
+      setTimeout(() => {
+        isFormSubmitting = false;
+        formSubmissionTimestamp = 0;
+      }, 6000);
+    }
+  }
+
+  function handleConfigRequest(event) {
     if (window.onHtmxConfigRequest) {
       window.onHtmxConfigRequest(event);
     }
-  });
 
-  document.addEventListener('priceSliderChanged', function (event) {
+    const form = event.target.closest('form');
+    if (!form || form.id !== 'filter-form-stack') return;
+
+    const allCheckboxes = form.querySelectorAll('input[name$="_all"]:checked');
+    
+    allCheckboxes.forEach((allCheckbox) => {
+      const filterGroup = allCheckbox.dataset.filterGroup;
+      if (filterGroup) {
+        delete event.detail.parameters[allCheckbox.name];
+        
+        const groupCheckboxes = form.querySelectorAll(`input[name="${filterGroup}"]`);
+        groupCheckboxes.forEach((groupCheckbox) => {
+          if (!groupCheckbox.name.endsWith('_all')) {
+            delete event.detail.parameters[groupCheckbox.name];
+          }
+        });
+      }
+    });
+  }
+
+  function handleOobAfterSwap(event) {
+    const element = event.target;
+
+    if (
+      element &&
+      (element.id === 'filter-form-bar' ||
+        element.closest('#filter-form-stack') ||
+        element.querySelector('#filter-form-stack'))
+    ) {
+      setTimeout(() => {
+        restoreCheckboxStates();
+      }, 50);
+
+      if (window.filters) {
+        window.filters();
+
+        if (isFormSubmitting) {
+          setTimeout(() => {
+            restoreCheckboxStates();
+          }, 10);
+        }
+      }
+    }
+
+    if (element && element.id === 'active-filters') {
+      if (isFormSubmitting) {
+        setTimeout(() => {
+          restoreCheckboxStates();
+        }, 50);
+      }
+    }
+  }
+
+  function updateOpacity(loading) {
     const results = document.querySelector('#results');
     if (results) {
-      results.classList.add('opacity-20');
+      if (loading) {
+        results.classList.add('opacity-20');
+      } else {
+        results.classList.remove('opacity-20');
+      }
     }
-  });
+  }
+
+  function handleCheckboxChange(event) {
+    const checkbox = event.target;
+
+    if (checkbox.type !== 'checkbox' || !checkbox.closest('#filter-form-stack')) {
+      return;
+    }
+
+    if (checkbox.name.endsWith('_all')) {
+      handleAllCheckboxChange(checkbox);
+    } else {
+      handleRegularCheckboxChange(checkbox);
+    }
+    
+    saveCheckboxStates();
+  }
+
+  function handleAllCheckboxChange(checkbox) {
+    if (!checkbox.checked) return;
+
+    const filterGroup = checkbox.dataset.filterGroup;
+    const filterForm = document.querySelector('#filter-form-stack');
+    
+    if (!filterForm || !filterGroup) return;
+
+    const otherCheckboxes = filterForm.querySelectorAll(`input[name="${filterGroup}"]`);
+    otherCheckboxes.forEach((otherCheckbox) => {
+      if (otherCheckbox !== checkbox && !otherCheckbox.name.endsWith('_all')) {
+        otherCheckbox.checked = false;
+      }
+    });
+  }
+
+  function handleRegularCheckboxChange(checkbox) {
+    const filterForm = document.querySelector('#filter-form-stack');
+    if (!filterForm) return;
+
+    const filterGroup = checkbox.name;
+    const allCheckbox = filterForm.querySelector(`input[name="${filterGroup}_all"]`);
+    
+    if (!allCheckbox) return;
+
+    if (checkbox.checked) {
+      allCheckbox.checked = false;
+    } else {
+      const otherCheckboxes = filterForm.querySelectorAll(`input[name="${filterGroup}"]`);
+      const allUnchecked = Array.from(otherCheckboxes).every((otherCheckbox) => {
+        return otherCheckbox === checkbox || otherCheckbox.name.endsWith('_all') || !otherCheckbox.checked;
+      });
+      
+      if (allUnchecked) {
+        allCheckbox.checked = true;
+      }
+    }
+  }
+
+  function syncCheckboxStates() {
+    if (isFormSubmitting || (formSubmissionTimestamp > 0 && Date.now() - formSubmissionTimestamp < 5000)) {
+      return;
+    }
+
+    const filterForm = document.querySelector('#filter-form-stack');
+    if (!filterForm) {
+      return;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const checkboxes = filterForm.querySelectorAll('input[type="checkbox"]');
+
+    checkboxes.forEach((checkbox) => {
+      const paramName = checkbox.name;
+      const paramValue = checkbox.value;
+
+      if (paramName.endsWith('_all')) {
+        const filterGroup = paramName.replace('_all', '');
+        const hasOtherSelections = params.has(filterGroup);
+        const shouldBeChecked = !hasOtherSelections;
+
+        checkbox.checked = shouldBeChecked;
+      } else {
+        const shouldBeChecked = params.has(paramName) && params.getAll(paramName).includes(paramValue);
+
+        checkbox.checked = shouldBeChecked;
+      }
+    });
+  }
+
+  function setupInitialState() {
+    const filterForm = document.querySelector('#filter-form-stack');
+    if (!filterForm) return;
+
+    const allCheckboxes = filterForm.querySelectorAll('input[name$="_all"]');
+    allCheckboxes.forEach((checkbox) => {
+      checkbox.checked = true;
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    const hasAnyFilters = Array.from(params.keys()).some((key) => key.includes('filter_') || key.includes('price'));
+
+    if (hasAnyFilters) {
+      syncCheckboxStates();
+    }
+  }
 
   function prepareFormSubmission() {
     const form = document.querySelector('#filter-form-stack');
@@ -272,178 +468,10 @@
     }, 100);
   }
 
-  let isSelectingAll = false;
-  let currentAllFilterGroup = null;
-  let currentRequest = null;
-
-  function cancelPendingRequests() {
-    if (currentRequest) {
-      currentRequest.abort();
-      currentRequest = null;
-    }
-  }
-
-  function syncCheckboxStates() {
-    const params = new URLSearchParams(window.location.search);
-    const filterForm = document.querySelector('#filter-form-stack');
-
-    if (!filterForm) return;
-
-    filterForm.querySelectorAll('input[name$="_all"]').forEach((checkbox) => {
-      const filterGroup = checkbox.getAttribute('data-filter-group');
-
-      if (isSelectingAll && currentAllFilterGroup === filterGroup) {
-        checkbox.checked = true;
-        return;
-      }
-
-      const hasActiveFilters = Array.from(params.keys()).some(
-        (key) => key === filterGroup || key.startsWith(filterGroup + '['),
-      );
-
-      checkbox.checked = !hasActiveFilters;
-    });
-
-    filterForm.querySelectorAll('input[type="checkbox"]:not([name$="_all"])').forEach((checkbox) => {
-      const shouldBeChecked = params.has(checkbox.name) && params.getAll(checkbox.name).includes(checkbox.value);
-      checkbox.checked = shouldBeChecked;
-    });
-  }
-
-  function handleAllCheckboxBehavior() {
-    const filterForm = document.querySelector('#filter-form-stack');
-    if (!filterForm) return;
-
-    filterForm.addEventListener('change', function (event) {
-      const checkbox = event.target;
-
-      if (checkbox.classList.contains('all-checkbox')) {
-        const filterGroup = checkbox.getAttribute('data-filter-group');
-
-        if (checkbox.checked) {
-          isSelectingAll = true;
-          currentAllFilterGroup = filterGroup;
-
-          cancelPendingRequests();
-
-          filterForm.querySelectorAll(`input[name="${filterGroup}"]`).forEach((otherCheckbox) => {
-            if (otherCheckbox !== checkbox && !otherCheckbox.name.endsWith('_all')) {
-              otherCheckbox.checked = false;
-            }
-          });
-
-          event.preventDefault();
-          event.stopPropagation();
-
-          requestAnimationFrame(() => {
-            filterForm.querySelectorAll(`input[name="${filterGroup}"]`).forEach((otherCheckbox) => {
-              if (otherCheckbox !== checkbox && !otherCheckbox.name.endsWith('_all')) {
-                otherCheckbox.checked = false;
-              }
-            });
-
-            const formData = new FormData(filterForm);
-
-            for (let [key, value] of formData.entries()) {
-              if (key === filterGroup || key.startsWith(filterGroup + '[')) {
-                formData.delete(key);
-              }
-            }
-
-            const urlParams = new URLSearchParams();
-            for (let [key, value] of formData.entries()) {
-              urlParams.append(key, value);
-            }
-
-            const baseUrl = filterForm.getAttribute('hx-get');
-            const finalUrl = new URL(baseUrl, window.location.origin);
-
-            for (let [key, value] of urlParams.entries()) {
-              finalUrl.searchParams.append(key, value);
-            }
-
-            currentRequest = htmx.ajax('GET', finalUrl.toString(), {
-              target: filterForm.getAttribute('hx-target'),
-              select: filterForm.getAttribute('hx-select'),
-              swap: filterForm.getAttribute('hx-swap'),
-              pushUrl: true,
-              replaceUrl: true,
-            });
-          });
-        } else {
-          isSelectingAll = false;
-          currentAllFilterGroup = null;
-        }
-      } else {
-        const paramName = checkbox.name;
-        const allCheckbox = filterForm.querySelector(`input[name="${paramName}_all"]`);
-        if (allCheckbox) {
-          allCheckbox.checked = false;
-        }
-      }
-    });
-  }
-
-  function handleInitialLoad() {
-    const filterForm = document.querySelector('#filter-form-stack');
-    if (!filterForm) return;
-
-    filterForm.querySelectorAll('input[name$="_all"]').forEach((checkbox) => {
-      checkbox.checked = true;
-    });
-
-    const params = new URLSearchParams(window.location.search);
-    const hasAnyFilters = Array.from(params.keys()).some((key) => key.includes('filter_') || key.includes('price'));
-
-    if (hasAnyFilters) {
-      syncCheckboxStates();
-    }
-  }
-
-  document.addEventListener('DOMContentLoaded', function () {
-    handleInitialLoad();
-    handleAllCheckboxBehavior();
-  });
-
-  window.addEventListener('load', function () {
-    handleInitialLoad();
-    handleAllCheckboxBehavior();
-  });
-
   if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeFilters);
   } else {
-    handleInitialLoad();
-    handleAllCheckboxBehavior();
-  }
-
-  document.addEventListener('htmx:afterSwap', function () {
-    syncCheckboxStates();
-    handleAllCheckboxBehavior();
-  });
-
-  function handleFilterResponse(event) {
-    try {
-      const responseText = event.detail.xhr.responseText;
-
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = responseText;
-
-      const newResults = tempDiv.querySelector('#results');
-      const currentResults = document.querySelector('#results');
-      if (newResults && currentResults) {
-        currentResults.outerHTML = newResults.outerHTML;
-      }
-
-      const newActiveFilters = tempDiv.querySelector('#active-filters');
-      const currentActiveFilters = document.querySelector('#active-filters');
-      if (newActiveFilters && currentActiveFilters) {
-        currentActiveFilters.outerHTML = newActiveFilters.outerHTML;
-      }
-
-      tempDiv.remove();
-    } catch (error) {
-      console.error('Error handling filter response:', error);
-    }
+    initializeFilters();
   }
 </script>
 
