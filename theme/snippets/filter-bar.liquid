@@ -98,7 +98,7 @@
           type="submit"
           form="filter-form-stack"
           class="w-full py-12 px-24 bg-black text-white text-body-large font-display"
-          onclick="prepareFormSubmission()"
+          onclick="closeFilterDrawerAndSubmit()"
         >
           View results
         </button>
@@ -139,8 +139,6 @@
                   {% render 'filter-tag', filter: filter, color_scheme: color_scheme %}
                 {% endif %}
               {% else %}
-                <!-- DEBUG: Show filter info -->
-                {% comment %} DEBUG: {{ filter.label }} has {{ filter.active_values.size }} active values {% endcomment %}
                 {% for value in filter.active_values %}
                   {% render 'filter-tag', filter: filter, value: value, color_scheme: color_scheme %}
                 {% endfor %}
@@ -269,7 +267,7 @@
 
   function handleAfterRequest(event) {
     updateOpacity(false);
-    
+
     if (isFormSubmitting) {
       setTimeout(() => {
         isFormSubmitting = false;
@@ -286,19 +284,9 @@
     const form = event.target.closest('form');
     if (!form || form.id !== 'filter-form-stack') return;
 
-    const allCheckboxes = form.querySelectorAll('input[name$="_all"]:checked');
-    
-    allCheckboxes.forEach((allCheckbox) => {
-      const filterGroup = allCheckbox.dataset.filterGroup;
-      if (filterGroup) {
-        delete event.detail.parameters[allCheckbox.name];
-        
-        const groupCheckboxes = form.querySelectorAll(`input[name="${filterGroup}"]`);
-        groupCheckboxes.forEach((groupCheckbox) => {
-          if (!groupCheckbox.name.endsWith('_all')) {
-            delete event.detail.parameters[groupCheckbox.name];
-          }
-        });
+    Object.keys(event.detail.parameters).forEach((key) => {
+      if (key.endsWith('_all')) {
+        delete event.detail.parameters[key];
       }
     });
   }
@@ -359,7 +347,7 @@
     } else {
       handleRegularCheckboxChange(checkbox);
     }
-    
+
     saveCheckboxStates();
   }
 
@@ -368,15 +356,15 @@
 
     const filterGroup = checkbox.dataset.filterGroup;
     const filterForm = document.querySelector('#filter-form-stack');
-    
+
     if (!filterForm || !filterGroup) return;
 
-    const otherCheckboxes = filterForm.querySelectorAll(`input[name="${filterGroup}"]`);
+    const otherCheckboxes = filterForm.querySelectorAll(`input[name="${filterGroup}"]:not([name$="_all"])`);
     otherCheckboxes.forEach((otherCheckbox) => {
-      if (otherCheckbox !== checkbox && !otherCheckbox.name.endsWith('_all')) {
-        otherCheckbox.checked = false;
-      }
+      otherCheckbox.checked = false;
     });
+
+    htmx.trigger(filterForm, 'change');
   }
 
   function handleRegularCheckboxChange(checkbox) {
@@ -385,19 +373,20 @@
 
     const filterGroup = checkbox.name;
     const allCheckbox = filterForm.querySelector(`input[name="${filterGroup}_all"]`);
-    
+
     if (!allCheckbox) return;
 
     if (checkbox.checked) {
       allCheckbox.checked = false;
     } else {
-      const otherCheckboxes = filterForm.querySelectorAll(`input[name="${filterGroup}"]`);
+      const otherCheckboxes = filterForm.querySelectorAll(`input[name="${filterGroup}"]:not([name$="_all"])`);
       const allUnchecked = Array.from(otherCheckboxes).every((otherCheckbox) => {
-        return otherCheckbox === checkbox || otherCheckbox.name.endsWith('_all') || !otherCheckbox.checked;
+        return !otherCheckbox.checked;
       });
-      
+
       if (allUnchecked) {
         allCheckbox.checked = true;
+        htmx.trigger(filterForm, 'change');
       }
     }
   }
@@ -450,22 +439,17 @@
     }
   }
 
-  function prepareFormSubmission() {
+  function closeFilterDrawerAndSubmit() {
+    const drawer = document.querySelector('[data-target="filter-drawer"]');
+    if (drawer) {
+      drawer.setAttribute('aria-expanded', 'false');
+      drawer.classList.add('hidden');
+    }
+
     const form = document.querySelector('#filter-form-stack');
-    if (!form) return;
-
-    const allCheckboxes = form.querySelectorAll('input[name$="_all"]');
-    allCheckboxes.forEach((checkbox) => {
-      if (checkbox.checked) {
-        checkbox.disabled = true;
-      }
-    });
-
-    setTimeout(() => {
-      allCheckboxes.forEach((checkbox) => {
-        checkbox.disabled = false;
-      });
-    }, 100);
+    if (form) {
+      htmx.trigger(form, 'change');
+    }
   }
 
   if (document.readyState === 'loading') {
