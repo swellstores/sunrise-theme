@@ -20,7 +20,7 @@
   <!-- Filter drawer -->
   <div
     data-target="filter-drawer"
-    class="fixed top-0 left-0 h-full w-340 lg:w-400 bg-white hidden"
+    class="fixed top-0 left-0 h-full w-340 lg:w-400 bg-white -translate-x-full transition-transform duration-300 ease-in-out shadow-lg"
     style="z-index: 5000"
     role="dialog"
     aria-modal="true"
@@ -95,10 +95,9 @@
       <!-- Add submit button as fallback -->
       <div class="p-24">
         <button
-          type="submit"
-          form="filter-form-stack"
+          type="button"
           class="w-full py-12 px-24 bg-black text-white text-body-large font-display"
-          onclick="closeFilterDrawerAndSubmit()"
+          onclick="closeFilterDrawerAndSubmit(event)"
         >
           View results
         </button>
@@ -439,17 +438,18 @@
     }
   }
 
-  function closeFilterDrawerAndSubmit() {
-    const drawer = document.querySelector('[data-target="filter-drawer"]');
-    if (drawer) {
-      drawer.setAttribute('aria-expanded', 'false');
-      drawer.classList.add('hidden');
+  function closeFilterDrawerAndSubmit(event) {
+    const filterDrawerRoot = document.querySelector('filter-drawer-root');
+    if (filterDrawerRoot && filterDrawerRoot.close) {
+      filterDrawerRoot.close();
     }
 
     const form = document.querySelector('#filter-form-stack');
     if (form) {
       htmx.trigger(form, 'change');
     }
+
+    event.preventDefault();
   }
 
   if (document.readyState === 'loading') {
@@ -458,8 +458,6 @@
     initializeFilters();
   }
 </script>
-
-{{ 'filter.js' | asset_url | script_tag }}
 
 {% style %}
   .filter-section:first-child {
