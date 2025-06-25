@@ -125,7 +125,7 @@ export class FilterDrawer extends HTMLElement {
 
     this.searchDialog.classList.remove("z-50");
     this.backdropOverlay.classList.remove("translate-x-full");
-    this.drawer.classList.remove("hidden");
+    this.drawer.classList.remove("-translate-x-full");
     this.drawer.setAttribute("aria-expanded", "true");
   }
 
@@ -144,7 +144,7 @@ export class FilterDrawer extends HTMLElement {
 
     this.searchDialog.classList.add("z-50");
     this.backdropOverlay.classList.add("translate-x-full");
-    this.drawer.classList.add("hidden");
+    this.drawer.classList.add("-translate-x-full");
     this.drawer.setAttribute("aria-expanded", "false");
   }
 }
