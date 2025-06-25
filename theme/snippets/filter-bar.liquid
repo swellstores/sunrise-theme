@@ -1,7 +1,7 @@
 {%- liquid
   assign color_scheme = color_scheme
   assign sort_by = results.sort_by | default: results.default_sort_by
-  assign request_path = request.path | default: '#'
+  assign request_path = results.url | default: request.path
 -%}
 
 <filter-drawer-root class="text-{{ color_scheme }}">
@@ -44,11 +44,12 @@
       <form
         id="filter-form-stack"
         hx-get="{{ request_path }}"
+        hx-trigger="change from:(#filter-form-stack input), change from:(.price-slider)"
         hx-on="htmx:configRequest: updateSortFilters(event)"
         hx-target="#results"
-        hx-select="#results"
+        hx-select="#results, #active-filters"
         hx-swap="outerHTML"
-        hx-swap-oob="true"
+        hx-on="htmx:afterRequest: handleFilterResponse(event)"
         class="flex-1 overflow-y-auto"
       >
         <div class="px-24">
@@ -72,12 +73,10 @@
                     <label class="flex items-center flex-nowrap filter-checkbox-height">
                       <input
                         type="checkbox"
-                        class="size-16 mr-6 rounded border-gray-300"
+                        class="size-16 mr-6 rounded border-gray-300 all-checkbox"
                         name="{{ filter.param_name }}_all"
                         value="all"
-                        {% if filter.active_values.size == 0 %}
-                          checked
-                        {% endif %}
+                        data-filter-group="{{ filter.param_name }}"
                       >
                       <span class="font-display text-nowrap">All</span>
                     </label>
@@ -94,11 +93,13 @@
         </div>
       </form>
 
+      <!-- Add submit button as fallback -->
       <div class="p-24">
         <button
           type="submit"
           form="filter-form-stack"
           class="w-full py-12 px-24 bg-black text-white text-body-large font-display"
+          onclick="prepareFormSubmission()"
         >
           View results
         </button>
@@ -159,19 +160,15 @@
             </a>
           </div>
         </div>
+      {% else %}
+        <!-- Empty state to ensure out-of-band swap works -->
+        <div style="display: none;"></div>
       {% endif %}
     </div>
   </section>
 </filter-drawer-root>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Initialize price sliders on DOM load
-    if (window.initPriceSliders) {
-      window.initPriceSliders();
-    }
-  });
-
   document.addEventListener('htmx:afterSwap', function () {
     const params = new URLSearchParams(window.location.search);
 
@@ -187,11 +184,15 @@
     const results = document.querySelector('#results');
 
     if (results) {
-      results.classList.add('opacity-20');
+      results.classList.remove('opacity-20');
     }
 
     if (window.initPriceSliders) {
       window.initPriceSliders();
+    }
+
+    if (window.filters) {
+      window.filters();
     }
   });
 
@@ -209,29 +210,252 @@
     if (results) {
       results.classList.add('opacity-20');
     }
+
+    // Track the current request for cancellation
+    currentRequest = event.detail.xhr;
+  });
+
+  document.addEventListener('htmx:afterRequest', function (event) {
+    // Clear the current request reference when it completes
+    if (event.detail.xhr === currentRequest) {
+      currentRequest = null;
+      isSelectingAll = false;
+      currentAllFilterGroup = null;
+    }
+  });
+
+  document.addEventListener('htmx:responseError', function (event) {
+    if (event.detail.xhr === currentRequest) {
+      currentRequest = null;
+      if (isSelectingAll) {
+        isSelectingAll = false;
+        currentAllFilterGroup = null;
+      }
+    }
   });
 
   document.addEventListener('htmx:configRequest', (event) => {
+    // Only prevent requests from "All" checkboxes that are being checked
+    const trigger = event.detail.elt;
+    if (trigger && trigger.classList.contains('all-checkbox') && trigger.checked) {
+      event.preventDefault();
+      return false;
+    }
+
     if (window.onHtmxConfigRequest) {
       window.onHtmxConfigRequest(event);
     }
   });
+
+  document.addEventListener('priceSliderChanged', function (event) {
+    const results = document.querySelector('#results');
+    if (results) {
+      results.classList.add('opacity-20');
+    }
+  });
+
+  function prepareFormSubmission() {
+    const form = document.querySelector('#filter-form-stack');
+    if (!form) return;
+
+    const allCheckboxes = form.querySelectorAll('input[name$="_all"]');
+    allCheckboxes.forEach((checkbox) => {
+      if (checkbox.checked) {
+        checkbox.disabled = true;
+      }
+    });
+
+    setTimeout(() => {
+      allCheckboxes.forEach((checkbox) => {
+        checkbox.disabled = false;
+      });
+    }, 100);
+  }
+
+  let isSelectingAll = false;
+  let currentAllFilterGroup = null;
+  let currentRequest = null;
+
+  function cancelPendingRequests() {
+    if (currentRequest) {
+      currentRequest.abort();
+      currentRequest = null;
+    }
+  }
+
+  function syncCheckboxStates() {
+    const params = new URLSearchParams(window.location.search);
+    const filterForm = document.querySelector('#filter-form-stack');
+
+    if (!filterForm) return;
+
+    filterForm.querySelectorAll('input[name$="_all"]').forEach((checkbox) => {
+      const filterGroup = checkbox.getAttribute('data-filter-group');
+
+      if (isSelectingAll && currentAllFilterGroup === filterGroup) {
+        checkbox.checked = true;
+        return;
+      }
+
+      const hasActiveFilters = Array.from(params.keys()).some(
+        (key) => key === filterGroup || key.startsWith(filterGroup + '['),
+      );
+
+      checkbox.checked = !hasActiveFilters;
+    });
+
+    filterForm.querySelectorAll('input[type="checkbox"]:not([name$="_all"])').forEach((checkbox) => {
+      const shouldBeChecked = params.has(checkbox.name) && params.getAll(checkbox.name).includes(checkbox.value);
+      checkbox.checked = shouldBeChecked;
+    });
+  }
+
+  function handleAllCheckboxBehavior() {
+    const filterForm = document.querySelector('#filter-form-stack');
+    if (!filterForm) return;
+
+    filterForm.addEventListener('change', function (event) {
+      const checkbox = event.target;
+
+      if (checkbox.classList.contains('all-checkbox')) {
+        const filterGroup = checkbox.getAttribute('data-filter-group');
+
+        if (checkbox.checked) {
+          isSelectingAll = true;
+          currentAllFilterGroup = filterGroup;
+
+          cancelPendingRequests();
+
+          filterForm.querySelectorAll(`input[name="${filterGroup}"]`).forEach((otherCheckbox) => {
+            if (otherCheckbox !== checkbox && !otherCheckbox.name.endsWith('_all')) {
+              otherCheckbox.checked = false;
+            }
+          });
+
+          event.preventDefault();
+          event.stopPropagation();
+
+          requestAnimationFrame(() => {
+            filterForm.querySelectorAll(`input[name="${filterGroup}"]`).forEach((otherCheckbox) => {
+              if (otherCheckbox !== checkbox && !otherCheckbox.name.endsWith('_all')) {
+                otherCheckbox.checked = false;
+              }
+            });
+
+            const formData = new FormData(filterForm);
+
+            for (let [key, value] of formData.entries()) {
+              if (key === filterGroup || key.startsWith(filterGroup + '[')) {
+                formData.delete(key);
+              }
+            }
+
+            const urlParams = new URLSearchParams();
+            for (let [key, value] of formData.entries()) {
+              urlParams.append(key, value);
+            }
+
+            const baseUrl = filterForm.getAttribute('hx-get');
+            const finalUrl = new URL(baseUrl, window.location.origin);
+
+            for (let [key, value] of urlParams.entries()) {
+              finalUrl.searchParams.append(key, value);
+            }
+
+            currentRequest = htmx.ajax('GET', finalUrl.toString(), {
+              target: filterForm.getAttribute('hx-target'),
+              select: filterForm.getAttribute('hx-select'),
+              swap: filterForm.getAttribute('hx-swap'),
+              pushUrl: true,
+              replaceUrl: true,
+            });
+          });
+        } else {
+          isSelectingAll = false;
+          currentAllFilterGroup = null;
+        }
+      } else {
+        const paramName = checkbox.name;
+        const allCheckbox = filterForm.querySelector(`input[name="${paramName}_all"]`);
+        if (allCheckbox) {
+          allCheckbox.checked = false;
+        }
+      }
+    });
+  }
+
+  function handleInitialLoad() {
+    const filterForm = document.querySelector('#filter-form-stack');
+    if (!filterForm) return;
+
+    filterForm.querySelectorAll('input[name$="_all"]').forEach((checkbox) => {
+      checkbox.checked = true;
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    const hasAnyFilters = Array.from(params.keys()).some((key) => key.includes('filter_') || key.includes('price'));
+
+    if (hasAnyFilters) {
+      syncCheckboxStates();
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    handleInitialLoad();
+    handleAllCheckboxBehavior();
+  });
+
+  window.addEventListener('load', function () {
+    handleInitialLoad();
+    handleAllCheckboxBehavior();
+  });
+
+  if (document.readyState === 'loading') {
+  } else {
+    handleInitialLoad();
+    handleAllCheckboxBehavior();
+  }
+
+  document.addEventListener('htmx:afterSwap', function () {
+    syncCheckboxStates();
+    handleAllCheckboxBehavior();
+  });
+
+  function handleFilterResponse(event) {
+    try {
+      const responseText = event.detail.xhr.responseText;
+
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = responseText;
+
+      const newResults = tempDiv.querySelector('#results');
+      const currentResults = document.querySelector('#results');
+      if (newResults && currentResults) {
+        currentResults.outerHTML = newResults.outerHTML;
+      }
+
+      const newActiveFilters = tempDiv.querySelector('#active-filters');
+      const currentActiveFilters = document.querySelector('#active-filters');
+      if (newActiveFilters && currentActiveFilters) {
+        currentActiveFilters.outerHTML = newActiveFilters.outerHTML;
+      }
+
+      tempDiv.remove();
+    } catch (error) {
+      console.error('Error handling filter response:', error);
+    }
+  }
 </script>
 
 {{ 'filter.js' | asset_url | script_tag }}
 
 {% style %}
-
   .filter-section:first-child {
     margin-top: 0;
   }
 
   .filter-section[open] summary ion-icon {
     transform: rotate(180deg);
-  }
-
-  .filter-section .filter-options {
-    padding-bottom: 1.5rem;
   }
 
   .filter-drawer-title {
@@ -244,10 +468,6 @@
     font-size: 16px;
     font-weight: 500;
     line-height: 20px;
-  }
-
-  .price-slider {
-    margin-top: 1rem !important;
   }
 
   input[type='checkbox'] {

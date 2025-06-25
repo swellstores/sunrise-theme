@@ -103,6 +103,21 @@ export function initPriceSliders() {
 
     sliderTrack.noUiSlider.on("set", function () {
       updateMaxValuePosition();
+
+      const changeEvent = new Event("change", { bubbles: true });
+      inputMin.dispatchEvent(changeEvent);
+      inputMax.dispatchEvent(changeEvent);
+
+      const containerChangeEvent = new Event("change", { bubbles: true });
+      container.dispatchEvent(containerChangeEvent);
+
+      const event = new CustomEvent("priceSliderChanged", {
+        detail: {
+          min: inputMin.value,
+          max: inputMax.value,
+        },
+      });
+      container.dispatchEvent(event);
     });
 
     const initialValues = sliderTrack.noUiSlider.get();
