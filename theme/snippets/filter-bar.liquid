@@ -464,8 +464,33 @@
     margin-top: 0;
   }
 
+  .filter-section summary ion-icon {
+    transition: transform 0.3s ease;
+    transform: rotate(270deg);
+  }
+
   .filter-section[open] summary ion-icon {
-    transform: rotate(180deg);
+    transition: transform 0.3s ease;
+    transform: rotate(360deg);
+  }
+
+  .filter-section {
+    interpolate-size: allow-keywords;
+  }
+
+  .filter-section[open] .filter-options {
+    animation: slideDown 0.3s ease-out;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-1rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .filter-drawer-title {
