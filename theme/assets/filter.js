@@ -86,11 +86,6 @@ function shouldApplyFilterValue(form, key, value) {
     return false;
   }
 
-  // Exclude "All" checkbox parameters
-  if (key.endsWith("_all")) {
-    return false;
-  }
-
   if (field.type === "range" && [field.max, field.min].includes(value)) {
     return false;
   }
