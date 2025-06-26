@@ -64,8 +64,9 @@ export function initPriceSliders() {
       },
     });
 
-    function updateMaxValuePosition() {
+    function updateValuePositions() {
       const values = sliderTrack.noUiSlider.get();
+      const minSliderValue = values[0];
       const maxSliderValue = values[1];
 
       const sliderWidth = sliderTrack.offsetWidth;
@@ -73,11 +74,23 @@ export function initPriceSliders() {
       const rangeMin = range.min;
       const rangeMax = range.max;
 
-      const percentage =
-        ((maxSliderValue - rangeMin) / (rangeMax - rangeMin)) * 100;
+      // Update min value position (left handle)
+      const minPercentage = ((minSliderValue - rangeMin) / (rangeMax - rangeMin)) * 100;
+      const minPositionInPixels = (minPercentage / 100) * sliderWidth;
+      minValue.style.left = minPositionInPixels + "px";
 
-      const positionInPixels = (percentage / 100) * sliderWidth;
-      maxValue.style.left = positionInPixels + "px";
+      if (minSliderValue <= rangeMin) {
+        // At minimum - left align with handle
+        minValue.style.transform = "translateX(0%)";
+      } else {
+        // otherwise center above handle
+        minValue.style.transform = "translateX(-33%)";
+      }
+
+      // Update max value position (right handle)
+      const maxPercentage = ((maxSliderValue - rangeMin) / (rangeMax - rangeMin)) * 100;
+      const maxPositionInPixels = (maxPercentage / 100) * sliderWidth;
+      maxValue.style.left = maxPositionInPixels + "px";
 
       if (maxSliderValue >= rangeMax) {
         // At maximum - right align with handle
@@ -98,11 +111,11 @@ export function initPriceSliders() {
       inputMin.value = minVal;
       inputMax.value = maxVal;
 
-      updateMaxValuePosition();
+      updateValuePositions();
     });
 
     sliderTrack.noUiSlider.on("set", function () {
-      updateMaxValuePosition();
+      updateValuePositions();
 
       const changeEvent = new Event("change", { bubbles: true });
       inputMin.dispatchEvent(changeEvent);
@@ -129,6 +142,6 @@ export function initPriceSliders() {
     inputMin.value = initialMin;
     inputMax.value = initialMax;
 
-    maxValue.style.left = "100%";
+    updateValuePositions();
   });
 }
