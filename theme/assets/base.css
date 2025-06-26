@@ -337,7 +337,8 @@ textarea {
 /* Price slider specific styles */
 .price-slider {
   position: relative;
-  padding: 0 0 10px 0;
+  padding: 12px 0 10px 0;
+  margin-top: 16px;
 }
 
 .price-slider .noUi-target {
@@ -385,32 +386,15 @@ textarea {
 
 .price-slider .min-value,
 .price-slider .max-value {
-  font-size: 14px;
-  color: #666;
-}
-
-.price-slider .max-value {
   position: absolute;
-  top: 0;
+  top: -24px;
   white-space: nowrap;
+  font-size: 14px;
+  color: #424242;
   pointer-events: none;
-  transition: transform 0.1s ease;
-}
-
-.price-slider {
-  width: 100% !important;
-  max-width: 100% !important;
-  box-sizing: border-box !important;
 }
 
 /* Remove border/background from price slider labels */
-.price-slider .min-value,
-.price-slider .max-value {
-  background: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}
 .price-slider > div {
   background: none !important;
   border: none !important;
