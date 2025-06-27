@@ -7,6 +7,7 @@ export function initPriceSliders() {
     const startMin = parseFloat(container.dataset.startMin) || min;
     const startMax = parseFloat(container.dataset.startMax) || max;
     const step = parseFloat(container.dataset.step) || 1;
+    const currencySymbol = container.dataset.currencySymbol || "$";
 
     let minValue = container.querySelector(".min-value");
     let maxValue = container.querySelector(".max-value");
@@ -75,7 +76,8 @@ export function initPriceSliders() {
       const rangeMax = range.max;
 
       // Update min value position (left handle)
-      const minPercentage = ((minSliderValue - rangeMin) / (rangeMax - rangeMin)) * 100;
+      const minPercentage =
+        ((minSliderValue - rangeMin) / (rangeMax - rangeMin)) * 100;
       const minPositionInPixels = (minPercentage / 100) * sliderWidth;
       minValue.style.left = minPositionInPixels + "px";
 
@@ -88,7 +90,8 @@ export function initPriceSliders() {
       }
 
       // Update max value position (right handle)
-      const maxPercentage = ((maxSliderValue - rangeMin) / (rangeMax - rangeMin)) * 100;
+      const maxPercentage =
+        ((maxSliderValue - rangeMin) / (rangeMax - rangeMin)) * 100;
       const maxPositionInPixels = (maxPercentage / 100) * sliderWidth;
       maxValue.style.left = maxPositionInPixels + "px";
 
@@ -105,8 +108,8 @@ export function initPriceSliders() {
       const minVal = Math.round(values[0]);
       const maxVal = Math.round(values[1]);
 
-      minValue.textContent = `$${minVal}`;
-      maxValue.textContent = `$${maxVal}`;
+      minValue.textContent = `${currencySymbol}${minVal}`;
+      maxValue.textContent = `${currencySymbol}${maxVal}`;
 
       inputMin.value = minVal;
       inputMax.value = maxVal;
@@ -137,8 +140,8 @@ export function initPriceSliders() {
     const initialMin = Math.round(initialValues[0]);
     const initialMax = Math.round(initialValues[1]);
 
-    minValue.textContent = `$${initialMin}`;
-    maxValue.textContent = `$${initialMax}`;
+    minValue.textContent = `${currencySymbol}${initialMin}`;
+    maxValue.textContent = `${currencySymbol}${initialMax}`;
     inputMin.value = initialMin;
     inputMax.value = initialMax;
 
