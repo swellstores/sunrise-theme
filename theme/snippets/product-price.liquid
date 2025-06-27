@@ -1,0 +1,74 @@
+{%- liquid
+  assign purchase_options = product.purchase_options
+  assign standard = purchase_options.standard
+  assign subscription = purchase_options.subscription
+
+  assign standard_price = nil
+  assign is_standard_sale = false
+  assign subscription_price = nil
+
+  if standard
+    if standard.sale and standard.sale_price > 0
+      assign is_standard_sale = true
+      assign standard_price = standard.sale_price
+    else
+      assign standard_price = standard.price
+    endif
+  endif
+
+  if subscription
+    for plan in subscription.plans
+      if subscription_price == nil or subscription_price > plan.price
+        assign subscription_price = plan.price
+      endif
+    endfor
+  endif
+
+  assign top_margin = block.settings.margin_top | times: 0.1 | round: 1
+  assign bottom_margin = block.settings.margin_bottom | times: 0.1 | round: 1
+-%}
+
+{% style %}
+  #product-price {
+    margin-top: {{ top_margin }}rem;
+    margin-bottom: {{ bottom_margin }}rem;
+  }
+{% endstyle %}
+
+<div id="product-price" class="text-body-extra-large text-{{ color_scheme }}">
+  {% if standard_price and subscription_price %}
+    <span class="font-medium">
+      {{ 'sections.product.from_price' | t }}
+    </span>
+    {% if standard_price < subscription_price %}
+      <span class="font-semibold">
+        {{ standard_price | money }}
+      </span>
+      {% if is_standard_sale %}
+        <span class="font-medium line-through text-secondary-{{ color_scheme }}">
+          {{ standard.orig_price | money }}
+        </span>
+      {% endif %}
+    {% else %}
+      <span class="font-semibold">
+        {{ subscription_price | money }}
+      </span>
+    {% endif %}
+  {% elsif subscription_price %}
+    <span class="font-medium">
+      {{ 'sections.product.from_price' | t }}
+    </span>
+    <span class="font-semibold">
+      {{ subscription_price | money }}
+    </span>
+  {% else %}
+    <span class="font-semibold">
+      {{ standard_price | money }}
+    </span>
+    {% if is_standard_sale %}
+      <span class="font-medium line-through text-secondary-{{ color_scheme }}">
+        {{ standard.orig_price | money }}
+      </span>
+    {% endif %}
+  {% endif %}
+</div>

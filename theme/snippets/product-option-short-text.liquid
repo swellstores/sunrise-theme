@@ -1,0 +1,24 @@
+<product-option-text
+  id="product-option-{{ option.id }}"
+  class="flex flex-col gap-6"
+  data-option-id="{{ option.id }}"
+  {% if option.required %}
+    required
+  {% endif %}
+>
+  <span class="text-body-medium text-secondary-{{ variants_color_scheme }}">
+    {{ option.name }}
+  </span>
+  <input
+    class="product-option-input px-12 py-10 text-title-medium outline-none border border-color-{{ variants_color_scheme }}"
+    {% if option.input_hint %}
+      placeholder="{{ option.input_hint }}"
+    {% endif %}
+  ></input>
+  {% if option.description %}
+    <span class="text-body-small text-secondary-{{ variants_color_scheme }}">{{ option.description }}</span>
+  {% endif %}
+  <option-error class="hidden text-body-medium text-{{ variants_color_scheme }}">
+    {{ 'sections.product.option.text_error' | t }}
+  </option-error>
+</product-option-text>

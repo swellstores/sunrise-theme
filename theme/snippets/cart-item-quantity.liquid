@@ -1,0 +1,8 @@
+<cart-item-quantity data-index="{{ index }}">
+  {% render 'quantity-selector',
+    value: item.quantity,
+    size: 'small',
+    min: 1,
+    color_scheme: color_scheme,
+  %}
+</cart-item-quantity>

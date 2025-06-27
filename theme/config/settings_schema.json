@@ -66,25 +66,31 @@
           {
             "type": "color",
             "id": "button",
-            "label": "Solid button background",
+            "label": "Primary button background",
             "default": "#121212"
           },
           {
             "type": "color",
+            "id": "button_border",
+            "label": "Primary button border",
+            "default": "#222222"
+          },
+          {
+            "type": "color",
             "id": "button_label",
-            "label": "Solid button label",
+            "label": "Primary button text",
             "default": "#FFFFFF"
           },
           {
             "type": "color",
             "id": "secondary_button_label",
-            "label": "Outline button label",
+            "label": "Secondary button text",
             "default": "#222222"
           },
           {
             "type": "color",
             "id": "secondary_button_border",
-            "label": "Outline button border",
+            "label": "Secondary button border",
             "default": "#222222"
           },
           {
@@ -106,25 +112,25 @@
           {
             "type": "color",
             "id": "primary_button_hover",
-            "label": "Solid button background hover",
+            "label": "Primary button background hover",
             "default": "#222222"
           },
           {
             "type": "color",
             "id": "primary_button_label_hover",
-            "label": "Solid button label hover",
+            "label": "Primary button text hover",
             "default": "#222222"
           },
           {
             "type": "color",
             "id": "secondary_button_border_hover",
-            "label": "Outline button border hover",
+            "label": "Secondary button border hover",
             "default": "#222222"
           },
           {
             "type": "color",
             "id": "secondary_button_label_hover",
-            "label": "Outline button label hover",
+            "label": "Secondary button text hover",
             "default": "#222222"
           }
         ],

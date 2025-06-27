@@ -1,0 +1,45 @@
+
+
+<div class="flex flex-col gap-24">
+  {% render 'product-purchase-options',
+    product: product,
+    block: block,
+    variants_color_scheme: variants_color_scheme
+  %}
+
+  <div class="flex flex-col gap-8">
+    {% unless product.available %}
+      <span class="text-body-medium text-secondary-{{ color_scheme }}">
+        {{ 'sections.product.out_of_stock' | t }}
+      </span>
+    {% endunless %}
+
+    <button
+      id="buy-button"
+      type="submit"
+      class="
+        flex
+        justify-center
+        w-full
+        px-24
+        py-12
+        rounded
+        btn-primary-{{ color_scheme }}
+      "
+      {% unless product.available %}
+        disabled
+      {% endunless %}
+    >
+      {% render 'loader',
+        width: 20,
+        height: 20,
+      %}
+      <span id="buy-button-text" class="text-body-medium" hx-swap-oob="true">
+        {{ block.settings.buy_button_text }}
+        {% if product.available %}
+        - {{ product.price | money }}
+        {% endif %}
+      </span>
+    </button>
+  </div>
+</div>

@@ -48,7 +48,9 @@
         return;
       }
 
-      const icon = trigger.querySelector("ion-icon") || trigger.querySelector("chevron-icon");
+      const icon =
+        trigger.querySelector("ion-icon") ||
+        trigger.querySelector("chevron-icon");
       const shouldExpand = trigger.getAttribute("aria-expanded") === "false";
 
       return shouldExpand
@@ -59,7 +61,7 @@
     open(trigger, content, icon) {
       trigger.setAttribute("aria-expanded", "true");
       content.classList.remove("grid-rows-[0fr]", "opacity-0");
-      content.classList.add("grid-rows-[1fr]", "opacity-100", "pb-3");
+      content.classList.add("grid-rows-[1fr]", "opacity-100");
 
       if (icon instanceof HTMLElement) {
         icon.style.transform = "rotate(180deg)";
@@ -69,7 +71,7 @@
     close(trigger, content, icon) {
       trigger.setAttribute("aria-expanded", "false");
       content.classList.add("grid-rows-[0fr]", "opacity-0");
-      content.classList.remove("grid-rows-[1fr]", "opacity-100", "pb-3");
+      content.classList.remove("grid-rows-[1fr]", "opacity-100");
 
       if (icon instanceof HTMLElement) {
         icon.style.transform = "";
