@@ -87,6 +87,15 @@ input[type="number"].number-input::-webkit-outer-spin-button {
   width: fit-content;
 }
 
+.scrollbar-hidden {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
 /* FROALA editors */
 .formatted-text {
   h1,
@@ -204,6 +213,12 @@ input[type="number"].number-input::-webkit-outer-spin-button {
 }
 
 /* content styles */
+.text-title-extra-large {
+  font-size: calc(3rem * var(--font-scale));
+  line-height: calc(3.8rem * var(--font-scale));
+  font-weight: 500;
+}
+
 .text-title-large {
   font-size: calc(2.2rem * var(--font-scale));
   line-height: calc(2.8rem * var(--font-scale));
@@ -220,6 +235,12 @@ input[type="number"].number-input::-webkit-outer-spin-button {
   font-size: calc(1.4rem * var(--font-scale));
   line-height: calc(2rem * var(--font-scale));
   font-weight: 500;
+}
+
+.text-body-extra-large {
+  font-size: calc(1.8rem * var(--font-scale));
+  line-height: calc(2.8rem * var(--font-scale));
+  font-weight: 400;
 }
 
 .text-body-large {
@@ -274,5 +295,11 @@ input[type="number"].number-input::-webkit-outer-spin-button {
 input,
 select,
 textarea {
-  border-radius: var(--border-radius);
+  border-radius: calc(1rem * var(--border-radius));
+}
+
+.disabled,
+[disabled] {
+  opacity: 0.6;
+  pointer-events: none;
 }

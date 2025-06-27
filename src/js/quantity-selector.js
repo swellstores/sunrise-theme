@@ -1,5 +1,3 @@
-import eventBus from './utils/event-bus';
-
 /**
  * @export
  * @class QuantitySelector
@@ -12,119 +10,95 @@ export class QuantitySelector extends HTMLElement {
     this.handleIncrementBound = this.handleIncrement.bind(this);
     this.handleDecrementBound = this.handleDecrement.bind(this);
     this.handleInputChangeBound = this.handleInputChange.bind(this);
-    this.handleRemoveBound = this.handleRemove.bind(this);
   }
 
   connectedCallback() {
-    this.quantity = this.querySelector('input');
-    this.increment = this.querySelector('quantity-selector-increment');
-    this.decrement = this.querySelector('quantity-selector-decrement');
-    this.removeItem = this.querySelector('quantity-selector-remove');
-
-    if (this.increment && this.decrement) {
-      this.increment.addEventListener('click', this.handleIncrementBound);
-      this.decrement.addEventListener('click', this.handleDecrementBound);
-    }
+    this.quantity = this.querySelector("input");
+    this.increment = this.querySelector("quantity-selector-increment");
+    this.decrement = this.querySelector("quantity-selector-decrement");
 
     if (this.quantity) {
-      this.quantity.addEventListener('change', this.handleInputChangeBound);
+      this.min = parseInt(this.quantity.min);
+      this.max = parseInt(this.quantity.max);
+      this.step = parseInt(this.quantity.step);
+
+      this.quantity.addEventListener("change", this.handleInputChangeBound);
     }
 
-    if (this.removeItem) {
-      this.removeItem.addEventListener('click', this.handleRemoveBound);
+    if (this.increment && this.decrement) {
+      this.increment.addEventListener("click", this.handleIncrementBound);
+      this.decrement.addEventListener("click", this.handleDecrementBound);
     }
   }
 
   disconnectedCallback() {
-    if (this.increment && this.decrement) {
-      this.increment.removeEventListener('click', this.handleIncrementBound);
-      this.decrement.removeEventListener('click', this.handleDecrementBound);
-    }
-
     if (this.quantity) {
-      this.quantity.removeEventListener('change', this.handleInputChangeBound);
+      this.quantity.removeEventListener("change", this.handleInputChangeBound);
     }
 
-    if (this.removeItem) {
-      this.removeItem.removeEventListener('click', this.handleRemoveBound);
+    if (this.increment && this.decrement) {
+      this.increment.removeEventListener("click", this.handleIncrementBound);
+      this.decrement.removeEventListener("click", this.handleDecrementBound);
     }
+  }
 
-    this.quantity = null;
-    this.increment = null;
-    this.decrement = null;
-    this.removeItem = null;
+  get() {
+    return Number(this.quantity.value);
   }
 
   handleIncrement() {
-    if (this.quantity) {
-      const step = parseInt(this.quantity.step) || 1;
-      const maxValue = parseInt(this.quantity.max);
-      const max = maxValue || maxValue === 0 ? maxValue : Infinity;
-      const newValue = Math.min(parseInt(this.quantity.value) + step, max);
-      this.quantity.value = newValue.toString();
-      this.quantity.setAttribute('value', newValue);
-      this.dispatchChangeEvent();
+    if (!this.quantity) {
+      return;
     }
+
+    const value = parseInt(this.quantity.value);
+    const newValue = Math.min(value + this.step, this.max);
+
+    this.setQuantityValue(newValue);
   }
 
   handleDecrement() {
-    if (this.quantity) {
-      const step = parseInt(this.quantity.step) || 1;
-      const min = parseInt(this.quantity.min) || 0;
-      const newValue = Math.max(parseInt(this.quantity.value) - step, min);
-      this.quantity.value = newValue.toString();
-      this.quantity.setAttribute('value', newValue);
-      this.dispatchChangeEvent();
+    if (!this.quantity) {
+      return;
     }
+
+    const value = parseInt(this.quantity.value);
+    const newValue = Math.max(value - this.step, this.min);
+
+    this.setQuantityValue(newValue);
   }
 
-  handleInputChange(event) {
+  handleInputChange() {
     const newValue = parseInt(this.quantity.value);
     const min = parseInt(this.quantity.min) || 0;
     const max = parseInt(this.quantity.max) || Infinity;
 
-    if (newValue < min) {
-      this.quantity.value = min.toString();
-      this.quantity.setAttribute('value', min);
+    if (!Number.isFinite(newValue) || newValue < min) {
+      this.setQuantityValue(min);
     } else if (newValue > max) {
-      this.quantity.value = max.toString();
-      this.quantity.setAttribute('value', max);
+      this.setQuantityValue(max);
     }
+  }
+
+  setQuantityValue(value) {
+    if (value === this.get()) {
+      return;
+    }
+
+    this.quantity.value = value.toString();
+    this.quantity.setAttribute("value", value);
 
     this.dispatchChangeEvent();
   }
 
-  handleRemove() {
-    if (this.quantity) {
-      this.quantity.value = '0';
-      this.quantity.setAttribute('value', '0');
-      this.dispatchChangeEvent();
-    }
-  }
-
   dispatchChangeEvent() {
-    const quantity = Number(this.quantity.value);
-    const quantityForProduct = this.quantity.getAttribute('data-is-product-quantity');
-    if (quantityForProduct === 'yes') {
-      // update product quantity
-      eventBus.emit('product-quantity-change', {
-        quantity,
-      });
+    const event = new CustomEvent("change", {
+      detail: {
+        value: this.get(),
+      },
+      bubbles: true,
+    });
 
-      return;
-    }
-
-    // update cart quantity
-    this.dispatchEvent(
-      new CustomEvent('quantity-change', {
-        detail: {
-          line: Number(this.quantity.getAttribute('data-line')),
-          quantity,
-        },
-        bubbles: true,
-        composed: true,
-        cancelable: true,
-      }),
-    );
+    this.dispatchEvent(event);
   }
 }

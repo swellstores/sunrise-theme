@@ -1,122 +1,116 @@
 {
-    "sections": {
-        "main": {
-            "type": "product",
-            "blocks": {
-                "title": {
-                    "type": "title",
-                    "settings": {
-                        "show_title": true,
-                        "margin_top": 0,
-                        "margin_bottom": 8
-                    }
-                },
-                "price": {
-                    "type": "price",
-                    "settings": {
-                        "show_price": true,
-                        "margin_top": 8,
-                        "margin_bottom": 8
-                    }
-                },
-                "quantity_selector": {
-                    "type": "quantity_selector",
-                    "settings": {
-                        "show_quantity_selector": true,
-                        "margin_top": 8,
-                        "margin_bottom": 8
-                    }
-                },
-                "variant_bTVdxV": {
-                    "type": "variant",
-                    "settings": {
-                        "variant": true,
-                        "product_selector": "radio",
-                        "margin_top": 8,
-                        "margin_bottom": 8
-                    }
-                },
-                "buy_buttons": {
-                    "type": "buy_buttons",
-                    "settings": {
-                        "show_buy_buttons": true,
-                        "buy_button_text": "Add to cart",
-                        "margin_top": 8,
-                        "margin_bottom": 8
-                    }
-                },
-                "description": {
-                    "type": "description",
-                    "settings": {
-                        "show_description": true,
-                        "margin_top": 8,
-                        "margin_bottom": 8
-                    }
-                },
-                "accordion_materials": {
-                    "type": "accordion_item",
-                    "settings": {
-                        "trigger": "Materials",
-                        "content": "Details about the materials used in the product."
-                    }
-                },
-                "accordion_shipping": {
-                    "type": "accordion_item",
-                    "settings": {
-                        "trigger": "Shipping & Returns",
-                        "content": "Information about shipping and return policies."
-                    }
-                },
-                "accordion_dimensions": {
-                    "type": "accordion_item",
-                    "settings": {
-                        "trigger": "Dimensions",
-                        "content": "Product dimensions and size information."
-                    }
-                },
-                "accordion_care": {
-                    "type": "accordion_item",
-                    "settings": {
-                        "trigger": "Care Instructions",
-                        "content": "Guidelines on how to take care of the product."
-                    }
-                }
-            },
-            "block_order": [
-                "title",
-                "price",
-                "quantity_selector",
-                "variant_bTVdxV",
-                "buy_buttons",
-                "description",
-                "accordion_materials",
-                "accordion_shipping",
-                "accordion_dimensions",
-                "accordion_care"
-            ],
-            "settings": {
-                "color_scheme": "scheme-1",
-                "desktop_media_position": "left",
-                "desktop_layout": "thumbnail_gallery",
-                "show_thumbnails": false,
-                "thumbnail_position": "left",
-                "mobile_layout": "show_mobile_thumbnails",
-                "top_padding": 64,
-                "bottom_padding": 0
-            }
+  "sections": {
+    "main": {
+      "type": "product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "margin_top": 0,
+            "margin_bottom": 0
+          }
         },
-        "related-products": {
-            "type": "related-products",
-            "settings": {
-                "limit": 4,
-                "show_view_all": false,
-                "view_all_text": "View All",
-                "button_variant": "solid"
-            }
+        "price": {
+          "type": "price",
+          "settings": {
+            "margin_top": 0,
+            "margin_bottom": 0
+          }
+        },
+        "variant_bTVdxV": {
+          "type": "variant",
+          "settings": {
+            "variant_selector": "radio",
+            "margin_top": 0,
+            "margin_bottom": 0
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {
+            "margin_top": 0,
+            "margin_bottom": 0
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "buy_button_text": "Add to cart",
+            "margin_top": 0,
+            "margin_bottom": 0,
+            "subscription_layout": "dropdown"
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+            "margin_top": 0,
+            "margin_bottom": 0
+          }
+        },
+        "accordion_materials": {
+          "type": "accordion_item",
+          "settings": {
+            "trigger": "Materials",
+            "content": "Details about the materials used in the product."
+          }
+        },
+        "accordion_shipping": {
+          "type": "accordion_item",
+          "settings": {
+            "trigger": "Shipping & Returns",
+            "content": "Information about shipping and return policies."
+          }
+        },
+        "accordion_dimensions": {
+          "type": "accordion_item",
+          "settings": {
+            "trigger": "Dimensions",
+            "content": "Product dimensions and size information."
+          }
+        },
+        "accordion_care": {
+          "type": "accordion_item",
+          "settings": {
+            "trigger": "Care Instructions",
+            "content": "Guidelines on how to take care of the product."
+          }
         }
+      },
+      "block_order": [
+        "title",
+        "price",
+        "variant_bTVdxV",
+        "quantity_selector",
+        "buy_buttons",
+        "description",
+        "accordion_materials",
+        "accordion_shipping",
+        "accordion_dimensions",
+        "accordion_care"
+      ],
+      "settings": {
+        "color_scheme": "scheme-1",
+        "variants_color_scheme": "scheme-product-variants",
+        "desktop_media_position": "left",
+        "desktop_layout": "thumbnail_gallery",
+        "thumbnail_position": "left",
+        "carousel": true,
+        "slider_buttons_style": "primary",
+        "mobile_layout": "show_mobile_thumbnails",
+        "top_padding": 64,
+        "bottom_padding": 64
+      }
     },
-    "order": [
-        "main",
-        "related-products"
-    ]
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "limit": 4,
+        "show_view_all": false,
+        "view_all_text": "View All",
+        "button_variant": "solid"
+      }
+    }
+  },
+  "order": ["main", "related-products"]
 }

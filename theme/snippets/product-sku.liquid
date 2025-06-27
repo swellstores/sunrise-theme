@@ -1,0 +1,17 @@
+{%- liquid
+  assign top_margin = block.settings.margin_top | times: 0.1 | round: 1
+  assign bottom_margin = block.settings.margin_bottom | times: 0.1 | round: 1
+-%}
+
+{% style %}
+  #product-sku {
+    margin-top: {{ top_margin }}rem;
+    margin-bottom: {{ bottom_margin }}rem;
+  }
+{% endstyle %}
+
+{% if product.sku %}
+  <span id="product-sku" class="inline-block text-body-small font-medium text-{{ color_scheme }}">
+    {{ product.sku }}
+  </span>
+{% endif %}
