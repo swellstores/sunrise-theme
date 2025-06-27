@@ -1,0 +1,32 @@
+{%- liquid
+  assign price = purchase_option.price
+
+  if purchase_option.sale and purchase_option.sale_price
+    assign price = purchase_option.sale_price
+  endif
+-%}
+
+<product-purchase-option-standard
+  class="
+    flex
+    items-center
+    justify-between
+    p-12
+    rounded
+    {% if purchase_option.selected %}
+      btn-primary-{{ variants_color_scheme }}
+    {% else %}
+      btn-secondary-{{ variants_color_scheme }}
+    {% endif %}
+  "
+  {% if purchase_option.selected %}
+    selected
+  {% endif %}
+>
+  <span class="text-title-small text-{{ variants_color_scheme }}">
+    {{ 'sections.product.purchase.one_time' | t }}
+  </span>
+  <span class="text-body-large font-medium text-{{ variants_color_scheme }}" >
+    {{ price | money }}
+  </span>
+</product-purchase-option-standard>

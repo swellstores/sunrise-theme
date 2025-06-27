@@ -151,15 +151,29 @@
                               </li>
                             {%- endfor -%}
                           </ul>
-                          <div class="cart-desktop block sm:hidden mt-16">
-                            {% render 'quantity-selector', item: item, color_scheme: color_scheme %}
+                          <div class="flex items-center sm:hidden mt-16 gap-4">
+                            {% render 'cart-item-quantity',
+                              item: item,
+                              index: forloop.index,
+                              color_scheme: color_scheme
+                            %}
+                            <cart-item-remove data-index="{{ forloop.index }}">
+                              {{- 'trash-icon.svg' | inline_asset_content -}}
+                            </cart-item-remove>
                           </div>
                         </div>
                       </div>
                     </td>
                     <td class="hidden sm:flex pt-32 pb-32">
-                      <div class="cart-desktop flex flex-col items-start gap-4 ">
-                        {% render 'quantity-selector', item: item, index: forloop.index, color_scheme: color_scheme %}
+                      <div class="flex items-center gap-4 ">
+                        {% render 'cart-item-quantity',
+                          item: item,
+                          index: forloop.index,
+                          color_scheme: color_scheme
+                        %}
+                        <cart-item-remove data-index="{{ forloop.index }}">
+                          {{- 'trash-icon.svg' | inline_asset_content -}}
+                        </cart-item-remove>
                       </div>
                     </td>
                     <td class="pt-32 pb-32 align-top">

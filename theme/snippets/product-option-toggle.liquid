@@ -1,0 +1,74 @@
+{% liquid
+  assign value = option.values | first
+%}
+
+<product-option-toggle
+  id="product-option-{{ option.id }}"
+  class="flex"
+  data-option-id="{{ option.id }}"
+  hx-swap-oob="true"
+  {% unless value.available %}
+    title="{{ 'sections.product.option.out_of_stock' | t }}"
+  {% endunless %}
+>
+  <toggle-button
+    class="
+      flex
+      justify-between
+      w-full
+      p-10
+      rounded
+      hover:cursor-pointer
+      {% if value.selected %}
+        btn-primary-{{ variants_color_scheme }}
+      {% else %}
+        btn-secondary-{{ variants_color_scheme }}
+      {% endif %}
+    "
+    value="{{ value.name }}"
+    data-value-id="{{ value.id }}"
+    {% if value.selected %}
+      checked
+    {% endif %}
+    {% unless value.available %}
+      disabled
+    {% endunless %}
+  >
+    <div class="flex gap-8">
+      <div
+        class="
+          flex
+          items-center
+          size-14
+          min-w-14
+          min-h-14
+          mt-3
+          p-2
+          rounded-4
+          stroke-current
+          stroke-1
+          border
+          pointer-events-none
+          {% if value.selected %}
+            border-accent-{{ variants_color_scheme }}
+          {% else %}
+            border-secondary-{{ variants_color_scheme }}
+          {% endif %}
+        "
+      >
+        {% if value.selected %}
+          {{- 'icon-checkmark.svg' | inline_asset_content -}}
+        {% endif %}
+      </div>
+      <div class="flex flex-col">
+        <span class="text-title-small text-{{ variants_color_scheme }}">{{ option.name }}</span>
+        {% if option.description %}
+          <span class="text-body-small text-secondary-{{ variants_color_scheme }}">{{ option.description }}</span>
+        {% endif %}
+      </div>
+    </div>
+    {% if value.price %}
+      <span class="text-title-small whitespace-nowrap text-{{ variants_color_scheme }}">{{ value.price | money }}</span>
+    {% endif %}
+  </toggle-button>
+</product-option-toggle>

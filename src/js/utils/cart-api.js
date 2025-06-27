@@ -1,4 +1,4 @@
-import eventBus from './event-bus';
+import eventBus from "./event-bus";
 
 const routes = {
   addToCart: "/cart/add",
@@ -10,97 +10,68 @@ const routes = {
 export const CartAPI = {
   /**
    * @param {string} productId
-   * @param {string} variantId
+   * @param {Array} options
+   * @param {Object} purchaseOption
    * @param {number} [quantity=1]
    * @return {*}
    */
-  async addToCart(productId, variantId, optionValues, allProductOptions, quantity = 1, purchaseOptionType = 'standard', purchaseOptionPlan = '') {
-    const requestBody = {
-      product_id: productId,
-      quantity: quantity,
-    };
-
-    if (variantId) {
-       // in shopify_compatibility we use id as variantId
-       requestBody.id = variantId ;
-    }
-
-    if (optionValues && allProductOptions) {
-      try {
-        const productOptions = JSON.parse(decodeURIComponent(allProductOptions));
-        const optionValueArray = optionValues.split(',');
-        const options = [];
-        for (const productOption of productOptions) {
-          for (const productOptionValue of productOption.values) {
-            if (optionValueArray.includes(productOptionValue.id)) {
-              options.push({
-                id: productOption.id,
-                name: productOption.name,
-                value: productOptionValue.name,
-                value_id: productOptionValue.id,
-                variant: productOption.variant_option,
-              })
-            }
-          }
-        }
-        
-        if (options.length > 0 && options.length === optionValueArray.length) {
-          requestBody.options = options;
-        }
-      } catch {
-        // none 
-      }
-    }
-
-    if (purchaseOptionType === 'subscription') {
-      requestBody.purchase_option = {
-        type: 'subscription',
-        plan: purchaseOptionPlan,
-      }
-    }
+  async addToCart(productId, options, purchaseOption, quantity = 1) {
     try {
       const response = await fetch(routes.addToCart, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest',
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
         },
-        body: JSON.stringify(requestBody),
+        body: JSON.stringify({
+          product_id: productId,
+          quantity,
+          options,
+          purchase_option: purchaseOption,
+        }),
       });
+
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
-      const data = await response.json();
-      console.log('Product added to cart:', data);
-      return data;
+
+      const item = await response.json();
+
+      eventBus.emit("cart-item-add", item);
+
+      const cart = await this.getCart();
+
+      eventBus.emit("cart-item-count-update", cart.item_count);
+
+      return item;
     } catch (error) {
-      console.error('Error adding product to cart:', error);
+      console.error("Error adding product to cart:", error);
+
       throw error;
     }
   },
+
   /**
-   *
-   *
    * @return {*}
    */
   async getCart() {
     try {
       const response = await fetch(routes.getCart, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Accept': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest',
+          Accept: "application/json",
+          "X-Requested-With": "XMLHttpRequest",
         },
       });
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      console.log('Cart:', data);
+      console.log("Cart:", data);
       return data;
     } catch (error) {
-      console.error('Error getting cart:', error);
+      console.error("Error getting cart:", error);
       throw error;
     }
   },
@@ -112,81 +83,55 @@ export const CartAPI = {
   async clearCart() {
     try {
       const response = await fetch(routes.clearCart, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Accept': 'application/json',
+          Accept: "application/json",
           // 'Content-Type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest',
+          "X-Requested-With": "XMLHttpRequest",
         },
       });
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      console.log('Cart cleared:', data);
+      console.log("Cart cleared:", data);
       return data;
     } catch (error) {}
   },
 
   /**
-   *
-   *
    * @param {object} updates
    * @return {*}
    */
   async updateCart(updates) {
-    eventBus.emit('cart-update-before', updates);
+    eventBus.emit("cart-update-before", updates);
 
     try {
       const response = await fetch(routes.updateCart, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest',
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest",
         },
         body: JSON.stringify(updates),
       });
+
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
-      eventBus.emit('cart-update-after', updates);
+
+      eventBus.emit("cart-update-after", updates);
+
       const data = await response.json();
-      console.log('Cart updated:', data);
+
+      console.log("Cart updated:", data);
+
       return data;
     } catch (error) {
-      console.error('Error updating cart:', error);
+      console.error("Error updating cart:", error);
+
       throw error;
     }
   },
 };
-
-/**
- * @param {string} html
- * @returns {string}
- */
-function decodeHtmlEntities(html) {
-  const txt = document.createElement('textarea');
-  txt.innerHTML = html;
-  return txt.value;
-}
-
-/**
- * @param {string} encoded
- * @returns {object}
- */
-export function parseEncodedJson(encoded) {
-  let str = encoded.trim();
-
-  if (str.startsWith('<!')) {
-    const pos = str.indexOf('>');
-
-    if (pos !== -1) {
-      str = str.slice(pos + 1);
-    }
-
-    str = decodeHtmlEntities(str);
-  }
-
-  return JSON.parse(str);
-}

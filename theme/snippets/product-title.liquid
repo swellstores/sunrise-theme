@@ -1,0 +1,15 @@
+{%- liquid
+  assign top_margin = block.settings.margin_top | times: 0.1 | round: 1
+  assign bottom_margin = block.settings.margin_bottom | times: 0.1 | round: 1
+-%}
+
+{% style %}
+  #product-title {
+    margin-top: {{ top_margin }}rem;
+    margin-bottom: {{ bottom_margin }}rem;
+  }
+{% endstyle %}
+
+<span id="product-title" class="inline-block text-title-extra-large text-{{ color_scheme }}">
+  {{ product.title }}
+</span>
