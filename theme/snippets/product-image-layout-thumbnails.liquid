@@ -1,0 +1,162 @@
+{% liquid
+  assign thumbnails_per_row = 6
+  assign images_count = media_urls | size
+  assign show_thumbnails_navigation = section.settings.carousel and images_count > thumbnails_per_row
+
+  assign thumbnail_border_radius = settings.border_radius | minus: 2 | times: 0.1 | round: 1
+%}
+
+{% style %}
+  swiper-slide:not(.swiper-slide-thumb-active) {
+    border-color: transparent;
+  }
+{% endstyle %}
+
+<div class="flex flex-col w-full gap-6">
+  {% comment %}
+    Main image
+  {% endcomment %}
+  <div class="relative">
+    <swiper-container
+      aria-label="{{ 'sections.slideshow.label' | t }}"
+      slides-per-view="1"
+      loop="true"
+      class="w-full h-auto"
+      thumbs-swiper=".thumbs-swiper"
+      navigation-prev-el=".swiper-button-prev"
+      navigation-next-el=".swiper-button-next"
+    >
+      {% for url in media_urls %}
+        <swiper-slide class="aspect-square m-auto w-full h-full">
+          <img
+            src="{{ url }}"
+            alt="{{ media_alts[forloop.index0] }}"
+            class="w-full h-full object-cover rounded"
+          >
+        </swiper-slide>
+      {% endfor %}
+    </swiper-container>
+    <div class="flex absolute gap-8 right-12 bottom-12">
+      <button
+        class="
+          swiper-button-prev
+          flex
+          justify-center
+          items-center
+          rounded
+          w-40
+          h-40
+          z-10
+          {% if section.settings.slider_buttons_style == 'primary' %}
+            btn-primary-{{ color_scheme }}
+          {% else %}
+            btn-secondary-{{ color_scheme }}
+          {% endif %}
+        "
+      >
+        <ion-icon
+          name="chevron-back-outline"
+          aria-label="{{ 'general.accordion.toggle' | t }}"
+          class="relative h-22 w-22 right-1"
+        ></ion-icon>
+      </button>
+      <button
+        class="
+          swiper-button-next
+          flex
+          justify-center
+          items-center
+          rounded
+          w-40
+          h-40
+          z-10
+          {% if section.settings.slider_buttons_style == 'primary' %}
+            btn-primary-{{ color_scheme }}
+          {% else %}
+            btn-secondary-{{ color_scheme }}
+          {% endif %}
+        "
+      >
+        <ion-icon
+          name="chevron-forward-outline"
+          aria-label="{{ 'general.accordion.toggle' | t }}"
+          class="relative h-22 w-22 left-1"
+        ></ion-icon>
+      </button>
+    </div>
+  </div>
+
+  {% comment %}
+    Thumbnails
+  {% endcomment %}
+  <div class="relative">
+    {%- liquid
+      assign thumbnail_row_count = images_count | divided_by: thumbnails_count
+      assign remainder = images_count | modulo: thumbnails_count
+      
+      if remainder > 0
+        assign thumbnail_row_count = thumbnail_row_count | plus: 1
+      endif
+    -%}
+
+    <swiper-container
+      space-between="2"
+      slides-per-view="{{ thumbnails_per_row }}"
+      watch-slides-progress="true"
+      watch-slides-visibility="true"
+      navigation-prev-el=".thumbnails-button-prev"
+      navigation-next-el=".thumbnails-button-next"
+      {% unless show_thumbnails_navigation %}
+        grid-fill="row"
+        grid-rows="{{ thumbnail_row_count }}"
+      {% endunless %}
+      class="
+        thumbs-swiper
+        {% if show_thumbnails_navigation %}
+          w-[90%]
+        {% else %}
+          w-full
+        {% endif %}
+      "
+    >
+      {% for url in media_urls %}
+        <swiper-slide
+          class="
+            aspect-square
+            h-full
+            w-96
+            p-2
+            rounded
+            border
+            border-solid
+            border-color-{{ color_scheme }}
+          "
+        >
+          <img
+            src="{{ url }}"
+            alt="{{ media_alts[forloop.index0] }}"
+            class="h-full w-full object-center object-cover"
+            style="border-radius: {{ thumbnail_border_radius }}rem"
+          >
+        </swiper-slide>
+      {% endfor %}
+    </swiper-container>
+
+    {% if show_thumbnails_navigation %}
+      <button  class="thumbnails-button-prev absolute left-2 top-1/2 -translate-y-1/2 z-10">
+        <ion-icon
+          name="chevron-back-outline"
+          aria-label="{{ 'general.accordion.toggle' | t }}"
+          class="relative h-22 w-22 right-1"
+        ></ion-icon>
+      </button>
+      <button class="thumbnails-button-next absolute right-2 top-1/2 -translate-y-1/2 z-10">
+        <ion-icon
+          name="chevron-forward-outline"
+          aria-label="{{ 'general.accordion.toggle' | t }}"
+          class="relative h-22 w-22 left-1"
+        ></ion-icon>
+      </button>
+    {% endif %}
+  </div>
+</div>

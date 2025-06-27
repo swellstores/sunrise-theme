@@ -1,0 +1,34 @@
+{%- liquid
+  assign interval_count = schedule.interval_count
+  assign plural = interval_count > 1
+-%}
+
+{%- if plural -%}
+  {%- case schedule.interval -%}
+    {% when 'daily' %}
+      {% assign interval = 'sections.product.purchase.interval_day_plural' | t %}
+    {% when 'weekly' %}
+      {% assign interval = 'sections.product.purchase.interval_week_plural' | t %}
+    {% when 'monthly' %}
+      {% assign interval = 'sections.product.purchase.interval_month_plural' | t %}
+    {% when 'yearly' %}
+      {% assign interval = 'sections.product.purchase.interval_year_plural' | t %}
+  {%- endcase -%}
+
+  {% assign interval = "" | append: interval_count | append: " " | append: interval %}
+
+  {{- prefix -}}{{- 'sections.product.purchase.every_interval' | t: interval: interval -}}
+{%- else -%}
+  {%- case schedule.interval -%}
+    {% when 'daily' %}
+      {% assign interval = 'sections.product.purchase.interval_day' | t %}
+    {% when 'weekly' %}
+      {% assign interval = 'sections.product.purchase.interval_week' | t %}
+    {% when 'monthly' %}
+      {% assign interval = 'sections.product.purchase.interval_month' | t %}
+    {% when 'yearly' %}
+      {% assign interval = 'sections.product.purchase.interval_year' | t %}
+  {%- endcase -%}
+
+  {{- prefix -}}{{- interval -}}
+{%- endif -%}

@@ -51,29 +51,31 @@
     %}
 
     {% style %}
-          {{ settings.typography_body | font_face: font_display: 'swap', preload: true }}
-          {{ body_font_bold | font_face: font_display: 'swap' }}
-          {{ body_font_italic | font_face: font_display: 'swap' }}
-          {{ body_font_bold_italic | font_face: font_display: 'swap' }}
-          {{ settings.typography_heading | font_face: font_display: 'swap', preload: true }}
-          {{ settings.typography_pre_heading | font_face: font_display: 'swap' }}
+      {{ settings.typography_body | font_face: font_display: 'swap', preload: true }}
+      {{ body_font_bold | font_face: font_display: 'swap' }}
+      {{ body_font_italic | font_face: font_display: 'swap' }}
+      {{ body_font_bold_italic | font_face: font_display: 'swap' }}
+      {{ settings.typography_heading | font_face: font_display: 'swap', preload: true }}
+      {{ settings.typography_pre_heading | font_face: font_display: 'swap' }}
 
       :root {
-              --font-body-family: {{ settings.typography_body.family }}, {{ settings.typography_body.fallback_families }};
-              --font-body-style: {{ settings.typography_body.style }};
-              --font-body-weight: {{ settings.typography_body.weight }};
-              --font-body-weight-bold: {{ settings.typography_body.weight | plus: 300 | at_most: 1000 }};
+        --font-body-family: {{ settings.typography_body.family }}, {{ settings.typography_body.fallback_families }};
+        --font-body-style: {{ settings.typography_body.style }};
+        --font-body-weight: {{ settings.typography_body.weight }};
+        --font-body-weight-bold: {{ settings.typography_body.weight | plus: 300 | at_most: 1000 }};
 
-              --font-pre-heading-family: {{ settings.typography_pre_heading.family }}, {{ settings.typography_pre_heading.fallback_families }};
-              --font-pre-heading-style: {{ settings.typography_pre_heading.style }};
-              --font-pre-heading-weight: {{ settings.typography_pre_heading.weight }};
+        --font-pre-heading-family: {{ settings.typography_pre_heading.family }}, {{ settings.typography_pre_heading.fallback_families }};
+        --font-pre-heading-style: {{ settings.typography_pre_heading.style }};
+        --font-pre-heading-weight: {{ settings.typography_pre_heading.weight }};
 
-              --font-heading-family: {{ settings.typography_heading.family }}, {{ settings.typography_heading.fallback_families }};
-              --font-heading-style: {{ settings.typography_heading.style }};
-              --font-heading-weight: {{ settings.typography_heading.weight }};
+        --font-heading-family: {{ settings.typography_heading.family }}, {{ settings.typography_heading.fallback_families }};
+        --font-heading-style: {{ settings.typography_heading.style }};
+        --font-heading-weight: {{ settings.typography_heading.weight }};
 
-              --font-scale: {{ settings.typography_scale | divided_by: 100.0 }}
-            }
+        --font-scale: {{ settings.typography_scale | divided_by: 100.0 }};
+
+        --border-radius: {{ settings.border_radius | default: 6 | divided_by: 10.0 }};
+      }
     {% endstyle %}
   </head>
   <body class="antialiased scroll-smooth">

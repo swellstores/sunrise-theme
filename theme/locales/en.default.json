@@ -149,23 +149,32 @@
       "cart": "Shopping cart"
     },
     "product": {
+      "from_price": "From",
+      "out_of_stock": "This item is currently out of stock",
       "quantity": {
-        "label": "Quantity for {{ product_name }}",
+        "label": "Quantity",
         "increment": "Increase quantity",
         "decrement": "Decrease quantity"
       },
+      "option": {
+        "out_of_stock": "Out of stock",
+        "selection_error": "Please select an option",
+        "text_error": "Please provide an answer"
+      },
       "purchase": {
         "one_time": "One-time purchase",
+        "subscription": "Subscription",
+        "subscription_delivered": "Delivered",
         "every_interval": "Every {{ interval }}",
-        "interval_year": "year",
+        "interval_year": "Yearly",
         "interval_year_plural": "years",
-        "interval_month": "month",
+        "interval_month": "Monthly",
         "interval_month_plural": "months",
-        "interval_week": "week",
+        "interval_week": "Weekly",
         "interval_week_plural": "weeks",
-        "interval_day": "day",
+        "interval_day": "Daily",
         "interval_day_plural": "days",
-        "includes_trial": "Includes a {{ trial_days }}-day free trial"
+        "includes_trial": "{{ trial_days }}-day trial"
       }
     },
     "cart": {

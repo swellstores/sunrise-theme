@@ -1,0 +1,27 @@
+{% liquid
+  assign top_margin = block.settings.margin_top | times: 0.1 | round: 1
+  assign bottom_margin = block.settings.margin_bottom | times: 0.1 | round: 1
+
+  assign label = 'sections.product.quantity.label' | t
+  assign decrement_aria_label = 'sections.product.quantity.decrement' | t
+  assign increment_aria_label = 'sections.product.quantity.increment' | t
+%}
+
+{% style %}
+  product-quantity {
+    margin-top: {{ top_margin }}rem;
+    margin-bottom: {{ bottom_margin }}rem;
+  }
+{% endstyle %}
+
+<product-quantity class="flex flex-col gap-6">
+  <span class="text-body-medium text-secondary-{{ color_scheme }}">{{ label }}</span>
+  {% render 'quantity-selector',
+    min: 1,
+    value: 1,
+    input_aria_label: label,
+    decrement_aria_label: decrement_aria_label,
+    increment_aria_label: increment_aria_label,
+    color_scheme: color_scheme
+  %}
+</product-quantity>

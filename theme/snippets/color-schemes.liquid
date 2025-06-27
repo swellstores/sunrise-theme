@@ -6,7 +6,7 @@
 {% endcomment %}
 
 {%- liquid
-  assign color_scheme_roles = 'background,text,text_secondary,primary_button,secondary_button,primary_button_border,secondary_button_border,on_primary_button,on_secondary_button,links,icons,accent,primary_button_hover,secondary_button_hover,secondary_button_border_hover,primary_button_label_hover,secondary_button_label_hover,borders_and_inputs,brand_highlight' | split: ','
+  assign color_scheme_roles = 'background,text,text_secondary,button,button_border,button_label,secondary_button_label,secondary_button_border,primary_button_hover,primary_button_label_hover,secondary_button_border_hover,secondary_button_label_hover,borders_and_inputs,brand_highlight' | split: ','
 -%}
 
 {% style %}
@@ -14,19 +14,6 @@
       {% for scheme in settings.color_schemes %}
         {% for role in color_scheme_roles %}
           {% assign role_value = scheme.settings[role] %}
-          {% case role %}
-            {% when 'on_primary_button' %}
-              {% assign role_value = scheme.settings['button_label'] %}
-            {% when 'on_secondary_button' %}
-              {% assign role_value = scheme.settings['secondary_button_label'] %}
-            {% when 'on_secondary_button_border' %}
-              {% assign role_value = scheme.settings['secondary_button_border'] %}
-            {% when 'primary_button' %}
-              {% assign role_value = scheme.settings['button'] %}
-            {% else %}
-              {% assign role_value = scheme.settings[role] %}
-
-          {% endcase %}
 
           {% if role_value == blank %}
             /* Handle blank values by setting to transparent */
@@ -60,7 +47,7 @@
         background-color: var(--color-{{ scheme.id }}-text);
       }
       .bg-accent-{{ scheme.id }} {
-        background: var(--color-{{ scheme.id }}-primary-button);
+        background: var(--color-{{ scheme.id }}-button);
       }
       .text-{{ scheme.id }} {
         color: var(--color-{{ scheme.id }}-text);
@@ -69,7 +56,7 @@
         color: var(--color-{{ scheme.id }}-text-secondary);
       }
       .text-accent-{{ scheme.id }} {
-        color: var(--color-{{ scheme.id }}-primary-button);
+        color: var(--color-{{ scheme.id }}-button-label);
       }
       .brand-highlight-{{ scheme.id }} {
         color: var(--color-{{ scheme.id }}-brand-highlight);
@@ -79,51 +66,52 @@
         border: 1px solid var(--color-{{ scheme.id }}-text-secondary);
       }
       .btn-primary-{{ scheme.id }} {
-        background-color: var(--color-{{ scheme.id }}-primary-button);
-        color: var(--color-{{ scheme.id }}-on-primary-button);
-        border: 1px solid var(--color-{{ scheme.id }}-primary-button-border);
+        background-color: var(--color-{{ scheme.id }}-button);
+        color: var(--color-{{ scheme.id }}-button-label);
+        border: 1px solid var(--color-{{ scheme.id }}-button-border);
       }
-      .btn-primary-{{ scheme.id }}:not(:disabled):hover {
+      .btn-primary-{{ scheme.id }}:not([disabled]):hover,
+      .btn-primary-{{ scheme.id }}:not([disabled]):focus,
+      .btn-primary-{{ scheme.id }}:not([disabled]):active {
         background-color: var(--color-{{ scheme.id }}-primary-button-hover);
         color: var(--color-{{ scheme.id }}-primary-button-label-hover);
-        border-color: var(--color-{{ scheme.id }}-primary-button-border);
       }
-      .btn-primary-scheme-1:not(:disabled):focus-within,
-      .btn-primary-scheme-1:not(:disabled):active {
-        background-color: var(--color-scheme-1-primary-button);
-        color: var(--color-scheme-1-on-primary-button);
-        border: 1px solid var(--color-scheme-1-primary-button-border);
-      }
-      .btn-primary-{{ scheme.id }}:disabled {
-        background-color: var(--color-{{ scheme.id }}-primary-button);
-        color: var(--color-{{ scheme.id }}-on-primary-button);
-        border: 1px solid var(--color-{{ scheme.id }}-primary-button-border);
+      .btn-primary-{{ scheme.id }}[disabled] {
         opacity: 0.6;
-      }
-      .btn-primary-{{ scheme.id }}:disabled:hover {
-        background-color: var(--color-{{ scheme.id }}-primary-button);
-        color: var(--color-{{ scheme.id }}-on-primary-button);
-        border: 1px solid var(--color-{{ scheme.id }}-primary-button-border);
-        opacity: 0.6;
+        pointer-events: none;
       }
       .btn-secondary-{{ scheme.id }} {
-        background-color: var(--color-{{ scheme.id }}-secondary-button);
-        color: var(--color-{{ scheme.id }}-on-secondary-button);
+        background-color: var(--color-{{ scheme.id }}-background);
+        color: var(--color-{{ scheme.id }}-secondary-button-label);
         border: 1px solid var(--color-{{ scheme.id }}-secondary-button-border);
       }
-      .btn-secondary-{{ scheme.id }}:not(:disabled):hover {
-        background-color: var(--color-{{ scheme.id }}-secondary-button);
+      .btn-secondary-{{ scheme.id }}:not([disabled]):hover,
+      .btn-secondary-{{ scheme.id }}:not([disabled]):focus,
+      .btn-secondary-{{ scheme.id }}:not([disabled]):active {
         color: var(--color-{{ scheme.id }}-secondary-button-label-hover);
         border: 1px solid var(--color-{{ scheme.id }}-secondary-button-border-hover);
       }
+      .btn-secondary-{{ scheme.id }}[disabled] {
+        opacity: 0.6;
+        pointer-events: none;
+      }
       .decoration-accent-{{ scheme.id }} {
-        text-decoration-color: var(--color-{{ scheme.id }}-primary-button);
+        text-decoration-color: var(--color-{{ scheme.id }}-button);
       }
       .decoration-accent-hover-{{ scheme.id }}:hover {
-        text-decoration-color: var(--color-{{ scheme.id }}-primary-button);
+        text-decoration-color: var(--color-{{ scheme.id }}-button);
       }
       .border-color-{{ scheme.id }} {
         border-color: var(--color-{{ scheme.id }}-borders-and-inputs);
+      }
+      .border-accent-{{ scheme.id }} {
+        border-color: var(--color-{{ scheme.id }}-button-border);
+      }
+      .border-secondary-{{ scheme.id }} {
+        border-color: var(--color-{{ scheme.id }}-secondary-button-border);
+      }
+      .border-secondary-{{ scheme.id }}:hover {
+        border-color: var(--color-{{ scheme.id }}-secondary-button-border-hover);
       }
     {% endfor %}
 {% endstyle %}

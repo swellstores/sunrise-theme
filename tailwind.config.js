@@ -4,6 +4,7 @@ const spacing = {
   0: "0",
   1: "0.1rem",
   2: "0.2rem",
+  3: "0.3rem",
   4: "0.4rem",
   6: "0.6rem",
   8: "0.8rem",
@@ -13,6 +14,7 @@ const spacing = {
   16: "1.6rem",
   18: "1.8rem",
   20: "2rem",
+  22: "2.2rem",
   24: "2.4rem",
   28: "2.8rem",
   30: "3rem",
@@ -25,6 +27,7 @@ const spacing = {
   64: "6.4rem",
   70: "7rem",
   80: "8rem",
+  92: "9.2rem",
   96: "9.6rem",
   100: "10rem",
   110: "11rem",
@@ -37,6 +40,7 @@ const spacing = {
   224: "22.4rem",
   240: "24rem",
   250: "25rem",
+  275: "27.5rem",
   300: "30rem",
   330: "33rem",
   338: "33.8rem",
@@ -61,7 +65,7 @@ const spacing = {
   840: "84rem",
   960: "96rem",
   content: "104.6rem",
-  container: "160rem",
+  container: "144rem",
 };
 
 module.exports = {
@@ -93,6 +97,7 @@ module.exports = {
       right: spacing,
       bottom: spacing,
       left: spacing,
+      borderRadius: spacing,
     },
   },
   safelist: [
@@ -139,10 +144,15 @@ module.exports = {
         xxxs: [-5, 1.6],
       },
     }),
-    function ({ addBase }) {
+    function ({ addBase, addUtilities }) {
       addBase({
         html: { fontSize: "62.5%" }, // 1rem = 10px
         body: { fontSize: "1.6rem" }, // 16px
+      });
+      addUtilities({
+        ".rounded": {
+          "border-radius": "calc(1rem * var(--border-radius))",
+        },
       });
     },
   ],

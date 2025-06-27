@@ -19,11 +19,19 @@ body {
 
 ion-icon {
   @apply text-base/4;
+  stroke: currentColor;
+  /* 32px is the default value in Ionicons */
+  stroke-width: 32px;
+}
+
+ion-icon[name*="outline"] {
+  fill: none;
 }
 
 /* Customers */
 
-#login, #recover {
+#login,
+#recover {
   scroll-margin-top: 20rem;
 }
 
@@ -41,6 +49,8 @@ ion-icon {
 
 /* Long text wrapping */
 
-.fr-view, span[data-swell-inline-editable], section {
+.fr-view,
+span[data-swell-inline-editable],
+section {
   overflow-wrap: anywhere;
 }
