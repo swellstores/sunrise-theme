@@ -23,7 +23,8 @@ ion-icon {
 
 /* Customers */
 
-#login, #recover {
+#login,
+#recover {
   scroll-margin-top: 20rem;
 }
 
@@ -41,6 +42,8 @@ ion-icon {
 
 /* Long text wrapping */
 
-.fr-view, span[data-swell-inline-editable], section {
+.fr-view,
+span[data-swell-inline-editable],
+section {
   overflow-wrap: anywhere;
 }

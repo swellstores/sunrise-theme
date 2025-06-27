@@ -1,5 +1,8 @@
-import { CartAPI, parseEncodedJson } from './utils/cart-api';
-import eventBus from './utils/event-bus';
+import {
+  CartItemRemoveEvent,
+  CartItemQuantityChangeEvent,
+} from "./utils/events";
+import { CartAPI } from "./utils/cart-api";
 
 /**
  * @export
@@ -10,87 +13,83 @@ export class Cart extends HTMLElement {
   constructor() {
     super();
 
-    this.subscriptions = [];
-    this.handleUpdateCartBound = this.handleUpdateCart.bind(this);
+    this.onChangeItemQuantityBound = this.onChangeItemQuantity.bind(this);
+    this.onRemoveItemBound = this.onRemoveItem.bind(this);
   }
 
   connectedCallback() {
-    document.addEventListener('quantity-change', this.handleUpdateCartBound);
-
-    this.subscriptions.push(
-      eventBus.on('cart-update-before', this.beforeUpdateCart.bind(this)),
-      eventBus.on('cart-update-after', this.afterUpdateCart.bind(this)),
+    this.addEventListener(
+      CartItemQuantityChangeEvent.type,
+      this.onChangeItemQuantityBound
     );
+    this.addEventListener(CartItemRemoveEvent.type, this.onRemoveItemBound);
   }
 
   disconnectedCallback() {
-    document.removeEventListener('quantity-change', this.handleUpdateCartBound);
-
-    this.subscriptions.forEach(unsubscribe => unsubscribe());
-    this.subscriptions.length = 0;
+    this.removeEventListener(
+      CartItemQuantityChangeEvent.type,
+      this.onChangeItemQuantityBound
+    );
+    this.removeEventListener(CartItemRemoveEvent.type, this.onRemoveItemBound);
   }
 
-  /**
-   * @returns {Promise<Document>}
-   * @memberof Cart
-   */
-  async fetchCartContent() {
-    const response = await fetch('/?sections=cart');
+  async onChangeItemQuantity(event) {
+    event.stopPropagation();
 
-    if (!response.ok) {
-      throw new Error('Failed to fetch cart');
-    }
+    const { line, quantity } = event.detail;
+    const item = this.querySelector(`tr[data-line="${line}"]`);
 
-    const json = parseEncodedJson(await response.text());
-    const parser = new DOMParser();
-    return parser.parseFromString(json['cart'], 'text/html');
+    item.classList.add("disabled");
+    await this.updateCart({ line, quantity });
+    item.classList.remove("disabled");
+  }
+
+  async onRemoveItem(event) {
+    event.stopPropagation();
+
+    const { line } = event.detail;
+    const item = this.querySelector(`tr[data-line="${line}"]`);
+
+    item.classList.add("disabled");
+    await this.updateCart({ line, quantity: 0 });
   }
 
   /**
    * Handle updating the cart.
    *
-   * @param {CustomEvent} event - The custom event containing the updated quantity details.
+   * @param {object} data
    * @memberof CartDrawer
    */
-  async handleUpdateCart(event) {
-    const { line, quantity } = event.detail;
-
+  async updateCart(data) {
     try {
-      await CartAPI.updateCart({ line, quantity });
+      await CartAPI.updateCart(data);
+      await this.updateCartContent();
     } catch (error) {
-      console.error('Error handling update cart:', error);
+      console.error("Error handling update cart:", error);
     }
-  }
-
-  beforeUpdateCart({ line, quantity }) {
-    if (quantity === 0) {
-      const cartItem = this.querySelector(`tr[data-line="${line}"]`);
-
-      if (cartItem !== null) {
-        cartItem.classList.add('opacity-20');
-      }
-    }
-  }
-
-  afterUpdateCart() {
-    this.fetchCartContent().then((html) => {
-      this.updateCartContent(html);
-    });
   }
 
   /**
    * Update the cart content and subtotal from the fetched HTML.
    *
-   * @param {Document} html - The fetched HTML document with updated cart content.
    * @memberof CartDrawer
    */
-  async updateCartContent(html) {
-    const newCartEl = html.querySelector('cart-root');
+  async updateCartContent() {
+    const response = await fetch("/?sections=cart");
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch cart");
+    }
+
+    const json = await response.json();
+    const parser = new DOMParser();
+    const html = parser.parseFromString(json["cart"], "text/html");
+    const newCartEl = html.querySelector("cart-root");
 
     if (newCartEl) {
       this.innerHTML = newCartEl.innerHTML;
     } else {
-      throw new Error('No cart content found to update');
+      throw new Error("No cart content found to update");
     }
   }
 }

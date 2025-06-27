@@ -386,12 +386,6 @@
       results.classList.add("opacity-20");
     }
   });
-
-  document.addEventListener('htmx:configRequest', (event) => {
-    if (window.onHtmxConfigRequest) {
-      window.onHtmxConfigRequest(event);
-    }
-  });
 </script>
 
 {% style %}
