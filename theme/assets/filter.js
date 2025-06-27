@@ -1,7 +1,24 @@
 function filters() {
   window.updateSortFilters = updateSortFilters;
 
+  showHideFilterDrawer();
   showHideFilterMenus();
+}
+
+function onClickFilterDrawer() {
+  const target = document.querySelector('[data-target="filter-drawer"]');
+  const isExpanded = target.getAttribute("aria-expanded") === "true";
+
+  target.setAttribute("aria-expanded", !isExpanded);
+  target.classList.toggle("hidden");
+}
+
+function showHideFilterDrawer() {
+  const triggers = document.querySelectorAll('[data-trigger="filter-drawer"]');
+
+  triggers.forEach((trigger) => {
+    trigger.addEventListener("click", onClickFilterDrawer);
+  });
 }
 
 function getFilterMenuTriggers() {
@@ -53,7 +70,6 @@ function updateSortFilters(event) {
     event.target.id === "filter-form-stack" ? filterFormStack : filterFormBar;
 
   [filterForm, sortForm].forEach((form) => {
-    if (!form) return;
     const formData = new FormData(form);
 
     // Convert form data to query string for updating URL
