@@ -1,0 +1,34 @@
+{%- liquid
+  assign trigger = block.settings.trigger
+  assign content = block.settings.content
+-%}
+
+<accordion-root
+  class="
+    flex
+    flex-col
+    pb-24
+    border-b
+    border-secondary-{{ color_scheme }}
+  "
+>
+  <accordion-trigger
+    role="button"
+    aria-expanded="false"
+    class="flex items-center justify-between text-body-small font-semibold text-{{ color_scheme }} group"
+  >
+    {{ trigger | inline_editable: 'trigger' }}
+    <ion-icon name="add-outline" class="size-20 group-aria-expanded:hidden"></ion-icon>
+    <ion-icon name="remove-outline" class="size-20 hidden group-aria-expanded:inline-block"></ion-icon>
+  </accordion-trigger>
+  <accordion-content
+    role="region"
+    class="grid grid-rows-[0fr] opacity-0 overflow-hidden transition-all duration-300 ease-in-out"
+  >
+    <div class="overflow-hidden">
+      <span class="inline-block mt-4 text-body-small text-{{ color_scheme }}">
+        {{ content | inline_editable: 'content' }}
+      </span>
+    </div>
+  </accordion-content>
+</accordion-root>

@@ -1,0 +1,148 @@
+{% liquid
+  assign selected_value = option.values | find: 'selected', true
+%}
+
+{% if block.settings.variant_selector == 'radio' %}
+  <product-option-select
+    id="product-option-{{ option.id }}"
+    class="flex flex-col gap-6 text-body-medium"
+    data-option-id="{{ option.id }}"
+    hx-swap-oob="true"
+  >
+    <div class="flex gap-4">
+      <span class="text-secondary-{{ variants_color_scheme }}">{{ option.name }}</span>
+      {% if selected_value %}
+        <span class="text-{{ variants_color_scheme }}">{{ selected_value.name }}</span>
+      {% endif %}
+    </div>
+    <radio-button class="flex gap-4">
+      {%- for value in option.values -%}
+        <div
+          class="flex"
+          {% unless value.available %}
+            title="{{ 'sections.product.option.out_of_stock' | t }}"
+          {% endunless %}
+        >
+          <radio-option
+            class="
+              py-8
+              px-16
+              rounded
+              {% if value.selected %}
+                btn-primary-{{ variants_color_scheme }}
+              {% else %}
+                btn-secondary-{{ variants_color_scheme }}
+              {% endif %}
+            "
+            value="{{ value.name }}"
+            data-value-id="{{ value.id }}"
+            {% if value.selected %}
+              selected
+            {% endif %}
+            {% unless value.available %}
+              disabled
+            {% endunless %}
+          >
+            {{ value.name }}
+          </radio-option>
+        </div>
+      {%- endfor -%}
+    </radio-button>
+    <option-error class="hidden text-body-medium text-{{ variants_color_scheme }}">
+      {{ 'sections.product.option.selection_error' | t }}
+    </option-error>
+  </product-option-select>
+{% else %}
+  <product-option-select
+    id="product-option-{{ option.id }}"
+    class="flex flex-col gap-6"
+    data-option-id="{{ option.id }}"
+    hx-swap-oob="true"
+  >
+    <span class="text-body-medium text-secondary-{{ variants_color_scheme }}">{{ option.name }}</span>
+    <dropdown-menu class="relative flex flex-col group text-title-medium text-{{ variants_color_scheme }}">
+      <dropdown-trigger
+        class="
+          flex
+          items-center
+          justify-between
+          px-14
+          py-10
+          gap-8
+          rounded
+          group-aria-expanded:rounded-b-0
+          btn-secondary-{{ variants_color_scheme }}
+        "
+      >
+          {% if selected_value %}
+            <span class="text-{{ variants_color_scheme }}">
+              {{ selected_value.name }}
+            </span>
+          {% else %}
+            <span class="text-secondary-{{ variants_color_scheme }}">
+              {{ 'sections.product.option.selection_error' | t }}
+            </span>
+          {% endif %}
+        <ion-icon name="chevron-down-outline" class="size-18 text-secondary-{{ variants_color_scheme }}"></ion-icon>
+      </dropdown-trigger>
+      <dropdown-options
+        class="
+          absolute
+          top-full
+          w-full
+          hidden
+          group-aria-expanded:flex
+          flex-col
+          rounded
+          group-aria-expanded:rounded-t-0
+          border
+          border-color-{{ variants_color_scheme }}
+          group-aria-expanded:border-t-0
+          bg-{{ variants_color_scheme }}
+          py-6
+          px-4
+          gap-4
+          z-10
+        "
+      >
+        {%- for value in option.values -%}
+          <div
+            class="flex"
+            {% unless value.available %}
+              title="{{ 'sections.product.option.out_of_stock' | t }}"
+            {% endunless %}
+          >
+            <dropdown-option
+              class="
+                flex
+                items-center
+                justify-between
+                py-6
+                px-10
+                w-full
+                rounded
+                cursor-pointer
+              "
+              value="{{ value.name }}"
+              data-value-id="{{ value.id }}"
+              {% if value.selected %}
+                selected
+              {% endif %}
+              {% unless value.available %}
+                disabled
+              {% endunless %}
+            >
+              {{ value.name }}
+              {% if value.selected %}
+                <ion-icon name="checkmark-outline" class="size-18 text-{{ variants_color_scheme }}"></ion-icon>
+              {% endif %}
+            </dropdown-option>
+          </div>
+        {%- endfor -%}
+      </dropdown-options>
+    </dropdown-menu>
+    <option-error class="hidden text-body-medium text-{{ variants_color_scheme }}">
+      {{ 'sections.product.option.selection_error' | t }}
+    </option-error>
+  </product-option-select>
+{% endif %}
