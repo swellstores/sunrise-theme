@@ -59,7 +59,7 @@
     data-option-id="{{ option.id }}"
     hx-swap-oob="true"
   >
-    <span class="text-secondary-{{ variants_color_scheme }} text-body-medium">{{ option.name }}</span>
+    <span class="text-body-medium text-secondary-{{ variants_color_scheme }}">{{ option.name }}</span>
     <dropdown-menu class="relative flex flex-col group text-title-medium text-{{ variants_color_scheme }}">
       <dropdown-trigger
         class="
@@ -74,9 +74,15 @@
           btn-secondary-{{ variants_color_scheme }}
         "
       >
-        {% if selected_value %}
-          <span class="text-{{ variants_color_scheme }}">{{ selected_value.name }}</span>
-        {% endif %}
+          {% if selected_value %}
+            <span class="text-{{ variants_color_scheme }}">
+              {{ selected_value.name }}
+            </span>
+          {% else %}
+            <span class="text-secondary-{{ variants_color_scheme }}">
+              {{ 'sections.product.option.selection_error' | t }}
+            </span>
+          {% endif %}
         <ion-icon name="chevron-down-outline" class="size-18 text-secondary-{{ variants_color_scheme }}"></ion-icon>
       </dropdown-trigger>
       <dropdown-options
