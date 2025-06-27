@@ -19,6 +19,13 @@ body {
 
 ion-icon {
   @apply text-base/4;
+  stroke: currentColor;
+  /* 32px is the default value in Ionicons */
+  stroke-width: 32px;
+}
+
+ion-icon[name*="outline"] {
+  fill: none;
 }
 
 /* Customers */
