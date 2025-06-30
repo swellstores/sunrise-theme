@@ -149,23 +149,32 @@
       "cart": "Carrello"
     },
     "product": {
+      "from_price": "Da",
+      "out_of_stock": "Questo articolo è attualmente esaurito",
       "quantity": {
-        "label": "Quantità per {{ product_name }}",
+        "label": "Quantità",
         "increment": "Aumenta quantità",
         "decrement": "Diminuisci quantità"
       },
+      "option": {
+        "out_of_stock": "Esaurito",
+        "selection_error": "Seleziona un'opzione",
+        "text_error": "Fornisci una risposta"
+      },
       "purchase": {
         "one_time": "Acquisto singolo",
+        "subscription": "Abbonamento",
+        "subscription_delivered": "Consegnato",
         "every_interval": "Ogni {{ interval }}",
-        "interval_year": "anno",
+        "interval_year": "Annuale",
         "interval_year_plural": "anni",
-        "interval_month": "mese",
+        "interval_month": "Mensile",
         "interval_month_plural": "mesi",
-        "interval_week": "settimana",
+        "interval_week": "Settimanale",
         "interval_week_plural": "settimane",
-        "interval_day": "giorno",
+        "interval_day": "Giornaliero",
         "interval_day_plural": "giorni",
-        "includes_trial": "Include una prova gratuita di {{ trial_days }} giorni"
+        "includes_trial": "Prova di {{ trial_days }} giorni"
       }
     },
     "cart": {
