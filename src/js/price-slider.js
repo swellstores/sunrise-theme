@@ -55,6 +55,7 @@ export function initPriceSliders() {
         min: min,
         max: max,
       },
+      margin: 1,
       format: {
         to: function (value) {
           return Math.round(value);
@@ -83,7 +84,7 @@ export function initPriceSliders() {
 
       if (minSliderValue <= rangeMin) {
         // At minimum - left align with handle
-        minValue.style.transform = "translateX(0%)";
+        minValue.style.transform = "translateX(-20%)";
       } else {
         // otherwise center above handle
         minValue.style.transform = "translateX(-33%)";
@@ -97,10 +98,10 @@ export function initPriceSliders() {
 
       if (maxSliderValue >= rangeMax) {
         // At maximum - right align with handle
-        maxValue.style.transform = "translateX(-100%)";
+        maxValue.style.transform = "translateX(-68%)";
       } else {
         // otherwise center above handle
-        maxValue.style.transform = "translateX(-67%)";
+        maxValue.style.transform = "translateX(-40%)";
       }
     }
 
