@@ -338,6 +338,7 @@ textarea {
   box-shadow: none !important;
   cursor: pointer !important;
   margin-top: 0 !important;
+  right: -0.8rem !important;
 }
 
 .noUi-handle:before {
@@ -364,7 +365,7 @@ textarea {
 /* Price slider specific styles */
 .price-slider {
   position: relative;
-  padding: 1.2rem 0 1rem 0;
+  padding: 1.2rem 0.8rem 1rem 0.4rem;
   margin-top: 1.6rem;
 }
 
@@ -385,11 +386,7 @@ textarea {
 }
 
 .price-slider .noUi-handle {
-  right: -0.2rem !important;
-}
-
-.price-slider .noUi-origin:nth-child(2) .noUi-handle {
-  right: -1.4rem !important;
+  right: -0.8rem !important;
 }
 
 .price-slider .noUi-handle:before,
