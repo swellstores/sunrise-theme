@@ -149,23 +149,32 @@
       "cart": "Cesto de compras"
     },
     "product": {
+      "from_price": "Desde",
+      "out_of_stock": "Este artigo está atualmente esgotado",
       "quantity": {
-        "label": "Quantidade para {{ product_name }}",
+        "label": "Quantidade",
         "increment": "Aumentar quantidade",
         "decrement": "Diminuir quantidade"
       },
+      "option": {
+        "out_of_stock": "Esgotado",
+        "selection_error": "Por favor, selecione uma opção",
+        "text_error": "Por favor, forneça uma resposta"
+      },
       "purchase": {
         "one_time": "Compra única",
+        "subscription": "Subscrição",
+        "subscription_delivered": "Entregue",
         "every_interval": "A cada {{ interval }}",
-        "interval_year": "ano",
+        "interval_year": "Anual",
         "interval_year_plural": "anos",
-        "interval_month": "mês",
+        "interval_month": "Mensal",
         "interval_month_plural": "meses",
-        "interval_week": "semana",
+        "interval_week": "Semanal",
         "interval_week_plural": "semanas",
-        "interval_day": "dia",
+        "interval_day": "Diário",
         "interval_day_plural": "dias",
-        "includes_trial": "Inclui um período de teste gratuito de {{ trial_days }} dias"
+        "includes_trial": "{{ trial_days }} dias de teste"
       }
     },
     "cart": {
