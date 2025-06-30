@@ -149,23 +149,32 @@
       "cart": "Ostoskori"
     },
     "product": {
+      "from_price": "Alkaen",
+      "out_of_stock": "Tuote on tällä hetkellä loppu varastosta",
       "quantity": {
-        "label": "Määrä tuotteelle {{ product_name }}",
+        "label": "Määrä",
         "increment": "Lisää määrää",
         "decrement": "Vähennä määrää"
       },
+      "option": {
+        "out_of_stock": "Loppuunmyyty",
+        "selection_error": "Valitse vaihtoehto",
+        "text_error": "Anna vastaus"
+      },
       "purchase": {
         "one_time": "Kertaluonteinen ostos",
+        "subscription": "Tilaus",
+        "subscription_delivered": "Toimitetaan",
         "every_interval": "Joka {{ interval }}",
-        "interval_year": "vuosi",
+        "interval_year": "Vuosittain",
         "interval_year_plural": "vuotta",
-        "interval_month": "kuukausi",
+        "interval_month": "Kuukausittain",
         "interval_month_plural": "kuukautta",
-        "interval_week": "viikko",
+        "interval_week": "Viikoittain",
         "interval_week_plural": "viikkoa",
-        "interval_day": "päivä",
+        "interval_day": "Päivittäin",
         "interval_day_plural": "päivää",
-        "includes_trial": "Sisältää {{ trial_days }} päivän ilmaisen kokeilujakson"
+        "includes_trial": "{{ trial_days }} päivän kokeilu"
       }
     },
     "cart": {

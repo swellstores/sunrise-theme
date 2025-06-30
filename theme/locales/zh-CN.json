@@ -149,23 +149,32 @@
       "cart": "购物车"
     },
     "product": {
+      "from_price": "起",
+      "out_of_stock": "该商品目前缺货",
       "quantity": {
-        "label": "{{ product_name }} 的数量",
+        "label": "数量",
         "increment": "增加数量",
         "decrement": "减少数量"
       },
+      "option": {
+        "out_of_stock": "缺货",
+        "selection_error": "请选择一个选项",
+        "text_error": "请填写答案"
+      },
       "purchase": {
         "one_time": "一次性购买",
+        "subscription": "订阅",
+        "subscription_delivered": "按时配送",
         "every_interval": "每 {{ interval }}",
-        "interval_year": "年",
+        "interval_year": "每年",
         "interval_year_plural": "年",
-        "interval_month": "月",
+        "interval_month": "每月",
         "interval_month_plural": "月",
-        "interval_week": "周",
+        "interval_week": "每周",
         "interval_week_plural": "周",
-        "interval_day": "天",
+        "interval_day": "每天",
         "interval_day_plural": "天",
-        "includes_trial": "包括 {{ trial_days }} 天的免费试用"
+        "includes_trial": "{{ trial_days }} 天试用期"
       }
     },
     "cart": {
