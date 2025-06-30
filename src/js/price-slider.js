@@ -87,7 +87,7 @@ export function initPriceSliders() {
         minValue.style.transform = "translateX(-20%)";
       } else {
         // otherwise center above handle
-        minValue.style.transform = "translateX(-33%)";
+        minValue.style.transform = "translateX(-40%)";
       }
 
       // Update max value position (right handle)
