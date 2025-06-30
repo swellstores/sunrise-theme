@@ -5,17 +5,61 @@
 -%}
 
 <filter-drawer-root class="text-{{ color_scheme }}">
-  <button
-    data-trigger="filter-drawer"
-    type="button"
-    aria-expanded="false"
-    class="inline-block text-title-small font-display"
-  >
-    <span class="flex gap-8 items-center">
-      {{- 'filter-sort-icon.svg' | inline_asset_content -}}
-      {{ 'sections.collection.filters.filter_and_sort' | t -}}
-    </span>
-  </button>
+  <!-- Desktop Sort Control -->
+  {% if results.sort_options.size > 0 %}
+    <div class="flex items-center justify-between mb-16">
+      <button
+        data-trigger="filter-drawer"
+        type="button"
+        aria-expanded="false"
+        class="inline-block text-title-small font-display"
+      >
+        <span class="flex gap-8 items-center">
+          {{- 'filter-sort-icon.svg' | inline_asset_content -}}
+          {{ 'sections.collection.filters.filter_and_sort' | t -}}
+        </span>
+      </button>
+
+      <div class="relative flex">
+        <div class="group items-center gap-1 text-sm hidden md:flex">
+          <select
+            name="sort_by"
+            id="sort-control"
+            class="text-body-medium font-display rounded border-none outline-none text-{{ color_scheme }} bg-{{ color_scheme }}"
+            hx-get="{{ request_path }}"
+            hx-trigger="change"
+            hx-target="#results"
+            hx-select="#results"
+            hx-swap="outerHTML"
+            hx-include="[name^='filter_']:not([name$='_all']), [name='price_min'], [name='price_max']"
+          >
+            {% for option in results.sort_options %}
+              <option
+                value="{{ option.value }}"
+                {% if option.value == sort_by %}
+                  selected
+                {% endif %}
+              >
+                {{ option.name }}
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <button
+      data-trigger="filter-drawer"
+      type="button"
+      aria-expanded="false"
+      class="inline-block text-title-small font-display"
+    >
+      <span class="flex gap-8 items-center">
+        {{- 'filter-sort-icon.svg' | inline_asset_content -}}
+        {{ 'sections.collection.filters.filter_and_sort' | t -}}
+      </span>
+    </button>
+  {% endif %}
 
   <!-- Filter drawer -->
   <div
