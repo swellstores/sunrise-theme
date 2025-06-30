@@ -149,23 +149,32 @@
       "cart": "Корзина"
     },
     "product": {
+      "from_price": "От",
+      "out_of_stock": "Этот товар сейчас отсутствует на складе",
       "quantity": {
-        "label": "Количество для {{ product_name }}",
+        "label": "Количество",
         "increment": "Увеличить количество",
         "decrement": "Уменьшить количество"
       },
+      "option": {
+        "out_of_stock": "Нет в наличии",
+        "selection_error": "Пожалуйста, выберите вариант",
+        "text_error": "Пожалуйста, введите ответ"
+      },
       "purchase": {
         "one_time": "Разовая покупка",
+        "subscription": "Подписка",
+        "subscription_delivered": "Доставляется",
         "every_interval": "Каждые {{ interval }}",
-        "interval_year": "год",
+        "interval_year": "Ежегодно",
         "interval_year_plural": "года",
-        "interval_month": "месяц",
+        "interval_month": "Ежемесячно",
         "interval_month_plural": "месяца",
-        "interval_week": "неделя",
+        "interval_week": "Еженедельно",
         "interval_week_plural": "недели",
-        "interval_day": "день",
+        "interval_day": "Ежедневно",
         "interval_day_plural": "дня",
-        "includes_trial": "Включает бесплатный пробный период на {{ trial_days }} дней"
+        "includes_trial": "{{ trial_days }} дней пробного периода"
       }
     },
     "cart": {

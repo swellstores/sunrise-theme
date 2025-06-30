@@ -149,23 +149,32 @@
       "cart": "カート"
     },
     "product": {
+      "from_price": "最低価格",
+      "out_of_stock": "現在この商品は在庫切れです",
       "quantity": {
-        "label": "{{ product_name }}の数量",
+        "label": "数量",
         "increment": "数量を増やす",
         "decrement": "数量を減らす"
       },
+      "option": {
+        "out_of_stock": "在庫切れ",
+        "selection_error": "オプションを選択してください",
+        "text_error": "回答を入力してください"
+      },
       "purchase": {
         "one_time": "1回限りの購入",
+        "subscription": "サブスクリプション",
+        "subscription_delivered": "配達済み",
         "every_interval": "毎{{ interval }}",
-        "interval_year": "年",
+        "interval_year": "年ごと",
         "interval_year_plural": "年",
-        "interval_month": "月",
+        "interval_month": "月ごと",
         "interval_month_plural": "月",
-        "interval_week": "週",
+        "interval_week": "週ごと",
         "interval_week_plural": "週",
-        "interval_day": "日",
+        "interval_day": "日ごと",
         "interval_day_plural": "日",
-        "includes_trial": "{{ trial_days }}日間の無料トライアルが含まれます"
+        "includes_trial": "{{ trial_days }}日間のトライアル"
       }
     },
     "cart": {

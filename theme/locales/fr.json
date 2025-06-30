@@ -149,23 +149,32 @@
       "cart": "Panier"
     },
     "product": {
+      "from_price": "À partir de",
+      "out_of_stock": "Cet article est actuellement en rupture de stock",
       "quantity": {
-        "label": "Quantité pour {{ product_name }}",
+        "label": "Quantité",
         "increment": "Augmenter la quantité",
         "decrement": "Diminuer la quantité"
       },
+      "option": {
+        "out_of_stock": "Rupture de stock",
+        "selection_error": "Veuillez sélectionner une option",
+        "text_error": "Veuillez fournir une réponse"
+      },
       "purchase": {
         "one_time": "Achat unique",
+        "subscription": "Abonnement",
+        "subscription_delivered": "Livré",
         "every_interval": "Tous les {{ interval }}",
-        "interval_year": "an",
+        "interval_year": "Annuel",
         "interval_year_plural": "ans",
-        "interval_month": "mois",
+        "interval_month": "Mensuel",
         "interval_month_plural": "mois",
-        "interval_week": "semaine",
+        "interval_week": "Hebdomadaire",
         "interval_week_plural": "semaines",
-        "interval_day": "jour",
+        "interval_day": "Quotidien",
         "interval_day_plural": "jours",
-        "includes_trial": "Comprend un essai gratuit de {{ trial_days }} jours"
+        "includes_trial": "Essai de {{ trial_days }} jours"
       }
     },
     "cart": {
