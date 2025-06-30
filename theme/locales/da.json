@@ -149,23 +149,32 @@
       "cart": "Indkøbskurv"
     },
     "product": {
+      "from_price": "Fra",
+      "out_of_stock": "Denne vare er i øjeblikket udsolgt",
       "quantity": {
-        "label": "Antal for {{ product_name }}",
+        "label": "Antal",
         "increment": "Øg antal",
         "decrement": "Reducér antal"
       },
+      "option": {
+        "out_of_stock": "Udsolgt",
+        "selection_error": "Vælg venligst en mulighed",
+        "text_error": "Angiv venligst et svar"
+      },
       "purchase": {
         "one_time": "Engangskøb",
+        "subscription": "Abonnement",
+        "subscription_delivered": "Leveres",
         "every_interval": "Hver {{ interval }}",
-        "interval_year": "år",
+        "interval_year": "Årligt",
         "interval_year_plural": "år",
-        "interval_month": "måned",
+        "interval_month": "Månedligt",
         "interval_month_plural": "måneder",
-        "interval_week": "uge",
+        "interval_week": "Ugentligt",
         "interval_week_plural": "uger",
-        "interval_day": "dag",
+        "interval_day": "Dagligt",
         "interval_day_plural": "dage",
-        "includes_trial": "Inkluderer en {{ trial_days }}-dages gratis prøveperiode"
+        "includes_trial": "{{ trial_days }} dages prøveperiode"
       }
     },
     "cart": {
