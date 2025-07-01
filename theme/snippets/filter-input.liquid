@@ -2,7 +2,7 @@
 
 {% case filter.type %}
   {% when 'boolean' %}
-    <div class="flex items-center flex-nowrap filter-checkbox-height">
+    <div class="flex items-center flex-nowrap gap-8">
       <input
         type="checkbox"
         class="size-16 mr-8 rounded border-gray-300"
@@ -13,14 +13,14 @@
           checked
         {% endif %}
       >
-      <label for="{{ filter.param_name }}" class="text-nowrap">{{ filter.true_value.label }}</label>
+      <label for="{{ filter.param_name }}" class="text-nowrap filter-checkbox">{{ filter.true_value.label }}</label>
     </div>
 
   {% when 'list' %}
     {% if option.active == false and option.count == 0 %}
       {% assign disabled = true %}
     {% endif %}
-    <label class="flex items-center flex-nowrap filter-checkbox-height">
+    <label class="flex items-center flex-nowrap filter-checkbox">
       <input
         type="checkbox"
         class="size-16 mr-8 rounded border-gray-300 {% if disabled %}bg-gray-200{% endif %}"
@@ -36,7 +36,6 @@
       <span class="font-display text-nowrap">
         {{- option.label -}}
       </span>
-      <span class="ml-auto filter-count-badge">{{ option.count }}</span>
     </label>
 
   {% when 'price_range' %}

@@ -95,13 +95,13 @@
         hx-swap="outerHTML"
         hx-sync="this:replace"
       >
-        <div class="px-24">
+        <div class="p-24">
           {% for filter in results.filters %}
             <details
               class="filter-section"
               open
             >
-              <summary class="flex items-center justify-between py-18 list-none cursor-pointer">
+              <summary class="flex items-center justify-between pt-[16px] pb-[12px] list-none cursor-pointer">
                 <h4 class="filter-title font-display">{{ filter.label }}</h4>
                 <ion-icon
                   name="chevron-down-outline"
@@ -111,9 +111,9 @@
               </summary>
               <div class="filter-options">
                 {% if filter.type == 'list' %}
-                  <div class="flex flex-col">
+                  <div class="flex flex-col gap-8">
                     <!-- "All" option -->
-                    <label class="flex items-center flex-nowrap filter-checkbox-height">
+                    <label class="flex items-center flex-nowrap filter-checkbox">
                       <input
                         type="checkbox"
                         class="size-16 mr-6 rounded border-gray-300 all-checkbox"
@@ -539,13 +539,13 @@
 
   .filter-drawer-title {
     font-size: 1.8rem;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 2.4rem;
   }
 
   .filter-title {
     font-size: 1.6rem;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 2rem;
   }
 
@@ -585,8 +585,9 @@
     cursor: not-allowed;
   }
 
-  .filter-checkbox-height {
-    height: 3rem;
+  .filter-checkbox {
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
   }
 
   .filter-count-badge {
