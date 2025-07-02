@@ -97,41 +97,57 @@
       >
         <div class="p-24">
           {% for filter in results.filters %}
-            <details
-              class="filter-section"
-              open
-            >
-              <summary class="flex items-center justify-between pt-[16px] pb-[12px] list-none cursor-pointer">
+            <accordion-root class="filter-section">
+              <accordion-trigger
+                role="button"
+                aria-expanded="true"
+                class="flex items-center justify-between pt-[18px] pb-[12px] cursor-pointer"
+              >
                 <h4 class="filter-title font-display">{{ filter.label }}</h4>
                 <ion-icon
                   name="chevron-down-outline"
                   aria-label="{{ 'general.accordion.toggle' | t }}"
                   class="h-20 w-20 transition-transform"
                 ></ion-icon>
-              </summary>
-              <div class="filter-options">
-                {% if filter.type == 'list' %}
-                  <div class="flex flex-col gap-8">
-                    <!-- "All" option -->
-                    <label class="flex items-center flex-nowrap filter-checkbox">
-                      <input
-                        type="checkbox"
-                        class="size-16 mr-6 rounded border-gray-300 all-checkbox"
-                        name="{{ filter.param_name }}_all"
-                        value="all"
-                        data-filter-group="{{ filter.param_name }}"
-                      >
-                      <span class="font-display text-nowrap">All</span>
-                    </label>
-                    {% for option in filter.values %}
-                      {% render 'filter-input', filter: filter, option: option %}
-                    {% endfor %}
+              </accordion-trigger>
+              <accordion-content
+                role="region"
+                class="grid grid-rows-[1fr] opacity-100 overflow-hidden transition-all duration-300 ease-in-out"
+              >
+                {% if filter.type == 'price_range' %}
+                  <div class="overflow-hidden">
+                    <div class="filter-options px-4">
+                      {% render 'filter-input', filter: filter %}
+                    </div>
                   </div>
                 {% else %}
-                  {% render 'filter-input', filter: filter %}
+                  <div class="overflow-hidden">
+                    <div class="filter-options">
+                      {% if filter.type == 'list' %}
+                        <div class="flex flex-col gap-4">
+                          <!-- "All" option -->
+                          <label class="flex items-center flex-nowrap filter-checkbox">
+                            <input
+                              type="checkbox"
+                              class="size-16 mr-6 rounded border-gray-300 all-checkbox"
+                              name="{{ filter.param_name }}_all"
+                              value="all"
+                              data-filter-group="{{ filter.param_name }}"
+                            >
+                            <span class="font-display text-nowrap">All</span>
+                          </label>
+                          {% for option in filter.values %}
+                            {% render 'filter-input', filter: filter, option: option %}
+                          {% endfor %}
+                        </div>
+                      {% else %}
+                        {% render 'filter-input', filter: filter %}
+                      {% endif %}
+                    </div>
+                  </div>
                 {% endif %}
-              </div>
-            </details>
+              </accordion-content>
+            </accordion-root>
           {% endfor %}
         </div>
       </form>
@@ -504,37 +520,17 @@
 </script>
 
 {% style %}
-  .filter-section:first-child {
-    margin-top: 0;
+  .filter-section:first-child accordion-trigger {
+    padding-top: 16px;
   }
 
-  .filter-section summary ion-icon {
+  .filter-section accordion-trigger ion-icon {
     transition: transform 0.3s ease;
-    transform: rotate(270deg);
+    transform: rotate(-90deg) !important;
   }
 
-  .filter-section[open] summary ion-icon {
-    transition: transform 0.3s ease;
-    transform: rotate(360deg);
-  }
-
-  .filter-section {
-    interpolate-size: allow-keywords;
-  }
-
-  .filter-section[open] .filter-options {
-    animation: slideDown 0.3s ease-out;
-  }
-
-  @keyframes slideDown {
-    from {
-      opacity: 0;
-      transform: translateY(-1rem);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .filter-section accordion-trigger[aria-expanded='true'] ion-icon {
+    transform: rotate(0deg) !important;
   }
 
   .filter-drawer-title {
