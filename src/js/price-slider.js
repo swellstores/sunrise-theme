@@ -75,6 +75,7 @@ export function initPriceSliders() {
       const range = sliderTrack.noUiSlider.options.range;
       const rangeMin = range.min;
       const rangeMax = range.max;
+      const maxValueBuffer = 4;
 
       // Update min value position (left handle)
       const minPercentage =
@@ -96,7 +97,7 @@ export function initPriceSliders() {
       const maxPositionInPixels = (maxPercentage / 100) * sliderWidth;
       maxValue.style.left = maxPositionInPixels + "px";
 
-      if (maxSliderValue >= rangeMax) {
+      if (maxSliderValue >= rangeMax - maxValueBuffer) {
         // At maximum - right align with handle
         maxValue.style.transform = "translateX(-68%)";
       } else {
