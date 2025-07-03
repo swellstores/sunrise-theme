@@ -1,7 +1,7 @@
 {%- liquid
   assign color_scheme = color_scheme
   assign sort_by = results.sort_by | default: results.default_sort_by
-  assign request_path = results.url | default: request.path
+  assign request_path = request.path
 -%}
 
 <filter-drawer-root class="text-{{ color_scheme }}">
@@ -103,7 +103,10 @@
                 aria-expanded="true"
                 class="flex items-center justify-between pt-[18px] pb-[12px] cursor-pointer"
               >
-                <h4 class="filter-title font-display">{{ filter.label }}</h4>
+                <h4 class="filter-title font-display">
+                  {{ filter.label }}
+                  <span class="filter-count" data-filter-param="{{ filter.param_name }}"></span>
+                </h4>
                 <ion-icon
                   name="chevron-down-outline"
                   aria-label="{{ 'general.accordion.toggle' | t }}"
@@ -176,7 +179,7 @@
       endfor
     %}
 
-    <div id="active-filters" hx-swap-oob="true">
+    <div id="active-filters" hx-swap-oob="true" hx-swap="innerHTML">
       {% if active_filter_count > 0 %}
         <div class="bg-{{ color_scheme }} py-12 sm:flex sm:justify-between sm:items-center">
           <span class="sr-only">{{ 'sections.collection.filters.active' | t }}</span>
@@ -220,7 +223,9 @@
   let filterInitialized = false;
 
   function initializeFilters() {
-    if (filterInitialized) return;
+    if (filterInitialized) {
+      return;
+    }
     filterInitialized = true;
 
     document.addEventListener('htmx:afterSwap', handleAfterSwap);
@@ -237,6 +242,21 @@
     if (window.initPriceSliders) {
       window.initPriceSliders();
     }
+
+    updateFilterCounts();
+
+    setTimeout(() => {
+      const filterForm = document.querySelector('#filter-form-stack');
+      if (filterForm) {
+        const activeFilters = document.querySelector('#active-filters');
+        const checkedBoxes = filterForm.querySelectorAll('input[type="checkbox"]:checked');
+        const activeFilterTags = activeFilters?.querySelectorAll('.m-1.inline-flex');
+
+        if (checkedBoxes.length > 0 && activeFilterTags && activeFilterTags.length === 0) {
+          htmx.trigger(filterForm, 'change');
+        }
+      }
+    }, 100);
   }
 
   function handleBeforeRequest(event) {
@@ -290,11 +310,34 @@
       return;
     }
 
+    updateFilterCounts();
+
     // Trigger form change immediately when checkbox changes
     const filterForm = document.querySelector('#filter-form-stack');
     if (filterForm) {
       htmx.trigger(filterForm, 'change');
     }
+  }
+
+  function updateFilterCounts() {
+    const filterForm = document.querySelector('#filter-form-stack');
+    if (!filterForm) return;
+
+    const countSpans = document.querySelectorAll('.filter-count');
+
+    countSpans.forEach((span) => {
+      const filterParam = span.getAttribute('data-filter-param');
+      if (!filterParam) return;
+
+      const checkboxes = filterForm.querySelectorAll(`input[name="${filterParam}"]:checked`);
+      const count = checkboxes.length;
+
+      if (count > 0) {
+        span.textContent = `(${count})`;
+      } else {
+        span.textContent = '';
+      }
+    });
   }
 
   function handlePriceSliderChange() {
