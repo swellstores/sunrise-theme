@@ -47,6 +47,10 @@
   }
 {% endstyle %}
 
+<script type="application/ld+json">
+  {{ product | structured_data }}
+</script>
+
 <product-section
   data-product-id="{{ product.id }}"
   class="
