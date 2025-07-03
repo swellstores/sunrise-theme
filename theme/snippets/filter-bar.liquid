@@ -31,7 +31,7 @@
             hx-target="#results"
             hx-select="#results"
             hx-swap="outerHTML"
-            hx-include="[name^='filter_']:not([name$='_all']), [name='price_min'], [name='price_max']"
+            hx-include="[name^='filter_'], [name='price_min'], [name='price_max']"
           >
             {% for option in results.sort_options %}
               <option
@@ -125,17 +125,6 @@
                     <div class="filter-options">
                       {% if filter.type == 'list' %}
                         <div class="flex flex-col gap-4">
-                          <!-- "All" option -->
-                          <label class="flex items-center flex-nowrap filter-checkbox">
-                            <input
-                              type="checkbox"
-                              class="size-16 mr-6 rounded border-gray-300 all-checkbox"
-                              name="{{ filter.param_name }}_all"
-                              value="all"
-                              data-filter-group="{{ filter.param_name }}"
-                            >
-                            <span class="font-display text-nowrap">All</span>
-                          </label>
                           {% for option in filter.values %}
                             {% render 'filter-input', filter: filter, option: option %}
                           {% endfor %}
@@ -213,6 +202,7 @@
               hx-target="#results"
               hx-select="#results"
               hx-swap="outerHTML"
+              onclick="clearAllCheckboxes()"
             >
               {{ 'sections.collection.filters.clear_all' | t }}
             </a>
@@ -228,8 +218,6 @@
 
 <script>
   let filterInitialized = false;
-  let isFormSubmitting = false;
-  let formSubmissionTimestamp = 0;
 
   function initializeFilters() {
     if (filterInitialized) return;
@@ -239,100 +227,24 @@
     document.body.addEventListener('htmx:beforeRequest', handleBeforeRequest);
     document.addEventListener('htmx:afterRequest', handleAfterRequest);
     document.addEventListener('htmx:configRequest', handleConfigRequest);
-    document.addEventListener('priceSliderChanged', () => updateOpacity(true));
-    document.addEventListener('htmx:oobAfterSwap', handleOobAfterSwap);
+    document.addEventListener('priceSliderChanged', handlePriceSliderChange);
     document.addEventListener('change', handleCheckboxChange);
-
-    setupInitialState();
-  }
-
-  let savedCheckboxStates = new Map();
-
-  function saveCheckboxStates() {
-    const filterForm = document.querySelector('#filter-form-stack');
-    if (!filterForm) return;
-
-    const checkboxes = filterForm.querySelectorAll('input[type="checkbox"]');
-    savedCheckboxStates.clear();
-
-    checkboxes.forEach((checkbox) => {
-      savedCheckboxStates.set(checkbox.name + '|' + checkbox.value, checkbox.checked);
-    });
-  }
-
-  function restoreCheckboxStates() {
-    const filterForm = document.querySelector('#filter-form-stack');
-    if (!filterForm || savedCheckboxStates.size === 0) return;
-
-    const checkboxes = filterForm.querySelectorAll('input[type="checkbox"]');
-    let restoredCount = 0;
-
-    checkboxes.forEach((checkbox) => {
-      const key = checkbox.name + '|' + checkbox.value;
-      if (savedCheckboxStates.has(key)) {
-        checkbox.checked = savedCheckboxStates.get(key);
-        restoredCount++;
-      }
-    });
   }
 
   function handleAfterSwap(event) {
-    const now = Date.now();
-    const timeSinceFormSubmission = now - formSubmissionTimestamp;
-    const isOutOfBandSwap = event.detail.isOOB === true;
-    const isMainResultsSwap = event.target && event.target.id === 'results';
-    const isFilterFormSwap = event.target && event.target.closest('#filter-form-stack');
-
-    const requestPath = event.detail.xhr?.responseURL || '';
-    const hasFilterParams = requestPath.includes('filter_') || requestPath.includes('price');
-    const isFormRelatedSwap =
-      (formSubmissionTimestamp > 0 && timeSinceFormSubmission < 10000) || isFormSubmitting || hasFilterParams;
-
-    if (isFormRelatedSwap) {
-      restoreCheckboxStates();
-    } else {
-      syncCheckboxStates();
-      isFormSubmitting = false;
-      formSubmissionTimestamp = 0;
-    }
-
     updateOpacity(false);
 
     if (window.initPriceSliders) {
       window.initPriceSliders();
     }
-
-    if (window.filters) {
-      window.filters();
-
-      if (isFormRelatedSwap) {
-        setTimeout(() => {
-          restoreCheckboxStates();
-        }, 10);
-      }
-    }
   }
 
   function handleBeforeRequest(event) {
-    saveCheckboxStates();
-
-    if (event.target.id === 'filter-form-stack') {
-      isFormSubmitting = true;
-      formSubmissionTimestamp = Date.now();
-    }
-
     updateOpacity(true);
   }
 
   function handleAfterRequest(event) {
     updateOpacity(false);
-
-    if (isFormSubmitting) {
-      setTimeout(() => {
-        isFormSubmitting = false;
-        formSubmissionTimestamp = 0;
-      }, 6000);
-    }
   }
 
   function handleConfigRequest(event) {
@@ -350,37 +262,14 @@
     });
   }
 
-  function handleOobAfterSwap(event) {
-    const element = event.target;
+  function clearAllCheckboxes() {
+    const filterForm = document.querySelector('#filter-form-stack');
+    if (!filterForm) return;
 
-    if (
-      element &&
-      (element.id === 'filter-form-bar' ||
-        element.closest('#filter-form-stack') ||
-        element.querySelector('#filter-form-stack'))
-    ) {
-      setTimeout(() => {
-        restoreCheckboxStates();
-      }, 50);
-
-      if (window.filters) {
-        window.filters();
-
-        if (isFormSubmitting) {
-          setTimeout(() => {
-            restoreCheckboxStates();
-          }, 10);
-        }
-      }
-    }
-
-    if (element && element.id === 'active-filters') {
-      if (isFormSubmitting) {
-        setTimeout(() => {
-          restoreCheckboxStates();
-        }, 50);
-      }
-    }
+    const checkboxes = filterForm.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = false;
+    });
   }
 
   function updateOpacity(loading) {
@@ -401,101 +290,15 @@
       return;
     }
 
-    if (checkbox.name.endsWith('_all')) {
-      handleAllCheckboxChange(checkbox);
-    } else {
-      handleRegularCheckboxChange(checkbox);
-    }
-
-    saveCheckboxStates();
-  }
-
-  function handleAllCheckboxChange(checkbox) {
-    if (!checkbox.checked) return;
-
-    const filterGroup = checkbox.dataset.filterGroup;
+    // Trigger form change immediately when checkbox changes
     const filterForm = document.querySelector('#filter-form-stack');
-
-    if (!filterForm || !filterGroup) return;
-
-    const otherCheckboxes = filterForm.querySelectorAll(`input[name="${filterGroup}"]:not([name$="_all"])`);
-    otherCheckboxes.forEach((otherCheckbox) => {
-      otherCheckbox.checked = false;
-    });
-
-    htmx.trigger(filterForm, 'change');
-  }
-
-  function handleRegularCheckboxChange(checkbox) {
-    const filterForm = document.querySelector('#filter-form-stack');
-    if (!filterForm) return;
-
-    const filterGroup = checkbox.name;
-    const allCheckbox = filterForm.querySelector(`input[name="${filterGroup}_all"]`);
-
-    if (!allCheckbox) return;
-
-    if (checkbox.checked) {
-      allCheckbox.checked = false;
-    } else {
-      const otherCheckboxes = filterForm.querySelectorAll(`input[name="${filterGroup}"]:not([name$="_all"])`);
-      const allUnchecked = Array.from(otherCheckboxes).every((otherCheckbox) => {
-        return !otherCheckbox.checked;
-      });
-
-      if (allUnchecked) {
-        allCheckbox.checked = true;
-        htmx.trigger(filterForm, 'change');
-      }
+    if (filterForm) {
+      htmx.trigger(filterForm, 'change');
     }
   }
 
-  function syncCheckboxStates() {
-    if (isFormSubmitting || (formSubmissionTimestamp > 0 && Date.now() - formSubmissionTimestamp < 5000)) {
-      return;
-    }
-
-    const filterForm = document.querySelector('#filter-form-stack');
-    if (!filterForm) {
-      return;
-    }
-
-    const params = new URLSearchParams(window.location.search);
-    const checkboxes = filterForm.querySelectorAll('input[type="checkbox"]');
-
-    checkboxes.forEach((checkbox) => {
-      const paramName = checkbox.name;
-      const paramValue = checkbox.value;
-
-      if (paramName.endsWith('_all')) {
-        const filterGroup = paramName.replace('_all', '');
-        const hasOtherSelections = params.has(filterGroup);
-        const shouldBeChecked = !hasOtherSelections;
-
-        checkbox.checked = shouldBeChecked;
-      } else {
-        const shouldBeChecked = params.has(paramName) && params.getAll(paramName).includes(paramValue);
-
-        checkbox.checked = shouldBeChecked;
-      }
-    });
-  }
-
-  function setupInitialState() {
-    const filterForm = document.querySelector('#filter-form-stack');
-    if (!filterForm) return;
-
-    const allCheckboxes = filterForm.querySelectorAll('input[name$="_all"]');
-    allCheckboxes.forEach((checkbox) => {
-      checkbox.checked = true;
-    });
-
-    const params = new URLSearchParams(window.location.search);
-    const hasAnyFilters = Array.from(params.keys()).some((key) => key.includes('filter_') || key.includes('price'));
-
-    if (hasAnyFilters) {
-      syncCheckboxStates();
-    }
+  function handlePriceSliderChange() {
+    updateOpacity(true);
   }
 
   function closeFilterDrawerAndSubmit(event) {
@@ -597,5 +400,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  ion-icon {
+    stroke-width: 0 !important;
   }
 {% endstyle %}
