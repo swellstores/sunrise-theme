@@ -1,5 +1,6 @@
 {%- liquid
   assign color_scheme = section.settings.color_scheme
+  assign container_color_scheme = section.settings.container_color_scheme
   assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
   assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
   assign reduced_padding_top = top_padding | times: 0.55 | round: 2
@@ -23,22 +24,23 @@
 <div class="bg-{{ section.settings.color_scheme }} gradient">
   <div
     class="
-            relative isolate
-            md:p-140
-            {% if section.settings.layout == 'section' %}
-              max-w-screen-lg mx-auto bg-{{ section.settings.container_color_scheme }}
-            {% elsif section.settings.layout == 'none' %}
-              w-full
-            {% endif %}
-             pl-24
-             pr-24
-             pt-64
-             pb-64
-             lg:pl-160
-             lg:pr-160
-             lg:pt-96
-             lg:pb-96
+      relative
+      isolate
+      md:p-140
+      pl-24
+      pr-24
+      pt-64
+      pb-64
+      lg:pl-160
+      lg:pr-160
+      lg:pt-96
+      lg:pb-96
       responsive-padding-{{ section.id }}
+      {% if section.settings.layout == 'section' %}
+        max-w-screen-lg mx-auto bg-{{ container_color_scheme }}
+      {% elsif section.settings.layout == 'none' %}
+        w-full
+      {% endif %}
     "
   >
     <div class="section-{{ section.id }}-padding w-full">
@@ -46,258 +48,141 @@
         <div
           class="
             items-center
-            grid grid-cols-1
+            grid
+            grid-cols-1
+            gap-40
             {% if section.settings.image != blank %}
-             md:grid-cols-2 {% endif %} gap-40
+              md:grid-cols-2
+            {% endif %}
           "
         >
-          {%- if section.settings.desktop_layout == 'image_first' -%}
-            {% if section.settings.image != blank %}
-              <div class="">
-                <div class="w-full">
-                  {% assign img = section.settings.image %}
-                  {% assign img_width = img.file.width %}
-                  {% assign img_height = img.file.height %}
-                  {% assign size_setting = section.settings.image_size %}
-                 
-                  {% if size_setting == 'small' %}
-                    {% assign base_width = 400 %}
-                    {% assign max_width = '400px' %}
-                  {% elsif size_setting == 'large' %}
-                    {% assign base_width = 1800 %}
-                    {% assign max_width = '1800px' %}
-                  {% else %}
-                    {% assign base_width = img_width %}
-                    {% assign max_width = img_width | append: 'px' %}
-                  {% endif %}
-                  <img
-                    srcset="
-                      {%- if img.file.width >= 165 -%}{{ img.file.url }}?width=165 165w,{%- endif -%}
-                      {%- if img.file.width >= 360 -%}{{ img.file.url }}?width=360 360w,{%- endif -%}
-                      {%- if img.file.width >= 533 -%}{{ img.file.url }}?width=533 533w,{%- endif -%}
-                      {%- if img.file.width >= 720 -%}{{ img.file.url }}?width=720 720w,{%- endif -%}
-                      {%- if img.file.width >= 1000 -%}{{ img.file.url }}?width=1000 1000w,{%- endif -%}
-                      {%- if img.file.width >= 1500 -%}{{ img.file.url }}?width=1500 1500w,{%- endif -%}
-                      {%- if img.file.width >= 1800 -%}{{ img.file.url }}?width=1800 1800w,{%- endif -%}
-                      {{ img.file.url }} {{ img.file.width }}w
-                    "
-                    src="{{ img.file.url }}?width={{ base_width }}"
-                    sizes="
-                      {% if size_setting == 'small' %}(max-width: 800px) 100vw, 800px
-                      {% elsif size_setting == 'large' %}(max-width: 1800px) 100vw, 1800px
-                      {% else %}100vw, {{ img_width }}px{% endif %}"
-                    alt="{{ img.file.filename | escape }}"
-                    class="w-full h-auto ml-auto mr-auto"
-                    style="max-width:{{ max_width }};"
-                    loading="lazy"
-                    width="{{ base_width }}"
-                    height="{{ img_height | divided_by: img_width | times: base_width | round }}"
-                  >
-                </div>
-              </div>
-            {% endif %}
+          {%- if section.settings.desktop_layout == 'image_first' and section.settings.image != blank -%}
+            {% render 'collapsible-content-image',
+              section: section
+            %}
+          {%- endif -%}
 
-            <div
-              class="
-                flex
-                flex-col
-                gap-24
-                {% if section.settings.layout == 'section' %}
-                  text-{{ section.settings.container_color_scheme }}
-                {% else %}
-                  text-{{ section.settings.color_scheme }}
-                {% endif %}
-              "
-            >
-              <div class="text-{{ section.settings.header_alignment | default: 'center' }} flex flex-col gap-8">
-                {% if section.settings.pre_heading %}
-                  <h2 class="font-display font-pre-heading text-pre-heading">
-                    {{ section.settings.pre_heading }}
-                  </h2>
-                {% endif %}
-                {% if section.settings.heading %}
-                  <h2 class="font-display font-heading text-heading-{{ section.settings.heading_size | default: 'small' }}">
-                    {{ section.settings.heading }}
-                  </h2>
-                {% endif %}
-                {% if section.settings.text %}
-                  <div class="formatted-text">
-                    <p class="font-display text-content">
-                      {{ section.settings.text }}
-                    </p>
-                  </div>
-                {% endif %}
-              </div>
-
-              <accordion-root
-                class="
-                  flex
-                  flex-col
-                  items-center
-                  justify-center
-                  {% if section.settings.layout == 'row' or section.settings.layout == 'section' %}
-                    text-{{ section.settings.container_color_scheme }}
-                  {% else %}
-                    text-{{ section.settings.color_scheme }}
-                  {% endif %}
-                "
-              >
-                <div class="flex flex-col {% if section.settings.layout == 'row' %}gap-16{% endif %} w-full">
-                  {%- for block in section.blocks -%}
-                    {%- if block.type == 'collapsible_row' -%}
-                      <div class="w-full overflow-hidden {% if section.settings.layout == 'row' %} bg-{{ section.settings.container_color_scheme }}{% endif %} border-[#F5F5F5] border rounded-4 p-16">
-                        <accordion-trigger
-                          role="button"
-                          aria-expanded="{% if section.settings.open_first_collapsible_row and forloop.first %}true{% else %}false{% endif %}"
-                          class="text-heading-{{ block.settings.heading_size | default: 'small' }} font-display font-heading flex w-full items-center justify-between"
-                        >
-                          {% assign pageTitle = block.settings.page.title | escape %}
-                          {{ block.settings.heading | default: pageTitle }}
-                          <ion-icon
-                            name="chevron-down-outline"
-                            aria-label="{{ 'general.accordion.toggle' | t }}"
-                            class="{% if block.settings.heading_size == 'small' %}h-16 w-16{% else %}h-32 w-32{% endif %} transition-transform"
-                          ></ion-icon>
-                        </accordion-trigger>
-                        <accordion-content
-                          role="region"
-                          class="body-large grid grid-rows-[{% if section.settings.open_first_collapsible_row and forloop.first %}1fr{% else %}0fr{% endif %}] opacity-{% if section.settings.open_first_collapsible_row and forloop.first %}100{% else %}0{% endif %} overflow-hidden transition-all duration-300 ease-in-out"
-                        >
-                          <div class="overflow-hidden text-left text-content font-display">
-                            <div class="mt-4">
-                              <span class="formatted-text">{{ block.settings.row_content }}</span>
-                              {{ block.settings.page.content }}
-                            </div>
-                          </div>
-                        </accordion-content>
-                      </div>
-                    {%- endif -%}
-                  {%- endfor -%}
-                </div>
-              </accordion-root>
-            </div>
-          {%- else -%}
-            <div
-              class="
-                flex
-                flex-col
-                gap-24
-                {% if section.settings.layout == 'section' %}
-                  text-{{ section.settings.container_color_scheme }}
-                {% else %}
-                  text-{{ section.settings.color_scheme }}
-                {% endif %}
-              "
-            >
-              <div class="text-{{ section.settings.header_alignment | default: 'center' }} flex flex-col gap-8">
-                {% if section.settings.pre_heading %}
-                  <p class="font-display font-pre-heading text-pre-heading">
-                    {{ section.settings.pre_heading }}
+          <div
+            class="
+              flex
+              flex-col
+              gap-24
+              {% if section.settings.layout == 'section' %}
+                text-{{ container_color_scheme }}
+              {% else %}
+                text-{{ color_scheme }}
+              {% endif %}
+            "
+          >
+            <div class="text-{{ section.settings.header_alignment | default: 'center' }} flex flex-col gap-8">
+              {% if section.settings.pre_heading %}
+                <h2 class="font-display font-pre-heading text-pre-heading">
+                  {{ section.settings.pre_heading }}
+                </h2>
+              {% endif %}
+              {% if section.settings.heading %}
+                <h2 class="font-display font-heading text-heading-{{ section.settings.heading_size | default: 'small' }}">
+                  {{ section.settings.heading }}
+                </h2>
+              {% endif %}
+              {% if section.settings.text %}
+                <div class="formatted-text">
+                  <p class="font-display text-content">
+                    {{ section.settings.text }}
                   </p>
-                {% endif %}
-                {% if section.settings.heading %}
-                  <h2 class="font-display font-heading text-heading-{{ section.settings.heading_size | default: 'small' }}">
-                    {{ section.settings.heading }}
-                  </h2>
-                {% endif %}
-                {% if section.settings.text %}
-                  <div class="formatted-text">
-                    <p class=""font-display text-content">{{ section.settings.text }}</p>
-                  </div>
-                {% endif %}
-              </div>
-
-              <accordion-root
-                class="
-                  flex
-                  flex-col
-                  items-center
-                  justify-center
-                  {% if section.settings.layout == 'row' or section.settings.layout == 'section' %}
-                    text-{{ section.settings.container_color_scheme }}
-                  {% else %}
-                    text-{{ section.settings.color_scheme }}
-                  {% endif %}
-                "
-              >
-                <div class="flex flex-col {% if section.settings.layout == 'row' %}gap-16{% endif %} w-full">
-                  {%- for block in section.blocks -%}
-                    {%- if block.type == 'collapsible_row' -%}
-                      <div class="w-full overflow-hidden {% if section.settings.layout == 'row' %} bg-{{ section.settings.container_color_scheme }}{% endif %} border-[#F5F5F5] border rounded-4 p-16">
-                        <accordion-trigger
-                          role="button"
-                          aria-expanded="{% if section.settings.open_first_collapsible_row and forloop.first %}true{% else %}false{% endif %}"
-                          class="text-heading-{{ block.settings.heading_size | default: 'small' }} font-display font-heading flex w-full items-center justify-between"
-                        >
-                          {% assign pageTitle = block.settings.page.title | escape %}
-                          {{ block.settings.heading | default: pageTitle }}
-                          <ion-icon
-                            name="chevron-down-outline"
-                            aria-label="{{ 'general.accordion.toggle' | t }}"
-                            class="{% if block.settings.heading_size == 'small' %}h-16 w-16{% else %}h-32 w-32{% endif %} transition-transform"
-                          ></ion-icon>
-                        </accordion-trigger>
-                        <accordion-content
-                          role="region"
-                          class="body-large grid grid-rows-[{% if section.settings.open_first_collapsible_row and forloop.first %}1fr{% else %}0fr{% endif %}] opacity-{% if section.settings.open_first_collapsible_row and forloop.first %}100{% else %}0{% endif %} overflow-hidden transition-all duration-300 ease-in-out"
-                        >
-                          <div class="overflow-hidden text-left text-content font-display">
-                            <div class="mt-4">
-                              <span class="formatted-text">{{ block.settings.row_content }}</span>
-                              {{ block.settings.page.content }}
-                            </div>
-                          </div>
-                        </accordion-content>
-                      </div>
-                    {%- endif -%}
-                  {%- endfor -%}
                 </div>
-              </accordion-root>
+              {% endif %}
             </div>
 
-            {% if section.settings.image != blank %}
-              <div>
-                <div class="w-full">
-                  {% assign img = section.settings.image %}
-                  {% assign img_width = img.file.width %}
-                  {% assign img_height = img.file.height %}
-                  {% assign size_setting = section.settings.image_size %}
-                  {% if size_setting == 'small' %}
-                    {% assign base_width = 400 %}
-                    {% assign max_width = '400px' %}
-                  {% elsif size_setting == 'large' %}
-                    {% assign base_width = 1800 %}
-                    {% assign max_width = '1800px' %}
-                  {% else %}
-                    {% assign base_width = img_width %}
-                    {% assign max_width = img_width | append: 'px' %}
-                  {% endif %}
-                  <img
-                    srcset="
-                      {%- if img.file.width >= 165 -%}{{ img.file.url }}?width=165 165w,{%- endif -%}
-                      {%- if img.file.width >= 360 -%}{{ img.file.url }}?width=360 360w,{%- endif -%}
-                      {%- if img.file.width >= 533 -%}{{ img.file.url }}?width=533 533w,{%- endif -%}
-                      {%- if img.file.width >= 720 -%}{{ img.file.url }}?width=720 720w,{%- endif -%}
-                      {%- if img.file.width >= 1000 -%}{{ img.file.url }}?width=1000 1000w,{%- endif -%}
-                      {%- if img.file.width >= 1500 -%}{{ img.file.url }}?width=1500 1500w,{%- endif -%}
-                      {%- if img.file.width >= 1800 -%}{{ img.file.url }}?width=1800 1800w,{%- endif -%}
-                      {{ img.file.url }} {{ img.file.width }}w
+            <accordion-root
+              class="
+                flex
+                flex-col
+                items-center
+                justify-center
+                w-full
+                {% if section.settings.layout == 'row' %}
+                  gap-16
+                {% endif %}
+                {% if section.settings.layout == 'row' or section.settings.layout == 'section' %}
+                  text-{{ container_color_scheme }}
+                {% else %}
+                  text-{{ color_scheme }}
+                {% endif %}
+              "
+            >
+              {%- for block in section.blocks -%}
+                {%- if block.type == 'collapsible_row' -%}
+                  <accordion-item
+                    class="
+                      w-full
+                      p-16
+                      border
+                      rounded
+                      group
+                      {% if section.settings.layout == 'row' %}
+                        bg-{{ container_color_scheme }}
+                        border-color-{{ container_color_scheme }}
+                      {% else %}
+                        bg-{{ color_scheme }}
+                        border-color-{{ color_scheme }}
+                      {% endif %}
                     "
-                    src="{{ img.file.url }}?width={{ base_width }}"
-                    sizes="
-                      {% if size_setting == 'small' %}(max-width: 800px) 100vw, 800px
-                      {% elsif size_setting == 'large' %}(max-width: 1800px) 100vw, 1800px
-                      {% else %}100vw, {{ img_width }}px{% endif %}"
-                    alt="{{ img.file.filename | escape }}"
-                    class="w-full h-auto ml-auto mr-auto"
-                    style="max-width:{{ max_width }};"
-                    loading="lazy"
-                    width="{{ base_width }}"
+                    aria-expanded="
+                      {% if section.settings.open_first_collapsible_row and forloop.first %}
+                        true
+                      {% else %}
+                        false
+                      {% endif %}
+                    "
                   >
-                </div>
-              </div>
-            {% endif %}
-          {%- endif %}
+                    <accordion-trigger
+                      class="
+                        text-heading-{{ block.settings.heading_size | default: 'small' }}
+                        font-display
+                        font-heading
+                        flex
+                        w-full
+                        items-center
+                        justify-between
+                      "
+                    >
+                      {% assign pageTitle = block.settings.page.title | escape %}
+                      {{ block.settings.heading | default: pageTitle }}
+                      <ion-icon
+                        name="chevron-down-outline"
+                        aria-label="{{ 'general.accordion.toggle' | t }}"
+                        class="
+                          transition-transform
+                          group-aria-expanded:rotate-180
+                          {% if block.settings.heading_size == 'small' %}
+                            h-16
+                            w-16
+                          {% else %}
+                            h-32
+                            w-32
+                          {% endif %}
+                        "
+                      ></ion-icon>
+                    </accordion-trigger>
+                    <accordion-content class="body-large">
+                      <div class="mt-4">
+                        <span class="formatted-text">{{ block.settings.row_content }}</span>
+                        {{ block.settings.page.content }}
+                      </div>
+                    </accordion-content>
+                  </accordion-item>
+                {%- endif -%}
+              {%- endfor -%}
+            </accordion-root>
+          </div>
+
+          {%- if section.settings.desktop_layout == 'image_second' and section.settings.image != blank -%}
+            {% render 'collapsible-content-image',
+              section: section
+            %}
+          {%- endif -%}
+
         </div>
       </div>
     </div>

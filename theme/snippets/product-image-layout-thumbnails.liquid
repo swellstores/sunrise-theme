@@ -143,18 +143,40 @@
     </swiper-container>
 
     {% if show_thumbnails_navigation %}
-      <button  class="thumbnails-button-prev absolute left-2 top-1/2 -translate-y-1/2 z-10">
+      <button
+        class="
+          thumbnails-button-prev
+          size-16
+          md:size-22
+          absolute
+          left-0
+          top-1/2
+          -translate-y-1/2
+          z-10
+        "
+      >
         <ion-icon
           name="chevron-back-outline"
           aria-label="{{ 'general.accordion.toggle' | t }}"
-          class="relative h-22 w-22 right-1"
+          class="relative size-16 md:size-22 right-0"
         ></ion-icon>
       </button>
-      <button class="thumbnails-button-next absolute right-2 top-1/2 -translate-y-1/2 z-10">
+      <button
+        class="
+          thumbnails-button-next
+          size-16
+          md:size-22
+          absolute
+          right-0
+          top-1/2
+          -translate-y-1/2
+          z-10
+        "
+      >
         <ion-icon
           name="chevron-forward-outline"
           aria-label="{{ 'general.accordion.toggle' | t }}"
-          class="relative h-22 w-22 left-1"
+          class="relative size-16 md:size-22 left-0"
         ></ion-icon>
       </button>
     {% endif %}
