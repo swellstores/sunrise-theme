@@ -71,6 +71,7 @@
       flex
       flex-col
       sm:flex-row
+      lg:gap-100
       {% if media_position == 'right' %}
         sm:flex-row-reverse
       {% endif %}
@@ -83,13 +84,28 @@
 
     <form
       id="product-form"
-      class="flex flex-col flex-1 w-full min-w-275 sm:max-w-450 gap-24"
+      class="flex flex-col flex-1 w-full min-w-0 gap-24"
       hx-get="/products/{{ product.slug }}"
       hx-trigger="load, product-quantity-change, product-option-change, product-purchase-option-change"
       hx-indicator="#product-form"
       hx-swap="none"
     >
       {% for block in section.blocks %}
+        {% liquid
+          assign index = forloop.index0
+          assign prev_block_index = index | minus: 1
+          assign next_block_index = index | plus: 1
+          assign prev_block = section.blocks[prev_block_index]
+          assign next_block = section.blocks[next_block_index]
+
+          assign should_open_accordion_root = block.type == 'accordion_item' and prev_block.type != 'accordion_item'
+          assign should_close_accordion_root = block.type == 'accordion_item' and next_block.type != 'accordion_item'
+        %}
+
+        {% if should_open_accordion_root %}
+          <accordion-root>
+        {% endif %}
+
         {% case block.type %}
           {% when 'title' %}
             {% render 'product-title',
@@ -139,6 +155,10 @@
               block: block,
               color_scheme: color_scheme
             %}
+
+          {% if should_close_accordion_root %}
+            </accordion-root>
+          {% endif %}
         {% endcase %}
       {% endfor %}
     </form>

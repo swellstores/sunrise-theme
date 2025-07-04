@@ -1,6 +1,5 @@
 import { CartAPI } from "./utils/cart-api";
 import {
-  ProductInitializedEvent,
   ProductQuantityChangeEvent,
   ProductOptionChangeEvent,
   ProductPurchaseOptionChangeEvent,
