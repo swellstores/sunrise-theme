@@ -1,83 +1,138 @@
-(function () {
-  /**
-   *
-   *
-   * @class Accordion
-   * @extends {HTMLElement}
-   */
-  class Accordion extends HTMLElement {
-    constructor() {
-      super();
+export class AccordionRoot extends HTMLElement {
+  constructor() {
+    super();
+  }
 
-      this.triggers = null;
-      this.contents = null;
-      this.boundOnToggle = this.onToggle.bind(this);
-    }
+  connectedCallback() {
+    this.setAttribute("role", "presentation");
+  }
+}
 
-    connectedCallback() {
-      this.triggers = this.querySelectorAll("accordion-trigger");
-      this.contents = this.querySelectorAll("accordion-content");
+export class AccordionItem extends HTMLElement {
+  constructor() {
+    super();
+  }
 
-      this.triggers.forEach((trigger, index) => {
-        const id = `accordion-trigger-${index}`;
-        const content = this.contents[index];
+  connectedCallback() {
+    this.setAttribute("role", "listitem");
 
-        trigger.setAttribute("id", id);
-        trigger.setAttribute("data-index", String(index));
-        trigger.setAttribute("aria-controls", id);
-        content.setAttribute("aria-labelledby", id);
+    if (this.hasAttribute("aria-expanded")) {
+      const isExpanded = this.getAttribute("aria-expanded").trim() === "true";
 
-        trigger.addEventListener("click", this.boundOnToggle);
-      });
-    }
-
-    disconnectedCallback() {
-      this.triggers.forEach((trigger) => {
-        trigger.removeEventListener("click", this.boundOnToggle);
-      });
-    }
-
-    onToggle(event) {
-      event.preventDefault();
-
-      const trigger = event.currentTarget;
-      const index = Number(trigger.dataset.index);
-      const content = this.contents[index];
-
-      if (!content) {
-        return;
-      }
-
-      const icon =
-        trigger.querySelector("ion-icon") ||
-        trigger.querySelector("chevron-icon");
-      const shouldExpand = trigger.getAttribute("aria-expanded") === "false";
-
-      return shouldExpand
-        ? this.open(trigger, content, icon)
-        : this.close(trigger, content, icon);
-    }
-
-    open(trigger, content, icon) {
-      trigger.setAttribute("aria-expanded", "true");
-      content.classList.remove("grid-rows-[0fr]", "opacity-0");
-      content.classList.add("grid-rows-[1fr]", "opacity-100");
-
-      if (icon instanceof HTMLElement) {
-        icon.style.transform = "rotate(180deg)";
-      }
-    }
-
-    close(trigger, content, icon) {
-      trigger.setAttribute("aria-expanded", "false");
-      content.classList.add("grid-rows-[0fr]", "opacity-0");
-      content.classList.remove("grid-rows-[1fr]", "opacity-100");
-
-      if (icon instanceof HTMLElement) {
-        icon.style.transform = "";
-      }
+      this.setAttribute("aria-expanded", isExpanded ? "true" : "false");
+    } else {
+      this.setAttribute("aria-expanded", "false");
     }
   }
 
-  customElements.define("accordion-root", Accordion);
-})();
+  toggle() {
+    const isExpanded = this.getAttribute("aria-expanded") === "true";
+    const content = this.querySelector("accordion-content");
+
+    if (!content) {
+      return;
+    }
+
+    content.toggle(isExpanded);
+    this.setAttribute("aria-expanded", String(!isExpanded));
+  }
+}
+
+export class AccordionTrigger extends HTMLElement {
+  constructor() {
+    super();
+
+    this.onClickBound = this.onClick.bind(this);
+  }
+
+  connectedCallback() {
+    this.setAttribute("role", "button");
+
+    this.addEventListener("click", this.onClickBound);
+  }
+
+  disconnectedCallback() {
+    this.removeEventListener("click", this.onClickBound);
+  }
+
+  onClick(event) {
+    event.preventDefault();
+
+    const accordionItem = this.closest("accordion-item");
+
+    if (accordionItem) {
+      accordionItem.toggle(this);
+    }
+  }
+}
+
+export class AccordionContent extends HTMLElement {
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    this.setAttribute("role", "region");
+
+    this.classList.add(
+      "overflow-hidden",
+      "transition-[height]",
+      "duration-300",
+      "ease-in-out",
+      "h-0",
+      "hidden"
+    );
+
+    const accordionItem = this.closest("accordion-item");
+
+    if (!accordionItem) {
+      return;
+    }
+
+    const shouldOpen = accordionItem.getAttribute("aria-expanded") === "true";
+
+    if (shouldOpen) {
+      this.open();
+    }
+  }
+
+  toggle(isExpanded) {
+    return isExpanded ? this.close() : this.open();
+  }
+
+  open() {
+    this.style.display = "block";
+    const height = this.scrollHeight;
+    this.style.height = "0px";
+
+    requestAnimationFrame(() => {
+      this.style.height = `${height}px`;
+    });
+
+    this.addEventListener(
+      "transitionend",
+      () => {
+        this.style.height = "auto";
+      },
+      { once: true }
+    );
+  }
+
+  close() {
+    const height = this.scrollHeight;
+
+    this.style.height = `${height}px`;
+
+    requestAnimationFrame(() => {
+      this.style.height = "0px";
+    });
+
+    this.addEventListener(
+      "transitionend",
+      () => {
+        this.style.display = "none";
+      },
+      { once: true }
+    );
+  }
+}
