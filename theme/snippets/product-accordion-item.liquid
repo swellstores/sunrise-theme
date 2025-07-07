@@ -3,32 +3,29 @@
   assign content = block.settings.content
 -%}
 
-<accordion-root
+<accordion-item
   class="
     flex
     flex-col
-    pb-24
+    py-16
     border-b
-    border-secondary-{{ color_scheme }}
+    border-color-{{ color_scheme }}
+    text-body-small
+    leading-[1.8rem]
+    text-{{ color_scheme }}
+    group
   "
 >
   <accordion-trigger
-    role="button"
-    aria-expanded="false"
-    class="flex items-center justify-between text-body-small font-semibold text-{{ color_scheme }} group"
+    class="flex items-center justify-between font-semibold"
   >
     {{ trigger | inline_editable: 'trigger' }}
     <ion-icon name="add-outline" class="size-20 group-aria-expanded:hidden"></ion-icon>
     <ion-icon name="remove-outline" class="size-20 hidden group-aria-expanded:inline-block"></ion-icon>
   </accordion-trigger>
-  <accordion-content
-    role="region"
-    class="grid grid-rows-[0fr] opacity-0 overflow-hidden transition-all duration-300 ease-in-out"
-  >
-    <div class="overflow-hidden">
-      <span class="inline-block mt-4 text-body-small text-{{ color_scheme }}">
-        {{ content | inline_editable: 'content' }}
-      </span>
-    </div>
+  <accordion-content>
+    <span class="inline-block mt-14">
+      {{ content | inline_editable: 'content' }}
+    </span>
   </accordion-content>
-</accordion-root>
+</accordion-item>

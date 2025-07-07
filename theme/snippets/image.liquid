@@ -8,10 +8,11 @@
     - width: {number} Custom image width (optional)
     - class: {string} Custom image class (optional)
     - picture_class: {string} Custom container class (optional)
+    - placeholder: {string} Name of image placeholder (optional)
 
   Usage:
     {% render 'image', image: block.settings.image, placeholder: 'hero-apparel-1' %}
-    
+
 {% endcomment %}
 {% liquid
   assign width = custom_width | default: 2000
@@ -42,6 +43,6 @@
         preload: preload
     }}
   {% else %}
-    {{ placeholder | placeholder_svg_tag: 'w-full h-full rounded border' }}
+    {{ placeholder | placeholder_svg_tag: image_class }}
   {% endif %}
 </picture>

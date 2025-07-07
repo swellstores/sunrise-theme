@@ -30,7 +30,7 @@
   assign media_alts = media_alts | split: ','
 %}
 
-<div class="relative flex w-full min-w-275 max-w-766">
+<div class="relative flex w-full flex-1 min-w-0">
   {%- if media_urls.size > 1 -%}
     {%- if desktop_layout == 'thumbnail_gallery' -%}
       {% render 'product-image-layout-thumbnails',

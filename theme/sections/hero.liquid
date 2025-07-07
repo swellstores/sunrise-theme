@@ -32,7 +32,7 @@
         elsif section.settings.image_height == 'fixed_height'
           assign image_class = 'object-cover w-fit h-full'
         elsif section.settings.image_height == 'fill'
-          assign image_class = 'object-fill h-full'
+          assign image_class = 'object-cover object-center w-full h-full'
         endif
 
         assign picture_class = 'svg-placeholder object-fit object-center'

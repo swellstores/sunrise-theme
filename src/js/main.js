@@ -1,15 +1,29 @@
+import hoverintent from "./hoverintent";
+// components
+import { RadioButton, RadioOption } from "./radio-button";
+import { DropdownMenu, DropdownTrigger, DropdownOption } from "./dropdown-menu";
+import { ToggleButton } from "./toggle-button";
+import { QuantitySelector } from "./quantity-selector";
+import { CopyToClipboard } from "./copy-to-clipboard";
+import { Popover } from "./popover";
+import { SearchDialog } from "./search-dialog";
+import {
+  AccordionRoot,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "./accordion";
+// menu
+import { MegaMenu } from "./mega-menu";
+import { CascadingMenu } from "./cascading-menu";
+import { DrawerMenu } from "./drawer-menu";
+// cart
 import { Cart } from "./cart";
 import { CartDrawer } from "./cart-drawer";
 import { CartCount } from "./cart-count";
 import { CartItemQuantity } from "./cart-item-quantity";
 import { CartItemRemove } from "./cart-item-remove";
-import { SearchDialog } from "./search-dialog";
-import { MegaMenu } from "./mega-menu";
-import hoverintent from "./hoverintent";
-import { CascadingMenu } from "./cascading-menu";
-import { RadioButton, RadioOption } from "./radio-button";
-import { DropdownMenu, DropdownTrigger, DropdownOption } from "./dropdown-menu";
-import { ToggleButton } from "./toggle-button";
+// product
 import { ProductQuantity } from "./product-quantity";
 import { ProductOptions } from "./product-options";
 import { ProductOptionSelect } from "./product-option-select";
@@ -60,6 +74,10 @@ window.theme.accordion_rendered = true;
     customElements.define("copy-to-clipboard", CopyToClipboard);
     customElements.define("popover-root", Popover);
     customElements.define("search-dialog-root", SearchDialog);
+    customElements.define("accordion-root", AccordionRoot);
+    customElements.define("accordion-item", AccordionItem);
+    customElements.define("accordion-trigger", AccordionTrigger);
+    customElements.define("accordion-content", AccordionContent);
 
     // menu
     customElements.define("mega-menu-root", MegaMenu);
