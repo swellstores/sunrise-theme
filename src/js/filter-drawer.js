@@ -5,6 +5,11 @@
  * @class FilterDrawer
  * @extends {HTMLElement}
  */
+function initFilterPanel() {
+  if (window.initPriceSliders) window.initPriceSliders();
+  if (window.initAccordions) window.initAccordions();
+}
+
 export class FilterDrawer extends HTMLElement {
   constructor() {
     super();
@@ -12,6 +17,8 @@ export class FilterDrawer extends HTMLElement {
     this.drawer = null;
     this.body = null;
     this.backdropOverlay = null;
+    this.lastIsMobile = window.innerWidth < 1024;
+    this._resizeHandler = this._onResize.bind(this);
 
     this.onClickFilterDrawerBound = this.onClickFilterDrawer.bind(this);
     this.onDocumentKeyDownBound = this.onDocumentKeyDown.bind(this);
@@ -22,9 +29,15 @@ export class FilterDrawer extends HTMLElement {
   connectedCallback() {
     this.drawer = this.querySelector('[data-target="filter-drawer"]');
     this.triggers = this.querySelectorAll('[data-trigger="filter-drawer"]');
-    this.backdropOverlay = document.querySelector("backdrop-root");
+    this.backdropOverlay = this.querySelector("backdrop-root");
 
-    this.triggers.forEach((trigger) => {
+    const externalTriggers = document.querySelectorAll(
+      '[data-trigger="filter-drawer"]',
+    );
+
+    const allTriggers = [...this.triggers, ...externalTriggers];
+
+    allTriggers.forEach((trigger) => {
       trigger.addEventListener("click", this.onClickFilterDrawerBound);
     });
 
@@ -36,6 +49,8 @@ export class FilterDrawer extends HTMLElement {
         this.onClickBackgroundOverlayBound,
       );
     }
+
+    window.addEventListener("resize", this._resizeHandler);
   }
 
   disconnectedCallback() {
@@ -44,6 +59,13 @@ export class FilterDrawer extends HTMLElement {
         trigger.removeEventListener("click", this.onClickFilterDrawerBound);
       });
     }
+
+    const externalTriggers = document.querySelectorAll(
+      '[data-trigger="filter-drawer"]',
+    );
+    externalTriggers.forEach((trigger) => {
+      trigger.removeEventListener("click", this.onClickFilterDrawerBound);
+    });
 
     document.removeEventListener("keydown", this.onDocumentKeyDownBound);
 
@@ -54,9 +76,24 @@ export class FilterDrawer extends HTMLElement {
       );
     }
 
+    window.removeEventListener("resize", this._resizeHandler);
+
     this.triggers = null;
     this.drawer = null;
     this.backdropOverlay = null;
+  }
+
+  _onResize() {
+    const isMobile = window.innerWidth < 1024;
+
+    if (!isMobile && this.lastIsMobile) {
+      this.syncFilterStateReverse();
+    } else if (isMobile && !this.lastIsMobile) {
+      initFilterPanel();
+      this.syncFilterState();
+    }
+
+    this.lastIsMobile = isMobile;
   }
 
   /** @param {KeyboardEvent} event */
@@ -96,9 +133,11 @@ export class FilterDrawer extends HTMLElement {
       return;
     }
 
-    this.backdropOverlay.classList.remove("translate-x-full");
+    this.backdropOverlay.classList.remove("hidden");
     this.drawer.classList.remove("-translate-x-full");
     this.drawer.setAttribute("aria-expanded", "true");
+
+    this.syncFilterState();
   }
 
   close() {
@@ -106,8 +145,102 @@ export class FilterDrawer extends HTMLElement {
       return;
     }
 
-    this.backdropOverlay.classList.add("translate-x-full");
+    this.backdropOverlay.classList.add("hidden");
     this.drawer.classList.add("-translate-x-full");
     this.drawer.setAttribute("aria-expanded", "false");
+  }
+
+  syncFilterState() {
+    const sidebarForm = document.querySelector(
+      "#filter-sidebar #filter-form-stack",
+    );
+    const drawerForm = document.querySelector(
+      "filter-drawer-root #filter-form-stack",
+    );
+
+    if (!sidebarForm || !drawerForm) {
+      return;
+    }
+
+    // Copy checkbox states
+    const sidebarCheckboxes = sidebarForm.querySelectorAll(
+      'input[type="checkbox"]',
+    );
+    const drawerCheckboxes = drawerForm.querySelectorAll(
+      'input[type="checkbox"]',
+    );
+
+    sidebarCheckboxes.forEach((sidebarBox, index) => {
+      const drawerBox = drawerCheckboxes[index];
+      if (drawerBox && sidebarBox.name === drawerBox.name) {
+        drawerBox.checked = sidebarBox.checked;
+      }
+    });
+
+    // Copy price range values
+    const sidebarPriceInputs = sidebarForm.querySelectorAll(
+      'input[name$="[gte]"], input[name$="[lte]"]',
+    );
+    const drawerPriceInputs = drawerForm.querySelectorAll(
+      'input[name$="[gte]"], input[name$="[lte]"]',
+    );
+
+    sidebarPriceInputs.forEach((sidebarInput, index) => {
+      const drawerInput = drawerPriceInputs[index];
+      if (drawerInput && sidebarInput.name === drawerInput.name) {
+        drawerInput.value = sidebarInput.value;
+      }
+    });
+
+    if (window.updateFilterCounts) {
+      window.updateFilterCounts();
+    }
+  }
+
+  syncFilterStateReverse() {
+    const sidebarForm = document.querySelector(
+      "#filter-sidebar #filter-form-stack",
+    );
+    const drawerForm = document.querySelector(
+      "filter-drawer-root #filter-form-stack",
+    );
+
+    if (!sidebarForm || !drawerForm) {
+      return;
+    }
+
+    // Copy checkbox states
+    const sidebarCheckboxes = sidebarForm.querySelectorAll(
+      'input[type="checkbox"]',
+    );
+    const drawerCheckboxes = drawerForm.querySelectorAll(
+      'input[type="checkbox"]',
+    );
+
+    drawerCheckboxes.forEach((drawerBox, index) => {
+      const sidebarBox = sidebarCheckboxes[index];
+      if (sidebarBox && drawerBox.name === sidebarBox.name) {
+        sidebarBox.checked = drawerBox.checked;
+      }
+    });
+
+    // Copy price range values
+    const sidebarPriceInputs = sidebarForm.querySelectorAll(
+      'input[name$="[gte]"], input[name$="[lte]"]',
+    );
+    const drawerPriceInputs = drawerForm.querySelectorAll(
+      'input[name$="[gte]"], input[name$="[lte]"]',
+    );
+
+    drawerPriceInputs.forEach((drawerInput, index) => {
+      const sidebarInput = sidebarPriceInputs[index];
+      if (sidebarInput && drawerInput.name === sidebarInput.name) {
+        sidebarInput.value = drawerInput.value;
+      }
+    });
+
+    if (window.updateFilterCounts) {
+      window.updateFilterCounts();
+    }
   }
 }

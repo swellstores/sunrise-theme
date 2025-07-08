@@ -1,0 +1,313 @@
+{%- liquid
+  assign color_scheme = color_scheme
+  assign request_path = request.path
+-%}
+
+<!-- Filters Form -->
+<form
+  id="filter-form-stack"
+  class="flex-1 overflow-y-auto"
+  hx-get="{{ request_path }}"
+  hx-trigger="change"
+  hx-target="#results"
+  hx-select="#results"
+  hx-swap="outerHTML"
+  hx-sync="this:replace"
+>
+  <div class="p-24 lg:p-0">
+    {% for filter in results.filters %}
+      <accordion-root class="filter-section">
+        <accordion-item aria-expanded="true">
+          <accordion-trigger
+            role="button"
+            class="flex items-center justify-between accordion-trigger pb-[12px] cursor-pointer"
+          >
+            <h4 class="filter-title font-display">
+              {{ filter.label }}
+              <span class="filter-count" data-filter-param="{{ filter.param_name }}"></span>
+            </h4>
+            <ion-icon
+              name="chevron-down-outline"
+              aria-label="{{ 'general.accordion.toggle' | t }}"
+              class="h-20 w-20 transition-transform"
+            ></ion-icon>
+          </accordion-trigger>
+          <accordion-content>
+            {% if filter.type == 'price_range' %}
+              <div class="overflow-hidden">
+                <div class="filter-options px-4">
+                  {% render 'filter-input', filter: filter %}
+                </div>
+              </div>
+            {% else %}
+              <div class="overflow-hidden">
+                <div class="filter-options">
+                  {% if filter.type == 'list' %}
+                    <div class="flex flex-col gap-4">
+                      {% for option in filter.values %}
+                        {% render 'filter-input', filter: filter, option: option %}
+                      {% endfor %}
+                    </div>
+                  {% else %}
+                    {% render 'filter-input', filter: filter %}
+                  {% endif %}
+                </div>
+              </div>
+            {% endif %}
+          </accordion-content>
+        </accordion-item>
+      </accordion-root>
+    {% endfor %}
+  </div>
+</form>
+
+{% unless is_sidebar %}
+  <div class="p-24">
+    <div class="flex flex-row gap-8">
+        {% if results.filters.size > 0 %}
+      <button
+        type="button"
+        class="w-full py-12 px-24 clear-all-button text-body-large font-display underline underline-offset-2"
+        onclick="window.clearAllFilters()"
+      >
+        {% endif %}
+        Clear all <span id="clear-all-count"> </span>
+      </button>
+      <button
+        type="button"
+        class="w-full py-12 px-24 bg-black text-white text-body-large font-display"
+        onclick="submitFilterForm(event)"
+      >
+        View results
+      </button>
+    </div>
+  </div>
+{% endunless %}
+
+{% style %}
+  .filter-section accordion-trigger ion-icon {
+    transition: transform 0.3s ease;
+    transform: rotate(0deg);
+  }
+
+  .filter-section accordion-item[aria-expanded='false'] accordion-trigger ion-icon {
+    transform: rotate(-90deg);
+  }
+
+  .filter-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 2rem;
+  }
+
+  .filter-options label {
+    font-size: 1.4rem;
+    line-height: 1.8rem;
+  }
+
+  .filter-section:not(:first-child) accordion-trigger {
+    padding-top: 1.8rem;
+  }
+
+  input[type='checkbox'] {
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 0.2rem;
+    appearance: none;
+    background-color: #fff;
+    display: inline-block;
+    cursor: pointer;
+    border: 0.1rem solid #222222;
+    position: relative;
+  }
+
+  input[type='checkbox']:checked {
+    background-color: #222222;
+    border-color: #222222;
+  }
+
+  input[type='checkbox']:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.8rem;
+    height: 0.4rem;
+    border: 0.1rem solid #fff;
+    border-top: 0;
+    border-right: 0;
+    transform: translate(-50%, -65%) rotate(-45deg);
+  }
+
+  input[type='checkbox']:disabled {
+    background-color: #e5e5e5;
+    border-color: #e5e5e5;
+    cursor: not-allowed;
+  }
+
+  .filter-checkbox {
+    margin-top: 0.2rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .filter-count-badge {
+    background-color: #f3f4f6;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 0.4rem;
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    color: #757575;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .clear-all-button {
+    background: #fff;
+    text-decoration: underline;
+    text-underline-offset: 0.2rem;
+  }
+
+  ion-icon {
+    stroke-width: 0 !important;
+  }
+{% endstyle %}
+
+<script>
+  function submitFilterForm(event) {
+    const filterDrawerRoot = document.querySelector('filter-drawer-root');
+    if (filterDrawerRoot && filterDrawerRoot.close) {
+      filterDrawerRoot.close();
+    }
+
+    const form = document.querySelector('#filter-form-stack');
+    if (form) {
+      htmx.trigger(form, 'change');
+    }
+
+    event.preventDefault();
+  }
+
+  // Make functions globally available
+  window.updateFilterCounts = function () {
+    const isMobile = window.innerWidth < 1024;
+
+    let visibleContainer, filterForm;
+
+    if (isMobile) {
+      visibleContainer = document.querySelector('filter-drawer-root');
+      if (visibleContainer) {
+        filterForm = visibleContainer.querySelector('#filter-form-stack');
+      }
+    } else {
+      visibleContainer = document.querySelector('#filter-sidebar');
+      if (visibleContainer) {
+        filterForm = visibleContainer.querySelector('#filter-form-stack');
+      }
+    }
+
+    if (!visibleContainer || !filterForm) {
+      return;
+    }
+
+    const countSpans = visibleContainer.querySelectorAll('.filter-count');
+    let totalActiveFilters = 0;
+
+    countSpans.forEach((span) => {
+      const filterParam = span.getAttribute('data-filter-param');
+      if (!filterParam) return;
+
+      const checkboxes = filterForm.querySelectorAll(`input[name="${filterParam}"]:checked`);
+      const count = checkboxes.length;
+
+      if (count > 0) {
+        span.textContent = `(${count})`;
+        totalActiveFilters += count;
+      } else {
+        span.textContent = '';
+      }
+    });
+
+    const clearAllCount = visibleContainer.querySelector('#clear-all-count');
+    if (clearAllCount) {
+      if (totalActiveFilters > 0) {
+        clearAllCount.textContent = `(${totalActiveFilters})`;
+      } else {
+        clearAllCount.textContent = '';
+      }
+    }
+  };
+
+  window.clearAllFilters = function () {
+    const filterForm = document.querySelector('#filter-form-stack');
+
+    if (!filterForm) {
+      return;
+    }
+
+    const checkboxes = filterForm.querySelectorAll('input[type="checkbox"]');
+
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = false;
+    });
+
+    const priceRange = document.querySelector('#price-range');
+    if (priceRange) {
+      const sliderTrack = priceRange.querySelector('.slider-track');
+      if (sliderTrack && sliderTrack.noUiSlider) {
+        const min = parseFloat(priceRange.dataset.min) || 0;
+        const max = parseFloat(priceRange.dataset.max) || 1000;
+
+        sliderTrack.noUiSlider.set([min, max]);
+
+        const inputMin = priceRange.querySelector('input[name$="[gte]"]');
+        const inputMax = priceRange.querySelector('input[name$="[lte]"]');
+        if (inputMin) inputMin.value = '';
+        if (inputMax) inputMax.value = '';
+      }
+    }
+
+    if (window.updateFilterCounts) {
+      window.updateFilterCounts();
+    }
+
+    htmx.trigger(filterForm, 'change');
+  };
+
+  function initializeCountUpdates() {
+    if (window.updateFilterCounts) {
+      window.updateFilterCounts();
+    }
+
+    document.addEventListener('change', function (event) {
+      const checkbox = event.target;
+
+      if (checkbox.type !== 'checkbox' || !checkbox.closest('#filter-form-stack')) {
+        return;
+      }
+
+      if (window.updateFilterCounts) {
+        window.updateFilterCounts();
+      }
+    });
+
+    document.addEventListener('htmx:afterSwap', function () {
+      if (window.updateFilterCounts) {
+        window.updateFilterCounts();
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeCountUpdates);
+  } else {
+    initializeCountUpdates();
+  }
+
+  setTimeout(function () {
+    if (window.updateFilterCounts) {
+      window.updateFilterCounts();
+    }
+  }, 1000);
+</script>

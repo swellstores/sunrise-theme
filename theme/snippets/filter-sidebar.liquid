@@ -1,0 +1,81 @@
+{%- liquid
+  assign color_scheme = color_scheme
+  assign request_path = request.path
+-%}
+
+<div id="filter-sidebar" class="w-[300px] flex-shrink-0 sticky top-24 h-fit overflow-hidden">
+  <div class="pb-16">
+    <div class="flex items-center justify-between mb-12">
+      <h3 class="font-display text-title-medium">Filters</h3>
+      <button
+        type="button"
+        class="text-body-small clear-all underline underline-offset-2 clear-all-button bg-transparent border-0 cursor-pointer"
+        onclick="window.clearAllFilters()"
+      >
+        Clear all
+      </button>
+    </div>
+    {% comment %}
+      <div class="flex items-center justify-between">
+        <span class="text-body-small text-gray-600">{{ results.products.size }} items</span>
+        <button
+          type="button"
+          id="toggle-sidebar-btn"
+          class="flex items-center gap-8 text-body-small text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 px-12 py-6 rounded transition-colors"
+          onclick="toggleFilterSidebar()"
+        >
+          {{- 'filter-sort-icon.svg' | inline_asset_content -}}
+          <span>Hide filters</span>
+        </button>
+      </div>
+    {% endcomment %}
+  </div>
+
+  {% render 'filter-panel', results: results, color_scheme: color_scheme, is_sidebar: true %}
+</div>
+
+<script>
+  function toggleFilterSidebar() {
+    const sidebar = document.getElementById('filter-sidebar');
+    const showFiltersBtn = document.getElementById('show-filters-btn');
+    const productsGrid = document.querySelector('.products-main-content');
+
+    if (!sidebar || !showFiltersBtn || !productsGrid) return;
+
+    const isHidden = sidebar.style.display === 'none';
+
+    if (isHidden) {
+      // Show sidebar
+      sidebar.style.display = 'block';
+      showFiltersBtn.classList.add('hidden');
+      productsGrid.classList.remove('lg:grid-cols-4');
+      productsGrid.classList.add('lg:grid-cols-3');
+    } else {
+      // Hide sidebar
+      sidebar.style.display = 'none';
+      showFiltersBtn.classList.remove('hidden');
+      productsGrid.classList.remove('lg:grid-cols-3');
+      productsGrid.classList.add('lg:grid-cols-4');
+    }
+  }
+</script>
+
+{% style %}
+  #toggle-sidebar-btn:hover {
+    background-color: #f3f4f6;
+  }
+
+  .filter-title {
+    font-size: 1.4rem;
+    line-height: 1.8rem;
+  }
+
+  .filter-options label {
+    font-size: 1.4rem;
+    line-height: 1.8rem;
+  }
+
+  .clear-all {
+    color: #222222;
+  }
+{% endstyle %}

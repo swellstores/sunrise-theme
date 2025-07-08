@@ -6,6 +6,8 @@
   assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
   assign reduced_padding_top = top_padding | times: 0.55 | round: 2
   assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+  assign show_sidebar = section.settings.show_sidebar | default: true
+  assign sort_by = collection.sort_by | default: collection.default_sort_by
 -%}
 
 {% style %}
@@ -25,40 +27,232 @@
 <div class="bg-{{ color_scheme }} text-{{ color_scheme }} p-24 responsive-padding-{{ section.id }}">
   {% paginate collection.products by 12 %}
     <div class="max-w-content mx-auto 2xl:max-w-container w-full">
-      <div class="flex flex-col pb-16 text-left">
-        <h1 class="font-display text-headline-medium">{{ collection.title | default: 'Products' }}</h1>
+      <div class="flex flex-col pb-24 text-left">
+        <h1 class="font-display text-title-large">{{ collection.title | default: 'Products' }}</h1>
       </div>
 
-      {% render 'filter-bar',
-        request: request,
-        results: collection,
-        paginate: paginate,
-        color_scheme: color_scheme,
-      %}
-
-      <div class="mt-16">
-        <div class="flex gap-64">
-          <div id="results" class="flex w-full flex-col gap-32">
-            <div class="grid grid-cols-2 gap-x-16 gap-y-24 md:grid-cols-3 lg:grid-cols-4">
-              {% if collection.products.size > 0 %}
-                {% for product in collection.products %}
-                  {% render 'product-card', product: product, color_scheme: color_scheme %}
-                {% endfor %}
-              {% else %}
-                {{ 'product-1' | placeholder_svg_tag }}
-                {{ 'product-2' | placeholder_svg_tag }}
-                {{ 'product-3' | placeholder_svg_tag }}
-                {{ 'product-4' | placeholder_svg_tag }}
+      {% if show_sidebar %}
+        <div class="flex gap-32 relative">
+          <!-- Sidebar (desktop only) -->
+          <div class="hidden lg:block flex-shrink-0">
+            {% render 'filter-sidebar', results: collection, color_scheme: color_scheme %}
+          </div>
+          <!-- Drawer (mobile only) -->
+          <div class="lg:hidden">
+            {% render 'filter-drawer', results: collection, color_scheme: color_scheme %}
+          </div>
+          <!-- Main Content Area -->
+          <div class="flex-1 min-w-0 transition-all duration-300 ease-in-out">
+            <!-- Mobile Filter Button -->
+            <div class="lg:hidden mb-16">
+              <button
+                data-trigger="filter-drawer"
+                type="button"
+                aria-expanded="false"
+                class="inline-block text-title-small font-display"
+              >
+                <span class="flex gap-8 items-center">
+                  {{- 'filter-sort-icon.svg' | inline_asset_content -}}
+                  {{ 'sections.collection.filters.filter_and_sort' | t -}}
+                </span>
+              </button>
+            </div>
+            <div class="hidden lg:flex items-center justify-between mb-16">
+              <div class="flex items-center gap-16">
+                <span class="text-body-medium text-gray-600">{{ collection.products.size }} items</span>
+                <div id="show-filters-btn" class="hidden">
+                  <button
+                    type="button"
+                    class="flex items-center gap-8 text-body-small text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 px-16 py-8 rounded transition-colors border border-gray-300"
+                    onclick="toggleFilterSidebar()"
+                  >
+                    {{- 'filter-sort-icon.svg' | inline_asset_content -}}
+                    Show filters
+                  </button>
+                </div>
+              </div>
+              {% if collection.sort_options.size > 0 %}
+                <div class="flex items-center gap-8">
+                  <span class="text-body-medium">Sort by</span>
+                  <select
+                    name="sort_by"
+                    id="sort-control-desktop"
+                    class="text-body-medium font-display rounded border border-gray-300 px-12 py-8 outline-none text-{{ color_scheme }} bg-{{ color_scheme }}"
+                    hx-get="{{ request.path }}"
+                    hx-trigger="change"
+                    hx-target="#results"
+                    hx-select="#results"
+                    hx-swap="outerHTML"
+                    hx-include="[name^='filter_'], [name='price_min'], [name='price_max']"
+                  >
+                    {% for option in collection.sort_options %}
+                      <option
+                        value="{{ option.value }}"
+                        {% if option.value == sort_by %}
+                          selected
+                        {% endif %}
+                      >
+                        {{ option.name }}
+                      </option>
+                    {% endfor %}
+                  </select>
+                </div>
               {% endif %}
             </div>
-
-            {% render 'pagination', paginate: paginate, color_scheme %}
+            <!-- Products Grid -->
+            <div id="results" class="flex w-full flex-col gap-32">
+              <div class="products-main-content grid grid-cols-2 gap-x-16 gap-y-24 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 transition-all duration-300 ease-in-out">
+                {% if collection.products.size > 0 %}
+                  {% for product in collection.products %}
+                    {% render 'product-card', product: product, color_scheme: color_scheme %}
+                  {% endfor %}
+                {% endif %}
+              </div>
+              {% render 'pagination', paginate: paginate, color_scheme %}
+            </div>
           </div>
         </div>
-      </div>
+      {% else %}
+        <!-- Drawer-only Layout -->
+        {% render 'filter-bar',
+          request: request,
+          results: collection,
+          paginate: paginate,
+          color_scheme: color_scheme,
+          use_drawer: true
+        %}
+        <div class="mt-16">
+          <div class="flex gap-64">
+            <div id="results" class="flex w-full flex-col gap-32">
+              <div class="grid grid-cols-2 gap-x-16 gap-y-24 md:grid-cols-3 lg:grid-cols-4">
+                {% if collection.products.size > 0 %}
+                  {% for product in collection.products %}
+                    {% render 'product-card', product: product, color_scheme: color_scheme %}
+                  {% endfor %}
+                {% else %}
+                  {{ 'product-1' | placeholder_svg_tag }}
+                  {{ 'product-2' | placeholder_svg_tag }}
+                  {{ 'product-3' | placeholder_svg_tag }}
+                  {{ 'product-4' | placeholder_svg_tag }}
+                {% endif %}
+              </div>
+              {% render 'pagination', paginate: paginate, color_scheme %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      <!-- Active filters -->
+      <section aria-labelledby="filter-heading">
+        <h2 id="filter-heading" class="sr-only">{{ 'sections.collection.filters.filters' | t }}</h2>
+        {% liquid
+          assign active_filter_count = 0
+          assign active_price_range = false
+          for filter in collection.filters
+            if filter.type == 'price_range'
+              if filter.min_value.value or filter.max_value.value
+                assign active_filter_count = active_filter_count | plus: 1
+                assign active_price_range = true
+              endif
+            else
+              if filter.active_values.size > 0
+                assign active_filter_count = active_filter_count | plus: 1
+              endif
+            endif
+          endfor
+        %}
+        <div id="active-filters" hx-swap-oob="true" hx-swap="innerHTML">
+          {% if active_filter_count > 0 %}
+            <div class="bg-{{ color_scheme }} py-12 sm:flex sm:justify-between sm:items-center">
+              <span class="sr-only">{{ 'sections.collection.filters.active' | t }}</span>
+              <div class="-m-4 flex flex-wrap items-center">
+                {% for filter in collection.filters %}
+                  {% if filter.type == 'price_range' %}
+                    {% if active_price_range %}
+                      {% render 'filter-tag', filter: filter, color_scheme: color_scheme %}
+                    {% endif %}
+                  {% else %}
+                    {% for value in filter.active_values %}
+                      {% render 'filter-tag', filter: filter, value: value, color_scheme: color_scheme %}
+                    {% endfor %}
+                  {% endif %}
+                {% endfor %}
+              </div>
+              <div class="clear-all">
+                <button
+                  type="button"
+                  class="text-{{ color_scheme }} underline underline-offset-2 clear-all-button bg-transparent border-0 cursor-pointer"
+                  onclick="window.clearAllFilters()"
+                >
+                  {{ 'sections.collection.filters.clear_all' | t }}
+                </button>
+              </div>
+            </div>
+          {% else %}
+            <div style="display: none;"></div>
+          {% endif %}
+        </div>
+      </section>
     </div>
   {% endpaginate %}
 </div>
+
+<script>
+  // State synchronization between sidebar and drawer
+  let lastIsMobile = window.innerWidth < 1024;
+
+  function syncFilterState() {
+    const isMobile = window.innerWidth < 1024;
+
+    if (isMobile !== lastIsMobile) {
+      // Screen size changed, sync filter state
+      const sourceForm = lastIsMobile
+        ? document.querySelector('filter-drawer-root #filter-form-stack') // From drawer
+        : document.querySelector('#filter-sidebar #filter-form-stack'); // From sidebar
+
+      const targetForm = isMobile
+        ? document.querySelector('filter-drawer-root #filter-form-stack') // To drawer
+        : document.querySelector('#filter-sidebar #filter-form-stack'); // To sidebar
+
+      if (sourceForm && targetForm) {
+        // Copy checkbox states
+        const sourceCheckboxes = sourceForm.querySelectorAll('input[type="checkbox"]');
+        const targetCheckboxes = targetForm.querySelectorAll('input[type="checkbox"]');
+
+        sourceCheckboxes.forEach((sourceBox, index) => {
+          const targetBox = targetCheckboxes[index];
+          if (targetBox && sourceBox.name === targetBox.name) {
+            targetBox.checked = sourceBox.checked;
+          }
+        });
+
+        // Copy price range values
+        const sourcePriceInputs = sourceForm.querySelectorAll('input[name$="[gte]"], input[name$="[lte]"]');
+        const targetPriceInputs = targetForm.querySelectorAll('input[name$="[gte]"], input[name$="[lte]"]');
+
+        sourcePriceInputs.forEach((sourceInput, index) => {
+          const targetInput = targetPriceInputs[index];
+          if (targetInput && sourceInput.name === targetInput.name) {
+            targetInput.value = sourceInput.value;
+          }
+        });
+
+        // Re-initialize components for new form
+        if (window.initPriceSliders) window.initPriceSliders();
+        if (window.initAccordions) window.initAccordions();
+      }
+    }
+
+    lastIsMobile = isMobile;
+  }
+
+  // Sync state on resize
+  window.addEventListener('resize', syncFilterState);
+
+  // Initial state sync on load
+  document.addEventListener('DOMContentLoaded', syncFilterState);
+</script>
+
 {% schema %}
 {
   "name": "Product list",
