@@ -57,50 +57,50 @@
                 </span>
               </button>
             </div>
-            <div class="hidden lg:flex items-center justify-between mb-16">
-              <div class="flex items-center gap-16">
-                <span class="text-body-medium text-gray-600">{{ collection.products.size }} items</span>
-                <div id="show-filters-btn" class="hidden">
-                  <button
-                    type="button"
-                    class="flex items-center gap-8 text-body-small text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 px-16 py-8 rounded transition-colors border border-gray-300"
-                    onclick="toggleFilterSidebar()"
-                  >
-                    {{- 'filter-sort-icon.svg' | inline_asset_content -}}
-                    Show filters
-                  </button>
-                </div>
-              </div>
-              {% if collection.sort_options.size > 0 %}
-                <div class="flex items-center gap-8">
-                  <span class="text-body-medium">Sort by</span>
-                  <select
-                    name="sort_by"
-                    id="sort-control-desktop"
-                    class="text-body-medium font-display rounded border border-gray-300 px-12 py-8 outline-none text-{{ color_scheme }} bg-{{ color_scheme }}"
-                    hx-get="{{ request.path }}"
-                    hx-trigger="change"
-                    hx-target="#results"
-                    hx-select="#results"
-                    hx-swap="outerHTML"
-                    hx-include="[name^='filter_'], [name='price_min'], [name='price_max']"
-                  >
-                    {% for option in collection.sort_options %}
-                      <option
-                        value="{{ option.value }}"
-                        {% if option.value == sort_by %}
-                          selected
-                        {% endif %}
-                      >
-                        {{ option.name }}
-                      </option>
-                    {% endfor %}
-                  </select>
-                </div>
-              {% endif %}
-            </div>
             <!-- Products Grid -->
             <div id="results" class="flex w-full flex-col gap-32">
+              <div class="hidden lg:flex items-center justify-between mb-16">
+                <div class="flex items-center gap-16">
+                  <span class="text-body-medium text-gray-600">{{ collection.products.size }} items</span>
+                  <div id="show-filters-btn" class="hidden">
+                    <button
+                      type="button"
+                      class="flex items-center gap-8 text-body-small text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 px-16 py-8 rounded transition-colors border border-gray-300"
+                      onclick="toggleFilterSidebar()"
+                    >
+                      {{- 'filter-sort-icon.svg' | inline_asset_content -}}
+                      Show filters
+                    </button>
+                  </div>
+                </div>
+                {% if collection.sort_options.size > 0 %}
+                  <div class="flex items-center gap-8">
+                    <span class="text-body-medium">Sort by</span>
+                    <select
+                      name="sort_by"
+                      id="sort-control-desktop"
+                      class="text-body-medium font-display rounded border border-gray-300 px-12 py-8 outline-none text-{{ color_scheme }} bg-{{ color_scheme }}"
+                      hx-get="{{ request.path }}"
+                      hx-trigger="change"
+                      hx-target="#results"
+                      hx-select="#results"
+                      hx-swap="outerHTML"
+                      hx-include="[name^='filter_'], [name='price_min'], [name='price_max']"
+                    >
+                      {% for option in collection.sort_options %}
+                        <option
+                          value="{{ option.value }}"
+                          {% if option.value == sort_by %}
+                            selected
+                          {% endif %}
+                        >
+                          {{ option.name }}
+                        </option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                {% endif %}
+              </div>
               <div class="products-main-content grid grid-cols-2 gap-x-16 gap-y-24 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 transition-all duration-300 ease-in-out">
                 {% if collection.products.size > 0 %}
                   {% for product in collection.products %}

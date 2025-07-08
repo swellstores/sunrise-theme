@@ -19,7 +19,7 @@
   >
     <div class="flex flex-col h-full">
       <!-- Header -->
-      <div class="flex items-center justify-between p-24 border-b border-gray-200">
+      <div class="flex items-center justify-between p-24 border-b border-gray-200 flex-shrink-0">
         <h3 class="font-display text-title-medium">{{ 'sections.collection.filters.filters' | t }}</h3>
         <button
           data-trigger="filter-drawer"
@@ -32,7 +32,53 @@
       </div>
 
       <!-- Filter Panel Content -->
-      {% render 'filter-panel', results: results, color_scheme: color_scheme, is_sidebar: false %}
+      <div class="flex-1 overflow-y-auto min-h-0">
+        {% render 'filter-panel', results: results, color_scheme: color_scheme, is_sidebar: false %}
+      </div>
+
+      <!-- Filter Action Buttons -->
+      <div class="p-24 border-t border-gray-200 flex-shrink-0">
+        <div class="flex flex-row gap-8">
+          <button
+            type="button"
+            class="w-full py-12 px-24 clear-all-button text-body-large font-display underline underline-offset-2"
+            onclick="window.clearAllFilters()"
+          >
+            Clear all <span id="clear-all-count"> </span>
+          </button>
+          <button
+            type="button"
+            class="w-full py-12 px-24 bg-black text-white text-body-large font-display"
+            onclick="submitFilterForm(event)"
+          >
+            View results
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </filter-drawer-root>
+
+<script>
+  function submitFilterForm(event) {
+    const filterDrawerRoot = document.querySelector('filter-drawer-root');
+    if (filterDrawerRoot && filterDrawerRoot.close) {
+      filterDrawerRoot.close();
+    }
+
+    const form = document.querySelector('#filter-form-stack');
+    if (form) {
+      htmx.trigger(form, 'change');
+    }
+
+    event.preventDefault();
+  }
+</script>
+
+{% style %}
+  .clear-all-button {
+    background: #fff;
+    text-decoration: underline;
+    text-underline-offset: 0.2rem;
+  }
+{% endstyle %}
