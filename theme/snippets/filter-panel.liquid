@@ -249,6 +249,11 @@
       }
     });
 
+    // Update price sliders to ensure labels are positioned correctly
+    if (window.updatePriceSliders) {
+      window.updatePriceSliders();
+    }
+
     if (window.updateFilterCounts) {
       window.updateFilterCounts();
     }

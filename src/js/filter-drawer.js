@@ -7,6 +7,7 @@
  */
 function initFilterPanel() {
   if (window.initPriceSliders) window.initPriceSliders();
+  if (window.updatePriceSliders) window.updatePriceSliders();
   if (window.initAccordions) window.initAccordions();
 }
 
@@ -192,6 +193,11 @@ export class FilterDrawer extends HTMLElement {
       }
     });
 
+    // Update price sliders to reflect the new values
+    if (window.updatePriceSliders) {
+      window.updatePriceSliders();
+    }
+
     if (window.updateFilterCounts) {
       window.updateFilterCounts();
     }
@@ -238,6 +244,11 @@ export class FilterDrawer extends HTMLElement {
         sidebarInput.value = drawerInput.value;
       }
     });
+
+    // Update price sliders to reflect the new values
+    if (window.updatePriceSliders) {
+      window.updatePriceSliders();
+    }
 
     if (window.updateFilterCounts) {
       window.updateFilterCounts();

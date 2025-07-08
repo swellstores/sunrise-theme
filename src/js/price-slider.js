@@ -150,3 +150,28 @@ export function initPriceSliders() {
     updateValuePositions();
   });
 }
+
+export function updatePriceSliders() {
+  document.querySelectorAll(".price-slider").forEach(function (container) {
+    const sliderTrack = container.querySelector(".slider-track");
+    if (!sliderTrack || !sliderTrack.noUiSlider) {
+      return;
+    }
+
+    const inputMin = container.querySelector('input[name$="[gte]"]');
+    const inputMax = container.querySelector('input[name$="[lte]"]');
+
+    if (!inputMin || !inputMax) {
+      return;
+    }
+
+    const minValue =
+      parseFloat(inputMin.value) || parseFloat(container.dataset.min) || 0;
+    const maxValue =
+      parseFloat(inputMax.value) || parseFloat(container.dataset.max) || 1000;
+
+    sliderTrack.noUiSlider.set([minValue, maxValue]);
+  });
+}
+
+window.updatePriceSliders = updatePriceSliders;

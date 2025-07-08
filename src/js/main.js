@@ -35,17 +35,16 @@ import { ProductPurchaseOptionSubscription } from "./product-purchase-option-sub
 import { ProductSection } from "./product-section";
 // products filter
 import { FilterDrawer } from "./filter-drawer";
-import { initPriceSliders } from "./price-slider";
+import { initPriceSliders, updatePriceSliders } from "./price-slider";
 
 // Make hoverintent available globally
 window.hoverintent = hoverintent;
 
 window.initPriceSliders = initPriceSliders;
+window.updatePriceSliders = updatePriceSliders;
 
 // Initialize accordions function
 function initAccordions() {
-  // Since accordions are custom elements, they should initialize automatically
-  // This function can be used to force re-initialization if needed
   const accordionItems = document.querySelectorAll("accordion-item");
   accordionItems.forEach((item) => {
     const isExpanded = item.getAttribute("aria-expanded") === "true";
