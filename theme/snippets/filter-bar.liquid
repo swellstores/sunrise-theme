@@ -61,109 +61,8 @@
     </button>
   {% endif %}
 
-  <!-- Filter drawer -->
-  <div
-    data-target="filter-drawer"
-    class="fixed top-0 left-0 h-full w-340 lg:w-400 bg-white -translate-x-full transition-transform duration-300 ease-in-out shadow-lg"
-    style="z-index: 100001"
-    role="dialog"
-    aria-modal="true"
-    aria-expanded="false"
-  >
-    <div class="flex flex-col h-full">
-      <!-- Header -->
-      <div class="flex items-center justify-between p-24 border-b border-gray-200">
-        <h3 class="font-display filter-drawer-title">{{ 'sections.collection.filters.filters' | t }}</h3>
-        <button
-          data-trigger="filter-drawer"
-          type="button"
-          class="flex h-40 items-center justify-center"
-        >
-          <span class="sr-only">{{ 'sections.collection.filters.close' | t }}</span>
-          <ion-icon name="close" aria-hidden="true" class="w-24 h-24"></ion-icon>
-        </button>
-      </div>
-
-      <!-- Filters Form -->
-      <form
-        id="filter-form-stack"
-        class="flex-1 overflow-y-auto"
-        hx-get="{{ request_path }}"
-        hx-trigger="change"
-        hx-target="#results"
-        hx-select="#results"
-        hx-swap="outerHTML"
-        hx-sync="this:replace"
-      >
-        <div class="p-24">
-          {% for filter in results.filters %}
-            <accordion-root class="filter-section">
-              <accordion-trigger
-                role="button"
-                aria-expanded="true"
-                class="flex items-center justify-between pt-[18px] pb-[12px] cursor-pointer"
-              >
-                <h4 class="filter-title font-display">
-                  {{ filter.label }}
-                  <span class="filter-count" data-filter-param="{{ filter.param_name }}"></span>
-                </h4>
-                <ion-icon
-                  name="chevron-down-outline"
-                  aria-label="{{ 'general.accordion.toggle' | t }}"
-                  class="h-20 w-20 transition-transform"
-                ></ion-icon>
-              </accordion-trigger>
-              <accordion-content
-                role="region"
-                class="grid grid-rows-[1fr] opacity-100 overflow-hidden transition-all duration-300 ease-in-out"
-              >
-                {% if filter.type == 'price_range' %}
-                  <div class="overflow-hidden">
-                    <div class="filter-options px-4">
-                      {% render 'filter-input', filter: filter %}
-                    </div>
-                  </div>
-                {% else %}
-                  <div class="overflow-hidden">
-                    <div class="filter-options">
-                      {% if filter.type == 'list' %}
-                        <div class="flex flex-col gap-4">
-                          {% for option in filter.values %}
-                            {% render 'filter-input', filter: filter, option: option %}
-                          {% endfor %}
-                        </div>
-                      {% else %}
-                        {% render 'filter-input', filter: filter %}
-                      {% endif %}
-                    </div>
-                  </div>
-                {% endif %}
-              </accordion-content>
-            </accordion-root>
-          {% endfor %}
-        </div>
-      </form>
-
-      <div class="p-24">
-        <div class="flex flex-row gap-8">
-          <button
-            type="button"
-            class="w-full py-12 px-24 clear-all-button text-body-large font-display"
-            onclick="clearAllCheckboxes()"
-          >
-            Clear all <span id="clear-all-count"> </span>
-          </button>
-          <button
-            type="button"
-            class="w-full py-12 px-24 bg-black text-white text-body-large font-display"
-            onclick="closeFilterDrawerAndSubmit(event)"
-          >
-            View results
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!-- Filter Drawer -->
+  {% render 'filter-drawer', results: results, color_scheme: color_scheme %}
 
   <!-- Active filters -->
   <section aria-labelledby="filter-heading">
@@ -205,18 +104,13 @@
             {% endfor %}
           </div>
           <div class="clear-all">
-            <a
-              href="{{ results.url }}"
-              class="text-{{ color_scheme }} underline-offset-2 hover:underline"
-              hx-boost="true"
-              hx-push-url="true"
-              hx-target="#results"
-              hx-select="#results"
-              hx-swap="outerHTML"
-              onclick="clearAllCheckboxes()"
+            <button
+              type="button"
+              class="text-{{ color_scheme }} underline underline-offset-2 clear-all-button bg-transparent border-0 cursor-pointer"
+              onclick="window.clearAllFilters()"
             >
               {{ 'sections.collection.filters.clear_all' | t }}
-            </a>
+            </button>
           </div>
         </div>
       {% else %}
@@ -241,7 +135,6 @@
     document.addEventListener('htmx:afterRequest', handleAfterRequest);
     document.addEventListener('htmx:configRequest', handleConfigRequest);
     document.addEventListener('priceSliderChanged', handlePriceSliderChange);
-    document.addEventListener('change', handleCheckboxChange);
   }
 
   function handleAfterSwap(event) {
@@ -251,7 +144,10 @@
       window.initPriceSliders();
     }
 
-    updateFilterCounts();
+    // Call the global updateFilterCounts function
+    if (window.updateFilterCounts) {
+      window.updateFilterCounts();
+    }
 
     setTimeout(() => {
       const filterForm = document.querySelector('#filter-form-stack');
@@ -299,9 +195,39 @@
       checkbox.checked = false;
     });
 
-    updateFilterCounts();
+    if (window.updateFilterCounts) {
+      window.updateFilterCounts();
+    }
 
     htmx.trigger(filterForm, 'change');
+  }
+
+  function clearPriceRange() {
+    const priceRange = document.querySelector('#price-range');
+    if (priceRange) {
+      const sliderTrack = priceRange.querySelector('.slider-track');
+      if (sliderTrack && sliderTrack.noUiSlider) {
+        const min = parseFloat(priceRange.dataset.min) || 0;
+        const max = parseFloat(priceRange.dataset.max) || 1000;
+
+        sliderTrack.noUiSlider.set([min, max]);
+
+        const inputMin = priceRange.querySelector('input[name$="[gte]"]');
+        const inputMax = priceRange.querySelector('input[name$="[lte]"]');
+        if (inputMin) inputMin.value = '';
+        if (inputMax) inputMax.value = '';
+      }
+    }
+
+    const filterForm = document.querySelector('#filter-form-stack');
+    if (filterForm) {
+      htmx.trigger(filterForm, 'change');
+    }
+  }
+
+  function clearAllFilters() {
+    clearAllCheckboxes();
+    clearPriceRange();
   }
 
   function updateOpacity(loading) {
@@ -322,7 +248,9 @@
       return;
     }
 
-    updateFilterCounts();
+    if (window.updateFilterCounts) {
+      window.updateFilterCounts();
+    }
 
     // Trigger form change immediately when checkbox changes
     const filterForm = document.querySelector('#filter-form-stack');
@@ -331,54 +259,10 @@
     }
   }
 
-  function updateFilterCounts() {
-    const filterForm = document.querySelector('#filter-form-stack');
-    if (!filterForm) return;
 
-    const countSpans = document.querySelectorAll('.filter-count');
-    let totalActiveFilters = 0;
-
-    countSpans.forEach((span) => {
-      const filterParam = span.getAttribute('data-filter-param');
-      if (!filterParam) return;
-
-      const checkboxes = filterForm.querySelectorAll(`input[name="${filterParam}"]:checked`);
-      const count = checkboxes.length;
-
-      if (count > 0) {
-        span.textContent = `(${count})`;
-        totalActiveFilters += count;
-      } else {
-        span.textContent = '';
-      }
-    });
-
-    const clearAllCount = document.querySelector('#clear-all-count');
-    if (clearAllCount) {
-      if (totalActiveFilters > 0) {
-        clearAllCount.textContent = `(${totalActiveFilters})`;
-      } else {
-        clearAllCount.textContent = '';
-      }
-    }
-  }
 
   function handlePriceSliderChange() {
     updateOpacity(true);
-  }
-
-  function closeFilterDrawerAndSubmit(event) {
-    const filterDrawerRoot = document.querySelector('filter-drawer-root');
-    if (filterDrawerRoot && filterDrawerRoot.close) {
-      filterDrawerRoot.close();
-    }
-
-    const form = document.querySelector('#filter-form-stack');
-    if (form) {
-      htmx.trigger(form, 'change');
-    }
-
-    event.preventDefault();
   }
 
   if (document.readyState === 'loading') {
@@ -387,94 +271,3 @@
     initializeFilters();
   }
 </script>
-
-{% style %}
-  .filter-section:first-child accordion-trigger {
-    padding-top: 16px;
-  }
-
-  .filter-section accordion-trigger ion-icon {
-    transition: transform 0.3s ease;
-    transform: rotate(-90deg) !important;
-  }
-
-  .filter-section accordion-trigger[aria-expanded='true'] ion-icon {
-    transform: rotate(0deg) !important;
-  }
-
-  .filter-drawer-title {
-    font-size: 1.8rem;
-    font-weight: 600;
-    line-height: 2.4rem;
-  }
-
-  .filter-title {
-    font-size: 1.6rem;
-    font-weight: 600;
-    line-height: 2rem;
-  }
-
-  input[type='checkbox'] {
-    width: 1.6rem;
-    height: 1.6rem;
-    border-radius: 0.2rem;
-    appearance: none;
-    background-color: #fff;
-    display: inline-block;
-    cursor: pointer;
-    border: 0.1rem solid #222222;
-    position: relative;
-  }
-
-  input[type='checkbox']:checked {
-    background-color: #222222;
-    border-color: #222222;
-  }
-
-  input[type='checkbox']:checked::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0.8rem;
-    height: 0.4rem;
-    border: 0.1rem solid #fff;
-    border-top: 0;
-    border-right: 0;
-    transform: translate(-50%, -65%) rotate(-45deg);
-  }
-
-  input[type='checkbox']:disabled {
-    background-color: #e5e5e5;
-    border-color: #e5e5e5;
-    cursor: not-allowed;
-  }
-
-  .filter-checkbox {
-    margin-top: 0.2rem;
-    margin-bottom: 0.2rem;
-  }
-
-  .filter-count-badge {
-    background-color: #f3f4f6;
-    width: 2.4rem;
-    height: 2.4rem;
-    border-radius: 0.4rem;
-    font-size: 1.2rem;
-    line-height: 1.6rem;
-    color: #757575;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .clear-all-button {
-    border-radius: 0.4rem;
-    border: 0.1rem solid #222222;
-    background: #fff;
-  }
-
-  ion-icon {
-    stroke-width: 0 !important;
-  }
-{% endstyle %}

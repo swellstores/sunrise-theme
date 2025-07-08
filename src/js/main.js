@@ -33,10 +33,7 @@ import { ProductPurchaseOptions } from "./product-purchase-options";
 import { ProductPurchaseOptionStandard } from "./product-purchase-option-standard";
 import { ProductPurchaseOptionSubscription } from "./product-purchase-option-subscription";
 import { ProductSection } from "./product-section";
-import { Popover } from "./popover";
-import { CopyToClipboard } from "./copy-to-clipboard";
-import { QuantitySelector } from "./quantity-selector";
-import { DrawerMenu } from "./drawer-menu";
+// products filter
 import { FilterDrawer } from "./filter-drawer";
 import { initPriceSliders } from "./price-slider";
 
@@ -44,6 +41,24 @@ import { initPriceSliders } from "./price-slider";
 window.hoverintent = hoverintent;
 
 window.initPriceSliders = initPriceSliders;
+
+// Initialize accordions function
+function initAccordions() {
+  // Since accordions are custom elements, they should initialize automatically
+  // This function can be used to force re-initialization if needed
+  const accordionItems = document.querySelectorAll("accordion-item");
+  accordionItems.forEach((item) => {
+    const isExpanded = item.getAttribute("aria-expanded") === "true";
+    const content = item.querySelector("accordion-content");
+
+    if (content && isExpanded) {
+      // Force open if it should be expanded
+      content.open();
+    }
+  });
+}
+
+window.initAccordions = initAccordions;
 
 // Import vendor libraries
 import { loadIonIcons } from "./vendor";
