@@ -5,15 +5,37 @@
 
 <div id="filter-sidebar" class="w-[300px] flex-shrink-0 sticky top-24 h-fit overflow-hidden">
   <div class="pb-16">
+    {% liquid
+      assign active_filter_count = 0
+      for filter in results.filters
+        if filter.type == 'price_range'
+          if filter.min_value.value or filter.max_value.value
+            assign active_filter_count = active_filter_count | plus: 1
+          endif
+        else
+          if filter.active_values.size > 0
+            assign active_filter_count = active_filter_count | plus: 1
+          endif
+        endif
+      endfor
+    %}
+    
     <div class="flex items-center justify-between mb-12">
       <h3 class="font-display text-title-medium">Filters</h3>
-      <button
-        type="button"
-        class="text-body-small clear-all underline underline-offset-2 clear-all-button bg-transparent border-0 cursor-pointer"
-        onclick="window.clearAllFilters()"
-      >
-        Clear all
-      </button>
+      <div id="sidebar-clear-all" hx-swap-oob="true" hx-swap="innerHTML">
+        {% if active_filter_count > 0 %}
+          <button
+            type="button"
+            class="text-body-small clear-all underline underline-offset-2 clear-all-button bg-transparent border-0 cursor-pointer"
+            onclick="window.clearAllFilters()"
+          >
+            Clear all
+          </button>
+        {% else %}
+          <!-- Empty state to ensure out-of-band swap works -->
+          <div style="display: none;"></div>
+        {% endif %}
+      </div>
     </div>
     {% comment %}
       <div class="flex items-center justify-between">
