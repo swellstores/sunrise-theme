@@ -1,8 +1,5 @@
 {% liquid
   assign color_scheme = section.settings.color_scheme
-%}
-
-{%- liquid
   assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
   assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
   assign reduced_padding_top = top_padding | times: 0.55 | round: 2
@@ -44,7 +41,8 @@
   "settings": [
     {
       "type": "header",
-      "content": "Layout"
+      "content": "Layout",
+      "id": "header_layout"
     },
     {
       "type": "range",
@@ -68,7 +66,8 @@
     },
     {
       "type": "header",
-      "content": "Colors"
+      "content": "Colors",
+      "id": "header_colors"
     },
     {
       "type": "color_scheme",
