@@ -165,7 +165,7 @@
           {% if active_filter_count > 0 %}
             <div class="bg-{{ color_scheme }} py-12 sm:flex sm:justify-between sm:items-center">
               <span class="sr-only">{{ 'sections.collection.filters.active' | t }}</span>
-              <div class="-m-4 flex flex-wrap items-center">
+              {% comment %} <div class="-m-4 flex flex-wrap items-center">
                 {% for filter in collection.filters %}
                   {% if filter.type == 'price_range' %}
                     {% if active_price_range %}
@@ -177,7 +177,7 @@
                     {% endfor %}
                   {% endif %}
                 {% endfor %}
-              </div>
+              </div> {% endcomment %}
               <div class="clear-all">
                 <button
                   type="button"

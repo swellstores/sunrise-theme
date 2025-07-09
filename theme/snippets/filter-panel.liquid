@@ -17,7 +17,7 @@
   <div class="p-24 lg:p-0">
     {% for filter in results.filters %}
       <accordion-root class="filter-section">
-        <accordion-item aria-expanded="true">
+        <accordion-item aria-expanded="false">
           <accordion-trigger
             role="button"
             class="flex items-center justify-between accordion-trigger pb-[12px] cursor-pointer"
@@ -72,9 +72,9 @@
   }
 
   .filter-title {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-weight: 600;
-    line-height: 2rem;
+    line-height: 1.8rem;
   }
 
   .filter-options label {
@@ -84,6 +84,10 @@
 
   .filter-section:not(:first-child) accordion-trigger {
     padding-top: 1.8rem;
+
+    @media (max-width: 1024px) {
+      padding-top: 2.4rem;
+    }
   }
 
   input[type='checkbox'] {
@@ -196,7 +200,22 @@
       if (!filterParam) return;
 
       const checkboxes = filterForm.querySelectorAll(`input[name="${filterParam}"]:checked`);
-      const count = checkboxes.length;
+      let count = checkboxes.length;
+
+      const priceRange = filterForm.querySelector(`#price-range[data-input-name="${filterParam}"]`);
+      if (priceRange) {
+        const sliderTrack = priceRange.querySelector('.slider-track');
+        if (sliderTrack && sliderTrack.noUiSlider) {
+          const values = sliderTrack.noUiSlider.get();
+          const min = parseFloat(priceRange.dataset.min) || 0;
+          const max = parseFloat(priceRange.dataset.max) || 1000;
+
+          // Check if the slider values are different from the default range
+          if (values[0] > min || values[1] < max) {
+            count = Math.max(count, 1);
+          }
+        }
+      }
 
       if (count > 0) {
         span.textContent = `(${count})`;
@@ -249,7 +268,6 @@
       }
     });
 
-    // Update price sliders to ensure labels are positioned correctly
     if (window.updatePriceSliders) {
       window.updatePriceSliders();
     }
@@ -275,6 +293,12 @@
         return;
       }
 
+      if (window.updateFilterCounts) {
+        window.updateFilterCounts();
+      }
+    });
+
+    document.addEventListener('priceSliderChanged', function () {
       if (window.updateFilterCounts) {
         window.updateFilterCounts();
       }
