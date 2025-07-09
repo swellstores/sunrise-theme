@@ -26,12 +26,7 @@
             name="sort_by"
             id="sort-control"
             class="text-body-medium font-display rounded border-none outline-none text-{{ color_scheme }} bg-{{ color_scheme }}"
-            hx-get="{{ request_path }}"
-            hx-trigger="change"
-            hx-target="#results"
-            hx-select="#results"
-            hx-swap="outerHTML"
-            hx-include="[name^='filter_'], [name='price_min'], [name='price_max']"
+            onchange="handleSortChange(this)"
           >
             {% for option in results.sort_options %}
               <option
@@ -133,8 +128,6 @@
     document.addEventListener('htmx:afterSwap', handleAfterSwap);
     document.body.addEventListener('htmx:beforeRequest', handleBeforeRequest);
     document.addEventListener('htmx:afterRequest', handleAfterRequest);
-    document.addEventListener('htmx:configRequest', handleConfigRequest);
-    document.addEventListener('priceSliderChanged', handlePriceSliderChange);
   }
 
   function handleAfterSwap(event) {
@@ -147,24 +140,6 @@
     if (window.updatePriceSliders) {
       window.updatePriceSliders();
     }
-
-    // Call the global updateFilterCounts function
-    if (window.updateFilterCounts) {
-      window.updateFilterCounts();
-    }
-
-    setTimeout(() => {
-      const filterForm = document.querySelector('#filter-form-stack');
-      if (filterForm) {
-        const activeFilters = document.querySelector('#active-filters');
-        const checkedBoxes = filterForm.querySelectorAll('input[type="checkbox"]:checked');
-        const activeFilterTags = activeFilters?.querySelectorAll('.m-1.inline-flex');
-
-        if (checkedBoxes.length > 0 && activeFilterTags && activeFilterTags.length === 0) {
-          htmx.trigger(filterForm, 'change');
-        }
-      }
-    }, 100);
   }
 
   function handleBeforeRequest(event) {
@@ -173,21 +148,6 @@
 
   function handleAfterRequest(event) {
     updateOpacity(false);
-  }
-
-  function handleConfigRequest(event) {
-    if (window.onHtmxConfigRequest) {
-      window.onHtmxConfigRequest(event);
-    }
-
-    const form = event.target.closest('form');
-    if (!form || form.id !== 'filter-form-stack') return;
-
-    Object.keys(event.detail.parameters).forEach((key) => {
-      if (key.endsWith('_all')) {
-        delete event.detail.parameters[key];
-      }
-    });
   }
 
   function updateOpacity(loading) {
@@ -199,28 +159,6 @@
         results.classList.remove('opacity-20');
       }
     }
-  }
-
-  function handleCheckboxChange(event) {
-    const checkbox = event.target;
-
-    if (checkbox.type !== 'checkbox' || !checkbox.closest('#filter-form-stack')) {
-      return;
-    }
-
-    if (window.updateFilterCounts) {
-      window.updateFilterCounts();
-    }
-
-    // Trigger form change immediately when checkbox changes
-    const filterForm = document.querySelector('#filter-form-stack');
-    if (filterForm) {
-      htmx.trigger(filterForm, 'change');
-    }
-  }
-
-  function handlePriceSliderChange() {
-    updateOpacity(true);
   }
 
   if (document.readyState === 'loading') {

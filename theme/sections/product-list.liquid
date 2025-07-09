@@ -58,7 +58,7 @@
               </button>
             </div>
             <!-- Products Grid -->
-            <div id="results" class="flex w-full flex-col gap-32">
+            <div id="results-sidebar" class="flex w-full flex-col gap-32">
               <div class="hidden lg:flex items-center justify-between mb-16">
                 <div class="flex items-center gap-16">
                   <span class="text-body-medium text-gray-600">{{ collection.products.size }} items</span>
@@ -80,12 +80,6 @@
                       name="sort_by"
                       id="sort-control-desktop"
                       class="text-body-medium font-display rounded border border-gray-300 px-12 py-8 outline-none text-{{ color_scheme }} bg-{{ color_scheme }}"
-                      hx-get="{{ request.path }}"
-                      hx-trigger="change"
-                      hx-target="#results"
-                      hx-select="#results"
-                      hx-swap="outerHTML"
-                      hx-include="[name^='filter_'], [name='price_min'], [name='price_max']"
                     >
                       {% for option in collection.sort_options %}
                         <option
@@ -123,7 +117,7 @@
         %}
         <div class="mt-16">
           <div class="flex gap-64">
-            <div id="results" class="flex w-full flex-col gap-32">
+            <div id="results-drawer" class="flex w-full flex-col gap-32">
               <div class="grid grid-cols-2 gap-x-16 gap-y-24 md:grid-cols-3 lg:grid-cols-4">
                 {% if collection.products.size > 0 %}
                   {% for product in collection.products %}
@@ -165,19 +159,21 @@
           {% if active_filter_count > 0 %}
             <div class="bg-{{ color_scheme }} py-12 sm:flex sm:justify-between sm:items-center">
               <span class="sr-only">{{ 'sections.collection.filters.active' | t }}</span>
-              {% comment %} <div class="-m-4 flex flex-wrap items-center">
-                {% for filter in collection.filters %}
-                  {% if filter.type == 'price_range' %}
-                    {% if active_price_range %}
-                      {% render 'filter-tag', filter: filter, color_scheme: color_scheme %}
+              {% comment %}
+                <div class="-m-4 flex flex-wrap items-center">
+                  {% for filter in collection.filters %}
+                    {% if filter.type == 'price_range' %}
+                      {% if active_price_range %}
+                        {% render 'filter-tag', filter: filter, color_scheme: color_scheme %}
+                      {% endif %}
+                    {% else %}
+                      {% for value in filter.active_values %}
+                        {% render 'filter-tag', filter: filter, value: value, color_scheme: color_scheme %}
+                      {% endfor %}
                     {% endif %}
-                  {% else %}
-                    {% for value in filter.active_values %}
-                      {% render 'filter-tag', filter: filter, value: value, color_scheme: color_scheme %}
-                    {% endfor %}
-                  {% endif %}
-                {% endfor %}
-              </div> {% endcomment %}
+                  {% endfor %}
+                </div>
+              {% endcomment %}
               <div class="clear-all">
                 <button
                   type="button"
@@ -207,12 +203,12 @@
     if (isMobile !== lastIsMobile) {
       // Screen size changed, sync filter state
       const sourceForm = lastIsMobile
-        ? document.querySelector('filter-drawer-root #filter-form-stack') // From drawer
-        : document.querySelector('#filter-sidebar #filter-form-stack'); // From sidebar
+        ? document.querySelector('filter-drawer-root #filter-form-drawer') // From drawer
+        : document.querySelector('#filter-sidebar #filter-form-sidebar'); // From sidebar
 
       const targetForm = isMobile
-        ? document.querySelector('filter-drawer-root #filter-form-stack') // To drawer
-        : document.querySelector('#filter-sidebar #filter-form-stack'); // To sidebar
+        ? document.querySelector('filter-drawer-root #filter-form-drawer') // To drawer
+        : document.querySelector('#filter-sidebar #filter-form-sidebar'); // To sidebar
 
       if (sourceForm && targetForm) {
         // Copy checkbox states

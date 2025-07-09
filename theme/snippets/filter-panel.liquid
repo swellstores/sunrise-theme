@@ -1,16 +1,21 @@
 {%- liquid
   assign color_scheme = color_scheme
   assign request_path = request.path
+  if is_sidebar
+    assign form_id = 'filter-form-sidebar'
+  else
+    assign form_id = 'filter-form-drawer'
+  endif
 -%}
 
 <!-- Filters Form -->
 <form
-  id="filter-form-stack"
+  id="{{ form_id }}"
   class="h-full"
   hx-get="{{ request_path }}"
-  hx-trigger="change"
-  hx-target="#results"
-  hx-select="#results"
+  hx-trigger="change delay:300ms"
+  hx-target="#results-sidebar, #results-drawer"
+  hx-select="#results-sidebar, #results-drawer"
   hx-swap="outerHTML"
   hx-sync="this:replace"
 >
@@ -156,35 +161,31 @@
 {% endstyle %}
 
 <script>
-  function submitFilterForm(event) {
-    const filterDrawerRoot = document.querySelector('filter-drawer-root');
-    if (filterDrawerRoot && filterDrawerRoot.close) {
-      filterDrawerRoot.close();
-    }
-
-    const form = document.querySelector('#filter-form-stack');
-    if (form) {
-      htmx.trigger(form, 'change');
-    }
-
-    event.preventDefault();
+  if (window.updateFilterCounts) {
+    window.updateFilterCounts();
   }
 
-  // Make functions globally available
+  document.addEventListener('htmx:afterRequest', function (event) {
+    if (event.detail.elt.id === 'filter-form-sidebar' || event.detail.elt.id === 'filter-form-drawer') {
+      if (window.updateFilterCounts) {
+        window.updateFilterCounts();
+      }
+    }
+  });
+
   window.updateFilterCounts = function () {
     const isMobile = window.innerWidth < 1024;
-
     let visibleContainer, filterForm;
 
     if (isMobile) {
       visibleContainer = document.querySelector('filter-drawer-root');
       if (visibleContainer) {
-        filterForm = visibleContainer.querySelector('#filter-form-stack');
+        filterForm = visibleContainer.querySelector('#filter-form-drawer');
       }
     } else {
       visibleContainer = document.querySelector('#filter-sidebar');
       if (visibleContainer) {
-        filterForm = visibleContainer.querySelector('#filter-form-stack');
+        filterForm = visibleContainer.querySelector('#filter-form-sidebar');
       }
     }
 
@@ -199,23 +200,26 @@
       const filterParam = span.getAttribute('data-filter-param');
       if (!filterParam) return;
 
-      const checkboxes = filterForm.querySelectorAll(`input[name="${filterParam}"]:checked`);
-      let count = checkboxes.length;
-
       const priceRange = filterForm.querySelector(`#price-range[data-input-name="${filterParam}"]`);
+
       if (priceRange) {
+        span.textContent = '';
+
         const sliderTrack = priceRange.querySelector('.slider-track');
         if (sliderTrack && sliderTrack.noUiSlider) {
           const values = sliderTrack.noUiSlider.get();
           const min = parseFloat(priceRange.dataset.min) || 0;
           const max = parseFloat(priceRange.dataset.max) || 1000;
 
-          // Check if the slider values are different from the default range
           if (values[0] > min || values[1] < max) {
-            count = Math.max(count, 1);
+            totalActiveFilters += 1;
           }
         }
+        return;
       }
+
+      const checkboxes = filterForm.querySelectorAll(`input[name="${filterParam}"]:checked`);
+      const count = checkboxes.length;
 
       if (count > 0) {
         span.textContent = `(${count})`;
@@ -236,14 +240,15 @@
   };
 
   window.clearAllFilters = function () {
-    // Get all filter forms (both sidebar and drawer)
-    const filterForms = document.querySelectorAll('#filter-form-stack');
+    // Determine which form to use based on screen size
+    const isMobile = window.innerWidth < 1024;
+    const activeForm = isMobile
+      ? document.querySelector('#filter-form-drawer')
+      : document.querySelector('#filter-form-sidebar');
 
-    if (!filterForms.length) {
-      return;
-    }
+    if (!activeForm) return;
 
-    // Clear checkboxes in all forms
+    const filterForms = document.querySelectorAll('#filter-form-sidebar, #filter-form-drawer');
     filterForms.forEach((filterForm) => {
       const checkboxes = filterForm.querySelectorAll('input[type="checkbox"]');
       checkboxes.forEach((checkbox) => {
@@ -251,7 +256,6 @@
       });
     });
 
-    // Clear price range in all forms
     const priceRanges = document.querySelectorAll('#price-range');
     priceRanges.forEach((priceRange) => {
       const sliderTrack = priceRange.querySelector('.slider-track');
@@ -268,58 +272,23 @@
       }
     });
 
-    if (window.updatePriceSliders) {
-      window.updatePriceSliders();
-    }
-
     if (window.updateFilterCounts) {
       window.updateFilterCounts();
     }
 
-    if (filterForms.length > 0) {
-      htmx.trigger(filterForms[0], 'change');
+    if (window.htmx) {
+      window.htmx.trigger(activeForm, 'change');
+    } else {
+      const changeEvent = new Event('change', { bubbles: true });
+      activeForm.dispatchEvent(changeEvent);
     }
   };
 
-  function initializeCountUpdates() {
-    if (window.updateFilterCounts) {
-      window.updateFilterCounts();
+  function submitFilterForm(event) {
+    const filterDrawerRoot = document.querySelector('filter-drawer-root');
+    if (filterDrawerRoot && filterDrawerRoot.close) {
+      filterDrawerRoot.close();
     }
-
-    document.addEventListener('change', function (event) {
-      const checkbox = event.target;
-
-      if (checkbox.type !== 'checkbox' || !checkbox.closest('#filter-form-stack')) {
-        return;
-      }
-
-      if (window.updateFilterCounts) {
-        window.updateFilterCounts();
-      }
-    });
-
-    document.addEventListener('priceSliderChanged', function () {
-      if (window.updateFilterCounts) {
-        window.updateFilterCounts();
-      }
-    });
-
-    document.addEventListener('htmx:afterSwap', function () {
-      if (window.updateFilterCounts) {
-        window.updateFilterCounts();
-      }
-    });
+    event.preventDefault();
   }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeCountUpdates);
-  } else {
-    initializeCountUpdates();
-  }
-
-  setTimeout(function () {
-    if (window.updateFilterCounts) {
-      window.updateFilterCounts();
-    }
-  }, 1000);
 </script>
