@@ -178,7 +178,7 @@
       }
     },
     "cart": {
-      "title": "Your cart",
+      "title": "Cart",
       "empty": "Your cart is empty",
       "estimated_total": "Estimated total",
       "view_cart": "View cart",
@@ -199,6 +199,9 @@
       "item_count": {
         "one": "{{ count }} item",
         "other": "{{ count }} items"
+      },
+      "item": {
+        "remove": "Remove"
       }
     },
     "newsletter": {
