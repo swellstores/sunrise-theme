@@ -33,6 +33,8 @@ export class CartDrawer extends HTMLElement {
     this.onAddItemBound = this.onAddItem.bind(this);
     this.onChangeItemQuantityBound = this.onChangeItemQuantity.bind(this);
     this.onRemoveItemBound = this.onRemoveItem.bind(this);
+    this.onBeforeUpdateCartBound = this.onBeforeUpdateCart.bind(this);
+    this.onAfterUpdateCartBound = this.onAfterUpdateCart.bind(this);
 
     this.handleTouchStartBound = this.handleTouchStart.bind(this);
     this.handleTouchMoveBound = this.handleTouchMove.bind(this);
@@ -40,6 +42,8 @@ export class CartDrawer extends HTMLElement {
   }
 
   connectedCallback() {
+    this.setAttribute("role", "dialog");
+
     this.trigger = document.querySelector("cart-trigger");
     this.backdropOverlay = document.querySelector("backdrop-root");
 
@@ -67,7 +71,11 @@ export class CartDrawer extends HTMLElement {
     this.addEventListener("touchmove", this.handleTouchMoveBound);
     this.addEventListener("touchend", this.handleTouchEndBound);
 
-    this.subscriptions.push(eventBus.on("cart-item-add", this.onAddItemBound));
+    this.subscriptions.push(
+      eventBus.on("cart-item-add", this.onAddItemBound),
+      eventBus.on("cart-update-before", this.onBeforeUpdateCartBound),
+      eventBus.on("cart-update-after", this.onAfterUpdateCartBound)
+    );
   }
 
   disconnectedCallback() {
@@ -142,6 +150,26 @@ export class CartDrawer extends HTMLElement {
     }
   }
 
+  disableItem(line) {
+    const item = this.querySelector(`cart-item[data-index="${line}"]`);
+
+    if (item) {
+      item.classList.add("disabled");
+    }
+  }
+
+  onBeforeUpdateCart(updates) {
+    const { line } = updates;
+
+    if (line !== undefined) {
+      this.disableItem(line);
+    }
+  }
+
+  onAfterUpdateCart() {
+    this.updateCartDrawerContent();
+  }
+
   async onAddItem() {
     await this.updateCartDrawerContent();
     this.open();
@@ -151,21 +179,16 @@ export class CartDrawer extends HTMLElement {
     event.stopPropagation();
 
     const { line, quantity } = event.detail;
-    const item = this.querySelector(`cart-drawer-item[data-index="${line}"]`);
 
-    item.classList.add("disabled");
-    await this.updateCart({ line, quantity });
-    item.classList.remove("disabled");
+    await CartAPI.updateCart({ line, quantity });
   }
 
   async onRemoveItem(event) {
     event.stopPropagation();
 
     const { line } = event.detail;
-    const item = this.querySelector(`cart-drawer-item[data-index="${line}"]`);
 
-    item.classList.add("disabled");
-    await this.updateCart({ line, quantity: 0 });
+    await CartAPI.updateCart({ line, quantity: 0 });
   }
 
   /**
@@ -194,21 +217,6 @@ export class CartDrawer extends HTMLElement {
     // Reset drawer trigger events
     this.disconnectDrawerTriggers();
     this.connectDrawerTriggers();
-  }
-
-  /**
-   * Handle updating the cart.
-   *
-   * @param {object} data
-   * @memberof CartDrawer
-   */
-  async updateCart(data) {
-    try {
-      await CartAPI.updateCart(data);
-      await this.updateCartDrawerContent();
-    } catch (error) {
-      console.error("Error updating cart:", error);
-    }
   }
 
   /**
