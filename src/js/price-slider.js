@@ -126,23 +126,31 @@ export function initPriceSliders() {
     });
     resizeObserver.observe(container);
 
+    let isUserInitiated = false;
+
+    sliderTrack.noUiSlider.on("start", function () {
+      isUserInitiated = true;
+    });
+
+    sliderTrack.noUiSlider.on("end", function () {
+      updateValuePositions();
+
+      inputMin.value = Math.round(sliderTrack.noUiSlider.get()[0]);
+      inputMax.value = Math.round(sliderTrack.noUiSlider.get()[1]);
+
+      if (isUserInitiated) {
+        const changeEvent = new Event("change", { bubbles: true });
+        inputMin.dispatchEvent(changeEvent);
+      }
+
+      isUserInitiated = false;
+    });
+
     sliderTrack.noUiSlider.on("set", function () {
       updateValuePositions();
 
-      const changeEvent = new Event("change", { bubbles: true });
-      inputMin.dispatchEvent(changeEvent);
-      inputMax.dispatchEvent(changeEvent);
-
-      const containerChangeEvent = new Event("change", { bubbles: true });
-      container.dispatchEvent(containerChangeEvent);
-
-      const event = new CustomEvent("priceSliderChanged", {
-        detail: {
-          min: inputMin.value,
-          max: inputMax.value,
-        },
-      });
-      container.dispatchEvent(event);
+      inputMin.value = Math.round(sliderTrack.noUiSlider.get()[0]);
+      inputMax.value = Math.round(sliderTrack.noUiSlider.get()[1]);
     });
 
     const initialValues = sliderTrack.noUiSlider.get();

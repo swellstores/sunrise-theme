@@ -156,15 +156,17 @@ export class FilterDrawer extends HTMLElement {
 
   syncFilterState() {
     const sidebarForm = document.querySelector(
-      "#filter-sidebar #filter-form-stack",
+      "#filter-sidebar #filter-form-sidebar",
     );
     const drawerForm = document.querySelector(
-      "filter-drawer-root #filter-form-stack",
+      "filter-drawer-root #filter-form-drawer",
     );
 
     if (!sidebarForm || !drawerForm) {
       return;
     }
+
+    window.isFilterStateSyncing = true;
 
     // Copy checkbox states
     const sidebarCheckboxes = sidebarForm.querySelectorAll(
@@ -204,19 +206,25 @@ export class FilterDrawer extends HTMLElement {
     if (window.updateFilterCounts) {
       window.updateFilterCounts();
     }
+
+    setTimeout(() => {
+      window.isFilterStateSyncing = false;
+    }, 100);
   }
 
   syncFilterStateReverse() {
     const sidebarForm = document.querySelector(
-      "#filter-sidebar #filter-form-stack",
+      "#filter-sidebar #filter-form-sidebar",
     );
     const drawerForm = document.querySelector(
-      "filter-drawer-root #filter-form-stack",
+      "filter-drawer-root #filter-form-drawer",
     );
 
     if (!sidebarForm || !drawerForm) {
       return;
     }
+
+    window.isFilterStateSyncing = true;
 
     // Copy checkbox states
     const sidebarCheckboxes = sidebarForm.querySelectorAll(
@@ -256,5 +264,9 @@ export class FilterDrawer extends HTMLElement {
     if (window.updateFilterCounts) {
       window.updateFilterCounts();
     }
+
+    setTimeout(() => {
+      window.isFilterStateSyncing = false;
+    }, 100);
   }
 }

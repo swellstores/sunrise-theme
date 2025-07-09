@@ -61,9 +61,8 @@
       filterDrawerRoot.close();
     }
 
-    const form = document.querySelector('#filter-form-stack');
-    if (form) {
-      htmx.trigger(form, 'change');
+    if (window.triggerFilterSubmission) {
+      window.triggerFilterSubmission();
     }
 
     event.preventDefault();
