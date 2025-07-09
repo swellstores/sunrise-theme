@@ -1,5 +1,7 @@
 {%- liquid
   assign cart_type = settings.cart_type
+  assign is_cart_page = page.id == 'cart'
+  assign show_drawer = cart_type == 'drawer' and is_cart_page == false
 -%}
 
 <div class="flex items-center justify-end gap-16 ">
@@ -36,7 +38,7 @@
   >
     {{- 'search-icon.svg' | inline_asset_content -}}
   </search-trigger>
-  {% if cart_type == 'drawer' %}
+  {% if show_drawer %}
     <cart-trigger
       role="button"
       class="relative size-24 flex items-center justify-center text-{{ color_scheme }}"

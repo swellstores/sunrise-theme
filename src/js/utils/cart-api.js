@@ -125,6 +125,8 @@ export const CartAPI = {
 
       const data = await response.json();
 
+      eventBus.emit("cart-item-count-update", data.item_quantity);
+
       console.log("Cart updated:", data);
 
       return data;

@@ -3,6 +3,9 @@ import {
   CartItemQuantityChangeEvent,
 } from "./utils/events";
 import { CartAPI } from "./utils/cart-api";
+import eventBus from "./utils/event-bus";
+
+const PAGE_ID = "cart";
 
 /**
  * @export
@@ -13,8 +16,12 @@ export class Cart extends HTMLElement {
   constructor() {
     super();
 
+    this.subscriptions = [];
+
     this.onChangeItemQuantityBound = this.onChangeItemQuantity.bind(this);
     this.onRemoveItemBound = this.onRemoveItem.bind(this);
+    this.onBeforeUpdateCartBound = this.onBeforeUpdateCart.bind(this);
+    this.onAfterUpdateCartBound = this.onAfterUpdateCart.bind(this);
   }
 
   connectedCallback() {
@@ -23,6 +30,11 @@ export class Cart extends HTMLElement {
       this.onChangeItemQuantityBound
     );
     this.addEventListener(CartItemRemoveEvent.type, this.onRemoveItemBound);
+
+    this.subscriptions.push(
+      eventBus.on("cart-update-before", this.onBeforeUpdateCartBound),
+      eventBus.on("cart-update-after", this.onAfterUpdateCartBound)
+    );
   }
 
   disconnectedCallback() {
@@ -31,42 +43,45 @@ export class Cart extends HTMLElement {
       this.onChangeItemQuantityBound
     );
     this.removeEventListener(CartItemRemoveEvent.type, this.onRemoveItemBound);
+
+    this.subscriptions.forEach((unsubscribe) => unsubscribe());
+    this.subscriptions = [];
+  }
+
+  disableItem(line) {
+    const item = this.querySelector(`cart-item[data-index="${line}"]`);
+
+    if (item) {
+      item.classList.add("disabled");
+    }
+  }
+
+  onBeforeUpdateCart(updates) {
+    const { line } = updates;
+
+    if (line !== undefined) {
+      this.disableItem(line);
+    }
+  }
+
+  onAfterUpdateCart(updates) {
+    this.updateCartContent();
   }
 
   async onChangeItemQuantity(event) {
     event.stopPropagation();
 
     const { line, quantity } = event.detail;
-    const item = this.querySelector(`tr[data-line="${line}"]`);
 
-    item.classList.add("disabled");
-    await this.updateCart({ line, quantity });
-    item.classList.remove("disabled");
+    await CartAPI.updateCart({ line, quantity });
   }
 
   async onRemoveItem(event) {
     event.stopPropagation();
 
     const { line } = event.detail;
-    const item = this.querySelector(`tr[data-line="${line}"]`);
 
-    item.classList.add("disabled");
-    await this.updateCart({ line, quantity: 0 });
-  }
-
-  /**
-   * Handle updating the cart.
-   *
-   * @param {object} data
-   * @memberof CartDrawer
-   */
-  async updateCart(data) {
-    try {
-      await CartAPI.updateCart(data);
-      await this.updateCartContent();
-    } catch (error) {
-      console.error("Error handling update cart:", error);
-    }
+    await CartAPI.updateCart({ line, quantity: 0 });
   }
 
   /**
@@ -75,7 +90,8 @@ export class Cart extends HTMLElement {
    * @memberof CartDrawer
    */
   async updateCartContent() {
-    const response = await fetch("/?sections=cart");
+    const sectionId = `cart__${PAGE_ID}`;
+    const response = await fetch(`/${PAGE_ID}?sections=${sectionId}`);
 
     if (!response.ok) {
       throw new Error("Failed to fetch cart");
@@ -83,7 +99,7 @@ export class Cart extends HTMLElement {
 
     const json = await response.json();
     const parser = new DOMParser();
-    const html = parser.parseFromString(json["cart"], "text/html");
+    const html = parser.parseFromString(json[sectionId], "text/html");
     const newCartEl = html.querySelector("cart-root");
 
     if (newCartEl) {

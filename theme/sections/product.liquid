@@ -7,10 +7,6 @@
   assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
   assign reduced_padding_top = top_padding | times: 0.55 | round: 2
   assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
-
-  assign border_radius = settings.border_radius | times: 0.1 | round: 1
-
-  assign selected_or_first_available_variant = product.selected_or_first_available_variant
 -%}
 
 {% style %}
