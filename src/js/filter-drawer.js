@@ -30,7 +30,7 @@ export class FilterDrawer extends HTMLElement {
   connectedCallback() {
     this.drawer = this.querySelector('[data-target="filter-drawer"]');
     this.triggers = this.querySelectorAll('[data-trigger="filter-drawer"]');
-    this.backdropOverlay = this.querySelector("backdrop-root");
+    this.backdropOverlay = document.querySelector("backdrop-root");
 
     const externalTriggers = document.querySelectorAll(
       '[data-trigger="filter-drawer"]',
@@ -88,8 +88,13 @@ export class FilterDrawer extends HTMLElement {
     const isMobile = window.innerWidth < 1024;
 
     if (!isMobile && this.lastIsMobile) {
+      // Transitioning from mobile to desktop - close drawer and sync state
+      if (this.drawer && this.drawer.getAttribute("aria-expanded") === "true") {
+        this.close();
+      }
       this.syncFilterStateReverse();
     } else if (isMobile && !this.lastIsMobile) {
+      // Transitioning from desktop to mobile - initialize panel and sync state
       initFilterPanel();
       this.syncFilterState();
     }
@@ -110,16 +115,12 @@ export class FilterDrawer extends HTMLElement {
 
   /** @param {MouseEvent} event */
   onClickBackgroundOverlay(event) {
-    if (
-      this.drawer &&
-      this.drawer.getAttribute("aria-expanded") === "true" &&
-      !this.drawer.contains(event.target)
-    ) {
+    if (this.drawer && this.drawer.getAttribute("aria-expanded") === "true") {
       this.close();
     }
   }
 
-  onClickFilterDrawer() {
+  onClickFilterDrawer(event) {
     const isExpanded = this.drawer.getAttribute("aria-expanded") === "true";
 
     if (!isExpanded) {
@@ -134,7 +135,7 @@ export class FilterDrawer extends HTMLElement {
       return;
     }
 
-    this.backdropOverlay.classList.remove("hidden");
+    this.backdropOverlay.classList.remove("translate-x-full");
     this.drawer.classList.remove("-translate-x-full");
     this.drawer.setAttribute("aria-expanded", "true");
 
@@ -146,7 +147,9 @@ export class FilterDrawer extends HTMLElement {
       return;
     }
 
-    this.backdropOverlay.classList.add("hidden");
+    this.syncFilterStateReverse();
+
+    this.backdropOverlay.classList.add("translate-x-full");
     this.drawer.classList.add("-translate-x-full");
     this.drawer.setAttribute("aria-expanded", "false");
   }

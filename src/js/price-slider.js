@@ -119,6 +119,13 @@ export function initPriceSliders() {
       updateValuePositions();
     });
 
+    const resizeObserver = new ResizeObserver(() => {
+      if (container.offsetWidth > 0) {
+        updateValuePositions();
+      }
+    });
+    resizeObserver.observe(container);
+
     sliderTrack.noUiSlider.on("set", function () {
       updateValuePositions();
 
