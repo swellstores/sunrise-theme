@@ -3,52 +3,66 @@
 -%}
 
 <!-- Filter Drawer -->
-<filter-drawer-root class="text-{{ color_scheme }}">
-  <div
-    data-target="filter-drawer"
-    class="fixed top-0 left-0 h-full w-340 lg:w-400 bg-white -translate-x-full transition-transform duration-300 ease-in-out shadow-lg"
-    style="z-index: 100001"
-    role="dialog"
-    aria-modal="true"
-    aria-expanded="false"
-  >
-    <div class="flex flex-col h-full">
-      <!-- Header -->
-      <div class="flex items-center justify-between p-24 border-b border-gray-200 flex-shrink-0">
-        <h3 class="font-display text-title-medium">{{ 'sections.collection.filters.filters' | t }}</h3>
+<filter-drawer-root
+  aria-labelledby="filter-drawer"
+  aria-hidden="true"
+  aria-modal="true"
+  tabindex="-1"
+  class="
+    fixed
+    top-0
+    left-0
+    z-50
+    h-screen
+    w-340
+    lg:w-400
+    flex
+    flex-col
+    overflow-y-auto
+    -translate-x-full
+    transition-transform
+    duration-300
+    bg-white
+    shadow-lg
+    text-{{ color_scheme }}
+  "
+  style="z-index: 100001"
+>
+  <div class="flex flex-col h-full">
+    <!-- Header -->
+    <div class="flex items-center justify-between p-24 border-b border-gray-200 flex-shrink-0">
+      <h3 class="font-display text-title-medium">{{ 'sections.collection.filters.filters' | t }}</h3>
+      <filter-drawer-trigger
+        role="button"
+        class="flex h-40 items-center justify-center"
+      >
+        <span class="sr-only">{{ 'sections.collection.filters.close' | t }}</span>
+        <ion-icon name="close" aria-hidden="true" class="w-24 h-24"></ion-icon>
+      </filter-drawer-trigger>
+    </div>
+
+    <!-- Filter Panel Content -->
+    <div class="flex-1 overflow-y-auto min-h-0">
+      {% render 'filter-panel', results: results, color_scheme: color_scheme, is_sidebar: false %}
+    </div>
+
+    <!-- Filter Action Buttons -->
+    <div class="p-24 border-t border-gray-200 flex-shrink-0">
+      <div class="flex flex-row gap-8">
         <button
-          data-trigger="filter-drawer"
           type="button"
-          class="flex h-40 items-center justify-center"
+          class="w-full py-12 px-24 text-body-large font-display border border-black rounded-4"
+          onclick="window.clearAllFilters()"
         >
-          <span class="sr-only">{{ 'sections.collection.filters.close' | t }}</span>
-          <ion-icon name="close" aria-hidden="true" class="w-24 h-24"></ion-icon>
+          Clear all <span id="clear-all-count"> </span>
         </button>
-      </div>
-
-      <!-- Filter Panel Content -->
-      <div class="flex-1 overflow-y-auto min-h-0">
-        {% render 'filter-panel', results: results, color_scheme: color_scheme, is_sidebar: false %}
-      </div>
-
-      <!-- Filter Action Buttons -->
-      <div class="p-24 border-t border-gray-200 flex-shrink-0">
-        <div class="flex flex-row gap-8">
-          <button
-            type="button"
-            class="w-full py-12 px-24 text-body-large font-display border border-black rounded-4"
-            onclick="window.clearAllFilters()"
-          >
-            Clear all <span id="clear-all-count"> </span>
-          </button>
-          <button
-            type="button"
-            class="w-full py-12 px-24 bg-black text-white text-body-large font-display rounded-4"
-            onclick="submitFilterForm(event)"
-          >
-            View results
-          </button>
-        </div>
+        <button
+          type="button"
+          class="w-full py-12 px-24 bg-black text-white text-body-large font-display rounded-4"
+          onclick="submitFilterForm(event)"
+        >
+          View results
+        </button>
       </div>
     </div>
   </div>
