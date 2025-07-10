@@ -18,7 +18,7 @@ export class FilterDrawer extends HTMLElement {
     this.trigger = null;
     this.drawerTriggers = [];
     this.backdropOverlay = null;
-    this.lastIsMobile = window.innerWidth < 1024;
+    this.lastIsMobile = this.isMobile();
 
     this.touchStartX = 0;
     this.touchEndX = 0;
@@ -110,18 +110,22 @@ export class FilterDrawer extends HTMLElement {
   }
 
   _onResize() {
-    const isMobile = window.innerWidth < 1024;
+    const isMobile = this.isMobile();
 
     if (!isMobile && this.lastIsMobile) {
       // Transitioning from mobile to desktop - close drawer and sync state
       if (this.getAttribute("aria-hidden") === "false") {
         this.close();
       }
-      this.syncFilterStateReverse();
+      const sidebarForm = document.querySelector("#filter-sidebar #filter-form-sidebar");
+      const drawerForm = document.querySelector("filter-drawer-root #filter-form-drawer");
+      this.syncFilterState(drawerForm, sidebarForm);
     } else if (isMobile && !this.lastIsMobile) {
       // Transitioning from desktop to mobile - initialize panel and sync state
       initFilterPanel();
-      this.syncFilterState();
+      const sidebarForm = document.querySelector("#filter-sidebar #filter-form-sidebar");
+      const drawerForm = document.querySelector("filter-drawer-root #filter-form-drawer");
+      this.syncFilterState(sidebarForm, drawerForm);
     }
 
     this.lastIsMobile = isMobile;
@@ -144,118 +148,61 @@ export class FilterDrawer extends HTMLElement {
     this.classList.remove("-translate-x-full");
     this.setAttribute("aria-hidden", "false");
 
-    this.syncFilterState();
+    const sidebarForm = document.querySelector("#filter-sidebar #filter-form-sidebar");
+    const drawerForm = document.querySelector("filter-drawer-root #filter-form-drawer");
+    this.syncFilterState(sidebarForm, drawerForm);
   }
 
   close() {
     if (!this.backdropOverlay) return;
 
-    this.syncFilterStateReverse();
+    const sidebarForm = document.querySelector("#filter-sidebar #filter-form-sidebar");
+    const drawerForm = document.querySelector("filter-drawer-root #filter-form-drawer");
+    this.syncFilterState(drawerForm, sidebarForm);
 
     this.backdropOverlay.classList.add("translate-x-full");
     this.classList.add("-translate-x-full");
     this.setAttribute("aria-hidden", "true");
   }
 
-  syncFilterState() {
-    const sidebarForm = document.querySelector(
-      "#filter-sidebar #filter-form-sidebar",
-    );
-    const drawerForm = document.querySelector(
-      "filter-drawer-root #filter-form-drawer",
-    );
-
-    if (!sidebarForm || !drawerForm) {
+  syncFilterState(sourceForm, targetForm) {
+    if (!sourceForm || !targetForm) {
       return;
     }
 
-    window.isFilterStateSyncing = true;
-
-    // Copy checkbox states
-    const sidebarCheckboxes = sidebarForm.querySelectorAll(
-      'input[type="checkbox"]',
-    );
-    const drawerCheckboxes = drawerForm.querySelectorAll(
-      'input[type="checkbox"]',
-    );
-
-    sidebarCheckboxes.forEach((sidebarBox, index) => {
-      const drawerBox = drawerCheckboxes[index];
-      if (drawerBox && sidebarBox.name === drawerBox.name) {
-        drawerBox.checked = sidebarBox.checked;
-      }
-    });
-
-    // Copy price range values
-    const sidebarPriceInputs = sidebarForm.querySelectorAll(
-      'input[name$="[gte]"], input[name$="[lte]"]',
-    );
-    const drawerPriceInputs = drawerForm.querySelectorAll(
-      'input[name$="[gte]"], input[name$="[lte]"]',
-    );
-
-    sidebarPriceInputs.forEach((sidebarInput, index) => {
-      const drawerInput = drawerPriceInputs[index];
-      if (drawerInput && sidebarInput.name === drawerInput.name) {
-        drawerInput.value = sidebarInput.value;
-      }
-    });
-
-    // Update price sliders to reflect the new values
-    if (window.updatePriceSliders) {
-      window.updatePriceSliders();
-    }
-
-    if (window.updateFilterCounts) {
-      window.updateFilterCounts();
-    }
-
-    setTimeout(() => {
-      window.isFilterStateSyncing = false;
-    }, 100);
+    this._syncFormStates(sourceForm, targetForm);
   }
 
-  syncFilterStateReverse() {
-    const sidebarForm = document.querySelector(
-      "#filter-sidebar #filter-form-sidebar",
-    );
-    const drawerForm = document.querySelector(
-      "filter-drawer-root #filter-form-drawer",
-    );
-
-    if (!sidebarForm || !drawerForm) {
-      return;
-    }
-
+  _syncFormStates(sourceForm, targetForm) {
     window.isFilterStateSyncing = true;
 
     // Copy checkbox states
-    const sidebarCheckboxes = sidebarForm.querySelectorAll(
+    const sourceCheckboxes = sourceForm.querySelectorAll(
       'input[type="checkbox"]',
     );
-    const drawerCheckboxes = drawerForm.querySelectorAll(
+    const targetCheckboxes = targetForm.querySelectorAll(
       'input[type="checkbox"]',
     );
 
-    drawerCheckboxes.forEach((drawerBox, index) => {
-      const sidebarBox = sidebarCheckboxes[index];
-      if (sidebarBox && drawerBox.name === sidebarBox.name) {
-        sidebarBox.checked = drawerBox.checked;
+    sourceCheckboxes.forEach((sourceBox, index) => {
+      const targetBox = targetCheckboxes[index];
+      if (targetBox && sourceBox.name === targetBox.name) {
+        targetBox.checked = sourceBox.checked;
       }
     });
 
     // Copy price range values
-    const sidebarPriceInputs = sidebarForm.querySelectorAll(
+    const sourcePriceInputs = sourceForm.querySelectorAll(
       'input[name$="[gte]"], input[name$="[lte]"]',
     );
-    const drawerPriceInputs = drawerForm.querySelectorAll(
+    const targetPriceInputs = targetForm.querySelectorAll(
       'input[name$="[gte]"], input[name$="[lte]"]',
     );
 
-    drawerPriceInputs.forEach((drawerInput, index) => {
-      const sidebarInput = sidebarPriceInputs[index];
-      if (sidebarInput && drawerInput.name === sidebarInput.name) {
-        sidebarInput.value = drawerInput.value;
+    sourcePriceInputs.forEach((sourceInput, index) => {
+      const targetInput = targetPriceInputs[index];
+      if (targetInput && sourceInput.name === targetInput.name) {
+        targetInput.value = sourceInput.value;
       }
     });
 
@@ -281,7 +228,7 @@ export class FilterDrawer extends HTMLElement {
     if (this.isTouchOnSlider(event.target)) {
       return;
     }
-    
+
     this.touchStartX = event.touches[0].clientX;
   }
 
@@ -333,18 +280,22 @@ export class FilterDrawer extends HTMLElement {
     let element = target;
     while (element && element !== this) {
       if (
-        element.classList.contains('price-slider') ||
-        element.classList.contains('slider-track') ||
-        element.classList.contains('noUi-target') ||
-        element.classList.contains('noUi-handle') ||
-        element.classList.contains('noUi-connect') ||
-        element.classList.contains('noUi-base') ||
-        element.id === 'price-range'
+        element.classList.contains("price-slider") ||
+        element.classList.contains("slider-track") ||
+        element.classList.contains("noUi-target") ||
+        element.classList.contains("noUi-handle") ||
+        element.classList.contains("noUi-connect") ||
+        element.classList.contains("noUi-base") ||
+        element.id === "price-range"
       ) {
         return true;
       }
       element = element.parentElement;
     }
     return false;
+  }
+
+  isMobile() {
+    return window.innerWidth < 1024;
   }
 }
