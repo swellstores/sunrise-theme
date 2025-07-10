@@ -5,7 +5,7 @@
     <div class="flex items-center flex-nowrap gap-8">
       <input
         type="checkbox"
-        class="size-16 mr-8 rounded border-gray-300"
+        class="size-16 mr-8 rounded bg-{{ color_scheme }} border-color-{{ color_scheme }}"
         id="{{ filter.param_name }}"
         name="{{ filter.param_name }}"
         value="{{ filter.true_value.value }}"
@@ -13,7 +13,9 @@
           checked
         {% endif %}
       >
-      <label for="{{ filter.param_name }}" class="text-nowrap filter-checkbox">{{ filter.true_value.label }}</label>
+      <label for="{{ filter.param_name }}" class="text-nowrap filter-checkbox text-{{ color_scheme }}">
+        {{- filter.true_value.label -}}
+      </label>
     </div>
 
   {% when 'list' %}
@@ -23,7 +25,7 @@
     <label class="flex items-center flex-nowrap filter-checkbox">
       <input
         type="checkbox"
-        class="size-16 mr-8 rounded border-gray-300 {% if disabled %}bg-gray-200{% endif %}"
+        class="size-16 mr-8 rounded bg-{{ color_scheme }} border-color-{{ color_scheme }} {% if disabled %}opacity-60{% endif %}"
         name="{{ filter.param_name }}"
         value="{{ option.value }}"
         {% if disabled %}
@@ -33,7 +35,7 @@
           checked
         {% endif %}
       >
-      <span class="font-display text-nowrap">
+      <span class="font-display text-nowrap text-{{ color_scheme }}">
         {{- option.label -}}
       </span>
     </label>
@@ -51,10 +53,10 @@
       data-currency-symbol="{{ localization.country.currency.symbol }}"
     >
       <div class="flex justify-between mb-[4px]">
-        <span class="text-headline-medium text-gray-700 min-value">
+        <span class="text-headline-medium text-primary-{{ color_scheme }} min-value">
           {{- filter.min_value.value | default: 0 | money -}}
         </span>
-        <span class="text-headline-medium text-gray-700 max-value">
+        <span class="text-headline-medium text-primary-{{ color_scheme }} max-value">
           {{- filter.max_value.value | default: filter.range_max | money -}}
         </span>
       </div>
@@ -62,3 +64,21 @@
       <div class="slider-track"></div>
     </div>
 {% endcase %}
+
+{% style %}
+  #price-range .noUi-target {
+    background: var(--color-{{ color_scheme }}-borders-and-inputs) !important;
+  }
+  #price-range .noUi-base {
+    background: var(--color-{{ color_scheme }}-borders-and-inputs) !important;
+  }
+  #price-range .noUi-connect {
+    background: var(--color-{{ color_scheme }}-button) !important;
+  }
+  #price-range .noUi-handle {
+    background: var(--color-{{ color_scheme }}-button) !important;
+  }
+  #price-range .noUi-handle:after {
+    background: var(--color-{{ color_scheme }}-button-label) !important;
+  }
+{% endstyle %}

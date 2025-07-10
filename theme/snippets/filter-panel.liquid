@@ -27,7 +27,7 @@
             role="button"
             class="flex items-center justify-between accordion-trigger pb-[12px] cursor-pointer"
           >
-            <h4 class="filter-title font-display">
+            <h4 class="filter-title font-display text-{{ color_scheme }}">
               {{ filter.label }}
               <span class="filter-count" data-filter-param="{{ filter.param_name }}"></span>
             </h4>
@@ -41,7 +41,7 @@
             {% if filter.type == 'price_range' %}
               <div class="overflow-hidden">
                 <div class="filter-options px-4">
-                  {% render 'filter-input', filter: filter %}
+                  {% render 'filter-input', filter: filter, color_scheme: color_scheme %}
                 </div>
               </div>
             {% else %}
@@ -50,11 +50,11 @@
                   {% if filter.type == 'list' %}
                     <div class="flex flex-col gap-8">
                       {% for option in filter.values %}
-                        {% render 'filter-input', filter: filter, option: option %}
+                        {% render 'filter-input', filter: filter, option: option, color_scheme: color_scheme %}
                       {% endfor %}
                     </div>
                   {% else %}
-                    {% render 'filter-input', filter: filter %}
+                    {% render 'filter-input', filter: filter, color_scheme: color_scheme %}
                   {% endif %}
                 </div>
               </div>
@@ -101,40 +101,41 @@
     }
   }
 
-  input[type='checkbox'] {
+  .bg-{{ color_scheme }} input[type='checkbox'] {
     width: 1.6rem;
     height: 1.6rem;
     border-radius: 0.2rem;
     appearance: none;
-    background-color: #fff;
+    background-color: var(--color-{{ color_scheme }}-background);
+    border: 0.1rem solid var(--color-{{ color_scheme }}-borders-and-inputs);
     display: inline-block;
     cursor: pointer;
-    border: 0.1rem solid #222222;
     position: relative;
   }
 
-  input[type='checkbox']:checked {
-    background-color: #222222;
-    border-color: #222222;
+  .bg-{{ color_scheme }} input[type='checkbox']:checked {
+    background-color: var(--color-{{ color_scheme }}-text);
+    border-color: var(--color-{{ color_scheme }}-text);
   }
 
-  input[type='checkbox']:checked::after {
+  .bg-{{ color_scheme }} input[type='checkbox']:checked::after {
     content: '';
     position: absolute;
     top: 50%;
     left: 50%;
     width: 0.8rem;
     height: 0.4rem;
-    border: 0.1rem solid #fff;
+    border: 0.1rem solid var(--color-{{ color_scheme }}-background);
     border-top: 0;
     border-right: 0;
     transform: translate(-50%, -65%) rotate(-45deg);
   }
 
-  input[type='checkbox']:disabled {
-    background-color: #e5e5e5;
-    border-color: #e5e5e5;
+  .bg-{{ color_scheme }} input[type='checkbox']:disabled {
+    background-color: var(--color-{{ color_scheme }}-text-secondary);
+    border-color: var(--color-{{ color_scheme }}-text-secondary);
     cursor: not-allowed;
+    opacity: 0.6;
   }
 
   .filter-checkbox {
@@ -143,20 +144,17 @@
   }
 
   .filter-count-badge {
-    background-color: #f3f4f6;
     width: 2.4rem;
     height: 2.4rem;
     border-radius: 0.4rem;
     font-size: 1.2rem;
     line-height: 1.6rem;
-    color: #757575;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   .clear-all-button {
-    background: #fff;
     text-decoration: underline;
     text-underline-offset: 0.2rem;
   }

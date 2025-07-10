@@ -21,12 +21,12 @@
     %}
     
     <div class="flex items-center justify-between mb-12">
-      <h3 class="font-display text-title-medium">Filters</h3>
+      <h3 class="font-display text-title-medium text-{{ color_scheme }}">Filters</h3>
       <div id="sidebar-clear-all" hx-swap-oob="true" hx-swap="innerHTML">
         {% if active_filter_count > 0 %}
           <button
             type="button"
-            class="text-body-small clear-all underline underline-offset-2 clear-all-button bg-transparent border-0 cursor-pointer"
+            class="text-body-small text-{{ color_scheme }} underline underline-offset-2 clear-all-button bg-transparent border-0 cursor-pointer"
             onclick="window.clearAllFilters()"
           >
             Clear all
@@ -83,10 +83,6 @@
 </script>
 
 {% style %}
-  #toggle-sidebar-btn:hover {
-    background-color: #f3f4f6;
-  }
-
   .filter-title {
     font-size: 1.4rem;
     line-height: 1.8rem;
@@ -95,9 +91,5 @@
   .filter-options label {
     font-size: 1.4rem;
     line-height: 1.8rem;
-  }
-
-  .clear-all {
-    color: #222222;
   }
 {% endstyle %}
