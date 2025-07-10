@@ -66,19 +66,16 @@
 {% endcase %}
 
 {% style %}
-  #price-range .noUi-target {
-    background: var(--color-{{ color_scheme }}-borders-and-inputs) !important;
+  #price-range.price-slider .noUi-target {
+    background: var(--color-{{ color_scheme }}-borders-and-inputs);
   }
-  #price-range .noUi-base {
-    background: var(--color-{{ color_scheme }}-borders-and-inputs) !important;
+  #price-range.price-slider .noUi-connect {
+    background: var(--color-{{ color_scheme }}-button);
   }
-  #price-range .noUi-connect {
-    background: var(--color-{{ color_scheme }}-button) !important;
+  #price-range.price-slider .noUi-handle {
+    background: var(--color-{{ color_scheme }}-button);
   }
-  #price-range .noUi-handle {
-    background: var(--color-{{ color_scheme }}-button) !important;
-  }
-  #price-range .noUi-handle:after {
-    background: var(--color-{{ color_scheme }}-button-label) !important;
+  #price-range.price-slider .noUi-handle:after {
+    background: var(--color-{{ color_scheme }}-button-label);
   }
 {% endstyle %}

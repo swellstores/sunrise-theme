@@ -24,16 +24,10 @@ export function initPriceSliders() {
     let inputMin = container.querySelector('input[name$="[gte]"]');
     let inputMax = container.querySelector('input[name$="[lte]"]');
     if (!inputMin) {
-      inputMin = document.createElement("input");
-      inputMin.type = "hidden";
-      inputMin.name = container.dataset.inputName + "[gte]";
-      container.appendChild(inputMin);
+      inputMin = createHiddenInput(container, "gte");
     }
     if (!inputMax) {
-      inputMax = document.createElement("input");
-      inputMax.type = "hidden";
-      inputMax.name = container.dataset.inputName + "[lte]";
-      container.appendChild(inputMax);
+      inputMax = createHiddenInput(container, "lte");
     }
 
     // Find the slider track div
@@ -164,6 +158,14 @@ export function initPriceSliders() {
 
     updateValuePositions();
   });
+}
+
+function createHiddenInput(container, suffix) {
+  const input = document.createElement("input");
+  input.type = "hidden";
+  input.name = container.dataset.inputName + `[${suffix}]`;
+  container.appendChild(input);
+  return input;
 }
 
 export function updatePriceSliders() {
