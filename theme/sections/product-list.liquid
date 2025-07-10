@@ -61,11 +61,11 @@
             <div id="results-sidebar" class="flex w-full flex-col gap-32">
               <div class="hidden lg:flex items-center justify-between mb-16">
                 <div class="flex items-center gap-16">
-                  <span class="text-body-medium text-gray-600">{{ collection.products.size }} items</span>
+                  <span class="text-body-medium text-primary-{{ color_scheme }}">{{ collection.products.size }} items</span>
                   <div id="show-filters-btn" class="hidden">
                     <button
                       type="button"
-                      class="flex items-center gap-8 text-body-small text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 px-16 py-8 rounded transition-colors border border-gray-300"
+                      class="flex items-center gap-8 text-body-small text-secondary-{{ color_scheme }} btn-secondary-{{ color_scheme }} px-16 py-8 rounded transition-colors"
                       onclick="toggleFilterSidebar()"
                     >
                       {{- 'filter-sort-icon.svg' | inline_asset_content -}}
