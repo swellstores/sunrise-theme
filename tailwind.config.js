@@ -64,7 +64,7 @@ const spacing = {
   800: "80rem",
   840: "84rem",
   960: "96rem",
-  content: "104.6rem",
+  content: "120rem",
   container: "144rem",
 };
 
@@ -80,7 +80,7 @@ module.exports = {
         display: ["sans-serif"],
       },
       screens: {
-        'min-960': '960px',
+        "min-960": "960px",
       },
       spacing,
       width: spacing,

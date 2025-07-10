@@ -221,8 +221,9 @@
     "product_title": "Produit d'exemple",
     "collection_title": "Collection d'exemple",
     "blog_title": "Titre de blog d'exemple",
-    "blog_post_title": "Article de blog d'exemple",
-    "blog_post_summary": "Une courte description de votre article.",
-    "blog_post_content": "C'est votre espace pour briller. Remplacez ce texte par votre propre article de blog. Partagez l'histoire de votre boutique, mettez en avant ce qui rend vos produits spéciaux ou proposez des conseils pour établir un lien avec votre audience. Un excellent article peut attirer des clients, instaurer la confiance et les inciter à revenir. Commencez à écrire ici pour présenter votre marque et augmenter l'engagement."
+    "blog_post_date": "15 mars 2023",
+    "blog_post_category": "Actualités",
+    "blog_post_title": "Titre du blog",
+    "blog_post_content": "Écris ton contenu de blog ici. Commence par une courte intro, puis divise le contenu en sections claires avec des titres. Utilise des paragraphes courts pour plus de lisibilité. Tu peux inclure des images, vidéos, citations et liens pour enrichir ton contenu. Termine avec un résumé ou un appel à l’action."
   }
 }

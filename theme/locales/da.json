@@ -221,8 +221,9 @@
     "product_title": "Eksempelprodukt",
     "collection_title": "Eksempelkollektion",
     "blog_title": "Eksempel blogtitel",
-    "blog_post_title": "Eksempel blogindlæg",
-    "blog_post_summary": "En kort beskrivelse af din artikel.",
-    "blog_post_content": "Dette er dit sted at skinne. Erstat denne tekst med dit eget blogindlæg. Del historien om din butik, fremhæv hvad der gør dine produkter specielle, eller tilbyd tips til at skabe forbindelse med dit publikum. Et godt indlæg kan tiltrække kunder, opbygge tillid og få dem til at vende tilbage. Begynd at skrive her for at vise dit brand og øge engagementet."
+    "blog_post_date": "15. marts 2023",
+    "blog_post_category": "Nyheder",
+    "blog_post_title": "Blogtitel",
+    "blog_post_content": "Skriv dit blogindhold her. Start med en kort intro, og del det op i tydelige afsnit med overskrifter. Brug korte afsnit, så det er nemt at læse. Du kan tilføje billeder, videoer, citater og links til at bakke op om dit indhold. Slut af med et resumé eller en opfordring til handling."
   }
 }

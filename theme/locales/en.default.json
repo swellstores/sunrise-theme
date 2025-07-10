@@ -224,8 +224,9 @@
     "product_title": "Example product",
     "collection_title": "Example collection",
     "blog_title": "Example blog title",
-    "blog_post_title": "Example blog post",
-    "blog_post_summary": "A short description of your article.",
-    "blog_post_content": "This is your space to shine. Replace this text with your own blog post. Share your store's story, highlight what makes your products special, or offer tips to connect with your audience. A great post can draw customers in, build trust, and keep them coming back. Start writing here to showcase your brand and boost engagement."
+    "blog_post_date": "March 15, 2023",
+    "blog_post_category": "News",
+    "blog_post_title": "Blog title",
+    "blog_post_content": "Write your blog content here. Start with a short introduction, then break content into clear sections using headings. Use short paragraphs for readability. You can include images, videos, quotes, and links to support your content. Finish with a summary or call to action."
   }
 }
