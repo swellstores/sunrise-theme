@@ -221,8 +221,9 @@
     "product_title": "Beispielprodukt",
     "collection_title": "Beispielkollektion",
     "blog_title": "Beispiel-Blogtitel",
-    "blog_post_title": "Beispiel-Blogbeitrag",
-    "blog_post_summary": "Eine kurze Beschreibung deines Artikels.",
-    "blog_post_content": "Hier kannst du glänzen. Ersetze diesen Text durch deinen eigenen Blogbeitrag. Teile die Geschichte deines Shops, hebe hervor, was deine Produkte besonders macht, oder biete Tipps, um eine Verbindung zu deinem Publikum aufzubauen. Ein großartiger Beitrag kann Kunden anziehen, Vertrauen aufbauen und sie dazu bringen, wiederzukommen. Beginne hier zu schreiben, um deine Marke zu präsentieren und das Engagement zu steigern."
+    "blog_post_date": "15. März 2023",
+    "blog_post_category": "Neuigkeiten",
+    "blog_post_title": "Blog-Titel",
+    "blog_post_content": "Schreib hier deinen Blogpost. Starte mit einer kurzen Einführung, dann unterteile ihn in klare Abschnitte mit Überschriften. Benutze kurze Absätze für bessere Lesbarkeit. Du kannst Bilder, Videos, Zitate und Links einbauen, um dein Thema zu unterstützen. Beende mit einer Zusammenfassung oder einem Aufruf zum Handeln."
   }
 }
