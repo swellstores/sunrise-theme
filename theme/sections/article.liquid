@@ -22,15 +22,47 @@
       padding-right: {{ x_padding }}rem;
     }
   }
+
+  {% for block in section.blocks %}
+    article#{{ section.id }} #{{ block.type }}_{{ forloop.index0 }} {
+      margin-top: {{ block.settings.margin_top | times: 0.1 | round: 1 }}rem;
+      margin-bottom: {{ block.settings.margin_bottom | times: 0.1 | round: 1 }}rem;
+    }
+  {% endfor %}
 {% endstyle %}
 
-<article class="bg-{{ color_scheme }} text-{{ color_scheme }} flex flex-col items-center gap-16 responsive-padding-{{ section.id }}">
+<article id="{{ section.id }}" class="flex flex-col max-w-content mx-auto bg-{{ color_scheme }} text-{{ color_scheme }} responsive-padding-{{ section.id }}">
   {% if article.title != blank %}
     {%- for block in section.blocks -%}
+      {% assign block_id = block.type | append: "_" | append: forloop.index0 %}
+
       {%- case block.type -%}
         {%- when 'featured_image' -%}
           {%- if article.image -%}
-            <div class="w-full h-600">
+            {% assign image_height = block.settings.image_height %}
+
+            <div
+              id="{{ block_id }}"
+              class="
+                w-full
+                {% case image_height %}
+                  {% when 'adapt' %}
+                    h-auto
+                  {% when 'small' %}
+                    h-192
+                    sm:min-h-192
+                    sm:max-h-192
+                  {% when 'medium' %}
+                    h-384
+                    sm:min-h-384
+                    sm:max-h-384
+                  {% when 'large' %}
+                    h-600
+                    sm:min-h-600
+                    sm:max-h-600
+                {% endcase %}
+              "
+            >
               {% render 'image',
                 image: article.image,
                 alt: article.image.alt,
@@ -38,13 +70,8 @@
               %}
             </div>
           {%- endif -%}
-      {%- endcase -%}
-    {%- endfor -%}
-
-    <div class="max-w-700 mx-auto w-full pt-64 pb-64">
-      {%- for block in section.blocks -%}
-        {%- case block.type -%}
-          {%- when 'title' -%}
+        {%- when 'title' -%}
+          <div id="{{ block_id }}" class="flex flex-col">
             <h1 class="font-display text-display-medium">
               {{ article.title | escape }}
             </h1>
@@ -53,58 +80,61 @@
                 {{ article.author }}
               </div>
             {%- endif -%}
-          {%- when 'content' -%}
-            <div class="flex flex-col gap-16 font-display text-body-large">
-              {{ article.content }}
-            </div>
-          {%- when 'date_and_category' -%}
-            {%liquid
-              assign show_category = block.settings.show_category and article.category.title != blank
-              assign show_date = block.settings.show_date and article.published_at != blank
-             %}
+          </div>
+        {%- when 'content' -%}
+          <div id="{{ block_id }}" class="flex flex-col gap-16 font-display text-body-large">
+            {{ article.content }}
+          </div>
+        {%- when 'date_and_category' -%}
+          {%- liquid
+            assign show_category = block.settings.show_category and article.category.title != blank
+            assign show_date = block.settings.show_date and article.published_at != blank
+          -%}
 
-            <div class="flex gap-4 text-body-medium font-semibold text-secondary-{{ color_scheme }}">
-              {%- if show_category -%}
-                <span>
-                  {{ article.category.title }}
-                </span>
-              {%- endif -%}
-              {%- if show_category and show_date -%}
-                <span>
-                  |
-                </span>
-              {%- endif -%}
-              {%- if show_date -%}
-                {{ article.published_at | time_tag: format: 'date' }}
-              {%- endif -%}
-            </div>
-          {%- when 'share' -%}
-            <div class="flex flex-wrap gap-8">
-              {% render 'share-buttons',
-                share_title: article.title,
-                share_image: article.image,
-                show_copy_link: block.settings.show_copy_link,
-                show_pinterest: block.settings.show_pinterest,
-                show_facebook: block.settings.show_facebook,
-                show_x: block.settings.show_x,
-                show_linkedin: block.settings.show_linkedin,
-                color_scheme: color_scheme
-              %}
-            </div>
-        {%- endcase -%}
-      {%- endfor -%}
-    </div>
+          <div id="{{ block_id }}" class="flex gap-4 text-body-medium font-semibold text-secondary-{{ color_scheme }}">
+            {%- if show_category -%}
+              <span>
+                {{ article.category.title }}
+              </span>
+            {%- endif -%}
+            {%- if show_category and show_date -%}
+              <span>
+                |
+              </span>
+            {%- endif -%}
+            {%- if show_date -%}
+              {{ article.published_at | time_tag: format: 'date' }}
+            {%- endif -%}
+          </div>
+        {%- when 'share' -%}
+          <div id="{{ block_id }}" class="flex flex-wrap gap-8">
+            {% render 'share-buttons',
+              share_title: article.title,
+              share_image: article.image,
+              show_copy_link: block.settings.show_copy_link,
+              show_pinterest: block.settings.show_pinterest,
+              show_facebook: block.settings.show_facebook,
+              show_x: block.settings.show_x,
+              show_linkedin: block.settings.show_linkedin,
+              color_scheme: color_scheme
+            %}
+          </div>
+      {%- endcase -%}
+    {%- endfor -%}
   {%- else -%}
-    <div class="max-w-840 w-full max-h-600 mx-auto">
-      {{ 'detailed-apparel-1' | placeholder_svg_tag }}
+    <div class="flex w-full h-auto mx-auto mb-64">
+      {{ 'hero-apparel-3' | placeholder_svg_tag }}
     </div>
-    <div class="max-w-840 mx-auto w-full pt-64 pb-64">
-      <h1 class="font-display text-display-medium">
-        {{ 'onboarding.blog_post_title' | t }}
-      </h1>
-      <div class="font-display text-body-large">
-        {{ 'onboarding.blog_post_content' | t }}
-      </div>
+    <span class="gap-4 mb-4 text-body-medium font-semibold text-secondary-{{ color_scheme }}">
+        {{ 'onboarding.blog_post_category' | t }}
+        |
+        {{ 'onboarding.blog_post_date' | t }}
+    </span>
+    <h1 class="font-display text-display-medium">
+      {{ 'onboarding.blog_post_title' | t }}
+    </h1>
+    <div class="font-display text-body-large mt-16">
+      {{ 'onboarding.blog_post_content' | t }}
     </div>
   {% endif %}
 </article>
@@ -155,11 +185,49 @@
       "limit": 1,
       "settings": [
         {
-          "type": "header",
-          "id": "featured_image_message",
-          "content_type": "info",
-          "content": "There are no settings available"
-        }
+          "type": "range",
+          "id": "margin_top",
+          "label": "Margin top",
+          "min": 0,
+          "max": 64,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin bottom",
+          "min": 0,
+          "max": 64,
+          "step": 1,
+          "unit": "px",
+          "default": 64
+        },
+        {
+          "type": "select",
+          "id": "image_height",
+          "label": "Image height",
+          "default": "large",
+          "options": [
+            {
+              "value": "adapt",
+              "label": "Adapt to image"
+            },
+            {
+              "value": "small",
+              "label": "Small"
+            },
+            {
+              "value": "medium",
+              "label": "Medium"
+            },
+            {
+              "value": "large",
+              "label": "Large"
+            }
+          ]
+        },
       ]
     },
     {
@@ -167,6 +235,26 @@
       "name": "Title",
       "limit": 1,
       "settings": [
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Margin top",
+          "min": 0,
+          "max": 64,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin bottom",
+          "min": 0,
+          "max": 64,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        },
         {
           "type": "checkbox",
           "id": "show_author",
@@ -181,8 +269,27 @@
       "limit": 1,
       "settings": [
         {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Margin top",
+          "min": 0,
+          "max": 64,
+          "step": 1,
+          "unit": "px",
+          "default": 16
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin bottom",
+          "min": 0,
+          "max": 64,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        },
+        {
           "type": "header",
-          "id": "content_message",
           "content_type": "link",
           "content": "Edit your content in your blog post"
         }
@@ -194,51 +301,92 @@
       "limit": 2,
       "settings": [
         {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Margin top",
+          "min": 0,
+          "max": 64,
+          "step": 1,
+          "unit": "px",
+          "default": 16
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin bottom",
+          "min": 0,
+          "max": 64,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        },
+        {
           "type": "checkbox",
           "id": "show_copy_link",
-          "default": false,
+          "default": true,
           "label": "Show copy link"
         },
         {
           "type": "checkbox",
           "id": "show_pinterest",
-          "default": false,
+          "default": true,
           "label": "Show Pinterest"
         },
         {
           "type": "checkbox",
           "id": "show_facebook",
-          "default": false,
+          "default": true,
           "label": "Show Facebook"
         },
         {
           "type": "checkbox",
           "id": "show_x",
-          "default": false,
+          "default": true,
           "label": "Show X"
         },
         {
           "type": "checkbox",
           "id": "show_linkedin",
-          "default": false,
+          "default": true,
           "label": "Show LinkedIn"
-        },
+        }
       ]
     },
     {
       "type": "date_and_category",
       "name": "Date and Category",
+      "limit": 1,
       "settings": [
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Margin top",
+          "min": 0,
+          "max": 64,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin bottom",
+          "min": 0,
+          "max": 64,
+          "step": 1,
+          "unit": "px",
+          "default": 4
+        },
         {
           "type": "checkbox",
           "id": "show_category",
-          "default": false,
+          "default": true,
           "label": "Show category"
         },
         {
           "type": "checkbox",
           "id": "show_date",
-          "default": false,
+          "default": true,
           "label": "Show date"
         }
       ]

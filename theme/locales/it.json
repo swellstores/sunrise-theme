@@ -221,8 +221,9 @@
     "product_title": "Prodotto di esempio",
     "collection_title": "Collezione di esempio",
     "blog_title": "Titolo di blog di esempio",
-    "blog_post_title": "Post di blog di esempio",
-    "blog_post_summary": "Una breve descrizione del tuo articolo.",
-    "blog_post_content": "Questo è il tuo spazio per brillare. Sostituisci questo testo con il tuo post di blog. Condividi la storia del tuo negozio, evidenzia ciò che rende i tuoi prodotti speciali o offri suggerimenti per connetterti con il tuo pubblico. Un ottimo post può attirare clienti, costruire fiducia e farli tornare. Inizia a scrivere qui per mostrare il tuo marchio e aumentare il coinvolgimento."
+    "blog_post_date": "15 marzo 2023",
+    "blog_post_category": "Notizie",
+    "blog_post_title": "Titolo del blog",
+    "blog_post_content": "Scrivi qui il contenuto del tuo blog. Inizia con una breve introduzione, poi suddividilo in sezioni chiare usando dei titoli. Usa paragrafi brevi per rendere la lettura facile. Puoi includere immagini, video, citazioni e link per dare supporto al tuo contenuto. Concludi con un riassunto o una call to action."
   }
 }
