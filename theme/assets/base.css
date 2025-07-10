@@ -305,60 +305,69 @@ textarea {
 }
 
 /* Remove default noUiSlider box, border, and shadow */
-.noUi-target {
-  background: none !important;
-  border-radius: 0 !important;
-  border: none !important;
-  box-shadow: none !important;
-  height: 0.2rem !important;
+.price-slider .noUi-target {
+  background: none;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  height: 0.2rem;
 }
 
-.noUi-base,
-.noUi-connect {
-  height: 0.2rem !important;
+.price-slider .noUi-base,
+.price-slider .noUi-connect {
+  height: 0.2rem;
   border-radius: 0.2rem;
 }
 
-.noUi-base {
-  background: #e5e5e5 !important;
+.price-slider .noUi-base {
+  background: #e5e5e5;
 }
 
-.noUi-connect {
+.price-slider .noUi-connect {
   background: #222;
 }
 
-.noUi-handle {
-  background: #222 !important;
-  border: none !important;
-  border-radius: 50% !important;
-  width: 1.6rem !important;
-  height: 1.6rem !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-  box-shadow: none !important;
-  cursor: pointer !important;
-  margin-top: 0 !important;
-  right: -0.8rem !important;
+.price-slider .noUi-handle {
+  background: #222;
+  border: none;
+  border-radius: 50%;
+  width: 1.6rem;
+  height: 1.6rem;
+  top: 50%;
+  transform: translateY(-50%);
+  box-shadow: none;
+  cursor: pointer;
+  margin-top: 0;
+  right: -0.8rem;
 }
 
-.noUi-handle:before {
-  display: none !important;
+/* Override default noUiSlider horizontal handle styles */
+.price-slider .noUi-horizontal .noUi-handle {
+  width: 1.6rem;
+  height: 1.6rem;
+  right: -0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-.noUi-handle:after {
-  content: "" !important;
-  display: block !important;
-  position: absolute !important;
-  height: 0.4rem !important;
-  width: 0.4rem !important;
-  background: #fff !important;
-  border-radius: 50% !important;
-  left: 50% !important;
-  top: 50% !important;
-  transform: translate(-50%, -50%) !important;
+.price-slider .noUi-handle:before {
+  display: none;
 }
 
-.noUi-horizontal .noUi-tooltip {
+.price-slider .noUi-handle:after {
+  content: "";
+  display: block;
+  position: absolute;
+  height: 0.4rem;
+  width: 0.4rem;
+  background: #fff;
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.price-slider .noUi-horizontal .noUi-tooltip {
   display: none;
 }
 
@@ -369,33 +378,8 @@ textarea {
   margin-top: 1.8rem;
 }
 
-.price-slider .noUi-target {
-  height: 0.2rem;
-  border: none;
-  background: #e5e5e5;
-  box-shadow: none;
-  border-radius: 0;
-}
-
 .price-slider .noUi-base {
   width: 100%;
-}
-
-.price-slider .noUi-connect {
-  background: #222;
-}
-
-.price-slider .noUi-handle {
-  right: -0.8rem !important;
-}
-
-.price-slider .noUi-handle:before,
-.price-slider .noUi-handle:after {
-  display: none;
-}
-
-.price-slider .noUi-horizontal .noUi-tooltip {
-  display: none;
 }
 
 .slider-track {
@@ -417,9 +401,12 @@ textarea {
   pointer-events: none;
 }
 
-/* Remove border/background from price slider labels */
-.price-slider > div {
-  background: none !important;
-  border: none !important;
-  box-shadow: none !important;
+/* Remove border/background from price slider label elements */
+.price-slider .min-value,
+.price-slider .max-value,
+.price-slider .noUi-connects,
+.price-slider .noUi-origin {
+  background: none;
+  border: none;
+  box-shadow: none;
 }

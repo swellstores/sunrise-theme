@@ -1,5 +1,5 @@
 {%- liquid
-  assign color_scheme = color_scheme
+  assign color_scheme = color_scheme | default: 'scheme-1'
   assign sort_by = results.sort_by | default: results.default_sort_by
   assign request_path = request.path
 -%}
