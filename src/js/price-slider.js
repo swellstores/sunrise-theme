@@ -1,4 +1,4 @@
-import noUiSlider from "nouislider";
+import noUiSlider from "./nouislider.js";
 
 export function initPriceSliders() {
   document.querySelectorAll(".price-slider").forEach(function (container) {
