@@ -1,6 +1,7 @@
 {% liquid
   assign icon_size = icon_size | default: '20'
-  assign share_url = share_url | default: canonical_url | url_encode
+  assign share_url = share_url | default: canonical_url
+  assign share_url_encoded = share_url | url_encode
   assign share_title = share_title | default: page.label | default: page.title
   assign share_image = share_image | image_url | url_encode
 %}
@@ -19,7 +20,7 @@
   {% if show_pinterest %}
     <a
       class="inline-flex items-center size-{{ icon_size }}"
-      href="https://pinterest.com/pin/create/button/?url={{ share_url }}&media={{ share_image }}&description={{ share_title }}"
+      href="https://pinterest.com/pin/create/button/?url={{ share_url_encoded }}&media={{ share_image }}&description={{ share_title }}"
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -30,7 +31,7 @@
   {% if show_facebook %}
     <a
       class="inline-flex items-center size-{{ icon_size }}"
-      href="https://www.facebook.com/sharer/sharer.php?u={{ share_url }}"
+      href="https://www.facebook.com/sharer/sharer.php?u={{ share_url_encoded }}"
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -41,7 +42,7 @@
   {% if show_x %}
     <a
       class="inline-flex items-center size-{{ icon_size }}"
-      href="https://twitter.com/intent/tweet?url={{ share_url }}&text={{ share_title }}"
+      href="https://twitter.com/intent/tweet?url={{ share_url_encoded }}&text={{ share_title }}"
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -52,7 +53,7 @@
   {% if show_linkedin %}
     <a
       class="inline-flex items-center size-{{ icon_size }}"
-      href="https://www.linkedin.com/sharing/share-offsite/?url={{ share_url }}"
+      href="https://www.linkedin.com/sharing/share-offsite/?url={{ share_url_encoded }}"
       target="_blank"
       rel="noopener noreferrer"
     >
