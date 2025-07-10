@@ -221,8 +221,9 @@
     "product_title": "Esimerkkituote",
     "collection_title": "Esimerkkikokoelma",
     "blog_title": "Esimerkkiblogin otsikko",
-    "blog_post_title": "Esimerkkiblogikirjoitus",
-    "blog_post_summary": "Lyhyt kuvaus artikkelistasi.",
-    "blog_post_content": "Tämä on paikkasi loistaa. Korvaa tämä teksti omalla blogikirjoituksellasi. Jaa kauppasi tarina, korosta mikä tekee tuotteistasi erityisiä tai tarjoa vinkkejä yhteyden luomiseen yleisösi kanssa. Loistava kirjoitus voi houkutella asiakkaita, rakentaa luottamusta ja saada heidät palaamaan. Aloita kirjoittaminen tästä esitelläksesi brändisi ja lisätäksesi sitoutumista."
+    "blog_post_date": "15. maaliskuuta 2023",
+    "blog_post_category": "Uutiset",
+    "blog_post_title": "Blogin otsikko",
+    "blog_post_content": "Kirjoita blogisisältösi tähän. Aloita lyhyellä esittelyllä, ja jaa sisältö selkeisiin osioihin otsikoilla. Käytä lyhyitä kappaleita, jotta on helppo lukea. Voit lisätä kuvia, videoita, lainauksia ja linkkejä tukemaan sisältöäsi. Lopeta yhteenvetoon tai kehotukseen toimia."
   }
 }
