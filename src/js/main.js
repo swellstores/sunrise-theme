@@ -33,9 +33,31 @@ import { ProductPurchaseOptions } from "./product-purchase-options";
 import { ProductPurchaseOptionStandard } from "./product-purchase-option-standard";
 import { ProductPurchaseOptionSubscription } from "./product-purchase-option-subscription";
 import { ProductSection } from "./product-section";
+// products filter
+import { FilterDrawer } from "./filter-drawer";
+import { initPriceSliders, updatePriceSliders } from "./price-slider";
 
 // Make hoverintent available globally
 window.hoverintent = hoverintent;
+
+window.initPriceSliders = initPriceSliders;
+window.updatePriceSliders = updatePriceSliders;
+
+// Initialize accordions function
+function initAccordions() {
+  const accordionItems = document.querySelectorAll("accordion-item");
+  accordionItems.forEach((item) => {
+    const isExpanded = item.getAttribute("aria-expanded") === "true";
+    const content = item.querySelector("accordion-content");
+
+    if (content && isExpanded) {
+      // Force open if it should be expanded
+      content.open();
+    }
+  });
+}
+
+window.initAccordions = initAccordions;
 
 // Import vendor libraries
 import { loadIonIcons } from "./vendor";
@@ -91,13 +113,14 @@ window.theme.accordion_rendered = true;
     customElements.define("product-option-toggle", ProductOptionToggle);
     customElements.define("product-option-text", ProductOptionText);
     customElements.define("product-purchase-options", ProductPurchaseOptions);
+    customElements.define("filter-drawer-root", FilterDrawer);
     customElements.define(
       "product-purchase-option-standard",
-      ProductPurchaseOptionStandard
+      ProductPurchaseOptionStandard,
     );
     customElements.define(
       "product-purchase-option-subscription",
-      ProductPurchaseOptionSubscription
+      ProductPurchaseOptionSubscription,
     );
   }
 
@@ -106,4 +129,7 @@ window.theme.accordion_rendered = true;
 
   // Load IonIcons
   loadIonIcons();
+
+  // Initialize price sliders
+  initPriceSliders();
 })();
