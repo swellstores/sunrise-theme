@@ -1,0 +1,84 @@
+{%- liquid
+  assign color_scheme = color_scheme | default: 'scheme-1'
+-%}
+
+<!-- Filter Drawer -->
+<filter-drawer-root
+  aria-labelledby="filter-drawer"
+  aria-hidden="true"
+  aria-modal="true"
+  tabindex="-1"
+  class="
+    fixed
+    top-0
+    left-0
+    z-50
+    h-screen
+    w-full
+    sm:w-500
+    flex
+    flex-col
+    overflow-y-auto
+    -translate-x-full
+    transition-transform
+    duration-300
+    bg-{{ color_scheme }}
+    shadow-lg
+    text-{{ color_scheme }}
+  "
+  style="z-index: 100001"
+>
+  <div class="flex flex-col h-full">
+    <!-- Header -->
+    <div class="flex items-center justify-between p-24 border-b border-color-{{ color_scheme }} flex-shrink-0">
+      <h3 class="font-display text-title-medium text-{{ color_scheme }}">{{ 'sections.collection.filters.filters' | t }}</h3>
+      <filter-drawer-trigger
+        role="button"
+        class="flex h-40 items-center justify-center"
+      >
+        <span class="sr-only">{{ 'sections.collection.filters.close' | t }}</span>
+        <ion-icon name="close" aria-hidden="true" class="w-24 h-24"></ion-icon>
+      </filter-drawer-trigger>
+    </div>
+
+    <!-- Filter Panel Content -->
+    <div class="flex-1 overflow-y-auto min-h-0">
+      {% render 'filter-panel', results: results, color_scheme: color_scheme, is_sidebar: false %}
+    </div>
+
+    <!-- Filter Action Buttons -->
+    <div class="p-16 border-t border-color-{{ color_scheme }} flex-shrink-0">
+      <div class="flex flex-row gap-8">
+        <button
+          type="button"
+          class="w-full py-12 px-24 text-body-large font-display btn-secondary-{{ color_scheme }} rounded-4"
+          onclick="window.clearAllFilters()"
+        >
+          Clear all <span id="clear-all-count"> </span>
+        </button>
+        <button
+          type="button"
+          class="w-full py-12 px-24 text-body-large font-display btn-primary-{{ color_scheme }} rounded-4"
+          onclick="submitFilterForm(event)"
+        >
+          View results
+        </button>
+      </div>
+    </div>
+  </div>
+</filter-drawer-root>
+
+<script>
+  function submitFilterForm(event) {
+    const filterDrawerRoot = document.querySelector('filter-drawer-root');
+    if (filterDrawerRoot && filterDrawerRoot.close) {
+      filterDrawerRoot.close();
+    }
+
+    if (window.triggerFilterSubmission) {
+      window.triggerFilterSubmission();
+    }
+
+    event.preventDefault();
+  }
+</script>

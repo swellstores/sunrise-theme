@@ -2,10 +2,10 @@
 
 {% case filter.type %}
   {% when 'boolean' %}
-    <div class="flex items-center flex-nowrap h-40">
+    <div class="flex items-center flex-nowrap gap-8">
       <input
         type="checkbox"
-        class="size-20 mr-12 rounded border-gray-300"
+        class="size-16 mr-8 rounded bg-{{ color_scheme }} border-color-{{ color_scheme }}"
         id="{{ filter.param_name }}"
         name="{{ filter.param_name }}"
         value="{{ filter.true_value.value }}"
@@ -13,17 +13,19 @@
           checked
         {% endif %}
       >
-      <label for="{{ filter.param_name }}" class="text-nowrap">{{ filter.true_value.label }}</label>
+      <label for="{{ filter.param_name }}" class="text-nowrap filter-checkbox text-{{ color_scheme }}">
+        {{- filter.true_value.label -}}
+      </label>
     </div>
 
   {% when 'list' %}
     {% if option.active == false and option.count == 0 %}
       {% assign disabled = true %}
     {% endif %}
-    <label class="flex items-center flex-nowrap h-40">
+    <label class="flex items-center flex-nowrap filter-checkbox">
       <input
         type="checkbox"
-        class="size-20 mr-12 rounded border-gray-300 text-orange-600 {% if disabled %}bg-gray-200{% endif %}"
+        class="size-16 mr-8 rounded bg-{{ color_scheme }} border-color-{{ color_scheme }} {% if disabled %}opacity-60{% endif %}"
         name="{{ filter.param_name }}"
         value="{{ option.value }}"
         {% if disabled %}
@@ -33,94 +35,47 @@
           checked
         {% endif %}
       >
-      <span class="font-display text-nowrap">
+      <span class="font-display text-nowrap text-{{ color_scheme }}">
         {{- option.label -}}
       </span>
     </label>
 
   {% when 'price_range' %}
-    <div class="price-range-wrapper flex flex-col">
-      <div
-        class="
-          form_control relative flex justify-between text-24
-          mb-10
-        "
-      >
-        <div class="form_control_container min-w-70">
-          <span class="currency-label-from text-body-medium font-display">
-            {{ 0 | money }}
-          </span>
-        </div>
-        <div class="form_control_container min-w-70 text-right">
-          <span class="currency-label-to text-body-medium font-display">
-            {{ filter.range_max | money }}
-          </span>
-        </div>
+    <div
+      id="price-range"
+      class="price-slider w-full"
+      data-min="{{ 0 }}"
+      data-max="{{ filter.range_max }}"
+      data-start-min="{{ filter.min_value.value | default: 0 }}"
+      data-start-max="{{ filter.max_value.value | default: filter.range_max }}"
+      data-step="1"
+      data-input-name="{{ filter.param_name }}"
+      data-currency-symbol="{{ localization.country.currency.symbol }}"
+    >
+      <div class="flex justify-between mb-[4px]">
+        <span class="text-headline-medium text-primary-{{ color_scheme }} min-value">
+          {{- filter.min_value.value | default: 0 | money -}}
+        </span>
+        <span class="text-headline-medium text-primary-{{ color_scheme }} max-value">
+          {{- filter.max_value.value | default: filter.range_max | money -}}
+        </span>
       </div>
-      <div class="sliders_control relative min-h-12">
-        <input
-          class="fromSlider"
-          type="range"
-          value="{{ filter.min_value.value | default: 0 }}"
-          name="{{ filter.min_value.param_name }}"
-          min="0"
-          max="{{ filter.range_max }}"
-        >
-        <input
-          class="toSlider"
-          type="range"
-          value="{{ filter.max_value.value | default: filter.range_max }}"
-          name="{{ filter.max_value.param_name }}"
-          min="0"
-          max="{{ filter.range_max }}"
-        >
-      </div>
+
+      <div class="slider-track"></div>
     </div>
 {% endcase %}
 
 {% style %}
-  .price-range-wrapper input[type='range']::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    pointer-events: all;
-    width: 1.2rem;
-    height: 1.2rem;
-    background-color: #3b0b93;
-    border-radius: 50%;
-    box-shadow: 0 0 0 1px #3b0b93;
-    cursor: pointer;
+  #price-range.price-slider .noUi-target {
+    background: var(--color-{{ color_scheme }}-borders-and-inputs);
   }
-
-  .price-range-wrapper input[type='range']::-moz-range-thumb {
-    -webkit-appearance: none;
-    pointer-events: all;
-    width: 1.2rem;
-    height: 1.2rem;
-    background-color: #3b0b93;
-    border-radius: 50%;
-    box-shadow: 0 0 0 1px #3b0b93;
-    cursor: pointer;
+  #price-range.price-slider .noUi-connect {
+    background: var(--color-{{ color_scheme }}-button);
   }
-
-  .price-range-wrapper input[type='range']::-webkit-slider-thumb:hover {
-    background: #f7f7f7;
+  #price-range.price-slider .noUi-handle {
+    background: var(--color-{{ color_scheme }}-button);
   }
-
-  .price-range-wrapper input[type='range']::-webkit-slider-thumb:active {
-    box-shadow: inset 0 0 3px #387bbe, 0 0 9px #387bbe;
-    -webkit-box-shadow: inset 0 0 3px #387bbe, 0 0 9px #387bbe;
-  }
-
-  .price-range-wrapper input[type='range'] {
-    -webkit-appearance: none;
-    appearance: none;
-    height: 0.2rem;
-    width: 100%;
-    position: absolute;
-    background-color: #3b0b93;
-    pointer-events: none;
-  }
-
-  .price-range-wrapper input[type='range'].toSlider {
-    background-color: transparent;
+  #price-range.price-slider .noUi-handle:after {
+    background: var(--color-{{ color_scheme }}-button-label);
   }
 {% endstyle %}
