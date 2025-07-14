@@ -8,25 +8,19 @@
    {% render 'slideshow-arrows', color_scheme: color_scheme, border_radius: settings.border_radius %}
 {% endcomment %}
 
-{% liquid
-  assign border_radius = settings.border_radius | default: 6 | times: 0.1 | round: 1
-%}
-
 <slideshow-button-prev
   role="button"
   aria-label="{{ 'sections.slideshow.previous' | t }}"
   type="button"
-  class="text-accent-{{ color_scheme }} group absolute left-96 top-1/2 flex h-44 w-48 -translate-y-1/2 items-center justify-center border-none transition-colors z-10 text-white"
-  style="border-radius: {{ border_radius }}rem;"
+  class="text-accent-{{ color_scheme }} absolute left-40 top-1/2 flex size-44 -translate-y-1/2 items-center justify-center z-10 rounded-full bg-[#f1f1f1cc]"
 >
-  {{- 'arrow-left-icon.svg' | inline_asset_content -}}
+  {{- 'arrow-left-tailed-icon.svg' | inline_asset_content -}}
 </slideshow-button-prev>
 <slideshow-button-next
   role="button"
   aria-label="{{ 'sections.slideshow.next' | t }}"
   type="button"
-  class="text-accent-{{ color_scheme }} group absolute right-96 top-1/2 flex h-44 w-48 -translate-y-1/2 items-center justify-center border-none transition-colors z-10 text-white"
-  style="border-radius: {{ border_radius }}rem;"
+  class="text-accent-{{ color_scheme }} absolute right-40 top-1/2 flex size-44 -translate-y-1/2 items-center justify-center z-10 rounded-full bg-[#f1f1f1cc]"
 >
-  {{- 'arrow-right-icon.svg' | inline_asset_content -}}
+  {{- 'arrow-right-tailed-icon.svg' | inline_asset_content -}}
 </slideshow-button-next>
