@@ -44,6 +44,17 @@
       padding-bottom: {{ bottom_padding }}rem;
     }
   }
+
+  swiper-container#{{ section.id }}::part(pagination) {
+    display: flex;
+    width: unset;
+    padding: 0.8rem 1.2rem;
+    gap: 1.2rem;
+    border-radius: 2rem;
+    background-color: #3e3e3e99;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 {% endstyle %}
 
 <div class="relative responsive-padding-{{ section.id }}">
@@ -54,6 +65,7 @@
     %}
   {%- endif -%}
   <swiper-container
+    id="{{ section.id }}"
     role="region"
     aria-label="{{ 'sections.slideshow.label' | t }}"
     loop="{{ loop }}"
@@ -63,9 +75,11 @@
     {%- if navigation -%}
       pagination="true"
       style="
-        --swiper-pagination-color: var(--color-{{ color_scheme }}-text);
+        --swiper-pagination-color: #eaeaea;
+        --swiper-pagination-bullet-inactive-color: #9e9e9e;
+        --swiper-pagination-bullet-size: 1.2rem;
+        --swiper-pagination-bullet-horizontal-gap: 0;
         --swiper-pagination-bottom: 2.4rem;
-        --swiper-pagination-bullet-inactive-color: white;
       "
     {%- endif -%}
     {%- if auto_rotate -%}
@@ -136,7 +150,7 @@
             >
               <div
                 class="
-                  p-2
+                  p-8
                   flex flex-col gap-8
                   {% case text_alignment %}
                   {% when 'center' %} items-center text-center
