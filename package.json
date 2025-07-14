@@ -1,9 +1,8 @@
 {
-  "name": "theme",
-  "version": "0.1.0",
-  "description": "",
-  "main": "index.js",
-  "author": "",
+  "name": "sunrise",
+  "version": "1.0.0",
+  "description": "A sleek, fast, and modern ecommerce theme.",
+  "author": "Swell",
   "license": "MIT",
   "scripts": {
     "watch": "swell theme dev --bundle",
