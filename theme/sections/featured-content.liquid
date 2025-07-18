@@ -167,32 +167,32 @@
                 </div>
               {%- endif -%}
             </div>
-          {%- when 'collection' -%}
+          {%- when 'category' -%}
             <div class="flex flex-col gap-8 w-full h-full col-span-{{ block.settings.col_span }}">
-              {%- if block.settings.collection.url != blank -%}
+              {%- if block.settings.category.url != blank -%}
                 <a
-                  href="{{ block.settings.collection.url }}"
+                  href="{{ block.settings.category.url }}"
                 >
                   <div class="aspect-square w-full">
                     {%
                       render 'image',
-                      image: block.settings.collection.featured_image,
-                      alt: block.settings.collection.featured_image.alt | default: "Featured content image {{ forloop.index }}",
+                      image: block.settings.category.featured_image,
+                      alt: block.settings.category.featured_image.alt | default: "Featured content image {{ forloop.index }}",
                       class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
                     %}
                   </div>
                 </a>
                 <a
-                  href="{{ block.settings.collection.url }}"
+                  href="{{ block.settings.category.url }}"
                 >
                   <div class="flex flex-col gap-2 items-start text-{{ color_scheme }}">
                     <h3 class="font-display text-title-small font-semibold">
-                      {{ block.settings.collection.title }}
+                      {{ block.settings.category.title }}
                     </h3>
                     <p
                       class="font-display text-body-medium font-normal line-clamp-2"
                     >
-                      {{ block.settings.collection.description | strip_html }}
+                      {{ block.settings.category.description | strip_html }}
                     </p>
                   </div>
                 </a>
@@ -461,17 +461,18 @@
           "label": "Column span",
           "min": 1,
           "max": 5,
+          "step": 1,
           "default": 1
         }
       ]
     },
     {
-      "type": "collection",
+      "type": "category",
       "name": "Category",
       "settings": [
         {
           "type": "collection",
-          "id": "collection",
+          "id": "category",
           "label": "Category"
         },
         {
@@ -481,6 +482,7 @@
           "info": "Make an element span `n` columns.",
           "min": 1,
           "max": 12,
+          "step": 1,
           "default": 1
         }
       ]
@@ -584,6 +586,7 @@
           "label": "Column span",
           "min": 1,
           "max": 5,
+          "step": 1,
           "default": 1
         }
       ]
@@ -603,6 +606,7 @@
           "label": "Column span",
           "min": 1,
           "max": 5,
+          "step": 1,
           "default": 1
         }
       ]
@@ -622,6 +626,7 @@
           "label": "Column span",
           "min": 1,
           "max": 12,
+          "step": 1,
           "default": 1
         }
       ]

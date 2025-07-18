@@ -62,7 +62,7 @@
         "block-4"
       ]
     },
-    "featured_collection": {
+    "featured_category": {
       "type": "featured-collection",
       "disabled": false,
       "custom_css": "",
@@ -71,7 +71,7 @@
         "heading": "Dive into favorites",
         "heading_size": "small",
         "header_alignment": "left",
-        "collection": "",
+        "category": "",
         "max_products": 4,
         "color_scheme": "scheme-1",
         "columns": 4,
@@ -84,7 +84,7 @@
   },
   "order": [
     "hero",
-    "featured_collection"
+    "featured_category"
   ],
   "id": "index",
   "page": {

@@ -1,7 +1,7 @@
 {
     "sections": {
         "main": {
-            "type": "collection-list-page",
+            "type": "list-collections",
             "settings": {
                 "color_scheme": "scheme-1",
                 "pre_heading": "Explore more",
@@ -17,7 +17,6 @@
         }
     },
     "order": [
-        "main",
-        "featured_collection_HjeDGb"
+        "main"
     ]
 }
