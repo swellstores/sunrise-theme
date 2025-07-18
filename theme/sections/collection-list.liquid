@@ -54,10 +54,10 @@
 
   <div class="grid grid-cols-{{ mobile_layout }} sm:grid-cols-2 md:grid-cols-{{ columns }} gap-{{ gap }}">
     {%- for block in section.blocks -%}
-      {%- if block.type == 'featured_collection' -%}
+      {%- if block.type == 'featured_category' -%}
         {% assign idx = forloop.index0 | modulo: 6 | plus: 1 %}
         {% assign placeholder = 'collection-' | append: idx %}
-        {% render 'list-collections-item', collection: block.settings.collection, placeholder: placeholder %}
+        {% render 'list-collections-item', category: block.settings.category, placeholder: placeholder %}
       {%- endif -%}
     {%- endfor -%}
   </div>
@@ -191,12 +191,12 @@
       ]
     },
     {
-      "type": "featured_collection",
+      "type": "featured_category",
       "name": "Category",
       "settings": [
         {
           "type": "collection",
-          "id": "collection",
+          "id": "category",
           "label": "Category"
         },
         {
@@ -206,6 +206,7 @@
           "info": "Make an element span `n` columns.",
           "min": 1,
           "max": 12,
+          "step": 1,
           "default": 1
         }
       ]
@@ -213,7 +214,7 @@
   ],
   "presets": [
     {
-      "name": "Collections",
+      "name": "Categories",
       "blocks": [
         {
           "type": "pre_heading",
@@ -227,9 +228,9 @@
             "heading": "Discover our categories"
           }
         },
-        { "type": "featured_collection" },
-        { "type": "featured_collection" },
-        { "type": "featured_collection" }
+        { "type": "featured_category" },
+        { "type": "featured_category" },
+        { "type": "featured_category" }
       ]
     }
   ]
