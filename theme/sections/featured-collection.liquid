@@ -1,15 +1,15 @@
 {% comment %}
-  Renders a featured content section with products from a selected collection.
+  Renders a featured content section with products from a selected category.
 
   Usage:
-  {% sections 'featured-content' %}
+  {% sections 'featured-collection' %}
 {% endcomment %}
 
 {%- liquid
   assign color_scheme = section.settings.color_scheme
   assign pre_heading = section.settings.pre_heading
   assign heading = section.settings.heading
-  assign selected_collection = section.settings.collection
+  assign selected_category = section.settings.category
 
   assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
   assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
@@ -46,7 +46,7 @@
       {%- endif -%}
     </div>
 
-    {% if selected_collection.products.size > 0 %}
+    {% if selected_category.products.size > 0 %}
       <div
         class="
           grid gap-16
@@ -56,7 +56,7 @@
           {% endif %} md:grid-cols-3 lg:grid-cols-4
         "
       >
-        {%- for product in selected_collection.products limit: section.settings.max_products -%}
+        {%- for product in selected_category.products limit: section.settings.max_products -%}
           <div class="flex flex-col gap-8">
             <a href="{{ product.url }}">
               <div class="aspect-square w-full">
@@ -193,7 +193,7 @@
     },
     {
       "type": "collection",
-      "id": "collection",
+      "id": "category",
       "label": "Featured category"
     },
     {

@@ -41,8 +41,8 @@
 
   <div class="grid grid-cols-{{ mobile_layout }} sm:grid-cols-2 md:grid-cols-{{ columns }} gap-{{ gap }}">
     {% if collections.count > 0 %}
-      {%- for collection in collections -%}
-        {% render 'list-collections-item', collection: collection, color_scheme: color_scheme %}
+      {%- for category in collections -%}
+        {% render 'list-collections-item', category: category, color_scheme: color_scheme %}
       {%- endfor -%}
     {% else %}
       {%- for i in (1..3) -%}
