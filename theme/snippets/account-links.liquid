@@ -1,0 +1,33 @@
+{% comment %}
+  Renders left panel with links for account pages
+
+  Usage:
+    {% render 'account-links' color_scheme: color_scheme %}
+{% endcomment %}
+
+<div class="flex flex-col items-start text-center w-250">
+  <a
+    href="/account"
+    class="border-l px-8 py-4 font-display text-title-small {% if request.path == '/account' %}text-{{ color_scheme }} border-color{{ color_scheme }} {% else %}text-secondary-{{ color_scheme }} border-[#E0E0E0]{% endif %}"
+  >
+    {{ 'customer.account.my_orders' | t }}
+  </a>
+  <a
+    href="/account/subscriptions"
+    class="border-l px-8 py-4 font-display text-title-small {% if request.path == '/account/subscriptions' %}text-{{ color_scheme }} border-color{{ color_scheme }} {% else %}text-secondary-{{ color_scheme }} border-[#E0E0E0]{% endif %}"
+  >
+    {{ 'customer.account.my_subscriptions' | t }}
+  </a>
+  <a
+    href="/account/addresses"
+    class="border-l px-8 py-4 font-display text-title-small {% if request.path == '/account/addresses' %}text-{{ color_scheme }} {% else %}text-secondary-{{ color_scheme }} border-[#E0E0E0]{% endif %}"
+  >
+    {{ 'customer.account.address_book' | t }}
+  </a>
+
+  <a
+    href="{{ routes.account_logout_url }}"
+    class="px-8 py-4 font-display text-title-small"
+    >{{ 'customer.log_out' | t }}</a
+  >
+</div>

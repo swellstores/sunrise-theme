@@ -4,6 +4,7 @@
   assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
   assign reduced_padding_top = top_padding | times: 0.55 | round: 2
   assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+  assign subscriptions = customer.subscriptions
 -%}
 
 {% style %}
@@ -28,50 +29,22 @@
   {% render 'account-links' color_scheme: color_scheme %}
 
   <div class="flex flex-col gap-32 w-full">
-    <h2 class="font-display text-headline-medium">{{ 'customer.account.orders' | t }}</h2>
+    <h2 class="font-display text-headline-medium">{{ 'customer.account.subscriptions' | t }}</h2>
     <div>
-      {% paginate customer.orders by 20 %}
-        {%- if customer.orders.size > 0 -%}
+      {% paginate subscriptions by 20 %}
+        {%- if subscriptions.size > 0 -%}
           <div class="flex flex-col gap-16">
-            {%- for order in customer.orders -%}
-              <div class="flex justify-between">
-                <div class="flex flex-col gap-12">
-                  <div class="flex gap-4 text-body-medium font-display">
-                    <a href="{{ order.customer_order_url }}">
-                      {{ order.name }}
-                    </a>
-                    {{ order.fulfillment_status_label }}
-                  </div>
-                  <span class="font-display text-{{ color_scheme }} text-body-small">
-                    {{ order.created_at | time_tag: format: 'date' }}
-                  </span>
-
-                  <ul class="flex gap-8">
-                    {%- for item in order.line_items -%}
-                      <li class="h-60 w-60">
-                        <img src="{{ item.image | image_url }}" alt="{{ item.title }}">
-                      </li>
-                    {%- endfor -%}
-                  </ul>
-                  <p class="font-display text-{{ color_scheme }} text-body-small">
-                    {%- if order.line_items.size == 1 -%}
-                      {{ 'sections.cart.item_count.one' | t: count: order.line_items.size }}
-                    {%- else -%}
-                      {{ 'sections.cart.item_count.other' | t: count: order.line_items.size }}
-                    {%- endif -%}
-                  </p>
-                </div>
-                <span class="text-title-small text-{{ color_scheme }} font-display">
-                  {{- order.total_net_amount | money_with_currency -}}
-                </span>
-              </div>
+            {%- for subscription in subscriptions -%}
+              {%- render 'subscription',
+                subscription: subscription
+              -%}
               {% unless forloop.last %}
                 <div class="border-t border-[#E0E0E0] w-full"></div>
               {% endunless %}
             {%- endfor -%}
           </div>
         {%- else -%}
-          <p class="text-body-small">{{ 'customer.account.no_orders_found' | t }}</p>
+          <p class="text-body-small">{{ 'customer.account.no_subscriptions_found' | t }}</p>
         {%- endif -%}
         {%- if paginate.pages > 1 -%}
           {%- if paginate.parts.size > 0 -%}
