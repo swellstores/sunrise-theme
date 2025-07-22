@@ -1,7 +1,7 @@
 {
   "sections": {
     "main": {
-      "type": "main-order"
+      "type": "main-subscription"
     },
     "settings": {
       "padding_top": 36,
