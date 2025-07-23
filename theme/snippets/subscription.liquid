@@ -15,9 +15,13 @@
   </div>
   <div class="flex flex-col gap-12">
     <div class="flex gap-4 text-body-medium font-display">
-      <a href="/account/subscription/{{ subscription.id }}">
-        {{ 'customer.subscription.title' | t: name:subscription.product.name  }}
-      </a>
+      {% if with_link == true %}
+        <a href="/account/subscription/{{ subscription.id }}">
+          {{ subscription.product.name  }}
+        </a>
+      {% else %}
+         {{ subscription.product.name  }}
+      {% endif %}
     </div>
 
     <div class="flex flex-wrap text-body-medium lowercase">
@@ -48,13 +52,13 @@
         </div>
         {{ 'customer.subscription.renews' | t }}{{ subscription.date_period_end | time_tag: format: 'date_at_time' }}
       {% elsif subscription.status == 'paused' %}
-        <div class="h-24 w-24 rounded-24 bg-[#FFC038] text-white overflow-hidden flex align-middle justify-center">
+        <div class="h-24 w-24 rounded-24 bg-[#FFC038] text-white overflow-hidden flex items-center justify-center">
           <ion-icon name="pause" class="relative h-18 w-18"></ion-icon>
         </div>
         {% if subscription.date_pause_end %}
           {{ 'customer.subscription.paused_until' | t }}{{ subscription.date_pause_end | time_tag: format: 'datetime' }}
         {% else %}
-          {{ 'customer.subscription.since' | t }}{{ subscription.date_paused | time_tag: format: 'datetime' }}
+          {{ 'customer.subscription.paused_since' | t }}{{ subscription.date_paused | time_tag: format: 'datetime' }}
         {% endif %}
       {% elsif subscription.status == 'canceled' %}
          <div class="h-24 w-24 rounded-24 bg-[#8C8984] text-white overflow-hidden">
@@ -62,8 +66,8 @@
         </div>
         {{ 'customer.subscription.cancelled' | t }}{{ subscription.date_canceled | time_tag: format: 'date_at_time' }}
       {% elsif subscription.status == 'trial' %}
-       <div class="h-24 w-24 rounded-24 bg-[#FFC038] text-white overflow-hidden">
-          <ion-icon name="calendar" class="relative h-24 w-24"></ion-icon>
+       <div class="h-24 w-24 rounded-24 bg-[#FFA500] text-yellow overflow-hidden flex items-center justify-center">
+          <ion-icon name="calendar" class="relative h-18 w-18"></ion-icon>
         </div>
         {{ 'customer.subscription.trial_ends' | t }}{{ subscription.date_trial_end | time_tag: format: 'date_at_time' }}
       {% endif %}
