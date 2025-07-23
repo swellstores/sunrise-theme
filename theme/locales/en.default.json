@@ -127,7 +127,15 @@
       "paused_until": "Paused until",
       "paused_since": "Paused since",
       "cancelled": "Cancelled",
-      "trial_ends": "Trial ends"
+      "trial_ends": "Trial ends",
+      "return": "Return to Account subscriptions",
+      "pause": "Pause",
+      "cancel": "Cancel",
+      "resume": "Resume",
+      "first_invoice": "First invoice",
+      "next_invoice": "Next invoice",
+      "first_order": "First order",
+      "next_order": "Next order"
     }
   },
   "sections": {
@@ -261,9 +269,6 @@
       "label": "Slideshow",
       "next": "Next slide",
       "previous": "Previous slide"
-    },
-    "main-order": {
-      "name": "Order"
     }
   },
   "accessibility": {
