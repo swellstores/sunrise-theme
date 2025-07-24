@@ -138,7 +138,8 @@
       "next_order": "Next order",
       "complete": "Complete",
       "unpaid": "Unpaid",
-      "pastdue": "Past due"
+      "pastdue": "Past due",
+      "created": "Created"
     }
   },
   "sections": {
