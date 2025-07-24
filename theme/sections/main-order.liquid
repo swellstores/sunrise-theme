@@ -22,7 +22,9 @@
   </svg>
   <div>
     <h1 class="customer__title">{{ 'customer.order.section_title' | t }}</h1>
-    <a href="{{ routes.account_url }}">{{ 'customer.account.return' | t }}</a>
+    <a href="{{ routes.account_url }}">
+      <ion-icon name="arrow-back" class="relative h-24 w-24 top-6"></ion-icon> {{ 'customer.account.return' | t }}
+    </a>
   </div>
 
   <div>

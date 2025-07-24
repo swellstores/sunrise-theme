@@ -17,76 +17,37 @@
 {% assign order = subscription %}
 
 <div class="customer order section-{{ section.id }}-padding">
-  <div class="flex flex-col">
-    <svg style="display:none">
-      <symbol id="icon-discount" viewBox="0 0 12 12">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M7 0h3a2 2 0 012 2v3a1 1 0 01-.3.7l-6 6a1 1 0 01-1.4 0l-4-4a1 1 0 010-1.4l6-6A1 1 0 017 0zm2 2a1 1 0 102 0 1 1 0 00-2 0z" fill="currentColor">
-      </symbol>
-    </svg>
+  <svg style="display:none">
+    <symbol id="icon-discount" viewBox="0 0 12 12">
+      <path fill-rule="evenodd" clip-rule="evenodd" d="M7 0h3a2 2 0 012 2v3a1 1 0 01-.3.7l-6 6a1 1 0 01-1.4 0l-4-4a1 1 0 010-1.4l6-6A1 1 0 017 0zm2 2a1 1 0 102 0 1 1 0 00-2 0z" fill="currentColor">
+    </symbol>
+  </svg>
+  <div>
+    <h1 class="customer__title">{{ 'customer.account.title' | t }}</h1>
+    <a href="{{ routes.account_subscriptions_url }}">
+      <ion-icon name="arrow-back" class="relative h-24 w-24 top-6"></ion-icon> {{ 'customer.subscription.return' | t }}
+    </a>
+  </div>
+
+  <div>
     <div>
-      <h1 class="customer__title">{{ 'customer.account.title' | t }}</h1>
-      <a href="{{ routes.account_subscriptions_url }}">{{ 'customer.subscription.return' | t }}</a>
-    </div>
+      <h2 class="pb-16">{{ 'customer.subscription.title' | t: name: subscription.number }}</h2>
+      {%- render 'subscription',
+        subscription: subscription
+      -%}
 
-    <h2 class="pb-16">{{ 'customer.subscription.title' | t: name: subscription.number }}</h2>
-    {%- render 'subscription',
-      subscription: subscription
-    -%}
+      <table role="table" class="order-details">
+        <thead role="rowgroup">
+          <tr role="row">
+            <th id="ColumnProduct" scope="col" role="columnheader">{{ 'customer.order.product' | t }}</th>
+            <th id="ColumnSku" scope="col" role="columnheader">{{ 'customer.order.sku' | t }}</th>
+            <th id="ColumnPrice" scope="col" role="columnheader">{{ 'customer.order.price' | t }}</th>
+            <th id="ColumnQuantity" scope="col" role="columnheader">{{ 'customer.order.quantity' | t }}</th>
+            <th id="ColumnTotal" scope="col" role="columnheader">{{ 'customer.order.total' | t }}</th>
+          </tr>
+        </thead>
 
-    <table role="table" class="order-details">
-      <thead role="rowgroup">
-        <tr role="row">
-          <th id="ColumnProduct" scope="col" role="columnheader">{{ 'customer.order.product' | t }}</th>
-          <th id="ColumnSku" scope="col" role="columnheader">{{ 'customer.order.sku' | t }}</th>
-          <th id="ColumnPrice" scope="col" role="columnheader">{{ 'customer.order.price' | t }}</th>
-          <th id="ColumnQuantity" scope="col" role="columnheader">{{ 'customer.order.quantity' | t }}</th>
-          <th id="ColumnTotal" scope="col" role="columnheader">{{ 'customer.order.total' | t }}</th>
-        </tr>
-      </thead>
-
-      <tbody role="rowgroup">
-        <tr role="row">
-          <td
-            id="Row{{ line_item.key }}"
-            headers="ColumnProduct"
-            role="rowheader"
-            scope="row"
-            data-label="{{ 'customer.order.product' | t }}"
-          >
-            <div>
-              <p>{{ subscription.product.name | escape }}</p>
-            </div>
-          </td>
-          <td
-            headers="Row{{ line_item.key }} ColumnSku"
-            role="cell"
-            data-label="{{ 'customer.order.sku' | t }}"
-          >
-            <p>{{ subscription.product.sku }}</p>
-          </td>
-          <td
-            headers="Row{{ line_item.key }} ColumnPrice"
-            role="cell"
-            data-label="{{ 'customer.order.price' | t }}"
-          >
-            {{ subscription.price | money }}
-          </td>
-          <td
-            headers="Row{{ line_item.key }} ColumnQuantity"
-            role="cell"
-            data-label="{{ 'customer.order.quantity' | t }}"
-          >
-            {{ subscription.quantity }}
-          </td>
-          <td
-            headers="Row{{ line_item.key }} ColumnTotal"
-            role="cell"
-            data-label="{{ 'customer.order.total' | t }}"
-          >
-            {{ subscription.price_total | money }}
-          </td>
-        </tr>
-        {%- for line_item in subscription.items -%}
+        <tbody role="rowgroup">
           <tr role="row">
             <td
               id="Row{{ line_item.key }}"
@@ -96,7 +57,7 @@
               data-label="{{ 'customer.order.product' | t }}"
             >
               <div>
-                <p>{{ line_item.variant.name | default: line_item.product.name | escape }}</p>
+                <p>{{ subscription.product.name | escape }}</p>
               </div>
             </td>
             <td
@@ -104,93 +65,136 @@
               role="cell"
               data-label="{{ 'customer.order.sku' | t }}"
             >
-              <p>{{ line_item.variant.sku | default: line_item.product.sku }}</p>
+              <p>{{ subscription.product.sku }}</p>
             </td>
             <td
               headers="Row{{ line_item.key }} ColumnPrice"
               role="cell"
               data-label="{{ 'customer.order.price' | t }}"
             >
-              {{ line_item.price | money }}
+              {{ subscription.price | money }}
             </td>
             <td
               headers="Row{{ line_item.key }} ColumnQuantity"
               role="cell"
               data-label="{{ 'customer.order.quantity' | t }}"
             >
-              {{ line_item.quantity }}
+              {{ subscription.quantity }}
             </td>
             <td
               headers="Row{{ line_item.key }} ColumnTotal"
               role="cell"
               data-label="{{ 'customer.order.total' | t }}"
             >
-              {{ line_item.price_total | money }}
+              {{ subscription.price_total | money }}
             </td>
           </tr>
-        {%- endfor -%}
-      </tbody>
+          {%- for line_item in subscription.items -%}
+            <tr role="row">
+              <td
+                id="Row{{ line_item.key }}"
+                headers="ColumnProduct"
+                role="rowheader"
+                scope="row"
+                data-label="{{ 'customer.order.product' | t }}"
+              >
+                <div>
+                  <p>{{ line_item.product.name | escape }}</p>
+                </div>
+              </td>
+              <td
+                headers="Row{{ line_item.key }} ColumnSku"
+                role="cell"
+                data-label="{{ 'customer.order.sku' | t }}"
+              >
+                <p>{{ line_item.variant.sku | default: line_item.product.sku }}</p>
+              </td>
+              <td
+                headers="Row{{ line_item.key }} ColumnPrice"
+                role="cell"
+                data-label="{{ 'customer.order.price' | t }}"
+              >
+                {{ line_item.price | money }}
+              </td>
+              <td
+                headers="Row{{ line_item.key }} ColumnQuantity"
+                role="cell"
+                data-label="{{ 'customer.order.quantity' | t }}"
+              >
+                {{ line_item.quantity }}
+              </td>
+              <td
+                headers="Row{{ line_item.key }} ColumnTotal"
+                role="cell"
+                data-label="{{ 'customer.order.total' | t }}"
+              >
+                {{ line_item.price_total | money }}
+              </td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
 
-      <tfoot role="rowgroup">
-        <tr role="row">
-          <td id="RowSubtotal" role="rowheader" scope="row" colspan="4">
-            {{ 'customer.order.subtotal' | t }}
-          </td>
-          <td headers="RowSubtotal" role="cell" data-label="{{ 'customer.order.subtotal' | t }}">
-            {{ subscription.sub_total | money }}
-          </td>
-        </tr>
-        {%- if subscription.discount_total > 0 -%}
+        <tfoot role="rowgroup">
           <tr role="row">
-            <td id="RowDiscount" role="rowheader" scope="row" colspan="4">
-              {{ 'customer.order.discount' | t }}
+            <td id="RowSubtotal" role="rowheader" scope="row" colspan="4">
+              {{ 'customer.order.subtotal' | t }}
             </td>
-            <td headers="RowDiscount" role="cell" data-label="{{ 'customer.order.discount' | t }}">
-              {{ subscription.discount_total | money }}
+            <td headers="RowSubtotal" role="cell" data-label="{{ 'customer.order.subtotal' | t }}">
+              {{ subscription.sub_total | money }}
             </td>
           </tr>
-        {%- endif -%}
-        {%- if subscription.shipment_total > 0 -%}
-          <tr role="row">
-            <td id="RowShipping" role="rowheader" scope="row" colspan="4">
-              {{ 'customer.order.shipping' | t }}
-            </td>
-            <td headers="RowShipping" role="cell" data-label="{{ 'customer.order.shipping' | t }}">
-              {{ subscription.shipment_total | money }}
-            </td>
-          </tr>
-        {%- endif -%}
-        {%- if subscription.tax_included_total > 0 -%}
-          <tr role="row">
-            <td id="RowTax" role="rowheader" scope="row" colspan="4">
-              {{ 'customer.order.tax' | t }}
-            </td>
-            <td headers="RowTax" role="cell" data-label="{{ 'customer.order.tax' | t }}">
-              {{ subscription.tax_included_total | money }}
-            </td>
-          </tr>
-        {%- endif -%}
+          {%- if subscription.discount_total > 0 -%}
+            <tr role="row">
+              <td id="RowDiscount" role="rowheader" scope="row" colspan="4">
+                {{ 'customer.order.discount' | t }}
+              </td>
+              <td headers="RowDiscount" role="cell" data-label="{{ 'customer.order.discount' | t }}">
+                {{ subscription.discount_total | money }}
+              </td>
+            </tr>
+          {%- endif -%}
+          {%- if subscription.shipment_total > 0 -%}
+            <tr role="row">
+              <td id="RowShipping" role="rowheader" scope="row" colspan="4">
+                {{ 'customer.order.shipping' | t }}
+              </td>
+              <td headers="RowShipping" role="cell" data-label="{{ 'customer.order.shipping' | t }}">
+                {{ subscription.shipment_total | money }}
+              </td>
+            </tr>
+          {%- endif -%}
+          {%- if subscription.tax_included_total > 0 -%}
+            <tr role="row">
+              <td id="RowTax" role="rowheader" scope="row" colspan="4">
+                {{ 'customer.order.tax' | t }}
+              </td>
+              <td headers="RowTax" role="cell" data-label="{{ 'customer.order.tax' | t }}">
+                {{ subscription.tax_included_total | money }}
+              </td>
+            </tr>
+          {%- endif -%}
 
-        <tr role="row">
-          <td id="RowTotal" role="rowheader" scope="row" colspan="3">{{ 'customer.order.total' | t }}</td>
-          <td headers="RowTotal" role="cell" colspan="2" data-label="{{ 'customer.order.total' | t }}">
-            {{ subscription.grand_total | money_with_currency }}
-          </td>
-        </tr>
-      </tfoot>
-    </table>
+          <tr role="row">
+            <td id="RowTotal" role="rowheader" scope="row" colspan="3">{{ 'customer.order.total' | t }}</td>
+            <td headers="RowTotal" role="cell" colspan="2" data-label="{{ 'customer.order.total' | t }}">
+              {{ subscription.grand_total | money_with_currency }}
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
 
-    {% liquid
-      assign shipping_address = subscription.shipping
-      assign billing_address = subscription.billing
-      if subscription.shipping.use_account
-        assign shipping_address = customer.shipping
-      endif
-      if subscription.billing.use_account
-        assign billing_address = customer.billing
-      endif
-    %}
-    <div class="flex flex-row gap-64">
+    <div>
+      {% liquid
+        assign shipping_address = subscription.shipping
+        assign billing_address = subscription.billing
+        if subscription.shipping.use_account
+          assign shipping_address = customer.shipping
+        endif
+        if subscription.billing.use_account
+          assign billing_address = customer.billing
+        endif
+      %}
       <div>
         <h2>{{ 'customer.order.billing_address' | t }}</h2>
         {{ billing_address | format_address }}
@@ -199,42 +203,41 @@
         <h2>{{ 'customer.order.shipping_address' | t }}</h2>
         {{ shipping_address | format_address }}
       </div>
-    </div>
-  </div>
 
-  <div class="pt-8">
-    {% if subscription.status == 'active' %}
-      {% if subscription.order_schedule %}
-        <div>{{ 'customer.subscription.next_invoice' | t }} {{ subscription.date_period_end | time_tag: format: 'date_at_time' }}</div>
-        <div>{{ 'customer.subscription.next_order' | t }} {{ subscription.date_order_period_end | time_tag: format: 'date_at_time' }}</div>
-      {% else %}
-        <div>{{ 'customer.subscription.next_order' | t }} {{ subscription.date_period_end | time_tag: format: 'date_at_time' }}</div>
-      {% endif %}
-    {% endif %}
-
-    {% if subscription.status == 'trial' %}
-      {% if subscription.order_schedule %}
-        <div>{{ 'customer.subscription.first_invoice' | t }} {{ subscription.date_period_end | time_tag: format: 'date_at_time' }}</div>
-        <div>{{ 'customer.subscription.first_order' | t }} {{ subscription.date_order_period_end | time_tag: format: 'date_at_time' }}</div>
-      {% else %}
-        <div>{{ 'customer.subscription.first_order' | t }} {{ subscription.date_period_end | time_tag: format: 'date_at_time' }}</div>
-      {% endif %}
-    {% endif %}
-  </div>
-
-  <div class="pt-16">
-      {% if subscription.status == 'active' or subscription.status == 'pastdue'  %}
-        {{ 'customer.subscription.pause' | t }}
-        {{ 'customer.subscription.cancel' | t }}
+      <div class="pt-12">{{ 'customer.subscription.created' | t }} {{ subscription.date_created | time_tag: format: 'date_at_time' }}</div>
+      {% if subscription.status == 'active' %}
+        {% if subscription.order_schedule %}
+          <div>{{ 'customer.subscription.next_invoice' | t }} {{ subscription.date_period_end | time_tag: format: 'date_at_time' }}</div>
+          <div>{{ 'customer.subscription.next_order' | t }} {{ subscription.date_order_period_end | time_tag: format: 'date_at_time' }}</div>
+        {% else %}
+          <div>{{ 'customer.subscription.next_order' | t }} {{ subscription.date_period_end | time_tag: format: 'date_at_time' }}</div>
+        {% endif %}
       {% endif %}
 
       {% if subscription.status == 'trial' %}
-        {{ 'customer.subscription.cancel' | t }}
+        {% if subscription.order_schedule %}
+          <div>{{ 'customer.subscription.first_invoice' | t }} {{ subscription.date_period_end | time_tag: format: 'date_at_time' }}</div>
+          <div>{{ 'customer.subscription.first_order' | t }} {{ subscription.date_order_period_end | time_tag: format: 'date_at_time' }}</div>
+        {% else %}
+          <div>{{ 'customer.subscription.first_order' | t }} {{ subscription.date_period_end | time_tag: format: 'date_at_time' }}</div>
+        {% endif %}
       {% endif %}
 
-      {% if subscription.status == 'paused' %}
-        {{ 'customer.subscription.resume' | t }}
-      {% endif %}
+      <div class="pt-12">
+        {% if subscription.status == 'active' or subscription.status == 'pastdue'  %}
+          {{ 'customer.subscription.pause' | t }}
+          {{ 'customer.subscription.cancel' | t }}
+        {% endif %}
+
+        {% if subscription.status == 'trial' %}
+          {{ 'customer.subscription.cancel' | t }}
+        {% endif %}
+
+        {% if subscription.status == 'paused' %}
+          {{ 'customer.subscription.resume' | t }}
+        {% endif %}
+      </div>
+    </div>
   </div>
 </div>
 
