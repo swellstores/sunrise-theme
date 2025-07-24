@@ -36,6 +36,7 @@ import { ProductSection } from "./product-section";
 // products filter
 import { FilterDrawer } from "./filter-drawer";
 import { initPriceSliders, updatePriceSliders } from "./price-slider";
+import { MainSubscription } from "./main-subscription";
 
 // Make hoverintent available globally
 window.hoverintent = hoverintent;
@@ -122,6 +123,9 @@ window.theme.accordion_rendered = true;
       "product-purchase-option-subscription",
       ProductPurchaseOptionSubscription,
     );
+
+    // subscription
+    customElements.define("main-subscription", MainSubscription);
   }
 
   // Call functions

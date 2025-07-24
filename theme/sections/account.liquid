@@ -34,37 +34,45 @@
         {%- if customer.orders.size > 0 -%}
           <div class="flex flex-col gap-16">
             {%- for order in customer.orders -%}
-              <div class="flex justify-between">
-                <div class="flex flex-col gap-12">
-                  <div class="flex gap-4 text-body-medium font-display">
-                    <a href="{{ order.customer_order_url }}">
+              <a href="{{ order.customer_order_url }}">
+                <div class="flex justify-between">
+                  <div class="flex flex-col gap-12">
+                    <div class="flex gap-4 text-body-medium font-display">
                       {{ order.name }}
-                    </a>
-                    {{ order.fulfillment_status_label }}
-                  </div>
-                  <span class="font-display text-{{ color_scheme }} text-body-small">
-                    {{ order.created_at | time_tag: format: 'date' }}
-                  </span>
+                      {{ order.fulfillment_status_label }}
+                    </div>
+                    <span class="font-display text-{{ color_scheme }} text-body-small">
+                      {{ order.created_at | time_tag: format: 'date' }}
+                    </span>
 
-                  <ul class="flex gap-8">
-                    {%- for item in order.line_items -%}
-                      <li class="h-60 w-60">
-                        <img src="{{ item.image | image_url }}" alt="{{ item.title }}">
-                      </li>
-                    {%- endfor -%}
-                  </ul>
-                  <p class="font-display text-{{ color_scheme }} text-body-small">
-                    {%- if order.line_items.size == 1 -%}
-                      {{ 'sections.cart.item_count.one' | t: count: order.line_items.size }}
-                    {%- else -%}
-                      {{ 'sections.cart.item_count.other' | t: count: order.line_items.size }}
-                    {%- endif -%}
-                  </p>
+                    <ul class="flex gap-8">
+                      {%- for item in order.line_items -%}
+                        <li class="h-60 w-60">
+                          {% if item.image != blank %}
+                            <img src="{{ item.image | image_url }}" alt="{{ item.title }}">
+                          {% else %}
+                            {%
+                              render 'image',
+                              picture_class: 'svg-placeholder relative',
+                              placeholder: 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg'
+                            %}
+                          {% endif %}
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+                    <p class="font-display text-{{ color_scheme }} text-body-small">
+                      {%- if order.line_items.size == 1 -%}
+                        {{ 'sections.cart.item_count.one' | t: count: order.line_items.size }}
+                      {%- else -%}
+                        {{ 'sections.cart.item_count.other' | t: count: order.line_items.size }}
+                      {%- endif -%}
+                    </p>
+                  </div>
+                  <span class="text-title-small text-{{ color_scheme }} font-display">
+                    {{- order.total_net_amount | money_with_currency -}}
+                  </span>
                 </div>
-                <span class="text-title-small text-{{ color_scheme }} font-display">
-                  {{- order.total_net_amount | money_with_currency -}}
-                </span>
-              </div>
+              </a>
               {% unless forloop.last %}
                 <div class="border-t border-[#E0E0E0] w-full"></div>
               {% endunless %}
