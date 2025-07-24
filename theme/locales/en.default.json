@@ -135,7 +135,10 @@
       "first_invoice": "First invoice",
       "next_invoice": "Next invoice",
       "first_order": "First order",
-      "next_order": "Next order"
+      "next_order": "Next order",
+      "complete": "Complete",
+      "unpaid": "Unpaid",
+      "pastdue": "Past due"
     }
   },
   "sections": {

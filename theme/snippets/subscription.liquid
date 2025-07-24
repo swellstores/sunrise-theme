@@ -15,18 +15,12 @@
   </div>
   <div class="flex flex-col gap-12">
     <div class="flex gap-4 text-body-medium font-display">
-      {% if with_link == true %}
-        <a href="/account/subscription/{{ subscription.id }}">
-          {{ subscription.product.name  }}
-        </a>
-      {% else %}
-         {{ subscription.product.name  }}
-      {% endif %}
+      {{ subscription.product.name  }}
     </div>
 
     <div class="flex flex-wrap text-body-medium lowercase">
       <span class="font-medium">
-        {% assign prefix = subscription.price | money | append: "/" %}
+        {% assign prefix = subscription.grand_total | money | append: "/" %}
         {%- render 'subscription-plan-schedule',
           schedule: subscription.billing_schedule,
           prefix: prefix
@@ -70,6 +64,23 @@
           <ion-icon name="calendar" class="relative h-18 w-18"></ion-icon>
         </div>
         {{ 'customer.subscription.trial_ends' | t }}{{ subscription.date_trial_end | time_tag: format: 'date_at_time' }}
+      {% elsif subscription.status == 'complete' %}
+       <div class="h-24 w-24 rounded-24 bg-[#FFA500] text-yellow overflow-hidden flex items-center justify-center">
+          <ion-icon name="calendar" class="relative h-18 w-18"></ion-icon>
+        </div>
+        {{ 'customer.subscription.complete' | t }}
+      {% elsif subscription.status == 'unpaid' %}
+       <div class="h-24 w-24 rounded-24 bg-[#FFA500] text-yellow overflow-hidden flex items-center justify-center">
+          <ion-icon name="calendar" class="relative h-18 w-18"></ion-icon>
+        </div>
+        {{ 'customer.subscription.unpaid' | t }}
+      {% elsif subscription.status == 'pastdue' %}
+       <div class="h-24 w-24 rounded-24 bg-[#FFA500] text-yellow overflow-hidden flex items-center justify-center">
+          <ion-icon name="calendar" class="relative h-18 w-18"></ion-icon>
+        </div>
+        {{ 'customer.subscription.pastdue' | t }}
+      {% else %}
+        {{ subscription.status }}
       {% endif %}
     </div>
   </div>
