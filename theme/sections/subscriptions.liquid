@@ -35,10 +35,11 @@
         {%- if subscriptions.size > 0 -%}
           <div class="flex flex-col gap-16">
             {%- for subscription in subscriptions -%}
-              {%- render 'subscription',
-                subscription: subscription,
-                with_link: true
-              -%}
+              <a href="/account/subscriptions/{{ subscription.id }}">
+                {%- render 'subscription',
+                  subscription: subscription
+                -%}
+              </a>
               {% unless forloop.last %}
                 <div class="border-t border-[#E0E0E0] w-full"></div>
               {% endunless %}
