@@ -130,6 +130,7 @@
       "trial_ends": "Trial ends",
       "return": "Return to Account subscriptions",
       "pause": "Pause",
+      "skip_one_cycle": "Skip Cycle",
       "cancel": "Cancel",
       "resume": "Resume",
       "first_invoice": "First invoice",
@@ -139,7 +140,8 @@
       "complete": "Complete",
       "unpaid": "Unpaid",
       "pastdue": "Past due",
-      "created": "Created"
+      "created": "Created",
+      "details": "Details"
     }
   },
   "sections": {

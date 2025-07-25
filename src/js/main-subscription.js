@@ -11,11 +11,14 @@ export class MainSubscription extends HTMLElement {
     this.busy = false;
     this.mainArea = null;
     this.subscriptionId = null;
+    this.subscriptionDatePeriodEnd = null;
     this.pauseButton = null;
+    this.pauseCycleButton = null;
     this.resumeButton = null;
     this.cancelButton = null;
 
     this.onPauseBound = this.onPause.bind(this);
+    this.onPauseCycleBound = this.onPauseCycle.bind(this);
     this.onResumeBound = this.onResume.bind(this);
     this.onCancelBound = this.onCancel.bind(this);
   }
@@ -23,9 +26,15 @@ export class MainSubscription extends HTMLElement {
   connectedCallback() {
     this.mainArea = this.querySelector("#main-area");
     this.subscriptionId = this.querySelector("input[name='subscription-id']");
+    this.subscriptionDatePeriodEnd = this.querySelector("input[name='subscription-date-period-end']");
     this.pauseButton = this.querySelector("button[name='pause-subscription']");
     if (this.pauseButton) {
       this.pauseButton.addEventListener("click", this.onPauseBound);
+    }
+    this.pauseCycleButton = this.querySelector("button[name='pause-cycle-subscription']");
+    console.log("pauseCycleButton=", this.pauseCycleButton);
+    if (this.pauseCycleButton) {
+      this.pauseCycleButton.addEventListener("click", this.onPauseCycleBound);
     }
     this.resumeButton = this.querySelector("button[name='resume-subscription']");
     if (this.resumeButton) {
@@ -41,6 +50,9 @@ export class MainSubscription extends HTMLElement {
     if (this.pauseButton) {
       this.pauseButton.removeEventListener("click", this.onPauseBound);
     }
+    if (this.pauseCycleButton) {
+      this.pauseCycleButton.removeEventListener("click", this.onPauseCycleBound);
+    }
     if (this.resumeButton) {
       this.resumeButton.addEventListener("click", this.onResumeBound);
     }
@@ -50,7 +62,9 @@ export class MainSubscription extends HTMLElement {
 
     this.mainArea = null;
     this.subscriptionId = null;
+    this.subscriptionDatePeriodEnd = null;
     this.pauseButton = null;
+    this.pauseCycleButton = null;
     this.resumeButton = null;
     this.cancelButton = null;
   }
@@ -73,6 +87,16 @@ export class MainSubscription extends HTMLElement {
     console.log("on pause");
     const res = await this.handleButton(
       routes.pauseSubscription,
+    );
+  }
+
+  async onPauseCycle() {
+    console.log("on pause cycle");
+    const res = await this.handleButton(
+      routes.pauseSubscription,
+      {
+        date_pause_end: this.subscriptionDatePeriodEnd?.value,
+      },
     );
   }
 
@@ -122,16 +146,19 @@ export class MainSubscription extends HTMLElement {
         throw new Error("Network response was not ok");
       }
 
-      console.log("response is", response);
-      const result = await response.json();
+      console.log("response 12 is", response);
+      // const result = await response.json();
 
-      console.log("result=", result);
+      // console.log("result=", result);
       // const parser = new DOMParser();
       // const html = parser.parseFromString(json[sectionId], "text/html");
       // const newCartEl = html.querySelector("cart-root");
-      const PAGE_ID = `account\subscription\${params.id}`;
+      // const PAGE_ID = `account\subscription\${params.id}`;
+      console.log("STEP 22");
+      const PAGE_ID = "account_subscription";
       const sectionId = `main-subscription__${PAGE_ID}`;
-      const responseContent = await fetch(`/${PAGE_ID}?sections=${sectionId}`);
+      //const responseContent = await fetch(`/${PAGE_ID}?sections=${sectionId}`);
+      const responseContent = await fetch(`/account/subscriptions/${params.id}?sections=main-subscription`);
       console.log("responseContent", responseContent)
 
       if (!responseContent.ok) {
