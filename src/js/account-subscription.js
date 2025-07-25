@@ -4,7 +4,7 @@ const routes = {
   cancelSubscription: "/subscriptions/cancel",
 };
 
-export class MainSubscription extends HTMLElement {
+export class AccountSubscription extends HTMLElement {
   constructor() {
     super();
 
@@ -16,6 +16,8 @@ export class MainSubscription extends HTMLElement {
     this.pauseCycleButton = null;
     this.resumeButton = null;
     this.cancelButton = null;
+    this.errorText = null;
+    this.cancelWarningText = null;
 
     this.onPauseBound = this.onPause.bind(this);
     this.onPauseCycleBound = this.onPauseCycle.bind(this);
@@ -24,15 +26,23 @@ export class MainSubscription extends HTMLElement {
   }
 
   connectedCallback() {
+   this.getSelectors();
+  }
+
+  disconnectedCallback() {
+    this.clearSelectors();
+  }
+
+  getSelectors() {
     this.mainArea = this.querySelector("#main-area");
     this.subscriptionId = this.querySelector("input[name='subscription-id']");
     this.subscriptionDatePeriodEnd = this.querySelector("input[name='subscription-date-period-end']");
+    this.cancelWarningText = this.querySelector("input[name='cancel-warning-text']");
     this.pauseButton = this.querySelector("button[name='pause-subscription']");
     if (this.pauseButton) {
       this.pauseButton.addEventListener("click", this.onPauseBound);
     }
     this.pauseCycleButton = this.querySelector("button[name='pause-cycle-subscription']");
-    console.log("pauseCycleButton=", this.pauseCycleButton);
     if (this.pauseCycleButton) {
       this.pauseCycleButton.addEventListener("click", this.onPauseCycleBound);
     }
@@ -44,9 +54,10 @@ export class MainSubscription extends HTMLElement {
     if (this.cancelButton) {
       this.cancelButton.addEventListener("click", this.onCancelBound);
     }
+    this.errorText = this.querySelector("div#error");
   }
 
-  disconnectedCallback() {
+  clearSelectors() {
     if (this.pauseButton) {
       this.pauseButton.removeEventListener("click", this.onPauseBound);
     }
@@ -54,10 +65,10 @@ export class MainSubscription extends HTMLElement {
       this.pauseCycleButton.removeEventListener("click", this.onPauseCycleBound);
     }
     if (this.resumeButton) {
-      this.resumeButton.addEventListener("click", this.onResumeBound);
+      this.resumeButton.removeEventListener("click", this.onResumeBound);
     }
     if (this.cancelButton) {
-      this.cancelButton.addEventListener("click", this.onCancelBound);
+      this.cancelButton.removeEventListener("click", this.onCancelBound);
     }
 
     this.mainArea = null;
@@ -67,32 +78,33 @@ export class MainSubscription extends HTMLElement {
     this.pauseCycleButton = null;
     this.resumeButton = null;
     this.cancelButton = null;
+    this.errorText = null;
+    this.cancelWarningText = null;
   }
 
   setBusy() {
     this.busy = true;
     if (this.mainArea) {
-      // opacity
+      this.mainArea.style.opacity = 0.5;
+    }
+    if (this.errorText) {
+      this.errorText.style.display = 'none';
     }
   }
 
   setNotBusy() {
     this.busy = false;
     if (this.mainArea) {
-      // opacity
+      this.mainArea.style.opacity = 1;
     }
   }
 
-  async onPause() {
-    console.log("on pause");
-    const res = await this.handleButton(
-      routes.pauseSubscription,
-    );
+  onPause() {
+    this.handleButton(routes.pauseSubscription);
   }
 
-  async onPauseCycle() {
-    console.log("on pause cycle");
-    const res = await this.handleButton(
+  onPauseCycle() {
+    this.handleButton(
       routes.pauseSubscription,
       {
         date_pause_end: this.subscriptionDatePeriodEnd?.value,
@@ -100,24 +112,28 @@ export class MainSubscription extends HTMLElement {
     );
   }
 
-  async onResume() {
-   console.log("on resume");
-    const res = await this.handleButton(
-      routes.resumeSubscription,
-    );
+  onResume() {
+    this.handleButton(routes.resumeSubscription);
   }
 
-  async onCancel() {
-    console.log("on cancel");
-    const res = await this.handleButton(
-      routes.cancelSubscription,
-    );
+  onCancel() {
+    if (!this.cancelWarningText?.value) {
+      return;
+    }
+
+    const warningText = this.cancelWarningText.value;
+    if (!confirm(warningText)) {
+      return;
+    }
+
+    this.handleButton(routes.cancelSubscription);
   }
 
-  async handleButton(route, params = {}) {
+  handleButton(route, params = {}) {
     if (this.busy || !this.subscriptionId) {
       return;
     }
+
     const id = this.subscriptionId.value;
     if (!id) {
       return;
@@ -125,14 +141,15 @@ export class MainSubscription extends HTMLElement {
 
     params.id = id;
 
+    // lock buttons
     this.setBusy();
-    await this.subscriptionRequest(route, params);
-    this.setNotBusy();
+    this.subscriptionRequest(route, params);
   }
 
   async subscriptionRequest(route, params) {
     try {
-      const response = await fetch(route, {
+      // main request
+      const actionResponse = await fetch(route, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -142,34 +159,50 @@ export class MainSubscription extends HTMLElement {
         body: JSON.stringify(params),
       });
 
+      if (!actionResponse.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      // request to update cache
+      await fetch(`${params.id}`, {
+        method: "GET",
+        headers: {
+          Accept: "text/html,application/xhtml+xml,application/xml"
+        },
+      });
+
+      // request to fetch updated page
+      const response = await fetch(`${params.id}`, {
+        method: "GET",
+        headers: {
+          Accept: "text/html,application/xhtml+xml,application/xml"
+        },
+      });
+
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
 
-      console.log("response 12 is", response);
-      // const result = await response.json();
+      const text = await response.text();
 
-      // console.log("result=", result);
-      // const parser = new DOMParser();
-      // const html = parser.parseFromString(json[sectionId], "text/html");
-      // const newCartEl = html.querySelector("cart-root");
-      // const PAGE_ID = `account\subscription\${params.id}`;
-      console.log("STEP 22");
-      const PAGE_ID = "account_subscription";
-      const sectionId = `main-subscription__${PAGE_ID}`;
-      //const responseContent = await fetch(`/${PAGE_ID}?sections=${sectionId}`);
-      const responseContent = await fetch(`/account/subscriptions/${params.id}?sections=main-subscription`);
-      console.log("responseContent", responseContent)
-
-      if (!responseContent.ok) {
-        throw new Error("Failed to fetch new content");
+      const parser = new DOMParser();
+      const html = parser.parseFromString(text, "text/html");
+      const newContent = html.querySelector("account-subscription");
+      if (newContent) {
+        this.clearSelectors();
+        this.setNotBusy();
+        this.innerHTML = newContent.innerHTML;
+        this.getSelectors();
+        return;
       }
 
-      return result;
+      this.setNotBusy();
     } catch (error) {
       console.error("Error during updating subscription:", error);
-
-      throw error;
+      if (this.errorText) {
+        this.errorText.style.display = 'block';
+      }
+      this.setNotBusy();
     }
   }
 }
