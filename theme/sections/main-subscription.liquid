@@ -15,7 +15,7 @@
 {%- endstyle -%}
 
 <div class="customer order section-{{ section.id }}-padding">
-  <main-subscription>
+  <account-subscription>
     <svg style="display:none">
       <symbol id="icon-discount" viewBox="0 0 12 12">
         <path fill-rule="evenodd" clip-rule="evenodd" d="M7 0h3a2 2 0 012 2v3a1 1 0 01-.3.7l-6 6a1 1 0 01-1.4 0l-4-4a1 1 0 010-1.4l6-6A1 1 0 017 0zm2 2a1 1 0 102 0 1 1 0 00-2 0z" fill="currentColor">
@@ -244,6 +244,7 @@
 
           {% if subscription.status == 'paused' %}
             {% assign show_resume = true %}
+            {% assign show_cancel = true %}
           {% endif %}
 
           {% if subscription.status == 'pastdue' %}
@@ -255,8 +256,9 @@
           {% endif %}
 
           <div class="pt-12 flex flex-row gap-8">
-            <input name="subscription-id" type="hidden" value={{ subscription.id  }}>
-            <input name="subscription-date-period-end" type="hidden" value={{ subscription.date_period_end  }}>
+            <input name="subscription-id" type="hidden" value="{{ subscription.id  }}">
+            <input name="subscription-date-period-end" type="hidden" value="{{ subscription.date_period_end  }}">
+            <input name="cancel-warning-text" type="hidden" value="{{ 'customer.subscription.cancel_warning' | t }}">
             {% if allow_pause and subscriptions.features.pause_indefinitely %}
               {% render 'button',
                 text: pauseLabel,
@@ -290,10 +292,14 @@
               %}
             {% endif %}
           </div>
+
+          <div id="error" class="hidden text-red">
+            {{ 'customer.subscription.error' | t }}
+          </div>
         </div>
       </div>
     </div>
-  </main-subscription>
+  </account-subscription>
 </div>
 
 {% schema %}
