@@ -152,9 +152,10 @@ export class AccountSubscription extends HTMLElement {
       const actionResponse = await fetch(route, {
         method: "POST",
         headers: {
-          Accept: "application/json",
+          Accept: "text/html,application/xhtml+xml,application/xml",
           "Content-Type": "application/json",
           "X-Requested-With": "XMLHttpRequest",
+          "Swell-Raw-Data": "true",
         },
         body: JSON.stringify(params),
       });
@@ -163,27 +164,7 @@ export class AccountSubscription extends HTMLElement {
         throw new Error("Network response was not ok");
       }
 
-      // request to update cache
-      await fetch(`${params.id}`, {
-        method: "GET",
-        headers: {
-          Accept: "text/html,application/xhtml+xml,application/xml"
-        },
-      });
-
-      // request to fetch updated page
-      const response = await fetch(`${params.id}`, {
-        method: "GET",
-        headers: {
-          Accept: "text/html,application/xhtml+xml,application/xml"
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const text = await response.text();
+      const text = await actionResponse.text();
 
       const parser = new DOMParser();
       const html = parser.parseFromString(text, "text/html");
