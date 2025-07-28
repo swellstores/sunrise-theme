@@ -248,6 +248,7 @@
           {% endif %}
 
           {% if subscription.status == 'pastdue' %}
+            <div>{{ 'customer.subscription.payment_retry' | t }} {{ subscription.date_payment_retry | time_tag: format: 'date_at_time' }}</div>   
             {% assign show_pause = true %}
             {% assign show_cancel = true %}
             {% if subscriptions.features.pause_past_due %}
@@ -293,7 +294,7 @@
             {% endif %}
           </div>
 
-          <div id="error" class="hidden text-red">
+          <div id="error" class="hidden text-red-600">
             {{ 'customer.subscription.error' | t }}
           </div>
         </div>

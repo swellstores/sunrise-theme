@@ -143,7 +143,8 @@
       "created": "Created",
       "details": "Details",
       "error": "Error during subscription update",
-      "cancel_warning": "Are you sure you want to cancel this subscription?"
+      "cancel_warning": "Are you sure you want to cancel this subscription?",
+      "payment_retry": "Payment retry"
     }
   },
   "sections": {
