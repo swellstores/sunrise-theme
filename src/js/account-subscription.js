@@ -100,20 +100,24 @@ export class AccountSubscription extends HTMLElement {
   }
 
   onPause() {
-    this.handleButton(routes.pauseSubscription);
+   this.handleButton({
+      paused: true,
+      date_pause_end: null,
+    });
   }
 
   onPauseCycle() {
-    this.handleButton(
-      routes.pauseSubscription,
-      {
-        date_pause_end: this.subscriptionDatePeriodEnd?.value,
-      },
-    );
+    this.handleButton({
+      paused: true,
+      date_pause_end: this.subscriptionDatePeriodEnd?.value,
+    });
   }
 
   onResume() {
-    this.handleButton(routes.resumeSubscription);
+    this.handleButton({
+      paused: false,
+      date_pause_end: null,
+    });
   }
 
   onCancel() {
@@ -126,10 +130,12 @@ export class AccountSubscription extends HTMLElement {
       return;
     }
 
-    this.handleButton(routes.cancelSubscription);
+    this.handleButton({
+      canceled: true,
+    });
   }
 
-  handleButton(route, params = {}) {
+  handleButton(params = {}) {
     if (this.busy || !this.subscriptionId) {
       return;
     }
@@ -139,18 +145,16 @@ export class AccountSubscription extends HTMLElement {
       return;
     }
 
-    params.id = id;
-
     // lock buttons
     this.setBusy();
-    this.subscriptionRequest(route, params);
+    this.subscriptionRequest(id, params);
   }
 
-  async subscriptionRequest(route, params) {
+  async subscriptionRequest(id, params) {
     try {
       // main request
-      const actionResponse = await fetch(route, {
-        method: "POST",
+      const actionResponse = await fetch(`/account/subscriptions/${id}`, {
+        method: "PUT",
         headers: {
           Accept: "text/html,application/xhtml+xml,application/xml",
           "Content-Type": "application/json",
