@@ -4,6 +4,7 @@
   if subscription.variant.images[0].file.url
      assign image_url = subscription.variant.images[0].file.url
   endif
+  assign description_class = 'h-24 w-24 rounded-24 overflow-hidden flex items-center justify-center'
 %}
 
 <div class="flex flex-row gap-12">
@@ -49,14 +50,14 @@
       {%- endif -%}
     </div>
 
-    <div class="flex flex-row gap-12">
+    <div class="flex flex-row gap-8">
       {% if subscription.status == 'active' %}
-        <div class="h-24 w-24 rounded-24 bg-[#3D995E] text-white overflow-hidden">
+        <div class="{{ description_class }} bg-[#3D995E] text-white">
           <ion-icon name="sync" class="relative h-24 w-24"></ion-icon>
         </div>
         {{ 'customer.subscription.renews' | t }}{{ subscription.date_period_end | time_tag: format: 'date_at_time' }}
       {% elsif subscription.status == 'paused' %}
-        <div class="h-24 w-24 rounded-24 bg-[#FFC038] text-white overflow-hidden flex items-center justify-center">
+        <div class="{{ description_class }} bg-[#FFC038] text-white">
           <ion-icon name="pause-outline" class="relative h-20 w-20"></ion-icon>
         </div>
         {% if subscription.date_pause_end %}
@@ -65,27 +66,27 @@
           {{ 'customer.subscription.paused_since' | t }}{{ subscription.date_paused | time_tag: format: 'datetime' }}
         {% endif %}
       {% elsif subscription.status == 'canceled' %}
-         <div class="h-24 w-24 rounded-24 bg-[#8C8984] text-white overflow-hidden">
+         <div class="{{ description_class }} bg-[#8C8984] text-white">
           <ion-icon name="sync" class="relative h-24 w-24"></ion-icon>
         </div>
         {{ 'customer.subscription.cancelled' | t }}{{ subscription.date_canceled | time_tag: format: 'date_at_time' }}
       {% elsif subscription.status == 'trial' %}
-       <div class="h-24 w-24 rounded-24 bg-[#FFA500] text-yellow overflow-hidden flex items-center justify-center">
+       <div class="{{ description_class }} bg-[#FFA500] text-yellow">
           <ion-icon name="time-outline" class="relative h-24 w-24"></ion-icon>
         </div>
         {{ 'customer.subscription.trial_ends' | t }}{{ subscription.date_trial_end | time_tag: format: 'date_at_time' }}
       {% elsif subscription.status == 'complete' %}
-       <div class="h-24 w-24 rounded-24 bg-[#3D995E] text-white overflow-hidden flex items-center justify-center">
+       <div class="{{ description_class }} bg-[#3D995E] text-whiter">
           <ion-icon name="checkmark" class="relative h-20 w-20"></ion-icon>
         </div>
         {{ 'customer.subscription.complete' | t }}
       {% elsif subscription.status == 'unpaid' %}
-       <div class="h-24 w-24 rounded-24 bg-[#AA0000] text-black overflow-hidden flex items-center justify-center">
+       <div class="{{ description_class }} bg-[#AA0000] text-black">
           <ion-icon name="warning-outline" class="relative h-16 w-16"></ion-icon>
         </div>
         {{ 'customer.subscription.unpaid' | t }}
       {% elsif subscription.status == 'pastdue' %}
-       <div class="h-24 w-24 rounded-24 bg-[#AA0000] text-black overflow-hidden flex items-center justify-center">
+       <div class="{{ description_class }} bg-[#AA0000] text-black">
           <ion-icon name="warning-outline" class="relative h-16 w-16"></ion-icon>
         </div>
         {{ 'customer.subscription.pastdue' | t }}
