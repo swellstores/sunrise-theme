@@ -4,7 +4,7 @@
   assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
   assign reduced_padding_top = top_padding | times: 0.55 | round: 2
   assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
-  assign subscriptions = customer.subscriptions
+  assign subscriptions = customer.subscriptions.results
 -%}
 
 {% style %}
