@@ -257,40 +257,52 @@
           {% endif %}
 
           <div class="pt-12 flex flex-row gap-8">
-            <input name="subscription-id" type="hidden" value="{{ subscription.id  }}">
-            <input name="subscription-date-period-end" type="hidden" value="{{ subscription.date_period_end  }}">
-            <input name="cancel-warning-text" type="hidden" value="{{ 'customer.subscription.cancel_warning' | t }}">
             {% if allow_pause and subscriptions.features.pause_indefinitely %}
-              {% render 'button',
-                text: pauseLabel,
-                type: 'button',
-                name: 'pause-subscription',
-                color_scheme: color_scheme
-              %}
+              {%- form 'account_subscription' -%}
+                <input name="subscription_id" type="hidden" value="{{ subscription.id  }}">
+                <input name="paused" type="hidden" value="true">
+                <input name="date_pause_end" type="hidden" value="null">
+                {% render 'button',
+                  type: 'submit',
+                  text: pauseLabel,
+                  color_scheme: color_scheme
+                %}
+              {%- endform -%}
             {% endif %}
             {% if allow_pause and subscriptions.features.pause_skip_next %}
-              {% render 'button',
-                text: pauseCycleLabel,
-                type: 'button',
-                name: 'pause-cycle-subscription',
-                color_scheme: color_scheme
-              %}
+              {%- form 'account_subscription' -%}
+                <input name="subscription_id" type="hidden" value="{{ subscription.id  }}">
+                <input name="paused" type="hidden" value="true">
+                <input name="date_pause_end" type="hidden" value="{{ subscription.date_period_end  }}">
+                {% render 'button',
+                  type: 'submit',
+                  text: pauseCycleLabel,
+                  color_scheme: color_scheme
+                %}
+              {%- endform -%}
             {% endif %}
             {% if show_resume %}
-              {% render 'button',
-                text: resumeLabel,
-                type: 'button',
-                name: 'resume-subscription',
-                color_scheme: color_scheme
-              %}
+              {%- form 'account_subscription' -%}
+                <input name="subscription_id" type="hidden" value="{{ subscription.id  }}">
+                <input name="paused" type="hidden" value="false">
+                <input name="date_pause_end" type="hidden" value="null">
+                {% render 'button',
+                  type: 'submit',
+                  text: resumeLabel,
+                  color_scheme: color_scheme
+                %}
+              {%- endform -%}
             {% endif %}
             {% if show_cancel %}
-              {% render 'button',
-                text: cancelLabel,
-                type: 'button',
-                name: 'cancel-subscription',
-                color_scheme: color_scheme
-              %}
+              {%- form 'account_subscription' -%}
+                <input name="subscription_id" type="hidden" value="{{ subscription.id  }}">
+                <input name="canceled" type="hidden" value="true">
+                {% render 'button',
+                  type: 'submit',
+                  text: cancelLabel,
+                  color_scheme: color_scheme
+                %}
+              {%- endform -%}
             {% endif %}
           </div>
 
