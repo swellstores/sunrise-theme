@@ -236,7 +236,7 @@
             {% else %}
               <div>{{ 'customer.subscription.first_order' | t }} {{ subscription.date_period_end | time_tag: format: 'date_at_time' }}</div>
             {% endif %}
-            {% if subscriptions.features.pause_during_trial %}
+            {% if storefront.subscriptions.features.pause_during_trial %}
               {% assign allow_pause = true %}
             {% endif %}
             {% assign show_cancel = true %}
@@ -251,13 +251,13 @@
             <div>{{ 'customer.subscription.payment_retry' | t }} {{ subscription.date_payment_retry | time_tag: format: 'date_at_time' }}</div>   
             {% assign show_pause = true %}
             {% assign show_cancel = true %}
-            {% if subscriptions.features.pause_past_due %}
+            {% if storefront.subscriptions.features.pause_past_due %}
               {% assign allow_pause = true %}
             {% endif %}
           {% endif %}
 
           <div class="pt-12 flex flex-row gap-8">
-            {% if allow_pause and subscriptions.features.pause_indefinitely %}
+            {% if allow_pause and storefront.subscriptions.features.pause_indefinitely %}
               {%- form 'account_subscription' -%}
                 <input name="subscription_id" type="hidden" value="{{ subscription.id  }}">
                 <input name="paused" type="hidden" value="true">
@@ -269,7 +269,7 @@
                 %}
               {%- endform -%}
             {% endif %}
-            {% if allow_pause and subscriptions.features.pause_skip_next %}
+            {% if allow_pause and storefront.subscriptions.features.pause_skip_next %}
               {%- form 'account_subscription' -%}
                 <input name="subscription_id" type="hidden" value="{{ subscription.id  }}">
                 <input name="paused" type="hidden" value="true">
@@ -304,10 +304,6 @@
                 %}
               {%- endform -%}
             {% endif %}
-          </div>
-
-          <div id="error" class="hidden text-red-600">
-            {{ 'customer.subscription.error' | t }}
           </div>
         </div>
       </div>

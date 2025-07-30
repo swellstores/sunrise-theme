@@ -1,9 +1,3 @@
-const routes = {
-  pauseSubscription: "/subscriptions/pause",
-  resumeSubscription: "/subscriptions/resume",
-  cancelSubscription: "/subscriptions/cancel",
-};
-
 export class AccountSubscription extends HTMLElement {
   constructor() {
     super();
