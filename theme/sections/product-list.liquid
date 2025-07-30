@@ -1,13 +1,9 @@
-{% # TODO set paginate size according to desktop column count setting %}
-
 {%- liquid
   assign color_scheme = section.settings.color_scheme
   assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
   assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
   assign reduced_padding_top = top_padding | times: 0.55 | round: 2
   assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
-  assign show_sidebar = section.settings.show_sidebar | default: true
-  assign sort_by = collection.sort_by | default: collection.default_sort_by
 -%}
 
 {% style %}
@@ -22,233 +18,123 @@
       padding-bottom: {{ bottom_padding }}rem;
     }
   }
-{% endstyle %}
 
-<div class="bg-{{ color_scheme }} text-{{ color_scheme }} p-24 responsive-padding-{{ section.id }}">
-  {% paginate collection.products by 12 %}
-    <div class="max-w-content mx-auto 2xl:max-w-container w-full">
-      <div class="flex flex-col pb-24 text-left">
-        <h1 class="font-display text-title-large">{{ collection.title | default: 'Products' }}</h1>
-      </div>
-
-      {% if show_sidebar %}
-        <div class="flex gap-32 relative">
-          <!-- Sidebar (desktop only) -->
-          <div class="hidden lg:block flex-shrink-0">
-            {% render 'filter-sidebar', results: collection, color_scheme: color_scheme %}
-          </div>
-          <!-- Drawer (mobile only) -->
-          <div class="lg:hidden">
-            {% render 'filter-drawer', results: collection, color_scheme: color_scheme %}
-          </div>
-          <!-- Main Content Area -->
-          <div class="flex-1 min-w-0 transition-all duration-300 ease-in-out">
-            <!-- Mobile Filter Button -->
-            <div class="lg:hidden mb-16">
-              <button
-                data-trigger="filter-drawer"
-                type="button"
-                aria-expanded="false"
-                class="inline-block text-title-small font-display"
-              >
-                <span class="flex gap-8 items-center">
-                  {{- 'filter-sort-icon.svg' | inline_asset_content -}}
-                  {{ 'sections.collection.filters.filter_and_sort' | t -}}
-                </span>
-              </button>
-            </div>
-            <!-- Products Grid -->
-            <div id="results-sidebar" class="flex w-full flex-col gap-32">
-              <div class="hidden lg:flex items-center justify-between mb-16">
-                <div class="flex items-center gap-16">
-                  <span class="text-body-medium text-primary-{{ color_scheme }}">{{ collection.products.size }} items</span>
-                  <div id="show-filters-btn" class="hidden">
-                    <button
-                      type="button"
-                      class="flex items-center gap-8 text-body-small text-secondary-{{ color_scheme }} btn-secondary-{{ color_scheme }} px-16 py-8 rounded transition-colors"
-                      onclick="toggleFilterSidebar()"
-                    >
-                      {{- 'filter-sort-icon.svg' | inline_asset_content -}}
-                      Show filters
-                    </button>
-                  </div>
-                </div>
-                {% if collection.sort_options.size > 0 %}
-                  <div class="flex items-center gap-8">
-                    <span class="text-body-medium">Sort by</span>
-                    <select
-                      name="sort_by"
-                      id="sort-control-desktop"
-                      class="text-body-medium font-display rounded border border-gray-300 px-12 py-8 outline-none text-{{ color_scheme }} bg-{{ color_scheme }}"
-                    >
-                      {% for option in collection.sort_options %}
-                        <option
-                          value="{{ option.value }}"
-                          {% if option.value == sort_by %}
-                            selected
-                          {% endif %}
-                        >
-                          {{ option.name }}
-                        </option>
-                      {% endfor %}
-                    </select>
-                  </div>
-                {% endif %}
-              </div>
-              <div class="products-main-content grid grid-cols-2 gap-x-16 gap-y-24 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 transition-all duration-300 ease-in-out">
-                {% if collection.products.size > 0 %}
-                  {% for product in collection.products %}
-                    {% render 'product-card', product: product, color_scheme: color_scheme %}
-                  {% endfor %}
-                {% endif %}
-              </div>
-              {% render 'pagination', paginate: paginate, color_scheme %}
-            </div>
-          </div>
-        </div>
-      {% else %}
-        <!-- Drawer-only Layout -->
-        {% render 'filter-bar',
-          request: request,
-          results: collection,
-          paginate: paginate,
-          color_scheme: color_scheme,
-          use_drawer: true
-        %}
-        <div class="mt-16">
-          <div class="flex gap-64">
-            <div id="results-drawer" class="flex w-full flex-col gap-32">
-              <div class="grid grid-cols-2 gap-x-16 gap-y-24 md:grid-cols-3 lg:grid-cols-4">
-                {% if collection.products.size > 0 %}
-                  {% for product in collection.products %}
-                    {% render 'product-card', product: product, color_scheme: color_scheme %}
-                  {% endfor %}
-                {% else %}
-                  {{ 'product-1' | placeholder_svg_tag }}
-                  {{ 'product-2' | placeholder_svg_tag }}
-                  {{ 'product-3' | placeholder_svg_tag }}
-                  {{ 'product-4' | placeholder_svg_tag }}
-                {% endif %}
-              </div>
-              {% render 'pagination', paginate: paginate, color_scheme %}
-            </div>
-          </div>
-        </div>
-      {% endif %}
-
-      <!-- Active filters -->
-      <section aria-labelledby="filter-heading">
-        <h2 id="filter-heading" class="sr-only">{{ 'sections.collection.filters.filters' | t }}</h2>
-        {% liquid
-          assign active_filter_count = 0
-          assign active_price_range = false
-          for filter in collection.filters
-            if filter.type == 'price_range'
-              if filter.min_value.value or filter.max_value.value
-                assign active_filter_count = active_filter_count | plus: 1
-                assign active_price_range = true
-              endif
-            else
-              if filter.active_values.size > 0
-                assign active_filter_count = active_filter_count | plus: 1
-              endif
-            endif
-          endfor
-        %}
-        <div id="active-filters" hx-swap-oob="true" hx-swap="innerHTML">
-          {% if active_filter_count > 0 %}
-            <div class="bg-{{ color_scheme }} py-12 sm:flex sm:justify-between sm:items-center">
-              <span class="sr-only">{{ 'sections.collection.filters.active' | t }}</span>
-              {% comment %}
-                <div class="-m-4 flex flex-wrap items-center">
-                  {% for filter in collection.filters %}
-                    {% if filter.type == 'price_range' %}
-                      {% if active_price_range %}
-                        {% render 'filter-tag', filter: filter, color_scheme: color_scheme %}
-                      {% endif %}
-                    {% else %}
-                      {% for value in filter.active_values %}
-                        {% render 'filter-tag', filter: filter, value: value, color_scheme: color_scheme %}
-                      {% endfor %}
-                    {% endif %}
-                  {% endfor %}
-                </div>
-              {% endcomment %}
-              <div class="clear-all">
-                <button
-                  type="button"
-                  class="text-{{ color_scheme }} underline underline-offset-2 clear-all-button bg-transparent border-0 cursor-pointer"
-                  onclick="window.clearAllFilters()"
-                >
-                  {{ 'sections.collection.filters.clear_all' | t }}
-                </button>
-              </div>
-            </div>
-          {% else %}
-            <div style="display: none;"></div>
-          {% endif %}
-        </div>
-      </section>
-    </div>
-  {% endpaginate %}
-</div>
-
-<script>
-  // State synchronization between sidebar and drawer
-  let lastIsMobile = window.innerWidth < 1024;
-
-  function syncFilterState() {
-    const isMobile = window.innerWidth < 1024;
-
-    if (isMobile !== lastIsMobile) {
-      // Screen size changed, sync filter state
-      const sourceForm = lastIsMobile
-        ? document.querySelector('filter-drawer-root #filter-form-drawer') // From drawer
-        : document.querySelector('#filter-sidebar #filter-form-sidebar'); // From sidebar
-
-      const targetForm = isMobile
-        ? document.querySelector('filter-drawer-root #filter-form-drawer') // To drawer
-        : document.querySelector('#filter-sidebar #filter-form-sidebar'); // To sidebar
-
-      if (sourceForm && targetForm) {
-        // Copy checkbox states
-        const sourceCheckboxes = sourceForm.querySelectorAll('input[type="checkbox"]');
-        const targetCheckboxes = targetForm.querySelectorAll('input[type="checkbox"]');
-
-        sourceCheckboxes.forEach((sourceBox, index) => {
-          const targetBox = targetCheckboxes[index];
-          if (targetBox && sourceBox.name === targetBox.name) {
-            targetBox.checked = sourceBox.checked;
-          }
-        });
-
-        // Copy price range values
-        const sourcePriceInputs = sourceForm.querySelectorAll('input[name$="[gte]"], input[name$="[lte]"]');
-        const targetPriceInputs = targetForm.querySelectorAll('input[name$="[gte]"], input[name$="[lte]"]');
-
-        sourcePriceInputs.forEach((sourceInput, index) => {
-          const targetInput = targetPriceInputs[index];
-          if (targetInput && sourceInput.name === targetInput.name) {
-            targetInput.value = sourceInput.value;
-          }
-        });
-
-        // Re-initialize components for new form
-        if (window.initPriceSliders) window.initPriceSliders();
-        if (window.updatePriceSliders) window.updatePriceSliders();
-        if (window.initAccordions) window.initAccordions();
-      }
-    }
-
-    lastIsMobile = isMobile;
+  #product-list #product-grid,
+  #product-list #product-filter-inputs {
+    transition: opacity 300ms ease;
   }
 
-  // Sync state on resize
-  window.addEventListener('resize', syncFilterState);
+  #product-list.htmx-request #product-grid,
+  #product-list.htmx-request #product-filter-inputs {
+    opacity: 0.6;
+    pointer-events: none;
+  }
 
-  // Initial state sync on load
-  document.addEventListener('DOMContentLoaded', syncFilterState);
-</script>
+  product-list-section .noUi-connect,
+  product-list-section .noUi-horizontal .noUi-handle {
+    background-color: var(--color-{{ color_scheme }}-text);
+  }
+
+  product-list-section .noUi-connects {
+    background-color: var(--color-{{ color_scheme }}-text-secondary);
+  }
+
+  product-list-section .noUi-horizontal .noUi-handle .noUi-tooltip {
+    color: var(--color-{{ color_scheme }}-text)
+  }
+{% endstyle %}
+
+<product-list-section class="max-w-container flex flex-col gap-24 w-full p-24 md:p-48 mx-auto bg-{{ color_scheme }} text-{{ color_scheme }} responsive-padding-{{ section.id }}">
+  {% if collection.name %}
+    <div class='flex flex-col gap-4'>
+      {% render 'breadcrumbs',
+        url: '/categories',
+        collection: collection,
+        color_scheme: color_scheme
+      %}
+      <span class="text-heading-small font-medium">{{ collection.name }}</span>
+    </div>
+  {% endif %}
+
+  {% paginate collection.products by 12 %}
+    {%- liquid
+      assign products = collection.products
+      assign filters = collection.filters
+      assign sort_options = collection.sort_options
+      assign sort_by = collection.sort_by
+
+      assign show_filters = section.settings.show_filters and filters.size > 0
+      assign active_filter_count = 0
+
+      for filter in filters
+        case filter.type
+          when 'price_range'
+            if filter.min_value.value or filter.max_value.value
+              assign active_filter_count = active_filter_count | plus: 1
+            endif
+          else
+            if filter.active_values.size > 0
+              assign active_values_count = filter.active_values | size
+              assign active_filter_count = active_filter_count | plus: active_values_count
+            endif
+        endcase
+      endfor
+    -%}
+
+    <form
+      id="product-list"
+      class="flex w-full"
+      hx-get="{{ page.url }}"
+      hx-trigger="product-filters-change, product-sort-change, filters-clear, pagination-change"
+      hx-indicator="#product-list"
+      hx-swap="none"
+    >
+      {% if show_filters %}
+        <product-filters>
+          <!-- Sidebar (desktop only) -->
+          <div class="hidden sm:block">
+            {% render 'product-filter-sidebar',
+              filters: filters,
+              active_filter_count: active_filter_count,
+              color_scheme: color_scheme
+            %}
+          </div>
+          <!-- Drawer (mobile only) -->
+          <div class="block sm:hidden">
+            {% render 'product-filter-drawer',
+              filters: filters,
+              active_filter_count: active_filter_count,
+              color_scheme: color_scheme
+            %}
+          </div>
+        </product-filters>
+      {% endif %}
+      <div
+        id="product-grid"
+        class="flex flex-col w-full gap-24"
+        hx-swap-oob="true"
+      >
+        {% render 'product-grid-bar',
+          products: products,
+          sort_options: sort_options,
+          sort_by: sort_by,
+          show_filters: show_filters,
+          color_scheme: color_scheme
+        %}
+        {% render 'product-grid',
+          products: products,
+          active_filter_count: active_filter_count,
+          color_scheme: color_scheme
+        %}
+        {% render 'pagination',
+          paginate: paginate,
+          color_scheme: color_scheme
+        %}
+      </div>
+    </form>
+  {% endpaginate %}
+</product-list-section>
+
 
 {% schema %}
 {
@@ -261,6 +147,12 @@
       "default": "scheme-1"
     },
     {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "Show filter options",
+      "default": true
+    },
+    {
       "type": "range",
       "id": "top_padding",
       "label": "Top padding",
@@ -268,7 +160,7 @@
       "max": 96,
       "step": 1,
       "unit": "px",
-      "default": 96
+      "default": 40
     },
     {
       "type": "range",
@@ -278,7 +170,7 @@
       "max": 96,
       "step": 1,
       "unit": "px",
-      "default": 96
+      "default": 64
     }
   ]
 }

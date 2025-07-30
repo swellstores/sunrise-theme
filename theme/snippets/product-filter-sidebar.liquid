@@ -1,0 +1,52 @@
+{% comment %}
+  Renders the sidebar with product filters on collection pages.
+
+  Accepts:
+  - filters: {Array} List of available filter options.
+  - color_scheme: {String} Optional. Controls the color scheme of inner filter components.
+  - active_filter_count: {Number} Used to conditionally show the "Clear all" button.
+
+  Behavior:
+  - Collapses/expands the sidebar based on `aria-hidden`.
+  - Displays filter inputs via the 'product-filter-inputs' snippet.
+  - Shows a "Clear all" link if any filters are active.
+
+  Usage:
+  {% render 'product-filter-sidebar', filters: collection.filters, color_scheme: section.settings.color_scheme %}
+{% endcomment %}
+
+<product-filter-sidebar
+  class="
+    flex
+    flex-col
+    w-264
+    gap-24
+    transition-all
+    duration-300
+    overflow-hidden
+    [&[aria-hidden='false']]:mr-32
+    [&[aria-hidden='true']]:w-0
+    [&[aria-hidden='true']]:opacity-0
+  "
+  aria-hidden="false"
+>
+  <div class="flex w-full justify-between">
+    <span class="text-title-medium">
+      {{ 'sections.collection.filters.filters' | t -}}
+    </span>
+    <div
+      id="filters-clear-sidebar"
+      hx-swap-oob="true"
+    >
+      {% if active_filter_count > 0 %}
+        <filters-clear class="text-title-small underline">
+          {{ 'sections.collection.filters.clear_all' | t -}}
+        </filters-clear>
+      {% endif %}
+    </div>
+  </div>
+  {% render 'product-filter-inputs',
+    filters: filters,
+    color_scheme: color_scheme
+  %}
+</product-filter-sidebar>
