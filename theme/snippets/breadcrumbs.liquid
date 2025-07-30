@@ -1,75 +1,21 @@
-<ul class="flex items-center text-body-medium gap-16" role="navigation" aria-label="{{ 'general.breadcrumbs.label' | t }}">
-  <li class="after:content-[''] after:ml-8 bg-after-{{ color_scheme }} after:w-4 after:h-4 after:rounded-full after:inline-block after:align-middle">
-    <a
-      href="{{ routes.root_url }}"
-      class="underline underline-offset-4 decoration-accent-{{ color_scheme }}"
-    >
-      {{- 'general.breadcrumbs.home' | t -}}
-    </a>
-  </li>
-  {% case template %}
-    {% when 'product' %}
-      {% if collection %}
-        <li class="after:content-[''] after:ml-8 bg-after-{{ color_scheme }} after:w-4 after:h-4 after:rounded-full after:inline-block after:align-middle">
-          <a
-            href="{{ routes.collections_url }}"
-            class="underline underline-offset-4 decoration-accent-{{ color_scheme }}"
-          >
-            {{- 'general.breadcrumbs.collections' | t -}}
-          </a>
-        </li>
-      {% else %}
-        <li class="after:content-[''] after:ml-8 bg-after-{{ color_scheme }} after:w-4 after:h-4 after:rounded-full after:inline-block after:align-middle">
-          <a
-            href="{{ routes.all_products_collection_url }}"
-            class="underline underline-offset-4 decoration-accent-{{ color_scheme }}"
-          >
-            {{- 'general.breadcrumbs.products' | t -}}
-          </a>
-        </li>
-      {% endif %}
-      <li aria-current="page">{{ product.title }}</li>
+{% comment %}
+  Renders breadcrumb navigation for a nested collection.
 
-    {% when 'collection' %}
-      <li class="after:content-[''] after:ml-8 bg-after-{{ color_scheme }} after:w-4 after:h-4 after:rounded-full after:inline-block after:align-middle">
-        <a
-          href="{{ routes.collections_url }}"
-          class="underline underline-offset-4 decoration-accent-{{ color_scheme }}"
-        >
-          {{- 'general.breadcrumbs.collections' | t -}}
-        </a>
-      </li>
-      <li aria-current="page">
-        {% assign default_products_text = 'general.breadcrumbs.products' | t %}
-        {{ current_tags.first | default: collection.title | default: default_products_text }}
-      </li>
+  Accepts:
+  - url: {String} The current page URL, used to build the breadcrumb path.
+  - collection: {Object} The current collection object. Breadcrumb will render only if `collection.parent` exists.
+  - color_scheme: {String} Optional. The color scheme applied to the breadcrumb.
 
-    {% when 'article' %}
-      <li class="after:content-[''] after:ml-8 bg-after-{{ color_scheme }} after:w-4 after:h-4 after:rounded-full after:inline-block after:align-middle">
-        <a href="{{ blog.url }}" class="underline underline-offset-4 decoration-accent-{{ color_scheme }}">
-          {{- blog.title -}}
-        </a>
-      </li>
-      <li aria-current="page">{{ article.title }}</li>
+  Usage:
+  {% render 'breadcrumbs', url: request.path, collection: collection, color_scheme: section.settings.color_scheme %}
+{% endcomment %}
 
-    {% when '404', 'cart', 'search', 'list-collections' %}
-      <li aria-current="page">{{ page_title }}</li>
-
-    {% when 'customers/login', 'customers/account', 'customers/register', 'customers/activate_account' %}
-      <li>{{ 'general.breadcrumbs.account' | t }}</li>
-      {% if template == 'customers/addresses' %}
-        <li>{{ 'general.breadcrumbs.addresses' | t }}</li>
-      {% elsif template == 'customers/order' %}
-        <li>{{ page_title }}</li>
-      {% endif %}
-
-    {% when 'page' %}
-      <li aria-current="page">{{ page.title }}</li>
-
-    {% when 'blog' %}
-      <li aria-current="page">{{ blog.title }}</li>
-
-    {% when 'customers/reset_password' %}
-      <li aria-current="page">{{ page_title }}</li>
-  {% endcase %}
-</ul>
+{% if collection.parent %}
+  <div class="flex flex-row-reverse justify-end gap-4 text-body-small font-semibold">
+    {% render 'breadcrumb',
+      url: url,
+      collection: collection,
+      color_scheme: color_scheme
+    %}
+  </div>
+{% endif %}
