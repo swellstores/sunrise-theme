@@ -47,6 +47,7 @@ import { ProductFilters } from "./product-filters";
 import { ProductFilterSidebar } from "./product-filter-sidebar";
 import { ProductFilterDrawer } from "./product-filter-drawer";
 import { ProductFilterToggle } from "./product-filter-toggle";
+import { Account } from "./account";
 import { AccountSubscription } from "./account-subscription";
 
 // Import vendor libraries
@@ -129,6 +130,9 @@ window.theme.accordion_rendered = true;
     customElements.define("product-filter-sidebar", ProductFilterSidebar);
     customElements.define("product-filter-drawer", ProductFilterDrawer);
     customElements.define("product-filter-toggle", ProductFilterToggle);
+
+    // account
+    customElements.define("account-details", Account);
     customElements.define("account-subscription", AccountSubscription);
   }
 
