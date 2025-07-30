@@ -1,0 +1,104 @@
+{% comment %}
+  Renders the product grid bar with product count, filter toggle, and sort dropdown.
+
+  Accepts:
+  - products: {Array} Array of product objects in the collection
+  - sort_options: {Array} List of sorting options, each with `value` and `name`
+  - sort_by: {String} Current sorting criteria value
+  - show_filters: {Boolean} Whether to show the filter toggle button
+  - color_scheme: {String} Color scheme variant for styling (e.g., "light", "dark")
+
+  Features:
+  - Displays product count with proper singular/plural translations
+  - Shows filter toggle button if enabled
+  - Displays sorting dropdown if there are products
+  - Uses dynamic classes and inline icons for UI consistency
+
+  Usage:
+  {% render 'product-grid-bar',
+     products: products,
+     sort_options: sort_options,
+     sort_by: sort_by,
+     show_filters: show_filters,
+     color_scheme: color_scheme
+  %}
+{% endcomment %}
+
+{%- liquid
+  assign product_count = products | size
+  assign has_products = product_count > 0
+  assign is_one_product = product_count == 1
+-%}
+
+<div class="flex w-full justify-between text-body-medium">
+  <span
+    class="
+      {% unless has_products %}
+        text-secondary-{{ color_scheme }}
+      {% endunless %}
+    "
+  >
+    {% if is_one_product %}
+      {{ 'sections.collection.item_count.one' | t: count: product_count -}}
+    {% else %}
+      {{ 'sections.collection.item_count.other' | t: count: product_count -}}
+    {% endif %}
+  </span>
+  <div class="flex gap-24">
+    {% if show_filters %}
+      <product-filter-toggle>
+        <span class="flex gap-4 h-20 items-center">
+          {{ 'sections.collection.filters.filters' | t -}}
+          <span class="w-14">
+            {{- 'sliders-icon.svg' | inline_asset_content -}}
+          </span>
+        </span>
+      </product-filter-toggle>
+    {% endif %}
+    {% if has_products %}
+      <product-sort data-value="{{ sort_by }}">
+        <dropdown-menu class="relative flex flex-col group">
+          <dropdown-trigger class="flex items-center gap-4">
+            {{ 'sections.collection.filters.sort_by' | t -}}
+            <ion-icon name="chevron-down-outline" class="size-18 group-aria-expanded:rotate-180"></ion-icon>
+          </dropdown-trigger>
+          <dropdown-options
+            class="
+              absolute
+              hidden
+              group-aria-expanded:flex
+              flex-col
+              rounded
+              min-w-160
+              px-12
+              py-8
+              gap-8
+              top-24
+              right-0
+              z-10
+              shadow-md
+              bg-{{ color_scheme }}
+            "
+          >
+            {% for option in sort_options %}
+              {%- assign selected = option.value == sort_by -%}
+
+              <dropdown-option
+                class="flex justify-between items-center gap-12 whitespace-nowrap cursor-pointer"
+                value="{{ option.value }}"
+                {% if selected %}
+                  selected
+                {% endif %}
+              >
+                {{ option.name }}
+                {% if selected %}
+                  <ion-icon name="checkmark-outline" class="size-20 text-{{ color_scheme }}"></ion-icon>
+                {% endif %}
+              </dropdown-option>
+            {% endfor %}
+          </dropdown-options>
+        </dropdown-menu>
+      </product-sort>
+    {% endif %}
+  </div>
+</div>

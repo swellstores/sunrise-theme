@@ -1,0 +1,40 @@
+{% comment %}
+  Renders a breadcrumb item for the given collection and its parent, recursively.
+
+  This snippet outputs a breadcrumb link to the current collection, and, if the collection has a parent, it first renders the parent breadcrumb (by recursively calling itself).
+
+  Accepts:
+  - url: {String} The base URL for the breadcrumb (e.g., current path or section URL).
+  - collection: {Object} The current collection object. If it has a `parent`, the parent breadcrumb will be rendered before the current one.
+  - color_scheme: {String} Optional. Used to style the breadcrumb element, passed down recursively.
+
+  Behavior:
+  - Generates the breadcrumb URL by appending the collection's `slug` to the `url`.
+  - Prepends a "/" before the collection name if it has a parent.
+  - Recursively renders parent collections if they exist.
+
+  Usage:
+  {% render 'breadcrumb', url: request.path, collection: collection, color_scheme: section.settings.color_scheme %}
+{% endcomment %}
+
+{%- liquid
+  assign parent = collection.parent
+  assign breadcrumb_url = url | append: '/' | append: collection.slug
+-%}
+
+<span>
+  {% if parent %}
+    /
+  {% endif %}
+  <a href="{{ breadcrumb_url }}">
+    {{ collection.name }}
+  </a>
+</span>
+
+{% if parent %}
+  {% render 'breadcrumb',
+    url: url,
+    collection: parent,
+    color_scheme: color_scheme
+  %}
+{% endif %}

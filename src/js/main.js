@@ -2,7 +2,8 @@ import hoverintent from "./hoverintent";
 // components
 import { RadioButton, RadioOption } from "./radio-button";
 import { DropdownMenu, DropdownTrigger, DropdownOption } from "./dropdown-menu";
-import { ToggleButton } from "./toggle-button";
+import { ToggleButton, ToggleButtonCheckbox } from "./toggle-button";
+import { RangeSlider } from "./range-slider";
 import { QuantitySelector } from "./quantity-selector";
 import { CopyToClipboard } from "./copy-to-clipboard";
 import { Popover } from "./popover";
@@ -13,6 +14,12 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "./accordion";
+import { PaginationNav, PaginationLink } from "./pagination";
+// filters
+import { FilterInputBoolean } from "./filter-input-boolean";
+import { FilterInputList } from "./filter-input-list";
+import { FilterInputPriceRange } from "./filter-input-price-range";
+import { FiltersClear } from "./filters-clear";
 // menu
 import { MegaMenu } from "./mega-menu";
 import { CascadingMenu } from "./cascading-menu";
@@ -33,42 +40,24 @@ import { ProductPurchaseOptions } from "./product-purchase-options";
 import { ProductPurchaseOptionStandard } from "./product-purchase-option-standard";
 import { ProductPurchaseOptionSubscription } from "./product-purchase-option-subscription";
 import { ProductSection } from "./product-section";
-// products filter
-import { FilterDrawer } from "./filter-drawer";
-import { initPriceSliders, updatePriceSliders } from "./price-slider";
+// product list
+import { ProductListSection } from "./product-list-section";
+import { ProductSort } from "./product-sort";
+import { ProductFilters } from "./product-filters";
+import { ProductFilterSidebar } from "./product-filter-sidebar";
+import { ProductFilterDrawer } from "./product-filter-drawer";
+import { ProductFilterToggle } from "./product-filter-toggle";
 import { AccountSubscription } from "./account-subscription";
-
-// Make hoverintent available globally
-window.hoverintent = hoverintent;
-
-window.initPriceSliders = initPriceSliders;
-window.updatePriceSliders = updatePriceSliders;
-
-// Initialize accordions function
-function initAccordions() {
-  const accordionItems = document.querySelectorAll("accordion-item");
-  accordionItems.forEach((item) => {
-    const isExpanded = item.getAttribute("aria-expanded") === "true";
-    const content = item.querySelector("accordion-content");
-
-    if (content && isExpanded) {
-      // Force open if it should be expanded
-      content.open();
-    }
-  });
-}
-
-window.initAccordions = initAccordions;
 
 // Import vendor libraries
 import { loadIonIcons } from "./vendor";
-
 // Import modules
 import "./swiper-element-bundle";
 import "./slideshow-navigation";
-import "./accordion";
-import "./filter";
 import "./htmx.min";
+
+// Make hoverintent available globally
+window.hoverintent = hoverintent;
 
 // Initialize before IIFE to ensure global availability
 window.theme = window.theme || {};
@@ -85,6 +74,8 @@ window.theme.accordion_rendered = true;
     customElements.define("dropdown-trigger", DropdownTrigger);
     customElements.define("dropdown-option", DropdownOption);
     customElements.define("toggle-button", ToggleButton);
+    customElements.define("toggle-button-checkbox", ToggleButtonCheckbox);
+    customElements.define("range-slider", RangeSlider);
     customElements.define("quantity-selector", QuantitySelector);
     customElements.define("copy-to-clipboard", CopyToClipboard);
     customElements.define("popover-root", Popover);
@@ -93,6 +84,14 @@ window.theme.accordion_rendered = true;
     customElements.define("accordion-item", AccordionItem);
     customElements.define("accordion-trigger", AccordionTrigger);
     customElements.define("accordion-content", AccordionContent);
+    customElements.define("pagination-nav", PaginationNav);
+    customElements.define("pagination-link", PaginationLink);
+
+    // filters
+    customElements.define("filter-input-boolean", FilterInputBoolean);
+    customElements.define("filter-input-list", FilterInputList);
+    customElements.define("filter-input-price-range", FilterInputPriceRange);
+    customElements.define("filters-clear", FiltersClear);
 
     // menu
     customElements.define("mega-menu-root", MegaMenu);
@@ -114,17 +113,22 @@ window.theme.accordion_rendered = true;
     customElements.define("product-option-toggle", ProductOptionToggle);
     customElements.define("product-option-text", ProductOptionText);
     customElements.define("product-purchase-options", ProductPurchaseOptions);
-    customElements.define("filter-drawer-root", FilterDrawer);
     customElements.define(
       "product-purchase-option-standard",
-      ProductPurchaseOptionStandard,
+      ProductPurchaseOptionStandard
     );
     customElements.define(
       "product-purchase-option-subscription",
-      ProductPurchaseOptionSubscription,
+      ProductPurchaseOptionSubscription
     );
 
-    // subscription
+    // product list
+    customElements.define("product-list-section", ProductListSection);
+    customElements.define("product-sort", ProductSort);
+    customElements.define("product-filters", ProductFilters);
+    customElements.define("product-filter-sidebar", ProductFilterSidebar);
+    customElements.define("product-filter-drawer", ProductFilterDrawer);
+    customElements.define("product-filter-toggle", ProductFilterToggle);
     customElements.define("account-subscription", AccountSubscription);
   }
 
@@ -133,7 +137,4 @@ window.theme.accordion_rendered = true;
 
   // Load IonIcons
   loadIonIcons();
-
-  // Initialize price sliders
-  initPriceSliders();
 })();
