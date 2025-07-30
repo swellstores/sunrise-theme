@@ -2,7 +2,7 @@ function isValidFormValue(value) {
   return value !== null && value !== undefined;
 }
 
-function serializeFormData(data, prefix = "") {
+export function serializeFormData(data, prefix = "") {
   return Object.entries(data).reduce((acc, [key, value]) => {
     if (!isValidFormValue(value)) {
       return acc;
@@ -10,7 +10,9 @@ function serializeFormData(data, prefix = "") {
 
     const prefixedKey = prefix ? `${prefix}[${key}]` : key;
 
-    if (Array.isArray(value)) {
+    if (value instanceof Set) {
+      acc[prefixedKey] = Array.from(value);
+    } else if (Array.isArray(value)) {
       value.forEach((item, index) => {
         if (isValidFormValue(item)) {
           const serializedData = serializeFormData(
@@ -33,10 +35,14 @@ function serializeFormData(data, prefix = "") {
   }, {});
 }
 
-export function setFormParams(event, data) {
-  const serializedData = serializeFormData(data);
-
+export function applySerializedData(event, serializedData) {
   Object.entries(serializedData).forEach(([key, value]) => {
     event.detail.parameters[key] = value;
   });
+}
+
+export function setFormParams(event, data) {
+  const serializedData = serializeFormData(data);
+
+  applySerializedData(event, serializedData);
 }
