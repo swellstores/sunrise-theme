@@ -7,6 +7,42 @@ class BaseCustomEvent extends CustomEvent {
   }
 }
 
+/* FILTER EVENTS */
+
+export class FilterInputChangeEvent extends BaseCustomEvent {
+  static type = "filter-input-change";
+
+  constructor(detail) {
+    super(FilterInputChangeEvent.type, detail);
+  }
+}
+
+export class FiltersClearEvent extends BaseCustomEvent {
+  static type = "filters-clear";
+
+  constructor(detail) {
+    super(FiltersClearEvent.type, detail);
+  }
+}
+
+/* PAGINATION EVENTS */
+
+export class PaginationLinkClickEvent extends BaseCustomEvent {
+  static type = "pagination-link-click";
+
+  constructor(detail) {
+    super(PaginationLinkClickEvent.type, detail);
+  }
+}
+
+export class PaginationChangeEvent extends BaseCustomEvent {
+  static type = "pagination-change";
+
+  constructor(detail) {
+    super(PaginationChangeEvent.type, detail);
+  }
+}
+
 /* CART EVENTS */
 
 export class CartItemQuantityChangeEvent extends BaseCustomEvent {
@@ -48,5 +84,29 @@ export class ProductPurchaseOptionChangeEvent extends BaseCustomEvent {
 
   constructor(detail) {
     super(ProductPurchaseOptionChangeEvent.type, detail);
+  }
+}
+
+export class ProductSortChangeEvent extends BaseCustomEvent {
+  static type = "product-sort-change";
+
+  constructor(detail) {
+    super(ProductSortChangeEvent.type, detail);
+  }
+}
+
+export class ProductFiltersChangeEvent extends BaseCustomEvent {
+  static type = "product-filters-change";
+
+  constructor(detail) {
+    super(ProductFiltersChangeEvent.type, detail);
+  }
+}
+
+export class ProductFilterToggleEvent extends BaseCustomEvent {
+  static type = "product-filter-toggle";
+
+  constructor(detail) {
+    super(ProductFilterToggleEvent.type, detail);
   }
 }

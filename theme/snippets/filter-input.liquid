@@ -1,81 +1,40 @@
-{% assign disabled = false %}
+{% comment %}
+  Renders the correct input UI for a given filter type.
 
-{% case filter.type %}
-  {% when 'boolean' %}
-    <div class="flex items-center flex-nowrap gap-8">
-      <input
-        type="checkbox"
-        class="size-16 mr-8 rounded bg-{{ color_scheme }} border-color-{{ color_scheme }}"
-        id="{{ filter.param_name }}"
-        name="{{ filter.param_name }}"
-        value="{{ filter.true_value.value }}"
-        {% if filter.active_values.size > 0 %}
-          checked
-        {% endif %}
-      >
-      <label for="{{ filter.param_name }}" class="text-nowrap filter-checkbox text-{{ color_scheme }}">
-        {{- filter.true_value.label -}}
-      </label>
-    </div>
+  Accepts:
+  - filter: {Object} The filter object, must include `type` and `param_name`.
+  - color_scheme: {String} Optional. Passed to specific filter input snippets.
 
-  {% when 'list' %}
-    {% if option.active == false and option.count == 0 %}
-      {% assign disabled = true %}
-    {% endif %}
-    <label class="flex items-center flex-nowrap filter-checkbox">
-      <input
-        type="checkbox"
-        class="size-16 mr-8 rounded bg-{{ color_scheme }} border-color-{{ color_scheme }} {% if disabled %}opacity-60{% endif %}"
-        name="{{ filter.param_name }}"
-        value="{{ option.value }}"
-        {% if disabled %}
-          disabled
-        {% endif %}
-        {% if option.active %}
-          checked
-        {% endif %}
-      >
-      <span class="font-display text-nowrap text-{{ color_scheme }}">
-        {{- option.label -}}
-      </span>
-    </label>
+  Behavior:
+  - Chooses input renderer based on `filter.type`:
+    - 'boolean' → 'filter-input-boolean'
+    - 'list' → 'filter-input-list'
+    - 'price_range' → 'filter-input-price-range'
+  - Wraps output in a container with ID based on filter param.
 
-  {% when 'price_range' %}
-    <div
-      id="price-range"
-      class="price-slider w-full"
-      data-min="{{ 0 }}"
-      data-max="{{ filter.range_max }}"
-      data-start-min="{{ filter.min_value.value | default: 0 }}"
-      data-start-max="{{ filter.max_value.value | default: filter.range_max }}"
-      data-step="1"
-      data-input-name="{{ filter.param_name }}"
-      data-currency-symbol="{{ localization.country.currency.symbol }}"
-    >
-      <div class="flex justify-between mb-[4px]">
-        <span class="text-headline-medium text-primary-{{ color_scheme }} min-value">
-          {{- filter.min_value.value | default: 0 | money -}}
-        </span>
-        <span class="text-headline-medium text-primary-{{ color_scheme }} max-value">
-          {{- filter.max_value.value | default: filter.range_max | money -}}
-        </span>
-      </div>
+  Usage:
+  {% render 'filter-input', filter: filter, color_scheme: section.settings.color_scheme %}
+{% endcomment %}
 
-      <div class="slider-track"></div>
-    </div>
-{% endcase %}
-
-{% style %}
-  #price-range.price-slider .noUi-target {
-    background: var(--color-{{ color_scheme }}-borders-and-inputs);
-  }
-  #price-range.price-slider .noUi-connect {
-    background: var(--color-{{ color_scheme }}-button);
-  }
-  #price-range.price-slider .noUi-handle {
-    background: var(--color-{{ color_scheme }}-button);
-  }
-  #price-range.price-slider .noUi-handle:after {
-    background: var(--color-{{ color_scheme }}-button-label);
-  }
-{% endstyle %}
+<div
+  id="filter-input-{{ filter.param_name }}"
+  hx-swap-oob="true"
+>
+  {% case filter.type %}
+    {% when 'boolean' %}
+      {% render 'filter-input-boolean',
+        filter: filter,
+        color_scheme: color_scheme
+      %}
+    {% when 'list' %}
+      {% render 'filter-input-list',
+        filter: filter,
+        color_scheme: color_scheme
+      %}
+    {% when 'price_range' %}
+      {% render 'filter-input-price-range',
+        filter: filter,
+        color_scheme: color_scheme
+      %}
+  {% endcase %}
+</div>

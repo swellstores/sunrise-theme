@@ -195,6 +195,10 @@
       "slideshow_of": "of"
     },
     "collection": {
+      "item_count": {
+        "one": "{{ count }} item",
+        "other": "{{ count }} items"
+      },
       "filters": {
         "filters": "Filters",
         "filter_and_sort": "Filter and sort",
@@ -206,7 +210,9 @@
         "reset": "Reset",
         "close": "Close",
         "clear_all": "Clear all",
-        "remove_label": "Remove filter for {{ attribute }}"
+        "remove_label": "Remove filter for {{ attribute }}",
+        "view_results": "View results",
+        "no_product_results": "No products found"
       }
     },
     "header": {
