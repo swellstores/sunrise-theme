@@ -19,6 +19,7 @@
       p-10
       rounded
       hover:cursor-pointer
+      group
       {% if value.selected %}
         btn-primary-{{ variants_color_scheme }}
       {% else %}
@@ -28,14 +29,16 @@
     value="{{ value.name }}"
     data-value-id="{{ value.id }}"
     {% if value.selected %}
-      checked
+      aria-checked="true"
+    {% else %}
+      aria-checked="false"
     {% endif %}
     {% unless value.available %}
       disabled
     {% endunless %}
   >
     <div class="flex gap-8">
-      <div
+      <toggle-button-checkbox
         class="
           flex
           items-center
@@ -49,17 +52,14 @@
           stroke-1
           border
           pointer-events-none
-          {% if value.selected %}
-            border-accent-{{ variants_color_scheme }}
-          {% else %}
-            border-secondary-{{ variants_color_scheme }}
-          {% endif %}
         "
+        data-checked-class="btn-primary-{{ variants_color_scheme }}"
+        data-unchecked-class="btn-secondary-{{ variants_color_scheme }}"
       >
-        {% if value.selected %}
+        <div class="hidden items-center size-14 group-aria-checked:flex">
           {{- 'icon-checkmark.svg' | inline_asset_content -}}
-        {% endif %}
-      </div>
+        </div>
+      </toggle-button-checkbox>
       <div class="flex flex-col">
         <span class="text-title-small text-{{ variants_color_scheme }}">{{ option.name }}</span>
         {% if option.description %}

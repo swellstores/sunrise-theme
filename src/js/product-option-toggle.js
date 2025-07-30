@@ -13,7 +13,8 @@ export class ProductOptionToggle extends HTMLElement {
 
   connectedCallback() {
     this.optionId = this.dataset.optionId;
-    const checked = this.querySelector("[checked]");
+
+    const checked = this.querySelector("toggle-button[aria-checked='true']");
 
     if (checked) {
       this.value = checked.getAttribute("value");

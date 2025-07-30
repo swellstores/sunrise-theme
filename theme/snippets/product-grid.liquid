@@ -1,0 +1,47 @@
+{% comment %}
+  Renders a product grid for displaying collection products.
+
+  Accepts:
+  - products: {Array} List of product objects to display
+  - active_filter_count: {Number} Count of currently active filters
+  - color_scheme: {String} Color scheme for styling (e.g., "light", "dark")
+
+  Features:
+  - Shows a "no results" message if no products match active filters
+  - Displays product cards in a responsive grid (2, 3, or 4 columns depending on screen size)
+  - Shows placeholder product images if no products are available
+
+  Usage:
+  {% render 'product-grid',
+     products: products,
+     active_filter_count: active_filter_count,
+     color_scheme: color_scheme
+  %}
+{% endcomment %}
+
+{%- liquid
+  assign product_count = products | size
+  assign has_products = product_count > 0
+-%}
+
+{% if has_products == false and active_filter_count > 0 %}
+  <div class="flex items-center justify-center col-span-full p-32 text-body-medium text-secondary-{{ color_scheme }}">
+    {{ 'sections.collection.filters.no_product_results' | t -}}
+  </div>
+{% else %}
+  <div class="grid gap-16 grid-cols-2 lg:grid-cols-4">
+    {% if has_products %}
+      {% for product in products %}
+        {% render 'product-card',
+          product: product,
+          color_scheme: color_scheme
+        %}
+      {% endfor %}
+    {% else %}
+      {{ 'product-1' | placeholder_svg_tag }}
+      {{ 'product-2' | placeholder_svg_tag }}
+      {{ 'product-3' | placeholder_svg_tag }}
+      {{ 'product-4' | placeholder_svg_tag }}
+    {% endif %}
+  </div>
+{% endif %}
