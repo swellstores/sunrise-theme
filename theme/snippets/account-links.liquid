@@ -7,14 +7,16 @@
 
 <div class="flex flex-col items-start text-center w-250">
   <a
-    href="/account"
+    id="show-orders"
+    href="{% if internal %}#{% else %}/account{% endif %}"
     class="border-l px-8 py-4 font-display text-title-small {% if request.path == '/account' %}text-{{ color_scheme }} border-color{{ color_scheme }} {% else %}text-secondary-{{ color_scheme }} border-[#E0E0E0]{% endif %}"
   >
     {{ 'customer.account.my_orders' | t }}
   </a>
   <a
-    href="/account/subscriptions"
-    class="border-l px-8 py-4 font-display text-title-small {% if request.path == '/account/subscriptions' %}text-{{ color_scheme }} border-color{{ color_scheme }} {% else %}text-secondary-{{ color_scheme }} border-[#E0E0E0]{% endif %}"
+    id="show-subscriptions"
+    href="{% if internal %}#{% else %}/account?tab=subscriptions{% endif %}"
+    class="border-l px-8 py-4 font-display text-title-small {% if request.path == '/account?tab=subscriptions' %}text-{{ color_scheme }} border-color{{ color_scheme }} {% else %}text-secondary-{{ color_scheme }} border-[#E0E0E0]{% endif %}"
   >
     {{ 'customer.account.my_subscriptions' | t }}
   </a>
