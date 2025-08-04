@@ -1,3 +1,14 @@
+{% comment %}
+  Renders account orders list
+
+  Accepts:
+  - customer: {Object} customer
+  - color-scheme: {Object} color scheme to be used
+
+  Usage:
+    {% render 'account-orders' customer: customer, color_scheme: color_scheme %}
+{% endcomment %}
+
 {% assign orders = customer.orders %}
 
 <div id="account-orders" class="flex flex-col gap-32 w-full hidden">
@@ -27,7 +38,7 @@
                             {%
                               render 'image',
                               picture_class: 'svg-placeholder relative',
-                              placeholder: 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg'
+                              placeholder: 'product-apparel-1'
                             %}
                           {% endif %}
                         </li>
