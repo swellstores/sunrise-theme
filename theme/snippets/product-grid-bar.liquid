@@ -28,6 +28,7 @@
   assign product_count = products | size
   assign has_products = product_count > 0
   assign is_one_product = product_count == 1
+  assign selected_sort_option = sort_options | find: 'value', sort_by
 -%}
 
 <div class="flex w-full justify-between text-body-medium">
@@ -60,6 +61,11 @@
         <dropdown-menu class="relative flex flex-col group">
           <dropdown-trigger class="flex items-center gap-4">
             {{ 'sections.collection.filters.sort_by' | t -}}
+            {% if selected_sort_option %}
+              <span class="text-secondary-{{ color_scheme }}">
+                {{ selected_sort_option.name }}
+              </span>
+            {% endif %}
             <ion-icon name="chevron-down-outline" class="size-18 group-aria-expanded:rotate-180"></ion-icon>
           </dropdown-trigger>
           <dropdown-options
@@ -76,7 +82,7 @@
               top-24
               right-0
               z-10
-              shadow-md
+              !shadow-md
               bg-{{ color_scheme }}
             "
           >
@@ -84,16 +90,13 @@
               {%- assign selected = option.value == sort_by -%}
 
               <dropdown-option
-                class="flex justify-between items-center gap-12 whitespace-nowrap cursor-pointer"
+                class="flex whitespace-nowrap cursor-pointer before:hidden"
                 value="{{ option.value }}"
                 {% if selected %}
                   selected
                 {% endif %}
               >
                 {{ option.name }}
-                {% if selected %}
-                  <ion-icon name="checkmark-outline" class="size-20 text-{{ color_scheme }}"></ion-icon>
-                {% endif %}
               </dropdown-option>
             {% endfor %}
           </dropdown-options>

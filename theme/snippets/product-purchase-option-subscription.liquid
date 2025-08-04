@@ -70,6 +70,7 @@
   {% if show_dropdown %}
     <dropdown-menu class="relative flex flex-col group text-title-medium text-{{ variants_color_scheme }}">
       <dropdown-trigger
+        style="--shadow-color: var(--color-{{ variants_color_scheme }}-borders-and-inputs)"
         class="
           flex
           items-center
@@ -79,7 +80,9 @@
           gap-8
           rounded
           group-aria-expanded:rounded-b-0
-          btn-secondary-{{ variants_color_scheme }}
+          border
+          border-color-{{ variants_color_scheme }}
+          bg-{{ variants_color_scheme }}
         "
       >
         <div class="flex items-center flex-wrap">
@@ -99,7 +102,7 @@
               </span>
             {%- endif -%}
           {%- else -%}
-            <span class="text-title-small text-secondary-{{ variants_color_scheme }}">
+            <span class="placeholder text-title-small text-secondary-{{ variants_color_scheme }}">
               {{ 'sections.product.purchase.subscription' | t }}
             </span>
           {%- endif -%}
@@ -107,6 +110,7 @@
         <ion-icon name="chevron-down-outline" class="size-18 text-secondary-{{ variants_color_scheme }}"></ion-icon>
       </dropdown-trigger>
       <dropdown-options
+        style="--shadow-color: var(--color-{{ variants_color_scheme }}-borders-and-inputs)"
         class="
           absolute
           top-full
@@ -129,6 +133,7 @@
         {%- for plan in purchase_option.plans -%}
           <dropdown-option
             class="
+              relative
               flex
               items-center
               justify-between

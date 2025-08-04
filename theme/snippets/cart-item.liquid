@@ -7,7 +7,7 @@
       {% render 'image',
         image: item.image,
         alt: item.image.alt,
-        class: 'object-cover w-full h-full'
+        class: 'object-contain w-full h-full'
       %}
     {% else %}
       {% render 'image',
@@ -18,45 +18,84 @@
   </div>
   <div class="flex flex-col w-full gap-14">
     <div class="flex flex-col gap-4">
-      <span class="text-title-medium">
-        {{- item.product.title | escape -}}
-      </span>
-      {% if item.options_with_values.size > 0 %}
-        <span class="text-body-medium text-secondary-{{ color_scheme }}">
-          {%- for option in item.options_with_values -%}
-            {% if option.value %}
-              {%- if forloop.first != true -%}
-                /&nbsp;
-              {%- endif -%}
-              {{ option.value }}
-            {% endif %}
-          {%- endfor -%}
+      <div class="flex justify-between gap-16">
+        <span class="text-title-medium">
+          {{- item.product.title | escape -}}
         </span>
-      {% endif %}
-      <div class="flex flex-wrap text-body-medium lowercase">
-        <span class="font-medium">
-          {%- if item.purchase_option.type == 'standard' -%}
+        {% if inline_price %}
+          <span class="text-title-small leading-[2.4rem]">
             {{- item.price | money -}}
-          {%- elsif item.purchase_option.type == 'subscription' -%}
-            {% assign prefix = item.price | money | append: "/" %}
-            {%- render 'subscription-plan-schedule',
-              schedule: item.purchase_option.billing_schedule,
-              prefix: prefix
-            -%}
-          {%- endif -%}
-        </span>
-        {%- if item.purchase_option.order_schedule -%}
-          ,&nbsp;
-          {% assign delivered = 'sections.product.purchase.subscription_delivered' | t %}
-          {% assign prefix = "" | append: delivered | append: " " %}
-          <span>
-            {%- render 'subscription-plan-schedule',
-              schedule: item.purchase_option.order_schedule,
-              prefix: prefix
-            -%}
           </span>
-        {%- endif -%}
+        {% endif %}
       </div>
+      {% if item.options_with_values.size > 0 %}
+        {% if item.gift_card %}
+          {%- liquid
+            assign variant_option = item.options | find: 'variant', true
+            assign send_email_option = item.options | find: 'id', 'send_email'
+            assign send_note_option = item.options | find: 'id', 'send_note'
+            assign variant_price_money = variant_option.price | money
+          -%}
+
+          <div class="flex flex-col text-body-medium text-secondary-{{ color_scheme }}">
+            {% if variant_price_money != variant_option.value %}
+              <div class="flex gap-4">
+                {{ variant_option.value }}
+                {% if send_email_option %}
+                  / {{ 'sections.product.gift_card.send_gift' | t }}
+                {% endif %}
+              </div>
+            {% elsif send_email_option %}
+              {{ 'sections.product.gift_card.send_gift' | t }}
+            {% endif %}
+            {% if send_email_option %}
+              <span class="font-semibold">
+                {{ send_email_option.value }}
+              </span>
+            {% endif %}
+            {% if send_note_option %}
+              {{ send_note_option.value }}
+            {% endif %}
+          </div>
+        {% else %}
+          <span class="text-body-medium text-secondary-{{ color_scheme }}">
+            {%- for option in item.options_with_values -%}
+              {% if option.value %}
+                {%- if forloop.first != true -%}
+                  /&nbsp;
+                {%- endif -%}
+                {{ option.value }}
+              {% endif %}
+            {%- endfor -%}
+          </span>
+        {% endif %}
+      {% endif %}
+      {% if inline_price != true or inline_price and item.purchase_option.type == 'subscription' %}
+        <div class="flex flex-wrap text-body-medium lowercase">
+          <span class="font-medium">
+            {%- if item.purchase_option.type == 'standard' -%}
+              {{- item.price | money -}}
+            {%- elsif item.purchase_option.type == 'subscription' -%}
+              {% assign prefix = item.price | money | append: "/" %}
+              {%- render 'subscription-plan-schedule',
+                schedule: item.purchase_option.billing_schedule,
+                prefix: prefix
+              -%}
+            {%- endif -%}
+          </span>
+          {%- if item.purchase_option.order_schedule -%}
+            ,&nbsp;
+            {% assign delivered = 'sections.product.purchase.subscription_delivered' | t %}
+            {% assign prefix = "" | append: delivered | append: " " %}
+            <span>
+              {%- render 'subscription-plan-schedule',
+                schedule: item.purchase_option.order_schedule,
+                prefix: prefix
+              -%}
+            </span>
+          {%- endif -%}
+        </div>
+      {% endif %}
       {% if item.purchase_option.billing_schedule.trial_days > 0 %}
         <span class="text-body-medium italic">
           {{ 'sections.product.purchase.includes_trial' | t: trial_days: item.purchase_option.billing_schedule.trial_days }}
