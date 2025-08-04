@@ -79,6 +79,14 @@ export class ProductOptionChangeEvent extends BaseCustomEvent {
   }
 }
 
+export class ProductOptionGiftcardSendToggleEvent extends BaseCustomEvent {
+  static type = "product-option-giftcard-send-toggle";
+
+  constructor(detail) {
+    super(ProductOptionGiftcardSendToggleEvent.type, detail);
+  }
+}
+
 export class ProductPurchaseOptionChangeEvent extends BaseCustomEvent {
   static type = "product-purchase-option-change";
 

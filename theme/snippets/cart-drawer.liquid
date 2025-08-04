@@ -98,10 +98,8 @@
         %}
         {% assign checkout_text = 'sections.cart.checkout' | t %}
         {% render 'button',
+          href: cart.checkout_url,
           text: checkout_text,
-          type: 'submit',
-          form: 'cart',
-          name: 'checkout',
           variant: 'secondary',
           full_width: true,
           color_scheme: color_scheme

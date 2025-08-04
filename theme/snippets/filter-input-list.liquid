@@ -35,17 +35,15 @@
         class="
           flex
           items-center
-          p-2
+          justify-center
           size-16
           rounded-4
         "
         data-checked-class="btn-primary-{{ color_scheme }}"
         data-unchecked-class="btn-secondary-{{ color_scheme }}"
       >
-        <div class="hidden items-center size-16 group-aria-checked:flex">
-          <span class="inline-flex w-10 h-16">
-            {{- 'icon-checkmark.svg' | inline_asset_content -}}
-          </span>
+        <div class="hidden items-center justify-center size-10 group-aria-checked:flex">
+          {{- 'icon-checkmark.svg' | inline_asset_content -}}
         </div>
       </toggle-button-checkbox>
       {{ option.label }}
