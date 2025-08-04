@@ -247,6 +247,14 @@
         "interval_day": "Daily",
         "interval_day_plural": "days",
         "includes_trial": "{{ trial_days }}-day trial"
+      },
+      "gift_card": {
+        "options": "Card options",
+        "send_gift": "Send as gift",
+        "send_email": "Recipient's email",
+        "send_note": "Custom message",
+        "send_note_placeholder": "Write a custom message to the recipient",
+        "send_note_char_count": "characters"
       }
     },
     "cart": {
