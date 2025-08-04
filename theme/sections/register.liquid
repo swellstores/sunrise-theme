@@ -21,11 +21,14 @@
 {% endstyle %}
 
 <div
-  class="bg-{{ color_scheme }} text-{{ color_scheme }} flex flex-col items-center justify-start gap-16 pt-24 pb-64 pl-24 pr-24 sm:pt-32 sm:pb-96 responsive-padding-{{ section.id }}"
+  class="bg-{{ color_scheme }} text-{{ color_scheme }} flex flex-col items-center justify-start gap-16 pl-24 pr-24 responsive-padding-{{ section.id }}"
 >
   <div class="flex flex-col gap-32 items-start w-full sm:w-auto">
     <h1 class="font-display text-headline-medium">{{ 'sections.register.title' | t }}</h1>
-    {%- form 'create_customer', novalidate: 'novalidate', class: 'w-full' -%}
+    {%- form 'create_customer'
+        , novalidate: 'novalidate'
+        , class: 'w-full'
+    -%}
       {%- if form.errors -%}
         <div class="bg-red-50 w-full flex flex-col rounded-md border border-red-600 mb-16 p-16">
           <h2 tabindex="-1" autofocus class="outline-none body-large text-red-600">
@@ -76,7 +79,16 @@
             placeholder: password_text
           %}
         </div>
-        <div class="flex gap-16 sm:gap-32 items-center justify-end mt-32 flex-col-reverse sm:flex-row">
+        <div class="flex gap-16 items-center justify-center mt-32 flex-col">
+          <div class="sm:w-auto w-full">
+            {% assign create_account_text = 'sections.register.create_account' | t %}
+            {% render 'button',
+              type: 'submit',
+              text: create_account_text,
+              color_scheme: color_scheme,
+              class: 'sm:w-auto w-full'
+            %}
+          </div>
           <div class="flex items-center justify-center gap-4 text-body-medium">
             <a
               href="{{ routes.account_login_url }}"
@@ -84,14 +96,6 @@
             >
               {{ 'sections.register.already_have_account' | t }}
             </a>
-          </div>
-          <div class="sm:w-100 w-full">
-            {% assign create_account_text = 'sections.register.create_account' | t %}
-            {% render 'button',
-              type: 'submit',
-              text: create_account_text,
-              color_scheme: color_scheme
-            %}
           </div>
         </div>
       </div>

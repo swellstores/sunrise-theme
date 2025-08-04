@@ -72,15 +72,7 @@
           {{ 'sections.login.forgot_password' | t }}
         </a>
       </div>
-      <div class="flex gap-16 sm:gap-32 items-center justify-end mt-32 flex-col-reverse sm:flex-row">
-        <div class="flex items-center justify-center gap-4">
-          <a
-            href="{{ routes.account_register_url }}"
-            class="font-display text-body-medium underline underline-offset-2"
-          >
-            {{ 'sections.login.create_account' | t}}
-          </a>
-        </div>
+      <div class="flex gap-16 items-center justify-center mt-32 flex-col">
         <div class="sm:w-auto w-full">
           {% assign sign_in_text = 'sections.login.sign_in' | t %}
           {% render 'button',
@@ -90,6 +82,14 @@
             color_scheme: section.settings.color_scheme,
             variant: section.settings.button_variant
           %}
+        </div>
+        <div class="flex items-center justify-center gap-4">
+          <a
+            href="{{ routes.account_register_url }}"
+            class="font-display text-body-medium underline underline-offset-2"
+          >
+            {{ 'sections.login.create_account' | t}}
+          </a>
         </div>
       </div>
     {% endform %}
