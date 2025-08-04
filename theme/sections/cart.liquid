@@ -51,6 +51,7 @@
           {% render 'cart-item',
             item: item,
             index: forloop.index,
+            inline_price: true,
             color_scheme: color_scheme
           %}
         {%- endfor -%}
@@ -71,10 +72,8 @@
         </div>
         {% assign checkout_text = 'sections.cart.continue_checkout' | t %}
         {% render 'button',
+          href: cart.checkout_url,
           text: checkout_text,
-          type: 'submit',
-          form: 'cart',
-          name: 'checkout',
           full_width: true,
           class: 'whitespace-nowrap',
           color_scheme: color_scheme

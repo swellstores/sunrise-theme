@@ -36,6 +36,13 @@ import { ProductOptions } from "./product-options";
 import { ProductOptionSelect } from "./product-option-select";
 import { ProductOptionToggle } from "./product-option-toggle";
 import { ProductOptionText } from "./product-option-text";
+import {
+  ProductOptionGiftcard,
+  GiftcardSend,
+  GiftcardSendEmail,
+  GiftcardSendNote,
+  GiftcardSendNoteCount,
+} from "./product-option-giftcard";
 import { ProductPurchaseOptions } from "./product-purchase-options";
 import { ProductPurchaseOptionStandard } from "./product-purchase-option-standard";
 import { ProductPurchaseOptionSubscription } from "./product-purchase-option-subscription";
@@ -113,6 +120,11 @@ window.theme.accordion_rendered = true;
     customElements.define("product-option-select", ProductOptionSelect);
     customElements.define("product-option-toggle", ProductOptionToggle);
     customElements.define("product-option-text", ProductOptionText);
+    customElements.define("product-option-giftcard", ProductOptionGiftcard);
+    customElements.define("giftcard-send", GiftcardSend);
+    customElements.define("giftcard-send-email", GiftcardSendEmail);
+    customElements.define("giftcard-send-note", GiftcardSendNote);
+    customElements.define("giftcard-send-note-count", GiftcardSendNoteCount);
     customElements.define("product-purchase-options", ProductPurchaseOptions);
     customElements.define(
       "product-purchase-option-standard",
