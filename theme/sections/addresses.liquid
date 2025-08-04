@@ -23,26 +23,8 @@
 <div class="bg-{{ color_scheme }} text-{{ color_scheme }} flex max-w-content flex-col pt-16 pb-64 pr-32 pl-32 gap-24 xl:pr-0 xl:pl-0 sm:flex-row sm:pt-64 sm:pb-64 mx-auto justify-center sm:gap-32 items-start responsive-padding-{{ section.id }}">
   <a href="/account/" class="sm:hidden font-display text-title-large">{{ 'customer.account.title' | t }}</a>
 
-  <div class="flex flex-col items-start text-center w-250">
-    <a
-      href="/account"
-      class="border-l px-8 py-4 font-display text-title-small {% if request.path == '/account' %}text-{{ color_scheme }} border-color-{{ color_scheme }} {% else %}text-secondary-{{ color_scheme }} border-[#E0E0E0]{% endif %}"
-    >
-      {{ 'customer.account.my_orders' | t }}
-    </a>
-    <a
-      href="/account/addresses"
-      class="border-l px-8 py-4 font-display text-title-small {% if request.path == '/account/addresses' %}text-{{ color_scheme }} border0color-{{ color_scheme }} {% else %}text-secondary-{{ color_scheme }} border-[#E0E0E0]{% endif %}"
-    >
-      {{ 'customer.account.address_book' | t }}
-    </a>
-
-    <a
-      href="{{ routes.account_logout_url }}"
-      class="px-8 py-4 font-display text-title-small"
-      >{{ 'customer.log_out' | t }}</a
-    >
-  </div>
+  {% render 'account-links' color_scheme: color_scheme %}
+ 
   {%- paginate customer.addresses by 5 -%}
     <div class="flex flex-col gap-32 w-full">
       <h2 class="font-display text-headline-medium">{{ 'customer.account.addresses' | t }}</h2>
