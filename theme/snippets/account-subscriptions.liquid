@@ -1,3 +1,14 @@
+{% comment %}
+  Renders account subscriptions list
+
+  Accepts:
+  - customer: {Object} customer
+  - color-scheme: {Object} color scheme to be used
+
+  Usage:
+    {% render 'account-subscriptions' customer: customer, color_scheme: color_scheme %}
+{% endcomment %}
+
 {% assign subscriptions = customer.subscriptions.results %}
 
 <div id="account-subscriptions" class="flex flex-col gap-32 w-full hidden">
