@@ -8,6 +8,10 @@ export class ToggleButton extends HTMLElement {
   connectedCallback() {
     this.setAttribute("role", "switch");
     this.addEventListener("click", this.onClickBound);
+
+    requestAnimationFrame(() => {
+      this.updateCheckbox();
+    });
   }
 
   disconnectedCallback() {
@@ -30,7 +34,7 @@ export class ToggleButton extends HTMLElement {
     const checkbox = this.querySelector("toggle-button-checkbox");
 
     if (checkbox) {
-      checkbox.update();
+      checkbox.update(this);
     }
   }
 
@@ -58,10 +62,6 @@ export class ToggleButton extends HTMLElement {
 }
 
 export class ToggleButtonCheckbox extends HTMLElement {
-  connectedCallback() {
-    this.update();
-  }
-
   update(toggleButton = this.closest("toggle-button")) {
     const checked = toggleButton.isChecked();
 

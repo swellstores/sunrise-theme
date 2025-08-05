@@ -27,12 +27,8 @@
     pointer-events: none;
   }
 
-  dropdown-menu[aria-expanded="true"] dropdown-trigger {
-    border-color: var(--color-{{ variants_color_scheme }}-borders-and-inputs);
-  }
-
-  dropdown-menu[aria-expanded="true"] dropdown-option:hover {
-    background-color: var(--color-{{ variants_color_scheme }}-primary-button-hover);
+  #buy-button[disabled] {
+    opacity: 0.2;
   }
 
   .product-option-input::placeholder {
@@ -40,6 +36,12 @@
     font-size: calc(1.6rem * var(--font-scale));
     line-height: calc(2.4rem * var(--font-scale));
     font-weight: 400;
+  }
+
+  .icon-line-diagonal-bl-tr {
+    width: 100%;
+    height: 100%;
+    color: var(--color-{{ variants_color_scheme }}-secondary-button-border);
   }
 {% endstyle %}
 

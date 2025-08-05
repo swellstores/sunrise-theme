@@ -10,7 +10,8 @@
     {{ option.name }}
   </span>
   <textarea
-    class="product-option-input px-12 py-10 text-title-medium outline-none resize-none border border-color-{{ variants_color_scheme }}"
+    style="--shadow-color: var(--color-{{ variants_color_scheme }}-borders-and-inputs)"
+    class="product-option-input px-12 py-10 text-title-medium outline-none resize-none border border-color-{{ variants_color_scheme }} bg-{{ variants_color_scheme }}"
     rows="4"
     {% if option.input_hint %}
       placeholder="{{ option.input_hint }}"

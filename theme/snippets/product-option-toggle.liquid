@@ -42,21 +42,16 @@
         class="
           flex
           items-center
-          size-14
-          min-w-14
-          min-h-14
+          justify-center
           mt-3
-          p-2
+          size-14
           rounded-4
-          stroke-current
-          stroke-1
-          border
           pointer-events-none
         "
         data-checked-class="btn-primary-{{ variants_color_scheme }}"
         data-unchecked-class="btn-secondary-{{ variants_color_scheme }}"
       >
-        <div class="hidden items-center size-14 group-aria-checked:flex">
+        <div class="hidden items-center justify-center size-10 group-aria-checked:flex">
           {{- 'icon-checkmark.svg' | inline_asset_content -}}
         </div>
       </toggle-button-checkbox>

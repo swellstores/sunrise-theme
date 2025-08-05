@@ -1,0 +1,196 @@
+{%- liquid
+  assign option = product.options_with_values | first
+  assign selected_value = option.values | find: 'selected', true
+  assign sorted_values = option.values | sort: 'price'
+-%}
+
+<product-option-giftcard
+  id="product-option-{{ option.id }}"
+  class="flex flex-col gap-16"
+  data-option-id="{{ option.id }}"
+  data-option-name="{{ option.name }}"
+>
+  <div
+    id="giftcard-options"
+    class="flex flex-col gap-6"
+    hx-swap-oob="true"
+  >
+    <span class="text-body-medium text-secondary-{{ variants_color_scheme }}">
+      {{ 'sections.product.gift_card.options' | t }}
+    </span>
+    <dropdown-menu
+      id="giftcard-options-dropdown"
+      class="relative flex flex-col group text-title-medium text-{{ variants_color_scheme }}"
+    >
+      <dropdown-trigger
+        style="--shadow-color: var(--color-{{ variants_color_scheme }}-borders-and-inputs)"
+        class="
+          flex
+          items-center
+          justify-between
+          px-14
+          py-10
+          gap-8
+          rounded
+          group-aria-expanded:rounded-b-0
+          border
+          border-color-{{ variants_color_scheme }}
+          bg-{{ variants_color_scheme }}
+        "
+      >
+        {% if selected_value %}
+          {% assign price_money = selected_value.price | money %}
+
+          <span class="text-{{ variants_color_scheme }}">
+            {% if selected_value.name == price_money %}
+              {{ selected_value.name }}
+            {% else %}
+              {{ selected_value.name }}
+              <span class="text-secondary-{{ variants_color_scheme }}">
+                {{ price_money }}
+              </span>
+            {% endif %}
+          </span>
+        {% endif %}
+        <ion-icon name="chevron-down-outline" class="size-18 text-secondary-{{ variants_color_scheme }}"></ion-icon>
+      </dropdown-trigger>
+      <dropdown-options
+        style="--shadow-color: var(--color-{{ variants_color_scheme }}-borders-and-inputs)"
+        class="
+          absolute
+          top-full
+          w-full
+          hidden
+          group-aria-expanded:flex
+          flex-col
+          rounded
+          group-aria-expanded:rounded-t-0
+          border
+          border-color-{{ variants_color_scheme }}
+          group-aria-expanded:border-t-0
+          bg-{{ variants_color_scheme }}
+          py-6
+          px-4
+          gap-4
+          z-10
+        "
+      >
+        {%- for value in sorted_values -%}
+          <div
+            class="flex"
+            {% unless value.available %}
+              title="{{ 'sections.product.option.out_of_stock' | t }}"
+            {% endunless %}
+          >
+            <dropdown-option
+              class="
+                relative
+                flex
+                items-center
+                justify-between
+                py-6
+                px-10
+                w-full
+                rounded
+                cursor-pointer
+              "
+              value="{{ value.name }}"
+              data-value-id="{{ value.id }}"
+              {% if value.selected %}
+                selected
+              {% endif %}
+              {% unless value.available %}
+                disabled
+              {% endunless %}
+            >
+              {% assign price_money = value.price | money %}
+
+              <span class="text-{{ variants_color_scheme }}">
+                {% if value.name == price_money %}
+                  {{ value.name }}
+                {% else %}
+                  {{ value.name }}
+                  <span class="text-secondary-{{ variants_color_scheme }}">
+                    {{ price_money }}
+                  </span>
+                {% endif %}
+              </span>
+
+              {% if value.selected %}
+                <ion-icon name="checkmark-outline" class="size-18 text-{{ variants_color_scheme }}"></ion-icon>
+              {% endif %}
+            </dropdown-option>
+          </div>
+        {%- endfor -%}
+      </dropdown-options>
+    </dropdown-menu>
+    {% if selected_value.description %}
+      <span class="text-body-medium text-secondary-{{ variants_color_scheme }}">
+        {{ selected_value.description }}
+      </span>
+    {% endif %}
+    <option-error class="hidden text-body-medium text-{{ variants_color_scheme }}">
+      {{ 'sections.product.option.selection_error' | t }}
+    </option-error>
+  </div>
+  {% if product.delivery == 'giftcard' %}
+    <giftcard-send>
+      <toggle-button
+        class="flex items-center w-fit gap-4 hover:cursor-pointer group"
+        value="true"
+        aria-checked="false"
+      >
+        <toggle-button-checkbox
+          class="
+            flex
+            items-center
+            justify-center
+            size-14
+            rounded-4
+          "
+          data-checked-class="btn-primary-{{ variants_color_scheme }}"
+          data-unchecked-class="btn-secondary-{{ variants_color_scheme }}"
+        >
+          <div class="hidden items-center justify-center size-10 group-aria-checked:flex">
+            {{- 'icon-checkmark.svg' | inline_asset_content -}}
+          </div>
+        </toggle-button-checkbox>
+        <span class="text-title-small">
+          {{ 'sections.product.gift_card.send_gift' | t }}
+        </span>
+      </toggle-button>
+    </giftcard-send>
+    <giftcard-send-fields class="flex flex-col hidden gap-16 h-0 overflow-hidden duration-300 ease-in-out">
+      <giftcard-send-email class="flex flex-col gap-6">
+        <span class="text-body-medium text-secondary-{{ variants_color_scheme }}">
+          {{ 'sections.product.gift_card.send_email' | t }}
+        </span>
+        <input
+          type="email"
+          style="--shadow-color: var(--color-{{ variants_color_scheme }}-borders-and-inputs)"
+          class="product-option-input px-12 py-10 text-title-medium outline-none border border-color-{{ variants_color_scheme }} bg-{{ variants_color_scheme }}"
+          placeholder="{{ 'sections.product.gift_card.send_email' | t }}"
+        ></input>
+        <giftcard-send-email-error class="hidden text-body-medium text-{{ variants_color_scheme }}">
+          TMP ERROR MESSAGE
+        </giftcard-send-email-error>
+      </giftcard-send-email>
+      <giftcard-send-note class="flex flex-col gap-6">
+        <span class="text-body-medium text-secondary-{{ variants_color_scheme }}">
+          {{ 'sections.product.gift_card.send_note' | t }}
+        </span>
+        <textarea
+          style="--shadow-color: var(--color-{{ variants_color_scheme }}-borders-and-inputs)"
+          class="product-option-input px-12 py-10 text-title-medium outline-none resize-none border border-color-{{ variants_color_scheme }} bg-{{ variants_color_scheme }}"
+          placeholder="{{ 'sections.product.gift_card.send_note_placeholder' | t }}"
+          rows="4"
+          maxlength="350"
+        ></textarea>
+        <span class="text-body-medium text-secondary-{{ variants_color_scheme }}">
+          <giftcard-send-note-count>0</giftcard-send-note-count>/350
+          {{ 'sections.product.gift_card.send_note_char_count' | t }}
+        </span>
+      </giftcard-send-note>
+    </giftcard-send-fields>
+  {% endif %}
+</product-option-giftcard>
