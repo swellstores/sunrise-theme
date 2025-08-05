@@ -90,7 +90,7 @@ export class Cart extends HTMLElement {
    * @memberof CartDrawer
    */
   async updateCartContent() {
-    const sectionId = `cart__${PAGE_ID}`;
+    const sectionId = `${PAGE_ID}__main`;
     const response = await fetch(`/${PAGE_ID}?sections=${sectionId}`);
 
     if (!response.ok) {

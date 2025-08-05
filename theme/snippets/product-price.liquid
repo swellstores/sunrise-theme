@@ -36,7 +36,25 @@
 {% endstyle %}
 
 <div id="product-price" class="text-body-extra-large text-{{ color_scheme }}">
-  {% if standard_price and subscription_price %}
+  {% if product.gift_card? %}
+    {%- liquid
+      assign gift_card_option = product.options_with_values | first
+      assign gift_card_price = nil
+
+      for value in gift_card_option.values
+        if gift_card_price == nil or gift_card_price > value.price
+          assign gift_card_price = value.price
+        endif
+      endfor
+    -%}
+
+    <span class="font-medium">
+      {{ 'sections.product.from_price' | t }}
+    </span>
+    <span class="font-semibold">
+      {{ gift_card_price | money }}
+    </span>
+  {% elsif standard_price and subscription_price %}
     <span class="font-medium">
       {{ 'sections.product.from_price' | t }}
     </span>

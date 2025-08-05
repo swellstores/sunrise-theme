@@ -298,8 +298,52 @@ input[type="number"].number-input::-webkit-outer-spin-button {
 /* Apply border radius to all input fields and dropdowns */
 input,
 select,
-textarea {
+textarea,
+dropdown-option::before {
   border-radius: calc(1rem * var(--border-radius));
+}
+
+input:hover,
+input:focus,
+select:hover,
+select:focus,
+textarea:hover,
+textarea:focus,
+dropdown-menu:hover dropdown-trigger {
+  box-shadow: inset 0 0 0 1px var(--shadow-color);
+}
+
+dropdown-menu[aria-expanded="true"] dropdown-trigger {
+  box-shadow:
+    inset 1px 0 0 0 var(--shadow-color),
+    inset -1px 0 0 0 var(--shadow-color),
+    inset 0 1px 0 0 var(--shadow-color);
+}
+
+dropdown-menu[aria-expanded="true"] dropdown-options {
+  box-shadow:
+    inset 1px 0 0 0 var(--shadow-color),
+    inset -1px 0 0 0 var(--shadow-color),
+    inset 0 -1px 0 0 var(--shadow-color);
+}
+
+dropdown-option::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: black;
+  opacity: 0;
+  pointer-events: none;
+}
+
+dropdown-option:hover::before {
+  opacity: 0.1;
+}
+
+input::placeholder,
+textarea::placeholder,
+.placeholder {
+  opacity: 0.6 !important;
 }
 
 .disabled,

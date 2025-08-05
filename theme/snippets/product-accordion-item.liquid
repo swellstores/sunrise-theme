@@ -10,20 +10,19 @@
     py-16
     border-b
     border-color-{{ color_scheme }}
-    text-body-small
     leading-[1.8rem]
     text-{{ color_scheme }}
     group
   "
 >
   <accordion-trigger
-    class="flex items-center justify-between font-semibold"
+    class="flex items-center justify-between text-body-medium font-semibold"
   >
     {{ trigger | inline_editable: 'trigger' }}
     <ion-icon name="add-outline" class="size-20 group-aria-expanded:hidden"></ion-icon>
     <ion-icon name="remove-outline" class="size-20 hidden group-aria-expanded:inline-block"></ion-icon>
   </accordion-trigger>
-  <accordion-content>
+  <accordion-content class="text-body-small">
     <span class="inline-block mt-14">
       {{ content | inline_editable: 'content' }}
     </span>

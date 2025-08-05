@@ -10,8 +10,14 @@
   }
 {% endstyle %}
 
-{%- unless product.has_only_default_variant -%}
-  <product-options class="flex flex-col gap-8">
+<product-options class="flex flex-col gap-16">
+  {% if product.gift_card? %}
+    {% render 'product-option-giftcard',
+      product: product,
+      block: block,
+      variants_color_scheme: variants_color_scheme
+    %}
+  {% else %}
     {%- for option in product.options_with_values -%}
       {% case option.input_type %}
         {% when 'select' %}
@@ -44,5 +50,5 @@
           %}
       {% endcase %}
     {%- endfor -%}
-  </product-options>
-{%- endunless -%}
+  {% endif %}
+</product-options>
