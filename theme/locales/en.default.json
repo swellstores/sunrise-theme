@@ -149,10 +149,12 @@
   },
   "sections": {
     "login": {
-      "title": "Login",
+      "title": "Log in",
       "email": "Email address",
+      "email_placeholder": "Enter your email address",
       "password": "Password",
-      "forgot_password": "Forgot password?",
+      "password_placeholder": "Enter your password",
+      "forgot_password": "Forgot your password?",
       "create_account": "Create an account",
       "sign_in": "Sign in",
       "error": "Your login attempt was unsuccessful. Please try again."

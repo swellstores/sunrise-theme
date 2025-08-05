@@ -4,7 +4,11 @@
   assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
   assign reduced_padding_top = top_padding | times: 0.55 | round: 2
   assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
-  assign section_padding = 'pt-24 pb-64 pl-24 pr-24 sm:pt-32 sm:pb-96'
+
+  assign div_class = 'pl-24 pr-24 form-container flex flex-col gap-32 items-start w-full sm:w-auto'
+  assign input_class = 'input-field px-12 py-10 text-title-medium outline-none border border-color-' | append: color_scheme
+  assign input_label_class = 'text-body-medium text-secondary-' | append: color_scheme
+  assign link_class = 'font-display text-body-medium font-medium hover:underline underline-offset-2'
 -%}
 
 {% style %}
@@ -19,16 +23,36 @@
       padding-bottom: {{ bottom_padding }}rem;
     }
   }
+
+  .input-field::placeholder {
+    color: var(--color-{{ color_scheme }}-text-secondary);
+    font-size: calc(1.6rem * var(--font-scale));
+    line-height: calc(2.4rem * var(--font-scale));
+    font-weight: 400;
+  }
+
+  .section-width {
+    @media (min-width: 40rem) {
+      width: 42rem;
+    }
+  }
+
+  .account-login-section {
+    button[disabled] {
+      opacity: 0.2;
+      pointer-events: none;
+    }
+  }
 {% endstyle %}
 
-<div
-  class="bg-{{ color_scheme }} flex flex-col items-center justify-start"
+<account-login
+  class="bg-{{ color_scheme }} {{ section_padding }} responsive-padding-{{ section.id }} flex flex-col items-center justify-start account-login-section"
 >
-  <div id="recover" class="{{ section_padding }} responsive-padding-{{ section.id }} form-container flex flex-col gap-32 items-start w-full sm:w-auto">
+  <div id="recover" class="{{ div_class }}">
     {% render 'recover-password' %}
   </div>
-  <div id="login" class="{{ section_padding }} responsive-padding-{{ section.id }} form-container flex flex-col gap-32 items-start w-full sm:w-auto">
-    <h1 class="font-display text-headline-medium">{{ 'sections.login.title' | t }}</h1>
+  <div id="login" class="{{ div_class }}">
+    <h1 class="font-display text-title-large">{{ 'sections.login.title' | t }}</h1>
 
     {% form 'customer_login'
       , class: 'w-full'
@@ -44,49 +68,57 @@
           </div>
         </div>
       {%- endif -%}
-      <div class="flex sm:w-400 max-w-full flex-col gap-16">
-        <div class="relative">
-          {% assign email_text = 'sections.login.email' | t %}
-          {% render 'input',
-            type: 'email',
-            name: 'customer[email]',
-            id: 'customer[email]',
-            autocomplete: 'email',
-            placeholder: email_text
-          %}
+      <div class="flex section-width max-w-full flex-col gap-16 tst12">
+        <div class="relative flex flex-col gap-6">
+          <span class="{{ input_label_class }}">
+            {{ 'sections.login.email' | t }}
+          </span>
+          <input
+            class="{{ input_class }}"
+            placeholder="{{ 'sections.login.email_placeholder' | t}}"
+            type="email"
+            name="customer[email]"
+            id="customer[email]"
+            autocomplete="email"
+          />
         </div>
-        <div class="relative">
-          {% assign password_text = 'sections.login.password' | t %}
-          {% render 'input',
-            type: 'password',
-            name: 'customer[password]',
-            id: 'customer[password]',
-            autocomplete: 'current-password',
-            placeholder: password_text
-          %}
+        <div class="relative flex flex-col gap-6">
+          <span class="{{ input_label_class }}">
+            {{ 'sections.login.password' | t }}
+          </span>
+          <input
+            class="{{ input_class }}"
+            placeholder="{{ 'sections.login.password_placeholder' | t}}"
+            type="password"
+            name="customer[password]"
+            id="customer[password]"
+            autocomplete="current-password"
+          />
         </div>
         <a
           href="#recover"
-          class="font-display text-body-medium underline underline-offset-2"
+          class="{{ link_class }}"
         >
           {{ 'sections.login.forgot_password' | t }}
         </a>
       </div>
-      <div class="flex gap-16 items-center justify-center mt-32 flex-col">
-        <div class="sm:w-auto w-full">
-          {% assign sign_in_text = 'sections.login.sign_in' | t %}
+      <div class="flex gap-7 items-center justify-center mt-32 flex-col">
+        <div class="w-full">
+          {% assign login_button_text = 'sections.login.title' | t %}
           {% render 'button',
+            name: 'submit',
             type: 'submit',
-            text: sign_in_text,
-            class: 'sm:w-auto w-full',
-            color_scheme: section.settings.color_scheme,
-            variant: section.settings.button_variant
+            text: login_button_text,
+            class: 'w-full px-24 py-12 text-body-medium',
+            color_scheme: color_scheme,
+            variant: section.settings.button_variant,
+            disabled: true
           %}
         </div>
-        <div class="flex items-center justify-center gap-4">
+        <div class="flex items-center justify-center">
           <a
             href="{{ routes.account_register_url }}"
-            class="font-display text-body-medium underline underline-offset-2"
+            class="{{ link_class }}"
           >
             {{ 'sections.login.create_account' | t}}
           </a>
@@ -94,7 +126,7 @@
       </div>
     {% endform %}
   </div>
-</div>
+</account-login>
 
 {% schema %}
 {
