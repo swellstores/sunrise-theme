@@ -4,6 +4,8 @@
   assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
   assign reduced_padding_top = top_padding | times: 0.55 | round: 2
   assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+
+  assign div_class = 'pl-24 pr-24 form-container flex flex-col gap-32 items-start w-full sm:w-auto'
 -%}
 
 {% style %}
@@ -21,10 +23,12 @@
 {% endstyle %}
 
 <div
-  class="bg-{{ color_scheme }} text-{{ color_scheme }} flex flex-col items-center justify-start gap-16 pl-24 pr-24 responsive-padding-{{ section.id }}"
+  class="bg-{{ color_scheme }} text-{{ color_scheme }} flex flex-col items-center justify-start gap-16 responsive-padding-{{ section.id }}"
+class="bg-{{ color_scheme }} {{ section_padding }} responsive-padding-{{ section.id }} flex flex-col items-center justify-start account-login-section"
+
 >
-  <div class="flex flex-col gap-32 items-start w-full sm:w-auto">
-    <h1 class="font-display text-headline-medium">{{ 'sections.register.title' | t }}</h1>
+  <div id="create" class="{{ div_class }}">
+    <h1 class="font-display text-title-large">{{ 'sections.register.title' | t }}</h1>
     {%- form 'create_customer'
         , novalidate: 'novalidate'
         , class: 'w-full'
