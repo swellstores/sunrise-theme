@@ -46,7 +46,7 @@
 {% endstyle %}
 
 <account-login
-  class="bg-{{ color_scheme }} {{ section_padding }} responsive-padding-{{ section.id }} flex flex-col items-center justify-start account-login-section"
+  class="bg-{{ color_scheme }} text-{{ color_scheme }} responsive-padding-{{ section.id }} flex flex-col items-center justify-start account-login-section"
 >
   <div id="recover" class="{{ div_class }}">
     {% render 'recover-password' %}
@@ -68,14 +68,14 @@
           </div>
         </div>
       {%- endif -%}
-      <div class="flex section-width max-w-full flex-col gap-16 tst12">
+      <div class="flex section-width max-w-full flex-col gap-16">
         <div class="relative flex flex-col gap-6">
           <span class="{{ input_label_class }}">
             {{ 'sections.login.email' | t }}
           </span>
           <input
             class="{{ input_class }}"
-            placeholder="{{ 'sections.login.email_placeholder' | t}}"
+            placeholder="{{ 'sections.login.email_placeholder' | t }}"
             type="email"
             name="customer[email]"
             id="customer[email]"
@@ -88,7 +88,7 @@
           </span>
           <input
             class="{{ input_class }}"
-            placeholder="{{ 'sections.login.password_placeholder' | t}}"
+            placeholder="{{ 'sections.login.password_placeholder' | t }}"
             type="password"
             name="customer[password]"
             id="customer[password]"
