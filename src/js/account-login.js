@@ -2,87 +2,42 @@ export class AccountLogin extends HTMLElement {
   constructor() {
     super();
 
-    this.emailInput = null;
-    this.passwordInput = null;
-    this.submitButton = null;
-
-    this.recoverEmailInput = null;
-    this.submitRecoverButton = null;
-
-    this.onChangedBound = this.onChanged.bind(this);
-    this.onChangedRecoverBound = this.onChangedRecover.bind(this);
+    this.onInputChangedBound = this.onInputChanged.bind(this);
   }
 
   connectedCallback() {
-   this.getSelectors();
+    this.addEventListener("keyup", this.onInputChangedBound);
   }
 
   disconnectedCallback() {
-    this.clearSelectors();
+    this.removeEventListener("keyup", this.onInputChangedBound);
   }
 
-  getSelectors() {
-    this.submitButton = this.querySelector("#submit-login");
+  onInputChanged() {
+    const submitLoginButton = this.querySelector("#submit-login");
+    if (submitLoginButton) {
+      const emailInput = this.querySelector("input[name='customer\[email\]']");
+      const emailValue = emailInput?.value;
+      const passwordInput = this.querySelector("input[name='customer\[password\]']");
+      const passwordValue = passwordInput?.value;
 
-    this.emailInput = this.querySelector("input[name='customer\[email\]']");
-    if (this.emailInput) {
-      this.emailInput.addEventListener("keyup", this.onChangedBound);
-    }
-    this.passwordInput = this.querySelector("input[name='customer\[password\]']");
-    if (this.passwordInput) {
-      this.passwordInput.addEventListener("keyup", this.onChangedBound);
-    }
-
-    this.submitRecoverButton = this.querySelector("#submit-recover");
-
-    this.recoverEmailInput = this.querySelector("#RecoverEmail");
-    if (this.recoverEmailInput) {
-      this.recoverEmailInput.addEventListener("keyup", this.onChangedRecoverBound);
-    }
-  }
-
-  clearSelectors() {
-    if (this.emailInput) {
-      this.emailInput.removeEventListener("keyup", this.onChangedBound);
-    }
-    if (this.passwordInput) {
-      this.passwordInput.removeEventListener("keyup", this.onChangedBound);
-    }
-    if (this.recoverEmailInput) {
-      this.recoverEmailInput.removeEventListener("keyup", this.onChangedRecoverBound);
+      if (emailValue && passwordValue) {
+        submitLoginButton.disabled = false;
+      } else {
+        submitLoginButton.disabled = true;
+      }
     }
 
-    this.emailInput = null;
-    this.passwordInput = null;
-    this.submitButton = null;
-    this.recoverEmailInput = null;
-    this.submitRecoverButton = null;
-  }
+    const submitRecoverButton = this.querySelector("#submit-recover");
+    if (submitRecoverButton) {
+      const recoverEmailInput = this.querySelector("#RecoverEmail");
+      const recoverEmailValue = recoverEmailInput?.value;
 
-  onChanged() {
-    if (!this.submitButton) {
-      return;
-    }
-
-    const emailValue = this.emailInput?.value;
-    const passwordValue = this.passwordInput?.value;
-    if (emailValue && passwordValue) {
-      this.submitButton.disabled = false;
-    } else {
-      this.submitButton.disabled = true;
-    }
-  }
-
-  onChangedRecover() {
-    if (!this.submitRecoverButton) {
-      return;
-    }
-
-    const emailValue = this.recoverEmailInput?.value;
-    if (emailValue) {
-      this.submitRecoverButton.disabled = false;
-    } else {
-      this.submitRecoverButton.disabled = true;
+      if (recoverEmailValue) {
+        submitRecoverButton.disabled = false;
+      } else {
+        submitRecoverButton.disabled = true;
+      }
     }
   }
 }
