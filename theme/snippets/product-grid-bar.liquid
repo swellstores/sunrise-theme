@@ -31,7 +31,7 @@
   assign selected_sort_option = sort_options | find: 'value', sort_by
 -%}
 
-<div class="flex w-full justify-between text-body-medium">
+<div class="flex w-full justify-between text-body-medium whitespace-nowrap">
   <span
     class="
       {% unless has_products %}
@@ -45,7 +45,7 @@
       {{ 'sections.collection.item_count.other' | t: count: product_count -}}
     {% endif %}
   </span>
-  <div class="flex gap-24">
+  <div class="flex gap-8 md:gap-24">
     {% if show_filters %}
       <product-filter-toggle>
         <span class="flex gap-4 h-20 items-center">
@@ -77,7 +77,7 @@
               rounded
               min-w-160
               px-12
-              py-8
+              py-14
               gap-8
               top-24
               right-0
@@ -90,7 +90,15 @@
               {%- assign selected = option.value == sort_by -%}
 
               <dropdown-option
-                class="flex whitespace-nowrap cursor-pointer before:hidden"
+                class="
+                  flex
+                  whitespace-nowrap
+                  cursor-pointer
+                  before:hidden
+                  {% if selected %}
+                    font-semibold
+                  {% endif %}
+                "
                 value="{{ option.value }}"
                 {% if selected %}
                   selected

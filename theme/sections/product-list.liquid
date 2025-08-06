@@ -19,13 +19,12 @@
     }
   }
 
-  #product-list #product-grid,
-  #product-list #product-filter-inputs {
+  #product-list-form #product-grid,
+  #product-list-form #product-filter-inputs {
     transition: opacity 300ms ease;
   }
 
-  #product-list.htmx-request #product-grid,
-  #product-list.htmx-request #product-filter-inputs {
+  #product-list-form.htmx-request #product-grid {
     opacity: 0.6;
     pointer-events: none;
   }
@@ -82,15 +81,17 @@
     -%}
 
     <form
-      id="product-list"
+      id="product-list-form"
       class="flex w-full"
       hx-get="{{ page.url }}"
       hx-trigger="product-filters-change, product-sort-change, filters-clear, pagination-change"
-      hx-indicator="#product-list"
+      hx-indicator="#product-list-form"
       hx-swap="none"
     >
       {% if show_filters %}
-        <product-filters>
+        <product-filters
+          data-htmx-form="product-list-form"
+        >
           <!-- Sidebar (desktop only) -->
           <div class="hidden sm:block">
             {% render 'product-filter-sidebar',

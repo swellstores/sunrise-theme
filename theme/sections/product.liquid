@@ -68,6 +68,7 @@
       gap-32
       flex
       flex-col
+      justify-center
       sm:flex-row
       lg:gap-100
       {% if media_position == 'right' %}
@@ -82,7 +83,7 @@
 
     <form
       id="product-form"
-      class="flex flex-col flex-1 w-full min-w-0 gap-24"
+      class="flex flex-col flex-1 w-full max-w-600 min-w-0 gap-24"
       hx-get="/products/{{ product.slug }}"
       hx-trigger="load, product-quantity-change, product-option-change, product-purchase-option-change"
       hx-indicator="#product-form"
