@@ -2,19 +2,12 @@ import {
   FilterInputChangeEvent,
   ProductFiltersChangeEvent,
 } from "./utils/events";
-import { debounce } from "./utils/general";
-
-const PRODUCT_FILTER_CHANGE_DEBOUNCE_WAIT = 2000;
 
 export class ProductFilters extends HTMLElement {
   constructor() {
     super();
 
     this.onFilterInputChangeBound = this.onFilterInputChange.bind(this);
-    this.dispatchProductFiltersChangeEventDebounced = debounce(
-      this.dispatchProductFiltersChangeEvent.bind(this),
-      PRODUCT_FILTER_CHANGE_DEBOUNCE_WAIT
-    );
   }
 
   connectedCallback() {
@@ -79,10 +72,20 @@ export class ProductFilters extends HTMLElement {
     }
   }
 
+  abortHtmxRequest() {
+    const { htmxForm } = this.dataset;
+
+    if (htmxForm) {
+      htmx.trigger(`#${htmxForm}`, "htmx:abort");
+    }
+  }
+
   onFilterInputChange(event) {
     event.stopPropagation();
 
-    this.dispatchProductFiltersChangeEventDebounced();
+    // Cancel previous request and trigger update
+    this.abortHtmxRequest();
+    this.dispatchProductFiltersChangeEvent();
   }
 
   dispatchProductFiltersChangeEvent() {

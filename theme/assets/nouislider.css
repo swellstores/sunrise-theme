@@ -8,10 +8,6 @@
   height: 1.4rem;
 }
 
-.noUi-target {
-  padding: 0 0.7rem;
-}
-
 /* Remove default noUiSlider box, border, and shadow */
 .noUi-target {
   background: none;
@@ -49,9 +45,12 @@
   padding: 0;
 }
 
-.noUi-horizontal .noUi-handle-lower,
+.noUi-horizontal .noUi-handle-lower {
+  right: -1.4rem;
+}
+
 .noUi-horizontal .noUi-handle-upper {
-  right: -0.7rem;
+  right: 0;
 }
 
 .noUi-horizontal .noUi-handle-lower .noUi-tooltip {
