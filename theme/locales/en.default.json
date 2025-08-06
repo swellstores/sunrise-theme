@@ -171,12 +171,13 @@
     },
     "reset-password": {
       "title": "Reset your password",
-      "subtext": "An email will be sent with instructions to reset your password.",
+      "subtext": "Enter a new password for your account.",
       "email": "Email address",
       "email_placeholder": "Enter your email address",
       "password": "Password",
+      "password_placeholder": "Enter new password",
       "submit": "Reset password",
-      "cancel": "Cancel",
+      "create_account": "Create account",
       "error": "Your password could not be reset. Please try again."
     },
     "recover-password": {
