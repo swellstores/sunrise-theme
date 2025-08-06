@@ -57,6 +57,7 @@ import { ProductFilterToggle } from "./product-filter-toggle";
 import { Account } from "./account";
 import { AccountSubscription } from "./account-subscription";
 import { AccountLogin } from "./account-login";
+import { AccountResetPassword } from "./account-reset-password";
 
 // Import vendor libraries
 import { loadIonIcons } from "./vendor";
@@ -148,6 +149,7 @@ window.theme.accordion_rendered = true;
     customElements.define("account-details", Account);
     customElements.define("account-subscription", AccountSubscription);
     customElements.define("account-login", AccountLogin);
+    customElements.define("account-reset-password", AccountResetPassword);
   }
 
   // Call functions
