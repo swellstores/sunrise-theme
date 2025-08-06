@@ -160,31 +160,39 @@
       "error": "Your login attempt was unsuccessful. Please try again."
     },
     "register": {
-      "title": "Create account",
+      "title": "Create an account",
       "first_name": "First name",
+      "first_name_placeholder": "Enter your first name",
       "last_name": "Last name",
+      "last_name_placeholder": "Enter your last name",
       "email": "Email address",
+      "email_placeholder": "Enter your email address",
       "password": "Password",
+      "password_placeholder": "Enter your password",
       "already_have_account": "Already have an account?",
+      "login": "Login in here.",
       "create_account": "Create account",
       "error": "Your account could not be created. Please try again."
     },
     "reset-password": {
-      "title": "Reset password",
+      "title": "Reset your password",
       "subtext": "Enter a new password for your account.",
       "email": "Email address",
+      "email_placeholder": "Enter your email address",
       "password": "Password",
+      "password_placeholder": "Enter new password",
       "submit": "Reset password",
-      "cancel": "Cancel",
+      "create_account": "Create account",
       "error": "Your password could not be reset. Please try again."
     },
     "recover-password": {
-      "title": "Recover password",
-      "subtext": "We'll send you an email to reset your password.",
+      "title": "Reset your password",
+      "subtext": "An email will be sent with instructions to reset your password.",
       "email": "Email address",
+      "email_placeholder": "Enter your email address",
       "password": "Password",
-      "submit": "Recover password",
-      "cancel": "Cancel",
+      "submit": "Reset password",
+      "cancel": "Back to log in",
       "sent": "Email sent"
     },
     "blog": {

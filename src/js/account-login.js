@@ -2,58 +2,42 @@ export class AccountLogin extends HTMLElement {
   constructor() {
     super();
 
-    this.emailInput = null;
-    this.passwordInput = null;
-    this.submitButton = null;
-
-    this.onChangedBound = this.onChanged.bind(this);
+    this.onInputChangedBound = this.onInputChanged.bind(this);
   }
 
   connectedCallback() {
-   this.getSelectors();
+    this.addEventListener("input", this.onInputChangedBound);
   }
 
   disconnectedCallback() {
-    this.clearSelectors();
+    this.removeEventListener("input", this.onInputChangedBound);
   }
 
-  getSelectors() {
-    this.submitButton = this.querySelector("button[name='submit']");
+  onInputChanged() {
+    const submitLoginButton = this.querySelector("#submit-login");
+    if (submitLoginButton) {
+      const emailInput = this.querySelector("input[name='customer\[email\]']");
+      const emailValue = emailInput?.value;
+      const passwordInput = this.querySelector("input[name='customer\[password\]']");
+      const passwordValue = passwordInput?.value;
 
-    this.emailInput = this.querySelector("input[name='customer\[email\]']");
-    if (this.emailInput) {
-      this.emailInput.addEventListener("keyup", this.onChangedBound);
-    }
-    this.passwordInput = this.querySelector("input[name='customer\[password\]']");
-    if (this.passwordInput) {
-      this.passwordInput.addEventListener("keyup", this.onChangedBound);
-    }
-  }
-
-  clearSelectors() {
-    if (this.emailInput) {
-      this.emailInput.removeEventListener("keyup", this.onChangedBound);
-    }
-    if (this.passwordInput) {
-      this.passwordInput.removeEventListener("keyup", this.onChangedBound);
+      if (emailValue && passwordValue) {
+        submitLoginButton.disabled = false;
+      } else {
+        submitLoginButton.disabled = true;
+      }
     }
 
-    this.emailInput = null;
-    this.passwordInput = null;
-    this.submitButton = null;
-  }
+    const submitRecoverButton = this.querySelector("#submit-recover");
+    if (submitRecoverButton) {
+      const recoverEmailInput = this.querySelector("#RecoverEmail");
+      const recoverEmailValue = recoverEmailInput?.value;
 
-  onChanged() {
-    if (!this.submitButton) {
-      return;
-    }
-
-    const emailValue = this.emailInput?.value;
-    const passwordValue = this.passwordInput?.value;
-    if (emailValue && passwordValue) {
-      this.submitButton.disabled = false;
-    } else {
-      this.submitButton.disabled = true;
+      if (recoverEmailValue) {
+        submitRecoverButton.disabled = false;
+      } else {
+        submitRecoverButton.disabled = true;
+      }
     }
   }
 }
