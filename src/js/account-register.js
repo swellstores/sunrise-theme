@@ -6,11 +6,11 @@ export class AccountRegister extends HTMLElement {
   }
 
   connectedCallback() {
-    this.addEventListener("keyup", this.onInputChangedBound);
+    this.addEventListener("input", this.onInputChangedBound);
   }
 
   disconnectedCallback() {
-    this.removeEventListener("keyup", this.onInputChangedBound);
+    this.removeEventListener("input", this.onInputChangedBound);
   }
 
   onInputChanged() {
