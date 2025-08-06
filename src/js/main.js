@@ -56,6 +56,7 @@ import { ProductFilterDrawer } from "./product-filter-drawer";
 import { ProductFilterToggle } from "./product-filter-toggle";
 import { Account } from "./account";
 import { AccountSubscription } from "./account-subscription";
+import { AccountLogin } from "./account-login";
 
 // Import vendor libraries
 import { loadIonIcons } from "./vendor";
@@ -146,6 +147,7 @@ window.theme.accordion_rendered = true;
     // account
     customElements.define("account-details", Account);
     customElements.define("account-subscription", AccountSubscription);
+    customElements.define("account-login", AccountLogin);
   }
 
   // Call functions
