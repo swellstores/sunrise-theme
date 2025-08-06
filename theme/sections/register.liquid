@@ -6,6 +6,9 @@
   assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
 
   assign div_class = 'pl-24 pr-24 form-container flex flex-col gap-32 items-start w-full sm:w-auto'
+  assign input_class = 'input-field px-12 py-10 text-title-medium outline-none border border-color-' | append: color_scheme
+  assign input_label_class = 'text-body-medium text-secondary-' | append: color_scheme
+  assign link_class = 'font-display text-body-medium font-medium hover:underline underline-offset-2'
 -%}
 
 {% style %}
@@ -20,17 +23,34 @@
       padding-bottom: {{ bottom_padding }}rem;
     }
   }
+
+  .section-width {
+    @media (min-width: 40rem) {
+      width: 48rem;
+    }
+  }
+
+  .input-field::placeholder {
+    color: var(--color-{{ color_scheme }}-text-secondary);
+    font-size: calc(1.6rem * var(--font-scale));
+    line-height: calc(2.4rem * var(--font-scale));
+    font-weight: 400;
+  }
+
+  .account-register-section {
+    button[disabled] {
+      opacity: 0.2;
+      pointer-events: none;
+    }
+  }
 {% endstyle %}
 
-<div
-  class="bg-{{ color_scheme }} text-{{ color_scheme }} flex flex-col items-center justify-start gap-16 responsive-padding-{{ section.id }}"
-class="bg-{{ color_scheme }} {{ section_padding }} responsive-padding-{{ section.id }} flex flex-col items-center justify-start account-login-section"
-
+<account-register
+  class="bg-{{ color_scheme }} text-{{ color_scheme }} responsive-padding-{{ section.id }} flex flex-col items-center justify-start account-register-section"
 >
-  <div id="create" class="{{ div_class }}">
+  <div id="create" class="{{ div_class }} tst2">
     <h1 class="font-display text-title-large">{{ 'sections.register.title' | t }}</h1>
     {%- form 'create_customer'
-        , novalidate: 'novalidate'
         , class: 'w-full'
     -%}
       {%- if form.errors -%}
@@ -44,68 +64,88 @@ class="bg-{{ color_scheme }} {{ section_padding }} responsive-padding-{{ section
           </div>
         </div>
       {%- endif -%}
-      <div class="flex sm:w-400 max-w-full flex-col gap-4">
-        <div class="relative">
-          {% assign first_name_text = 'sections.register.first_name' | t %}
-          {% render 'input',
-            type: 'text',
-            name: 'customer[first_name]',
-            id: 'customer[first_name]',
-            placeholder: first_name_text
-          %}
+      <div class="flex section-width max-w-full flex-col gap-16">
+        <div class="relative flex flex-col gap-6">
+          <span class="{{ input_label_class }}">
+            {{ 'sections.register.first_name' | t }}
+          </span>
+          <input
+            class="{{ input_class }}"
+            placeholder="{{ 'sections.register.first_name_placeholder' | t }}"
+            type="text"
+            name="customer[first_name]"
+            id="customer[first_name]"
+          />
         </div>
-        <div class="relative">
-          {% assign last_name_text = 'sections.register.last_name' | t %}
-          {% render 'input',
-            type: 'text',
-            name: 'customer[last_name]',
-            id: 'customer[last_name]',
-            placeholder: last_name_text
-          %}
+        <div class="relative flex flex-col gap-6">
+          <span class="{{ input_label_class }}">
+            {{ 'sections.register.last_name' | t }}
+          </span>
+          <input
+            class="{{ input_class }}"
+            placeholder="{{ 'sections.register.last_name_placeholder' | t }}"
+            type="text"
+            name="customer[last_name]"
+            id="customer[last_name]"
+          />
         </div>
-        <div class="relative">
-          {% assign email_text = 'sections.register.email' | t %}
-          {% render 'input',
-            type: 'email',
-            name: 'customer[email]',
-            id: 'customer[email]',
-            autocomplete: 'email',
-            placeholder: email_text
-          %}
+        <div class="relative flex flex-col gap-6">
+          <span class="{{ input_label_class }}">
+            {{ 'sections.register.email' | t }}
+          </span>
+          <input
+            class="{{ input_class }}"
+            placeholder="{{ 'sections.register.email_placeholder' | t }}"
+            type="email"
+            name="customer[email]"
+            id="customer[email]"
+            autocomplete="email"
+          />
         </div>
-        <div class="relative">
-          {% assign password_text = 'sections.register.password' | t %}
-          {% render 'input',
-            type: 'password',
-            name: 'customer[password]',
-            id: 'customer[password]',
-            autocomplete: 'current-password',
-            placeholder: password_text
-          %}
+        <div class="relative flex flex-col gap-6">
+          <span class="{{ input_label_class }}">
+            {{ 'sections.register.password' | t }}
+          </span>
+          <input
+            class="{{ input_class }}"
+            placeholder="{{ 'sections.register.password_placeholder' | t }}"
+            type="password"
+            name="customer[password]"
+            id="customer[password]"
+            autocomplete="current-password"
+          />
         </div>
-        <div class="flex gap-16 items-center justify-center mt-32 flex-col">
-          <div class="sm:w-auto w-full">
+        <div class="flex gap-7 items-center justify-center mt-32 flex-col">
+          <div class="w-full">
             {% assign create_account_text = 'sections.register.create_account' | t %}
             {% render 'button',
+              name: 'submit',
+              id: 'submit-register',
               type: 'submit',
               text: create_account_text,
+              class: 'w-full px-24 py-12 text-body-medium',
               color_scheme: color_scheme,
-              class: 'sm:w-auto w-full'
+              disabled: true
             %}
           </div>
-          <div class="flex items-center justify-center gap-4 text-body-medium">
-            <a
-              href="{{ routes.account_login_url }}"
-              class="underline underline-offset-2"
-            >
-              {{ 'sections.register.already_have_account' | t }}
-            </a>
+          <div class="flex items-center justify-center">
+            <div class-"flex flex-row gap-4">
+              <span class="font-display text-body-medium">
+                {{ 'sections.register.already_have_account' | t }}
+              </span>
+              <a
+                href="{{ routes.account_login_url }}"
+                class="{{ link_class }}"
+              >
+                {{ 'sections.register.login' | t }}
+              </a>
+            </div>
           </div>
         </div>
       </div>
     {%- endform -%}
   </div>
-</div>
+</account-register>
 
 {% schema %}
 {

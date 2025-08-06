@@ -58,6 +58,7 @@ import { Account } from "./account";
 import { AccountSubscription } from "./account-subscription";
 import { AccountLogin } from "./account-login";
 import { AccountResetPassword } from "./account-reset-password";
+import { AccountRegister } from "./account-register";
 
 // Import vendor libraries
 import { loadIonIcons } from "./vendor";
@@ -150,6 +151,7 @@ window.theme.accordion_rendered = true;
     customElements.define("account-subscription", AccountSubscription);
     customElements.define("account-login", AccountLogin);
     customElements.define("account-reset-password", AccountResetPassword);
+    customElements.define("account-register", AccountRegister);
   }
 
   // Call functions
