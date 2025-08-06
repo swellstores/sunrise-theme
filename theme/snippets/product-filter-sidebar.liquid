@@ -31,11 +31,12 @@
   aria-hidden="false"
 >
   <div class="flex w-full justify-between">
-    <span class="text-title-medium">
+    <span class="text-title-medium leading-[2rem]">
       {{ 'sections.collection.filters.filters' | t -}}
     </span>
     <div
       id="filters-clear-sidebar"
+      class="flex"
       hx-swap-oob="true"
     >
       {% if active_filter_count > 0 %}

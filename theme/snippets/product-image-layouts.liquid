@@ -30,38 +30,32 @@
   assign media_alts = media_alts | split: ','
 %}
 
-<div class="relative flex w-full flex-1 min-w-0">
-  {%- if media_urls.size > 1 -%}
-    {%- if desktop_layout == 'thumbnail_gallery' -%}
-      {% render 'product-image-layout-thumbnails',
-        color_scheme: color_scheme,
-        media_urls: media_urls,
-        media_alts: media_alts
-      %}
-    {%- elsif desktop_layout == 'two_column'-%}
-      {% render 'product-image-layout-two-columns',
-        media_urls: media_urls,
-        media_alts: media_alts
-      %}
-    {%- elsif desktop_layout == 'stacked'-%}
-      {% render 'product-image-layout-stacked',
-        media_urls: media_urls,
-        media_alts: media_alts
-      %}
+{% if media_urls.size > 0%}
+  <div class="relative flex w-full flex-1 min-w-0">
+    {%- if media_urls.size > 1 -%}
+      {%- if desktop_layout == 'thumbnail_gallery' -%}
+        {% render 'product-image-layout-thumbnails',
+          color_scheme: color_scheme,
+          media_urls: media_urls,
+          media_alts: media_alts
+        %}
+      {%- elsif desktop_layout == 'two_column'-%}
+        {% render 'product-image-layout-two-columns',
+          media_urls: media_urls,
+          media_alts: media_alts
+        %}
+      {%- elsif desktop_layout == 'stacked'-%}
+        {% render 'product-image-layout-stacked',
+          media_urls: media_urls,
+          media_alts: media_alts
+        %}
+      {%- endif -%}
+    {%- else -%}
+      <img
+        src="{{ media_urls | first }}"
+        alt="{{ media_alts | first }}"
+        class="w-full h-full object-contain object-top rounded"
+      >
     {%- endif -%}
-  {%- elsif media_urls.size == 1 -%}
-    <img
-      src="{{ media_urls | first }}"
-      alt="{{ media_alts | first }}"
-      class="w-full h-full object-contain object-top rounded"
-    >
-  {%- else -%}
-    <div class="relative aspect-square w-full h-fit">
-      {%
-        render 'image',
-        picture_class: 'svg-placeholder',
-        placeholder: 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg'
-      %}
-    </div>
-  {%- endif -%}
-</div>
+  </div>
+{% endif %}

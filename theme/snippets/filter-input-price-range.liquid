@@ -26,12 +26,15 @@
 >
   <range-slider
     class="flex w-full"
-    data-tooltip-format="{{ shop.money_format }}"
     data-step="{{ step }}"
     data-min="{{ min }}"
     data-max="{{ max }}"
     data-start-min="{{ start_min }}"
     data-start-max="{{ start_max }}"
   >
+    <range-slider-tooltip
+      class="absolute mb-8 italic bottom-full left-0 font-medium text-secondary-{{ color_scheme }}"
+      data-format="{{ shop.money_format }}"
+    ></range-slider-tooltip>
   </range-slider>
 </filter-input-price-range>
