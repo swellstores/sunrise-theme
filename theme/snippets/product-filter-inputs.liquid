@@ -35,35 +35,47 @@
       endcase
     %}
 
-    <accordion-item
-      class="flex flex-col gap-14 group"
-      {% if active_filter_count > 0 %}
-       aria-expanded="true"
-      {% endif %}
-    >
-      <accordion-trigger class="flex justify-between text-title-small font-semibold whitespace-nowrap">
-        <span
-          id="filter-label-{{ filter.param_name }}"
-          class="whitespace-nowrap"
-          hx-swap-oob="true"
-        >
+    {% if filter.type == 'price_range' %}
+      <div class="flex flex-col gap-14 text-body-medium">
+        <span class="text-title-small font-semibold whitespace-nowrap">
           {{ filter.label }}
-          {% if active_filter_count > 0 %}
-            ({{ active_filter_count }})
-          {% endif %}
         </span>
-        <ion-icon
-          name="chevron-down-outline"
-          aria-label="{{ 'general.accordion.toggle' | t }}"
-          class="h-20 w-20 group-aria-expanded:rotate-180"
-        ></ion-icon>
-      </accordion-trigger>
-      <accordion-content class="text-body-medium">
         {% render 'filter-input',
           filter: filter,
           color_scheme: color_scheme
         %}
-      </accordion-content>
-    </accordion-item>
+      </div>
+    {% else %}
+      <accordion-item
+        class="flex flex-col gap-14 group"
+        {% if active_filter_count > 0 %}
+          aria-expanded="true"
+        {% endif %}
+      >
+        <accordion-trigger class="flex justify-between text-title-small font-semibold whitespace-nowrap">
+          <span
+            id="filter-label-{{ filter.param_name }}"
+            class="whitespace-nowrap"
+            hx-swap-oob="true"
+          >
+            {{ filter.label }}
+            {% if active_filter_count > 0 %}
+              ({{ active_filter_count }})
+            {% endif %}
+          </span>
+          <ion-icon
+            name="chevron-down-outline"
+            aria-label="{{ 'general.accordion.toggle' | t }}"
+            class="h-20 w-20 group-aria-expanded:rotate-180"
+          ></ion-icon>
+        </accordion-trigger>
+        <accordion-content class="text-body-medium">
+          {% render 'filter-input',
+            filter: filter,
+            color_scheme: color_scheme
+          %}
+        </accordion-content>
+      </accordion-item>
+    {% endif %}
   {% endfor %}
 </accordion-root>
