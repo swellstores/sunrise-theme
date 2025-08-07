@@ -1,0 +1,62 @@
+{% comment %}
+  Renders a single subscription description
+
+  Accepts:
+  - subscription: {Object} subscription to be rendered
+
+  Usage:
+    {%- render 'account-subscription-card', subscription: subscription -%}
+{% endcomment %}
+
+{% liquid
+  assign image_url = subscription.product.images[0].file.url
+  if subscription.variant.images[0].file.url
+     assign image_url = subscription.variant.images[0].file.url
+  endif
+  assign description_class = 'h-24 w-24 rounded-24 overflow-hidden flex items-center justify-center'
+%}
+
+<div class="flex flex-col gap-16 border rounded-md w-full">
+  <div class="flex flex-col gap-16 p-20 w-full">
+    <div class="flex flex-col gap-4 pb-16 border-b">
+      <div class="flex flex-row justify-between">
+        <span class="text-body-large fontaaa-16-24">
+          {{ subscription.product.name  }}
+        </span>
+        <div class="px-2 py-8 rounded-md border-1">
+          <span class="text-body-small">
+            {{ subscription.status }}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-row gap-8 text-body-small">
+      <span>
+        Subscribed since {{ subscription.date_created | time_tag: format: 'date' }}
+      </span>
+      <span>•</span>
+      <span>
+        Next billing: {{ subscription.date_period_end | time_tag: format: 'date' }}
+      </span>
+      <span>•</span>
+      <span>
+        {% assign prefix = subscription.grand_total | money | append: "/" %}
+        {%- render 'subscription-plan-schedule',
+          schedule: subscription.billing_schedule,
+          prefix: prefix
+        -%}
+      </span>
+    </div>
+  </div>
+  <div class="flex flex-row gap-24">
+    <div class="flex flex-row gap-8">
+      <div>image</div>
+      <div>description</div>
+    </div>
+  </div>
+  <div class="flex flex-row gap-20 p-20">
+    <div class="h-20">
+      Manage subscription
+    </div>
+  </div>
+</div>
