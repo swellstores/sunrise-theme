@@ -51,7 +51,7 @@
       "no_orders_found": "No orders found.",
       "my_subscriptions": "My subscriptions",
       "subscriptions": "Subscriptions",
-      "no_subscriptions_found": "No subscriptions found.",
+      "no_subscriptions_found": "You have no active subscriptions.",
       "return": "Return to Account details"
     },
     "activate_account": {
