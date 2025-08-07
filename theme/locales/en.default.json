@@ -144,7 +144,10 @@
       "details": "Details",
       "error": "Error during subscription update",
       "cancel_warning": "Are you sure you want to cancel this subscription?",
-      "payment_retry": "Payment retry"
+      "payment_retry": "Payment retry",
+      "subscribed_since": "Subscribed since",
+      "next_billing": "Next billing",
+      "manage_subscription": "Manage subscription"
     }
   },
   "sections": {
