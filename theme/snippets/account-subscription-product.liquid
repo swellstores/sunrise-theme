@@ -1,3 +1,25 @@
+{% comment %}
+  Renders subscription product information
+
+  Accepts:
+  - product: {Object} product
+  - variant: {Object} variant
+  - price: {number} price
+  - quantity: {number} quantity
+  - options: {Array} options
+  - index: {number} index
+
+  Usage:
+    {%- render 'account-subscription-product',
+      product: subscription.product,
+      variant: subscription.variant,
+      price: subscription.price,
+      quantity: subscription.quantity,
+      options: subscription.options,
+      index: 0
+    -%}
+{% endcomment %}
+
 {% liquid
   assign image_url = product.images[0].file.url
   if variant.images[0].file.url
