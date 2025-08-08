@@ -32,7 +32,8 @@
         <div class="flex flex-col gap-24">
           {%- for subscription in subscriptions -%}
             {%- render 'account-subscription-card',
-              subscription: subscription
+              subscription: subscription,
+              color_scheme: color_scheme
             -%}
           {%- endfor -%}
         </div>
