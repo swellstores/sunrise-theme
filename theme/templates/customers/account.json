@@ -2,7 +2,11 @@
     "sections": {
         "main": {
             "type": "account",
-            "settings": {}
+            "settings": {
+                "color_scheme": "scheme-1",
+                "top_padding": 96,
+                "bottom_padding": 96
+            }
         }
     },
     "order": [

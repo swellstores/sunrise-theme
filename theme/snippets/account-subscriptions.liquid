@@ -11,25 +11,36 @@
 
 {% assign subscriptions = customer.subscriptions.results %}
 
-<div id="account-subscriptions" class="flex flex-col gap-32 w-full hidden">
-  <h2 class="font-display text-headline-medium">{{ 'customer.account.subscriptions' | t }}</h2>
-  <div>
+<div
+  id="account-subscriptions"
+  class="flex flex-col gap-32 w-full hidden mx-auto px-0 sm:px-20 text-{{ color_scheme }} bg-{{ color_scheme }}"
+>
+  <div class="flex items-start px-4 py-24 mb-24 mx-20 sm:mx-0 gap-4 text-title-large border-b border-color-{{ color_scheme }}">
+    <span>
+      {{ 'customer.account.subscriptions' | t }}
+    </span>
+    {% if  subscriptions.size > 0 %}
+      <span>
+        ({{  subscriptions.size }})
+      </span>
+    {% endif %}
+  </div>
+
+  <div class="flex flex-col gap-8 px-20 sm:px-0">
     {% paginate subscriptions by 20 %}
       {%- if subscriptions.size > 0 -%}
-        <div class="flex flex-col gap-16">
+        <div class="flex flex-col gap-24">
           {%- for subscription in subscriptions -%}
-            <a href="/account/subscriptions/{{ subscription.id }}">
-              {%- render 'subscription',
-                subscription: subscription
-              -%}
-            </a>
-            {% unless forloop.last %}
-              <div class="border-t border-[#E0E0E0] w-full"></div>
-            {% endunless %}
+            {%- render 'account-subscription-card',
+              subscription: subscription,
+              color_scheme: color_scheme
+            -%}
           {%- endfor -%}
         </div>
       {%- else -%}
-        <p class="text-body-small">{{ 'customer.account.no_subscriptions_found' | t }}</p>
+        <span class="text-body-medium text-secondary-{{ color_scheme }}">
+          {{ 'customer.account.no_subscriptions_found' | t }}
+        </span>
       {%- endif -%}
       {%- if paginate.pages > 1 -%}
         {%- if paginate.parts.size > 0 -%}
