@@ -10,96 +10,23 @@
 {% endcomment %}
 
 {% style %}
-  .subscription-status-positive {
-    color: #027a48;
-    background-color: #ecfdf3;
-    border-color: #ecfdf3;
-  }
-
-  .subscription-status-positive-dot {
-    background-color: #027a48;
-    border-color: #027a48;
-    width: 7px;
-    height: 7px;
-  }
-
-  .subscription-status-negative {
-    color: #b42318;
-    background-color: #fef3f2;
-    border-color: #fef3f2;
-  }
-
-  .subscription-status-negative-dot {
-    background-color: #b42318;
-    border-color: #b42318;
-    width: 7px;
-    height: 7px;
-  }
-
-  .subscription-status-paused {
-    color: #1b191f;
-    background-color: #f5f5f5;
-    border-color: #f5f5f5;
-  }
-
-  .subscription-status-paused-dot {
-    background-color: #1b191f;
-    border-color: #1b191f;
-    width: 7px;
-    height: 7px;
-  }
-
-  .subscription-shadow {
-    box-shadow: 0px 1px 2px 0px var(--color-{{ color_scheme }}-borders-and-inputs);
-  }
+  
 {% endstyle %}
 
 {% liquid
   assign link_class = 'font-display text-body-medium font-medium hover:underline underline-offset-2'
 
-  assign status_class = 'subscription-status-paused'
-  assign status_dot_class = 'subscription-status-paused-dot'
   assign next_billing_date = subscription.date_period_end | time_tag: format: 'date'
   assign next_billing = 'customer.subscription.next_billing' | t | append: ': ' | append: next_billing_date
-  assign status_text = ''
-  if subscription.status == 'active'
-    assign status_class = 'subscription-status-positive'
-    assign status_dot_class = 'subscription-status-positive-dot'
-    assign status_text = 'customer.subscription.active' | t
-  elsif subscription.status == 'trial'
-    assign status_class = 'subscription-status-positive'
-    assign status_dot_class = 'subscription-status-positive-dot'
-    assign status_text = 'customer.subscription.trial' | t
-  elsif subscription.status == 'complete'
-    assign status_class = 'subscription-status-positive'
-    assign status_dot_class = 'subscription-status-positive-dot'
-    assign next_billing = 'customer.subscription.next_billing_complete' | t
-    assign status_text = 'customer.subscription.complete' | t
-  elsif subscription.status == 'canceled'
-    assign status_class = 'subscription-status-negative'
-    assign status_dot_class = 'subscription-status-negative-dot'
-    assign next_billing = 'customer.subscription.next_billing_canceled' | t
-    assign status_text = 'customer.subscription.canceled' | t
-  elsif subscription.status == 'pastdue'
-    assign status_class = 'subscription-status-negative'
-    assign status_dot_class = 'subscription-status-negative-dot'
-    assign next_billing = 'customer.subscription.next_billing_pastdue' | t
-    assign status_text = 'customer.subscription.pastdue' | t
-  elsif subscription.status == 'paused'
-   assign status_class = 'subscription-status-paused'
-   assign status_dot_class = 'subscription-status-paused-dot'
-   assign next_billing = 'customer.subscription.next_billing_paused' | t
-   assign status_text = 'customer.subscription.paused' | t
-  elsif subscription.status == 'unpaid'
-   assign status_class = 'subscription-status-paused'
-   assign status_dot_class = 'subscription-status-paused-dot'
-   assign next_billing = 'customer.subscription.next_billing_unpaid' | t
-   assign status_text = 'customer.subscription.unpaid' | t
+  assign status_text = 'customer.subscription.' | append: subscription.status | t
+  if subscription.status == 'complete' or subscription.status == 'canceled' or subscription.status == 'pastdue' or subscription.status == 'paused' or subscription.status == 'unpaid'
+    assign next_billing = 'customer.subscription.next_billing_' | append: subscription.status | t
   endif
 %}
 
 <div
   class="flex flex-col gap-16 pt-16 border rounded-md w-full subscription-shadow border-color-{{ color_scheme }}"
+  style="--shadow-color: var(--color-{{ color_scheme }}-borders-and-inputs)"
 >
   <div class="flex flex-col gap-16 px-20">
     <div class="flex flex-col gap-4 pb-16 border-b border-color-{{ color_scheme }}">
@@ -107,8 +34,8 @@
         <span class="text-body-large">
           {{ subscription.product.name  }}
         </span>
-        <div class="px-10 py-2 mr-12 gap-6 rounded-md border-1 h-24 flex items-center justify-center {{ status_class }}">
-          <div class="rounded-full {{ status_dot_class }}"></div>
+        <div class="px-10 py-2 mr-12 gap-6 rounded-md border-1 h-24 flex items-center justify-center subscription-status-{{ subscription.status }}">
+          <div class="rounded-full subscription-status-{{ subscription.status }}-dot"></div>
           <span class="text-body-small">
             {{ status_text }}
           </span>

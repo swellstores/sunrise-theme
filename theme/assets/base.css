@@ -351,3 +351,54 @@ textarea::placeholder,
   opacity: 0.6;
   pointer-events: none;
 }
+
+.subscription-status-active,
+.subscription-status-trial,
+.subscription-status-complete {
+  color: #027a48;
+  background-color: #ecfdf3;
+  border-color: #ecfdf3;
+}
+
+.subscription-status-active-dot,
+.subscription-status-trial-dot,
+.subscription-status-complete-dot {
+  background-color: #027a48;
+  border-color: #027a48;
+  width: 7px;
+  height: 7px;
+}
+
+.subscription-status-canceled,
+.subscription-status-pastdue {
+  color: #b42318;
+  background-color: #fef3f2;
+  border-color: #fef3f2;
+}
+
+.subscription-status-canceled-dot,
+.subscription-status-pastdue-dot {
+  background-color: #b42318;
+  border-color: #b42318;
+  width: 7px;
+  height: 7px;
+}
+
+.subscription-status-paused,
+.subscription-status-unpaid {
+  color: #1b191f;
+  background-color: #f5f5f5;
+  border-color: #f5f5f5;
+}
+
+.subscription-status-paused-dot,
+.subscription-status-unpaid-dot {
+  background-color: #1b191f;
+  border-color: #1b191f;
+  width: 7px;
+  height: 7px;
+}
+
+.subscription-shadow {
+  box-shadow: 0px 1px 2px 0px var(--shadow-color);
+}
