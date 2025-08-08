@@ -385,7 +385,9 @@
 </header>
 
 {% render 'search-dialog' %}
-{% render 'drawer-menu' %}
+{% render 'menu-drawer',
+  color_scheme: color_scheme
+%}
 
 {% if settings.cart_type == 'drawer' %}
   {% render 'cart-drawer' %}

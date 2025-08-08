@@ -23,7 +23,7 @@ import { FiltersClear } from "./filters-clear";
 // menu
 import { MegaMenu } from "./mega-menu";
 import { CascadingMenu } from "./cascading-menu";
-import { DrawerMenu } from "./drawer-menu";
+import { MenuDrawer } from "./menu-drawer";
 // cart
 import { Cart } from "./cart";
 import { CartDrawer } from "./cart-drawer";
@@ -54,7 +54,9 @@ import { ProductFilters } from "./product-filters";
 import { ProductFilterSidebar } from "./product-filter-sidebar";
 import { ProductFilterDrawer } from "./product-filter-drawer";
 import { ProductFilterToggle } from "./product-filter-toggle";
-import { Account } from "./account";
+// account
+import { AccountNav, AccountNavDrawer, AccountNavTrigger } from "./account-nav";
+import { AccountDetails } from "./account-details";
 import { AccountSubscription } from "./account-subscription";
 import { AccountLogin } from "./account-login";
 import { AccountResetPassword } from "./account-reset-password";
@@ -108,7 +110,7 @@ window.theme.accordion_rendered = true;
     // menu
     customElements.define("mega-menu-root", MegaMenu);
     customElements.define("cascading-menu-root", CascadingMenu);
-    customElements.define("desktop-drawer-menu-root", DrawerMenu);
+    customElements.define("menu-drawer", MenuDrawer);
 
     // cart
     customElements.define("cart-root", Cart);
@@ -148,7 +150,10 @@ window.theme.accordion_rendered = true;
     customElements.define("product-filter-toggle", ProductFilterToggle);
 
     // account
-    customElements.define("account-details", Account);
+    customElements.define("account-nav", AccountNav);
+    customElements.define("account-nav-drawer", AccountNavDrawer);
+    customElements.define("account-nav-trigger", AccountNavTrigger);
+    customElements.define("account-details", AccountDetails);
     customElements.define("account-subscription", AccountSubscription);
     customElements.define("account-login", AccountLogin);
     customElements.define("account-reset-password", AccountResetPassword);

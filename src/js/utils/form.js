@@ -46,3 +46,49 @@ export function setFormParams(event, data) {
 
   applySerializedData(event, serializedData);
 }
+
+export function getFormData(form, fields) {
+  if (!form || !fields) {
+    return null;
+  }
+
+  const formData = new FormData(form);
+
+  return fields.reduce((acc, field) => {
+    acc[field] = formData.get(field);
+
+    return acc;
+  }, {});
+}
+
+export function isFormChanged(form, fields, initialData) {
+  if (!form || !fields || !initialData) {
+    return false;
+  }
+
+  const formData = getFormData(form, fields);
+
+  for (const [key, value] of Object.entries(formData)) {
+    if (initialData[key] !== value) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+export function isFormValid(form, fields) {
+  if (!form || !fields) {
+    return false;
+  }
+
+  for (const field of fields) {
+    const input = form.elements[field];
+
+    if (!input || !input.validity.valid) {
+      return false;
+    }
+  }
+
+  return true;
+}

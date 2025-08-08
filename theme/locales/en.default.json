@@ -44,14 +44,13 @@
     "log_in": "Log in",
     "account": {
       "title": "Account",
-      "my_orders": "My orders",
+      "details": "My details",
       "orders": "Orders",
-      "address_book": "Address book",
-      "addresses": "Addresses",
       "no_orders_found": "No orders found.",
-      "my_subscriptions": "My subscriptions",
       "subscriptions": "Subscriptions",
       "no_subscriptions_found": "You have no active subscriptions.",
+      "addresses": "Addresses",
+      "payment_methods": "Payment method",
       "return": "Return to Account details"
     },
     "activate_account": {
@@ -59,6 +58,14 @@
       "subtext": "Create your password to activate your account.",
       "submit": "Activate",
       "cancel": "Cancel"
+    },
+    "details": {
+      "first_name": "First name",
+      "last_name": "Last name",
+      "email": "Email address",
+      "phone": "Phone number (optional)",
+      "submit": "Save",
+      "email_already_exists": "This email is already in use"
     },
     "addresses": {
       "title": "Addresses",
