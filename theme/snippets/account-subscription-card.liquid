@@ -50,7 +50,7 @@
   }
 
   .subscription-shadow {
-    box-shadow: 0px 1px 2px 0px #1717170D;
+    box-shadow: 0px 1px 2px 0px var(--color-{{ color_scheme }}-borders-and-inputs);
   }
 {% endstyle %}
 
@@ -98,7 +98,9 @@
   endif
 %}
 
-<div class="flex flex-col gap-16 pt-16 border rounded-md w-full subscription-shadow border-color-{{ color_scheme }}">
+<div
+  class="flex flex-col gap-16 pt-16 border rounded-md w-full subscription-shadow border-color-{{ color_scheme }}"
+>
   <div class="flex flex-col gap-16 px-20">
     <div class="flex flex-col gap-4 pb-16 border-b border-color-{{ color_scheme }}">
       <div class="flex flex-row justify-between">
