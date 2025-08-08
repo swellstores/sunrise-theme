@@ -9,14 +9,11 @@
     {% render 'account-subscriptions' customer: customer, color_scheme: color_scheme %}
 {% endcomment %}
 
-{% liquid
-  assign subscriptions = customer.subscriptions.results
-  assign has_subscriptions = subscriptions.size > 0
-%}
+{% assign subscriptions = customer.subscriptions.results %}
 
 <div
   id="account-subscriptions"
-  class="flex flex-col gap-24 w-full hidden mx-auto px-0 sm:px-20 text-{{ color_scheme }} bg-{{ color_scheme }}"
+  class="flex flex-col gap-32 w-full hidden mx-auto px-0 sm:px-20 text-{{ color_scheme }} bg-{{ color_scheme }}"
 >
   <div class="flex items-start px-4 py-24 mb-24 mx-20 sm:mx-0 gap-4 text-title-large border-b border-color-{{ color_scheme }}">
     <span>
@@ -32,14 +29,11 @@
   <div class="flex flex-col gap-8 px-20 sm:px-0">
     {% paginate subscriptions by 20 %}
       {%- if subscriptions.size > 0 -%}
-        <div class="flex flex-col gap-16">
+        <div class="flex flex-col gap-24">
           {%- for subscription in subscriptions -%}
             {%- render 'account-subscription-card',
               subscription: subscription
             -%}
-            {% unless forloop.last %}
-              <div class="border-t border-[#E0E0E0] w-full"></div>
-            {% endunless %}
           {%- endfor -%}
         </div>
       {%- else -%}
