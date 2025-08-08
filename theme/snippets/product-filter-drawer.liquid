@@ -21,23 +21,15 @@
 {% endcomment %}
 
 <product-filter-drawer
+  data-side="left"
   class="
     flex
     flex-col
-    fixed
-    right-0
-    top-0
-    z-50
-    h-screen
     w-full
     -translate-x-full
-    overflow-y-auto
-    transition-transform
-    duration-300
     bg-{{ color_scheme }}
     text-{{ color_scheme }}
   "
-  aria-hidden="true"
 >
   <div class="flex w-full items-center justify-between p-24 border-b border-color-{{ color_scheme }}">
     <span class="text-title-medium">

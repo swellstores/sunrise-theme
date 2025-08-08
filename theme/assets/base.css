@@ -212,6 +212,12 @@ input[type="number"].number-input::-webkit-outer-spin-button {
   font-weight: 600;
 }
 
+.text-headline-extra-small {
+  font-size: calc(2.4rem * var(--font-scale));
+  line-height: calc(3.2rem * var(--font-scale));
+  font-weight: 500;
+}
+
 /* content styles */
 .text-title-extra-large {
   font-size: calc(3rem * var(--font-scale));
