@@ -137,9 +137,6 @@
       "next_invoice": "Next invoice",
       "first_order": "First order",
       "next_order": "Next order",
-      "complete": "Complete",
-      "unpaid": "Unpaid",
-      "pastdue": "Past due",
       "created": "Created",
       "details": "Details",
       "error": "Error during subscription update",
@@ -147,7 +144,19 @@
       "payment_retry": "Payment retry",
       "subscribed_since": "Subscribed since",
       "next_billing": "Next billing",
-      "manage_subscription": "Manage subscription"
+      "manage_subscription": "Manage subscription",
+      "active": "Active",
+      "trial": "Trial",
+      "complete": "Complete",
+      "canceled": "Canceled",
+      "pastdue": "Past due",
+      "paused": "Paused",
+      "unpaid": "Unpaid",
+      "next_billing_complete": "complete",
+      "next_billing_canceled": "canceled",
+      "next_billing_pastdue": "pastdue",
+      "next_billing_paused": "paused",
+      "next_billing_unpaid": "unpaid"
     }
   },
   "sections": {

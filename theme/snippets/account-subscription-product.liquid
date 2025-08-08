@@ -13,7 +13,7 @@
 
 <div
   data-index="{{ index }}"
-  class="flex px-20 py-16 gap-14"
+  class="flex gap-8"
 >
   <div class="relative w-70 h-70 aspect-square rounded">
     {% if image %}
@@ -29,33 +29,34 @@
       %}
     {% endif %}
   </div>
-  <div class="flex flex-col w-full gap-14">
-    <div class="flex flex-col gap-4">
-      <div class="flex justify-between gap-16">
-        <span class="text-title-medium">
-          {{- product.name | escape -}}
-        </span>
-        {% if inline_price %}
-          <span class="text-title-small leading-[2.4rem]">
-            {{- price | money -}}
-          </span>
-        {% endif %}
-      </div>
-      {% if product.options.size > 0 %}
-        <span class="text-body-medium text-secondary-{{ color_scheme }}">
-          {%- for option in options -%}
-            {% if option.value %}
-              {%- if forloop.first != true -%}
-                /&nbsp;
-              {%- endif -%}
-              {{ option.value }}
-            {% endif %}
-          {%- endfor -%}
+  <div class="flex flex-col gap-4">
+    <div class="flex justify-between gap-16">
+      <span class="text-title-medium">
+        {{- product.name | escape -}}
+      </span>
+      {% if inline_price %}
+        <span class="text-title-small leading-[2.4rem]">
+          {{- price | money -}}
         </span>
       {% endif %}
-      <span class="text-body-medium">
-        Qty: {{ quantity }}
-      </span>
     </div>
+    {% if product.options.size > 0 %}
+      <span class="text-body-medium text-secondary-{{ color_scheme }}">
+        {%- for option in options -%}
+          {% if option.value %}
+            {%- if forloop.first != true -%}
+              /&nbsp;
+            {%- endif -%}
+            {{ option.value }}
+          {% endif %}
+        {%- endfor -%}
+      </span>
+    {% endif %}
+    <span class="text-body-medium">
+      Qty: {{ quantity }}
+    </span>
+    {% if product.options.size <= 0 %}
+      <span></span>
+    {% endif %}
   </div>
 </div>
