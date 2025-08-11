@@ -122,7 +122,7 @@
       "total_duties": "Duties",
       "order_name": "Order",
       "placed_on": "Placed on",
-      "view_order": "View order"
+      "view_order": "View details"
     },
     "orders": {
       "title": "Order history",
@@ -156,20 +156,24 @@
       "cancel_warning": "Are you sure you want to cancel this subscription?",
       "payment_retry": "Payment retry",
       "subscribed_since": "Subscribed since",
-      "next_billing": "Next billing",
-      "manage_subscription": "Manage subscription",
+      "next_billing": "Next charge date",
+      "next_shipping": "Next shipping",
+      "manage_subscription": "View details",
       "active": "Active",
       "trial": "Trial",
       "complete": "Complete",
       "canceled": "Canceled",
-      "pastdue": "Past due",
+      "pastdue": "Overdue",
       "paused": "Paused",
       "unpaid": "Unpaid",
-      "next_billing_complete": "complete",
-      "next_billing_canceled": "canceled",
-      "next_billing_pastdue": "pastdue",
-      "next_billing_paused": "paused",
-      "next_billing_unpaid": "unpaid"
+      "next_billing_complete": "Subscription completed",
+      "next_billing_canceled": "Subscription canceled",
+      "next_billing_pastdue": "Subscription due on",
+      "next_billing_paused": "Subscription paused",
+      "next_billing_paused_until": "Subscription paused until",
+      "next_billing_unpaid": "Subscription unpaid",
+      "day_trial": "day trial",
+      "payment_failed": "Payment failed"
     }
   },
   "sections": {
