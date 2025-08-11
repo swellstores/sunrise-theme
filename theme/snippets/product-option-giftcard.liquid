@@ -129,7 +129,7 @@
         {{ selected_value.description }}
       </span>
     {% endif %}
-    <option-error class="hidden text-body-medium text-{{ variants_color_scheme }}">
+    <option-error class="hidden text-body-medium text-red-600">
       {{ 'sections.product.option.selection_error' | t }}
     </option-error>
   </div>
@@ -171,8 +171,8 @@
           class="product-option-input px-12 py-10 text-title-medium outline-none border border-color-{{ variants_color_scheme }} bg-{{ variants_color_scheme }}"
           placeholder="{{ 'sections.product.gift_card.send_email' | t }}"
         ></input>
-        <giftcard-send-email-error class="hidden text-body-medium text-{{ variants_color_scheme }}">
-          TMP ERROR MESSAGE
+        <giftcard-send-email-error class="hidden text-body-medium text-red-600">
+          {{ 'sections.product.gift_card.send_email_error' | t }}
         </giftcard-send-email-error>
       </giftcard-send-email>
       <giftcard-send-note class="flex flex-col gap-6">

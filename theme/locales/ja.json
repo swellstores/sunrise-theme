@@ -175,6 +175,15 @@
         "interval_day": "日ごと",
         "interval_day_plural": "日",
         "includes_trial": "{{ trial_days }}日間のトライアル"
+      },
+      "gift_card": {
+        "options": "カードのオプション",
+        "send_gift": "ギフトとして送る",
+        "send_email": "受取人のメールアドレス",
+        "send_email_error": "有効なメールアドレスを入力してください。",
+        "send_note": "カスタムメッセージ",
+        "send_note_placeholder": "受取人へのカスタムメッセージを入力してください",
+        "send_note_char_count": "文字"
       }
     },
     "cart": {

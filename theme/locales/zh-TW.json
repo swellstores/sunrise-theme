@@ -175,6 +175,15 @@
         "interval_day": "每天",
         "interval_day_plural": "天",
         "includes_trial": "{{ trial_days }} 天試用期"
+      },
+      "gift_card": {
+        "options": "卡片選項",
+        "send_gift": "作為禮物寄出",
+        "send_email": "收件人電子郵件",
+        "send_email_error": "請輸入有效的電子郵件地址。",
+        "send_note": "自訂訊息",
+        "send_note_placeholder": "為收件人撰寫自訂訊息",
+        "send_note_char_count": "字元"
       }
     },
     "cart": {

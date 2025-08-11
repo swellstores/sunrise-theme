@@ -281,6 +281,7 @@
         "options": "Card options",
         "send_gift": "Send as gift",
         "send_email": "Recipient's email",
+        "send_email_error": "Enter a valid email address.",
         "send_note": "Custom message",
         "send_note_placeholder": "Write a custom message to the recipient",
         "send_note_char_count": "characters"
