@@ -175,6 +175,15 @@
         "interval_day": "Päivittäin",
         "interval_day_plural": "päivää",
         "includes_trial": "{{ trial_days }} päivän kokeilu"
+      },
+      "gift_card": {
+        "options": "Korttiasetukset",
+        "send_gift": "Lähetä lahjaksi",
+        "send_email": "Vastaanottajan sähköposti",
+        "send_email_error": "Syötä kelvollinen sähköpostiosoite.",
+        "send_note": "Yksilöllinen viesti",
+        "send_note_placeholder": "Kirjoita vastaanottajalle oma viesti",
+        "send_note_char_count": "merkkiä"
       }
     },
     "cart": {
