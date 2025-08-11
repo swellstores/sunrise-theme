@@ -72,7 +72,7 @@
         </div>
       </div>
 
-      <div class="flex flex-row gap-4 text-body-small">
+      <div class="flex flex-row max-sm:flex-col gap-4 text-body-small">
         {% if subscription.status == 'trial' %}
           <span class="font-medium">
             {{ subscription.billing_schedule.trial_days }} {{ 'customer.subscription.day_trial' | t }} 
@@ -99,7 +99,7 @@
           </div>
         {% endif %}
         {% if subscription.options.size > 0 %}
-          <span>•</span>
+          <span class="max-sm:hidden">•</span>
           <span class="text-secondary-{{ color_scheme }}">
             {%- for option in subscription.options -%}
               {% if option.value %}
@@ -114,17 +114,17 @@
       </div>
 
       {% if subscription.status == 'pastdue' %}
-        <div class="flex flex-row gap-4 text-body-small text-[#b42318]">
-          {{ 'customer.subscription.payment_failed' | t }}
-          <span>•</span>
-          {{ next_billing }}
+        <div class="flex flex-row max-sm:flex-col gap-4 text-body-small text-[#b42318]">
+          <span>{{ 'customer.subscription.payment_failed' | t }}</span>
+          <span class="max-sm:hidden">•</span>
+          <span>{{ next_billing }}</span>
         </div>
       {% else %}
-        <div class="flex flex-row gap-4 text-body-small">
-          {{ next_billing }}
+        <div class="flex flex-row max-sm:flex-col gap-4 text-body-small">
+          <span>{{ next_billing }}</span>
           {% if next_shipping %}
-            <span>•</span>
-            {{ next_shipping }}
+            <span class="max-sm:hidden">•</span>
+            <span>{{ next_shipping }}</span>
           {% endif %}
         </div>
       {% endif %}
