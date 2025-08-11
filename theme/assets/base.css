@@ -389,7 +389,7 @@ textarea::placeholder,
 }
 
 .subscription-status-paused,
-.subscription-status-canceled
+.subscription-status-canceled,
 .subscription-status-unpaid {
   color: #1b191f;
   background-color: #f5f5f5;
@@ -397,7 +397,7 @@ textarea::placeholder,
 }
 
 .subscription-status-paused-dot,
-.subscription-status-canceled-dot 
+.subscription-status-canceled-dot, 
 .subscription-status-unpaid-dot {
   background-color: #1b191f;
   border-color: #1b191f;
