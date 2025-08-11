@@ -74,9 +74,13 @@
         {%- endfor -%}
       </span>
     {% endif %}
-    <span class="text-body-medium">
-      {{ 'sections.cart.item.quantity' | t }}: {{ quantity }}
-    </span>
+    {% if quantity > 1 %}
+      <span class="text-body-medium">
+        {{ 'sections.cart.item.quantity' | t }}: {{ quantity }}
+      </span>
+    {% else %}
+      <span></span>
+    {% endif %}
     {% if product.options.size <= 0 %}
       <span></span>
     {% endif %}

@@ -375,22 +375,21 @@ textarea::placeholder,
   height: 7px;
 }
 
-.subscription-status-canceled,
 .subscription-status-pastdue {
-  color: #b42318;
-  background-color: #fef3f2;
-  border-color: #fef3f2;
+  color: #b54708;
+  background-color: #fffaeb;
+  border-color: #fffaeb;
 }
 
-.subscription-status-canceled-dot,
 .subscription-status-pastdue-dot {
-  background-color: #b42318;
-  border-color: #b42318;
+  background-color: #b54708;
+  border-color: #b54708;
   width: 7px;
   height: 7px;
 }
 
 .subscription-status-paused,
+.subscription-status-canceled
 .subscription-status-unpaid {
   color: #1b191f;
   background-color: #f5f5f5;
@@ -398,6 +397,7 @@ textarea::placeholder,
 }
 
 .subscription-status-paused-dot,
+.subscription-status-canceled-dot 
 .subscription-status-unpaid-dot {
   background-color: #1b191f;
   border-color: #1b191f;
