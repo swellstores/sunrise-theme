@@ -75,7 +75,7 @@
       </span>
     {% endif %}
     <span class="text-body-medium">
-      Qty: {{ quantity }}
+      {{ 'sections.cart.item.quantity' | t }}: {{ quantity }}
     </span>
     {% if product.options.size <= 0 %}
       <span></span>

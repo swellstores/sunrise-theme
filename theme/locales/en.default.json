@@ -46,7 +46,10 @@
       "title": "Account",
       "details": "My details",
       "orders": "Orders",
-      "no_orders_found": "No orders found.",
+      "address_book": "Address book",
+      "addresses": "Addresses",
+      "no_orders_found": "You have not placed any orders yet.",
+      "my_subscriptions": "My subscriptions",
       "subscriptions": "Subscriptions",
       "no_subscriptions_found": "You have no active subscriptions.",
       "addresses": "Addresses",
@@ -116,7 +119,10 @@
       "tracking_company": "Carrier",
       "tracking_number": "Tracking number",
       "subtotal": "Subtotal",
-      "total_duties": "Duties"
+      "total_duties": "Duties",
+      "order_name": "Order",
+      "placed_on": "Placed on",
+      "view_order": "View order"
     },
     "orders": {
       "title": "Order history",
@@ -310,7 +316,8 @@
         "other": "{{ count }} items"
       },
       "item": {
-        "remove": "Remove"
+        "remove": "Remove",
+        "quantity": "Qty"
       }
     },
     "newsletter": {
