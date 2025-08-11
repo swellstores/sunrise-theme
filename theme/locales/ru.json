@@ -175,6 +175,15 @@
         "interval_day": "Ежедневно",
         "interval_day_plural": "дня",
         "includes_trial": "{{ trial_days }} дней пробного периода"
+      },
+      "gift_card": {
+        "options": "Опции карты",
+        "send_gift": "Отправить как подарок",
+        "send_email": "Email получателя",
+        "send_email_error": "Введите корректный адрес электронной почты.",
+        "send_note": "Персональное сообщение",
+        "send_note_placeholder": "Напишите персональное сообщение получателю",
+        "send_note_char_count": "символов"
       }
     },
     "cart": {
