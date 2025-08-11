@@ -102,15 +102,21 @@
         </span>
       {% endif %}
     </div>
-    <div class="flex items-center justify-between gap-8">
-      {% render 'cart-item-quantity',
-        item: item,
-        index: index,
-        color_scheme: color_scheme
-      %}
-      <cart-item-remove data-index="{{ index }}" class="underline text-body-medium">
-        {{ 'sections.cart.item.remove' | t }}
-      </cart-item-remove>
-    </div>
+    {% if hide_buttons %}
+      <span class="text-body-medium">
+        {{ 'sections.cart.item.quantity' | t }}: {{ item.quantity }}
+      </span>
+    {% else %}
+      <div class="flex items-center justify-between gap-8">
+        {% render 'cart-item-quantity',
+          item: item,
+          index: index,
+          color_scheme: color_scheme
+        %}
+        <cart-item-remove data-index="{{ index }}" class="underline text-body-medium">
+          {{ 'sections.cart.item.remove' | t }}
+        </cart-item-remove>
+      </div>
+    {% endif %}
   </div>
 </cart-item>
