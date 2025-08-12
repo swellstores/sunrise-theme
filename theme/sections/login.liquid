@@ -6,7 +6,8 @@
   assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
 
   assign div_class = 'pl-24 pr-24 form-container flex flex-col gap-32 items-start w-full sm:w-auto'
-  assign input_class = 'input-field px-12 py-10 text-title-medium outline-none border border-color-' | append: color_scheme
+  assign input_class = 'input-field px-12 py-10 text-title-medium outline-none border border-color-' | append: color_scheme | append: ' bg-' | append: color_scheme
+  assign input_style = '--shadow-color: var(--color-' | append: color_scheme | append: '-borders-and-inputs)'
   assign input_label_class = 'text-body-medium text-secondary-' | append: color_scheme
   assign link_class = 'font-display text-body-medium font-medium hover:underline underline-offset-2'
 -%}
@@ -75,6 +76,7 @@
           </span>
           <input
             class="{{ input_class }}"
+            style="{{ input_style }}"
             placeholder="{{ 'sections.login.email_placeholder' | t }}"
             type="email"
             name="customer[email]"
@@ -88,6 +90,7 @@
           </span>
           <input
             class="{{ input_class }}"
+            style="{{ input_style }}"
             placeholder="{{ 'sections.login.password_placeholder' | t }}"
             type="password"
             name="customer[password]"

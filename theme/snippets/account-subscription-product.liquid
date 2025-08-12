@@ -51,7 +51,7 @@
       %}
     {% endif %}
   </div>
-  <div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-4 justify-center">
     <div class="flex justify-between gap-16">
       <span class="text-title-medium">
         {{- product.name | escape -}}
@@ -74,11 +74,10 @@
         {%- endfor -%}
       </span>
     {% endif %}
-    <span class="text-body-medium">
-      Qty: {{ quantity }}
-    </span>
-    {% if product.options.size <= 0 %}
-      <span></span>
+    {% if quantity != 1 %}
+      <span class="text-body-medium">
+        {{ 'sections.cart.item.quantity' | t }}: {{ quantity }}
+      </span>
     {% endif %}
   </div>
 </div>

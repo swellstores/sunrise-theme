@@ -1,0 +1,74 @@
+{% comment %}
+  Renders a single order card
+
+  Accepts:
+  - order: {Object} order to be rendered
+  - color-scheme: {Object} color scheme to be used
+
+  Usage:
+    {%- render 'account-order-card', order: order, color_scheme: color_scheme -%}
+{% endcomment %}
+
+{% liquid
+  assign link_class = 'font-display text-body-medium font-medium hover:underline underline-offset-2'
+%}
+
+<div
+  class="flex flex-col gap-16 pt-16 border rounded w-full order-shadow border-color-{{ color_scheme }}"
+  style="--shadow-color: var(--color-{{ color_scheme }}-borders-and-inputs)"
+>
+  <div class="flex flex-col gap-16 px-20">
+    <div class="flex flex-col gap-4 pb-16 border-b border-color-{{ color_scheme }}">
+      <div class="flex flex-row justify-between">
+        <span class="text-body-large">
+          {{ 'customer.order.order_name' | t }} #{{ order.name  }}
+        </span>
+        <div class="flex flex-row gap-8">
+          <div class="px-8 py-2 gap-6 rounded-md border-1 h-20 flex items-center justify-center order-financial-status-{{ order.financial_status }}">
+            <div class="rounded-full order-financial-status-{{ order.financial_status }}-dot"></div>
+            <span class="text-body-small">
+              {{ 'customer.order.financial_status_' | append: order.financial_status | t }}
+            </span>
+          </div>
+          <div class="px-8 py-2 gap-6 rounded-md border-1 h-20 flex items-center justify-center order-fulfillment-status-{{ order.fulfillment_status }}">
+            <div class="rounded-full order-fulfillment-status-{{ order.fulfillment_status }}-dot"></div>
+            <span class="text-body-small">
+              {{ 'customer.order.fulfillment_status_' | append: order.fulfillment_status | t }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-row gap-8 text-body-small">
+        <span>
+          {{ 'customer.order.placed_on' | t }} {{ order.created_at | time_tag: format: 'date' }}
+        </span>
+        <span>•</span>
+        <span>
+          {{ 'customer.order.total' | t }}: {{ order.total_net_amount | money_with_currency }}
+        </span>
+      </div>
+    </div>
+
+    <div class="grid max-md:grid-cols-1 grid-cols-2 gap-24 w-full">
+      {%- for item in order.line_items -%}
+        {% render 'cart-item',
+          item: item,
+          index: forloop.index,
+          color_scheme: color_scheme,
+          hide_buttons: true
+        %}
+      {%- endfor -%}
+    </div>
+  </div>
+  <div class="flex flex-row gap-8 p-20 border-t border-color-{{ color_scheme }}">
+    <div class="flex items-start justify-center">
+      <a
+        href="/account/orders/{{ order.id }}"
+        class="{{ link_class }}"
+      >
+        {{ 'customer.order.view_order' | t }}
+      </a>
+    </div>
+  </div>
+</div>
