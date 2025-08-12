@@ -2,30 +2,19 @@
   Renders a single order card
 
   Accepts:
-  - subscription: {Object} order to be rendered
+  - order: {Object} order to be rendered
   - color-scheme: {Object} color scheme to be used
 
   Usage:
     {%- render 'account-order-card', order: order, color_scheme: color_scheme -%}
 {% endcomment %}
 
-{% style %}
-  
-{% endstyle %}
-
 {% liquid
   assign link_class = 'font-display text-body-medium font-medium hover:underline underline-offset-2'
-
-  assign next_billing_date = subscription.date_period_end | time_tag: format: 'date'
-  assign next_billing = 'customer.subscription.next_billing' | t | append: ': ' | append: next_billing_date
-  assign status_text = 'customer.subscription.' | append: subscription.status | t
-  if subscription.status == 'complete' or subscription.status == 'canceled' or subscription.status == 'pastdue' or subscription.status == 'paused' or subscription.status == 'unpaid'
-    assign next_billing = 'customer.subscription.next_billing_' | append: subscription.status | t
-  endif
 %}
 
 <div
-  class="flex flex-col gap-16 pt-16 border rounded w-full subscription-shadow border-color-{{ color_scheme }}"
+  class="flex flex-col gap-16 pt-16 border rounded w-full order-shadow border-color-{{ color_scheme }}"
   style="--shadow-color: var(--color-{{ color_scheme }}-borders-and-inputs)"
 >
   <div class="flex flex-col gap-16 px-20">
@@ -34,22 +23,31 @@
         <span class="text-body-large">
           {{ 'customer.order.order_name' | t }} #{{ order.name  }}
         </span>
-        <div class="px-10 py-2 mr-12 gap-6 rounded-md border-1 h-24 flex items-center justify-center order-status-{{ order.status }}">
-          <div class="rounded-full order-status-{{ order.status }}-dot"></div>
-          <span class="text-body-small">
-            {{ status_text }} {{ order.financial_status }} {{ order.fullfillment_status }}
-          </span>
+        <div class="flex flex-row gap-8">
+          <div class="px-8 py-2 gap-6 rounded-md border-1 h-20 flex items-center justify-center order-financial-status-{{ order.financial_status }}">
+            <div class="rounded-full order-financial-status-{{ order.financial_status }}-dot"></div>
+            <span class="text-body-small">
+              {{ 'customer.order.financial_status_' | append: order.financial_status | t }}
+            </span>
+          </div>
+          <div class="px-8 py-2 gap-6 rounded-md border-1 h-20 flex items-center justify-center order-fulfillment-status-{{ order.fulfillment_status }}">
+            <div class="rounded-full order-fulfillment-status-{{ order.fulfillment_status }}-dot"></div>
+            <span class="text-body-small">
+              {{ 'customer.order.fulfillment_status_' | append: order.fulfillment_status | t }}
+            </span>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="flex flex-row gap-8 text-body-small">
-      <span>
-        {{ 'customer.order.placed_on' | t }} {{ order.created_at | time_tag: format: 'date' }}
-      </span>
-      <span>•</span>
-      <span>
-        {{ 'customer.order.total' | t }}: {{ order.total_net_amount | money_with_currency }}
-      </span>
+
+      <div class="flex flex-row gap-8 text-body-small">
+        <span>
+          {{ 'customer.order.placed_on' | t }} {{ order.created_at | time_tag: format: 'date' }}
+        </span>
+        <span>•</span>
+        <span>
+          {{ 'customer.order.total' | t }}: {{ order.total_net_amount | money_with_currency }}
+        </span>
+      </div>
     </div>
 
     <div class="grid max-md:grid-cols-1 grid-cols-2 gap-24 w-full">
