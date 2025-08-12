@@ -175,6 +175,15 @@
         "interval_day": "Dagligt",
         "interval_day_plural": "dage",
         "includes_trial": "{{ trial_days }} dages prøveperiode"
+      },
+      "gift_card": {
+        "options": "Kortindstillinger",
+        "send_gift": "Send som gave",
+        "send_email": "Modtagerens e-mail",
+        "send_email_error": "Indtast en gyldig e-mailadresse.",
+        "send_note": "Tilpasset besked",
+        "send_note_placeholder": "Skriv en personlig besked til modtageren",
+        "send_note_char_count": "tegn"
       }
     },
     "cart": {

@@ -175,6 +175,15 @@
         "interval_day": "Diário",
         "interval_day_plural": "dias",
         "includes_trial": "{{ trial_days }} dias de teste"
+      },
+      "gift_card": {
+        "options": "Opções de cartão",
+        "send_gift": "Enviar como presente",
+        "send_email": "Email do destinatário",
+        "send_email_error": "Introduza um endereço de e-mail válido.",
+        "send_note": "Mensagem personalizada",
+        "send_note_placeholder": "Escreva uma mensagem personalizada para o destinatário",
+        "send_note_char_count": "caracteres"
       }
     },
     "cart": {
