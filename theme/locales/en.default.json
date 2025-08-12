@@ -46,7 +46,10 @@
       "title": "Account",
       "details": "My details",
       "orders": "Orders",
-      "no_orders_found": "No orders found.",
+      "address_book": "Address book",
+      "addresses": "Addresses",
+      "no_orders_found": "You have not placed any orders yet.",
+      "my_subscriptions": "My subscriptions",
       "subscriptions": "Subscriptions",
       "no_subscriptions_found": "You have no active subscriptions.",
       "addresses": "Addresses",
@@ -116,7 +119,28 @@
       "tracking_company": "Carrier",
       "tracking_number": "Tracking number",
       "subtotal": "Subtotal",
-      "total_duties": "Duties"
+      "total_duties": "Duties",
+      "order_name": "Order",
+      "placed_on": "Placed on",
+      "view_order": "View details",
+      "financial_status_refund_due": "Refund due",
+      "financial_status_partially_paid": "Partially paid",
+      "financial_status_partially_refunded": "Partially refunded",
+      "financial_status_refunded": "Refunded",
+      "financial_status_paid": "Paid",
+      "financial_status_authorized": "Authorized",
+      "financial_status_unpaid": "Unpaid",
+      "financial_status_free": "Free",
+      "fulfillment_status_canceled": "Canceled",
+      "fulfillment_status_on_hold": "On hold",
+      "fulfillment_status_returned": "Returned",
+      "fulfillment_status_partially_returned": "Partially returned",
+      "fulfillment_status_fulfilled": "Fulfilled",
+      "fulfillment_status_partially_fulfilled": "Partially fulfilled",
+      "fulfillment_status_unfulfilled": "Unfulfilled",
+      "fulfillment_status_complete": "Complete",
+      "fulfillment_status_restocked": "Restocked",
+      "fulfillment_status_partial": "Partially fulfilled"
     },
     "orders": {
       "title": "Order history",
@@ -150,20 +174,24 @@
       "cancel_warning": "Are you sure you want to cancel this subscription?",
       "payment_retry": "Payment retry",
       "subscribed_since": "Subscribed since",
-      "next_billing": "Next billing",
-      "manage_subscription": "Manage subscription",
+      "next_billing": "Next charge date",
+      "next_shipping": "Next shipping",
+      "manage_subscription": "View details",
       "active": "Active",
       "trial": "Trial",
       "complete": "Complete",
       "canceled": "Canceled",
-      "pastdue": "Past due",
+      "pastdue": "Overdue",
       "paused": "Paused",
       "unpaid": "Unpaid",
-      "next_billing_complete": "complete",
-      "next_billing_canceled": "canceled",
-      "next_billing_pastdue": "pastdue",
-      "next_billing_paused": "paused",
-      "next_billing_unpaid": "unpaid"
+      "next_billing_complete": "Subscription completed",
+      "next_billing_canceled": "Subscription canceled",
+      "next_billing_pastdue": "Subscription due on",
+      "next_billing_paused": "Subscription paused",
+      "next_billing_paused_until": "Subscription paused until",
+      "next_billing_unpaid": "Subscription unpaid",
+      "day_trial": "day trial",
+      "payment_failed": "Payment failed"
     }
   },
   "sections": {
@@ -311,7 +339,8 @@
         "other": "{{ count }} items"
       },
       "item": {
-        "remove": "Remove"
+        "remove": "Remove",
+        "quantity": "Qty"
       }
     },
     "newsletter": {

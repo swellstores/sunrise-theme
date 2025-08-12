@@ -360,7 +360,17 @@ textarea::placeholder,
 
 .subscription-status-active,
 .subscription-status-trial,
-.subscription-status-complete {
+.subscription-status-complete,
+.order-financial-status-refund_due,
+.order-financial-status-partially_refunded,
+.order-financial-status-refunded,
+.order-financial-status-paid,
+.order-financial-status-free,
+.order-fulfillment-status-returned,
+.order-fulfillment-status-partially_returned,
+.order-fulfillment-status-fulfilled,
+.order-fulfillment-status-complete,
+.order-fulfillment-status-partial {
   color: #027a48;
   background-color: #ecfdf3;
   border-color: #ecfdf3;
@@ -368,43 +378,81 @@ textarea::placeholder,
 
 .subscription-status-active-dot,
 .subscription-status-trial-dot,
-.subscription-status-complete-dot {
+.subscription-status-complete-dot,
+.order-financial-status-refund_due-dot,
+.order-financial-status-partially_refunded-dot,
+.order-financial-status-refunded-dot,
+.order-financial-status-paid-dot,
+.order-financial-status-free-dot,
+.order-fulfillment-status-returned-dot,
+.order-fulfillment-status-partially_returned-dot,
+.order-fulfillment-status-fulfilled-dot,
+.order-fulfillment-status-complete-dot,
+.order-fulfillment-status-partial-dot {
   background-color: #027a48;
   border-color: #027a48;
   width: 7px;
   height: 7px;
 }
 
-.subscription-status-canceled,
 .subscription-status-pastdue {
-  color: #b42318;
-  background-color: #fef3f2;
-  border-color: #fef3f2;
+  color: #b54708;
+  background-color: #fffaeb;
+  border-color: #fffaeb;
 }
 
-.subscription-status-canceled-dot,
 .subscription-status-pastdue-dot {
-  background-color: #b42318;
-  border-color: #b42318;
+  background-color: #b54708;
+  border-color: #b54708;
   width: 7px;
   height: 7px;
 }
 
 .subscription-status-paused,
-.subscription-status-unpaid {
+.subscription-status-canceled,
+.subscription-status-unpaid,
+.order-financial-status-partially_paid,
+.order-financial-status-authorized,
+.order-financial-status-unpaid,
+.order-fulfillment-status-canceled,
+.order-fulfillment-status-on_hold,
+.order-fulfillment-status-restocked {
   color: #1b191f;
   background-color: #f5f5f5;
   border-color: #f5f5f5;
 }
 
 .subscription-status-paused-dot,
-.subscription-status-unpaid-dot {
+.subscription-status-canceled-dot, 
+.subscription-status-unpaid-dot,
+.order-financial-status-partially_paid-dot,
+.order-financial-status-authorized-dot,
+.order-financial-status-unpaid-dot,
+.order-fulfillment-status-canceled-dot,
+.order-fulfillment-status-on_hold-dot,
+.order-fulfillment-status-restocked-dot {
   background-color: #1b191f;
   border-color: #1b191f;
   width: 7px;
   height: 7px;
 }
 
-.subscription-shadow {
+.order-financial-status-partially_fulfilled,
+.order-fulfillment-status-unfulfilled {
+  color: #b54708;
+  background-color: #fffaeb;
+  border-color: #fffaeb;
+}
+
+.order-financial-status-partially_fulfilled-dot,
+.order-fulfillment-status-unfulfilled-dot {
+  background-color: #b54708;
+  border-color: #b54708;
+  width: 7px;
+  height: 7px;
+}
+
+.subscription-shadow,
+.order-shadow {
   box-shadow: 0px 1px 2px 0px var(--shadow-color);
 }
