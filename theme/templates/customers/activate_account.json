@@ -2,7 +2,11 @@
     "sections": {
         "main": {
             "type": "activate-account",
-            "settings": {}
+            "settings": {
+                "color_scheme": "scheme-1",
+                "top_padding": 48,
+                "bottom_padding": 48
+            }
         }
     },
     "order": [
