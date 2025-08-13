@@ -219,7 +219,11 @@
       "already_have_account": "Already have an account?",
       "login": "Login in here.",
       "create_account": "Create account",
-      "error": "Your account could not be created. Please try again."
+      "error": "Your account could not be created. Please try again.",
+      "invalid_email_error": "Invalid email address",
+      "invalid_password_error": "Invalid password",
+      "logout_error": "You must be logged out to create an account",
+      "unknown_error": "Can not create account"
     },
     "reset-password": {
       "title": "Reset your password",
