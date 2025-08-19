@@ -2,13 +2,6 @@
   assign checkmark_class = 'checkmark-icon hidden items-center justify-center size-14'
 -%}
 
-<a href="#details" class="account-nav-item">
-  {{ 'customer.account.details' | t }}
-  <div class="{{ checkmark_class }}">
-    {{- 'icon-checkmark.svg' | inline_asset_content -}}
-  </div>
-</a>
-
 <a href="#orders" class="account-nav-item">
   {{ 'customer.account.orders' | t }}
   <div class="{{ checkmark_class }}">

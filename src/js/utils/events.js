@@ -118,3 +118,21 @@ export class ProductFilterToggleEvent extends BaseCustomEvent {
     super(ProductFilterToggleEvent.type, detail);
   }
 }
+
+/* ADDRESS EVENTS */
+
+export class AddressModalSubmitEvent extends BaseCustomEvent {
+  static type = "address-modal-submit";
+
+  constructor(detail) {
+    super(AddressModalSubmitEvent.type, detail);
+  }
+}
+
+export class AddressRemoveModalSubmitEvent extends BaseCustomEvent {
+  static type = "address-remove-modal-submit";
+
+  constructor(detail) {
+    super(AddressRemoveModalSubmitEvent.type, detail);
+  }
+}

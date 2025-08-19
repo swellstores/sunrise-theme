@@ -1,6 +1,10 @@
 export class ToggleButton extends HTMLElement {
+  static formAssociated = true;
+
   constructor() {
     super();
+
+    this._internals = this.attachInternals();
 
     this.onClickBound = this.onClick.bind(this);
   }
@@ -18,16 +22,30 @@ export class ToggleButton extends HTMLElement {
     this.removeEventListener("click", this.onClickBound);
   }
 
-  get(checked = this.isChecked()) {
+  formResetCallback() {
+    this.value = false;
+  }
+
+  get value() {
+    return this.getAttribute("aria-checked") === "true" ? true : null;
+  }
+
+  set value(checked) {
+    this.setAttribute("aria-checked", Boolean(checked));
+    this.updateCheckbox();
+    this._internals.setFormValue(checked ? true : null);
+  }
+
+  get name() {
+    return this.getAttribute("name");
+  }
+
+  get(checked = this.value) {
     return {
       id: this.getAttribute("id"),
       value: checked ? this.getAttribute("value") : false,
       dataset: this.dataset,
     };
-  }
-
-  isChecked() {
-    return this.getAttribute("aria-checked") === "true";
   }
 
   updateCheckbox() {
@@ -41,11 +59,9 @@ export class ToggleButton extends HTMLElement {
   onClick(event) {
     event.stopPropagation();
 
-    const checked = this.isChecked();
+    const checked = Boolean(this.value);
 
-    this.setAttribute("aria-checked", String(!checked));
-    this.updateCheckbox();
-
+    this.value = !checked;
     this.dispatchChangeEvent(!checked);
   }
 
@@ -63,13 +79,7 @@ export class ToggleButton extends HTMLElement {
 
 export class ToggleButtonCheckbox extends HTMLElement {
   update(toggleButton = this.closest("toggle-button")) {
-    const checked = toggleButton.isChecked();
-
-    if (checked) {
-      this.check();
-    } else {
-      this.uncheck();
-    }
+    return toggleButton.value ? this.check() : this.uncheck();
   }
 
   check() {
