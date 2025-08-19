@@ -42,7 +42,8 @@
     display: flex;
   }
 
-  account-section input::placeholder {
+  account-section input::placeholder,
+  account-section dropdown-trigger-placeholder {
     color: var(--color-{{ color_scheme }}-text-secondary);
     font-size: calc(1.6rem * var(--font-scale));
     line-height: calc(2.4rem * var(--font-scale));
@@ -55,9 +56,9 @@
     color_scheme: color_scheme
   %}
   <div class="flex justify-center max-w-content w-full mx-auto">
-    {% render 'account-details' customer: customer, color_scheme: color_scheme %}
     {% render 'account-orders' customer: customer, color_scheme: color_scheme %}
     {% render 'account-subscriptions' customer: customer, color_scheme: color_scheme %}
+    {% render 'account-addresses' customer: customer, color_scheme: color_scheme %}
   </div>
 </account-section>
 
