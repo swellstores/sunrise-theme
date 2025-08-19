@@ -103,6 +103,7 @@
       window.theme.slideshow_asset_url = '{{ 'swiper-element-bundle.js' | asset_url }}';
       window.theme.slideshow_navigation_asset_url = '{{ 'slideshow-navigation.js' | asset_url }}';
       window.theme.accordion_asset_url = '{{ 'accordion.js' | asset_url }}';
+      window.theme.geo = {{ geo | json }};
       window.moneyFormat = '{{ shop.money_format }}';
       window.shopUrl = '{{ request.origin }}';
       window.routes = {
