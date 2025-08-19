@@ -1,0 +1,96 @@
+{%- liquid
+  assign address_edit_modal_title = 'customer.addresses.edit_address' | t
+
+  assign is_default_address = customer.default_address.id == address.id
+
+  assign address_detail_fields = 'city,zip,province,country' | split: ','
+  assign address_details = nil
+
+  for address_field in address_detail_fields
+    case address_field
+      when 'country'
+        assign field_value = address.country.name
+      else
+        assign field_value = address[address_field]
+    endcase
+
+    if field_value
+      case address_field
+        when 'country'
+          assign country_config = geo.countries | find: 'id', field_value
+
+          if country_config
+            assign field_value = country_config.name
+          endif
+        when 'province'
+          assign state_config = geo.states | find: 'id', field_value
+
+          if state_config
+            assign field_value = state_config.name
+          endif
+      endcase
+
+      if address_details
+        assign address_details = address_details | append: ', ' | append: field_value
+      else
+        assign address_details = field_value
+      endif
+    endif
+  endfor
+-%}
+
+<script type="application/json" id="address-data-{{ address.id }}">
+  {{ address | json }}
+</script>
+
+<div
+  class="flex flex-col sm:items-center sm:flex-row sm:justify-between py-16 px-20 sm:p-20 gap-16 address-shadow text-body-medium text-{{ color_scheme }} rounded-6 border border-color-{{ color_scheme }}"
+  style="--shadow-color: var(--color-{{ color_scheme }}-borders-and-inputs)"
+>
+  <div class="flex flex-col gap-10">
+    <div class="flex flex-col gap-6">
+      <span class="text-title-small uppercase">
+        {{ address.name }}
+      </span>
+      <div class="flex flex-col">
+        {% if address.company %}
+          <span>
+            {{ address.company }}
+          </span>
+        {% endif %}
+        <span>
+          {{ address.address1 }}
+          {%- if address.address2 -%}
+            , {{ address.address2 }}
+          {%- endif -%}
+        </span>
+        {% if address_details %}
+          <span>
+            {{ address_details }}
+          </span>
+        {% endif %}
+      </div>
+    </div>
+    {% if is_default_address %}
+      <div class="w-fit py-2 px-8 rounded-4 text-body-small font-medium default-address-badge">
+        {{ 'customer.addresses.default' | t }}
+      </div>
+    {% endif %}
+  </div>
+  <div class="flex gap-16">
+    <address-edit-button
+      class="text-title-small text-secondary-{{ color_scheme }}"
+      data-address-id="{{ address.id }}"
+      data-is-default-address="{{ is_default_address }}"
+      data-modal-title="{{ address_edit_modal_title }}"
+    >
+      {{ 'customer.addresses.edit' | t }}
+    </address-edit-button>
+    <address-remove-button
+      class="text-title-small text-secondary-{{ color_scheme }}"
+      data-address-id="{{ address.id }}"
+    >
+      {{ 'customer.addresses.remove' | t }}
+    </address-remove-button>
+  </div>
+</div>
