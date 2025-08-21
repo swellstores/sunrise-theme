@@ -1,5 +1,6 @@
 import hoverintent from "./hoverintent";
 // components
+import { Backdrop } from "./backdrop";
 import { RadioButton, RadioOption } from "./radio-button";
 import { DropdownMenu, DropdownTrigger, DropdownOption } from "./dropdown-menu";
 import { ToggleButton, ToggleButtonCheckbox } from "./toggle-button";
@@ -15,6 +16,19 @@ import {
   AccordionContent,
 } from "./accordion";
 import { PaginationNav, PaginationLink } from "./pagination";
+import {
+  AddressModal,
+  AddressAddButton,
+  AddressEditButton,
+  AddressModalCloseButton,
+  AddressModalSubmitButton,
+} from "./address-modal";
+import {
+  AddressRemoveModal,
+  AddressRemoveButton,
+  AddressRemoveModalCloseButton,
+  AddressRemoveModalSubmitButton,
+} from "./remove-address-modal";
 // filters
 import { FilterInputBoolean } from "./filter-input-boolean";
 import { FilterInputList } from "./filter-input-list";
@@ -81,6 +95,7 @@ window.theme.accordion_rendered = true;
 (function () {
   function defineCustomElements() {
     // components
+    customElements.define("backdrop-root", Backdrop);
     customElements.define("radio-button", RadioButton);
     customElements.define("radio-option", RadioOption);
     customElements.define("dropdown-menu", DropdownMenu);
@@ -100,6 +115,27 @@ window.theme.accordion_rendered = true;
     customElements.define("accordion-content", AccordionContent);
     customElements.define("pagination-nav", PaginationNav);
     customElements.define("pagination-link", PaginationLink);
+    customElements.define("address-modal", AddressModal);
+    customElements.define("address-add-button", AddressAddButton);
+    customElements.define("address-edit-button", AddressEditButton);
+    customElements.define(
+      "address-modal-close-button",
+      AddressModalCloseButton
+    );
+    customElements.define(
+      "address-modal-submit-button",
+      AddressModalSubmitButton
+    );
+    customElements.define("address-remove-modal", AddressRemoveModal);
+    customElements.define("address-remove-button", AddressRemoveButton);
+    customElements.define(
+      "address-remove-modal-close-button",
+      AddressRemoveModalCloseButton
+    );
+    customElements.define(
+      "address-remove-modal-submit-button",
+      AddressRemoveModalSubmitButton
+    );
 
     // filters
     customElements.define("filter-input-boolean", FilterInputBoolean);
