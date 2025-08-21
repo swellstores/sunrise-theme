@@ -1,43 +1,48 @@
+import { getFormData, isFormChanged, isFormValid } from "./utils/form";
+
+const FIELDS = Object.freeze([
+  "customer[email]",
+  "customer[password]",
+]);
+
 export class AccountLogin extends HTMLElement {
   constructor() {
     super();
 
-    this.onInputChangedBound = this.onInputChanged.bind(this);
+    this.form = null;
+    this.submitButton = null;
+    this.initialFormData = null;
+
+    this.onInputChangeBound = this.onInputChange.bind(this);
   }
 
   connectedCallback() {
-    this.addEventListener("input", this.onInputChangedBound);
+    this.form = this.querySelector("#login > form");
+    this.submitButton = this.querySelector("#submit-login");
+    
+    this.initialFormData = getFormData(this.form, FIELDS);
+
+    this.addEventListener("input", this.onInputChangeBound);
   }
 
   disconnectedCallback() {
-    this.removeEventListener("input", this.onInputChangedBound);
+    this.removeEventListener("input", this.onInputChangeBound);
+
+    this.form = null;
+    this.submitButton = null;
+    this.initialFormData = null;
   }
 
-  onInputChanged() {
-    const submitLoginButton = this.querySelector("#submit-login");
-    if (submitLoginButton) {
-      const emailInput = this.querySelector("input[name='customer\[email\]']");
-      const emailValue = emailInput?.value;
-      const passwordInput = this.querySelector("input[name='customer\[password\]']");
-      const passwordValue = passwordInput?.value;
-
-      if (emailValue && passwordValue) {
-        submitLoginButton.disabled = false;
-      } else {
-        submitLoginButton.disabled = true;
-      }
-    }
-
-    const submitRecoverButton = this.querySelector("#submit-recover");
-    if (submitRecoverButton) {
-      const recoverEmailInput = this.querySelector("#RecoverEmail");
-      const recoverEmailValue = recoverEmailInput?.value;
-
-      if (recoverEmailValue) {
-        submitRecoverButton.disabled = false;
-      } else {
-        submitRecoverButton.disabled = true;
-      }
+  onInputChange(ev) {
+    ev.stopPropagation();
+    if (
+      !isFormChanged(this.form, FIELDS, this.initialFormData) ||
+      !isFormValid(this.form, FIELDS)
+    ) {
+      this.submitButton.disabled = true;
+    } else {
+      this.submitButton.disabled = false;
     }
   }
 }
+
