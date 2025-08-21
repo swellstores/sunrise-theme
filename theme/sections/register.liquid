@@ -65,6 +65,15 @@
     -%}
       <div id="register-form" class="account-form flex section-width max-w-full flex-col gap-16">
         <div id="register-form-fields" class="flex max-w-full flex-col gap-16">
+          {%- if form.errors -%}
+            <div class="w-full flex flex-row mb-16 py-10 px-12 gap-8 rounded-md border border-color-{{ color_scheme }}">
+              <ion-icon name="alert-circle-outline" class="relative h-24 w-24"></ion-icon>
+              <div class="font-display text-content">
+                {{ form.errors | default_errors }}
+              </div>
+            </div>
+          {%- endif -%}
+
           <div class="relative flex flex-col gap-6">
             <span class="{{ input_label_class }}">
               {{ 'sections.register.first_name' | t }}
@@ -109,12 +118,6 @@
               autocomplete="email"
               required
             />
-
-            {% if email_error %}
-              <span id="email-error" class="text-body-medium text-red-600">
-                {{ email_error.message }}
-              </span>
-            {% endif %}
           </div>
           <div class="relative flex flex-col gap-6">
             {% assign password_error = form.errors | find: 'field_name', 'customer[password]' %}
@@ -132,12 +135,6 @@
               autocomplete="current-password"
               required
             />
-
-            {% if password_error %}
-              <span id="password-error" class="text-body-medium text-red-600">
-                {{ password_error.message }}
-              </span>
-            {% endif %}
           </div>
         </div>
         <div class="flex gap-7 items-center justify-center mt-32 flex-col">
