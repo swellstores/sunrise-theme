@@ -251,7 +251,8 @@
       "password": "Password",
       "submit": "Reset password",
       "cancel": "Back to log in",
-      "sent": "Email sent"
+      "sent": "Email sent",
+      "success": "An email has been sent to your address with instructions to recover your password."
     },
     "blog": {
       "read_more": "Read more"

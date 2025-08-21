@@ -39,13 +39,13 @@
   }
 {% endstyle %}
 
-<account-login
-  class="bg-{{ color_scheme }} text-{{ color_scheme }} responsive-padding-{{ section.id }} flex flex-col items-center justify-start account-form-section"
+<div
+  class="bg-{{ color_scheme }} text-{{ color_scheme }} responsive-padding-{{ section.id }} flex flex-col items-center justify-start"
 >
   <div id="recover" class="{{ div_class }}">
     {% render 'recover-password' %}
   </div>
-  <div id="login" class="{{ div_class }}">
+  <account-login id="login" class="{{ div_class }} account-form-section">
     <h1 class="font-display text-title-large">{{ 'sections.login.title' | t }}</h1>
 
     {% form 'customer_login'
@@ -124,8 +124,8 @@
         </div>
       </div>
     {% endform %}
-  </div>
-</account-login>
+  </account-login>
+</div>
 
 {% schema %}
 {

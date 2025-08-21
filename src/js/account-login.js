@@ -17,8 +17,8 @@ export class AccountLogin extends HTMLElement {
   }
 
   connectedCallback() {
-    this.form = this.querySelector("#login > form");
-    this.submitButton = this.querySelector("#submit-login");
+    this.form = this.querySelector("form");
+    this.submitButton = this.querySelector('button[type="submit"]');
     
     this.initialFormData = getFormData(this.form, FIELDS);
 
