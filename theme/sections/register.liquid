@@ -25,34 +25,16 @@
     }
   }
 
-  .section-width {
-    @media (min-width: 40rem) {
-      width: 48rem;
-    }
-  }
-
   .input-field::placeholder {
     color: var(--color-{{ color_scheme }}-text-secondary);
     font-size: calc(1.6rem * var(--font-scale));
     line-height: calc(2.4rem * var(--font-scale));
     font-weight: 400;
   }
-
-  .account-register-section {
-    button[disabled] {
-      opacity: 0.2;
-      pointer-events: none;
-    }
-  }
-
-  .account-form.htmx-request {
-    opacity: 0.6;
-    pointer-events: none;
-  }
 {% endstyle %}
 
 <account-register
-  class="bg-{{ color_scheme }} text-{{ color_scheme }} responsive-padding-{{ section.id }} flex flex-col items-center justify-start account-register-section"
+  class="bg-{{ color_scheme }} text-{{ color_scheme }} responsive-padding-{{ section.id }} flex flex-col items-center justify-start account-form-section"
 >
   <div class="{{ div_class }}">
     <h1 class="font-display text-title-large">{{ 'sections.register.title' | t }}</h1>
@@ -63,7 +45,7 @@
         , hx-select: "#register-form-fields"
         , hx-indicator: "#register-form"
     -%}
-      <div id="register-form" class="account-form flex section-width max-w-full flex-col gap-16">
+      <div id="register-form" class="account-form flex account-section-width max-w-full flex-col gap-16">
         <div id="register-form-fields" class="flex max-w-full flex-col gap-16">
           {%- if form.errors -%}
             <div class="w-full flex flex-row mb-16 py-10 px-12 gap-8 rounded-md border border-color-{{ color_scheme }}">
