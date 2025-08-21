@@ -42,8 +42,8 @@ export class AccountRegister extends HTMLElement {
     this.fields = {};
   }
 
-  onInputChange(event) {
-    event.stopPropagation();
+  onInputChange(ev) {
+    ev.stopPropagation();
 
     if (
       !isFormChanged(this.form, FIELDS, this.initialFormData) ||
@@ -55,16 +55,7 @@ export class AccountRegister extends HTMLElement {
     }
   }
 
-  onBeforeSwap(ev) {
-    // redirect
-    const requestPath = ev?.detail?.pathInfo?.requestPath;
-    const responsePath = ev?.detail?.pathInfo?.responsePath;
-    if (responsePath && requestPath !== responsePath) {
-      ev.detail.shouldSwap = false;
-      window.location.replace(responsePath);
-      return;
-    }
-
+  onBeforeSwap() {
     // store fields
     this.fields = {};
     for (const field of FIELDS) {
