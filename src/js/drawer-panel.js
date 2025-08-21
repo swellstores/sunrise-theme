@@ -119,7 +119,7 @@ export class DrawerPanel extends HTMLElement {
     this.classList.remove(translate);
 
     if (this.backdropOverlay) {
-      this.backdropOverlay.classList.remove("hidden");
+      this.backdropOverlay.show("drawer-panel");
     }
   }
 
@@ -130,7 +130,7 @@ export class DrawerPanel extends HTMLElement {
     this.classList.add(translate);
 
     if (this.backdropOverlay) {
-      this.backdropOverlay.classList.add("hidden");
+      this.backdropOverlay.hide("drawer-panel");
     }
   }
 

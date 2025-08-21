@@ -47,45 +47,42 @@ export function setFormParams(event, data) {
   applySerializedData(event, serializedData);
 }
 
-export function getFormData(form, fields) {
-  if (!form || !fields) {
+export function getFormData(form) {
+  if (!form) {
     return null;
   }
 
   const formData = new FormData(form);
 
-  return fields.reduce((acc, field) => {
-    acc[field] = formData.get(field);
-
-    return acc;
-  }, {});
+  return Object.fromEntries(formData.entries());
 }
 
-export function isFormChanged(form, fields, initialData) {
-  if (!form || !fields || !initialData) {
+export function isFormChanged(form, initialData) {
+  if (!form || !initialData) {
     return false;
   }
 
-  const formData = getFormData(form, fields);
+  const currentData = getFormData(form);
+  const currentDataKeys = Object.keys(currentData);
 
-  for (const [key, value] of Object.entries(formData)) {
-    if (initialData[key] !== value) {
-      return true;
+  if (currentDataKeys.length !== Object.keys(initialData).length) {
+    return true;
+  }
+
+  return currentDataKeys.some((key) => currentData[key] !== initialData[key]);
+}
+
+export function isFormValid(form) {
+  if (!form) {
+    return false;
+  }
+
+  for (const element of form.elements) {
+    if (!("validity" in element)) {
+      continue;
     }
-  }
 
-  return false;
-}
-
-export function isFormValid(form, fields) {
-  if (!form || !fields) {
-    return false;
-  }
-
-  for (const field of fields) {
-    const input = form.elements[field];
-
-    if (!input || !input.validity.valid) {
+    if (!element.validity.valid) {
       return false;
     }
   }

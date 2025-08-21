@@ -1,6 +1,6 @@
 import { DrawerPanel } from "./drawer-panel";
 
-const DEFAULT_TAB = "details";
+const DEFAULT_TAB = "orders";
 
 export class AccountNav extends HTMLElement {
   constructor() {

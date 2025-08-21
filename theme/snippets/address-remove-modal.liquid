@@ -1,0 +1,35 @@
+<address-remove-modal class="w-full max-w-480 px-20 py-16 rounded-4 bg-{{ color_scheme }}">
+  {%- form 'account_address'
+    , return_to: routes.account_url
+    , hx-post: routes.account_addresses_url
+    , hx-swap: hx-swap
+    , hx-target: hx-target
+    , hx-select: hx-select
+    , hx-indicator: hx-indicator
+    , hx-trigger: "address-remove-modal-submit"
+  -%}
+    <div class="flex flex-col gap-32">
+      <div class="flex flex-col gap-24">
+        <div class="flex justify-between items-center">
+          <span class="text-title-large">
+            {{ 'customer.addresses.remove_address' | t }}
+          </span>
+          <address-remove-modal-close-button class="flex items-center size-12 cursor-pointer">
+            {{- 'cross-icon.svg' | inline_asset_content -}}
+          </address-remove-modal-close-button>
+        </div>
+        <span class="text-body-medium">
+          {{ 'customer.addresses.remove_confirm' | t }}
+        </span>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-8">
+        <address-remove-modal-close-button class="py-14 px-24 w-full rounded text-center text-body-medium btn-secondary-{{ color_scheme }}">
+          {{ 'customer.addresses.cancel' | t }}
+        </address-remove-modal-close-button>
+        <address-remove-modal-submit-button class="py-14 px-24 w-full rounded text-center text-body-medium btn-primary-{{ color_scheme }}">
+          {{ 'customer.addresses.remove' | t }}
+        </address-remove-modal-submit-button>
+      </div>
+    </div>
+  {%- endform -%}
+</address-remove-modal>
