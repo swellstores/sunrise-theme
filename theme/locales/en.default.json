@@ -233,15 +233,16 @@
       "unknown_error": "Can not create account"
     },
     "reset-password": {
-      "title": "Reset your password",
-      "subtext": "Enter a new password for your account.",
+      "title": "Update your password",
+      "subtext": "Enter a new password to access your account.",
       "email": "Email address",
       "email_placeholder": "Enter your email address",
-      "password": "Password",
-      "password_placeholder": "Enter new password",
+      "password": "New password",
+      "password_placeholder": "Enter your new password",
       "submit": "Reset password",
       "create_account": "Create account",
-      "error": "Your password could not be reset. Please try again."
+      "error": "Your password could not be reset. Please try again.",
+      "back_to_login": "Back to log in"
     },
     "recover-password": {
       "title": "Reset your password",
