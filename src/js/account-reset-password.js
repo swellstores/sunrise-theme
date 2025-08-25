@@ -22,7 +22,7 @@ export class AccountResetPassword extends HTMLElement {
   connectedCallback() {
     this.form = this.querySelector("form");
     this.submitButton = this.querySelector('button[type="submit"]');
-    this.initialFormData = getFormData(this.form, FIELDS);
+    this.initialFormData = getFormData(this.form);
 
     this.addEventListener("input", this.onInputChangeBound);
     this.addEventListener("htmx:beforeSwap", this.onBeforeSwapBound);
@@ -44,8 +44,8 @@ export class AccountResetPassword extends HTMLElement {
     ev.stopPropagation();
 
     if (
-      !isFormChanged(this.form, FIELDS, this.initialFormData) ||
-      !isFormValid(this.form, FIELDS)
+      !isFormChanged(this.form, this.initialFormData) ||
+      !isFormValid(this.form)
     ) {
       this.submitButton.disabled = true;
     } else {
