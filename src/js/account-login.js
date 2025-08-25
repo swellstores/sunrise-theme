@@ -1,10 +1,5 @@
 import { getFormData, isFormChanged, isFormValid } from "./utils/form";
 
-const FIELDS = Object.freeze([
-  "customer[email]",
-  "customer[password]",
-]);
-
 export class AccountLogin extends HTMLElement {
   constructor() {
     super();
@@ -20,7 +15,7 @@ export class AccountLogin extends HTMLElement {
     this.form = this.querySelector("form");
     this.submitButton = this.querySelector('button[type="submit"]');
     
-    this.initialFormData = getFormData(this.form, FIELDS);
+    this.initialFormData = getFormData(this.form);
 
     this.addEventListener("input", this.onInputChangeBound);
   }
@@ -36,8 +31,8 @@ export class AccountLogin extends HTMLElement {
   onInputChange(ev) {
     ev.stopPropagation();
     if (
-      !isFormChanged(this.form, FIELDS, this.initialFormData) ||
-      !isFormValid(this.form, FIELDS)
+      !isFormChanged(this.form, this.initialFormData) ||
+      !isFormValid(this.form)
     ) {
       this.submitButton.disabled = true;
     } else {
