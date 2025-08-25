@@ -2,20 +2,10 @@
   data-index="{{ index }}"
   class="flex px-20 py-16 gap-14"
 >
-  <div class="relative w-70 h-70 aspect-square rounded">
-    {% if item.image %}
-      {% render 'image',
-        image: item.image,
-        alt: item.image.alt,
-        class: 'object-contain w-full h-full'
-      %}
-    {% else %}
-      {% render 'image',
-        picture_class: 'svg-placeholder',
-        placeholder: 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg'
-      %}
-    {% endif %}
-  </div>
+  {% render 'item-image',
+    item: item,
+    color_scheme: color_scheme
+  %}
   <div class="flex flex-col w-full gap-14">
     <div class="flex flex-col gap-4">
       <div class="flex justify-between gap-16">
@@ -28,48 +18,10 @@
           </span>
         {% endif %}
       </div>
-      {% if item.options_with_values.size > 0 %}
-        {% if item.gift_card %}
-          {%- liquid
-            assign variant_option = item.options | find: 'variant', true
-            assign send_email_option = item.options | find: 'id', 'send_email'
-            assign send_note_option = item.options | find: 'id', 'send_note'
-            assign variant_price_money = variant_option.price | money
-          -%}
-
-          <div class="flex flex-col text-body-medium text-secondary-{{ color_scheme }}">
-            {% if variant_price_money != variant_option.value %}
-              <div class="flex gap-4">
-                {{ variant_option.value }}
-                {% if send_email_option %}
-                  / {{ 'sections.product.gift_card.send_gift' | t }}
-                {% endif %}
-              </div>
-            {% elsif send_email_option %}
-              {{ 'sections.product.gift_card.send_gift' | t }}
-            {% endif %}
-            {% if send_email_option %}
-              <span class="font-semibold">
-                {{ send_email_option.value }}
-              </span>
-            {% endif %}
-            {% if send_note_option %}
-              {{ send_note_option.value }}
-            {% endif %}
-          </div>
-        {% else %}
-          <span class="text-body-medium text-secondary-{{ color_scheme }}">
-            {%- for option in item.options_with_values -%}
-              {% if option.value %}
-                {%- if forloop.first != true -%}
-                  /&nbsp;
-                {%- endif -%}
-                {{ option.value }}
-              {% endif %}
-            {%- endfor -%}
-          </span>
-        {% endif %}
-      {% endif %}
+      {% render 'item-options',
+        item: item,
+        color_scheme: color_scheme
+      %}
       {% if inline_price != true or inline_price and item.purchase_option.type == 'subscription' %}
         <div class="flex flex-wrap text-body-medium lowercase">
           <span class="font-medium">
@@ -102,21 +54,15 @@
         </span>
       {% endif %}
     </div>
-    {% if hide_buttons %}
-      <span class="text-body-medium">
-        {{ 'sections.cart.item.quantity' | t }}: {{ item.quantity }}
-      </span>
-    {% else %}
-      <div class="flex items-center justify-between gap-8">
-        {% render 'cart-item-quantity',
-          item: item,
-          index: index,
-          color_scheme: color_scheme
-        %}
-        <cart-item-remove data-index="{{ index }}" class="underline text-body-medium">
-          {{ 'sections.cart.item.remove' | t }}
-        </cart-item-remove>
-      </div>
-    {% endif %}
+    <div class="flex items-center justify-between gap-8">
+      {% render 'cart-item-quantity',
+        item: item,
+        index: index,
+        color_scheme: color_scheme
+      %}
+      <cart-item-remove data-index="{{ index }}" class="underline text-body-medium">
+        {{ 'sections.cart.item.remove' | t }}
+      </cart-item-remove>
+    </div>
   </div>
 </cart-item>
