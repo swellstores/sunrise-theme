@@ -10,25 +10,27 @@
 		},
 		"styles": [
 			{
-				"id": "echelon",
-				"label": "Echelon",
+				"id": "light",
+				"label": "Light",
 				"color": "#405566",
 				"color_alt": "#D0D8DE",
-				"preview_src": "assets/preview-echelon.jpg",
-				"preview_mobile_src": "assets/preview-echelon-mobile.jpg"
+				"preview_src": "assets/preview-light.jpg",
+				"preview_mobile_src": "assets/preview-light-mobile.jpg",
+				"demo_url": "https://sunrise-light-demo.swell.store/"
 			},
 			{
-				"id": "bellows",
-				"label": "Bellows",
+				"id": "dark",
+				"label": "Dark",
 				"color": "#7D4C3A",
 				"color_alt": "#ffffff",
-				"preview_src": "assets/preview-bellows.jpg",
-				"preview_mobile_src": "assets/preview-bellows-mobile.jpg"
+				"preview_src": "assets/preview-dark.jpg",
+				"preview_mobile_src": "assets/preview-dark-mobile.jpg",
+				"demo_url": "https://sunrise-dark-demo.swell.store/"
 			}
 		]
 	},
-	"preview_src": "assets/preview-echelon.jpg",
-	"preview_mobile_src": "assets/preview-echelon-mobile.jpg",
+	"preview_src": "assets/preview-light.jpg",
+	"preview_mobile_src": "assets/preview-light-mobile.jpg",
 	"use_cases": [
 		"direct_to_consumer",
 		"wholesale"
