@@ -464,7 +464,13 @@ textarea::placeholder,
 .subscription-shadow,
 .order-shadow,
 .address-shadow {
-  box-shadow: 0px 1px 2px 0px var(--shadow-color);
+  box-shadow: 0px 1px 2px 0px
+    color-mix(in srgb, var(--shadow-color) 50%, #e0e0e0);
+}
+
+.order-shadow:hover {
+  box-shadow: 0.5px 1.5px 2.5px 0.5px
+    color-mix(in srgb, var(--shadow-color) 50%, #e0e0e0);
 }
 
 .default-address-badge {
