@@ -1,11 +1,11 @@
 {
-    "sections": {
-        "search": {
-            "type": "search",
-            "settings": {}
-        }
-    },
-    "order": [
-        "search"
-    ]
+  "sections": {
+    "search": {
+      "type": "search",
+      "settings": {}
+    }
+  },
+  "order": [
+    "search"
+  ]
 }
