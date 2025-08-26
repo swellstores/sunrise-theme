@@ -1,22 +1,22 @@
 {
-    "sections": {
-        "main": {
-            "type": "list-collections",
-            "settings": {
-                "color_scheme": "scheme-1",
-                "pre_heading": "Explore more",
-                "heading": "Discover our categories",
-                "heading_size": "small",
-                "header_alignment": "left",
-                "top_padding": 96,
-                "bottom_padding": 96,
-                "columns": 3,
-                "gap": 4,
-                "mobile_layout": "1"
-            }
-        }
-    },
-    "order": [
-        "main"
-    ]
+  "sections": {
+    "main": {
+      "type": "list-collections",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "pre_heading": "Explore more",
+        "heading": "Discover our categories",
+        "heading_size": "small",
+        "header_alignment": "left",
+        "top_padding": 96,
+        "bottom_padding": 96,
+        "columns": 3,
+        "gap": 4,
+        "mobile_layout": "1"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
 }
