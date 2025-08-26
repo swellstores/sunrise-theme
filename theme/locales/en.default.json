@@ -35,6 +35,13 @@
     "accordion": {
       "toggle": "Toggle item"
     },
+    "payment": {
+      "payment_method": "Payment method",
+      "card_method": "Credit card",
+      "card_number": "Card number",
+      "card_exp": "Exp date",
+      "account_method": "Account credit"
+    },
     "page_not_found": "Page not found",
     "share": "Share",
     "loading": "Loading..."
@@ -104,17 +111,21 @@
     "order": {
       "section_title": "Account Order",
       "title": "Order {{ name }}",
+      "back": "Back to Orders",
       "date_html": "Placed on {{ date }}",
       "cancelled_html": "Order Cancelled on {{ date }}",
       "cancelled_reason": "Reason: {{ reason }}",
       "billing_address": "Billing Address",
       "payment_status": "Payment Status",
+      "payment_details": "Payment details",
       "shipping_address": "Shipping Address",
       "fulfillment_status": "Fulfillment Status",
       "discount": "Discount",
       "shipping": "Shipping",
       "tax": "Tax",
       "product": "Product",
+      "items": "Items",
+      "bundle_items": "Bundle items",
       "sku": "SKU",
       "price": "Price",
       "quantity": "Quantity",
