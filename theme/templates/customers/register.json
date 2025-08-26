@@ -4,8 +4,8 @@
             "type": "register",
             "settings": {
                 "color_scheme": "scheme-1",
-                "top_padding": 96,
-                "bottom_padding": 96
+                "top_padding": 48,
+                "bottom_padding": 48
             }
         }
     },
