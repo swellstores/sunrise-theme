@@ -1,0 +1,23 @@
+<div class="flex gap-8 text-body-small font-medium">
+  {% render 'item-image',
+    item: item,
+    size: 'small',
+    show_placeholder: false,
+    color_scheme: color_scheme
+  %}
+  <div class="flex flex-col gap-2">
+    <span class="text-{{ color_scheme }}">
+      {{- item.title | escape -}}
+    </span>
+    {% render 'item-options',
+      item: item,
+      font_class: 'text-body-small font-medium',
+      color_scheme: color_scheme
+    %}
+    {% if show_price %}
+      <span class="text-secondary-{{ color_scheme }}">
+        {{ item.price | money }}
+      </span>
+    {% endif %}
+  </div>
+</div>
