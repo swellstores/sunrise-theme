@@ -14,5 +14,10 @@
     <span class="text-body-medium">
       {{ 'sections.cart.item.quantity' | t }}: {{ item.quantity }}
     </span>
+    {% if show_price %}
+      <span class="mt-6 text-body-medium font-medium">
+        {{ item.price_total | money }}
+      </span>
+    {% endif %}
   </div>
 </div>
