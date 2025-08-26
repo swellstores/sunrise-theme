@@ -211,7 +211,8 @@
       "forgot_password": "Forgot your password?",
       "create_account": "Create an account",
       "sign_in": "Sign in",
-      "error": "Your login attempt was unsuccessful. Please try again."
+      "error": "Your login attempt was unsuccessful. Please try again.",
+      "invalid_credentials": "Invalid email or password."
     },
     "register": {
       "title": "Create an account",
@@ -226,18 +227,26 @@
       "already_have_account": "Already have an account?",
       "login": "Login in here.",
       "create_account": "Create account",
-      "error": "Your account could not be created. Please try again."
+      "error": "Your account could not be created. Please try again.",
+      "invalid_email_error": "Invalid email address",
+      "invalid_password_error": "Invalid password",
+      "logout_error": "You must be logged out to create an account",
+      "unknown_error": "Can not create account"
     },
     "reset-password": {
-      "title": "Reset your password",
-      "subtext": "Enter a new password for your account.",
+      "title": "Update your password",
+      "subtext": "Enter a new password to access your account.",
       "email": "Email address",
       "email_placeholder": "Enter your email address",
-      "password": "Password",
-      "password_placeholder": "Enter new password",
+      "password": "New password",
+      "password_placeholder": "Enter your new password",
       "submit": "Reset password",
       "create_account": "Create account",
-      "error": "Your password could not be reset. Please try again."
+      "error": "Your password could not be reset. Please try again.",
+      "back_to_login": "Back to log in",
+      "invalid_reset_key": "Invalid account recovery key",
+      "invalid_password_reset": "Invalid password",
+      "invalid_password_confirmation": "Password confirmation must match the provided password"
     },
     "recover-password": {
       "title": "Reset your password",
@@ -247,7 +256,8 @@
       "password": "Password",
       "submit": "Reset password",
       "cancel": "Back to log in",
-      "sent": "Email sent"
+      "sent": "Email sent",
+      "success": "An email has been sent to your address with instructions to recover your password."
     },
     "blog": {
       "read_more": "Read more"

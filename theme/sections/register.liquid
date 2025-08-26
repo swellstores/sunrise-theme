@@ -25,100 +25,101 @@
     }
   }
 
-  .section-width {
-    @media (min-width: 40rem) {
-      width: 48rem;
-    }
-  }
-
   .input-field::placeholder {
     color: var(--color-{{ color_scheme }}-text-secondary);
     font-size: calc(1.6rem * var(--font-scale));
     line-height: calc(2.4rem * var(--font-scale));
     font-weight: 400;
   }
-
-  .account-register-section {
-    button[disabled] {
-      opacity: 0.2;
-      pointer-events: none;
-    }
-  }
 {% endstyle %}
 
 <account-register
-  class="bg-{{ color_scheme }} text-{{ color_scheme }} responsive-padding-{{ section.id }} flex flex-col items-center justify-start account-register-section"
+  class="bg-{{ color_scheme }} text-{{ color_scheme }} responsive-padding-{{ section.id }} flex flex-col items-center justify-start account-form-section"
 >
-  <div id="create" class="{{ div_class }}">
+  <div class="{{ div_class }}">
     <h1 class="font-display text-title-large">{{ 'sections.register.title' | t }}</h1>
     {%- form 'create_customer'
-        , class: 'w-full'
+        , hx-post: routes.account_register_url
+        , hx-swap: 'outerHTML'
+        , hx-target: "#register-form-fields"
+        , hx-select: "#register-form-fields"
+        , hx-indicator: "#register-form"
     -%}
-      {%- if form.errors -%}
-        <div class="bg-red-50 w-full flex flex-col rounded-md border border-red-600 mb-16 p-16">
-          <h2 tabindex="-1" autofocus class="outline-none body-large text-red-600">
-            <span class="sr-only">{{ 'sections.register.error' | t }}</span>
-            {{ 'sections.register.error' | t }}
-          </h2>
-          <div class="text-body-medium text-red-600">
-            {{ form.errors | default_errors }}
+      <div id="register-form" class="account-form flex account-section-width max-w-full flex-col gap-16">
+        <div id="register-form-fields" class="flex max-w-full flex-col gap-16">
+          {%- if form.errors -%}
+            <div class="w-full flex flex-row mb-16 py-10 px-12 gap-8 rounded-md border border-color-{{ color_scheme }}">
+              <div class="mt-2">
+                {{- 'alert-circle.svg' | inline_asset_content -}}
+              </div>
+              <div class="font-display text-content">
+                {{ form.errors | default_errors }}
+              </div>
+            </div>
+          {%- endif -%}
+
+          <div class="relative flex flex-col gap-6">
+            <span class="{{ input_label_class }}">
+              {{ 'sections.register.first_name' | t }}
+            </span>
+            <input
+              class="{{ input_class }}"
+              style="{{ input_style }}"
+              placeholder="{{ 'sections.register.first_name_placeholder' | t }}"
+              type="text"
+              name="customer[first_name]"
+              id="customer[first_name]"
+              required
+            />
           </div>
-        </div>
-      {%- endif -%}
-      <div class="flex section-width max-w-full flex-col gap-16">
-        <div class="relative flex flex-col gap-6">
-          <span class="{{ input_label_class }}">
-            {{ 'sections.register.first_name' | t }}
-          </span>
-          <input
-            class="{{ input_class }}"
-            style="{{ input_style }}"
-            placeholder="{{ 'sections.register.first_name_placeholder' | t }}"
-            type="text"
-            name="customer[first_name]"
-            id="customer[first_name]"
-          />
-        </div>
-        <div class="relative flex flex-col gap-6">
-          <span class="{{ input_label_class }}">
-            {{ 'sections.register.last_name' | t }}
-          </span>
-          <input
-            class="{{ input_class }}"
-            style="{{ input_style }}"
-            placeholder="{{ 'sections.register.last_name_placeholder' | t }}"
-            type="text"
-            name="customer[last_name]"
-            id="customer[last_name]"
-          />
-        </div>
-        <div class="relative flex flex-col gap-6">
-          <span class="{{ input_label_class }}">
-            {{ 'sections.register.email' | t }}
-          </span>
-          <input
-            class="{{ input_class }}"
-            style="{{ input_style }}"
-            placeholder="{{ 'sections.register.email_placeholder' | t }}"
-            type="email"
-            name="customer[email]"
-            id="customer[email]"
-            autocomplete="email"
-          />
-        </div>
-        <div class="relative flex flex-col gap-6">
-          <span class="{{ input_label_class }}">
-            {{ 'sections.register.password' | t }}
-          </span>
-          <input
-            class="{{ input_class }}"
-            style="{{ input_style }}"
-            placeholder="{{ 'sections.register.password_placeholder' | t }}"
-            type="password"
-            name="customer[password]"
-            id="customer[password]"
-            autocomplete="current-password"
-          />
+          <div class="relative flex flex-col gap-6">
+            <span class="{{ input_label_class }}">
+              {{ 'sections.register.last_name' | t }}
+            </span>
+            <input
+              class="{{ input_class }}"
+              style="{{ input_style }}"
+              placeholder="{{ 'sections.register.last_name_placeholder' | t }}"
+              type="text"
+              name="customer[last_name]"
+              id="customer[last_name]"
+              required
+            />
+          </div>
+          <div class="relative flex flex-col gap-6">
+            {% assign email_error = form.errors | find: 'field_name', 'customer[email]' %}
+
+            <span class="{{ input_label_class }}">
+              {{ 'sections.register.email' | t }}
+            </span>
+            <input
+              class="{{ input_class }}"
+              style="{{ input_style }}"
+              placeholder="{{ 'sections.register.email_placeholder' | t }}"
+              type="email"
+              name="customer[email]"
+              id="customer[email]"
+              autocomplete="email"
+              required
+            />
+          </div>
+          <div class="relative flex flex-col gap-6">
+            {% assign password_error = form.errors | find: 'field_name', 'customer[password]' %}
+
+            <span class="{{ input_label_class }}">
+              {{ 'sections.register.password' | t }}
+            </span>
+            <input
+              class="{{ input_class }}"
+              style="{{ input_style }}"
+              placeholder="{{ 'sections.register.password_placeholder' | t }}"
+              type="password"
+              name="customer[password]"
+              id="customer[password]"
+              autocomplete="current-password"
+              required
+            />
+          </div>
         </div>
         <div class="flex gap-7 items-center justify-center mt-32 flex-col">
           <div class="w-full">
@@ -171,7 +172,7 @@
       "max": 96,
       "step": 1,
       "unit": "px",
-      "default": 96
+      "default": 48
     },
     {
       "type": "range",
@@ -181,7 +182,7 @@
       "max": 96,
       "step": 1,
       "unit": "px",
-      "default": 96
+      "default": 48
     }
   ]
 }
