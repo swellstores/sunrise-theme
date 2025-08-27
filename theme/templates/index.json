@@ -67,8 +67,8 @@
       "disabled": false,
       "custom_css": "",
       "settings": {
-        "pre_heading": "Shop the best",
-        "heading": "Dive into favorites",
+        "pre_heading": "Shop",
+        "heading": "Featured collection",
         "heading_size": "small",
         "header_alignment": "left",
         "category": "",
@@ -85,9 +85,5 @@
   "order": [
     "hero",
     "featured_category"
-  ],
-  "id": "index",
-  "page": {
-    "label": "Home"
-  }
+  ]
 }

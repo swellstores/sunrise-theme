@@ -1,13 +1,10 @@
 import { getFormData, isFormChanged, isFormValid } from "./utils/form";
 
 const FIELDS = Object.freeze([
-  "customer[first_name]",
-  "customer[last_name]",
-  "customer[email]",
-  "customer[password]",
+  "email",
 ]);
 
-export class AccountRegister extends HTMLElement {
+export class AccountRecover extends HTMLElement {
   constructor() {
     super();
 
@@ -71,6 +68,17 @@ export class AccountRegister extends HTMLElement {
       if (formField) {
         formField.value = this.fields[field];
       }
+    }
+
+    // show success fields if there are no errors
+    const errorField = this.querySelector('#recover-errors');
+    const successField = this.querySelector('#recover-success');
+    const formContent = this.querySelector('#recover-form');
+    const subText = this.querySelector('#recover-password-subtext');
+    if (!errorField && successField && formContent && subText) {
+      formContent.style.display = 'none';
+      subText.style.display = 'none';
+      successField.style.display = 'flex';
     }
   }
 }

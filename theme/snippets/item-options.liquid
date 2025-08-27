@@ -1,3 +1,7 @@
+{%- liquid
+  assign font_class = font_class | default: 'text-body-medium'
+-%}
+
 {% if item.options_with_values.size > 0 %}
   {% if item.gift_card %}
     {%- liquid
@@ -7,7 +11,7 @@
       assign variant_price_money = variant_option.price | money
     -%}
 
-    <div class="flex flex-col text-body-medium text-secondary-{{ color_scheme }}">
+    <div class="flex flex-col {{ font_class }} text-secondary-{{ color_scheme }}">
       {% if variant_price_money != variant_option.value %}
         <div class="flex gap-4">
           {{ variant_option.value }}
@@ -28,7 +32,7 @@
       {% endif %}
     </div>
   {% else %}
-    <span class="text-body-medium text-secondary-{{ color_scheme }}">
+    <span class="{{ font_class }} text-secondary-{{ color_scheme }}">
       {%- for option in item.options_with_values -%}
         {% if option.value %}
           {%- if forloop.first != true -%}

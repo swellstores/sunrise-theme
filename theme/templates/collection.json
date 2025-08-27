@@ -10,8 +10,5 @@
       }
     }
   },
-  "order": ["product_list"],
-  "page": {
-    "title": "Product list"
-  }
+  "order": ["product_list"]
 }

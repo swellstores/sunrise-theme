@@ -62,8 +62,5 @@
       ]
     }
   },
-  "order": ["article"],
-  "page": {
-    "title": "Blog post"
-  }
+  "order": ["article"]
 }
