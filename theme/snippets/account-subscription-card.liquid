@@ -9,157 +9,26 @@
     {%- render 'account-subscription-card', subscription: subscription, color_scheme: color_scheme -%}
 {% endcomment %}
 
-{% liquid
-  assign link_class = 'font-display text-body-medium font-medium hover:underline underline-offset-2'
-
-  assign next_billing_date = subscription.date_period_end | time_tag: format: 'date'
-  assign next_billing = 'customer.subscription.next_billing' | t | append: ': ' | append: next_billing_date
-  if subscription.order_schedule
-    assign next_shipping_date = subscription.date_order_period_end | time_tag: format: 'date'
-    assign next_shipping = 'customer.subscription.next_shipping' | t | append: ': ' | append: next_shipping_date
-  else
-    assign shipment_delivery = false
-    if subscription.product.delivery == 'shipment'
-      assign shipment_delivery = true
-    else
-      for line_item in subscription.items
-        if line_item.product.delivery == 'shipment'
-          assign shipment_delivery = true
-        endif
-      endfor
-    endif
-    if shipment_delivery
-      assign next_shipping = 'customer.subscription.next_shipping' | t | append: ': ' | append: next_billing_date
-    endif
-  endif
-
-  assign status_text = 'customer.subscription.' | append: subscription.status | t
-  if subscription.status == 'complete' or subscription.status == 'canceled' or subscription.status == 'unpaid'
-    assign next_billing = 'customer.subscription.next_billing_' | append: subscription.status | t
-    assign next_shipping = false
-  endif
-  if subscription.status == 'paused'
-    if subscription.date_pause_end
-      assign paused_until_date = subscription.date_pause_end | time_tag: format: 'date'
-      assign next_billing = 'customer.subscription.next_billing_paused_until' | t | append: paused_until_date
-    else
-      assign next_billing = 'customer.subscription.next_billing_' | append: subscription.status | t
-    endif
-    assign next_shipping = false
-  endif
-  if subscription.status == 'pastdue'
-    assign period_start_date = subscription.date_period_start | time_tag: format: 'date'
-    assign next_billing = 'customer.subscription.next_billing_pastdue' | t | append: ' ' | append: period_start_date
-    assign next_shipping = false
-  endif
-%}
-
-<div
-  class="flex flex-col gap-16 pt-16 border rounded w-full subscription-shadow border-color-{{ color_scheme }}"
+<!-- desktop -->
+<a
+  href="/account/subscriptions/{{ subscription.id }}"
+  class="hidden md:flex flex-col gap-16 pb-20 pt-16 border rounded w-full order-shadow border-color-{{ color_scheme }}"
   style="--shadow-color: var(--color-{{ color_scheme }}-borders-and-inputs)"
 >
-  <div class="flex flex-col gap-16 px-20">
-    <div class="flex flex-col gap-4 pb-16 border-b border-color-{{ color_scheme }}">
-      <div class="flex flex-row justify-between">
-        <span class="text-body-large">
-          {{ subscription.product.name  }}
-        </span>
-        <div class="px-8 py-2 gap-6 rounded-md border-1 h-20 flex items-center justify-center subscription-status-{{ subscription.status }}">
-          <div class="rounded-full subscription-status-{{ subscription.status }}-dot"></div>
-          <span class="text-body-small">
-            {{ status_text }}
-          </span>
-        </div>
-      </div>
+  {% render 'account-subscription-card-content',
+    subscription: subscription,
+    color_scheme: color_scheme,
+  %}
+</a>
 
-      <div class="flex flex-row max-sm:flex-col gap-4 text-body-small">
-        {% if subscription.status == 'trial' %}
-          <span class="font-medium">
-            {{ subscription.billing_schedule.trial_days }} {{ 'customer.subscription.day_trial' | t }} 
-          </span>
-          <div class="line-through inline-block">
-        {% endif %}
-        {% assign prefix = subscription.grand_total | money | append: "/" %}
-        {%- render 'subscription-plan-schedule',
-          schedule: subscription.billing_schedule,
-          prefix: prefix
-        -%}
-        {%- if subscription.order_schedule -%}
-          ,&nbsp;
-          {% assign delivered = 'sections.product.purchase.subscription_delivered' | t %}
-          {% assign prefix = "" | append: delivered | append: " " %}
-          <span>
-            {%- render 'subscription-plan-schedule',
-              schedule: subscription.order_schedule,
-              prefix: prefix
-            -%}
-          </span>
-        {%- endif -%}
-        {% if subscription.status == 'trial' %}
-          </div>
-        {% endif %}
-        {% if subscription.options.size > 0 %}
-          <span class="max-sm:hidden">•</span>
-          <span class="text-secondary-{{ color_scheme }}">
-            {%- for option in subscription.options -%}
-              {% if option.value %}
-                {%- if forloop.first != true -%}
-                  /&nbsp;
-                {%- endif -%}
-                {{ option.value }}
-              {% endif %}
-            {%- endfor -%}
-          </span>
-        {% endif %}
-      </div>
-
-      {% if subscription.status == 'pastdue' %}
-        <div class="flex flex-row max-sm:flex-col gap-4 text-body-small text-[#b42318]">
-          <span>{{ 'customer.subscription.payment_failed' | t }}</span>
-          <span class="max-sm:hidden">•</span>
-          <span>{{ next_billing }}</span>
-        </div>
-      {% else %}
-        <div class="flex flex-row max-sm:flex-col gap-4 text-body-small">
-          <span>{{ next_billing }}</span>
-          {% if next_shipping %}
-            <span class="max-sm:hidden">•</span>
-            <span>{{ next_shipping }}</span>
-          {% endif %}
-        </div>
-      {% endif %}
-    </div>
-
-    <div class="grid max-md:grid-cols-1 grid-cols-2 gap-24 w-full">
-      {%- render 'account-subscription-product',
-        product: subscription.product,
-        variant: subscription.variant,
-        price: subscription.price,
-        quantity: subscription.quantity,
-        options: subscription.options,
-        index: 0
-      -%}
-
-      {%- for line_item in subscription.items -%}
-        {%- render 'account-subscription-product',
-          product: line_item.product,
-          variant: line_item.variant,
-          price: line_item.price,
-          quantity: line_item.quantity,
-          options: line_item.options,
-          index: forloop.index
-        -%}
-      {%- endfor -%}
-    </div>
-  </div>
-  <div class="flex flex-row gap-8 p-20 border-t border-color-{{ color_scheme }}">
-    <div class="flex items-start justify-center">
-      <a
-        href="/account/subscriptions/{{ subscription.id }}"
-        class="{{ link_class }}"
-      >
-        {{ 'customer.subscription.manage_subscription' | t }}
-      </a>
-    </div>
-  </div>
+<!-- mobile -->
+<div
+  class="flex md:hidden flex-col gap-16 py-16 border rounded w-full order-shadow border-color-{{ color_scheme }}"
+  style="--shadow-color: var(--color-{{ color_scheme }}-borders-and-inputs)"
+>
+  {% render 'account-subscription-card-content',
+    subscription: subscription,
+    color_scheme: color_scheme,
+    show_view_subscription: true,
+  %}
 </div>
