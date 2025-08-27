@@ -14,8 +14,8 @@
 				"label": "Light",
 				"color": "#405566",
 				"color_alt": "#D0D8DE",
-				"preview_src": "assets/preview-light.jpg",
-				"preview_mobile_src": "assets/preview-light-mobile.jpg",
+				"preview_src": "assets/sunrise-preview-light.jpg",
+				"preview_mobile_src": "assets/sunrise-preview-light-mobile.jpg",
 				"demo_url": "https://sunrise-light-demo.swell.store/"
 			},
 			{
@@ -29,8 +29,8 @@
 			}
 		]
 	},
-	"preview_src": "assets/preview-light.jpg",
-	"preview_mobile_src": "assets/preview-light-mobile.jpg",
+	"preview_src": "assets/sunrise-preview-light.jpg",
+	"preview_mobile_src": "assets/sunrise-preview-light-mobile.jpg",
 	"use_cases": [
 		"direct_to_consumer",
 		"wholesale"
