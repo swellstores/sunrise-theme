@@ -191,7 +191,7 @@
       "cancel_warning": "Are you sure you want to cancel this subscription?",
       "payment_retry": "Payment retry",
       "subscribed_since": "Subscribed since",
-      "next_billing": "Next charge date",
+      "next_billing": "Next billing",
       "next_shipping": "Next shipping",
       "manage_subscription": "View details",
       "active": "Active",
