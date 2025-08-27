@@ -3,7 +3,7 @@
 	"name": "Sunrise",
 	"description": "A sleek, fast, and modern ecommerce theme.",
 	"type": "theme",
-	"version": "1.0.80",
+	"version": "1.0.81",
 	"theme": {
 		"storefront": {
 			"app": "proxima"
@@ -23,8 +23,8 @@
 				"label": "Dark",
 				"color": "#7D4C3A",
 				"color_alt": "#ffffff",
-				"preview_src": "assets/preview-dark.jpg",
-				"preview_mobile_src": "assets/preview-dark-mobile.jpg",
+				"preview_src": "assets/sunrise-preview-dark.jpg",
+				"preview_mobile_src": "assets/sunrise-preview-dark-mobile.jpg",
 				"demo_url": "https://sunrise-dark-demo.swell.store/"
 			}
 		]
