@@ -1,8 +1,13 @@
 {%- liquid
   assign font_class = font_class | default: 'text-body-medium'
+  assign options = item.options
+
+  if item.options_with_values.size > 0
+    assign options = item.options_with_values
+  endif
 -%}
 
-{% if item.options_with_values.size > 0 %}
+{% if options.size > 0 %}
   {% if item.gift_card %}
     {%- liquid
       assign variant_option = item.options | find: 'variant', true
@@ -33,7 +38,7 @@
     </div>
   {% else %}
     <span class="{{ font_class }} text-secondary-{{ color_scheme }}">
-      {%- for option in item.options_with_values -%}
+      {%- for option in options -%}
         {% if option.value %}
           {%- if forloop.first != true -%}
             /&nbsp;
