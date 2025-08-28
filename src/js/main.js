@@ -71,7 +71,12 @@ import { ProductFilterToggle } from "./product-filter-toggle";
 // account
 import { AccountNav, AccountNavDrawer, AccountNavTrigger } from "./account-nav";
 import { AccountDetails } from "./account-details";
-import { AccountSubscription } from "./account-subscription";
+import {
+  AccountSubscriptionModal,
+  AccountSubscriptionModalCloseButton,
+  AccountSubscriptionModalSubmitButton,
+  AccountSubscriptionActionButton,
+} from "./account-subscription-modal";
 import { AccountLogin } from "./account-login";
 import { AccountResetPassword } from "./account-reset-password";
 import { AccountRegister } from "./account-register";
@@ -191,7 +196,22 @@ window.theme.accordion_rendered = true;
     customElements.define("account-nav-drawer", AccountNavDrawer);
     customElements.define("account-nav-trigger", AccountNavTrigger);
     customElements.define("account-details", AccountDetails);
-    customElements.define("account-subscription", AccountSubscription);
+    customElements.define(
+      "account-subscription-modal",
+      AccountSubscriptionModal
+    );
+    customElements.define(
+      "account-subscription-modal-close-button",
+      AccountSubscriptionModalCloseButton
+    );
+    customElements.define(
+      "account-subscription-modal-submit-button",
+      AccountSubscriptionModalSubmitButton
+    );
+    customElements.define(
+      "account-subscription-action-button",
+      AccountSubscriptionActionButton
+    );
     customElements.define("account-login", AccountLogin);
     customElements.define("account-reset-password", AccountResetPassword);
     customElements.define("account-register", AccountRegister);
