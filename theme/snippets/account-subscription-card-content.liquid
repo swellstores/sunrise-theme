@@ -47,7 +47,7 @@
   if subscription.status == 'paused'
     if subscription.date_pause_end
       assign paused_until_date = subscription.date_pause_end | time_tag: format: 'date'
-      assign next_billing = 'customer.subscription.next_billing_paused_until' | t | append: paused_until_date
+      assign next_billing = 'customer.subscription.next_billing_paused_until' | t | append: ' ' | append: paused_until_date
     else
       assign next_billing = 'customer.subscription.next_billing_' | append: subscription.status | t
     endif
@@ -61,13 +61,14 @@
 %}
 
 <div class="flex flex-col gap-16 px-20">
-  <div class="flex flex-row gap-4">
+  <div class="flex flex-row gap-8">
     <div class="relative w-70 h-70 aspect-square rounded">
       {% if image %}
         {% render 'image',
           image: image,
           alt: image.alt,
-          class: 'object-contain w-full h-full'
+          picture_class: 'flex justify-center w-full h-full',
+          class: 'h-full w-auto object-cover object-center rounded-4'
         %}
       {% else %}
         {% render 'image',

@@ -1,314 +1,273 @@
-{{ 'customer.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+
+  assign return_to = '/account/subscriptions/' | append: subscription.id
+
+  assign product = subscription.product
+  assign variant = subscription.variant
+  assign image = product.images[0]
+
+  assign shipping = subscription.shipping
+  assign shipment_delivery = false
+  assign billing = subscription.billing
+  assign billing_method = subscription.billing.method | default: 'card'
+
+  if subscription.shipping.use_account
+    assign shipping = subscription.account.shipping
+  endif
+
+  if subscription.billing.use_account
+    assign billing = subscription.account.billing
+    assign billing_method = 'card'
+  endif
+
+  if variant.images[0]
+     assign image = variant.images[0]
+  endif
+
+  if product.delivery == 'shipment'
+    assign shipment_delivery = true
+  else
+    for item in subscription.items
+      if item.product.delivery == 'shipment'
+        assign shipment_delivery = true
+      endif
+    endfor
+
+    for bundle_item in subscription.product.bundle_items
+      if bundle_item.delivery == 'shipment'
+        assign shipment_delivery = true
+      endif
+    endfor
+  endif
+
+  assign can_pause = false
+  assign can_cancel = false
+
+  case subscription.status
+    when 'active'
+      assign can_pause = true
+      assign can_cancel = true
+    when 'trial'
+      if store.subscriptions.features.pause_during_trial
+        assign can_pause = true
+      endif
+      assign can_cancel = true
+    when 'paused'
+      assign can_cancel = true
+    when 'pastdue'
+      if store.subscriptions.features.pause_past_due
+        assign can_pause = true
+      endif
+      assign can_cancel = true
+  endcase
+
+  assign can_skip_next = can_pause and store.subscriptions.features.pause_skip_next
+  assign can_pause_indefinitely = can_pause and store.subscriptions.features.pause_indefinitely
+-%}
 
 {%- style -%}
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
   }
 
-  @media screen and (min-width: 750px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
     }
+  }
+
+  #account-subscription.htmx-request {
+    opacity: 0.6;
+    pointer-events: none;
   }
 {%- endstyle -%}
 
-<div class="customer order section-{{ section.id }}-padding">
-  <account-subscription>
-    <svg style="display:none">
-      <symbol id="icon-discount" viewBox="0 0 12 12">
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M7 0h3a2 2 0 012 2v3a1 1 0 01-.3.7l-6 6a1 1 0 01-1.4 0l-4-4a1 1 0 010-1.4l6-6A1 1 0 017 0zm2 2a1 1 0 102 0 1 1 0 00-2 0z" fill="currentColor">
-      </symbol>
-    </svg>
-    <div>
-      <h1 class="customer__title">{{ 'customer.account.title' | t }}</h1>
-      <a href="{{ routes.account_url }}#subscriptions">
-        <ion-icon name="arrow-back" class="relative h-24 w-24 top-6"></ion-icon> {{ 'customer.subscription.return' | t }}
-      </a>
+<div
+  id="account-subscription"
+  class="flex flex-col max-w-content mx-auto px-20 md:px-64 gap-24 text-{{ color_scheme }} bg-{{ color_scheme }} responsive-padding-{{ section.id }}"
+>
+  <a
+    href="/account#subscriptions"
+    class="relative inline-flex w-fit -left-4 gap-4 text-body-small font-semibold"
+  >
+    <ion-icon name="chevron-back-outline" class="size-16"></ion-icon>
+    {{ 'customer.subscription.back' | t }}
+  </a>
+
+  <div
+    id="account-subscription-details"
+    class="flex flex-col rounded-6 border border-color-{{ color_scheme }}"
+    hx-swap-oob="true"
+  >
+    <div class="pt-16 pb-20">
+      {% render 'account-subscription-card-content',
+        subscription: subscription,
+        color_scheme: color_scheme,
+      %}
     </div>
 
-    <div id="main-area">
-      <div>
-        <h2 class="pb-16">{{ 'customer.subscription.title' | t: name: subscription.number }}</h2>
-        {%- render 'subscription',
-          subscription: subscription
-        -%}
-
-        <table role="table" class="order-details">
-          <thead role="rowgroup">
-            <tr role="row">
-              <th id="ColumnProduct" scope="col" role="columnheader">{{ 'customer.order.product' | t }}</th>
-              <th id="ColumnSku" scope="col" role="columnheader">{{ 'customer.order.sku' | t }}</th>
-              <th id="ColumnPrice" scope="col" role="columnheader">{{ 'customer.order.price' | t }}</th>
-              <th id="ColumnQuantity" scope="col" role="columnheader">{{ 'customer.order.quantity' | t }}</th>
-              <th id="ColumnTotal" scope="col" role="columnheader">{{ 'customer.order.total' | t }}</th>
-            </tr>
-          </thead>
-
-          <tbody role="rowgroup">
-            <tr role="row">
-              <td
-                id="Row{{ line_item.key }}"
-                headers="ColumnProduct"
-                role="rowheader"
-                scope="row"
-                data-label="{{ 'customer.order.product' | t }}"
-              >
-                <div>
-                  <p>{{ subscription.product.name | escape }}</p>
-                </div>
-              </td>
-              <td
-                headers="Row{{ line_item.key }} ColumnSku"
-                role="cell"
-                data-label="{{ 'customer.order.sku' | t }}"
-              >
-                <p>{{ subscription.product.sku }}</p>
-              </td>
-              <td
-                headers="Row{{ line_item.key }} ColumnPrice"
-                role="cell"
-                data-label="{{ 'customer.order.price' | t }}"
-              >
-                {{ subscription.price | money }}
-              </td>
-              <td
-                headers="Row{{ line_item.key }} ColumnQuantity"
-                role="cell"
-                data-label="{{ 'customer.order.quantity' | t }}"
-              >
-                {{ subscription.quantity }}
-              </td>
-              <td
-                headers="Row{{ line_item.key }} ColumnTotal"
-                role="cell"
-                data-label="{{ 'customer.order.total' | t }}"
-              >
-                {{ subscription.price_total | money }}
-              </td>
-            </tr>
-            {%- for line_item in subscription.items -%}
-              <tr role="row">
-                <td
-                  id="Row{{ line_item.key }}"
-                  headers="ColumnProduct"
-                  role="rowheader"
-                  scope="row"
-                  data-label="{{ 'customer.order.product' | t }}"
-                >
-                  <div>
-                    <p>{{ line_item.product.name | escape }}</p>
-                  </div>
-                </td>
-                <td
-                  headers="Row{{ line_item.key }} ColumnSku"
-                  role="cell"
-                  data-label="{{ 'customer.order.sku' | t }}"
-                >
-                  <p>{{ line_item.variant.sku | default: line_item.product.sku }}</p>
-                </td>
-                <td
-                  headers="Row{{ line_item.key }} ColumnPrice"
-                  role="cell"
-                  data-label="{{ 'customer.order.price' | t }}"
-                >
-                  {{ line_item.price | money }}
-                </td>
-                <td
-                  headers="Row{{ line_item.key }} ColumnQuantity"
-                  role="cell"
-                  data-label="{{ 'customer.order.quantity' | t }}"
-                >
-                  {{ line_item.quantity }}
-                </td>
-                <td
-                  headers="Row{{ line_item.key }} ColumnTotal"
-                  role="cell"
-                  data-label="{{ 'customer.order.total' | t }}"
-                >
-                  {{ line_item.price_total | money }}
-                </td>
-              </tr>
-            {%- endfor -%}
-          </tbody>
-
-          <tfoot role="rowgroup">
-            <tr role="row">
-              <td id="RowSubtotal" role="rowheader" scope="row" colspan="4">
-                {{ 'customer.order.subtotal' | t }}
-              </td>
-              <td headers="RowSubtotal" role="cell" data-label="{{ 'customer.order.subtotal' | t }}">
-                {{ subscription.sub_total | money }}
-              </td>
-            </tr>
-            {%- if subscription.discount_total > 0 -%}
-              <tr role="row">
-                <td id="RowDiscount" role="rowheader" scope="row" colspan="4">
-                  {{ 'customer.order.discount' | t }}
-                </td>
-                <td headers="RowDiscount" role="cell" data-label="{{ 'customer.order.discount' | t }}">
-                  {{ subscription.discount_total | money }}
-                </td>
-              </tr>
-            {%- endif -%}
-            {%- if subscription.shipment_total > 0 -%}
-              <tr role="row">
-                <td id="RowShipping" role="rowheader" scope="row" colspan="4">
-                  {{ 'customer.order.shipping' | t }}
-                </td>
-                <td headers="RowShipping" role="cell" data-label="{{ 'customer.order.shipping' | t }}">
-                  {{ subscription.shipment_total | money }}
-                </td>
-              </tr>
-            {%- endif -%}
-            {%- if subscription.tax_included_total > 0 -%}
-              <tr role="row">
-                <td id="RowTax" role="rowheader" scope="row" colspan="4">
-                  {{ 'customer.order.tax' | t }}
-                </td>
-                <td headers="RowTax" role="cell" data-label="{{ 'customer.order.tax' | t }}">
-                  {{ subscription.tax_included_total | money }}
-                </td>
-              </tr>
-            {%- endif -%}
-
-            <tr role="row">
-              <td id="RowTotal" role="rowheader" scope="row" colspan="3">{{ 'customer.order.total' | t }}</td>
-              <td headers="RowTotal" role="cell" colspan="2" data-label="{{ 'customer.order.total' | t }}">
-                {{ subscription.grand_total | money_with_currency }}
-              </td>
-            </tr>
-          </tfoot>
-        </table>
+    {% if subscription.items.size > 0 %}
+      <div class="flex flex-col p-20 gap-8 border-t border-color-{{ color_scheme }}">
+        <span class="text-title-small">
+          {{ 'customer.subscription.items' | t }}
+        </span>
+        <div class="flex flex-col">
+          {% for item in subscription.items %}
+            <div
+              class="
+                flex
+                gap-8
+                {% unless forloop.first %}
+                  pt-16
+                {% endunless %}
+                {% unless forloop.last %}
+                  pb-16
+                  border-b border-color-{{ color_scheme }}
+                {% endunless %}
+              "
+            >
+              {% render 'item-image',
+                item: item,
+                size: 'small',
+                show_placeholder: false,
+                color_scheme: color_scheme
+              %}
+              <div class="flex flex-col gap-2 text-body-small font-medium">
+                <span>
+                  {{ item.product.name }}
+                </span>
+                <span class="text-secondary-{{ color_scheme }}">
+                  {{ item.price_total | money }}
+                  {% if item.options.size > 0 %}
+                    <span>•</span>
+                    {% render 'item-options',
+                      item: item,
+                      font_class: 'text-body-small font-medium',
+                      color_scheme: color_scheme
+                    %}
+                  {% endif %}
+                </span>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
       </div>
+    {% endif %}
 
-      <div>
-        {% liquid
-          assign shipping_address = subscription.shipping
-          assign billing_address = subscription.billing
-          if subscription.shipping.use_account
-            assign shipping_address = customer.shipping
-          endif
-          if subscription.billing.use_account
-            assign billing_address = customer.billing
-          endif
-        %}
-        <div>
-          <h2>{{ 'customer.order.billing_address' | t }}</h2>
-          {{ billing_address | format_address }}
-        </div>
-        <div lg:pt-12>
-          <h2>{{ 'customer.order.shipping_address' | t }}</h2>
-          {{ shipping_address | format_address }}
-        </div>
+    {% if can_skip_next or can_pause_indefinitely or can_cancel %}
+      <div class="flex flex-col md:flex-row p-16 md:py-16 md:px-20 gap-8 md:gap-16 border-t border-color-{{ color_scheme }}">
+        {% if can_skip_next %}
+          <account-subscription-action-button
+            class="p-12 w-full md:w-auto rounded text-label-small text-center btn-primary-{{ color_scheme }}"
+            aria-controls="account-subscription-skip-next-modal"
+          >
+            {{ 'customer.subscription.skip_next_order' | t }}
+          </account-subscription-action-button>
+        {% endif %}
+        {% if can_pause_indefinitely %}
+          <account-subscription-action-button
+            class="p-12 w-full md:w-auto rounded text-label-small text-center btn-secondary-{{ color_scheme }}"
+            aria-controls="account-subscription-pause-modal"
+          >
+            {{ 'customer.subscription.pause_subscription' | t }}
+          </account-subscription-action-button>
+        {% endif %}
+        {% if can_cancel %}
+          <account-subscription-action-button
+            class="p-12 w-full md:w-auto rounded text-label-small text-center btn-secondary-{{ color_scheme }}"
+            aria-controls="account-subscription-cancel-modal"
+          >
+            {{ 'customer.subscription.cancel_subscription' | t }}
+          </account-subscription-action-button>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
 
-        <div class="lg:pt-12 flex flex-col">
-          <h2>{{ 'customer.subscription.details' | t }}</h2>
-          <div>
-            {{ 'customer.subscription.created' | t }} {{ subscription.date_created | time_tag: format: 'date_at_time' }}
-          </div>
+  {% if shipment_delivery %}
+    <div class="flex flex-col px-20 py-16 gap-16 rounded-6 border border-color-{{ color_scheme}}">
+      <span class="text-body-extra-large font-semibold">
+        {{ 'customer.order.shipping_address' | t }}
+      </span>
+      {% render 'address',
+        address: shipping,
+        color_scheme: color_scheme
+      %}
+    </div>
+  {% endif %}
 
-          {% liquid
-            assign allow_pause = false
-            assign show_resume = false
-            assign show_cancel = false
-            assign pauseLabel = 'customer.subscription.pause' | t
-            assign pauseCycleLabel = 'customer.subscription.skip_one_cycle' | t
-            assign resumeLabel = 'customer.subscription.resume' | t
-            assign cancelLabel = 'customer.subscription.cancel' | t
+  <div class="flex flex-col px-20 py-16 gap-16 rounded-6 border border-color-{{ color_scheme}}">
+    <span class="text-body-extra-large font-semibold">
+      {{ 'customer.subscription.payment_details' | t }}
+    </span>
+    <div class="flex flex-col gap-8">
+      <div class="flex flex-col gap-2">
+        <span class="text-body-small uppercase text-secondary-{{ color_scheme }}">
+          {{ 'general.payment.payment_method' | t }}
+        </span>
+        <span class="text-body-medium font-medium">
+          {% render 'billing-method',
+            method: billing_method
           %}
-          {% if subscription.status == 'active' %}
-            {% if subscription.order_schedule %}
-              <div>{{ 'customer.subscription.next_invoice' | t }} {{ subscription.date_period_end | time_tag: format: 'date_at_time' }}</div>
-              <div>{{ 'customer.subscription.next_order' | t }} {{ subscription.date_order_period_end | time_tag: format: 'date_at_time' }}</div>
-            {% else %}
-              <div>{{ 'customer.subscription.next_order' | t }} {{ subscription.date_period_end | time_tag: format: 'date_at_time' }}</div>
-            {% endif %}
-            {% assign allow_pause = true %}
-            {% assign show_cancel = true %}
-          {% endif %}
-
-          {% if subscription.status == 'trial' %}
-            {% if subscription.order_schedule %}
-              <div>{{ 'customer.subscription.first_invoice' | t }} {{ subscription.date_period_end | time_tag: format: 'date_at_time' }}</div>
-              <div>{{ 'customer.subscription.first_order' | t }} {{ subscription.date_order_period_end | time_tag: format: 'date_at_time' }}</div>
-            {% else %}
-              <div>{{ 'customer.subscription.first_order' | t }} {{ subscription.date_period_end | time_tag: format: 'date_at_time' }}</div>
-            {% endif %}
-            {% if store.subscriptions.features.pause_during_trial %}
-              {% assign allow_pause = true %}
-            {% endif %}
-            {% assign show_cancel = true %}
-          {% endif %}
-
-          {% if subscription.status == 'paused' %}
-            {% assign show_resume = true %}
-            {% assign show_cancel = true %}
-          {% endif %}
-
-          {% if subscription.status == 'pastdue' %}
-            <div>{{ 'customer.subscription.payment_retry' | t }} {{ subscription.date_payment_retry | time_tag: format: 'date_at_time' }}</div>   
-            {% assign show_pause = true %}
-            {% assign show_cancel = true %}
-            {% if store.subscriptions.features.pause_past_due %}
-              {% assign allow_pause = true %}
-            {% endif %}
-          {% endif %}
-
-          <div class="pt-12 flex flex-row gap-8">
-            {% if allow_pause and store.subscriptions.features.pause_indefinitely %}
-              {%- form 'account_subscription' -%}
-                <input name="subscription_id" type="hidden" value="{{ subscription.id  }}">
-                <input name="paused" type="hidden" value="true">
-                <input name="date_pause_end" type="hidden" value="null">
-                {% render 'button',
-                  type: 'submit',
-                  text: pauseLabel,
-                  color_scheme: color_scheme
-                %}
-              {%- endform -%}
-            {% endif %}
-            {% if allow_pause and store.subscriptions.features.pause_skip_next %}
-              {%- form 'account_subscription' -%}
-                <input name="subscription_id" type="hidden" value="{{ subscription.id  }}">
-                <input name="paused" type="hidden" value="true">
-                <input name="date_pause_end" type="hidden" value="{{ subscription.date_period_end  }}">
-                {% render 'button',
-                  type: 'submit',
-                  text: pauseCycleLabel,
-                  color_scheme: color_scheme
-                %}
-              {%- endform -%}
-            {% endif %}
-            {% if show_resume %}
-              {%- form 'account_subscription' -%}
-                <input name="subscription_id" type="hidden" value="{{ subscription.id  }}">
-                <input name="paused" type="hidden" value="false">
-                <input name="date_pause_end" type="hidden" value="null">
-                {% render 'button',
-                  type: 'submit',
-                  text: resumeLabel,
-                  color_scheme: color_scheme
-                %}
-              {%- endform -%}
-            {% endif %}
-            {% if show_cancel %}
-              {%- form 'account_subscription' -%}
-                <input name="subscription_id" type="hidden" value="{{ subscription.id  }}">
-                <input name="canceled" type="hidden" value="true">
-                {% render 'button',
-                  type: 'submit',
-                  text: cancelLabel,
-                  color_scheme: color_scheme
-                %}
-              {%- endform -%}
-            {% endif %}
+        </span>
+      </div>
+      {% if billing.card %}
+        <div class="flex gap-50">
+          <div class="flex flex-col gap-2">
+            <span class="text-body-small uppercase text-secondary-{{ color_scheme }}">
+              {{ 'general.payment.card_number' | t }}
+            </span>
+            <span class="text-body-medium font-medium">
+              {{ billing.card.brand | capitalize }} {{ billing.card.last4 }}
+            </span>
+          </div>
+          <div class="flex flex-col gap-2">
+            <span class="text-body-small uppercase text-secondary-{{ color_scheme }}">
+              {{ 'general.payment.card_exp' | t }}
+            </span>
+            <span class="text-body-medium font-medium">
+              {{ billing.card.exp_month }} / {{ billing.card.exp_year | slice: -2, 2 }}
+            </span>
           </div>
         </div>
-      </div>
+      {% endif %}
     </div>
-  </account-subscription>
+    <div class="flex flex-col gap-2">
+      <span class="text-body-small uppercase text-secondary-{{ color_scheme }}">
+        {{ 'customer.subscription.billing_address' | t }}
+      </span>
+      {% render 'address',
+        address: billing,
+        color_scheme: color_scheme
+      %}
+    </div>
+  </div>
+
+  {% render 'account-subscription-skip-next-modal',
+    subscription: subscription,
+    hx-indicator: "#account-subscription",
+    return_to: return_to,
+    color_scheme: color_scheme
+  %}
+  {% render 'account-subscription-pause-modal',
+    subscription: subscription,
+    hx-indicator: "#account-subscription",
+    return_to: return_to,
+    color_scheme: color_scheme
+  %}
+  {% render 'account-subscription-cancel-modal',
+    subscription: subscription,
+    hx-indicator: "#account-subscription",
+    return_to: return_to,
+    color_scheme: color_scheme
+  %}
 </div>
 
 {% schema %}
@@ -317,28 +276,30 @@
   "tag": "section",
   "settings": [
     {
-      "type": "header",
-      "content": "Padding"
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
     },
     {
       "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
+      "id": "top_padding",
       "label": "Top padding",
-      "default": 48
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 40
     },
     {
       "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 100,
-      "step": 4,
-      "unit": "px",
+      "id": "bottom_padding",
       "label": "Bottom padding",
-      "default": 48
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 40
     }
   ]
 }
