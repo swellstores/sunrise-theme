@@ -1,0 +1,43 @@
+{%- liquid
+  assign interval_count = subscription.interval_count | plus: 1
+  assign next_interval_date = subscription.date_period_start | date_next_interval: subscription.interval, interval_count
+  assign date = next_interval_date | date: 'date'
+-%}
+
+<account-subscription-modal
+  id="account-subscription-skip-next-modal"
+  class="w-full max-w-480 px-20 py-16 rounded-4 text-body-medium text-{{ color_scheme }} bg-{{ color_scheme }}"
+>
+  {%- form 'account_subscription', subscription
+    , hx-post: '/account/subscription_update'
+    , hx-trigger: 'subscription-modal-submit'
+    , hx-swap: 'none'
+    , hx-indicator: hx-indicator
+    , return_to: return_to
+  -%}
+    <input name="date_pause_end" type="hidden" value="{{ subscription.date_period_end }}">
+    <div class="flex flex-col w-full gap-32">
+      <div class="flex flex-col gap-20">
+        <div class="flex items-center justify-between">
+          <span class="text-body-extra-large font-semibold">
+            {{ 'customer.subscription.skip_next_order' | t }}
+          </span>
+          <account-subscription-modal-close-button class="flex items-center size-12 cursor-pointer">
+            {{- 'cross-icon.svg' | inline_asset_content -}}
+          </account-subscription-modal-close-button>
+        </div>
+        <span>
+          {{ 'customer.subscription.skip_next_order_warning' | t: date: date }}
+        </span>
+      </div>
+      <div class="flex flex-col-reverse md:flex-row gap-8">
+        <account-subscription-modal-close-button class="w-full text-center py-14 px-24 rounded btn-secondary-{{ color_scheme }}">
+          {{ 'customer.subscription.cancel' | t }}
+        </account-subscription-modal-close-button>
+        <account-subscription-modal-submit-button class="w-full text-center py-14 px-24 rounded btn-primary-{{ color_scheme }}">
+          {{ 'customer.subscription.skip_order' | t }}
+        </account-subscription-modal-submit-button>
+      </div>
+    </div>
+  {%- endform -%}
+</account-subscription-modal>

@@ -22,7 +22,7 @@
 
 <div class="flex flex-col max-w-content mx-auto px-20 md:px-64 gap-24 text-{{ color_scheme }} bg-{{ color_scheme }} responsive-padding-{{ section.id }}">
   <a
-    href="{{ routes.account_url }}#orders"
+    href="/account#orders"
     class="relative inline-flex w-fit -left-4 gap-4 text-body-small font-semibold"
   >
     <ion-icon name="chevron-back-outline" class="size-16"></ion-icon>
@@ -97,7 +97,7 @@
                   </div>
                 </div>
               </td>
-              <td class="py-24 text-center align-baseline text-body-medium font-medium whitespace-nowrap">
+              <td class="py-24 min-w-100 text-center align-baseline text-body-medium font-medium whitespace-nowrap">
                 {{ item.quantity }}
               </td>
               <td class="py-24 text-right align-baseline text-body-medium font-medium whitespace-nowrap">
