@@ -42,7 +42,7 @@ export const CartAPI = {
 
       const cart = await this.getCart();
 
-      eventBus.emit("cart-item-count-update", cart.item_count);
+      eventBus.emit("cart-item-count-update", cart.item_quantity);
 
       return item;
     } catch (error) {
