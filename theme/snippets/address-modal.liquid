@@ -229,21 +229,31 @@
                   z-10
                 "
               >
-                {% for state in geo.states %}
-                  <dropdown-option
-                    class="
-                      relative
-                      py-6
-                      px-10
-                      w-full
-                      rounded
-                      cursor-pointer
-                    "
-                    value="{{ state.id }}"
-                    data-label="{{ state.name }}"
-                  >
-                    {{ state.name }}
-                  </dropdown-option>
+                {%- liquid
+                  assign limit = 50
+                  assign states_size = geo.states.size
+                  assign iterations = states_size | divided_by: limit | ceil | minus: 1
+                -%}
+
+                {% for i in (0..iterations) %}
+                  {% assign offset = i | times: limit %}
+
+                  {% for state in geo.states offset:offset %}
+                    <dropdown-option
+                      class="
+                        relative
+                        py-6
+                        px-10
+                        w-full
+                        rounded
+                        cursor-pointer
+                      "
+                      value="{{ state.id }}"
+                      data-label="{{ state.name }}"
+                    >
+                      {{ state.name }}
+                    </dropdown-option>
+                  {% endfor%}
                 {% endfor%}
               </dropdown-options>
             </dropdown-menu>
