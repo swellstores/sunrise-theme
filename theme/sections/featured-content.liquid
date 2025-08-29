@@ -227,8 +227,8 @@
                   <div class="aspect-square w-full">
                     {%
                       render 'image',
-                      image: block.settings.article.featured_image,
-                      alt: block.settings.article.featured_image.alt | default: 'Featured content image {{ forloop.index }}',
+                      image: block.settings.article.image,
+                      alt: block.settings.article.image.alt | default: 'Featured content image {{ forloop.index }}',
                       class: 'w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110'
                     %}
                   </div>
