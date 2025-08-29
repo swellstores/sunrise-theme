@@ -30,7 +30,7 @@
   assign media_alts = media_alts | split: ','
 %}
 
-{% if media_urls.size > 0%}
+{% if media_urls.size > 0 %}
   <div class="relative flex w-full flex-1 min-w-0">
     {%- if media_urls.size > 1 -%}
       {%- if desktop_layout == 'thumbnail_gallery' -%}
@@ -57,5 +57,11 @@
         class="w-full h-full object-contain object-top rounded"
       >
     {%- endif -%}
+  </div>
+{% else %}
+  <div class="flex items-start justify-center flex-1 min-w-0">
+    <div class="placeholder-box flex items-center justify-center w-full aspect-square rounded">
+      <ion-icon name="camera-outline" class="size-64 text-secondary-{{ color_scheme }}"></ion-icon>
+    </div>
   </div>
 {% endif %}
