@@ -243,7 +243,7 @@
       "password": "Password",
       "password_placeholder": "Enter your password",
       "already_have_account": "Already have an account?",
-      "login": "Login in here.",
+      "login": "Log in here.",
       "create_account": "Create account",
       "error": "Your account could not be created. Please try again.",
       "invalid_email_error": "Invalid email address",
