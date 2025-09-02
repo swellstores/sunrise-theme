@@ -146,3 +146,13 @@ export class SubscriptionModalSubmitEvent extends BaseCustomEvent {
     super(SubscriptionModalSubmitEvent.type, detail);
   }
 }
+
+/* SEARCH EVENTS */
+
+export class SearchInputChangeEvent extends BaseCustomEvent {
+  static type = "search-input-change";
+
+  constructor(detail) {
+    super(SearchInputChangeEvent.type, detail);
+  }
+}
