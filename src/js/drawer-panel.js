@@ -39,7 +39,7 @@ export class DrawerPanel extends HTMLElement {
 
     this.classList.add(
       "fixed",
-      "z-50",
+      "z-[5001]",
       "h-screen",
       "overflow-y-auto",
       "transition-transform",
