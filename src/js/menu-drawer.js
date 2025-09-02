@@ -48,11 +48,11 @@ export class MenuDrawer extends DrawerPanel {
     super.disconnectedCallback();
 
     if (this.trigger) {
-      this.trigger.removeEventListener("click", this.openUiManagerBound);
+      this.trigger.removeEventListener("click", this.openBound);
     }
 
     if (this.closeButton) {
-      this.closeButton.removeEventListener("click", this.closeUiManagerBound);
+      this.closeButton.removeEventListener("click", this.closeBound);
     }
 
     if (this.backButton) {
