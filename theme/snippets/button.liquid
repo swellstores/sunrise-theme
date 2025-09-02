@@ -1,7 +1,7 @@
 {%- liquid
   assign border_radius = settings.border_radius | default: 6 | times: 0.1 | round: 1
 
-  assign base_class = 'flex items-center justify-center font-display text-label-large h-48 pl-24 pr-24 rounded-[' | append: border_radius | append: 'rem] ' | append: class
+  assign base_class = 'flex items-center justify-center font-display text-label-large h-48 pl-24 pr-24 break-words rounded-[' | append: border_radius | append: 'rem] ' | append: class
   assign button_class = base_class
 
   if color_scheme != blank
