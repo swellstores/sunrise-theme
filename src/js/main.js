@@ -7,8 +7,7 @@ import { ToggleButton, ToggleButtonCheckbox } from "./toggle-button";
 import { RangeSlider, RangeSliderTooltip } from "./range-slider";
 import { QuantitySelector } from "./quantity-selector";
 import { CopyToClipboard } from "./copy-to-clipboard";
-import { Popover } from "./popover";
-import { SearchDialog } from "./search-dialog";
+import { SearchInput, SearchDialog, SearchDialogTrigger } from "./search";
 import {
   AccordionRoot,
   AccordionItem,
@@ -113,8 +112,9 @@ window.theme.accordion_rendered = true;
     customElements.define("range-slider-tooltip", RangeSliderTooltip);
     customElements.define("quantity-selector", QuantitySelector);
     customElements.define("copy-to-clipboard", CopyToClipboard);
-    customElements.define("popover-root", Popover);
-    customElements.define("search-dialog-root", SearchDialog);
+    customElements.define("search-input", SearchInput, { extends: "input" });
+    customElements.define("search-dialog", SearchDialog);
+    customElements.define("search-dialog-trigger", SearchDialogTrigger);
     customElements.define("accordion-root", AccordionRoot);
     customElements.define("accordion-item", AccordionItem);
     customElements.define("accordion-trigger", AccordionTrigger);

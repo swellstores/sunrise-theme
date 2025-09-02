@@ -31,13 +31,13 @@
     </ul>
   {%- endif -%}
 
-  <search-trigger
+  <search-dialog-trigger
     type="button"
     class="size-24 flex items-center justify-center cursor-pointer text-{{ color_scheme }}"
     aria-label="{{ 'general.search.store' | t: store_name: shop.name }}"
   >
     {{- 'search-icon.svg' | inline_asset_content -}}
-  </search-trigger>
+  </search-dialog-trigger>
   {% if show_drawer %}
     <cart-trigger
       role="button"
