@@ -12,7 +12,6 @@
     "bundle:js": "rollup -c -w"
   },
   "devDependencies": {
-    "@floating-ui/dom": "^1.6.10",
     "@rollup/plugin-terser": "^0.4.4",
     "concurrently": "^8.2.2",
     "debounce": "^2.1.1",

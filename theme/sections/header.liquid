@@ -299,6 +299,16 @@
       {% endif %}
     }
   {% endif %}
+
+  #search-dialog-results.htmx-request #search-dialog-performed-results {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  #search-dialog-results.htmx-request div[role="status"] {
+    margin-top: 1.4rem;
+    display: flex;
+  }
 {% endstyle %}
 
 <header class="relative {{ border_b }} text-{{ color_scheme }} bg-{{ color_scheme }} responsive-padding-{{ section.id }}">
@@ -384,7 +394,9 @@
   </div>
 </header>
 
-{% render 'search-dialog' %}
+{% render 'search-dialog',
+  color_scheme: color_scheme
+%}
 {% render 'menu-drawer',
   color_scheme: color_scheme
 %}
