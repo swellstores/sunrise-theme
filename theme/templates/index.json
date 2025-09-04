@@ -9,7 +9,7 @@
         "overlay_color": "#404040",
         "overlay_opacity": 0,
         "banner_height": "large",
-        "image_height": "contain",
+        "image_height": "fill",
         "heading_size": "medium",
         "text_alignment": "left",
         "color_scheme": "scheme-1",
