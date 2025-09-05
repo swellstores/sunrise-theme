@@ -54,3 +54,10 @@ span[data-swell-inline-editable],
 section {
   overflow-wrap: anywhere;
 }
+
+/* hide all slides in a slider container except the first one until it becomes active */
+swiper-container:not(.active-swiper) {
+  swiper-slide:not(:first-child) {
+    display: none;
+  }
+}
