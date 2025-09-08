@@ -7,8 +7,7 @@ import { ToggleButton, ToggleButtonCheckbox } from "./toggle-button";
 import { RangeSlider, RangeSliderTooltip } from "./range-slider";
 import { QuantitySelector } from "./quantity-selector";
 import { CopyToClipboard } from "./copy-to-clipboard";
-import { Popover } from "./popover";
-import { SearchDialog } from "./search-dialog";
+import { SearchInput, SearchDialog, SearchDialogTrigger } from "./search";
 import {
   AccordionRoot,
   AccordionItem,
@@ -71,7 +70,12 @@ import { ProductFilterToggle } from "./product-filter-toggle";
 // account
 import { AccountNav, AccountNavDrawer, AccountNavTrigger } from "./account-nav";
 import { AccountDetails } from "./account-details";
-import { AccountSubscription } from "./account-subscription";
+import {
+  AccountSubscriptionModal,
+  AccountSubscriptionModalCloseButton,
+  AccountSubscriptionModalSubmitButton,
+  AccountSubscriptionActionButton,
+} from "./account-subscription-modal";
 import { AccountLogin } from "./account-login";
 import { AccountResetPassword } from "./account-reset-password";
 import { AccountRegister } from "./account-register";
@@ -108,8 +112,9 @@ window.theme.accordion_rendered = true;
     customElements.define("range-slider-tooltip", RangeSliderTooltip);
     customElements.define("quantity-selector", QuantitySelector);
     customElements.define("copy-to-clipboard", CopyToClipboard);
-    customElements.define("popover-root", Popover);
-    customElements.define("search-dialog-root", SearchDialog);
+    customElements.define("search-input", SearchInput, { extends: "input" });
+    customElements.define("search-dialog", SearchDialog);
+    customElements.define("search-dialog-trigger", SearchDialogTrigger);
     customElements.define("accordion-root", AccordionRoot);
     customElements.define("accordion-item", AccordionItem);
     customElements.define("accordion-trigger", AccordionTrigger);
@@ -191,7 +196,22 @@ window.theme.accordion_rendered = true;
     customElements.define("account-nav-drawer", AccountNavDrawer);
     customElements.define("account-nav-trigger", AccountNavTrigger);
     customElements.define("account-details", AccountDetails);
-    customElements.define("account-subscription", AccountSubscription);
+    customElements.define(
+      "account-subscription-modal",
+      AccountSubscriptionModal
+    );
+    customElements.define(
+      "account-subscription-modal-close-button",
+      AccountSubscriptionModalCloseButton
+    );
+    customElements.define(
+      "account-subscription-modal-submit-button",
+      AccountSubscriptionModalSubmitButton
+    );
+    customElements.define(
+      "account-subscription-action-button",
+      AccountSubscriptionActionButton
+    );
     customElements.define("account-login", AccountLogin);
     customElements.define("account-reset-password", AccountResetPassword);
     customElements.define("account-register", AccountRegister);

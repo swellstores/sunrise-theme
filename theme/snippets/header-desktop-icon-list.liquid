@@ -31,13 +31,13 @@
     </ul>
   {%- endif -%}
 
-  <search-trigger
+  <search-dialog-trigger
     type="button"
     class="size-24 flex items-center justify-center cursor-pointer text-{{ color_scheme }}"
     aria-label="{{ 'general.search.store' | t: store_name: shop.name }}"
   >
     {{- 'search-icon.svg' | inline_asset_content -}}
-  </search-trigger>
+  </search-dialog-trigger>
   {% if show_drawer %}
     <cart-trigger
       role="button"
@@ -46,18 +46,22 @@
     >
       {{- 'cart-icon-new.svg' | inline_asset_content -}}
       <div
-        class="absolute -right-4 top-6 flex h-18 w-18 items-center justify-center rounded-full bg-accent-{{ color_scheme }}"
+        class="absolute -right-4 top-6 flex items-center justify-center size-18 rounded-full bg-accent-{{ color_scheme }}"
       >
-        <cart-count class="font-display text-label-small leading-[1.4rem] text-accent-{{ color_scheme }}">{{ cart.item_count }}</cart-count>
+        <cart-count class="flex items-center justify-center w-18 font-display text-label-small text-accent-{{ color_scheme }}">
+          {{ cart.item_count }}
+        </cart-count>
       </div>
     </cart-trigger>
   {% else %}
     <a href="{{ routes.cart_url }}" class="relative size-24 flex items-center justify-center text-{{ color_scheme }}">
       {{- 'cart-icon-new.svg' | inline_asset_content -}}
       <div
-        class="absolute -right-4 top-6 flex h-18 w-18 items-center justify-center rounded-full bg-accent-{{ color_scheme }}"
+        class="absolute -right-4 top-6 flex items-center justify-center size-18 rounded-full bg-accent-{{ color_scheme }}"
       >
-        <cart-count class="font-display text-label-small leading-[1.4rem] text-accent-{{ color_scheme }}">{{ cart.item_count }}</cart-count>
+        <cart-count class="flex items-center justify-center w-18 font-display text-label-small text-accent-{{ color_scheme }}">
+          {{ cart.item_count }}
+        </cart-count>
       </div>
     </a>
   {% endif %}

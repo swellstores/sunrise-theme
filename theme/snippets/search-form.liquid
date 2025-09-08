@@ -1,0 +1,21 @@
+<form
+  id="search-form"
+  hx-get="{{ routes.search_url }}"
+  hx-indicator="{{ hx-indicator }}"
+  hx-target="{{ hx-target }}"
+  hx-select="{{ hx-select }}"
+  hx-trigger="search-input-change"
+  hx-swap="outerHTML"
+  class="w-full"
+>
+  <input
+    is="search-input"
+    name="q"
+    placeholder="{{ 'general.search.placeholder' | t }}"
+    value="{{ search.terms | escape }}"
+    autocomplete="off"
+    spellcheck="false"
+    class="w-full px-12 py-10 text-title-medium outline-none rounded border border-color-{{ color_scheme }} bg-{{ color_scheme }}"
+    style="--shadow-color: var(--color-{{ color_scheme }}-borders-and-inputs)"
+  >
+</form>

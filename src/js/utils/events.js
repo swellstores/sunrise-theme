@@ -136,3 +136,23 @@ export class AddressRemoveModalSubmitEvent extends BaseCustomEvent {
     super(AddressRemoveModalSubmitEvent.type, detail);
   }
 }
+
+/* SUBSCRIPTION EVENTS */
+
+export class SubscriptionModalSubmitEvent extends BaseCustomEvent {
+  static type = "subscription-modal-submit";
+
+  constructor(detail) {
+    super(SubscriptionModalSubmitEvent.type, detail);
+  }
+}
+
+/* SEARCH EVENTS */
+
+export class SearchInputChangeEvent extends BaseCustomEvent {
+  static type = "search-input-change";
+
+  constructor(detail) {
+    super(SearchInputChangeEvent.type, detail);
+  }
+}

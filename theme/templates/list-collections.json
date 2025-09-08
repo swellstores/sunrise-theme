@@ -4,8 +4,8 @@
       "type": "list-collections",
       "settings": {
         "color_scheme": "scheme-1",
-        "pre_heading": "Explore more",
-        "heading": "Discover our categories",
+        "pre_heading": "Explore",
+        "heading": "Categories",
         "heading_size": "small",
         "header_alignment": "left",
         "top_padding": 96,

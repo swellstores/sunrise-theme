@@ -2,10 +2,12 @@
   "sections": {
     "search": {
       "type": "search",
-      "settings": {}
+      "settings": {
+        "color_scheme": "scheme-1",
+        "top_padding": 64,
+        "bottom_padding": 64
+      }
     }
   },
-  "order": [
-    "search"
-  ]
+  "order": ["search"]
 }

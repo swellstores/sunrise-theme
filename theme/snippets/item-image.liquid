@@ -1,8 +1,13 @@
 {%- liquid
   assign show_placeholder = show_placeholder != false
+  assign image = item.product.images[0]
+
+  if item.image
+    assign image = item.image
+  endif
 -%}
 
-{% if item.image or show_placeholder %}
+{% if image or show_placeholder %}
   <div
     class="
       relative
@@ -16,10 +21,10 @@
       {% endcase %}
     "
   >
-    {% if item.image %}
+    {% if image %}
       {% render 'image',
-        image: item.image,
-        alt: item.image.alt,
+        image: image,
+        alt: image.alt,
         picture_class: 'flex justify-center w-full h-full',
         class: 'h-full w-auto object-cover object-center rounded-4'
       %}

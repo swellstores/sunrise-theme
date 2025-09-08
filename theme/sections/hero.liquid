@@ -35,8 +35,8 @@
           assign image_class = 'object-cover object-center w-full h-full'
         endif
 
-        assign picture_class = 'svg-placeholder object-fit object-center'
-        assign mobile_picture_class = 'svg-placeholder flex justify-center'
+        assign picture_class = 'svg-placeholder object-fit object-center justify-items-center'
+        assign mobile_picture_class = 'svg-placeholder flex justify-center justify-items-center'
 
         if section.settings.banner_height == 'adapt'
           assign image_class = 'w-full h-full object-cover object-center'
@@ -212,7 +212,7 @@
       "type": "select",
       "id": "image_height",
       "label": "Image height",
-      "default": "fixed_height",
+      "default": "fill",
       "options": [
         { "value": "auto", "label": "Auto" },
         { "value": "fixed_height", "label": "Fixed height" },

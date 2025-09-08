@@ -10117,6 +10117,9 @@
       var _this = this;
       if (this.initialized) return;
       this.initialized = true;
+      // mark slider container as active to show all slides
+      this.classList.add("active-swiper");
+
       const {
         params: swiperParams,
         passedParams
