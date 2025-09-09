@@ -4,20 +4,6 @@
       <span class="text-body-large">
         {{ 'customer.order.order_name' | t }} #{{ order.name }}
       </span>
-      <div class="flex flex-row gap-8">
-        <div class="px-8 py-2 gap-6 rounded-md border h-20 flex items-center justify-center whitespace-nowrap order-financial-status-{{ order.financial_status }}">
-          <div class="rounded-full order-financial-status-{{ order.financial_status }}-dot"></div>
-          <span class="text-body-small">
-            {{ 'customer.order.financial_status_' | append: order.financial_status | t }}
-          </span>
-        </div>
-        <div class="px-8 py-2 gap-6 rounded-md border h-20 flex items-center justify-center whitespace-nowrap order-fulfillment-status-{{ order.fulfillment_status }}">
-          <div class="rounded-full order-fulfillment-status-{{ order.fulfillment_status }}-dot"></div>
-          <span class="text-body-small">
-            {{ 'customer.order.fulfillment_status_' | append: order.fulfillment_status | t }}
-          </span>
-        </div>
-      </div>
     </div>
 
     <div class="flex flex-row gap-4 font-medium text-body-small text-secondary-{{ color_scheme }}">

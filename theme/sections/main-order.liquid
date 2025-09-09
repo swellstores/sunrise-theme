@@ -34,14 +34,6 @@
         <span class="text-title-medium">
           {{ 'customer.order.order_name' | t }} #{{ order.name }}
         </span>
-        <div class="flex gap-8">
-          <div class="px-8 py-2 gap-6 rounded-4 border h-20 flex items-center justify-center whitespace-nowrap text-body-small font-medium order-financial-status-{{ order.financial_status }}">
-            {{ 'customer.order.financial_status_' | append: order.financial_status | t }}
-          </div>
-          <div class="px-8 py-2 gap-6 rounded-4 border h-20 flex items-center justify-center whitespace-nowrap text-body-small font-medium order-fulfillment-status-{{ order.fulfillment_status }}">
-            {{ 'customer.order.fulfillment_status_' | append: order.fulfillment_status | t }}
-          </div>
-        </div>
       </div>
       <span class="text-body-small font-medium text-secondary-{{ color_scheme }}">
         {{ 'customer.order.placed_on' | t }} {{ order.created_at | time_tag: format: 'date' }}
