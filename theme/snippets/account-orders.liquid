@@ -13,7 +13,7 @@
 
 <div
   id="orders"
-  class="account-tab flex flex-col gap-24 w-full pt-24 pb-48 px-20 md:p-64 md:pt-32 text-{{ color_scheme }} bg-{{ color_scheme }}"
+  class="account-tab flex flex-col gap-24 w-full pt-24 pb-48 px-20 md:p-64 text-{{ color_scheme }} bg-{{ color_scheme }}"
 >
   <div class="flex items-start gap-4 w-full text-headline-extra-small">
     <span>
@@ -21,7 +21,7 @@
     </span>
     {% if  orders.size > 0 %}
       <span>
-        ({{  orders.size }})
+        ({{ orders.size }})
       </span>
     {% endif %}
   </div>
