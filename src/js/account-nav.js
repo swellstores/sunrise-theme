@@ -33,6 +33,12 @@ export class AccountNav extends HTMLElement {
     }
   }
 
+  scrollToTop() {
+    setTimeout(function () {
+      window.scrollTo(0, 0);
+    }, 0);
+  }
+
   onChangeTab() {
     const { hash } = window.location;
     const activeNavItem = this.querySelector(
@@ -41,6 +47,7 @@ export class AccountNav extends HTMLElement {
 
     if (!activeNavItem) {
       window.location.hash = DEFAULT_TAB;
+      this.scrollToTop();
       return;
     }
 
@@ -72,6 +79,8 @@ export class AccountNav extends HTMLElement {
         tab.classList.add("hidden");
       }
     });
+
+    this.scrollToTop();
   }
 }
 
