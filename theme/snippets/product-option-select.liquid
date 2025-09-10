@@ -15,7 +15,7 @@
         <span class="text-{{ variants_color_scheme }}">{{ selected_value.name }}</span>
       {% endif %}
     </div>
-    <radio-button class="flex gap-4">
+    <radio-button class="flex gap-4 flex-wrap">
       {%- for value in option.values -%}
         <div
           class="flex"
