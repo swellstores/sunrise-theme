@@ -1,0 +1,23 @@
+<div class="flex gap-8">
+  {% render 'item-image',
+    item: item,
+    color_scheme: color_scheme
+  %}
+  <div class="flex flex-col gap-2">
+    <span class="text-body-medium text-{{ color_scheme }}">
+      {{- item.product.title | escape -}}
+    </span>
+    {% render 'item-options',
+      item: item,
+      color_scheme: color_scheme
+    %}
+    <span class="text-body-medium">
+      {{ 'sections.cart.item.quantity' | t }}: {{ item.quantity }}
+    </span>
+    {% if show_price %}
+      <span class="mt-6 text-body-medium font-medium">
+        {{ item.price_total | money }}
+      </span>
+    {% endif %}
+  </div>
+</div>

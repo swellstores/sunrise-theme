@@ -1,0 +1,226 @@
+{% comment %}
+  Renders a two-panel section.
+
+  Usage:
+  {% sections 'two-panels' %}
+{% endcomment %}
+
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign vertical_padding = section.settings.vertical_padding | times: 0.1 | round: 1
+  assign horizontal_padding = section.settings.horizontal_padding | times: 0.1 | round: 1
+  assign gap = section.settings.gap | times: 0.1 | round: 1
+-%}
+
+{% style %}
+  .container-padding-{{ section.id }} {
+    padding: {{ vertical_padding }}rem {{ horizontal_padding }}rem;
+  }
+
+  .section-gap-{{ section.id }} {
+    gap: {{ gap }}rem;
+  }
+
+  {% for block in section.blocks %}
+    {% if block.type == 'content' %}
+    .content-padding-{{ section.id }}-{{ block.id }} {
+      padding: {{ block.settings.section_padding | times: 0.1 | round: 1 }}rem;
+    }
+    {% endif %}
+  {% endfor %}
+{% endstyle %}
+
+<div class="container-padding-{{ section.id }} bg-{{ color_scheme }}">
+  <div class="mx-auto grid grid-cols-2 section-gap-{{ section.id }} min-h-200">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'image' -%}
+          {% comment %} Image Column {% endcomment %}
+          <div>
+            {%- if block.settings.link != blank -%}
+              <a href="{{ block.settings.link }}" class="block w-full h-full">
+            {%- endif -%}
+
+            {%- if block.settings.image != blank -%}
+              {%
+                render 'image',
+                image: block.settings.image,
+                alt: block.settings.image.alt | default: '',
+                picture_class: 'svg-placeholder object-fit object-center',
+                class: 'object-contain h-full',
+                placeholder: 'detailed-apparel-1'
+              %}
+            {%- else -%}
+              <div class="bg-{{ color_scheme }} w-full h-full">
+                {{ 'detailed-apparel-1' | placeholder_svg_tag: 'w-full h-full object-cover p-48' }}
+              </div>
+            {%- endif -%}
+
+            {%- if block.settings.link != blank -%}
+              </a>
+            {%- endif -%}
+          </div>
+        {%- when 'content' -%}
+          {% comment %} Content Column {% endcomment %}
+          <div class="flex items-center">
+            <div class="w-full">
+              <div class="w-full flex flex-col gap-32 bg-{{ block.settings.color_scheme }} text-{{ block.settings.color_scheme }} content-padding-{{ section.id }}-{{ block.id }}">
+                <div class="flex flex-col gap-8 text-{{ block.settings.text_alignment }}">
+                  {%- if block.settings.pre_heading != blank -%}
+                    <div class="font-display font-pre-heading text-pre-heading">
+                      {{ block.settings.pre_heading | inline_editable: 'pre_heading' }}
+                    </div>
+                  {%- endif -%}
+
+                  {%- if block.settings.heading != blank -%}
+                    <h2 class="font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }}">
+                      {{ block.settings.heading | inline_editable: 'heading' }}
+                    </h2>
+                  {%- endif -%}
+
+                  {%- if block.settings.text != blank -%}
+                    <div class="font-display formatted-text text-content">
+                      {{ block.settings.text | inline_editable: 'text' }}
+                    </div>
+                  {%- endif -%}
+                </div>
+
+                {%- if block.settings.button_text != blank -%}
+                  <div class="flex mt-20 {% if block.settings.text_alignment == 'center' %}justify-center{% elsif block.settings.text_alignment == 'right' %}justify-end{% endif %}">
+                    {% render 'button',
+                      text: block.settings.button_text,
+                      href: block.settings.button_link,
+                      color_scheme: block.settings.color_scheme
+                    %}
+                  </div>
+                {%- endif -%}
+              </div>
+            </div>
+          </div>
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Two panels",
+  "tag": "section",
+  "disabled_on": { "groups": ["header", "footer"] },
+  "settings": [
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Vertical padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "horizontal_padding",
+      "label": "Horizontal padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap",
+      "info": "Applies a gap between the two blocks",
+      "min": 0,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "limit": 1,
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "url", "id": "link", "label": "Link", "info": "Link the image to a page" }
+      ]
+    },
+    {
+      "type": "content",
+      "name": "Content",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "pre_heading",
+          "label": "Pre-heading"
+        },
+        { "type": "inline_richtext", "id": "heading", "label": "Heading" },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "Heading size",
+          "default": "small",
+          "options": [
+            { "value": "small", "label": "Small" },
+            { "value": "medium", "label": "Medium" },
+            { "value": "large", "label": "Large" },
+            { "value": "extra-large", "label": "Extra large" }
+          ]
+        },
+        { "type": "richtext", "id": "text", "label": "Text" },
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "label": "Text alignment",
+          "default": "center",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "center", "label": "Center" },
+            { "value": "right", "label": "Right" }
+          ]
+        },
+        { "type": "header", "content": "Button" },
+        { "type": "text", "id": "button_text", "label": "Button text", "info": "Leave blank to hide the button" },
+        { "type": "url", "id": "button_link", "label": "Link", "info": "Paste a link or search" },
+        { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+        {
+          "type": "range",
+          "id": "section_padding",
+          "label": "Padding",
+          "info": "Applies padding to all sides",
+          "min": 0,
+          "max": 96,
+          "step": 1,
+          "unit": "px",
+          "default": 32
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Two panels",
+      "blocks": [
+        { "type": "image", "settings": { "image": "" } },
+        {
+          "type": "content",
+          "settings": {
+            "pre_heading": "Quick look",
+            "heading": "Find what's next",
+            "text": "Use this section to share essential info, promote a standout deal, or guide visitors forward. Add your message here to keep them engaged.",
+            "text_alignment": "center",
+            "button_text": "Learn more"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

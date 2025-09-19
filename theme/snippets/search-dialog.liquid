@@ -1,0 +1,69 @@
+{% comment %}
+  Renders a header search section with customizable attributes.
+
+  Accepts:
+    - section.settings.color_scheme.id: {string} Color scheme ID (required)
+
+  Usage:
+    {% render 'search-dialog' %}
+{% endcomment %}
+
+{%- liquid
+  assign terms = search.terms | escape
+-%}
+
+<search-dialog
+  role="dialog"
+  aria-hidden="true"
+  class="absolute top-44 w-full max-h-[calc(100vh-6rem)] max-w-content p-24 rounded left-1/2 -translate-x-1/2 z-[5001] bg-{{ color_scheme }} hidden"
+>
+  <div class="flex items-center gap-8">
+    {% render 'search-form',
+      hx-indicator: '#search-dialog-results',
+      hx-target: '#search-dialog-results',
+      hx-select: '#search-dialog-results',
+      color_scheme: color_scheme
+    %}
+    <search-dialog-trigger
+      type="button"
+      class="size-24 flex items-center justify-center cursor-pointer text-{{ color_scheme }}"
+    >
+      {{ 'search-cross-icon.svg' | inline_asset_content }}
+    </search-dialog-trigger>
+  </div>
+  <div
+    id="search-dialog-results"
+    class="flex justify-center overflow-y-auto scrollbar-hidden max-h-[calc(100vh-16rem)]"
+  >
+    {%- if search.performed -%}
+      <div
+        id="search-dialog-performed-results"
+        class="w-full p-14"
+      >
+        {%- if search.results.size == 0 -%}
+          <div class="mt-8 text-body-medium">
+            {{ 'general.search.no_results' | t: terms: terms }}
+          </div>
+        {%- else -%}
+          <div class="grid justify-center grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-12">
+            {%- for item in search.results -%}
+              {%- case item.object_type -%}
+                {%- when 'product' -%}
+                  {% render 'product-card',
+                    product: item
+                  %}
+              {%- endcase -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- else -%}
+      {% render 'loader',
+        width: 20,
+        height: 20,
+        fill: 'text',
+        color_scheme: color_scheme
+      %}
+    {%- endif -%}
+  </div>
+</search-dialog>

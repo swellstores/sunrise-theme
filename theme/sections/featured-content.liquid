@@ -1,0 +1,656 @@
+{% comment %}
+  Renders a featured content section.
+
+  Usage:
+    {% sections 'featured-content' %}
+{% endcomment %}
+
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign columns = section.settings.columns
+  assign pre_heading = section.settings.pre_heading
+  assign heading = section.settings.heading
+-%}
+
+{%- liquid
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+-%}
+
+{% style %}
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
+    }
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+{% endstyle %}
+
+<div
+  class="pl-24 pr-24 lg:px-160 lg:py-96 bg-{{ color_scheme }} responsive-padding-{{ section.id }}"
+>
+  <div class="flex flex-col gap-48 max-w-container w-full mx-auto">
+    <div class="text-start flex flex-col gap-16 text-{{ color_scheme }}">
+      {%- if pre_heading != blank -%}
+        <p class="font-display font-pre-heading text-pre-heading text-{{ section.settings.header_alignment | default: 'left' }}">
+          {{ pre_heading }}
+        </p>
+      {%- endif -%}
+      {%- if heading != blank -%}
+        <h2 class="font-display font-heading text-heading-{{ section.settings.heading_size | default: 'small' }} text-{{ section.settings.header_alignment | default: 'left' }}">
+          {{ heading }}
+        </h2>
+      {%- endif -%}
+    </div>
+
+    <div
+      class="
+        grid gap-16
+        items-stretch
+        {% if section.settings.mobile_columns == '1 column' %} auto-rows-fr
+        {% else %} grid-cols-2
+        {% endif %} sm:grid-cols-{{ columns }}
+      "
+    >
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'image_picker' -%}
+            <div class="flex flex-col gap-8 w-full h-full relative col-span-{{ block.settings.col_span }}">
+              <div class="flex flex-col gap-16 w-full h-full justify-center">
+                <a href="{{ block.settings.link }}">
+                  {%- if block.settings.image != blank -%}
+                    <div class="aspect-square w-full">
+                      {% liquid 
+                        assign image_class = 'object-contain h-full'
+                        if block.settings.image_height == 'auto'
+                          assign image_class = 'object-contain h-fit'
+                        elsif block.settings.image_height == 'fixed_height'
+                          assign image_class = 'object-cover w-fit h-full'
+                        elsif block.settings.image_height == 'fill'
+                          assign image_class = 'object-fill h-full'
+                        endif
+                      %}
+                      {%
+                        render 'image',
+                        image: block.settings.image,
+                        picture_class: 'svg-placeholder object-fit object-center transition-transform duration-500 group-hover:scale-110',
+                        class: image_class,
+                        alt: block.settings.image.alt | default: "Featured content image {{ forloop.index }}"
+                      %}
+                    </div>
+                  {%- else -%}
+                    {% comment %} Image placeholder {% endcomment %}
+                    <div class="aspect-square w-full">
+                      {%
+                        render 'image',
+                        picture_class: 'svg-placeholder',
+                        placeholder: 'image' | placeholder_svg_tag: 'placeholder-svg'
+                      %}
+                    </div>
+                  {%- endif -%}
+                </a>
+              </div>
+            </div>
+          {%- when 'product' -%}
+            <div class="flex flex-col gap-8 w-full h-full col-span-{{ block.settings.col_span }}">
+              {%- if block.settings.product.url != blank -%}
+                <a
+                  href="{{ block.settings.product.url }}"
+                >
+                  <div class="aspect-square w-full">
+                    {%
+                      render 'image',
+                      image: block.settings.product.featured_image,
+                      alt: first_image_alt = first_image.alt | default: 'Featured content image {{ forloop.index }}',
+                      class: 'w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110'
+                    %}
+                  </div>
+                </a>
+
+                <a
+                  href="{{ block.settings.product.url }}"
+                >
+                  <div class="flex flex-col gap-2 items-start text-{{ color_scheme }}">
+                    <h3 class="font-display text-title-small font-semibold">
+                      {{ block.settings.product.title }}
+                    </h3>
+
+                    <p class="font-display text-body-medium text-center font-normal">
+                      {%- if block.settings.product.compare_at_price > block.settings.product.price -%}
+                        <div class="font-display flex gap-6 text-body-medium flex-wrap">
+                          <span class="">
+                            {{ block.settings.product.price | money_with_currency }}
+                          </span>
+                          <span class="line-through text-[#757575]">
+                            {{ block.settings.product.compare_at_price | money_with_currency }}
+                          </span>
+                        </div>
+                      {%- else -%}
+                        {{ block.settings.product.price | money_with_currency }}
+                      {%- endif -%}
+                    </p>
+                  </div>
+                </a>
+              {%- else -%}
+                {% comment %} Product placeholder {% endcomment %}
+                <div class="aspect-square w-full">
+                  <div
+                    class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                    style="--ratio: 1.0; --preview-ratio: 1.0;"
+                  >
+                    {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  </div>
+                </div>
+
+                <div class="flex flex-col gap-2 items-start text-{{ color_scheme }}">
+                  <h3 class="font-display text-title-small font-semibold">
+                    {{ 'onboarding.product_title' | t }}
+                  </h3>
+
+                  <p class="font-display text-body-medium text-center font-normal">
+                    {{ 99 | money_with_currency }}
+                  </p>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- when 'category' -%}
+            <div class="flex flex-col gap-8 w-full h-full col-span-{{ block.settings.col_span }}">
+              {%- if block.settings.category.url != blank -%}
+                <a
+                  href="{{ block.settings.category.url }}"
+                >
+                  <div class="aspect-square w-full">
+                    {%
+                      render 'image',
+                      image: block.settings.category.featured_image,
+                      alt: block.settings.category.featured_image.alt | default: "Featured content image {{ forloop.index }}",
+                      class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                    %}
+                  </div>
+                </a>
+                <a
+                  href="{{ block.settings.category.url }}"
+                >
+                  <div class="flex flex-col gap-2 items-start text-{{ color_scheme }}">
+                    <h3 class="font-display text-title-small font-semibold">
+                      {{ block.settings.category.title }}
+                    </h3>
+                    <p
+                      class="font-display text-body-medium font-normal line-clamp-2"
+                    >
+                      {{ block.settings.category.description | strip_html }}
+                    </p>
+                  </div>
+                </a>
+              {%- else -%}
+                {% comment %} Category placeholder {% endcomment %}
+                <div class="aspect-square w-full">
+                  <div
+                    class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                    style="--ratio: 1.0; --preview-ratio: 1.0;"
+                  >
+                    {{ 'collection-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  </div>
+                </div>
+                <div class="flex flex-col gap-2 items-start text-{{ color_scheme }}">
+                  <h3 class="font-display text-title-small font-semibold">
+                    {{ 'onboarding.collection_title' | t }}
+                  </h3>
+                  <p
+                    class="font-display text-body-medium"
+                  />
+                </div>
+              {%- endif -%}
+            </div>
+
+          {%- when 'article' -%}
+            <div class="flex flex-col gap-8 w-full h-full col-span-{{ block.settings.col_span }}">
+              {%- if block.settings.article.url -%}
+                <a
+                  href="{{ block.settings.article.url }}"
+                  class="flex justify-center"
+                >
+                  <div class="aspect-square w-full">
+                    {%
+                      render 'image',
+                      image: block.settings.article.image,
+                      alt: block.settings.article.image.alt | default: 'Featured content image {{ forloop.index }}',
+                      class: 'w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110'
+                    %}
+                  </div>
+                </a>
+
+                <div class="flex flex-col gap-2 items-start text-{{ color_scheme }}">
+                  <h3 class="font-display text-title-small font-semibold">
+                    {{ block.settings.article.title }}
+                  </h3>
+                  <p class="font-display text-body-medium font-normal line-clamp-2">
+                    {{ block.settings.article.content | strip_html }}
+                  </p>
+                </div>
+              {%- else -%}
+                {% comment %} Article placeholder {% endcomment %}
+                <div class="aspect-square w-full">
+                  <div
+                    class="'w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                    style="--ratio: 1.0; --preview-ratio: 1.0;"
+                  >
+                    {{ 'blog-apparel-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                  </div>
+                </div>
+
+                <div class="flex flex-col gap-2 items-start text-{{ color_scheme }}">
+                  <h3 class="font-display text-title-small font-semibold">
+                    {{ 'onboarding.blog_post_title' | t }}
+                  </h3>
+                  <p class="font-display text-body-medium font-normal">
+                    {{ 'onboarding.blog_post_description' | t }}
+                  </p>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- when 'text' -%}
+            <div class="
+                flex flex-col gap-8 w-full h-full col-span-{{ block.settings.col_span }} text-{{ block.settings.color_scheme }} bg-{{ block.settings.color_scheme }}
+                {% if block.settings.alignment == 'center' %}
+                  text-center
+                {% elsif block.settings.alignment == 'right' %}
+                  text-right
+                {% else %}
+                  text-left
+                {% endif %}
+              "
+              style="padding: 0.8rem;"
+            >
+              <div class="
+                flex flex-col gap-16 w-full h-full
+                {% if block.settings.content_position == 'items-start' %} justify-start
+                {% elsif block.settings.content_position == 'items-center' %} justify-center
+                {% elsif block.settings.content_position == 'items-end' %} justify-end
+                {% endif %}
+              " style="padding: {{ block.settings.section_padding | times: 0.1 | round: 1 }}rem;">
+              {%- if block.settings.heading != blank or block.settings.description != blank or block.settings.button_text != blank -%}
+                {%- if block.settings.heading != blank -%}
+                  <h2 class="overflow-hidden font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }}">
+                    {{ block.settings.heading | inline_editable: 'heading' }}
+                  </h2>
+                {%- endif -%}
+                {%- if block.settings.description != blank -%}
+                  <div class="overflow-hidden font-display formatted-text text-content">
+                    {{ block.settings.description | inline_editable: 'description' }}
+                  </div>
+                {%- endif -%}
+                {%- if block.settings.button_text != blank -%}
+                  <div class="flex flex-row overflow-hidden
+                    {% if block.settings.alignment == 'center' %}
+                      justify-center
+                    {% elsif block.settings.alignment == 'right' %}
+                      justify-end
+                    {% else %}
+                      justify-start
+                    {% endif %}
+                  ">
+                    {% render 'button',
+                      type: 'button',
+                      text: block.settings.button_text,
+                      href: block.settings.button_link,
+                      color_scheme: block.settings.color_scheme
+                    %}
+                  </div>
+                {%- endif -%}
+              {%- endif -%}
+              </div>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Featured content",
+  "max_blocks": 10,
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "pre_heading",
+      "label": "Pre-heading",
+      "default": "Top picks"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Featured just for you"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": "small",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "extra-large", "label": "Extra large" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header alignment",
+      "default": "left",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Number of columns",
+      "info": "Columns are used to organize content within a section.",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "Top padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "header",
+      "content": "Mobile layout"
+    },
+    {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "Number of columns (mobile)",
+      "default": "1 column",
+      "options": [
+        { "value": "1 column", "label": "1 column" },
+        { "value": "2 columns", "label": "2 columns" }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image_picker",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "select",
+          "id": "image_height",
+          "label": "Image height",
+          "default": "fixed_height",
+          "options": [
+            { "value": "auto", "label": "Auto" },
+            { "value": "fixed_height", "label": "Fixed height" },
+            { "value": "fill", "label": "Fill" },
+            { "value": "contain", "label": "Contain" }
+          ]
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Button link"
+        },
+        {
+          "type": "range",
+          "id": "col_span",
+          "label": "Column span",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 1
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "category",
+          "label": "Category"
+        },
+        {
+          "type": "range",
+          "id": "col_span",
+          "label": "Column span",
+          "info": "Make an element span `n` columns.",
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "default": 1
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "Heading"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "Heading size",
+          "default": "small",
+          "options": [
+            { "value": "small", "label": "Small" },
+            { "value": "medium", "label": "Medium" },
+            { "value": "large", "label": "Large" },
+            { "value": "extra-large", "label": "Extra large" }
+          ]
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Text"
+        },
+        {
+          "type": "select",
+          "id": "alignment",
+          "label": "Alignment",
+          "default": "left",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "content_position",
+          "label": "Content position",
+          "default": "items-start",
+          "options": [
+            {
+              "value": "items-start",
+              "label": "Top"
+            },
+            {
+              "value": "items-center",
+              "label": "Middle"
+            },
+            {
+              "value": "items-end",
+              "label": "Bottom"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button text"
+        },
+        {
+          "type": "text",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "Color scheme",
+          "default": "scheme-1"
+        },
+        {
+          "type": "range",
+          "id": "section_padding",
+          "label": "Section padding",
+          "info": "Applies padding to all sides.",
+          "min": 0,
+          "max": 96,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "col_span",
+          "label": "Column span",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 1
+        }
+      ]
+    },
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "range",
+          "id": "col_span",
+          "label": "Column span",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 1
+        }
+      ]
+    },
+    {
+      "type": "article",
+      "name": "Blog post",
+      "settings": [
+        {
+          "type": "article",
+          "id": "article",
+          "label": "Blog post"
+        },
+        {
+          "type": "range",
+          "id": "col_span",
+          "label": "Column span",
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "default": 1
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured content",
+      "settings": {
+        "pre_heading": "Top picks",
+        "heading": "Just for you"
+      },
+      "blocks": [
+        {
+          "type": "image_picker"
+        },
+        {
+          "type": "image_picker"
+        },
+        {
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

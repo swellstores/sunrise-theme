@@ -1,0 +1,70 @@
+{% liquid
+  assign value = option.values | first
+%}
+
+<product-option-toggle
+  id="product-option-{{ option.id }}"
+  class="flex"
+  data-option-id="{{ option.id }}"
+  hx-swap-oob="true"
+  {% unless value.available %}
+    title="{{ 'sections.product.option.out_of_stock' | t }}"
+  {% endunless %}
+>
+  <toggle-button
+    class="
+      flex
+      justify-between
+      w-full
+      p-10
+      rounded
+      hover:cursor-pointer
+      group
+      {% if value.selected %}
+        btn-primary-{{ variants_color_scheme }}
+      {% else %}
+        btn-secondary-{{ variants_color_scheme }}
+      {% endif %}
+    "
+    value="{{ value.name }}"
+    data-value-id="{{ value.id }}"
+    {% if value.selected %}
+      aria-checked="true"
+    {% else %}
+      aria-checked="false"
+    {% endif %}
+    {% unless value.available %}
+      disabled
+    {% endunless %}
+  >
+    <div class="flex gap-8">
+      <toggle-button-checkbox
+        class="
+          flex
+          items-center
+          justify-center
+          mt-3
+          min-w-14
+          size-14
+          rounded-4
+          pointer-events-none
+        "
+        data-checked-class="btn-primary-{{ variants_color_scheme }}"
+        data-unchecked-class="btn-secondary-{{ variants_color_scheme }}"
+      >
+        <div class="hidden items-center justify-center size-10 group-aria-checked:flex">
+          {{- 'icon-checkmark.svg' | inline_asset_content -}}
+        </div>
+      </toggle-button-checkbox>
+      <div class="flex flex-col">
+        <span class="text-title-small text-{{ variants_color_scheme }}">{{ option.name }}</span>
+        {% if option.description %}
+          <span class="text-body-small text-secondary-{{ variants_color_scheme }}">{{ option.description }}</span>
+        {% endif %}
+      </div>
+    </div>
+    {% if value.price %}
+      <span class="text-title-small whitespace-nowrap text-{{ variants_color_scheme }}">{{ value.price | money }}</span>
+    {% endif %}
+  </toggle-button>
+</product-option-toggle>

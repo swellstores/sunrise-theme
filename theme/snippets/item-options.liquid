@@ -1,0 +1,51 @@
+{%- liquid
+  assign font_class = font_class | default: 'text-body-medium'
+  assign options = item.options
+
+  if item.options_with_values.size > 0
+    assign options = item.options_with_values
+  endif
+-%}
+
+{% if options.size > 0 %}
+  {% if item.gift_card %}
+    {%- liquid
+      assign variant_option = item.options | find: 'variant', true
+      assign send_email_option = item.options | find: 'id', 'send_email'
+      assign send_note_option = item.options | find: 'id', 'send_note'
+      assign variant_price_money = variant_option.price | money
+    -%}
+
+    <div class="flex flex-col {{ font_class }} text-secondary-{{ color_scheme }}">
+      {% if variant_price_money != variant_option.value %}
+        <div class="flex gap-4">
+          {{ variant_option.value }}
+          {% if send_email_option %}
+            / {{ 'sections.product.gift_card.send_gift' | t }}
+          {% endif %}
+        </div>
+      {% elsif send_email_option %}
+        {{ 'sections.product.gift_card.send_gift' | t }}
+      {% endif %}
+      {% if send_email_option %}
+        <span class="font-semibold">
+          {{ send_email_option.value }}
+        </span>
+      {% endif %}
+      {% if send_note_option %}
+        {{ send_note_option.value }}
+      {% endif %}
+    </div>
+  {% else %}
+    <span class="{{ font_class }} text-secondary-{{ color_scheme }}">
+      {%- for option in options -%}
+        {% if option.value %}
+          {%- if forloop.first != true -%}
+            /&nbsp;
+          {%- endif -%}
+          {{ option.value }}
+        {% endif %}
+      {%- endfor -%}
+    </span>
+  {% endif %}
+{% endif %}

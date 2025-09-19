@@ -1,0 +1,97 @@
+{%- liquid
+  assign input_label_class = 'text-body-medium text-secondary-' | append: color_scheme
+  assign input_class = 'px-12 py-10 text-title-medium outline-none border border-color-' | append: color_scheme | append: ' bg-' | append: color_scheme
+  assign input_style = '--shadow-color: var(--color-' | append: color_scheme | append: '-borders-and-inputs)'
+-%}
+
+<account-details id="details" class="account-tab w-full pt-24 pb-32 px-20 md:p-64">
+  {%- form 'account_update'
+    , hx-post: routes.account_update_url
+    , hx-swap: 'outerHTML'
+    , hx-target: "#details"
+    , hx-select: "#details"
+    , hx-indicator: "#details"
+  -%}
+    <div class="flex flex-col gap-20 md:gap-24">
+      <div class="flex items-center justify-between w-full pb-24 border-b border-color-{{ color_scheme }}">
+        <span class="text-headline-extra-small">
+          {{ 'customer.details.title' | t }}
+        </span>
+        <button
+          type="submit"
+          class="p-12 rounded text-label-small btn-primary-{{ color_scheme }}"
+          disabled
+        >
+          {{ 'customer.details.submit' | t }}
+        </button>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+        <div class="flex flex-col gap-6">
+          <span class="{{ input_label_class }}">
+            {{ 'customer.details.first_name' | t }}
+          </span>
+          <input
+            id="customer[first_name]"
+            name="customer[first_name]"
+            style="{{ input_style }}"
+            class="{{ input_class }}"
+            value="{{ customer.first_name }}"
+            placeholder="{{ 'customer.details.first_name' | t }}"
+            required
+          ></input>
+        </div>
+        <div class="flex flex-col gap-6">
+          <span class="{{ input_label_class }}">
+            {{ 'customer.details.last_name' | t }}
+          </span>
+          <input
+            id="customer[last_name]"
+            name="customer[last_name]"
+            style="{{ input_style }}"
+            class="{{ input_class }}"
+            value="{{ customer.last_name }}"
+            placeholder="{{ 'customer.details.last_name' | t }}"
+            required
+          ></input>
+        </div>
+        <div class="flex flex-col gap-6">
+          {% assign email_error = form.errors | find: 'field_name', 'customer[email]' %}
+
+          <span class="{{ input_label_class }}">
+            {{ 'customer.details.email' | t }}
+          </span>
+          <input
+            id="customer[email]"
+            type="email"
+            name="customer[email]"
+            style="{{ input_style }}"
+            class="{{ input_class }}"
+            value="{{ customer.email }}"
+            placeholder="{{ 'customer.details.email' | t }}"
+            required
+          ></input>
+
+          {% if email_error %}
+            <span class="text-body-medium text-red-600">
+              {{ email_error.message }}
+            </span>
+          {% endif %}
+        </div>
+        <div class="flex flex-col gap-6">
+          <span class="{{ input_label_class }}">
+            {{ 'customer.details.phone' | t }}
+          </span>
+          <input
+            id="customer[phone]"
+            type="tel"
+            name="customer[phone]"
+            style="{{ input_style }}"
+            class="{{ input_class }}"
+            value="{{ customer.phone }}"
+            placeholder="{{ 'customer.details.phone' | t }}"
+          ></input>
+        </div>
+      </div>
+    </div>
+  {%- endform -%}
+</account-details>

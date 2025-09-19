@@ -1,0 +1,21 @@
+<div class="max-w-500 max-h-766 mx-auto">
+  <div class="grid grid-cols-2 gap-16 overflow-y-auto w-full max-h-full scrollbar-hidden">
+    {% for url in media_urls %}
+      <div
+        class="
+          aspect-square
+          w-full
+          {% if forloop.first %}
+            col-span-2
+          {% endif %}
+        "
+      >
+        <img
+          src="{{ url }}"
+          alt="{{ media_alts[forloop.index0] }}"
+          class="w-full h-full object-cover rounded"
+        >
+      </div>
+    {% endfor %}
+  </div>
+</div>

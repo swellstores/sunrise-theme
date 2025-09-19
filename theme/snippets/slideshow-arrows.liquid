@@ -1,0 +1,26 @@
+{% comment %}
+  Renders navigation buttons for a slideshow.
+
+  Accepts:
+    - color_scheme: {string} The color scheme ID for styling the buttons (required)
+
+  Usage:
+   {% render 'slideshow-arrows', color_scheme: color_scheme, border_radius: settings.border_radius %}
+{% endcomment %}
+
+<slideshow-button-prev
+  role="button"
+  aria-label="{{ 'sections.slideshow.previous' | t }}"
+  type="button"
+  class="text-accent-{{ color_scheme }} absolute left-40 top-1/2 flex size-44 -translate-y-1/2 items-center justify-center z-10 rounded-full bg-[#f1f1f1cc]"
+>
+  {{- 'arrow-left-tailed-icon.svg' | inline_asset_content -}}
+</slideshow-button-prev>
+<slideshow-button-next
+  role="button"
+  aria-label="{{ 'sections.slideshow.next' | t }}"
+  type="button"
+  class="text-accent-{{ color_scheme }} absolute right-40 top-1/2 flex size-44 -translate-y-1/2 items-center justify-center z-10 rounded-full bg-[#f1f1f1cc]"
+>
+  {{- 'arrow-right-tailed-icon.svg' | inline_asset_content -}}
+</slideshow-button-next>

@@ -1,0 +1,51 @@
+{% liquid
+  assign value = value | default: 0
+  assign min = min | default: 0
+  assign max = max | default: 999
+  assign step = step | default: 1
+%}
+
+<quantity-selector
+  class="
+    flex
+    items-center
+    w-fit
+    rounded
+    border
+    border-color-{{ color_scheme }}
+    {% if size == 'small' %}
+      px-6
+      py-8
+    {% else %}
+      px-12
+      py-10
+      gap-4
+    {% endif %}
+  "
+>
+  <quantity-selector-decrement
+    role="button"
+    aria-label="{{ decrement_aria_label }}"
+    class="flex"
+  >
+    <ion-icon name="remove-outline" class="w-20 h-20"></ion-icon>
+  </quantity-selector-decrement>
+
+  <input
+    class="number-input text-body-large font-semibold outline-none"
+    type="number"
+    value="{{ value }}"
+    min="{{ min }}"
+    max="{{ max }}"
+    step="{{ step }}"
+    aria-label="{{ input_aria_label }}"
+  ></input>
+
+  <quantity-selector-increment
+    role="button"
+    aria-label="{{ increment_aria_label }}"
+    class="flex"
+  >
+    <ion-icon name="add-outline" class="w-20 h-20"></ion-icon>
+  </quantity-selector-increment>
+</quantity-selector>

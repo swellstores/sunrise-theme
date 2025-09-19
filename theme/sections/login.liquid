@@ -1,0 +1,175 @@
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+
+  assign div_class = 'pl-24 pr-24 form-container flex flex-col gap-32 items-start w-full sm:w-auto'
+  assign input_class = 'input-field px-12 py-10 text-title-medium outline-none border border-color-' | append: color_scheme | append: ' bg-' | append: color_scheme
+  assign input_style = '--shadow-color: var(--color-' | append: color_scheme | append: '-borders-and-inputs)'
+  assign input_label_class = 'text-body-medium text-secondary-' | append: color_scheme
+  assign link_class = 'font-display text-body-medium font-medium hover:underline underline-offset-2'
+-%}
+
+{% style %}
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
+    }
+  }
+
+  .input-field::placeholder {
+    color: var(--color-{{ color_scheme }}-text-secondary);
+    font-size: calc(1.6rem * var(--font-scale));
+    line-height: calc(2.4rem * var(--font-scale));
+    font-weight: 400;
+  }
+
+  .section-account-login-width {
+    @media (min-width: 40rem) {
+      width: 42rem;
+    }
+  }
+{% endstyle %}
+
+<div
+  class="bg-{{ color_scheme }} text-{{ color_scheme }} responsive-padding-{{ section.id }} flex flex-col items-center justify-start"
+>
+  <div id="recover" class="{{ div_class }}">
+    {% render 'recover-password' %}
+  </div>
+  <account-login id="login" class="{{ div_class }} account-form-section">
+    <h1 class="font-display text-title-large">{{ 'sections.login.title' | t }}</h1>
+
+    {% form 'customer_login'
+      , class: 'w-full'
+    %}
+      <div id="login-form" class="account-form flex section-account-login-width max-w-full flex-col gap-16">
+        <div id="login-form-fields" class="flex max-w-full flex-col gap-16">
+          {%- if form.errors -%}
+            <div class="w-full flex flex-row mb-16 py-10 px-12 gap-8 rounded-md border border-color-{{ color_scheme }}">
+              <div class="mt-2">
+                {{- 'alert-circle.svg' | inline_asset_content -}}
+              </div>
+              <div class="font-display text-content">
+                {{ form.errors | default_errors }}
+              </div>
+            </div>
+          {%- endif -%}
+
+          <div class="relative flex flex-col gap-6">
+            <span class="{{ input_label_class }}">
+              {{ 'sections.login.email' | t }}
+            </span>
+            <input
+              class="{{ input_class }}"
+              style="{{ input_style }}"
+              placeholder="{{ 'sections.login.email_placeholder' | t }}"
+              type="email"
+              name="customer[email]"
+              id="customer[email]"
+              autocomplete="email"
+              required
+            />
+          </div>
+          <div class="relative flex flex-col gap-6">
+            <span class="{{ input_label_class }}">
+              {{ 'sections.login.password' | t }}
+            </span>
+            <input
+              class="{{ input_class }}"
+              style="{{ input_style }}"
+              placeholder="{{ 'sections.login.password_placeholder' | t }}"
+              type="password"
+              name="customer[password]"
+              id="customer[password]"
+              autocomplete="current-password"
+              required
+            />
+          </div>
+          <a
+            href="#recover"
+            class="{{ link_class }}"
+          >
+            {{ 'sections.login.forgot_password' | t }}
+          </a>
+        </div>
+      </div>
+      <div class="flex gap-7 items-center justify-center mt-32 flex-col">
+        <div class="w-full">
+          {% assign login_button_text = 'sections.login.title' | t %}
+          {% render 'button',
+            name: 'submit',
+            id: 'submit-login',
+            type: 'submit',
+            text: login_button_text,
+            class: 'w-full px-24 py-12 text-body-medium',
+            color_scheme: color_scheme,
+            variant: section.settings.button_variant,
+            disabled: true
+          %}
+        </div>
+        <div class="flex items-center justify-center">
+          <a
+            href="{{ routes.account_register_url }}"
+            class="{{ link_class }}"
+          >
+            {{ 'sections.login.create_account' | t }}
+          </a>
+        </div>
+      </div>
+    {% endform %}
+  </account-login>
+</div>
+
+{% schema %}
+{
+  "name": "Login",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "button_variant",
+      "label": "Button style",
+      "options": [
+        { "value": "solid", "label": "Primary" },
+        { "value": "outline", "label": "Secondary" }
+      ],
+      "default": "solid"
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "Top padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,52 @@
+{% comment %}
+  Renders nav items for account pages
+
+  Usage:
+    {% render 'account-nav',
+      color_scheme: color_scheme
+    %}
+{% endcomment %}
+
+<account-nav class="flex items-center justify-center py-12 md:pt-24 md:pb-32 border-b border-color-{{ color_scheme }}">
+  <!-- desktop -->
+  <div class="account-nav-desktop hidden md:flex gap-24 text-title-small text-secondary-{{ color_scheme }}">
+    {% render 'account-nav-items',
+      color_scheme: color_scheme
+    %}
+  </div>
+
+  <!-- mobile -->
+  <div class="account-nav-mobile flex md:hidden text-title-small">
+    <account-nav-trigger class="flex gap-4 cursor-pointer">
+      <account-nav-trigger-text class="pb-4 border-b border-color-{{ color_scheme }}">
+      </account-nav-trigger-text>
+      <ion-icon name="chevron-down-outline" class="relative size-14 top-4"></ion-icon>
+    </account-nav-trigger>
+    <account-nav-drawer
+      data-side="bottom"
+      class="
+        flex
+        flex-col
+        fixed
+        bottom-0
+        left-0
+        w-full
+        translate-y-full
+        text-secondary-{{ color_scheme }}
+        bg-{{ color_scheme }}
+      "
+    >
+      <div class="flex items-center justify-between px-20 py-16 text-title-medium text-{{ color_scheme }} border-b border-color-{{ color_scheme }}">
+        {{ 'customer.account.title' | t }}
+        <account-nav-trigger class="flex items-center size-12 cursor-pointer">
+          {{- 'cross-icon.svg' | inline_asset_content -}}
+        </account-nav-trigger>
+      </div>
+      <div class="flex flex-col gap-18 py-14 px-20 text-title-small">
+        {% render 'account-nav-items',
+          color_scheme: color_scheme
+        %}
+      </div>
+    </account-nav-drawer>
+  </div>
+</account-nav>

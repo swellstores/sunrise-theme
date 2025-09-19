@@ -1,0 +1,89 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "disabled": false,
+      "custom_css": "",
+      "settings": {
+        "image": "",
+        "overlay_color": "#404040",
+        "overlay_opacity": 0,
+        "banner_height": "large",
+        "image_height": "fill",
+        "heading_size": "medium",
+        "text_alignment": "left",
+        "color_scheme": "scheme-1",
+        "content_color_scheme": "scheme-1",
+        "content_alignment": "items-center justify-start",
+        "vertical_padding": 16,
+        "transparent": true,
+        "$locale": null
+      },
+      "blocks": {
+        "block-1": {
+          "type": "pre_heading",
+          "disabled": false,
+          "settings": {
+            "$locale": null,
+            "pre_heading": "Introduction"
+          }
+        },
+        "block-2": {
+          "type": "heading",
+          "disabled": false,
+          "settings": {
+            "$locale": null,
+            "heading": "Tell your story"
+          }
+        },
+        "block-3": {
+          "type": "text",
+          "disabled": false,
+          "settings": {
+            "$locale": null,
+            "text": "Let your customers know who you are."
+          }
+        },
+        "block-4": {
+          "type": "button",
+          "disabled": false,
+          "settings": {
+            "$locale": null,
+            "button_label": "Learn More",
+            "button_link": "/collections/all",
+            "button_variant": "solid"
+          }
+        }
+      },
+      "block_order": [
+        "block-1",
+        "block-2",
+        "block-3",
+        "block-4"
+      ]
+    },
+    "featured_category": {
+      "type": "featured-collection",
+      "disabled": false,
+      "custom_css": "",
+      "settings": {
+        "pre_heading": "Shop",
+        "heading": "Featured collection",
+        "heading_size": "small",
+        "header_alignment": "left",
+        "category": "",
+        "max_products": 4,
+        "color_scheme": "scheme-1",
+        "columns": 4,
+        "top_padding": 96,
+        "bottom_padding": 48,
+        "mobile_columns": "1 column",
+        "$locale": null
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "featured_category"
+  ]
+}

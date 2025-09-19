@@ -1,0 +1,161 @@
+{% comment %}
+  Renders a single subscription card content
+
+  Accepts:
+  - subscription: {Object} subscription to be rendered
+  - color-scheme: {Object} color scheme to be used
+  - show_view_subscription: {boolean} show or not View details button
+
+  Usage:
+    {%- render 'account-subscription-card-content', subscription: subscription, color_scheme: color_scheme -%}
+{% endcomment %}
+
+{% liquid
+  assign product = subscription.product
+  assign variant = subscription.variant
+
+  assign image = product.images[0]
+  if variant.images[0]
+     assign image = variant.images[0]
+  endif
+
+  assign next_billing_date = subscription.date_period_end | time_tag: format: 'date'
+  assign next_billing = 'customer.subscription.next_billing' | t | append: ': ' | append: next_billing_date
+  if subscription.order_schedule
+    assign next_shipping_date = subscription.date_order_period_end | time_tag: format: 'date'
+    assign next_shipping = 'customer.subscription.next_shipping' | t | append: ': ' | append: next_shipping_date
+  else
+    assign shipment_delivery = false
+    if subscription.product.delivery == 'shipment'
+      assign shipment_delivery = true
+    else
+      for line_item in subscription.items
+        if line_item.product.delivery == 'shipment'
+          assign shipment_delivery = true
+        endif
+      endfor
+    endif
+    if shipment_delivery
+      assign next_shipping = 'customer.subscription.next_shipping' | t | append: ': ' | append: next_billing_date
+    endif
+  endif
+
+  if subscription.status == 'complete' or subscription.status == 'canceled' or subscription.status == 'unpaid'
+    assign next_billing = 'customer.subscription.next_billing_' | append: subscription.status | t
+    assign next_shipping = false
+  endif
+  if subscription.status == 'paused'
+    if subscription.date_pause_end
+      assign paused_until_date = subscription.date_pause_end | time_tag: format: 'date'
+      assign next_billing = 'customer.subscription.next_billing_paused_until' | t | append: ' ' | append: paused_until_date
+    else
+      assign next_billing = 'customer.subscription.next_billing_' | append: subscription.status | t
+    endif
+    assign next_shipping = false
+  endif
+  if subscription.status == 'pastdue'
+    assign period_start_date = subscription.date_period_start | time_tag: format: 'date'
+    assign next_billing = 'customer.subscription.next_billing_pastdue' | t | append: ' ' | append: period_start_date
+    assign next_shipping = false
+  endif
+%}
+
+<div class="flex flex-col gap-16 px-20">
+  <div class="flex flex-row gap-8">
+    <div class="relative w-70 h-70 aspect-square rounded">
+      {% if image %}
+        {% render 'image',
+          image: image,
+          alt: image.alt,
+          picture_class: 'flex justify-center w-full h-full',
+          class: 'h-full w-auto object-cover object-center rounded-4'
+        %}
+      {% else %}
+        {% render 'image',
+          picture_class: 'svg-placeholder',
+          placeholder: 'product-apparel-1'
+        %}
+      {% endif %}
+    </div>
+
+    <div class="flex flex-col gap-8">
+      <div class="text-body-large">
+        {{ subscription.product.name  }}
+      </div>
+
+      <div class="flex flex-row flex-wrap gap-4 text-body-small font-medium text-secondary-{{ color_scheme }}">
+        {% if subscription.status == 'trial' %}
+          <span class="text-{{ color_scheme }}">
+            {{ subscription.billing_schedule.trial_days }} {{ 'customer.subscription.day_trial' | t }} 
+          </span>
+          <div class="line-through">
+        {% endif %}
+        {% assign prefix = subscription.grand_total | money | append: "/" %}
+        {%- render 'subscription-plan-schedule',
+          schedule: subscription.billing_schedule,
+          prefix: prefix
+        -%}
+        {%- if subscription.order_schedule -%}
+          ,&nbsp;
+          {% assign delivered = 'sections.product.purchase.subscription_delivered' | t %}
+          {% assign prefix = "" | append: delivered | append: " " %}
+          <span>
+            {%- render 'subscription-plan-schedule',
+              schedule: subscription.order_schedule,
+              prefix: prefix
+            -%}
+          </span>
+        {%- endif -%}
+        {% if subscription.status == 'trial' %}
+          </div>
+        {% endif %}
+
+        {% if subscription.options.size > 0 %}
+          <span>•</span>
+          <span class="text-secondary-{{ color_scheme }}">
+            {%- for option in subscription.options -%}
+              {% if option.value %}
+                {%- if forloop.first != true -%}
+                  /&nbsp;
+                {%- endif -%}
+                {{ option.value }}
+              {% endif %}
+            {%- endfor -%}
+          </span>
+        {% endif %}
+
+        {% if subscription.quantity > 1 %}
+          <div>•</div>
+          <div class="class="text-secondary-{{ color_scheme }}">
+            {{ 'sections.cart.item.quantity' | t }}: {{ subscription.quantity }}
+          </div>
+        {% endif %}
+      </div>
+
+      {% if subscription.status == 'pastdue' %}
+        <div class="flex flex-row flex-wrap gap-4 text-body-small font-semibold">
+          <span>{{ 'customer.subscription.payment_failed' | t }}</span>
+          <span>•</span>
+          <span>{{ next_billing }}</span>
+        </div>
+      {% else %}
+        <div class="flex flex-row flex-wrap gap-4 text-body-small text-secondary-{{ color_scheme }}">
+          <span>{{ next_billing }}</span>
+          {% if next_shipping %}
+            <span>•</span>
+            <span>{{ next_shipping }}</span>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if show_view_subscription %}
+    <a
+      href="/account/subscriptions/{{ subscription.id }}"
+      class="p-12 rounded text-label-small text-center btn-secondary-{{ color_scheme }} md:hidden"
+    >
+      {{ 'customer.subscription.manage_subscription' | t }}
+    </a>
+  {% endif %}
+</div>

@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-order",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "top_padding": 40,
+        "bottom_padding": 40
+      }
+    }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,21 @@
+{% comment %}
+  Renders breadcrumb navigation for a nested collection.
+
+  Accepts:
+  - url: {String} The current page URL, used to build the breadcrumb path.
+  - collection: {Object} The current collection object. Breadcrumb will render only if `collection.parent` exists.
+  - color_scheme: {String} Optional. The color scheme applied to the breadcrumb.
+
+  Usage:
+  {% render 'breadcrumbs', url: request.path, collection: collection, color_scheme: section.settings.color_scheme %}
+{% endcomment %}
+
+{% if collection.parent %}
+  <div class="flex flex-row-reverse justify-end gap-4 text-body-small font-semibold">
+    {% render 'breadcrumb',
+      url: url,
+      collection: collection,
+      color_scheme: color_scheme
+    %}
+  </div>
+{% endif %}

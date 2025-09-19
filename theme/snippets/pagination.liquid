@@ -1,0 +1,51 @@
+{% comment %}
+  Renders pagination controls using Web Components.
+
+  Accepts:
+  - paginate: {Object} Pagination object, contains .parts, .current_page, etc.
+  - color_scheme: {String} Optional. A color scheme identifier used for styling (e.g., "light", "dark").
+  - view: {String} Optional. If set to 'blog-comments', appends "#comments" anchor to pagination links.
+
+  Usage:
+    {% render 'pagination',
+       paginate: paginate,
+       color_scheme: color_scheme,
+       view: view
+    %}
+{% endcomment %}
+
+{%- liquid
+  assign parts = paginate.parts
+  assign parts_count = parts | size
+  assign has_parts = parts_count > 0
+-%}
+
+{% if view == 'blog-comments' %}
+  {% assign hash = '#comments' %}
+{% else %}
+  {% assign hash = '' %}
+{% endif %}
+
+{% if has_parts %}
+  <pagination-nav
+    class="flex items-center justify-center gap-8 mt-32 text-title-medium text-{{ color_scheme }}"
+    data-current-page="{{ paginate.current_page }}"
+  >
+    {% for part in paginate.parts %}
+      {% if part.is_link %}
+        <pagination-link
+          class="inline-flex items-center justify-center cursor-pointer size-44"
+          href="{{ part.url }}{{ hash }}"
+        >
+          {{ part.title }}
+        </pagination-link>
+      {% elsif part.title == '&hellip;' %}
+        &hellip;
+      {% else %}
+        <div class="flex items-center justify-center size-44 rounded-full btn-primary-{{ color_scheme }}">
+          {{ part.title }}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </pagination-nav>
+{% endif %}

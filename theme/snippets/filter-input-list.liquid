@@ -1,0 +1,52 @@
+{% comment %}
+  Renders a list of toggle buttons for a list-type filter.
+
+  Accepts:
+  - filter: {Object} Filter object with `param_name` and `values` array.
+    Each value should have `value`, `label`, and `active` boolean.
+  - color_scheme: {String} Controls toggle button styles.
+
+  Behavior:
+  - Iterates over filter values and renders a toggle button for each.
+  - Sets ARIA attribute `aria-checked` based on whether the option is active.
+  - Uses dynamic classes for checked/unchecked styles based on color scheme.
+
+  Usage:
+  {% render 'filter-input-list', filter: filter, color_scheme: section.settings.color_scheme %}
+{% endcomment %}
+
+<filter-input-list
+  data-name="{{ filter.param_name }}"
+  class="flex flex-col gap-8"
+>
+  {% for option in filter.values %}
+    {%- assign selected = option.active -%}
+
+    <toggle-button
+      class="flex items-center gap-4 hover:cursor-pointer group"
+      value="{{ option.value }}"
+      {% if selected %}
+        aria-checked="true"
+      {% else %}
+        aria-checked="false"
+      {% endif %}
+    >
+      <toggle-button-checkbox
+        class="
+          flex
+          items-center
+          justify-center
+          size-16
+          rounded-4
+        "
+        data-checked-class="btn-primary-{{ color_scheme }}"
+        data-unchecked-class="btn-secondary-{{ color_scheme }}"
+      >
+        <div class="hidden items-center justify-center size-10 group-aria-checked:flex">
+          {{- 'icon-checkmark.svg' | inline_asset_content -}}
+        </div>
+      </toggle-button-checkbox>
+      {{ option.label }}
+    </toggle-button>
+  {% endfor %}
+</filter-input-list>

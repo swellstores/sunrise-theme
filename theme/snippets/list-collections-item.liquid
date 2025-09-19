@@ -1,0 +1,50 @@
+{% comment %}
+  Renders a generic input field with customizable attributes.
+
+  Accepts:
+    - category: {Object}
+    - color_scheme: {String}
+    - placeholder: {String}
+
+  Usage:
+    {% render 'list-collections-item', category: category, placeholder: 'collection-1' %}
+{% endcomment %}
+{% liquid
+  assign ratio_class = 'aspect-square'
+
+  if image_ratio == 'portrait'
+    assign ratio_class = 'aspect-w-3 aspect-h-4'
+  elsif image_ratio == 'landscape'
+    assign ratio_class = 'aspect-w-4 aspect-h-3'
+  endif
+-%}
+
+<a class="
+  flex flex-col group"
+  {% if category.url %}
+    href="{{ category.url }}"
+  {% endif %}
+>
+  <div class="{{ ratio_class }} mb-12 overflow-hidden group">
+    {% if category.featured_image != blank %}
+      {% render 'image',
+        image: category.featured_image,
+        alt: category.featured_image.alt,
+        class: 'w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110'
+      %}
+    {% else placeholder %}
+      <div
+        class="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+      >
+        {{ placeholder | placeholder_svg_tag }}
+      </div>
+    {% else %}
+      <div class="w-full h-full bg-[#F5F5F5] border border-color-{{ color_scheme }}"></div>
+    {% endif %}
+  </div>
+  {% if category.title %}
+    <h3 class="font-display text-body-large inline-flex items-center gap-12 justify-{{ justify_text }}">
+      {{ category.title | escape }}
+    </h3>
+  {% endif %}
+</a>

@@ -1,0 +1,76 @@
+.noUi-base {
+  display: flex;
+  align-items: center;
+}
+
+.noUi-base,
+.noUi-target {
+  height: 1.4rem;
+}
+
+/* Remove default noUiSlider box, border, and shadow */
+.noUi-target {
+  background: none;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+}
+
+.noUi-connects {
+  height: 0.2rem;
+  background: lightgray;
+}
+
+.noUi-connect {
+  height: 0.2rem;
+  background: black;
+}
+
+.noUi-horizontal .noUi-handle {
+  width: 1.4rem;
+  height: 1.4rem;
+  border: none;
+  border-radius: 50%;
+  box-shadow: none;
+  cursor: pointer;
+  top: 0;
+  background: black;
+}
+
+.noUi-horizontal .noUi-handle .noUi-tooltip {
+  border: none;
+  transform: none;
+  background: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+.noUi-horizontal .noUi-handle-lower {
+  right: -1.4rem;
+}
+
+.noUi-horizontal .noUi-handle-upper {
+  right: 0;
+}
+
+.noUi-horizontal .noUi-handle-lower .noUi-tooltip {
+  left: 0;
+}
+
+.noUi-horizontal .noUi-handle-upper .noUi-tooltip {
+  right: 0;
+  left: unset;
+}
+
+.noUi-horizontal .noUi-handle::before {
+  display: none;
+}
+
+.noUi-horizontal .noUi-handle::after {
+  width: 6px;
+  height: 6px;
+  left: 4px;
+  top: 4px;
+  border-radius: 50%;
+  background-color: white;
+}

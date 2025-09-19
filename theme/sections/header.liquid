@@ -1,0 +1,539 @@
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+
+  if section.settings.border_b == true
+    assign border_b = 'border-b border-color-' | append: color_scheme
+  else
+    assign border_b = 'border-none'
+  endif
+
+  if section.settings.text_uppercase == true
+    assign text_uppercase = 'uppercase'
+  else
+    assign text_uppercase = 'normal-case'
+  endif
+
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+-%}
+
+{% style %}
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
+    }
+  }
+
+  {%- if section.settings.sticky -%}
+    [id*="{{ section.id }}"] {
+      position: sticky !important;
+      top: 0;
+      z-index: 4999;
+    }
+  {%- endif -%}
+
+  .header-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 8.1rem;
+  }
+
+  @media (min-width: 960px) {
+    .header-container {
+      height: auto;
+    }
+  }
+
+  /* Mobile and Tablet layout */
+  @media (max-width: 959px) {
+    .header-container {
+      display: flex;
+      flex-direction: row;
+      height: 8.1rem;
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      position: relative;
+      height: 100%;
+    }
+    .header-item--menu-trigger {
+      flex: 0 0 auto;
+      order: 0;
+      justify-content: flex-start;
+      display: flex;
+      align-items: center;
+      height: 100%;
+    }
+    .header-item--logo {
+      flex: 1 1 auto;
+      order: 1;
+      display: flex;
+      justify-content: center;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: auto;
+      padding-bottom: 0;
+      text-align: center;
+    }
+    .header-item--icon-list {
+      flex: 0 0 auto;
+      order: 3;
+      display: flex;
+      justify-content: flex-end;
+      gap: 1.6rem;
+    }
+    /* Override any desktop positioning */
+    .header-item--desktop-nav {
+      display: none;
+    }
+    /* Handle top left/center specific structure */
+    .header-item--logo-nav {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
+    .header-item--logo-nav .header-item--logo {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: auto;
+      text-align: center;
+    }
+  }
+
+  /* Desktop layout for top left and top center */
+  {% if section.settings.logo_position == 'top left' or section.settings.logo_position == 'top center' %}
+    .header-container {
+      display: flex;
+      flex-direction: column;
+    }
+    @media (min-width: 960px) {
+      .header-inner {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        width: 100%;
+        padding-bottom: 2rem;
+      }
+      {% if section.settings.logo_position == 'top center' %}
+        .header-inner {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          position: relative;
+        }
+        .header-item--logo-nav {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .header-item--logo {
+          display: flex;
+          justify-content: center;
+          padding-bottom: 2rem;
+          width: 100%;
+        }
+        .header-item--desktop-nav {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+        }
+        .header-item--icon-list {
+          position: absolute;
+          right: 0;
+          top: 0;
+          height: 100%;
+          display: flex;
+          align-items: center;
+        }
+        {% if section.settings.desktop_menu_type == 'drawer' %}
+          .header-item--menu-trigger {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+          }
+        {% endif %}
+      {% else %}
+        .header-item--logo-nav {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .header-item--logo {
+          display: flex;
+          justify-content: flex-start;
+          padding-bottom: 2rem;
+        }
+        .header-item--desktop-nav {
+          display: flex;
+          justify-content: flex-start;
+        }
+        {% if section.settings.desktop_menu_type == 'drawer' %}
+          .header-inner {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            padding-bottom: 0;
+            height: 9.7rem;
+          }
+          .header-item--menu-trigger {
+            order: 0;
+            margin-right: 3.2rem;
+            display: flex;
+            align-items: center;
+            height: 100%;
+          }
+          .header-item--logo-nav {
+            order: 1;
+            display: flex;
+            align-items: center;
+            height: 100%;
+          }
+          .header-item--logo {
+            padding-bottom: 0;
+            height: 100%;
+          }
+          {% if section.settings.menu != blank and linklists[section.settings.menu].links.size > 0 %}
+            .header-item--logo {
+              margin-left: 3.2rem;
+            }
+          {% endif %}
+          .header-item--icon-list {
+            order: 2;
+            margin-left: auto;
+            height: 100%;
+          }
+        {% endif %}
+      {% endif %}
+    }
+  {% endif %}
+
+  /* Desktop layout for left and center */
+  {% if section.settings.logo_position == 'left' or section.settings.logo_position == 'center' or section.settings.logo_position == 'center left' %}
+    @media (min-width: 960px) {
+      .header-inner {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        height: 9.7rem;
+        position: relative;
+      }
+      .header-item--logo {
+        display: flex;
+        {% if section.settings.logo_position == 'left' or section.settings.logo_position == 'center left' %}
+          order: 1;
+          flex: 0 0 auto;
+          justify-content: flex-start;
+          {% if section.settings.desktop_menu_type == 'drawer' and linklists[section.settings.menu].links.size > 0%}
+            margin-left: 3.2rem;
+          {% endif %}
+        {% else %}
+          order: 2;
+          flex: 0 0 auto;
+          justify-content: center;
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+        {% endif %}
+      }
+      .header-item--desktop-nav {
+        display: flex;
+        align-items: center;
+        {% if section.settings.logo_position == 'left' %}
+          order: 2;
+          flex: 0 1 auto;
+          justify-content: center;
+          width: auto;
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+        {% elsif section.settings.logo_position == 'center' %}
+          order: 1;
+          flex: 0 1 auto;
+          justify-content: flex-start;
+          width: auto;
+          margin-right: auto;
+        {% else %}
+          order: 2;
+          flex: 0 1 auto;
+          justify-content: flex-start;
+          width: auto;
+          margin-left: 3.2rem;
+        {% endif %}
+      }
+      .header-item--icon-list {
+        flex: 0 0 auto;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        order: 3;
+        gap: 1.6rem;
+        margin-left: auto;
+      }
+      {% if section.settings.desktop_menu_type == 'drawer' %}
+        .header-item--menu-trigger {
+          order: 0;
+          flex: 0 0 auto;
+          margin-right: 0;
+        }
+      {% endif %}
+    }
+  {% endif %}
+
+  #search-dialog-results.htmx-request #search-dialog-performed-results {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  #search-dialog-results.htmx-request div[role="status"] {
+    margin-top: 1.4rem;
+    display: flex;
+  }
+{% endstyle %}
+
+<header class="relative {{ border_b }} text-{{ color_scheme }} bg-{{ color_scheme }} responsive-padding-{{ section.id }}">
+  <div class="w-full h-full">
+    <div class="pl-24 pr-24 lg:px-160">
+      <div class="max-w-container mx-auto w-full h-full">
+        <div class="header-container">
+          <div class="header-inner">
+            <!-- Menu Trigger -->
+            {% if section.settings.menu != blank and linklists[section.settings.menu].links.size > 0 %}
+              {% if section.settings.desktop_menu_type == 'drawer' %}
+                <div class="header-item header-item--menu-trigger flex">
+              {% else %}
+                <div class="header-item header-item--menu-trigger flex min-960:hidden">
+              {% endif %}
+                <button
+                  class="flex items-center justify-center h-full"
+                  data-drawer-menu-trigger
+                  aria-label="Open menu"
+                >
+                  <svg
+                    class="w-24 h-24"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                  </svg>
+                </button>
+              </div>
+            {% else %}
+              <div class="header-item header-item--menu-trigger hidden"></div>
+            {% endif %}
+
+            <!-- Logo and Nav -->
+            {% if section.settings.logo_position == 'top left' or section.settings.logo_position == 'top center' %}
+              <div class="header-item header-item--logo-nav">
+                <div class="header-item header-item--logo">
+                  {%- render 'header-logo' -%}
+                </div>
+                {% if section.settings.desktop_menu_type == 'mega'
+                  or section.settings.desktop_menu_type == 'dropdown'
+                %}
+                  <div class="header-item header-item--desktop-nav hidden min-960:flex items-center">
+                    {%- render 'header-desktop-nav',
+                      text_uppercase: text_uppercase,
+                      color_scheme: color_scheme,
+                      menu_color_scheme: section.settings.menu_color_scheme
+                    -%}
+                  </div>
+                {% endif %}
+              </div>
+            {% else %}
+              <div class="header-item header-item--logo">
+                {%- render 'header-logo' -%}
+              </div>
+              {% if section.settings.desktop_menu_type == 'mega'
+                or section.settings.desktop_menu_type == 'dropdown'
+              %}
+                <div class="header-item header-item--desktop-nav hidden min-960:flex items-center">
+                  {%- render 'header-desktop-nav',
+                    text_uppercase: text_uppercase,
+                    color_scheme: color_scheme,
+                    menu_color_scheme: section.settings.menu_color_scheme
+                  -%}
+                </div>
+              {% endif %}
+            {% endif %}
+
+            <!-- Icon List -->
+            <div class="header-item header-item--icon-list flex items-center justify-end gap-16">
+              {%- render 'header-desktop-icon-list',
+                color_scheme: color_scheme,
+                show_language_selector: section.settings.show_language_selector,
+                show_currency_selector: section.settings.show_currency_selector
+              -%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+{% render 'search-dialog',
+  color_scheme: color_scheme
+%}
+{% render 'menu-drawer',
+  color_scheme: color_scheme
+%}
+
+{% if settings.cart_type == 'drawer' %}
+  {% render 'cart-drawer' %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu"
+    },
+    {
+      "type": "select",
+      "id": "desktop_menu_type",
+      "label": "Desktop menu type",
+      "options": [
+        { "value": "dropdown", "label": "Dropdown" },
+        { "value": "mega", "label": "Mega menu" },
+        { "value": "drawer", "label": "Drawer menu" }
+      ],
+      "default": "dropdown"
+    },
+    {
+      "type": "color_scheme",
+      "id": "menu_color_scheme",
+      "label": "Menu color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "mega_menu_row_count",
+      "label": "Mega menu row count",
+      "min": 3,
+      "max": 5,
+      "step": 1,
+      "default": 4,
+      "conditions": {
+        "desktop_menu_type": "mega"
+      }
+    },
+    {
+      "type": "select",
+      "id": "mega_menu_alignment",
+      "label": "Mega menu alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center",
+      "conditions": {
+        "desktop_menu_type": "mega"
+      }
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": "Sticky header",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "border_b",
+      "default": false,
+      "label": "Bottom border"
+    },
+    {
+      "type": "checkbox",
+      "id": "text_uppercase",
+      "default": true,
+      "label": "Uppercase text"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_language_selector",
+      "label": "Show language selector",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_currency_selector",
+      "label": "Show currency selector",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Desktop",
+      "info": "640px and wider, for more refer to Tailwind's responsive design [docs](https://tailwindcss.com/docs/responsive-design)"
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "Top padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "logo_position",
+      "label": "Logo position",
+      "options": [
+        { "value": "top left", "label": "Top left" },
+        { "value": "top center", "label": "Top center" },
+        { "value": "center left", "label": "Center left" },
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "left"
+    }
+  ]
+}
+{% endschema %}

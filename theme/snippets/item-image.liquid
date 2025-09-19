@@ -1,0 +1,38 @@
+{%- liquid
+  assign show_placeholder = show_placeholder != false
+  assign image = item.product.images[0]
+
+  if item.image
+    assign image = item.image
+  endif
+-%}
+
+{% if image or show_placeholder %}
+  <div
+    class="
+      relative
+      aspect-square
+      rounded
+      {% case size %}
+        {% when 'small' %}
+          size-34
+        {% else %}
+          size-70
+      {% endcase %}
+    "
+  >
+    {% if image %}
+      {% render 'image',
+        image: image,
+        alt: image.alt,
+        picture_class: 'flex justify-center w-full h-full',
+        class: 'h-full w-auto object-cover object-center rounded-4'
+      %}
+    {% else %}
+      {% render 'image',
+        picture_class: 'svg-placeholder',
+        placeholder: 'product-apparel-1' | placeholder_svg_tag: 'placeholder-svg'
+      %}
+    {% endif %}
+  </div>
+{% endif %}

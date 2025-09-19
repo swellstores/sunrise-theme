@@ -1,0 +1,238 @@
+{
+  "general": {
+    "continue_shopping": "Fortsæt med at shoppe",
+    "breadcrumbs": {
+      "label": "Brødkrummer",
+      "home": "Forside",
+      "collections": "Kollektioner",
+      "products": "Produkter",
+      "account": "Konto",
+      "register": "Registrer",
+      "addresses": "Adresser",
+      "activate_account": "Aktivér konto"
+    },
+    "pagination": {
+      "label": "Paginering",
+      "page": "Side {{ number }}",
+      "next": "Næste",
+      "previous": "Forrige"
+    },
+    "search": {
+      "placeholder": "Søg",
+      "submit": "Udfør søgning",
+      "no_results": "Ingen resultater fundet for “{{ terms }}”",
+      "store": "Søg i {{ store_name }}",
+      "dismiss": "Luk søgning"
+    },
+    "localization": {
+      "language": "Sprog",
+      "currency": "Valuta",
+      "title_language_and_currency": "Vælg dit sprog og valuta",
+      "title_language": "Vælg dit sprog",
+      "title_currency": "Vælg din valuta",
+      "submit": "Fortsæt"
+    },
+    "accordion": {
+      "toggle": "Skift element"
+    },
+    "page_not_found": "Siden blev ikke fundet",
+    "share": "Del",
+    "loading": "Indlæser..."
+  },
+  "customer": {
+    "log_out": "Log ud",
+    "log_in": "Log ind",
+    "account": {
+      "title": "Konto",
+      "my_orders": "Mine ordrer",
+      "orders": "Ordrer",
+      "address_book": "Adressebog",
+      "addresses": "Adresser",
+      "no_orders_found": "Ingen ordrer fundet."
+    },
+    "activate_account": {
+      "title": "Aktivér konto",
+      "subtext": "Opret dit kodeord for at aktivere din konto.",
+      "submit": "Aktivér",
+      "cancel": "Annuller"
+    },
+    "addresses": {
+      "title": "Adresser",
+      "default": "Standardadresse",
+      "edit_address": "Rediger adresse",
+      "first_name": "Fornavn",
+      "last_name": "Efternavn",
+      "company": "Virksomhed",
+      "address1": "Adresselinje 1",
+      "address2": "Adresselinje 2",
+      "city": "By",
+      "country": "Land/region",
+      "province": "Region",
+      "zip": "Postnummer",
+      "phone": "Telefonnummer (valgfrit)",
+      "set_default": "Sæt som standardadresse",
+      "add": "Tilføj adresse",
+      "new": "Ny adresse",
+      "back": "Tilbage til adressebog",
+      "cancel": "Annuller",
+      "submit": "Gem adresse",
+      "edit": "Rediger",
+      "remove": "Fjern",
+      "remove_confirm": "Er du sikker på, at du vil fjerne denne adresse?"
+    }
+  },
+  "sections": {
+    "login": {
+      "title": "Log ind",
+      "email": "E-mailadresse",
+      "password": "Kodeord",
+      "forgot_password": "Glemt kodeord?",
+      "create_account": "Opret en konto",
+      "sign_in": "Log ind",
+      "error": "Dit loginforsøg mislykkedes. Prøv igen."
+    },
+    "register": {
+      "title": "Opret konto",
+      "first_name": "Fornavn",
+      "last_name": "Efternavn",
+      "email": "E-mailadresse",
+      "password": "Kodeord",
+      "already_have_account": "Har du allerede en konto?",
+      "create_account": "Opret konto",
+      "error": "Din konto kunne ikke oprettes. Prøv igen."
+    },
+    "reset-password": {
+      "title": "Nulstil kodeord",
+      "subtext": "Indtast et nyt kodeord til din konto.",
+      "email": "E-mailadresse",
+      "password": "Kodeord",
+      "submit": "Nulstil kodeord",
+      "cancel": "Annuller",
+      "error": "Dit kodeord kunne ikke nulstilles. Prøv igen."
+    },
+    "recover-password": {
+      "title": "Gendan kodeord",
+      "subtext": "Vi sender dig en e-mail for at nulstille dit kodeord.",
+      "email": "E-mailadresse",
+      "password": "Kodeord",
+      "submit": "Gendan kodeord",
+      "cancel": "Annuller",
+      "sent": "E-mail sendt"
+    },
+    "blog": {
+      "read_more": "Læs mere"
+    },
+    "announcement": {
+      "label": "Meddelelse",
+      "description": "Meddelelses-diasshow",
+      "dismiss": "Luk meddelelse",
+      "slideshow_of": "af"
+    },
+    "collection": {
+      "filters": {
+        "filters": "Filtre",
+        "filter_and_sort": "Filtrer og sorter",
+        "active": "Aktive filtre",
+        "from": "Fra",
+        "to": "Til",
+        "selected": "Valgt",
+        "sort_by": "Sorter efter",
+        "reset": "Nulstil",
+        "close": "Luk",
+        "clear_all": "Ryd alle",
+        "remove_label": "Fjern filter for {{ attribute }}"
+      }
+    },
+    "header": {
+      "menu": "Menu",
+      "submenu": "Undermenu",
+      "cart": "Indkøbskurv"
+    },
+    "product": {
+      "from_price": "Fra",
+      "out_of_stock": "Denne vare er i øjeblikket udsolgt",
+      "quantity": {
+        "label": "Antal",
+        "increment": "Øg antal",
+        "decrement": "Reducér antal"
+      },
+      "option": {
+        "out_of_stock": "Udsolgt",
+        "selection_error": "Vælg venligst en mulighed",
+        "text_error": "Angiv venligst et svar"
+      },
+      "purchase": {
+        "one_time": "Engangskøb",
+        "subscription": "Abonnement",
+        "subscription_delivered": "Leveres",
+        "every_interval": "Hver {{ interval }}",
+        "interval_year": "Årligt",
+        "interval_year_plural": "år",
+        "interval_month": "Månedligt",
+        "interval_month_plural": "måneder",
+        "interval_week": "Ugentligt",
+        "interval_week_plural": "uger",
+        "interval_day": "Dagligt",
+        "interval_day_plural": "dage",
+        "includes_trial": "{{ trial_days }} dages prøveperiode"
+      },
+      "gift_card": {
+        "options": "Kortindstillinger",
+        "send_gift": "Send som gave",
+        "send_email": "Modtagerens e-mail",
+        "send_email_error": "Indtast en gyldig e-mailadresse.",
+        "send_note": "Tilpasset besked",
+        "send_note_placeholder": "Skriv en personlig besked til modtageren",
+        "send_note_char_count": "tegn"
+      }
+    },
+    "cart": {
+      "title": "Din indkøbskurv",
+      "empty": "Din indkøbskurv er tom",
+      "estimated_total": "Estimeret total",
+      "view_cart": "Se indkøbskurv",
+      "checkout": "Gå til kassen",
+      "continue_checkout": "Fortsæt til kassen",
+      "subtotal": "Subtotal",
+      "taxes_discounts_shipping_at_checkout": "Skatter, rabatter og fragt beregnes ved kassen.",
+      "headings": {
+        "product": "Produkt",
+        "total": "Total",
+        "quantity": "Antal",
+        "discount": "Rabat"
+      },
+      "login": {
+        "title": "Har du en konto?",
+        "faster": "for en hurtigere kasseproces"
+      },
+      "item_count": {
+        "one": "{{ count }} vare",
+        "other": "{{ count }} varer"
+      }
+    },
+    "newsletter": {
+      "email": "E-mail",
+      "success": "Du har tilmeldt dig vores nyhedsbrev."
+    },
+    "slideshow": {
+      "label": "Diasshow",
+      "next": "Næste dias",
+      "previous": "Forrige dias"
+    }
+  },
+  "accessibility": {
+    "skip_to_text": "Spring til indhold",
+    "browser_video_support": "Din browser understøtter ikke video-tagget.",
+    "close": "Luk",
+    "error": "Fejl"
+  },
+  "onboarding": {
+    "product_title": "Eksempelprodukt",
+    "collection_title": "Eksempelkollektion",
+    "blog_title": "Eksempel blogtitel",
+    "blog_post_date": "15. marts 2023",
+    "blog_post_category": "Nyheder",
+    "blog_post_title": "Blogtitel",
+    "blog_post_content": "Skriv dit blogindhold her. Start med en kort intro, og del det op i tydelige afsnit med overskrifter. Brug korte afsnit, så det er nemt at læse. Du kan tilføje billeder, videoer, citater og links til at bakke op om dit indhold. Slut af med et resumé eller en opfordring til handling."
+  }
+}

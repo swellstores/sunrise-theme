@@ -1,0 +1,263 @@
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+-%}
+
+{%- style -%}
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
+    }
+  }
+{%- endstyle -%}
+
+<div class="flex flex-col max-w-content mx-auto px-20 md:px-64 gap-24 text-{{ color_scheme }} bg-{{ color_scheme }} responsive-padding-{{ section.id }}">
+  <a
+    href="/account#orders"
+    class="relative inline-flex w-fit -left-4 gap-4 text-body-small font-semibold"
+  >
+    <ion-icon name="chevron-back-outline" class="size-16"></ion-icon>
+    {{ 'customer.order.back' | t }}
+  </a>
+  <div class="flex flex-col rounded-6 border border-color-{{ color_scheme }}">
+    <div class="flex flex-col p-16 md:px-20 md:py-16 gap-6 border-b border-color-{{ color_scheme }}">
+      <div class="flex items-center gap-6">
+        <span class="text-title-medium">
+          {{ 'customer.order.order_name' | t }} #{{ order.name }}
+        </span>
+      </div>
+      <span class="text-body-small font-medium text-secondary-{{ color_scheme }}">
+        {{ 'customer.order.placed_on' | t }} {{ order.created_at | time_tag: format: 'date' }}
+      </span>
+    </div>
+    <div class="flex px-16 pt-16 md:px-20 border-b border-color-{{ color_scheme }}">
+      <!-- desktop -->
+      <table class="w-full hidden md:table">
+        <thead>
+          <tr class="text-body-medium">
+            <th class="py-8 text-left font-semibold whitespace-nowrap">
+              {{ 'customer.order.items' | t }}
+            </th>
+            <th class="py-8 text-center font-semibold whitespace-nowrap">
+              {{ 'customer.order.quantity' | t }}
+            </th>
+            <th class="py-8 text-right font-semibold whitespace-nowrap">
+              {{ 'customer.order.price' | t }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for item in order.line_items -%}
+            <tr class="border-t border-color-{{ color_scheme }}">
+              <td class="w-500 py-24">
+                <div class="flex gap-16">
+                  {% render 'item-image',
+                    item: item,
+                    color_scheme: color_scheme
+                  %}
+                  <div class="flex flex-col gap-2">
+                    <span class="text-body-large font-medium">
+                      {{- item.product.title | escape -}}
+                    </span>
+                    {% render 'item-options',
+                      item: item,
+                      color_scheme: color_scheme
+                    %}
+                    {% if item.item_components.size > 0 %}
+                      <div class="flex flex-col mt-8 gap-8">
+                        <span class="text-body-small font-medium">
+                          {{ 'customer.order.bundle_items' | t }}
+                        </span>
+                        {%- for bundle_item in item.item_components -%}
+                          {% render 'order-bundle-item',
+                            item: bundle_item,
+                            show_price: true,
+                            color_scheme: color_scheme
+                          %}
+                        {%- endfor -%}
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </td>
+              <td class="py-24 min-w-100 text-center align-baseline text-body-medium font-medium whitespace-nowrap">
+                {{ item.quantity }}
+              </td>
+              <td class="py-24 text-right align-baseline text-body-medium font-medium whitespace-nowrap">
+                {{ item.price_total | money }}
+              </td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+
+      <!-- mobile -->
+      <div class="flex flex-col w-full md:hidden">
+        <span class="py-8 text-body-medium font-semibold">
+          {{ 'customer.order.items' | t }}
+        </span>
+        {%- for item in order.line_items -%}
+          <div class="flex flex-col py-16 gap-8 border-t border-color-{{ color_scheme }}">
+            {% render 'order-item',
+              item: item,
+              show_price: true,
+              color_scheme: color_scheme
+            %}
+            {% if item.item_components.size > 0 %}
+              <div class="flex flex-col mt-8 gap-8">
+                <span class="text-body-small font-medium">
+                  {{ 'customer.order.bundle_items' | t }}
+                </span>
+                {%- for bundle_item in item.item_components -%}
+                  {% render 'order-bundle-item',
+                    item: bundle_item,
+                    show_price: true,
+                    color_scheme: color_scheme
+                  %}
+                {%- endfor -%}
+              </div>
+            {% endif %}
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+    <div class="flex flex-col p-16 md:px-20 md:py-16 gap-20">
+      <div class="flex flex-col pb-16 gap-8 text-body-medium border-b border-color-{{ color_scheme }}">
+        <div class="flex justify-between items-center">
+          <span class="font-medium">{{ 'customer.order.subtotal' | t }}</span>
+          <span>{{ order.sub_total | money }}</span>
+        </div>
+        {% if order.shipment_total > 0 %}
+          <div class="flex justify-between items-center">
+            <span class="font-medium">
+              {{ 'customer.order.shipping' | t }}
+              {% if order.shipping.service_name %}
+                ({{ order.shipping.service_name }})
+              {% endif %}
+            </span>
+            <span>{{ order.shipment_total | money }}</span>
+          </div>
+        {% endif %}
+        {% if order.discount_total > 0 %}
+          <div class="flex justify-between items-center">
+            <span class="font-medium">{{ 'customer.order.discount' | t }}</span>
+            <span>{{ order.discount_total | money }}</span>
+          </div>
+        {% endif %}
+        {% if order.tax_included_total > 0 %}
+          <div class="flex justify-between items-center">
+            <span class="font-medium">{{ 'customer.order.tax' | t }}</span>
+            <span>{{ order.tax_included_total | money }}</span>
+          </div>
+        {% endif %}
+      </div>
+      <div class="flex justify-between items-center text-body-large">
+        <span class="font-medium">{{ 'customer.order.total' | t }}</span>
+        <span class="font-semibold">{{ order.grand_total | money }}</span>
+      </div>
+    </div>
+  </div>
+
+  {% if order.shipment_delivery %}
+    <div class="flex flex-col px-20 py-16 gap-16 rounded-6 border border-color-{{ color_scheme}}">
+      <span class="text-body-extra-large font-semibold">
+        {{ 'customer.order.shipping_address' | t }}
+      </span>
+      {% render 'address',
+        address: order.shipping,
+        color_scheme: color_scheme
+      %}
+    </div>
+  {% endif %}
+
+  <div class="flex flex-col px-20 py-16 gap-16 rounded-6 border border-color-{{ color_scheme}}">
+    <span class="text-body-extra-large font-semibold">
+      {{ 'customer.order.payment_details' | t }}
+    </span>
+    <div class="flex flex-col gap-8">
+      <div class="flex flex-col gap-2">
+        <span class="text-body-small uppercase text-secondary-{{ color_scheme }}">
+          {{ 'general.payment.payment_method' | t }}
+        </span>
+        <span class="text-body-medium font-medium">
+          {% render 'billing-method',
+            method: order.billing.method
+          %}
+        </span>
+      </div>
+      {% if order.billing.card %}
+        <div class="flex gap-50">
+          <div class="flex flex-col gap-2">
+            <span class="text-body-small uppercase text-secondary-{{ color_scheme }}">
+              {{ 'general.payment.card_number' | t }}
+            </span>
+            <span class="text-body-medium font-medium">
+              {{ order.billing.card.brand | capitalize }} {{ order.billing.card.last4 }}
+            </span>
+          </div>
+          <div class="flex flex-col gap-2">
+            <span class="text-body-small uppercase text-secondary-{{ color_scheme }}">
+              {{ 'general.payment.card_exp' | t }}
+            </span>
+            <span class="text-body-medium font-medium">
+              {{ order.billing.card.exp_month }} / {{ order.billing.card.exp_year | slice: -2, 2 }}
+            </span>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+    <div class="flex flex-col gap-2">
+      <span class="text-body-small uppercase text-secondary-{{ color_scheme }}">
+        {{ 'customer.order.billing_address' | t }}
+      </span>
+      {% render 'address',
+        address: order.billing,
+        color_scheme: color_scheme
+      %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Order",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "Top padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    }
+  ]
+}
+{% endschema %}

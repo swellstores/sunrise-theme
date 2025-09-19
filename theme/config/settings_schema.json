@@ -1,0 +1,310 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "theme_name",
+    "theme_author": "Swell",
+    "theme_version": "0.1.0",
+    "theme_documentation_url": "https://developers.swell.is",
+    "theme_support_url": "https://www.swell.is"
+  },
+  {
+    "name": "Logo",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo image"
+      },
+      {
+        "type": "text",
+        "id": "logo_text",
+        "label": "Logo text"
+      },
+      {
+        "type": "range",
+        "id": "logo_width",
+        "label": "Desktop logo width",
+        "min": 50,
+        "max": 300,
+        "step": 10,
+        "default": 100,
+        "unit": "px"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon image",
+        "info": "Will be scaled down to 32px x 32px."
+      }
+    ]
+  },
+  {
+    "name": "Color schemes",
+    "settings": [
+      {
+        "type": "color_scheme_group",
+        "id": "color_schemes",
+        "definition": [
+          {
+            "type": "color_background",
+            "id": "background",
+            "label": "Background",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "color",
+            "id": "text",
+            "label": "Text",
+            "default": "#222222"
+          },
+          {
+            "type": "color",
+            "id": "text_secondary",
+            "label": "Secondary text",
+            "default": "#757575"
+          },
+          {
+            "type": "color",
+            "id": "button",
+            "label": "Primary button background",
+            "default": "#121212"
+          },
+          {
+            "type": "color",
+            "id": "button_border",
+            "label": "Primary button border",
+            "default": "#222222"
+          },
+          {
+            "type": "color",
+            "id": "button_label",
+            "label": "Primary button text",
+            "default": "#FFFFFF"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_label",
+            "label": "Secondary button text",
+            "default": "#222222"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_border",
+            "label": "Secondary button border",
+            "default": "#222222"
+          },
+          {
+            "type": "color",
+            "id": "borders_and_inputs",
+            "label": "Borders and inputs",
+            "default": "#222222"
+          },
+          {
+            "type": "color",
+            "id": "brand_highlight",
+            "label": "Brand highlight",
+            "default": "#222222"
+          },
+          {
+            "type": "header",
+            "content": "Button hover states"
+          },
+          {
+            "type": "color",
+            "id": "primary_button_hover",
+            "label": "Primary button background hover",
+            "default": "#222222"
+          },
+          {
+            "type": "color",
+            "id": "primary_button_label_hover",
+            "label": "Primary button text hover",
+            "default": "#222222"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_border_hover",
+            "label": "Secondary button border hover",
+            "default": "#222222"
+          },
+          {
+            "type": "color",
+            "id": "secondary_button_label_hover",
+            "label": "Secondary button text hover",
+            "default": "#222222"
+          }
+        ],
+        "role": {
+          "text": "text",
+          "background": {
+            "solid": "background",
+            "gradient": "background_gradient"
+          },
+          "links": "secondary_button_label",
+          "icons": "text",
+          "primary_button": "button",
+          "on_primary_button": "button_label",
+          "primary_button_border": "button",
+          "secondary_button": "background",
+          "on_secondary_button": "secondary_button_label",
+          "secondary_button_border": "secondary_button_label"
+        }
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Headings"
+      },
+      {
+        "id": "typography_pre_heading",
+        "label": "Pre-heading font",
+        "type": "font_picker",
+        "default": "karla_n7"
+      },
+      {
+        "id": "typography_heading",
+        "label": "Heading font",
+        "type": "font_picker",
+        "default": "karla_n7"
+      },
+      {
+        "type": "header",
+        "content": "Body"
+      },
+      {
+        "id": "typography_body",
+        "label": "Body font",
+        "type": "font_picker",
+        "default": "roboto_n4"
+      },
+      {
+        "type": "header",
+        "content": "Font scale"
+      },
+      {
+        "id": "typography_scale",
+        "type": "range",
+        "label": "Scale",
+        "min": 100,
+        "max": 130,
+        "step": 5,
+        "unit": "%",
+        "default": 100
+      }
+    ]
+  },
+  {
+    "name": "Buttons and inputs",
+    "settings": [
+      {
+        "type": "range",
+        "id": "border_radius",
+        "label": "Corner radius",
+        "min": 0,
+        "max": 20,
+        "step": 1,
+        "unit": "px",
+        "default": 6
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "text",
+        "id": "social_facebook_url",
+        "label": "Facebook",
+        "info": "https://www.facebook.com/"
+      },
+      {
+        "type": "text",
+        "id": "social_x_url",
+        "label": "X.com",
+        "info": "https://x.com/"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_url",
+        "label": "Instagram",
+        "info": "https://instagram.com/"
+      },
+      {
+        "type": "text",
+        "id": "social_linkedin_url",
+        "label": "LinkedIn",
+        "info": "https://www.linkedin.com/"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_url",
+        "label": "YouTube",
+        "info": "https://www.youtube.com/"
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "select",
+        "id": "cart_type",
+        "label": "Cart type",
+        "options": [
+          {
+            "value": "page",
+            "label": "Page"
+          },
+          {
+            "value": "drawer",
+            "label": "Drawer"
+          }
+        ],
+        "default": "drawer"
+      },
+      {
+        "type": "color_scheme",
+        "id": "cart_color_scheme",
+        "label": "Color scheme",
+        "default": "scheme-1"
+      }
+    ]
+  },
+  {
+    "name": "Integrations",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "gorgias_chat_enabled",
+        "label": "Enable Gorgias chat",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "gorgias_chat_id",
+        "label": "Gorgias chat ID",
+        "conditions": {
+          "gorgias_chat_enabled": true
+        }
+      },
+      {
+        "type": "checkbox",
+        "id": "google_analytics_enabled",
+        "label": "Enable Google Analytics",
+        "default": false
+      },
+      {
+        "type": "text",
+        "id": "google_analytics_id",
+        "label": "Google Analytics ID",
+        "conditions": {
+          "google_analytics_enabled": true
+        }
+      }
+    ]
+  }
+]

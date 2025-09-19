@@ -1,0 +1,478 @@
+{% liquid
+  assign color_scheme = section.settings.color_scheme
+  assign content_color_scheme = section.settings.content_color_scheme
+  assign transparent = section.settings.transparent
+  assign content_alignment = section.settings.content_alignment
+  assign opacity = section.settings.overlay_opacity | times: 0.01
+%}
+
+<div
+  class="
+        w-full relative bg-{{ color_scheme }}
+        h-auto text-{{ section.settings.text_alignment | default: 'left' }}"
+>
+  <div class="relative w-full h-full">
+    <div
+      class="
+        relative w-full
+           {% case section.settings.banner_height %}
+           {% when 'small' %} h-192 sm:min-h-192 sm:max-h-192
+           {% when 'medium' %} h-384 sm:min-h-384 sm:max-h-384
+           {% when 'large' %}h-600 sm:min-h-600 sm:max-h-600
+           {% when 'screen' %} h-screen
+           {% else %} h-auto
+         {% endcase %}
+        overflow-hidden
+      "
+    >
+      {% liquid 
+        assign image_class = 'object-contain h-full'
+        if section.settings.image_height == 'auto'
+          assign image_class = 'object-contain h-fit'
+        elsif section.settings.image_height == 'fixed_height'
+          assign image_class = 'object-cover w-fit h-full'
+        elsif section.settings.image_height == 'fill'
+          assign image_class = 'object-cover object-center w-full h-full'
+        endif
+
+        assign picture_class = 'svg-placeholder object-fit object-center justify-items-center'
+        assign mobile_picture_class = 'svg-placeholder flex justify-center justify-items-center'
+
+        if section.settings.banner_height == 'adapt'
+          assign image_class = 'w-full h-full object-cover object-center'
+          assign picture_class = ''
+          assign mobile_picture_class = ''
+        endif
+
+        assign main_image_class = 'block'
+        if section.settings.mobile_image != blank
+          assign main_image_class = 'hidden sm:block'
+        endif
+      %}
+      <div class="{{ main_image_class }}">
+        {% render 'image',
+          placeholder: 'lifestyle-1',
+          image: section.settings.image,
+          picture_class: picture_class,
+          class: image_class
+        %}
+      </div>
+      {%- if section.settings.mobile_image != blank -%}
+        {%- comment -%}
+          The mobile image is always displayed with full height and object-cover. It ignores image_height setting.
+        {%- endcomment -%}
+        <div class="block sm:hidden">
+          {% render 'image',
+            placeholder: 'lifestyle-1',
+            image: section.settings.mobile_image,
+            picture_class: mobile_picture_class,
+            class: 'object-cover w-fit h-full'
+          %}
+        </div>
+      {%- endif -%}
+    </div>
+    <div
+      class="absolute inset-0 bg-black"
+      style="background-color: {{ section.settings.overlay_color }}; opacity: {{ opacity }};"
+    ></div>
+  </div>
+  {%- if section.blocks.size > 0 -%}
+    <div class="absolute inset-0 w-full h-full pl-24 pr-24 lg:pl-160 lg:pr-160">
+      <div class="max-w-container m-auto w-full h-full flex {{ content_alignment }}">
+        <div
+          class="
+            flex flex-col gap-32 max-w-450 p-24
+            {% if transparent %}bg-transparent text-{{ section.settings.color_scheme }} {% else %}bg-{{ content_color_scheme }} text-{{ content_color_scheme }} {% endif %}
+            {% if content_alignment == 'items-center justify-start' %}
+            {% elsif content_alignment == 'items-center justify-end' %}
+            {% else %}
+            {% endif %}
+            {% case section.settings.text_alignment %}
+              {% when 'center' %} items-center
+              {% when 'right' %} items-end
+              {% else %} items-start
+            {% endcase %}
+          "
+          style="
+            {% if content_alignment contains 'items-start' %} padding-top: {{ section.settings.vertical_padding | times: 0.1 | round: 1 }}rem; {% endif %}
+            {% if content_alignment contains 'items-end' %} padding-bottom: {{ section.settings.vertical_padding | times: 0.1 | round: 1 }}rem; {% endif %}
+            {% if content_alignment contains 'justify-start' %} padding-left: {{ section.settings.horizontal_padding | times: 0.1 | round: 1 }}rem; {% endif %}
+            {% if content_alignment contains 'justify-end' %} padding-right: {{ section.settings.horizontal_padding | times: 0.1 | round: 1 }}rem; {% endif %}
+          "
+        >
+          <div class="flex flex-col gap-8">
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when 'pre_heading' -%}
+                  <p class="font-display font-pre-heading text-pre-heading ">
+                    {{ block.settings.pre_heading | inline_editable: 'pre_heading' }}
+                  </p>
+                {%- when 'heading' -%}
+                  <h2 class="font-display font-heading text-heading-{{ section.settings.heading_size | default: 'small' }}">
+                    {{ block.settings.heading | inline_editable: 'heading' }}
+                  </h2>
+                {%- when 'text' -%}
+                  <div class="font-display formatted-text text-content">
+                    {{ block.settings.text | inline_editable: 'text' }}
+                  </div>
+              {%- endcase -%}
+            {%- endfor -%}
+          </div>
+          {%- for block in section.blocks -%}
+            {%- if transparent == false -%}
+              {%- assign button_color_scheme = content_color_scheme -%}
+            {%- else -%}
+              {%- assign button_color_scheme = color_scheme -%}
+            {%- endif -%}
+            {%- case block.type -%}
+              {%- when 'button' -%}
+                <div class="flex">
+                  {% render 'button',
+                    text: block.settings.button_label,
+                    href: block.settings.button_link,
+                    color_scheme: button_color_scheme,
+                    variant: block.settings.button_variant
+                  %}
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Image banner",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Background image"
+    },
+     {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "Mobile image"
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Image overlay",
+      "default": 0,
+      "min": 0,
+      "max": 60,
+      "step": 10,
+      "unit": "%"
+    },
+    {
+      "type": "select",
+      "id": "banner_height",
+      "label": "Banner height",
+      "default": "large",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "Adapt to image"
+        },
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        },
+        {
+          "value": "screen",
+          "label": "Adapt to screen"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "image_height",
+      "label": "Image height",
+      "default": "fill",
+      "options": [
+        { "value": "auto", "label": "Auto" },
+        { "value": "fixed_height", "label": "Fixed height" },
+        { "value": "fill", "label": "Fill" },
+        { "value": "contain", "label": "Contain" }
+      ],
+      "info": "Background image placement",
+      "conditions": {
+        "banner_height": {
+          "$ne": "adapt"
+        }
+      }
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": "medium",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "extra-large", "label": "Extra large" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "content_color_scheme",
+      "label": "Content color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content position",
+      "default": "items-center justify-center",
+      "options": [
+        {
+          "value": "items-start justify-start",
+          "label": "Top left"
+        },
+        {
+          "value": "items-start justify-center",
+          "label": "Top middle"
+        },
+        {
+          "value": "items-start justify-end",
+          "label": "Top right"
+        },
+        {
+          "value": "items-center justify-start",
+          "label": "Middle left"
+        },
+        {
+          "value": "items-center justify-center",
+          "label": "Middle center"
+        },
+        {
+          "value": "items-center justify-end",
+          "label": "Middle right"
+        },
+        {
+          "value": "items-end justify-start",
+          "label": "Bottom left"
+        },
+        {
+          "value": "items-end justify-center",
+          "label": "Bottom middle"
+        },
+        {
+          "value": "items-end justify-end",
+          "label": "Bottom right"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Vertical padding",
+      "default": 16,
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "conditions": {
+        "content_alignment": {
+          "$in": [
+            "items-start justify-start",
+            "items-start justify-center",
+            "items-start justify-end",
+            "items-end justify-start",
+            "items-end justify-center",
+            "items-end justify-end"
+          ]
+        }
+      }
+    },
+    {
+      "type": "range",
+      "id": "horizontal_padding",
+      "label": "Horizontal padding",
+      "default": 0,
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "conditions": {
+        "content_alignment": {
+          "$in": [
+            "items-start justify-start",
+            "items-start justify-end",
+            "items-center justify-start",
+            "items-center justify-end",
+            "items-end justify-start",
+            "items-end justify-end"
+          ]
+        }
+      }
+    },
+    {
+      "type": "checkbox",
+      "id": "transparent",
+      "label": "Transparent background",
+      "info": "This will override the color scheme.",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pre_heading",
+      "name": "Pre-heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "pre_heading",
+          "label": "Content",
+          "default": "Special offer"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "Content",
+          "default": "Unlock exclusive savings"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Content"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button text",
+          "info": "Leave the label blank to hide the button.",
+          "default": "Button"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "button_variant",
+          "label": "Button style",
+          "options": [
+            {
+              "value": "solid",
+              "label": "Primary"
+            },
+            {
+              "value": "outline",
+              "label": "Secondary"
+            }
+          ],
+          "default": "solid"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero",
+      "blocks": [
+        {
+          "type": "pre_heading",
+          "settings": {
+            "pre_heading": "Special offer"
+          }
+        },
+        {
+          "type": "heading",
+          "settings": {
+            "heading": "Unlock exclusive savings"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "text": "Add your message here to highlight what's special. Use the image below to draw attention and guide visitors to discover more on your site."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

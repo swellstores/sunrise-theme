@@ -1,0 +1,43 @@
+{%- liquid
+  assign border_b = section.settings.border_b
+  assign alignment = section.settings.mega_menu_alignment | default: 'center'
+  assign max_items_per_row = section.settings.mega_menu_row_count
+  assign total_items = current_link.links.size
+  assign number_of_rows = total_items | divided_by: max_items_per_row | ceil
+  assign menu_scheme = section.settings.menu_color_scheme
+-%}
+
+<div class="mega-menu-grid {% if alignment == 'left' %}align-left{% endif %} bg-{{ menu_scheme }} text-{{ menu_scheme }}">
+  {% for i in (1..number_of_rows) %}
+    {% assign start_index = forloop.index0 | times: max_items_per_row %}
+    {% assign end_index = start_index | plus: max_items_per_row | minus: 1 %}
+    {% if end_index >= total_items %}
+      {% assign end_index = total_items | minus: 1 %}
+    {% endif %}
+    {% assign items_in_row = end_index | minus: start_index | plus: 1 %}
+    
+    <div class="mega-menu-row {% if items_in_row < max_items_per_row %}incomplete-row{% endif %}" 
+      {% if items_in_row < max_items_per_row and alignment != 'left' %}
+        style="--max-items: {{ max_items_per_row }}"
+      {% endif %}
+    >
+      {% for j in (start_index..end_index) %}
+        {% assign child_link = current_link.links[j] %}
+        <div class="mega-menu-category">
+          <a href="{{ child_link.url }}" class="text-body-large font-semibold hover:underline">
+            {{ child_link.title }}
+          </a>
+          {% if child_link.links.size > 0 %}
+            <div class="flex flex-col gap-16">
+              {% for grandchild in child_link.links %}
+                <a href="{{ grandchild.url }}" class="text-body-medium hover:underline">
+                  {{ grandchild.title }}
+                </a>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  {% endfor %}
+</div>

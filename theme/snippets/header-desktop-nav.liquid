@@ -1,0 +1,63 @@
+{{ 'mega-menu.css' | asset_url | stylesheet_tag }}
+{{ 'cascading-menu.css' | asset_url | stylesheet_tag }}
+
+{% unless section.settings.desktop_menu_type == 'drawer' %}
+  <nav role="navigation" class="flex justify-center h-full items-center w-full">
+    <div class="nav-container w-full">
+      <ul class="flex h-full items-center {% if section.settings.logo_position == 'top left' %}justify-start{% elsif section.settings.logo_position == 'top center' %}justify-center{% else %}justify-center{% endif %} w-full min-960:justify-center">
+        {% assign selected_menu = section.settings.menu | default: 'main-menu' %}
+        {% assign menu_links = linklists[selected_menu].links %}
+
+        {% for link in menu_links %}
+          <li
+            class="nav-item flex h-full items-center group {% unless forloop.first %}ml-12 md:ml-30{% endunless %}"
+            data-nav-item="{{ forloop.index }}"
+          >
+            <a
+              href="{{ link.url }}"
+              class="flex h-full items-center whitespace-nowrap hover:underline text-body-large"
+              {% if link.links.size > 0 and section.settings.desktop_menu_type == 'mega' %}
+                data-mega-menu="mega-menu-{{ forloop.index }}"
+              {% endif %}
+            >
+              {{ link.title }}
+              {% if link.links.size > 0 %}
+                <div class="ml-8 flex items-center justify-center">
+                  <ion-icon
+                    name="chevron-down-outline"
+                    aria-label="Toggle header dropdown item"
+                    class="w-20 h-20"
+                  ></ion-icon>
+                </div>
+              {% endif %}
+            </a>
+
+            {% if link.links.size > 0 and section.settings.desktop_menu_type == 'dropdown' %}
+              {% render 'cascading-menu', link: link, menu_color_scheme: menu_color_scheme %}
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </nav>
+{% endunless %}
+
+<div class="absolute">
+  <mega-menu-root></mega-menu-root>
+  <cascading-menu-root></cascading-menu-root>
+</div>
+
+<div class="mega-menus-container {% if section.settings.logo_position == 'left' %}logo-left{% endif %}">
+  {% assign selected_menu = section.settings.menu | default: 'main-menu' %}
+  {% assign menu_links = linklists[selected_menu].links %}
+  {% for link in menu_links %}
+    {% if link.links.size > 0 and section.settings.desktop_menu_type == 'mega' %}
+      <div
+        id="mega-menu-{{ forloop.index }}"
+        class="mega-menu-wrapper bg-{{ menu_color_scheme }}"
+      >
+        {% render 'mega-menu', current_link: link, menu_color_scheme: menu_color_scheme %}
+      </div>
+    {% endif %}
+  {% endfor %}
+</div>

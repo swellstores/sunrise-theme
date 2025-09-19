@@ -1,0 +1,18 @@
+<popover-root class="relative">
+  <popover-trigger
+    role="button"
+    class="flex items-center gap-12 underline decoration-transparent underline-offset-2 transition-colors text-body-medium decoration-accent-hover-{{ color_scheme }}"
+  >
+    <ion-icon name="share-outline" aria-hidden="true" class="inline-flex h-16 w-16"></ion-icon>
+    {{ 'general.share' | t }}
+  </popover-trigger>
+  <popover-content
+    class="absolute top-0 left-0 rounded max-w-max hidden shadow bg-white"
+    role="popover"
+  >
+    <div class="flex items-center px-10 py-8 gap-4 text-body-small">
+      {{ content }}
+    </div>
+    <popover-arrow class="absolute w-8 h-8 rotate-45 bg-white"></popover-arrow>
+  </popover-content>
+</popover-root>

@@ -1,0 +1,22 @@
+{
+  "sections": {
+    "main": {
+      "type": "cart",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "top_padding": 96,
+        "bottom_padding": 96
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "limit": 3
+      }
+    }
+  },
+  "order": [
+    "main",
+    "related-products"
+  ]
+}

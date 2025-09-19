@@ -1,0 +1,238 @@
+{
+  "general": {
+    "continue_shopping": "Continuer vos achats",
+    "breadcrumbs": {
+      "label": "Fil d'Ariane",
+      "home": "Accueil",
+      "collections": "Collections",
+      "products": "Produits",
+      "account": "Compte",
+      "register": "S'inscrire",
+      "addresses": "Adresses",
+      "activate_account": "Activer le compte"
+    },
+    "pagination": {
+      "label": "Pagination",
+      "page": "Page {{ number }}",
+      "next": "Suivant",
+      "previous": "Précédent"
+    },
+    "search": {
+      "placeholder": "Rechercher",
+      "submit": "Lancer la recherche",
+      "no_results": "Aucun résultat trouvé pour « {{ terms }} »",
+      "store": "Rechercher dans {{ store_name }}",
+      "dismiss": "Fermer la recherche"
+    },
+    "localization": {
+      "language": "Langue",
+      "currency": "Devise",
+      "title_language_and_currency": "Choisissez votre langue et votre devise",
+      "title_language": "Choisissez votre langue",
+      "title_currency": "Choisissez votre devise",
+      "submit": "Continuer"
+    },
+    "accordion": {
+      "toggle": "Basculer l'élément"
+    },
+    "page_not_found": "Page introuvable",
+    "share": "Partager",
+    "loading": "Chargement..."
+  },
+  "customer": {
+    "log_out": "Se déconnecter",
+    "log_in": "Se connecter",
+    "account": {
+      "title": "Compte",
+      "my_orders": "Mes commandes",
+      "orders": "Commandes",
+      "address_book": "Carnet d'adresses",
+      "addresses": "Adresses",
+      "no_orders_found": "Aucune commande trouvée."
+    },
+    "activate_account": {
+      "title": "Activer le compte",
+      "subtext": "Créez votre mot de passe pour activer votre compte.",
+      "submit": "Activer",
+      "cancel": "Annuler"
+    },
+    "addresses": {
+      "title": "Adresses",
+      "default": "Adresse par défaut",
+      "edit_address": "Modifier l'adresse",
+      "first_name": "Prénom",
+      "last_name": "Nom",
+      "company": "Entreprise",
+      "address1": "Ligne d'adresse 1",
+      "address2": "Ligne d'adresse 2",
+      "city": "Ville",
+      "country": "Pays/région",
+      "province": "Province",
+      "zip": "Code postal",
+      "phone": "Numéro de téléphone (facultatif)",
+      "set_default": "Définir comme adresse par défaut",
+      "add": "Ajouter une adresse",
+      "new": "Nouvelle adresse",
+      "back": "Retour au carnet d'adresses",
+      "cancel": "Annuler",
+      "submit": "Enregistrer l'adresse",
+      "edit": "Modifier",
+      "remove": "Supprimer",
+      "remove_confirm": "Êtes-vous sûr de vouloir supprimer cette adresse ?"
+    }
+  },
+  "sections": {
+    "login": {
+      "title": "Connexion",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "forgot_password": "Mot de passe oublié ?",
+      "create_account": "Créer un compte",
+      "sign_in": "Se connecter",
+      "error": "Votre tentative de connexion a échoué. Veuillez réessayer."
+    },
+    "register": {
+      "title": "Créer un compte",
+      "first_name": "Prénom",
+      "last_name": "Nom",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "already_have_account": "Vous avez déjà un compte ?",
+      "create_account": "Créer un compte",
+      "error": "Votre compte n'a pas pu être créé. Veuillez réessayer."
+    },
+    "reset-password": {
+      "title": "Réinitialiser le mot de passe",
+      "subtext": "Entrez un nouveau mot de passe pour votre compte.",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "submit": "Réinitialiser le mot de passe",
+      "cancel": "Annuler",
+      "error": "Votre mot de passe n'a pas pu être réinitialisé. Veuillez réessayer."
+    },
+    "recover-password": {
+      "title": "Récupérer le mot de passe",
+      "subtext": "Nous vous enverrons un e-mail pour réinitialiser votre mot de passe.",
+      "email": "Adresse e-mail",
+      "password": "Mot de passe",
+      "submit": "Récupérer le mot de passe",
+      "cancel": "Annuler",
+      "sent": "E-mail envoyé"
+    },
+    "blog": {
+      "read_more": "Lire la suite"
+    },
+    "announcement": {
+      "label": "Annonce",
+      "description": "Diaporama d'annonces",
+      "dismiss": "Fermer l'annonce",
+      "slideshow_of": "sur"
+    },
+    "collection": {
+      "filters": {
+        "filters": "Filtres",
+        "filter_and_sort": "Filtrer et trier",
+        "active": "Filtres actifs",
+        "from": "De",
+        "to": "À",
+        "selected": "Sélectionné",
+        "sort_by": "Trier par",
+        "reset": "Réinitialiser",
+        "close": "Fermer",
+        "clear_all": "Tout effacer",
+        "remove_label": "Supprimer le filtre pour {{ attribute }}"
+      }
+    },
+    "header": {
+      "menu": "Menu",
+      "submenu": "Sous-menu",
+      "cart": "Panier"
+    },
+    "product": {
+      "from_price": "À partir de",
+      "out_of_stock": "Cet article est actuellement en rupture de stock",
+      "quantity": {
+        "label": "Quantité",
+        "increment": "Augmenter la quantité",
+        "decrement": "Diminuer la quantité"
+      },
+      "option": {
+        "out_of_stock": "Rupture de stock",
+        "selection_error": "Veuillez sélectionner une option",
+        "text_error": "Veuillez fournir une réponse"
+      },
+      "purchase": {
+        "one_time": "Achat unique",
+        "subscription": "Abonnement",
+        "subscription_delivered": "Livré",
+        "every_interval": "Tous les {{ interval }}",
+        "interval_year": "Annuel",
+        "interval_year_plural": "ans",
+        "interval_month": "Mensuel",
+        "interval_month_plural": "mois",
+        "interval_week": "Hebdomadaire",
+        "interval_week_plural": "semaines",
+        "interval_day": "Quotidien",
+        "interval_day_plural": "jours",
+        "includes_trial": "Essai de {{ trial_days }} jours"
+      },
+      "gift_card": {
+        "options": "Options de carte",
+        "send_gift": "Envoyer en cadeau",
+        "send_email": "E-mail du destinataire",
+        "send_email_error": "Veuillez entrer une adresse e-mail valide.",
+        "send_note": "Message personnalisé",
+        "send_note_placeholder": "Rédigez un message personnalisé pour le destinataire",
+        "send_note_char_count": "caractères"
+      }
+    },
+    "cart": {
+      "title": "Votre panier",
+      "empty": "Votre panier est vide",
+      "estimated_total": "Total estimé",
+      "view_cart": "Voir le panier",
+      "checkout": "Passer à la caisse",
+      "continue_checkout": "Continuer vers la caisse",
+      "subtotal": "Sous-total",
+      "taxes_discounts_shipping_at_checkout": "Taxes, remises et frais de livraison calculés à la caisse.",
+      "headings": {
+        "product": "Produit",
+        "total": "Total",
+        "quantity": "Quantité",
+        "discount": "Remise"
+      },
+      "login": {
+        "title": "Vous avez un compte ?",
+        "faster": "pour un passage à la caisse plus rapide"
+      },
+      "item_count": {
+        "one": "{{ count }} article",
+        "other": "{{ count }} articles"
+      }
+    },
+    "newsletter": {
+      "email": "E-mail",
+      "success": "Vous êtes abonné à notre newsletter."
+    },
+    "slideshow": {
+      "label": "Diaporama",
+      "next": "Diapositive suivante",
+      "previous": "Diapositive précédente"
+    }
+  },
+  "accessibility": {
+    "skip_to_text": "Passer au contenu",
+    "browser_video_support": "Votre navigateur ne prend pas en charge la balise vidéo.",
+    "close": "Fermer",
+    "error": "Erreur"
+  },
+  "onboarding": {
+    "product_title": "Produit d'exemple",
+    "collection_title": "Collection d'exemple",
+    "blog_title": "Titre de blog d'exemple",
+    "blog_post_date": "15 mars 2023",
+    "blog_post_category": "Actualités",
+    "blog_post_title": "Titre du blog",
+    "blog_post_content": "Écris ton contenu de blog ici. Commence par une courte intro, puis divise le contenu en sections claires avec des titres. Utilise des paragraphes courts pour plus de lisibilité. Tu peux inclure des images, vidéos, citations et liens pour enrichir ton contenu. Termine avec un résumé ou un appel à l’action."
+  }
+}

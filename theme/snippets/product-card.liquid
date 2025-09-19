@@ -1,0 +1,62 @@
+{% comment %}
+  Usage: {% render 'product-card', product: product %}
+  Dependencies: cart.js
+{% endcomment %}
+
+{% assign featured_image = product.images | first %}
+{% assign second_image = product.images | slice: 1, 1 | first %}
+{% assign color_scheme = color_scheme %}
+
+{% assign sorted_variants = product.variants | sort: 'price' %}
+{% assign lowest_price_variant = sorted_variants | first %}
+{% assign lowest_price = lowest_price_variant.price | money_with_currency %}
+{% assign compare_at_price = product.compare_at_price %}
+{% assign price = product.price | default: product.selected_or_first_available_variant.price | money_with_currency %}
+{% assign title = product.name | default: product.title %}
+{% assign slug = product.slug | default: product.url %}
+
+<div class="group relative flex flex-col gap-12">
+  <a href="{{ slug }}" class="relative w-full h-fit aspect-square">
+    {% if featured_image != blank %}
+      <img
+        src="{{ featured_image | image_url}}"
+        alt="{{ featured_image.alt }}"
+        class="primary-image rounded w-full h-full object-contain absolute inset-0 transition-opacity duration-300 opacity-100 group-hover:opacity-0"
+      >
+      {% if second_image %}
+        <img
+          src="{{ second_image | image_url}}"
+          alt="{{ second_image.alt }}"
+          class="secondary-image rounded w-full h-full object-contain absolute inset-0 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+        >
+      {% else %}
+        <img
+          src="{{ featured_image | image_url}}"
+          alt="{{ featured_image.alt }}"
+          class="primary-image rounded w-full h-full object-contain absolute inset-0 transition-opacity duration-300 opacity-100"
+        >
+      {% endif %}
+    {% else %}
+      <div class="rounded w-full h-full absolute inset-0 bg-[#F5F5F5]"></div>
+    {% endif %}
+  </a>
+  <div class="flex flex-col gap-4">
+    <a href="{{ slug }}" class="text-body-small font-display">
+      <h5>{{ title }}</h5>
+    </a>
+    <div class="flex gap-8">
+      <span class="text-body-medium font-display">
+        {% if product.variants.size > 1 %}
+          From {{ lowest_price }}
+        {% else %}
+          {{ price }}
+        {% endif %}
+      </span>
+      {% if compare_at_price != blank %}
+        <span class="line-through text-secondary-{{ color_scheme }} text-body-medium font-display">
+          {{- compare_at_price | money_with_currency -}}
+        </span>
+      {% endif %}
+    </div>
+  </div>
+</div>

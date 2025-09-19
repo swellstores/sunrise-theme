@@ -1,0 +1,118 @@
+{%- liquid
+  assign cart_empty = cart.empty? == true
+  assign color_scheme = section.settings.color_scheme
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+-%}
+
+{% style %}
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
+    }
+  }
+{% endstyle %}
+
+<cart-root class="flex flex-col max-w-container mx-auto px-0 sm:px-20 text-{{ color_scheme }} bg-{{ color_scheme }} responsive-padding-{{ section.id }}">
+  <div class="flex items-center px-4 py-24 mb-24 mx-20 sm:mx-0 gap-4 text-title-large border-b border-color-{{ color_scheme }}">
+    <span>
+      {{ 'sections.cart.title' | t }}
+    </span>
+    {% if cart_empty != true %}
+      <span>
+        ({{ cart.item_count }})
+      </span>
+    {% endif %}
+  </div>
+  {%- if cart_empty -%}
+    <div class="flex flex-col gap-8 px-20 sm:px-0">
+      <span class="text-body-small text-secondary-{{ color_scheme }}">
+        {{ 'sections.cart.empty' | t }}
+      </span>
+      <a
+        href="{{ routes.all_products_collection_url }}"
+        class="text-body-medium underline"
+      >
+        {{ 'general.continue_shopping' | t }}
+      </a>
+    </div>
+  {%- else -%}
+    <div class="flex flex-col sm:flex-row gap-16 sm:gap-40">
+      <div class="flex flex-col flex-[2]">
+        {%- for item in cart.items -%}
+          {% render 'cart-item',
+            item: item,
+            index: forloop.index,
+            inline_price: true,
+            color_scheme: color_scheme
+          %}
+        {%- endfor -%}
+      </div>
+      <div class="flex flex-col flex-[1] w-full pt-16 px-20 sm:px-0 gap-24 border-t border-color-{{ color_scheme }} sm:border-none">
+        <div class="flex flex-col gap-4">
+          <div class="flex justify-between text-body-large font-semibold">
+            <span>
+              {{ 'sections.cart.subtotal' | t }}
+            </span>
+            <span>
+              {{ cart.items_subtotal_price | money }}
+            </span>
+          </div>
+          <span class="sm:hidden text-body-small text-secondary-{{ color_scheme }}">
+            {{ 'sections.cart.taxes_discounts_shipping_at_checkout' | t }}
+          </span>
+        </div>
+        {% assign checkout_text = 'sections.cart.continue_checkout' | t %}
+        {% render 'button',
+          href: cart.checkout_url,
+          text: checkout_text,
+          full_width: true,
+          class: 'whitespace-nowrap',
+          color_scheme: color_scheme
+        %}
+      </div>
+    </div>
+  {%- endif -%}
+</cart-root>
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "Top padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    }
+  ]
+}
+{% endschema %}

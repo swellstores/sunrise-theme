@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  grid-template-columns: 100%;
+  min-height: 100vh;
+}
+
+/* Buttons */
+
+.btn {
+  @apply inline-flex items-center justify-center px-4 py-3 !no-underline;
+}
+
+/* Icons */
+
+ion-icon {
+  @apply text-base/4;
+  stroke: currentColor;
+  /* 32px is the default value in Ionicons */
+  stroke-width: 32px;
+}
+
+ion-icon[name*="outline"] {
+  fill: none;
+}
+
+/* Customers */
+
+#login,
+#recover {
+  scroll-margin-top: 20rem;
+}
+
+#recover {
+  display: none;
+}
+
+#recover:target {
+  display: block;
+}
+
+#recover:target ~ #login {
+  display: none;
+}
+
+/* Long text wrapping */
+
+.fr-view,
+span[data-swell-inline-editable],
+section {
+  overflow-wrap: anywhere;
+}
+
+/* hide all slides in a slider container except the first one until it becomes active */
+swiper-container:not(.active-swiper) {
+  swiper-slide:not(:first-child) {
+    display: none;
+  }
+}

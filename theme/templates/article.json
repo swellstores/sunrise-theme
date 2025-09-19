@@ -1,0 +1,66 @@
+{
+  "sections": {
+    "article": {
+      "type": "article",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "padding_x": 0,
+        "padding_y": 0
+      },
+      "blocks": {
+        "featured_image_tErtLW": {
+          "type": "featured_image",
+          "settings": {
+            "margin_top": 0,
+            "margin_bottom": 64,
+            "image_height": "large"
+          }
+        },
+        "date_and_category": {
+          "type": "date_and_category",
+          "settings": {
+            "margin_top": 0,
+            "margin_bottom": 4,
+            "show_category": true,
+            "show_date": true
+          }
+        },
+        "title_R4KgxX": {
+          "type": "title",
+          "settings": {
+            "margin_top": 0,
+            "margin_bottom": 0,
+            "show_author": false
+          }
+        },
+        "content_RerDj7": {
+          "type": "content",
+          "settings": {
+            "margin_top": 16,
+            "margin_bottom": 0
+          }
+        },
+        "share_pfhjbb": {
+          "type": "share",
+          "settings": {
+            "margin_top": 16,
+            "margin_bottom": 0,
+            "show_copy_link": true,
+            "show_pinterest": true,
+            "show_facebook": true,
+            "show_x": true,
+            "show_linkedin": true
+          }
+        }
+      },
+      "block_order": [
+        "featured_image_tErtLW",
+        "date_and_category",
+        "title_R4KgxX",
+        "content_RerDj7",
+        "share_pfhjbb"
+      ]
+    }
+  },
+  "order": ["article"]
+}

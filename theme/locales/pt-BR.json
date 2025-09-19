@@ -1,0 +1,238 @@
+{
+  "general": {
+    "continue_shopping": "Continuar comprando",
+    "breadcrumbs": {
+      "label": "Migalhas de pão",
+      "home": "Início",
+      "collections": "Coleções",
+      "products": "Produtos",
+      "account": "Conta",
+      "register": "Registrar",
+      "addresses": "Endereços",
+      "activate_account": "Ativar conta"
+    },
+    "pagination": {
+      "label": "Paginação",
+      "page": "Página {{ number }}",
+      "next": "Próximo",
+      "previous": "Anterior"
+    },
+    "search": {
+      "placeholder": "Pesquisar",
+      "submit": "Enviar pesquisa",
+      "no_results": "Nenhum resultado encontrado para “{{ terms }}”",
+      "store": "Pesquisar em {{ store_name }}",
+      "dismiss": "Fechar pesquisa"
+    },
+    "localization": {
+      "language": "Idioma",
+      "currency": "Moeda",
+      "title_language_and_currency": "Escolha seu idioma e moeda",
+      "title_language": "Escolha seu idioma",
+      "title_currency": "Escolha sua moeda",
+      "submit": "Continuar"
+    },
+    "accordion": {
+      "toggle": "Alternar item"
+    },
+    "page_not_found": "Página não encontrada",
+    "share": "Compartilhar",
+    "loading": "Carregando..."
+  },
+  "customer": {
+    "log_out": "Sair",
+    "log_in": "Entrar",
+    "account": {
+      "title": "Conta",
+      "my_orders": "Meus pedidos",
+      "orders": "Pedidos",
+      "address_book": "Lista de endereços",
+      "addresses": "Endereços",
+      "no_orders_found": "Nenhum pedido encontrado."
+    },
+    "activate_account": {
+      "title": "Ativar conta",
+      "subtext": "Crie sua senha para ativar sua conta.",
+      "submit": "Ativar",
+      "cancel": "Cancelar"
+    },
+    "addresses": {
+      "title": "Endereços",
+      "default": "Endereço padrão",
+      "edit_address": "Editar endereço",
+      "first_name": "Nome",
+      "last_name": "Sobrenome",
+      "company": "Empresa",
+      "address1": "Linha de endereço 1",
+      "address2": "Linha de endereço 2",
+      "city": "Cidade",
+      "country": "País/região",
+      "province": "Estado",
+      "zip": "CEP",
+      "phone": "Número de telefone (opcional)",
+      "set_default": "Definir como endereço padrão",
+      "add": "Adicionar endereço",
+      "new": "Novo endereço",
+      "back": "Voltar para a lista de endereços",
+      "cancel": "Cancelar",
+      "submit": "Salvar endereço",
+      "edit": "Editar",
+      "remove": "Remover",
+      "remove_confirm": "Tem certeza de que deseja remover este endereço?"
+    }
+  },
+  "sections": {
+    "login": {
+      "title": "Entrar",
+      "email": "Endereço de e-mail",
+      "password": "Senha",
+      "forgot_password": "Esqueceu a senha?",
+      "create_account": "Criar uma conta",
+      "sign_in": "Entrar",
+      "error": "Sua tentativa de login falhou. Por favor, tente novamente."
+    },
+    "register": {
+      "title": "Criar conta",
+      "first_name": "Nome",
+      "last_name": "Sobrenome",
+      "email": "Endereço de e-mail",
+      "password": "Senha",
+      "already_have_account": "Já tem uma conta?",
+      "create_account": "Criar conta",
+      "error": "Não foi possível criar sua conta. Por favor, tente novamente."
+    },
+    "reset-password": {
+      "title": "Redefinir senha",
+      "subtext": "Insira uma nova senha para sua conta.",
+      "email": "Endereço de e-mail",
+      "password": "Senha",
+      "submit": "Redefinir senha",
+      "cancel": "Cancelar",
+      "error": "Não foi possível redefinir sua senha. Por favor, tente novamente."
+    },
+    "recover-password": {
+      "title": "Recuperar senha",
+      "subtext": "Enviaremos um e-mail para redefinir sua senha.",
+      "email": "Endereço de e-mail",
+      "password": "Senha",
+      "submit": "Recuperar senha",
+      "cancel": "Cancelar",
+      "sent": "E-mail enviado"
+    },
+    "blog": {
+      "read_more": "Leia mais"
+    },
+    "announcement": {
+      "label": "Anúncio",
+      "description": "Apresentação de anúncios",
+      "dismiss": "Fechar anúncio",
+      "slideshow_of": "de"
+    },
+    "collection": {
+      "filters": {
+        "filters": "Filtros",
+        "filter_and_sort": "Filtrar e ordenar",
+        "active": "Filtros ativos",
+        "from": "De",
+        "to": "Até",
+        "selected": "Selecionado",
+        "sort_by": "Ordenar por",
+        "reset": "Redefinir",
+        "close": "Fechar",
+        "clear_all": "Limpar tudo",
+        "remove_label": "Remover filtro para {{ attribute }}"
+      }
+    },
+    "header": {
+      "menu": "Menu",
+      "submenu": "Submenu",
+      "cart": "Carrinho de compras"
+    },
+    "product": {
+      "from_price": "A partir de",
+      "out_of_stock": "Este item está fora de estoque no momento",
+      "quantity": {
+        "label": "Quantidade",
+        "increment": "Aumentar quantidade",
+        "decrement": "Diminuir quantidade"
+      },
+      "option": {
+        "out_of_stock": "Fora de estoque",
+        "selection_error": "Por favor, selecione uma opção",
+        "text_error": "Por favor, forneça uma resposta"
+      },
+      "purchase": {
+        "one_time": "Compra única",
+        "subscription": "Assinatura",
+        "subscription_delivered": "Entregue",
+        "every_interval": "A cada {{ interval }}",
+        "interval_year": "Anual",
+        "interval_year_plural": "anos",
+        "interval_month": "Mensal",
+        "interval_month_plural": "meses",
+        "interval_week": "Semanal",
+        "interval_week_plural": "semanas",
+        "interval_day": "Diário",
+        "interval_day_plural": "dias",
+        "includes_trial": "Teste de {{ trial_days }} dias"
+      },
+      "gift_card": {
+        "options": "Opções de cartão",
+        "send_gift": "Enviar como presente",
+        "send_email": "Email do destinatário",
+        "send_email_error": "Digite um endereço de e-mail válido.",
+        "send_note": "Mensagem personalizada",
+        "send_note_placeholder": "Escreva uma mensagem personalizada para o destinatário",
+        "send_note_char_count": "caracteres"
+      }
+    },
+    "cart": {
+      "title": "Seu carrinho",
+      "empty": "Seu carrinho está vazio",
+      "estimated_total": "Total estimado",
+      "view_cart": "Ver carrinho",
+      "checkout": "Finalizar compra",
+      "continue_checkout": "Continuar para o checkout",
+      "subtotal": "Subtotal",
+      "taxes_discounts_shipping_at_checkout": "Impostos, descontos e frete calculados no checkout.",
+      "headings": {
+        "product": "Produto",
+        "total": "Total",
+        "quantity": "Quantidade",
+        "discount": "Desconto"
+      },
+      "login": {
+        "title": "Tem uma conta?",
+        "faster": "para um checkout mais rápido"
+      },
+      "item_count": {
+        "one": "{{ count }} item",
+        "other": "{{ count }} itens"
+      }
+    },
+    "newsletter": {
+      "email": "E-mail",
+      "success": "Você se inscreveu na nossa newsletter."
+    },
+    "slideshow": {
+      "label": "Apresentação de slides",
+      "next": "Próximo slide",
+      "previous": "Slide anterior"
+    }
+  },
+  "accessibility": {
+    "skip_to_text": "Pular para o conteúdo",
+    "browser_video_support": "Seu navegador não suporta a tag de vídeo.",
+    "close": "Fechar",
+    "error": "Erro"
+  },
+  "onboarding": {
+    "product_title": "Produto de exemplo",
+    "collection_title": "Coleção de exemplo",
+    "blog_title": "Título de blog de exemplo",
+    "blog_post_date": "15 de março de 2023",
+    "blog_post_category": "Notícias",
+    "blog_post_title": "Título do blog",
+    "blog_post_content": "Escreva o conteúdo do seu blog aqui. Comece com uma introdução rápida, depois divida o conteúdo em seções bem claras usando títulos. Use parágrafos curtos para facilitar a leitura. Você pode incluir imagens, vídeos, citações e links para enriquecer o conteúdo. Termine com um resumo ou um chamado para ação."
+  }
+}

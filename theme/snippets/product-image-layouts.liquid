@@ -1,0 +1,67 @@
+{% liquid
+  assign desktop_layout = section.settings.desktop_layout
+
+  assign media_urls = ''
+  assign media_alts = ''
+  assign media_ids = ''
+  for variant in product.variants
+    if variant.featured_media
+      unless media_ids contains variant.featured_media.id
+        assign media_ids = media_ids | append: variant.featured_media.id | append: ','
+        assign media_url = variant.featured_media | image_url
+        assign media_urls = media_urls | append: media_url | append: ','
+        assign alt = variant.featured_media.alt | escape
+        assign media_alts = media_alts | append: alt | append: ','
+      endunless
+    endif
+  endfor
+
+  for media in product.media
+    unless media_ids contains media.id
+      assign media_ids = media_ids | append: media.id | append: ','
+      assign media_url = media.preview_image | image_url
+      assign media_urls = media_urls | append: media_url | append: ','
+      assign alt = media.alt | escape
+      assign media_alts = media_alts | append: alt | append: ','
+    endunless
+  endfor
+
+  assign media_urls = media_urls | split: ','
+  assign media_alts = media_alts | split: ','
+%}
+
+{% if media_urls.size > 0 %}
+  <div class="relative flex w-full flex-1 min-w-0">
+    {%- if media_urls.size > 1 -%}
+      {%- if desktop_layout == 'thumbnail_gallery' -%}
+        {% render 'product-image-layout-thumbnails',
+          color_scheme: color_scheme,
+          media_urls: media_urls,
+          media_alts: media_alts
+        %}
+      {%- elsif desktop_layout == 'two_column'-%}
+        {% render 'product-image-layout-two-columns',
+          media_urls: media_urls,
+          media_alts: media_alts
+        %}
+      {%- elsif desktop_layout == 'stacked'-%}
+        {% render 'product-image-layout-stacked',
+          media_urls: media_urls,
+          media_alts: media_alts
+        %}
+      {%- endif -%}
+    {%- else -%}
+      <img
+        src="{{ media_urls | first }}"
+        alt="{{ media_alts | first }}"
+        class="w-full h-full object-contain object-top rounded"
+      >
+    {%- endif -%}
+  </div>
+{% else %}
+  <div class="flex items-start justify-center flex-1 min-w-0">
+    <div class="placeholder-box flex items-center justify-center w-full aspect-square rounded">
+      <ion-icon name="camera-outline" class="size-64 text-secondary-{{ color_scheme }}"></ion-icon>
+    </div>
+  </div>
+{% endif %}

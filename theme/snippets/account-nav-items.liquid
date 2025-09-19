@@ -1,0 +1,42 @@
+{%- liquid
+  assign checkmark_class = 'checkmark-icon hidden items-center justify-center size-14'
+-%}
+
+<a href="#orders" class="account-nav-item">
+  {{ 'customer.account.orders' | t }}
+  <div class="{{ checkmark_class }}">
+    {{- 'icon-checkmark.svg' | inline_asset_content -}}
+  </div>
+</a>
+
+<a href="#subscriptions" class="account-nav-item">
+  {{ 'customer.account.subscriptions' | t }}
+  <div class="{{ checkmark_class }}">
+    {{- 'icon-checkmark.svg' | inline_asset_content -}}
+  </div>
+</a>
+
+<a href="#addresses" class="account-nav-item">
+  {{ 'customer.account.addresses' | t }}
+  <div class="{{ checkmark_class }}">
+    {{- 'icon-checkmark.svg' | inline_asset_content -}}
+  </div>
+</a>
+
+{% comment %}
+  Uncomment this when implementing the payment methods page.
+
+  <a href="#payment-method" class="account-nav-item">
+    {{ 'customer.account.payment_methods' | t }}
+    <div class="{{ checkmark_class }}">
+      {{- 'icon-checkmark.svg' | inline_asset_content -}}
+    </div>
+  </a>
+{% endcomment %}
+
+<a
+  href="{{ routes.account_logout_url }}"
+  class="text-{{ color_scheme }}"
+>
+  {{ 'customer.log_out' | t }}
+</a>

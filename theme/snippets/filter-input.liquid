@@ -1,0 +1,40 @@
+{% comment %}
+  Renders the correct input UI for a given filter type.
+
+  Accepts:
+  - filter: {Object} The filter object, must include `type` and `param_name`.
+  - color_scheme: {String} Optional. Passed to specific filter input snippets.
+
+  Behavior:
+  - Chooses input renderer based on `filter.type`:
+    - 'boolean' → 'filter-input-boolean'
+    - 'list' → 'filter-input-list'
+    - 'price_range' → 'filter-input-price-range'
+  - Wraps output in a container with ID based on filter param.
+
+  Usage:
+  {% render 'filter-input', filter: filter, color_scheme: section.settings.color_scheme %}
+{% endcomment %}
+
+<div
+  id="filter-input-{{ filter.param_name }}"
+  hx-swap-oob="true"
+>
+  {% case filter.type %}
+    {% when 'boolean' %}
+      {% render 'filter-input-boolean',
+        filter: filter,
+        color_scheme: color_scheme
+      %}
+    {% when 'list' %}
+      {% render 'filter-input-list',
+        filter: filter,
+        color_scheme: color_scheme
+      %}
+    {% when 'price_range' %}
+      {% render 'filter-input-price-range',
+        filter: filter,
+        color_scheme: color_scheme
+      %}
+  {% endcase %}
+</div>

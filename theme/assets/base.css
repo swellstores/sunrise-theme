@@ -1,0 +1,497 @@
+.font-display {
+  font-family: var(--font-body-family);
+}
+
+.font-pre-heading {
+  font-family: var(--font-pre-heading-family);
+}
+
+.font-heading {
+  font-family: var(--font-heading-family);
+}
+
+/* base-details-summary */
+summary {
+  cursor: pointer;
+  list-style: none;
+  position: relative;
+}
+
+summary .icon-caret {
+  position: absolute;
+  height: 0.6rem;
+  right: 1rem;
+  top: calc(50% - 0.2rem);
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+details > * {
+  box-sizing: border-box;
+}
+
+/* Remove arrows from number input */
+input[type="number"].number-input {
+  -moz-appearance: textfield; /* Firefox */
+  -webkit-appearance: none; /* Chrome, Safari, Edge */
+  appearance: none;
+  text-align: center;
+  background: transparent;
+}
+
+/* Optionally remove spin buttons in some browsers */
+input[type="number"].number-input::-webkit-inner-spin-button,
+input[type="number"].number-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input-select {
+  border: unset;
+
+  width: 100%;
+  max-width: 40rem;
+  padding: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+
+  appearance: none;
+  background-image: url("./arrow-down-swell.svg");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem top 50%;
+  background-size: 0.65rem auto;
+}
+
+.placeholder-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.svg-placeholder {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.w-fit {
+  width: w-fit-moz-fit-content;
+  width: fit-content;
+}
+
+.scrollbar-hidden {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* FROALA editors */
+.formatted-text {
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: bolder;
+  }
+
+  h1 {
+    font-size: 3.2rem;
+    line-height: 5.12rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+    line-height: 2.24rem;
+  }
+
+  h3 {
+    font-size: 1.87rem;
+    line-height: 3rem;
+  }
+
+  h4 {
+    font-size: 1.6rem;
+    line-height: 2.56rem;
+  }
+
+  ul,
+  ol {
+    margin: 1rem;
+    padding: 1rem;
+    padding-inline-start: 2.5rem;
+    width: fit-content;
+    > li {
+      text-align: left;
+    }
+  }
+
+  ul {
+    list-style: disc;
+  }
+
+  ol {
+    list-style: auto;
+  }
+}
+
+/* heading styles */
+.text-heading-small {
+  font-size: calc(2.4rem * var(--font-scale));
+  line-height: calc(3.2rem * var(--font-scale));
+  font-weight: 400;
+}
+
+.text-heading-medium {
+  font-size: calc(3.6rem * var(--font-scale));
+  line-height: calc(4.4rem * var(--font-scale));
+  font-weight: 400;
+}
+
+.text-heading-large {
+  font-size: calc(4.8rem * var(--font-scale));
+  line-height: calc(6rem * var(--font-scale));
+  font-weight: 400;
+}
+
+.text-heading-extra-large {
+  font-size: calc(6rem * var(--font-scale));
+  line-height: calc(7.2rem * var(--font-scale));
+  font-weight: 400;
+}
+
+.text-pre-heading {
+  font-size: calc(1.4rem * var(--font-scale));
+  line-height: calc(1.8rem * var(--font-scale));
+  font-weight: 400;
+}
+
+.text-display-large {
+  font-size: calc(6.4rem * var(--font-scale));
+  line-height: calc(7.2rem * var(--font-scale));
+  font-weight: 600;
+}
+
+.text-display-medium {
+  font-size: calc(4rem * var(--font-scale));
+  line-height: calc(5rem * var(--font-scale));
+  font-weight: 600;
+}
+
+.text-display-small {
+  font-size: calc(3.2rem * var(--font-scale));
+  line-height: calc(4rem * var(--font-scale));
+  font-weight: 600;
+}
+
+.text-headline-large {
+  font-size: calc(4rem * var(--font-scale));
+  line-height: calc(5rem * var(--font-scale));
+  font-weight: 600;
+}
+
+.text-headline-medium {
+  font-size: calc(3.2rem * var(--font-scale));
+  line-height: calc(4rem * var(--font-scale));
+  font-weight: 600;
+}
+
+.text-headline-small {
+  font-size: calc(2.4rem * var(--font-scale));
+  line-height: calc(3.6rem * var(--font-scale));
+  font-weight: 600;
+}
+
+.text-headline-extra-small {
+  font-size: calc(2.4rem * var(--font-scale));
+  line-height: calc(3.2rem * var(--font-scale));
+  font-weight: 500;
+}
+
+/* content styles */
+.text-title-extra-large {
+  font-size: calc(3rem * var(--font-scale));
+  line-height: calc(3.8rem * var(--font-scale));
+  font-weight: 500;
+}
+
+.text-title-large {
+  font-size: calc(2.2rem * var(--font-scale));
+  line-height: calc(2.8rem * var(--font-scale));
+  font-weight: 500;
+}
+
+.text-title-medium {
+  font-size: calc(1.6rem * var(--font-scale));
+  line-height: calc(2.4rem * var(--font-scale));
+  font-weight: 500;
+}
+
+.text-title-small {
+  font-size: calc(1.4rem * var(--font-scale));
+  line-height: calc(2rem * var(--font-scale));
+  font-weight: 500;
+}
+
+.text-body-extra-large {
+  font-size: calc(1.8rem * var(--font-scale));
+  line-height: calc(2.8rem * var(--font-scale));
+  font-weight: 400;
+}
+
+.text-body-large {
+  font-size: calc(1.6rem * var(--font-scale));
+  line-height: calc(2.4rem * var(--font-scale));
+  font-weight: 400;
+}
+
+.text-body-medium {
+  font-size: calc(1.4rem * var(--font-scale));
+  line-height: calc(2rem * var(--font-scale));
+  font-weight: 400;
+}
+
+.text-body-small {
+  font-size: calc(1.2rem * var(--font-scale));
+  line-height: calc(1.6rem * var(--font-scale));
+  font-weight: 400;
+}
+
+.text-label-large {
+  font-size: calc(1.4rem * var(--font-scale));
+  line-height: calc(1.8rem * var(--font-scale));
+  font-weight: 500;
+}
+
+.text-label-medium {
+  font-size: calc(1.2rem * var(--font-scale));
+  line-height: calc(1.4rem * var(--font-scale));
+  font-weight: 500;
+}
+
+.text-label-small {
+  font-size: calc(1.1rem * var(--font-scale));
+  line-height: calc(1.4rem * var(--font-scale));
+  font-weight: 500;
+}
+
+.text-logo-text {
+  font-size: calc(2.2rem * var(--font-scale));
+  line-height: calc(3.3rem * var(--font-scale));
+  font-weight: 700;
+}
+
+.text-content {
+  font-size: calc(1.6rem * var(--font-scale));
+  line-height: calc(2.4rem * var(--font-scale));
+  font-weight: 400;
+}
+
+.shadow-md {
+  box-shadow: 0px 3px 8px -1px rgba(71, 71, 71, 0.18);
+}
+
+/* Apply border radius to all input fields and dropdowns */
+input,
+select,
+textarea,
+dropdown-option::before {
+  border-radius: calc(1rem * var(--border-radius));
+}
+
+input:hover,
+input:focus,
+select:hover,
+select:focus,
+textarea:hover,
+textarea:focus,
+dropdown-menu:hover dropdown-trigger {
+  box-shadow: inset 0 0 0 0.5px var(--shadow-color);
+}
+
+dropdown-menu[aria-expanded="true"] dropdown-trigger {
+  box-shadow:
+    inset 0.5px 0 0 0 var(--shadow-color),
+    inset -0.5px 0 0 0 var(--shadow-color),
+    inset 0 0.5px 0 0 var(--shadow-color);
+}
+
+dropdown-menu[aria-expanded="true"] dropdown-options {
+  box-shadow:
+    inset 0.5px 0 0 0 var(--shadow-color),
+    inset -0.5px 0 0 0 var(--shadow-color),
+    inset 0 -0.5px 0 0 var(--shadow-color);
+}
+
+dropdown-option::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: black;
+  opacity: 0;
+  pointer-events: none;
+}
+
+dropdown-option:hover::before {
+  opacity: 0.1;
+}
+
+input::placeholder,
+textarea::placeholder,
+.placeholder {
+  opacity: 0.6 !important;
+}
+
+.disabled,
+[disabled] {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.scrollbar-hidden {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE и Edge */
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.subscription-status-active,
+.subscription-status-trial,
+.subscription-status-complete,
+.order-financial-status-refund_due,
+.order-financial-status-partially_refunded,
+.order-financial-status-refunded,
+.order-financial-status-paid,
+.order-financial-status-free,
+.order-fulfillment-status-returned,
+.order-fulfillment-status-partially_returned,
+.order-fulfillment-status-fulfilled,
+.order-fulfillment-status-complete,
+.order-fulfillment-status-partial {
+  color: #027a48;
+  background-color: #ecfdf3;
+  border-color: #ecfdf3;
+}
+
+.subscription-status-active-dot,
+.subscription-status-trial-dot,
+.subscription-status-complete-dot,
+.order-financial-status-refund_due-dot,
+.order-financial-status-partially_refunded-dot,
+.order-financial-status-refunded-dot,
+.order-financial-status-paid-dot,
+.order-financial-status-free-dot,
+.order-fulfillment-status-returned-dot,
+.order-fulfillment-status-partially_returned-dot,
+.order-fulfillment-status-fulfilled-dot,
+.order-fulfillment-status-complete-dot,
+.order-fulfillment-status-partial-dot {
+  background-color: #027a48;
+  border-color: #027a48;
+  width: 7px;
+  height: 7px;
+}
+
+.subscription-status-pastdue {
+  color: #b54708;
+  background-color: #fffaeb;
+  border-color: #fffaeb;
+}
+
+.subscription-status-pastdue-dot {
+  background-color: #b54708;
+  border-color: #b54708;
+  width: 7px;
+  height: 7px;
+}
+
+.subscription-status-paused,
+.subscription-status-canceled,
+.subscription-status-unpaid,
+.order-financial-status-partially_paid,
+.order-financial-status-authorized,
+.order-financial-status-unpaid,
+.order-fulfillment-status-canceled,
+.order-fulfillment-status-on_hold,
+.order-fulfillment-status-restocked {
+  color: #1b191f;
+  background-color: #f5f5f5;
+  border-color: #f5f5f5;
+}
+
+.subscription-status-paused-dot,
+.subscription-status-canceled-dot,
+.subscription-status-unpaid-dot,
+.order-financial-status-partially_paid-dot,
+.order-financial-status-authorized-dot,
+.order-financial-status-unpaid-dot,
+.order-fulfillment-status-canceled-dot,
+.order-fulfillment-status-on_hold-dot,
+.order-fulfillment-status-restocked-dot {
+  background-color: #1b191f;
+  border-color: #1b191f;
+  width: 7px;
+  height: 7px;
+}
+
+.order-financial-status-partially_fulfilled,
+.order-fulfillment-status-unfulfilled {
+  color: #b54708;
+  background-color: #fffaeb;
+  border-color: #fffaeb;
+}
+
+.order-financial-status-partially_fulfilled-dot,
+.order-fulfillment-status-unfulfilled-dot {
+  background-color: #b54708;
+  border-color: #b54708;
+  width: 7px;
+  height: 7px;
+}
+
+.subscription-shadow,
+.order-shadow,
+.address-shadow {
+  box-shadow: 0px 1px 2px 0px
+    color-mix(in srgb, var(--shadow-color) 50%, #e0e0e0);
+}
+
+.order-shadow:hover {
+  box-shadow: 0.5px 1.5px 2.5px 0.5px
+    color-mix(in srgb, var(--shadow-color) 50%, #e0e0e0);
+}
+
+.default-address-badge {
+  border: 1px solid #e0e0e0;
+  background-color: #f5f5f5;
+}
+
+.account-form-section {
+  button[disabled] {
+    opacity: 0.2;
+    pointer-events: none;
+  }
+}
+
+.account-form.htmx-request {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.account-section-width {
+  @media (min-width: 40rem) {
+    width: 48rem;
+  }
+}

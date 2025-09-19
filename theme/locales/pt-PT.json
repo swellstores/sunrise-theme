@@ -1,0 +1,238 @@
+{
+  "general": {
+    "continue_shopping": "Continuar a comprar",
+    "breadcrumbs": {
+      "label": "Migalhas de pão",
+      "home": "Início",
+      "collections": "Coleções",
+      "products": "Produtos",
+      "account": "Conta",
+      "register": "Registar",
+      "addresses": "Endereços",
+      "activate_account": "Ativar conta"
+    },
+    "pagination": {
+      "label": "Paginação",
+      "page": "Página {{ number }}",
+      "next": "Seguinte",
+      "previous": "Anterior"
+    },
+    "search": {
+      "placeholder": "Pesquisar",
+      "submit": "Enviar pesquisa",
+      "no_results": "Nenhum resultado encontrado para “{{ terms }}”",
+      "store": "Pesquisar em {{ store_name }}",
+      "dismiss": "Fechar pesquisa"
+    },
+    "localization": {
+      "language": "Idioma",
+      "currency": "Moeda",
+      "title_language_and_currency": "Escolha o seu idioma e moeda",
+      "title_language": "Escolha o seu idioma",
+      "title_currency": "Escolha a sua moeda",
+      "submit": "Continuar"
+    },
+    "accordion": {
+      "toggle": "Alternar item"
+    },
+    "page_not_found": "Página não encontrada",
+    "share": "Partilhar",
+    "loading": "A carregar..."
+  },
+  "customer": {
+    "log_out": "Terminar sessão",
+    "log_in": "Iniciar sessão",
+    "account": {
+      "title": "Conta",
+      "my_orders": "As minhas encomendas",
+      "orders": "Encomendas",
+      "address_book": "Livro de endereços",
+      "addresses": "Endereços",
+      "no_orders_found": "Nenhuma encomenda encontrada."
+    },
+    "activate_account": {
+      "title": "Ativar conta",
+      "subtext": "Crie a sua palavra-passe para ativar a sua conta.",
+      "submit": "Ativar",
+      "cancel": "Cancelar"
+    },
+    "addresses": {
+      "title": "Endereços",
+      "default": "Endereço predefinido",
+      "edit_address": "Editar endereço",
+      "first_name": "Primeiro nome",
+      "last_name": "Apelido",
+      "company": "Empresa",
+      "address1": "Linha de endereço 1",
+      "address2": "Linha de endereço 2",
+      "city": "Cidade",
+      "country": "País/região",
+      "province": "Distrito",
+      "zip": "Código postal",
+      "phone": "Número de telefone (opcional)",
+      "set_default": "Definir como endereço predefinido",
+      "add": "Adicionar endereço",
+      "new": "Novo endereço",
+      "back": "Voltar ao livro de endereços",
+      "cancel": "Cancelar",
+      "submit": "Guardar endereço",
+      "edit": "Editar",
+      "remove": "Remover",
+      "remove_confirm": "Tem a certeza de que deseja remover este endereço?"
+    }
+  },
+  "sections": {
+    "login": {
+      "title": "Iniciar sessão",
+      "email": "Endereço de e-mail",
+      "password": "Palavra-passe",
+      "forgot_password": "Esqueceu-se da palavra-passe?",
+      "create_account": "Criar uma conta",
+      "sign_in": "Iniciar sessão",
+      "error": "A sua tentativa de início de sessão falhou. Por favor, tente novamente."
+    },
+    "register": {
+      "title": "Criar conta",
+      "first_name": "Primeiro nome",
+      "last_name": "Apelido",
+      "email": "Endereço de e-mail",
+      "password": "Palavra-passe",
+      "already_have_account": "Já tem uma conta?",
+      "create_account": "Criar conta",
+      "error": "Não foi possível criar a sua conta. Por favor, tente novamente."
+    },
+    "reset-password": {
+      "title": "Redefinir palavra-passe",
+      "subtext": "Introduza uma nova palavra-passe para a sua conta.",
+      "email": "Endereço de e-mail",
+      "password": "Palavra-passe",
+      "submit": "Redefinir palavra-passe",
+      "cancel": "Cancelar",
+      "error": "Não foi possível redefinir a sua palavra-passe. Por favor, tente novamente."
+    },
+    "recover-password": {
+      "title": "Recuperar palavra-passe",
+      "subtext": "Enviaremos um e-mail para redefinir a sua palavra-passe.",
+      "email": "Endereço de e-mail",
+      "password": "Palavra-passe",
+      "submit": "Recuperar palavra-passe",
+      "cancel": "Cancelar",
+      "sent": "E-mail enviado"
+    },
+    "blog": {
+      "read_more": "Ler mais"
+    },
+    "announcement": {
+      "label": "Anúncio",
+      "description": "Apresentação de anúncios",
+      "dismiss": "Fechar anúncio",
+      "slideshow_of": "de"
+    },
+    "collection": {
+      "filters": {
+        "filters": "Filtros",
+        "filter_and_sort": "Filtrar e ordenar",
+        "active": "Filtros ativos",
+        "from": "De",
+        "to": "Até",
+        "selected": "Selecionado",
+        "sort_by": "Ordenar por",
+        "reset": "Redefinir",
+        "close": "Fechar",
+        "clear_all": "Limpar tudo",
+        "remove_label": "Remover filtro para {{ attribute }}"
+      }
+    },
+    "header": {
+      "menu": "Menu",
+      "submenu": "Submenu",
+      "cart": "Cesto de compras"
+    },
+    "product": {
+      "from_price": "Desde",
+      "out_of_stock": "Este artigo está atualmente esgotado",
+      "quantity": {
+        "label": "Quantidade",
+        "increment": "Aumentar quantidade",
+        "decrement": "Diminuir quantidade"
+      },
+      "option": {
+        "out_of_stock": "Esgotado",
+        "selection_error": "Por favor, selecione uma opção",
+        "text_error": "Por favor, forneça uma resposta"
+      },
+      "purchase": {
+        "one_time": "Compra única",
+        "subscription": "Subscrição",
+        "subscription_delivered": "Entregue",
+        "every_interval": "A cada {{ interval }}",
+        "interval_year": "Anual",
+        "interval_year_plural": "anos",
+        "interval_month": "Mensal",
+        "interval_month_plural": "meses",
+        "interval_week": "Semanal",
+        "interval_week_plural": "semanas",
+        "interval_day": "Diário",
+        "interval_day_plural": "dias",
+        "includes_trial": "{{ trial_days }} dias de teste"
+      },
+      "gift_card": {
+        "options": "Opções de cartão",
+        "send_gift": "Enviar como presente",
+        "send_email": "Email do destinatário",
+        "send_email_error": "Introduza um endereço de e-mail válido.",
+        "send_note": "Mensagem personalizada",
+        "send_note_placeholder": "Escreva uma mensagem personalizada para o destinatário",
+        "send_note_char_count": "caracteres"
+      }
+    },
+    "cart": {
+      "title": "O seu cesto",
+      "empty": "O seu cesto está vazio",
+      "estimated_total": "Total estimado",
+      "view_cart": "Ver cesto",
+      "checkout": "Finalizar compra",
+      "continue_checkout": "Continuar para a finalização",
+      "subtotal": "Subtotal",
+      "taxes_discounts_shipping_at_checkout": "Impostos, descontos e portes calculados na finalização.",
+      "headings": {
+        "product": "Produto",
+        "total": "Total",
+        "quantity": "Quantidade",
+        "discount": "Desconto"
+      },
+      "login": {
+        "title": "Tem uma conta?",
+        "faster": "para uma finalização mais rápida"
+      },
+      "item_count": {
+        "one": "{{ count }} item",
+        "other": "{{ count }} itens"
+      }
+    },
+    "newsletter": {
+      "email": "E-mail",
+      "success": "Subscreveu a nossa newsletter."
+    },
+    "slideshow": {
+      "label": "Apresentação de diapositivos",
+      "next": "Diapositivo seguinte",
+      "previous": "Diapositivo anterior"
+    }
+  },
+  "accessibility": {
+    "skip_to_text": "Saltar para o conteúdo",
+    "browser_video_support": "O seu navegador não suporta a etiqueta de vídeo.",
+    "close": "Fechar",
+    "error": "Erro"
+  },
+  "onboarding": {
+    "product_title": "Produto de exemplo",
+    "collection_title": "Coleção de exemplo",
+    "blog_title": "Título de blogue de exemplo",
+    "blog_post_date": "15 de março de 2023",
+    "blog_post_category": "Notícias",
+    "blog_post_title": "Título do blog",
+    "blog_post_content": "Escreve o conteúdo do teu blog aqui. Começa com uma introdução curta, depois divide o conteúdo em secções claras com cabeçalhos. Usa parágrafos curtos para facilitar a leitura. Podes incluir imagens, vídeos, citações e links para apoiar o teu conteúdo. Termina com um resumo ou um apelo à ação."
+  }
+}

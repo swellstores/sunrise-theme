@@ -1,0 +1,40 @@
+{% comment %}
+  Renders a price range filter with a range slider.
+
+  Assigns:
+  - step: increment step for slider (default 1)
+  - min: minimum slider value (default 0)
+  - max: maximum slider value from filter.range_max
+  - start_min: starting minimum value (default 0 or filter.min_value.value)
+  - start_max: starting maximum value (default max or filter.max_value.value)
+
+  Usage:
+  {% render 'filter-input-price-range', filter: filter %}
+{% endcomment %}
+
+{%- liquid
+  assign step = 1
+  assign min = 0
+  assign max = filter.range_max
+  assign start_min = filter.min_value.value | default: 0
+  assign start_max = filter.max_value.value | default: filter.range_max
+-%}
+
+<filter-input-price-range
+  class="flex items-end h-40"
+  data-name="{{ filter.param_name }}"
+>
+  <range-slider
+    class="flex w-full"
+    data-step="{{ step }}"
+    data-min="{{ min }}"
+    data-max="{{ max }}"
+    data-start-min="{{ start_min }}"
+    data-start-max="{{ start_max }}"
+  >
+    <range-slider-tooltip
+      class="absolute mb-8 italic bottom-full left-0 font-medium text-secondary-{{ color_scheme }}"
+      data-format="{{ shop.money_format }}"
+    ></range-slider-tooltip>
+  </range-slider>
+</filter-input-price-range>

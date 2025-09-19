@@ -1,0 +1,107 @@
+{% comment %}
+  Renders a single subscription description
+
+  Accepts:
+  - subscription: {Object} subscription to be rendered
+
+  Usage:
+    {%- render 'subscription', subscription: subscription -%}
+{% endcomment %}
+
+{% liquid
+  assign image_url = subscription.product.images[0].file.url
+  if subscription.variant.images[0].file.url
+     assign image_url = subscription.variant.images[0].file.url
+  endif
+  assign description_class = 'h-24 w-24 rounded-24 overflow-hidden flex items-center justify-center'
+%}
+
+<div class="flex flex-row gap-12">
+  <div class="pt-16">
+    <div class="w-60 h-60">
+      {% if image_url != blank %}
+        <img
+            src="{{ image_url }}"
+            class="w-full h-full object-cover rounded"
+          >
+      {% else %}
+        {%
+          render 'image',
+          picture_class: 'svg-placeholder relative',
+          placeholder: 'product-apparel-1'
+        %}
+      {% endif %}
+    </div>
+  </div>
+  <div class="flex flex-col gap-12">
+    <div class="flex gap-4 text-body-medium font-display">
+      {{ subscription.product.name  }}
+    </div>
+
+    <div class="flex flex-wrap text-body-medium lowercase">
+      <span class="font-medium">
+        {% assign prefix = subscription.grand_total | money | append: "/" %}
+        {%- render 'subscription-plan-schedule',
+          schedule: subscription.billing_schedule,
+          prefix: prefix
+        -%}
+      </span>
+      {%- if subscription.order_schedule -%}
+        ,&nbsp;
+        {% assign delivered = 'sections.product.purchase.subscription_delivered' | t %}
+        {% assign prefix = "" | append: delivered | append: " " %}
+        <span>
+          {%- render 'subscription-plan-schedule',
+            schedule: subscription.order_schedule,
+            prefix: prefix
+          -%}
+        </span>
+      {%- endif -%}
+    </div>
+
+    <div class="flex flex-row gap-8">
+      {% if subscription.status == 'active' %}
+        <div class="{{ description_class }} bg-[#3D995E] text-white">
+          <ion-icon name="sync" class="relative h-24 w-24"></ion-icon>
+        </div>
+        {{ 'customer.subscription.renews' | t }}{{ subscription.date_period_end | time_tag: format: 'date_at_time' }}
+      {% elsif subscription.status == 'paused' %}
+        <div class="{{ description_class }} bg-[#FFC038] text-white">
+          <ion-icon name="pause-outline" class="relative h-20 w-20"></ion-icon>
+        </div>
+        {% if subscription.date_pause_end %}
+          {{ 'customer.subscription.paused_until' | t }}{{ subscription.date_pause_end | time_tag: format: 'datetime' }}
+        {% else %}
+          {{ 'customer.subscription.paused_since' | t }}{{ subscription.date_paused | time_tag: format: 'datetime' }}
+        {% endif %}
+      {% elsif subscription.status == 'canceled' %}
+         <div class="{{ description_class }} bg-[#8C8984] text-white">
+          <ion-icon name="sync" class="relative h-24 w-24"></ion-icon>
+        </div>
+        {{ 'customer.subscription.cancelled' | t }}{{ subscription.date_canceled | time_tag: format: 'date_at_time' }}
+      {% elsif subscription.status == 'trial' %}
+       <div class="{{ description_class }} bg-[#FFA500] text-yellow">
+          <ion-icon name="time-outline" class="relative h-24 w-24"></ion-icon>
+        </div>
+        {{ 'customer.subscription.trial_ends' | t }}{{ subscription.date_trial_end | time_tag: format: 'date_at_time' }}
+      {% elsif subscription.status == 'complete' %}
+       <div class="{{ description_class }} bg-[#3D995E] text-whiter">
+          <ion-icon name="checkmark" class="relative h-20 w-20"></ion-icon>
+        </div>
+        {{ 'customer.subscription.complete' | t }}
+      {% elsif subscription.status == 'unpaid' %}
+       <div class="{{ description_class }} bg-[#AA0000] text-black">
+          <ion-icon name="warning-outline" class="relative h-16 w-16"></ion-icon>
+        </div>
+        {{ 'customer.subscription.unpaid' | t }}
+      {% elsif subscription.status == 'pastdue' %}
+       <div class="{{ description_class }} bg-[#AA0000] text-black">
+          <ion-icon name="warning-outline" class="relative h-16 w-16"></ion-icon>
+        </div>
+        {{ 'customer.subscription.pastdue' | t }}
+      {% else %}
+        {{ subscription.status }}
+      {% endif %}
+    </div>
+  </div>
+</div>

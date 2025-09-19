@@ -1,0 +1,102 @@
+{%- liquid
+  assign cart_empty = cart.empty? == true
+  assign color_scheme = settings.cart_color_scheme
+-%}
+
+<cart-drawer-root
+  class="
+    flex
+    flex-col
+    fixed
+    right-0
+    top-0
+    w-full
+    sm:w-500
+    translate-x-full
+    z-[5001]
+    bg-{{ color_scheme }}
+    text-{{ color_scheme }}
+  "
+>
+  <div class="flex items-center justify-between p-24 border-b border-color-{{ color_scheme }}">
+    <div class="flex items-center text-body-large font-semibold gap-4">
+      <span>
+        {{ 'sections.cart.title' | t }}
+      </span>
+      {%- if cart_empty != true -%}
+        <span>
+          ({{ cart.item_count }})
+        </span>
+      {%- endif -%}
+    </div>
+    <cart-drawer-trigger
+      role="button"
+      aria-controls="cartDrawer"
+      class="flex items-center size-12"
+    >
+      {{- 'cross-icon.svg' | inline_asset_content -}}
+    </cart-drawer-trigger>
+  </div>
+
+  <div class="h-full overflow-y-auto">
+    {% if cart_empty %}
+      {% assign continue_text = 'general.continue_shopping' | t %}
+      <div class="flex flex-col h-full items-center justify-center px-24 gap-24">
+        <span class="text-body-small text-secondary-{{ color_scheme }}">
+          {{ 'sections.cart.empty' | t }}
+        </span>
+        {% render 'button',
+          text: continue_text,
+          href: routes.all_products_collection_url,
+          full_width: true,
+          color_scheme: color_scheme
+        %}
+      </div>
+    {% else %}
+      <div class="flex flex-col h-full">
+        {%- for item in cart.items -%}
+          {% render 'cart-item',
+            item: item,
+            index: forloop.index,
+            color_scheme: color_scheme
+          %}
+        {%- endfor -%}
+      </div>
+    {% endif %}
+  </div>
+
+  {% if cart_empty != true %}
+    <div class="flex flex-col px-24 py-16 gap-20 border-t border-color-{{ color_scheme }}">
+      <div class="flex flex-col gap-4">
+        <div class="flex justify-between text-title-medium">
+          <span>
+            {{ 'sections.cart.estimated_total' | t }}
+          </span>
+          <span>
+            {{ cart.items_subtotal_price | money }}
+          </span>
+        </div>
+        <span class="text-body-small text-secondary-{{ color_scheme }}">
+          {{ 'sections.cart.taxes_discounts_shipping_at_checkout' | t }}
+        </span>
+      </div>
+      <div class="flex flex-col gap-8">
+        {% assign view_text = 'sections.cart.view_cart' | t %}
+        {% render 'button',
+          text: view_text,
+          href: routes.cart_url,
+          full_width: true,
+          color_scheme: color_scheme
+        %}
+        {% assign checkout_text = 'sections.cart.checkout' | t %}
+        {% render 'button',
+          href: cart.checkout_url,
+          text: checkout_text,
+          variant: 'secondary',
+          full_width: true,
+          color_scheme: color_scheme
+        %}
+      </div>
+    </div>
+  {% endif %}
+</cart-drawer-root>

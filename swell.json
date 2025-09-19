@@ -1,0 +1,68 @@
+{
+	"id": "sunrise",
+	"name": "Sunrise",
+	"description": "A sleek, fast, and modern ecommerce theme.",
+	"type": "theme",
+	"version": "1.0.95",
+	"theme": {
+		"storefront": {
+			"app": "proxima"
+		},
+		"styles": [
+			{
+				"id": "light",
+				"label": "Light",
+				"color": "#ffffff",
+				"color_alt": "#121212",
+				"preview_src": "assets/sunrise-preview-light.jpg",
+				"preview_mobile_src": "assets/sunrise-preview-light-mobile.jpg",
+				"demo_url": "https://sunrise-light-demo.swell.store/"
+			},
+			{
+				"id": "dark",
+				"label": "Dark",
+				"color": "#161616",
+				"color_alt": "#dedede",
+				"preview_src": "assets/sunrise-preview-dark.jpg",
+				"preview_mobile_src": "assets/sunrise-preview-dark-mobile.jpg",
+				"demo_url": "https://sunrise-dark-demo.swell.store/"
+			}
+		]
+	},
+	"preview_src": "assets/sunrise-preview-light.jpg",
+	"preview_mobile_src": "assets/sunrise-preview-light-mobile.jpg",
+	"use_cases": [
+		"direct_to_consumer",
+		"wholesale"
+	],
+	"purchase_options": [
+		"standard",
+		"susbcription"
+	],
+	"features": [
+		"multi_currency",
+		"multi_language",
+		"bulk_pricing",
+		"account_pricing"
+	],
+	"highlights": [
+		{
+			"id": "sleek-design",
+			"title": "Sleek & modern design",
+			"description": " A clean, elegant layout with refined typography and ample white space for a premium look.",
+			"image_src": "assets/feature-sleek-design.png"
+		},
+		{
+			"id": "customization-options",
+			"title": "Progressive customization options",
+			"description": "Easily tailor colors, fonts, and layouts to match your brand's identity.",
+			"image_src": "assets/feature-customization-options.png"
+		},
+		{
+			"id": "innovative-growing",
+			"title": "Innovative & growing theme",
+			"description": "Continuously updated with new features and improvements to keep your store ahead.",
+			"image_src": "assets/feature-innovative-growing.png"
+		}
+	]
+}

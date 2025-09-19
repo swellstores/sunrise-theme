@@ -1,0 +1,45 @@
+{%- liquid
+  assign border_radius = settings.border_radius | default: 6 | times: 0.1 | round: 1
+
+  assign base_class = 'flex items-center justify-center font-display text-label-large h-48 pl-24 pr-24 break-words rounded-[' | append: border_radius | append: 'rem] ' | append: class
+  assign button_class = base_class
+
+  if color_scheme != blank
+    case variant
+      when 'secondary', 'outline'
+        assign button_class = button_class | append: ' btn-secondary-' | append: color_scheme
+      else 
+        assign button_class = button_class | append: ' btn-primary-' | append: color_scheme
+    endcase
+  else
+    assign button_class = button_class | append: ' bg-transparent border border-[#222222] text-black'
+  endif
+
+  if full_width
+    assign button_class = button_class | append: ' w-full'
+  endif
+-%}
+
+{% if href %}
+  <a href="{{ href }}" class="{{ button_class }}" style="border-radius:{{ border_radius }}rem">{{ text }}</a>
+{% else %}
+  <button
+    type="{{ type | default: 'button' }}"
+    class="{{ button_class }}"
+    {% if name %}
+      name="{{ name }}"
+    {% endif %}
+    {% if id %}
+      id="{{ id }}"
+    {% endif %}
+    {% if form %}
+      form="{{ form }}"
+    {% endif %}
+    {% if variant == 'disabled' or disabled == true %}
+      disabled="disabled"
+    {% endif %}
+    style="border-radius:{{ border_radius }}rem"
+  >
+    {{ text }}
+  </button>
+{% endif %}

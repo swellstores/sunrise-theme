@@ -1,0 +1,480 @@
+{% comment %}
+  Renders a slideshow section.
+
+  Usage:
+  {% sections 'slideshow' %}
+
+  Dependencies:
+  - swiper-element-bundle.js
+  - slideshow-navigation.js
+{% endcomment %}
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign loop = section.settings.loop
+  assign navigation = section.settings.navigation
+  assign auto_rotate = section.settings.auto_rotate
+
+  if auto_rotate == true
+    assign auto_rotate_speed = section.settings.auto_rotate_speed | times: 1000
+  endif
+-%}
+
+<script>
+  window.theme = window.theme || {};
+  window.theme.slideshow_rendered = true;
+  window.theme.slideshow_navigation = {{ navigation }};
+</script>
+
+{%- liquid
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+-%}
+
+{% style %}
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
+    }
+  }
+
+  swiper-container#{{ section.id }}::part(pagination) {
+    display: flex;
+    width: unset;
+    padding: 0.8rem 1.2rem;
+    gap: 1.2rem;
+    border-radius: 2rem;
+    background-color: #3e3e3e99;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+{% endstyle %}
+
+<div class="relative responsive-padding-{{ section.id }}">
+  {%- if navigation -%}
+    {% render 'slideshow-arrows',
+      color_scheme: color_scheme,
+      border_radius: settings.border_radius
+    %}
+  {%- endif -%}
+  <swiper-container
+    id="{{ section.id }}"
+    role="region"
+    aria-label="{{ 'sections.slideshow.label' | t }}"
+    loop="{{ loop }}"
+    direction="horizontal"
+    slides-per-view="1"
+    class="w-full h-600 2xl:min-h-800 2xl:max-h-800"
+    {%- if navigation -%}
+      pagination="true"
+      style="
+        --swiper-pagination-color: #eaeaea;
+        --swiper-pagination-bullet-inactive-color: #9e9e9e;
+        --swiper-pagination-bullet-size: 1.2rem;
+        --swiper-pagination-bullet-horizontal-gap: 0;
+        --swiper-pagination-bottom: 2.4rem;
+      "
+    {%- endif -%}
+    {%- if auto_rotate -%}
+      autoplay-delay="{{ auto_rotate_speed }}"
+      autoplay-pause-on-mouse-enter="true"
+    {%- endif -%}
+  >
+    {%- for block in section.blocks -%}
+      {% assign content_alignment = block.settings.content_alignment %}
+      {% assign text_alignment = block.settings.text_alignment %}
+      {% assign transparent = block.settings.transparent %}
+      {% assign opacity = block.settings.overlay_opacity | times: 0.01 %}
+      {% assign content_color_scheme = block.settings.color_scheme_content %}
+      {% assign overlay_color = block.settings.overlay_color %}
+      {% assign placeholder_image = 'hero-apparel-1' %}
+      {% case forloop.index %}
+        {% when 1 %}
+          {% assign placeholder_image = 'hero-apparel-3' %}
+        {% when 2 %}
+          {% assign placeholder_image = 'hero-apparel-2' %}
+      {% endcase %}
+
+      {%- if transparent == false -%}
+        {%- assign button_color_scheme = content_color_scheme -%}
+      {%- else -%}
+        {%- assign button_color_scheme = color_scheme -%}
+      {%- endif -%}
+
+      <swiper-slide class="relative">
+        <div class="relative w-full h-full">
+          <div
+            class="absolute inset-0 bg-black z-[10]"
+            style="background-color: {{ overlay_color | color_to_hex }}; opacity: {{ opacity }};"
+          ></div>
+          <div class="relative w-full h-600 sm:min-h-600 sm:max-h-600 2xl:min-h-800 2xl:max-h-800 overflow-hidden">
+            {% if block.settings.image == blank %}
+              {%
+                render 'image',
+                picture_class: 'svg-placeholder',
+                placeholder: placeholder_image | placeholder_svg_tag: 'placeholder-svg'
+              %}
+             {% else %}
+              {% render 'image', image: block.settings.image, class: 'w-full h-full object-cover object-center', alt: block.settings.image.alt | default: "Slide {{ forloop.index }}" %}
+            {% endif %}
+          </div>
+        </div>
+        <div class="absolute inset-0 w-full h-full pl-24 pr-24 lg:pl-160 lg:pr-160">
+          <div class="max-w-container m-auto w-full h-full flex {{ content_alignment }}">
+            <div
+              class="
+                flex flex-col gap-32 max-w-450 z-[10] text-{{ color_scheme }}
+                {% if transparent %}bg-transparent {% else %}bg-{{ content_color_scheme }} text-{{ content_color_scheme }} {% endif %}
+                {% if content_alignment == 'items-center justify-start' %}
+                {% elsif content_alignment == 'items-center justify-end' %}
+                {% else %}
+                  sm:pr-0 lg:pr-0
+                {% endif %}
+                {% case text_alignment %}
+                {% when 'center' %} items-center
+                {% when 'right' %} items-end
+                {% else %} items-start
+                {% endcase %}
+              "
+              style="
+                {% if content_alignment contains 'items-start' %} padding-top: {{ block.settings.vertical_padding | times: 0.1 | round: 1 }}rem; {% endif %}
+                {% if content_alignment contains 'items-end' %} padding-bottom: {{ block.settings.vertical_padding | times: 0.1 | round: 1 }}rem; {% endif %}
+              "
+            >
+              <div
+                class="
+                  p-8
+                  flex flex-col gap-8
+                  {% case text_alignment %}
+                  {% when 'center' %} items-center text-center
+                  {% when 'right' %} items-end text-right
+                  {% else %} items-start text-left
+                  {% endcase %}
+                "
+              >
+                <p class="font-display font-pre-heading text-pre-heading">
+                  {{ block.settings.pre_heading }}
+                </p>
+                <h2 class="font-display font-heading text-heading-{{ section.settings.heading_size | default: 'small' }}">
+                  {{ block.settings.heading }}
+                </h2>
+                <div class="font-display formatted-text text-content">
+                  {{ block.settings.text }}
+                </div>
+
+                <div class="flex">
+                  {%- if block.settings.button_label != blank and block.settings.button_link -%}
+                    {% render 'button',
+                      text: block.settings.button_label,
+                      href: block.settings.button_link,
+                      color_scheme: button_color_scheme,
+                      variant: block.settings.button_variant
+                    %}
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </swiper-slide>
+    {%- endfor -%}
+  </swiper-container>
+</div>
+
+{% schema %}
+{
+  "name": "Slideshow",
+  "tag": "section",
+  "max_blocks": 12,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": "medium",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "extra-large", "label": "Extra large" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "navigation",
+      "label": "Navigation",
+      "info": "Show navigation arrows and pagination dots.",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_rotate",
+      "label": "Auto-rotate",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "auto_rotate_speed",
+      "min": 3,
+      "max": 8,
+      "step": 1,
+      "unit": "s",
+      "label": "Auto-rotate speed",
+      "default": 5
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "Top padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Slide",
+      "type": "slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button text"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "button_variant",
+          "label": "Button style",
+          "options": [
+            {
+              "value": "solid",
+              "label": "Primary"
+            },
+            {
+              "value": "outline",
+              "label": "Secondary"
+            }
+          ],
+          "default": "outline"
+        },
+        {
+          "type": "checkbox",
+          "id": "transparent",
+          "label": "Transparent background",
+          "default": true
+        },
+        {
+          "type": "color",
+          "id": "overlay_color",
+          "label": "Overlay color",
+          "default": "#000000"
+        },
+        {
+          "type": "range",
+          "id": "overlay_opacity",
+          "label": "Image overlay",
+          "default": 0,
+          "min": 0,
+          "max": 100,
+          "step": 10,
+          "unit": "%"
+        },
+        {
+          "type": "header",
+          "content": "Content",
+          "info": "A container that sits on top of the slide image or background."
+        },
+        {
+          "type": "inline_richtext",
+          "id": "pre_heading",
+          "label": "Pre-heading",
+          "default": "Featured now"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "Heading",
+          "default": "See what's new"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "Scroll through the slideshow to explore our latest highlights. Each image brings you closer to discovering something special—start browsing today!"
+        },
+        {
+          "type": "header",
+          "content": "Colors"
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme_content",
+          "label": "Color scheme",
+          "default": "scheme-1"
+        },
+        {
+          "type": "header",
+          "content": "Layout"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "label": "Text alignment",
+          "default": "left",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "content_alignment",
+          "label": "Content position",
+          "default": "items-center justify-start",
+          "options": [
+            {
+              "value": "items-start justify-start",
+              "label": "Top left"
+            },
+            {
+              "value": "items-start justify-center",
+              "label": "Top middle"
+            },
+            {
+              "value": "items-start justify-end",
+              "label": "Top right"
+            },
+            {
+              "value": "items-center justify-start",
+              "label": "Middle left"
+            },
+            {
+              "value": "items-center justify-center",
+              "label": "Middle center"
+            },
+            {
+              "value": "items-center justify-end",
+              "label": "Middle right"
+            },
+            {
+              "value": "items-end justify-start",
+              "label": "Bottom left"
+            },
+            {
+              "value": "items-end justify-center",
+              "label": "Bottom middle"
+            },
+            {
+              "value": "items-end justify-end",
+              "label": "Bottom right"
+            }
+          ]
+        },
+        {
+          "type": "range",
+          "id": "vertical_padding",
+          "label": "Vertical padding",
+          "default": 16,
+          "min": 4,
+          "max": 160,
+          "step": 4,
+          "unit": "px"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Slideshow",
+      "settings": {
+        "navigation": true
+      },
+      "blocks": [
+        {
+          "type": "slide",
+          "settings": {
+            "pre_heading": "Featured now",
+            "heading": "See what's new",
+            "text": "Scroll through the slideshow to explore our latest highlights. Each image brings you closer to discovering something special—start browsing today!",
+            "content_alignment": "items-center justify-start"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "pre_heading": "Featured now",
+            "heading": "See what's new",
+            "text": "Scroll through the slideshow to explore our latest highlights. Each image brings you closer to discovering something special—start browsing today!",
+            "content_alignment": "items-center justify-start"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "pre_heading": "Featured now",
+            "heading": "See what's new",
+            "text": "Scroll through the slideshow to explore our latest highlights. Each image brings you closer to discovering something special—start browsing today!",
+            "content_alignment": "items-center justify-start"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,35 @@
+{%- liquid
+  assign address_edit_modal_title = 'customer.addresses.edit_address' | t
+  assign is_default_address = customer.default_address.id == address.id
+-%}
+
+<script type="application/json" id="address-data-{{ address.id }}">
+  {{ address | json }}
+</script>
+
+<div
+  class="flex flex-col sm:items-center sm:flex-row sm:justify-between py-16 px-20 sm:p-20 gap-16 address-shadow text-body-medium text-{{ color_scheme }} rounded-6 border border-color-{{ color_scheme }}"
+  style="--shadow-color: var(--color-{{ color_scheme }}-borders-and-inputs)"
+>
+  {% render 'address',
+    address: address,
+    is_default_address: is_default_address,
+    color_scheme: color_scheme
+  %}
+  <div class="flex gap-16">
+    <address-edit-button
+      class="text-title-small text-secondary-{{ color_scheme }}"
+      data-address-id="{{ address.id }}"
+      data-is-default-address="{{ is_default_address }}"
+      data-modal-title="{{ address_edit_modal_title }}"
+    >
+      {{ 'customer.addresses.edit' | t }}
+    </address-edit-button>
+    <address-remove-button
+      class="text-title-small text-secondary-{{ color_scheme }}"
+      data-address-id="{{ address.id }}"
+    >
+      {{ 'customer.addresses.remove' | t }}
+    </address-remove-button>
+  </div>
+</div>

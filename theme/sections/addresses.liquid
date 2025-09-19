@@ -1,0 +1,451 @@
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+-%}
+
+{% style %}
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
+    }
+  }
+{% endstyle %}
+
+<div class="bg-{{ color_scheme }} text-{{ color_scheme }} flex max-w-content flex-col pt-16 pb-64 pr-32 pl-32 gap-24 xl:pr-0 xl:pl-0 sm:flex-row sm:pt-64 sm:pb-64 mx-auto justify-center sm:gap-32 items-start responsive-padding-{{ section.id }}">
+  <a href="/account/" class="sm:hidden font-display text-title-large">{{ 'customer.account.title' | t }}</a>
+
+  {% render 'account-links' color_scheme: color_scheme %}
+ 
+  {%- paginate customer.addresses by 5 -%}
+    <div class="flex flex-col gap-32 w-full">
+      <h2 class="font-display text-headline-medium">{{ 'customer.account.addresses' | t }}</h2>
+
+      <div class="flex flex-col gap-32">
+        <ul id="saved-addresses" class="flex flex-col gap-16">
+          {%- for address in customer.addresses -%}
+            <script type="application/json" id="address-data-{{ address.id }}">
+              {{ address | json }}
+            </script>
+            <li class="flex justify-between">
+              <div class="flex flex-col text-body-medium font-display">
+                {{ address | format_address -}}
+                {{- address.phone }}
+              </div>
+              <div class="flex flex-col items-end">
+                {%- if address == customer.default_address -%}
+                  <h2 class="font-display text-body-medium font-display font-bold">{{ 'customer.addresses.default' | t }}</h2>
+                {%- endif -%}
+                <div class="text-{{ color_scheme }} text-title-small font-display flex gap-12">
+                  <button
+                    id="edit-button-{{ address.id }}"
+                    class="edit-address-button"
+                    data-address-id="{{ address.id }}"
+                  >
+                    {{ 'customer.addresses.edit' | t }}
+                  </button>
+                  <button
+                    class="remove-address-button"
+                    data-address-id="{{ address.id }}"
+                    data-target="/account/addresses/{{ address.id }}"
+                    data-confirm-message="{{ 'customer.addresses.remove_confirm' | t }}"
+                  >
+                    {{ 'customer.addresses.remove' | t }}
+                  </button>
+                </div>
+              </div>
+            </li>
+            {% unless forloop.last %}
+              <div class="border-t border-[#E0E0E0] w-full"></div>
+            {% endunless %}
+          {%- endfor -%}
+        </ul>
+
+        <div id="add-address-button">
+          {% assign add_text = 'customer.addresses.add' | t %}
+          {% render 'button',
+            text: add_text,
+            type: 'button',
+            name: 'toggle-new-address',
+            color_scheme: color_scheme
+          %}
+        </div>
+        <div id="new-address-form" class="hidden max-w-500 flex flex-col gap-32">
+          <div class="flex justify-between items-end">
+            <h2 class="font-display text-display-small ">{{ 'customer.addresses.new' | t }}</h2>
+            <a
+              href="/account/addresses"
+              class="text-body-medium font-display underline"
+              >{{ 'customer.addresses.back' | t }}</a
+            >
+          </div>
+          {%- form 'customer_address', customer.new_address -%}
+            <div class="flex flex-col w-512 mb-48 gap-16">
+              <div class="flex gap-16">
+                <div class="relative w-full">
+                  {% assign first_name_text = 'customer.addresses.first_name' | t %}
+                  {% render 'input',
+                    type: 'text',
+                    name: 'address[first_name]',
+                    id: 'address[first_name]',
+                    value: form.first_name,
+                    placeholder: first_name_text
+                  %}
+                </div>
+                <div class="relative w-full">
+                  {% assign last_name_text = 'customer.addresses.last_name' | t %}
+                  {% render 'input',
+                    type: 'text',
+                    name: 'address[last_name]',
+                    id: 'address[last_name]',
+                    value: form.last_name,
+                    placeholder: last_name_text
+                  %}
+                </div>
+              </div>
+              <div class="relative">
+                {% assign company_text = 'customer.addresses.company' | t %}
+                {% render 'input',
+                  type: 'text',
+                  name: 'address[company]',
+                  id: 'address[company]',
+                  value: form.company,
+                  placeholder: company_text
+                %}
+              </div>
+              <div class="relative">
+                {% assign address1_text = 'customer.addresses.address1' | t %}
+                {% render 'input',
+                  type: 'text',
+                  name: 'address[address1]',
+                  id: 'address[address1]',
+                  value: form.address1,
+                  placeholder: address1_text
+                %}
+              </div>
+              <div class="relative">
+                {% assign address2_text = 'customer.addresses.address2' | t %}
+                {% render 'input',
+                  type: 'text',
+                  name: 'address[address2]',
+                  id: 'address[address2]',
+                  value: form.address2,
+                  placeholder: address2_text
+                %}
+              </div>
+              <div class="relative">
+                {% assign city_text = 'customer.addresses.city' | t %}
+                {% render 'input',
+                  type: 'text',
+                  name: 'address[city]',
+                  id: 'address[city]',
+                  value: form.city,
+                  placeholder: city_text
+                %}
+              </div>
+              <div>
+                <label for="address[country]" class="block mb-8 text-body-medium font-medium text-gray-900">{{ 'customer.addresses.country' | t }}</label>
+                <select
+                  id="address[country]"
+                  name="address[country]"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-body-medium focus:ring-blue-500 focus:border-blue-500 block w-full p-10"
+                >
+                  {{ all_country_option_tags }}
+                </select>
+              </div>
+              <div class="hidden">
+                <label for="address[province]" class="block mb-8 text-body-medium font-medium text-gray-900">{{ 'customer.addresses.province' | t }}</label>
+                <select
+                  id="address[province]"
+                  name="address[province]"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 text-body-medium focus:ring-blue-500 focus:border-blue-500 block w-full p-10"
+                ></select>
+              </div>
+              <div class="relative">
+                {% assign zip_text = 'customer.addresses.zip' | t %}
+                {% render 'input',
+                  type: 'text',
+                  name: 'address[zip]',
+                  id: 'address[zip]',
+                  value: form.zip,
+                  placeholder: zip_text
+                %}
+              </div>
+              <div class="relative">
+                {% assign phone_text = 'customer.addresses.phone' | t %}
+                {% render 'input',
+                  type: 'tel',
+                  name: 'address[phone]',
+                  id: 'address[phone]',
+                  value: form.zip,
+                  placeholder: phone_text
+                %}
+              </div>
+              <div>
+                {{ form.set_as_default_checkbox }}
+                <label class="">{{ 'customer.addresses.set_default' | t }}</label>
+              </div>
+              <div class="flex gap-16 items-center justify-end">
+                {% assign cancel_text = 'customer.addresses.cancel' | t %}
+                {% render 'button',
+                  type: 'button',
+                  text: cancel_text,
+                  name: 'cancel-button',
+                  color_scheme: color_scheme,
+                  variant: 'secondary'
+                %}
+                {% assign submit_text = 'customer.addresses.submit' | t %}
+                {% render 'button',
+                  type: 'submit',
+                  text: submit_text,
+                  color_scheme: color_scheme
+                %}
+              </div>
+            </div>
+          {%- endform -%}
+        </div>
+        {%- for address in customer.addresses -%}
+          <div id="edit-address-form-{{ address.id }}" class="hidden max-w-500 flex flex-col gap-32">
+            <div class="flex justify-between items-end">
+              <h2 class="font-display text-display-small ">{{ 'customer.addresses.edit_address' | t }}</h2>
+              <a
+                href="/account/addresses"
+                class="text-body-medium font-display  underline"
+                >{{ 'customer.addresses.back' | t }}</a
+              >
+            </div>
+            {%- form 'customer_address', address, return_to: '/account/addresses' -%}
+              <div class="flex flex-col w-512 mb-48 gap-16">
+                <div class="relative">
+                  {% assign first_name_text = 'customer.addresses.first_name' | t %}
+                  {% render 'input',
+                    type: 'text',
+                    name: 'address[first_name]',
+                    id: 'address[first_name]',
+                    value: form.first_name,
+                    placeholder: first_name_text
+                  %}
+                </div>
+                <div class="relative">
+                  {% assign last_name_text = 'customer.addresses.last_name' | t %}
+                  {% render 'input',
+                    type: 'text',
+                    name: 'address[last_name]',
+                    id: 'address[last_name]',
+                    value: form.last_name,
+                    placeholder: last_name_text
+                  %}
+                </div>
+                <div class="relative">
+                  {% assign company_text = 'customer.addresses.company' | t %}
+                  {% render 'input',
+                    type: 'text',
+                    name: 'address[company]',
+                    id: 'address[company]',
+                    value: form.company,
+                    placeholder: company_text
+                  %}
+                </div>
+                <div class="relative">
+                  {% assign address1_text = 'customer.addresses.address1' | t %}
+                  {% render 'input',
+                    type: 'text',
+                    name: 'address[address1]',
+                    id: 'address[address1]',
+                    value: form.address1,
+                    placeholder: address1_text
+                  %}
+                </div>
+                <div class="relative">
+                  {% assign address2_text = 'customer.addresses.address2' | t %}
+                  {% render 'input',
+                    type: 'text',
+                    name: 'address[address2]',
+                    id: 'address[address2]',
+                    value: form.address2,
+                    placeholder: address2_text
+                  %}
+                </div>
+                <div class="relative">
+                  {% render 'input', type: 'text', name: 'address[city]', id: 'address[city]', value: form.city %}
+                </div>
+                <div>
+                  <label for="address[country]" class="block mb-8 text-body-medium font-medium text-gray-900">{{ 'customer.addresses.country' | t }}</label>
+                  <select
+                    id="address[country]"
+                    name="address[country]"
+                    data-default="{{ form.country }}"
+                    data-provinces="address[province]"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-body-medium focus:ring-blue-500 focus:border-blue-500 block w-full p-10"
+                  >
+                    {{ all_country_option_tags }}
+                  </select>
+                </div>
+                <div class="hidden">
+                  <label for="address[province]" class="block mb-8 text-body-medium font-medium text-gray-900">{{ 'customer.addresses.province' | t }}</label>
+                  <select
+                    id="address[province]"
+                    name="address[province]"
+                    data-default="{{ form.province }}"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-body-medium focus:ring-blue-500 focus:border-blue-500 block w-full p-10"
+                  ></select>
+                </div>
+                <div class="relative">
+                  {% assign zip_text = 'customer.addresses.zip' | t %}
+                  {% render 'input',
+                    type: 'text',
+                    name: 'address[zip]',
+                    id: 'address[zip]',
+                    value: form.zip,
+                    placeholder: zip_text
+                  %}
+                </div>
+                <div class="relative">
+                  {% assign phone_text = 'customer.addresses.phone' | t %}
+                  {% render 'input',
+                    type: 'tel',
+                    name: 'address[phone]',
+                    id: 'address[phone]',
+                    value: form.zip,
+                    placeholder: phone_text
+                  %}
+                </div>
+                <div>
+                  <input type="hidden" name="address[default]" value="false">
+                  <input
+                    type="checkbox"
+                    name="address[default]"
+                    id="address[default]"
+                    value="true"
+                    {% if address == customer.default_address %}
+                      checked
+                    {% endif %}
+                  >
+                  <label for="address[default]" class="">{{ 'customer.addresses.set_default' | t }}</label>
+                </div>
+                <div class="flex gap-16 items-center">
+                  {% assign cancel_text = 'customer.addresses.cancel' | t %}
+                  {% render 'button',
+                    type: 'button',
+                    text: cancel_text,
+                    name: 'cancel-button',
+                    color_scheme: color_scheme,
+                    variant: 'secondary'
+                  %}
+                  {% assign submit_text = 'customer.addresses.submit' | t %}
+                  {% render 'button',
+                    type: 'submit',
+                    text: submit_text,
+                    color_scheme: color_scheme
+                  %}
+                </div>
+              </div>
+            {%- endform -%}
+          </div>
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        {%- if paginate.parts.size > 0 -%}
+          <nav class="inline-flex -space-x-1 text-body-medium" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
+            <ul role="list" class="inline-flex">
+              {%- if paginate.previous -%}
+                <li>
+                  <a
+                    href="{{ paginate.previous.url }}"
+                    aria-label="{{ 'general.pagination.previous' | t }}"
+                    class="flex items-center justify-center px-12 h-32 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700"
+                  >
+                    {{ 'general.pagination.previous' | t }}
+                  </a>
+                </li>
+              {%- endif -%}
+
+              {%- for part in paginate.parts -%}
+                <li>
+                  {%- if part.is_link -%}
+                    <a
+                      href="{{ part.url }}"
+                      aria-label="{{ part.title }}"
+                      class="flex items-center justify-center px-12 h-32 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+                    >
+                      {{- part.title -}}
+                    </a>
+                  {%- else -%}
+                    {%- if part.title == paginate.current_page -%}
+                      <span
+                        aria-current="page"
+                        aria-label="{{ part.title }}"
+                        class="flex items-center justify-center px-12 h-32 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700"
+                      >
+                        {{- part.title -}}
+                      </span>
+                    {%- else -%}
+                      <span class="flex items-center justify-center px-12 h-32 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
+                        {{- part.title -}}
+                      </span>
+                    {%- endif -%}
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+
+              {%- if paginate.next -%}
+                <li>
+                  <a
+                    href="{{ paginate.next.url }}"
+                    aria-label="{{ 'general.pagination.next' | t }}"
+                    class="flex items-center justify-center px-12 h-32 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700"
+                  >
+                    {{ 'general.pagination.next' | t }}
+                  </a>
+                </li>
+              {%- endif -%}
+            </ul>
+          </nav>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  {%- endpaginate -%}
+</div>
+
+{% schema %}
+{
+  "name": "Addresses",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "Top padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    }
+  ]
+}
+{% endschema %}

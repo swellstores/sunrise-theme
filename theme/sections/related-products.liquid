@@ -1,0 +1,52 @@
+{%- if product.recommendations.size > 0 -%}
+  <div class="bg-{{section.settings.color_scheme}} max-w-container mx-auto p-24">
+    <div class="max-w-content mx-auto 2xl:max-w-container w-full">
+      <div class="flex flex-col gap-48">
+        {%- if section.settings.heading != blank -%}
+          <h2 class="font-display text-headline-small">
+            {{ section.settings.heading }}
+          </h2>
+        {%- endif -%}
+
+        <div class="flex flex-col gap-32">
+          <div class="grid grid-cols-2 gap-x-16 gap-y-24 {% if section.settings.limit <= 2 %} lg:grid-cols-2 {% else %} lg:grid-cols-4 {% endif %}">
+            {%- for recommended_product in product.recommendations limit: section.settings.limit -%}
+              <div class="flex flex-col gap-8">
+                {% render 'product-card', product: recommended_product, color_scheme: section.settings.color_scheme %}
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Related products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Related products"
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Products to show",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,238 @@
+{
+  "general": {
+    "continue_shopping": "Jatka ostoksia",
+    "breadcrumbs": {
+      "label": "Navigointipolku",
+      "home": "Koti",
+      "collections": "Kokoelmat",
+      "products": "Tuotteet",
+      "account": "Tili",
+      "register": "Rekisteröidy",
+      "addresses": "Osoitteet",
+      "activate_account": "Aktivoi tili"
+    },
+    "pagination": {
+      "label": "Sivutus",
+      "page": "Sivu {{ number }}",
+      "next": "Seuraava",
+      "previous": "Edellinen"
+    },
+    "search": {
+      "placeholder": "Hae",
+      "submit": "Lähetä haku",
+      "no_results": "Ei tuloksia haulle “{{ terms }}”",
+      "store": "Hae {{ store_name }}",
+      "dismiss": "Sulje haku"
+    },
+    "localization": {
+      "language": "Kieli",
+      "currency": "Valuutta",
+      "title_language_and_currency": "Valitse kieli ja valuutta",
+      "title_language": "Valitse kieli",
+      "title_currency": "Valitse valuutta",
+      "submit": "Jatka"
+    },
+    "accordion": {
+      "toggle": "Vaihda kohde"
+    },
+    "page_not_found": "Sivua ei löydy",
+    "share": "Jaa",
+    "loading": "Ladataan..."
+  },
+  "customer": {
+    "log_out": "Kirjaudu ulos",
+    "log_in": "Kirjaudu sisään",
+    "account": {
+      "title": "Tili",
+      "my_orders": "Omat tilaukset",
+      "orders": "Tilaukset",
+      "address_book": "Osoitekirja",
+      "addresses": "Osoitteet",
+      "no_orders_found": "Tilauksia ei löydy."
+    },
+    "activate_account": {
+      "title": "Aktivoi tili",
+      "subtext": "Luo salasana tilisi aktivointia varten.",
+      "submit": "Aktivoi",
+      "cancel": "Peruuta"
+    },
+    "addresses": {
+      "title": "Osoitteet",
+      "default": "Oletusosoite",
+      "edit_address": "Muokkaa osoitetta",
+      "first_name": "Etunimi",
+      "last_name": "Sukunimi",
+      "company": "Yritys",
+      "address1": "Osoiterivi 1",
+      "address2": "Osoiterivi 2",
+      "city": "Kaupunki",
+      "country": "Maa/alue",
+      "province": "Maakunta",
+      "zip": "Postinumero",
+      "phone": "Puhelinnumero (valinnainen)",
+      "set_default": "Aseta oletusosoitteeksi",
+      "add": "Lisää osoite",
+      "new": "Uusi osoite",
+      "back": "Takaisin osoitekirjaan",
+      "cancel": "Peruuta",
+      "submit": "Tallenna osoite",
+      "edit": "Muokkaa",
+      "remove": "Poista",
+      "remove_confirm": "Haluatko varmasti poistaa tämän osoitteen?"
+    }
+  },
+  "sections": {
+    "login": {
+      "title": "Kirjaudu sisään",
+      "email": "Sähköpostiosoite",
+      "password": "Salasana",
+      "forgot_password": "Unohditko salasanan?",
+      "create_account": "Luo tili",
+      "sign_in": "Kirjaudu sisään",
+      "error": "Kirjautumisyrityksesi epäonnistui. Yritä uudelleen."
+    },
+    "register": {
+      "title": "Luo tili",
+      "first_name": "Etunimi",
+      "last_name": "Sukunimi",
+      "email": "Sähköpostiosoite",
+      "password": "Salasana",
+      "already_have_account": "Onko sinulla jo tili?",
+      "create_account": "Luo tili",
+      "error": "Tiliäsi ei voitu luoda. Yritä uudelleen."
+    },
+    "reset-password": {
+      "title": "Nollaa salasana",
+      "subtext": "Syötä uusi salasana tilillesi.",
+      "email": "Sähköpostiosoite",
+      "password": "Salasana",
+      "submit": "Nollaa salasana",
+      "cancel": "Peruuta",
+      "error": "Salasanaasi ei voitu nollata. Yritä uudelleen."
+    },
+    "recover-password": {
+      "title": "Palauta salasana",
+      "subtext": "Lähetämme sinulle sähköpostin salasanan nollaamiseksi.",
+      "email": "Sähköpostiosoite",
+      "password": "Salasana",
+      "submit": "Palauta salasana",
+      "cancel": "Peruuta",
+      "sent": "Sähköposti lähetetty"
+    },
+    "blog": {
+      "read_more": "Lue lisää"
+    },
+    "announcement": {
+      "label": "Ilmoitus",
+      "description": "Ilmoitusten diaesitys",
+      "dismiss": "Sulje ilmoitus",
+      "slideshow_of": "yhteensä"
+    },
+    "collection": {
+      "filters": {
+        "filters": "Suodattimet",
+        "filter_and_sort": "Suodata ja lajittele",
+        "active": "Aktiiviset suodattimet",
+        "from": "Alkaen",
+        "to": "Saakka",
+        "selected": "Valittu",
+        "sort_by": "Lajittele",
+        "reset": "Nollaa",
+        "close": "Sulje",
+        "clear_all": "Tyhjennä kaikki",
+        "remove_label": "Poista suodatin kohteelle {{ attribute }}"
+      }
+    },
+    "header": {
+      "menu": "Valikko",
+      "submenu": "Alavalikko",
+      "cart": "Ostoskori"
+    },
+    "product": {
+      "from_price": "Alkaen",
+      "out_of_stock": "Tuote on tällä hetkellä loppu varastosta",
+      "quantity": {
+        "label": "Määrä",
+        "increment": "Lisää määrää",
+        "decrement": "Vähennä määrää"
+      },
+      "option": {
+        "out_of_stock": "Loppuunmyyty",
+        "selection_error": "Valitse vaihtoehto",
+        "text_error": "Anna vastaus"
+      },
+      "purchase": {
+        "one_time": "Kertaluonteinen ostos",
+        "subscription": "Tilaus",
+        "subscription_delivered": "Toimitetaan",
+        "every_interval": "Joka {{ interval }}",
+        "interval_year": "Vuosittain",
+        "interval_year_plural": "vuotta",
+        "interval_month": "Kuukausittain",
+        "interval_month_plural": "kuukautta",
+        "interval_week": "Viikoittain",
+        "interval_week_plural": "viikkoa",
+        "interval_day": "Päivittäin",
+        "interval_day_plural": "päivää",
+        "includes_trial": "{{ trial_days }} päivän kokeilu"
+      },
+      "gift_card": {
+        "options": "Korttiasetukset",
+        "send_gift": "Lähetä lahjaksi",
+        "send_email": "Vastaanottajan sähköposti",
+        "send_email_error": "Syötä kelvollinen sähköpostiosoite.",
+        "send_note": "Yksilöllinen viesti",
+        "send_note_placeholder": "Kirjoita vastaanottajalle oma viesti",
+        "send_note_char_count": "merkkiä"
+      }
+    },
+    "cart": {
+      "title": "Ostokorisi",
+      "empty": "Ostokorisi on tyhjä",
+      "estimated_total": "Arvioitu kokonaissumma",
+      "view_cart": "Näytä ostoskori",
+      "checkout": "Siirry kassalle",
+      "continue_checkout": "Jatka kassalle",
+      "subtotal": "Välisumma",
+      "taxes_discounts_shipping_at_checkout": "Verot, alennukset ja toimituskulut lasketaan kassalla.",
+      "headings": {
+        "product": "Tuote",
+        "total": "Yhteensä",
+        "quantity": "Määrä",
+        "discount": "Alennus"
+      },
+      "login": {
+        "title": "Onko sinulla tili?",
+        "faster": "nopeampaa kassaprosessia varten"
+      },
+      "item_count": {
+        "one": "{{ count }} tuote",
+        "other": "{{ count }} tuotetta"
+      }
+    },
+    "newsletter": {
+      "email": "Sähköposti",
+      "success": "Olet tilannut uutiskirjeemme."
+    },
+    "slideshow": {
+      "label": "Diaesitys",
+      "next": "Seuraava dia",
+      "previous": "Edellinen dia"
+    }
+  },
+  "accessibility": {
+    "skip_to_text": "Siirry sisältöön",
+    "browser_video_support": "Selaimesi ei tue videotunnistetta.",
+    "close": "Sulje",
+    "error": "Virhe"
+  },
+  "onboarding": {
+    "product_title": "Esimerkkituote",
+    "collection_title": "Esimerkkikokoelma",
+    "blog_title": "Esimerkkiblogin otsikko",
+    "blog_post_date": "15. maaliskuuta 2023",
+    "blog_post_category": "Uutiset",
+    "blog_post_title": "Blogin otsikko",
+    "blog_post_content": "Kirjoita blogisisältösi tähän. Aloita lyhyellä esittelyllä, ja jaa sisältö selkeisiin osioihin otsikoilla. Käytä lyhyitä kappaleita, jotta on helppo lukea. Voit lisätä kuvia, videoita, lainauksia ja linkkejä tukemaan sisältöäsi. Lopeta yhteenvetoon tai kehotukseen toimia."
+  }
+}

@@ -1,0 +1,50 @@
+{% comment %}
+  Renders a boolean filter toggle button.
+
+  Accepts:
+  - filter: {Object} Filter object with `param_name`, `label`, `true_value`, and `active_values`.
+  - color_scheme: {String} Controls toggle button styles.
+
+  Behavior:
+  - Shows toggle button checked if any active values exist.
+  - Uses accessible ARIA attributes to indicate state.
+  - Styles toggle with dynamic classes based on selection and color scheme.
+
+  Usage:
+  {% render 'filter-input-boolean', filter: filter, color_scheme: section.settings.color_scheme %}
+{% endcomment %}
+
+{%- liquid
+  assign selected = filter.active_values.size > 0
+-%}
+
+<filter-input-boolean
+  data-name="{{ filter.param_name }}"
+>
+  <toggle-button
+    class="flex items-center gap-4 hover:cursor-pointer group"
+    value="{{ filter.true_value.value }}"
+    {% if selected %}
+      aria-checked="true"
+    {% else %}
+      aria-checked="false"
+    {% endif %}
+  >
+    <toggle-button-checkbox
+      class="
+        flex
+        items-center
+        justify-center
+        size-16
+        rounded-4
+      "
+      data-checked-class="btn-primary-{{ color_scheme }}"
+      data-unchecked-class="btn-secondary-{{ color_scheme }}"
+    >
+      <div class="hidden items-center justify-center size-10 group-aria-checked:flex">
+        {{- 'icon-checkmark.svg' | inline_asset_content -}}
+      </div>
+    </toggle-button-checkbox>
+    {{ filter.label }}
+  </toggle-button>
+</filter-input-boolean>

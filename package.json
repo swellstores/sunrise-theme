@@ -1,0 +1,31 @@
+{
+  "name": "sunrise",
+  "version": "1.0.0",
+  "description": "A sleek, fast, and modern ecommerce theme.",
+  "author": "Swell",
+  "license": "MIT",
+  "scripts": {
+    "watch": "swell theme dev --bundle",
+    "watch:local": "swell theme dev --bundle --local",
+    "bundle": "concurrently -k -p none \"npm run bundle:css\" \"npm run bundle:js\"",
+    "bundle:css": "npx tailwindcss -i ./src/css/main.css -o ./theme/assets/main.css --watch --minify",
+    "bundle:js": "rollup -c -w"
+  },
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "concurrently": "^8.2.2",
+    "debounce": "^2.1.1",
+    "dotenv": "^16.4.5",
+    "prettier": "^3.3.2",
+    "prettier-plugin-tailwindcss": "^0.5.14",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "swiper": "^11.1.8",
+    "tailwindcss": "^3.4.14",
+    "tailwindcss-fluid-type": "^2.0.6"
+  },
+  "dependencies": {
+    "rollup": "^2.79.2"
+  }
+}

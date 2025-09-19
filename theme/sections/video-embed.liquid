@@ -1,0 +1,332 @@
+{% comment %}
+  Renders a video embed section.
+
+  Usage:
+  {% sections 'video-embed' %}
+{% endcomment %}
+
+{% liquid
+  assign color_scheme = section.settings.color_scheme
+  assign text_alignment = section.settings.text_alignment
+  assign grid_order = section.settings.grid_order
+  assign iframe = section.settings.iframe
+  assign video_position = section.settings.video_position
+%}
+
+{%- liquid
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+-%}
+
+{% style %}
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
+    }
+  }
+{% endstyle %}
+
+<div
+  class="w-full h-full pt-64 pb-64 lg:pl-96 lg:pr-96 text-{{ text_alignment }} bg-{{ color_scheme }} text-{{ color_scheme }} lg:pt-160 lg:pb-160 responsive-padding-{{ section.id }}"
+  {% comment %}
+    style="padding-top: {{ section.settings.top_padding | times: 0.1 | round: 1 }}rem; padding-bottom: {{ section.settings.bottom_padding | times: 0.1 | round: 1 }}rem;"
+  {% endcomment %}
+>
+  <div class="max-w-container 2xl:max-w-container mx-auto">
+    <div class="flex flex-col max-w-content mx-auto lg:h-384 lg:flex-row gap-64 {% if video_position == 'right' %} lg:flex-row-reverse {% endif %}">
+      <div class="flex items-center justify-center lg:w-550 aspect-video relative {% if grid_order %}order-last{% endif %}">
+        {% if section.settings.cover_image %}
+          <div class="absolute inset-0 z-10 cursor-pointer" onclick="this.style.display='none';">
+            {% render 'image', image: section.settings.cover_image, alt: section.settings.image.alt | default: "Image banner", class: 'w-full h-full object-cover' %}
+          </div>
+        {% endif %}
+        {{ iframe | embedded_content }}
+      </div>
+      {%- if section.blocks.size >= 1 -%}
+        <div class="flex items-center justify-center flex-col max-w-555 lg:p-0 pl-24 pr-24">
+          <div
+            class="
+              flex flex-col gap-32
+              {% case section.settings.text_alignment %}
+              {% when 'center' %} items-center
+              {% when 'right' %} items-end
+              {% else %} items-start
+              {% endcase %}
+            "
+          >
+            <div class="flex flex-col gap-16">
+              {%- for block in section.blocks -%}
+                {%- assign need_open_div = true -%}
+                {%- if forloop.index0 > 0 -%}
+                  {%- if section.blocks[forloop.index0 - 1] == 'heading' or section.blocks[forloop.index0 - 1] == 'text' -%}
+                    {%- assign need_open_div = false -%}
+                  {%- endif -%}
+                {%- endif -%}
+                {%- assign need_close_div = true -%}
+                {%- if forloop.index0 < section.blocks.size - 1 -%}
+                  {%- if section.blocks[forloop.index0 + 1] == 'heading' or section.blocks[forloop.index0 + 1] == 'text' -%}
+                    {%- assign need_close_div = false -%}
+                  {%- endif -%}
+                {%- endif -%}
+
+                {%- case block.type -%}
+                  {%- when 'pre_heading' -%}
+                    <p class="font-display font-pre-heading text-pre-heading">
+                      {{ block.settings.pre_heading | inline_editable: 'pre_heading' }}
+                    </p>
+                  {%- when 'heading' -%}
+                    {%- if need_open_div -%}
+                      <div class="flex flex-col gap-4">
+                    {%- endif -%}
+                      <h2 class="font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }}">
+                          {{ block.settings.heading | inline_editable: 'heading' }}
+                      </h2>
+                    {%- if need_close_div -%}
+                      </div>
+                    {%- endif -%}
+                  {%- when 'text' -%}
+                    {%- if need_open_div -%}
+                      <div class="flex flex-col gap-4">
+                    {%- endif -%}
+                      <p class="font-display formatted-text text-content">
+                        {{ block.settings.text | inline_editable: 'text' }}
+                      </p>
+                    {%- if need_close_div -%}
+                      </div>
+                    {%- endif -%}
+                {%- endcase -%}
+              {%- endfor -%}
+            </div>
+            {%- for block in section.blocks -%}
+              {%- if block.type == 'button' -%}
+                <div class="flex">
+                  {% render 'button',
+                    text: block.settings.button_label,
+                    href: block.settings.button_link,
+                    color_scheme: color_scheme,
+                    variant: block.settings.button_variant
+                  %}
+                </div>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Video embed",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "iframe",
+      "label": "Embed code",
+      "info": "Add a video from YouTube, Vimeo, or another video platform. We recommend setting the width to 100% and the height to 100%."
+    },
+    {
+      "type": "image_picker",
+      "id": "cover_image",
+      "label": "Cover image"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "select",
+      "id": "video_position",
+      "label": "Video position",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "Top padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pre_heading",
+      "name": "Pre-heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "pre_heading",
+          "label": "Content"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "Content"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "Heading size",
+          "default": "small",
+          "options": [
+            { "value": "small", "label": "Small" },
+            { "value": "medium", "label": "Medium" },
+            { "value": "large", "label": "Large" },
+            { "value": "extra-large", "label": "Extra large" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Content",
+          "default": "Embed a video from YouTube or Vimeo to support your content."
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Button",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button text",
+          "info": "Leave the label blank to hide the button.",
+          "default": "Link"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Button link"
+        },
+        {
+          "type": "select",
+          "id": "button_variant",
+          "label": "Button style",
+          "options": [
+            {
+              "value": "solid",
+              "label": "Primary"
+            },
+            {
+              "value": "outline",
+              "label": "Secondary"
+            }
+          ],
+          "default": "outline"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video embed",
+      "settings": {
+        "iframe": "<iframe width='100%' height='100%' src='https://www.youtube.com/embed/NpEaa2P7qZI?si=NQcMz0-jycTcGeaq' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' referrerpolicy='strict-origin-when-cross-origin' allowfullscreen></iframe>",
+        "color_scheme": "scheme-1"
+      },
+      "blocks": [
+        {
+          "type": "pre_heading",
+          "settings": {
+            "pre_heading": "Our story"
+          }
+        },
+        {
+          "type": "heading",
+          "settings": {
+            "heading": "Video embed"
+          }
+        },
+        {
+          "type": "text",
+          "settings": {
+            "text": "Embed a video from YouTube or Vimeo to support your content."
+          }
+        },
+        {
+          "type": "button",
+          "settings": {
+            "button_label": "Read more",
+            "button_link": "/collections/all"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

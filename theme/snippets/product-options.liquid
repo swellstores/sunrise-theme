@@ -1,0 +1,58 @@
+{%- liquid
+  assign top_margin = block.settings.margin_top | times: 0.1 | round: 1
+  assign bottom_margin = block.settings.margin_bottom | times: 0.1 | round: 1
+
+  assign has_options = product.gift_card? or product.options_with_values.size > 0
+-%}
+
+{% style %}
+  product-options {
+    margin-top: {{ top_margin }}rem;
+    margin-bottom: {{ bottom_margin }}rem;
+  }
+{% endstyle %}
+
+{% if has_options %}
+  <product-options class="flex flex-col gap-16">
+    {% if product.gift_card? %}
+      {% render 'product-option-giftcard',
+        product: product,
+        block: block,
+        variants_color_scheme: variants_color_scheme
+      %}
+    {% else %}
+      {%- for option in product.options_with_values -%}
+        {% case option.input_type %}
+          {% when 'select' %}
+            {% render 'product-option-select',
+              product: product,
+              block: block,
+              option: option,
+              variants_color_scheme: variants_color_scheme
+            %}
+          {% when 'toggle' %}
+            {% render 'product-option-toggle',
+              product: product,
+              block: block,
+              option: option,
+              variants_color_scheme: variants_color_scheme
+            %}
+          {% when 'short_text' %}
+            {% render 'product-option-short-text',
+              product: product,
+              block: block,
+              option: option,
+              variants_color_scheme: variants_color_scheme
+            %}
+          {% when 'long_text' %}
+            {% render 'product-option-long-text',
+              product: product,
+              block: block,
+              option: option,
+              variants_color_scheme: variants_color_scheme
+            %}
+        {% endcase %}
+      {%- endfor -%}
+    {% endif %}
+  </product-options>
+{% endif %}

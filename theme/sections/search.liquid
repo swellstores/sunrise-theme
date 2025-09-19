@@ -1,0 +1,125 @@
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+  assign terms = search.terms | escape
+-%}
+
+{% style %}
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
+    }
+  }
+
+  #search-results.htmx-request #search-performed-results {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  #search-results.htmx-request div[role="status"] {
+    display: flex;
+  }
+{% endstyle %}
+
+<div class="max-w-content flex flex-col px-24 mx-auto bg-{{ color_scheme }} text-{{ color_scheme }} responsive-padding-{{ section.id }}">
+  <div class="flex flex-col items-center w-full">
+    <div class="flex flex-col items-start w-full max-w-766 mx-auto gap-16">
+      <h2 class="text-title-large font-display">
+        {{ 'general.search.placeholder' | t }}
+      </h2>
+      {% render 'search-form',
+        hx-indicator: '#search-results',
+        hx-target: '#search-results',
+        hx-select: '#search-results',
+        color_scheme: color_scheme
+      %}
+    </div>
+  </div>
+  <div
+    id="search-results"
+    class="flex justify-center w-full p-24 mt-24 border-t border-color-{{ color_scheme }}"
+  >
+    {%- if search.performed -%}
+      <div
+        id="search-performed-results"
+        class="w-full"
+      >
+        {%- if search.results.size == 0 -%}
+          <div class="mt-8 text-body-medium">
+            {{ 'general.search.no_results' | t: terms: terms }}
+          </div>
+        {%- else -%}
+          {% paginate search.results by 24 %}
+            <div class="flex w-full flex-col gap-32">
+              <div class="grid grid-cols-2 gap-x-16 gap-y-24 md:grid-cols-3 lg:grid-cols-4">
+                {%- for item in search.results -%}
+                  {%- case item.object_type -%}
+                    {%- when 'product' -%}
+                      {% render 'product-card', product: item %}
+                    {%- when 'article' -%}
+                    {%- when 'page' -%}
+                  {%- endcase -%}
+                {%- endfor -%}
+              </div>
+            </div>
+            {%- if paginate.pages > 1 -%}
+              {% render 'pagination', paginate: paginate, color_scheme: color_scheme %}
+            {%- endif -%}
+          {% endpaginate %}
+        {%- endif -%}
+      </div>
+    {%- else -%}
+      {% render 'loader',
+        width: 20,
+        height: 20,
+        fill: 'text',
+        color_scheme: color_scheme
+      %}
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Search",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "Top padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    }
+  ]
+}
+{% endschema %}

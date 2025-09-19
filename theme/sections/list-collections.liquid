@@ -1,0 +1,165 @@
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign columns = section.settings.columns
+  assign gap = section.settings.gap
+  assign mobile_layout = section.settings.mobile_layout
+
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+-%}
+
+{% style %}
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
+    }
+  }
+{% endstyle %}
+
+<div
+  class="pl-24 pr-24 lg:px-160 lg:py-96 bg-{{ color_scheme }} text-{{ color_scheme }} responsive-padding-{{ section.id }}"
+>
+  <p
+    class="font-display font-pre-heading text-pre-heading text-{{ section.settings.header_alignment | default: 'left' }}"
+  >
+    {{ section.settings.pre_heading | default: 'Explore more' }}
+  </p>
+
+  <h2
+    class="mb-24 font-display font-heading text-heading-{{ section.settings.heading_size | default: 'small' }} text-{{ section.settings.header_alignment | default: 'left' }}"
+  >
+    {{ section.settings.heading | default: 'Discover our categories' }}
+  </h2>
+
+  <div class="grid grid-cols-{{ mobile_layout }} sm:grid-cols-2 md:grid-cols-{{ columns }} gap-{{ gap }}">
+    {% if collections.count > 0 %}
+      {%- for category in collections -%}
+        {% render 'list-collections-item', category: category, color_scheme: color_scheme %}
+      {%- endfor -%}
+    {% else %}
+      {%- for i in (1..3) -%}
+        {% assign placeholder = 'collection-' | append: forloop.index %}
+        {% render 'list-collections-item', placeholder: placeholder %}
+      {%- endfor -%}
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Category list page",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "pre_heading",
+      "label": "Pre-heading",
+      "default": "Explore"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Categories"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": "small",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "extra-large", "label": "Extra large" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header alignment",
+      "default": "left",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "Top padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "default": 4,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile layout",
+      "options": [
+        { "value": "1", "label": "1 Column" },
+        { "value": "2", "label": "2 Columns" }
+      ],
+      "default": "1"
+    }
+  ]
+}
+{% endschema %}

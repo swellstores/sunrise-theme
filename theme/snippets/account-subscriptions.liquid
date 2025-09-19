@@ -1,0 +1,106 @@
+{% comment %}
+  Renders account subscriptions list
+
+  Accepts:
+  - customer: {Object} customer
+  - color-scheme: {Object} color scheme to be used
+
+  Usage:
+    {% render 'account-subscriptions' customer: customer, color_scheme: color_scheme %}
+{% endcomment %}
+
+{% assign subscriptions = customer.subscriptions.results %}
+
+<div
+  id="subscriptions"
+  class="account-tab flex flex-col gap-24 w-full pt-24 pb-48 px-20 md:p-64 text-{{ color_scheme }} bg-{{ color_scheme }}"
+>
+  <div class="flex items-start gap-4 w-full text-headline-extra-small">
+    <span>
+      {{ 'customer.account.subscriptions' | t }}
+    </span>
+    {% if subscriptions.size > 0 %}
+      <span>
+        ({{ subscriptions.size }})
+      </span>
+    {% endif %}
+  </div>
+
+  <div class="flex flex-col gap-8">
+    {% paginate subscriptions by 20 %}
+      {%- if subscriptions.size > 0 -%}
+        <div class="flex flex-col gap-16">
+          {%- for subscription in subscriptions -%}
+            {%- render 'account-subscription-card',
+              subscription: subscription,
+              color_scheme: color_scheme
+            -%}
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <span class="text-body-medium text-secondary-{{ color_scheme }}">
+          {{ 'customer.account.no_subscriptions_found' | t }}
+        </span>
+      {%- endif -%}
+      {%- if paginate.pages > 1 -%}
+        {%- if paginate.parts.size > 0 -%}
+          <nav class="inline-flex -space-x-1 text-body-small" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
+            <ul role="list" class="inline-flex">
+              {%- if paginate.previous -%}
+                <li>
+                  <a
+                    href="{{ paginate.previous.url }}"
+                    aria-label="{{ 'general.pagination.previous' | t }}"
+                    class="flex items-center justify-center px-12 h-32 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700"
+                  >
+                    {{ 'general.pagination.previous' | t }}
+                  </a>
+                </li>
+              {%- endif -%}
+
+              {%- for part in paginate.parts -%}
+                <li>
+                  {%- if part.is_link -%}
+                    <a
+                      href="{{ part.url }}"
+                      aria-label="{{ part.title }}"
+                      class="flex items-center justify-center px-12 h-32 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
+                    >
+                      {{- part.title -}}
+                    </a>
+                  {%- else -%}
+                    {%- if part.title == paginate.current_page -%}
+                      <span
+                        aria-current="page"
+                        aria-label="{{ part.title }}"
+                        class="flex items-center justify-center px-12 h-32 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700"
+                      >
+                        {{- part.title -}}
+                      </span>
+                    {%- else -%}
+                      <span class="flex items-center justify-center px-12 h-32 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
+                        {{- part.title -}}
+                      </span>
+                    {%- endif -%}
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+
+              {%- if paginate.next -%}
+                <li>
+                  <a
+                    href="{{ paginate.next.url }}"
+                    aria-label="{{ 'general.pagination.next' | t }}"
+                    class="flex items-center justify-center px-12 h-32 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700"
+                  >
+                    {{ 'general.pagination.next' | t }}
+                  </a>
+                </li>
+              {%- endif -%}
+            </ul>
+          </nav>
+        {%- endif -%}
+      {%- endif -%}
+    {% endpaginate %}
+  </div>
+</div>

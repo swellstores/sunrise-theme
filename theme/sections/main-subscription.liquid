@@ -1,0 +1,306 @@
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+
+  assign return_to = '/account/subscriptions/' | append: subscription.id
+
+  assign product = subscription.product
+  assign variant = subscription.variant
+  assign image = product.images[0]
+
+  assign shipping = subscription.shipping
+  assign shipment_delivery = false
+  assign billing = subscription.billing
+  assign billing_method = subscription.billing.method | default: 'card'
+
+  if subscription.shipping.use_account
+    assign shipping = subscription.account.shipping
+  endif
+
+  if subscription.billing.use_account
+    assign billing = subscription.account.billing
+    assign billing_method = 'card'
+  endif
+
+  if variant.images[0]
+     assign image = variant.images[0]
+  endif
+
+  if product.delivery == 'shipment'
+    assign shipment_delivery = true
+  else
+    for item in subscription.items
+      if item.product.delivery == 'shipment'
+        assign shipment_delivery = true
+      endif
+    endfor
+
+    for bundle_item in subscription.product.bundle_items
+      if bundle_item.delivery == 'shipment'
+        assign shipment_delivery = true
+      endif
+    endfor
+  endif
+
+  assign can_pause = false
+  assign can_cancel = false
+
+  case subscription.status
+    when 'active'
+      assign can_pause = true
+      assign can_cancel = true
+    when 'trial'
+      if store.subscriptions.features.pause_during_trial
+        assign can_pause = true
+      endif
+      assign can_cancel = true
+    when 'paused'
+      assign can_cancel = true
+    when 'pastdue'
+      if store.subscriptions.features.pause_past_due
+        assign can_pause = true
+      endif
+      assign can_cancel = true
+  endcase
+
+  assign can_skip_next = can_pause and store.subscriptions.features.pause_skip_next
+  assign can_pause_indefinitely = can_pause and store.subscriptions.features.pause_indefinitely
+-%}
+
+{%- style -%}
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
+    }
+  }
+
+  #account-subscription.htmx-request {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+{%- endstyle -%}
+
+<div
+  id="account-subscription"
+  class="flex flex-col max-w-content mx-auto px-20 md:px-64 gap-24 text-{{ color_scheme }} bg-{{ color_scheme }} responsive-padding-{{ section.id }}"
+>
+  <a
+    href="/account#subscriptions"
+    class="relative inline-flex w-fit -left-4 gap-4 text-body-small font-semibold"
+  >
+    <ion-icon name="chevron-back-outline" class="size-16"></ion-icon>
+    {{ 'customer.subscription.back' | t }}
+  </a>
+
+  <div
+    id="account-subscription-details"
+    class="flex flex-col rounded-6 border border-color-{{ color_scheme }}"
+    hx-swap-oob="true"
+  >
+    <div class="pt-16 pb-20">
+      {% render 'account-subscription-card-content',
+        subscription: subscription,
+        color_scheme: color_scheme,
+      %}
+    </div>
+
+    {% if subscription.items.size > 0 %}
+      <div class="flex flex-col p-20 gap-8 border-t border-color-{{ color_scheme }}">
+        <span class="text-title-small">
+          {{ 'customer.subscription.items' | t }}
+        </span>
+        <div class="flex flex-col">
+          {% for item in subscription.items %}
+            <div
+              class="
+                flex
+                gap-8
+                {% unless forloop.first %}
+                  pt-16
+                {% endunless %}
+                {% unless forloop.last %}
+                  pb-16
+                  border-b border-color-{{ color_scheme }}
+                {% endunless %}
+              "
+            >
+              {% render 'item-image',
+                item: item,
+                size: 'small',
+                show_placeholder: false,
+                color_scheme: color_scheme
+              %}
+              <div class="flex flex-col gap-2 text-body-small font-medium">
+                <span>
+                  {{ item.product.name }}
+                </span>
+                <span class="text-secondary-{{ color_scheme }}">
+                  {{ item.price_total | money }}
+                  {% if item.options.size > 0 %}
+                    <span>•</span>
+                    {% render 'item-options',
+                      item: item,
+                      font_class: 'text-body-small font-medium',
+                      color_scheme: color_scheme
+                    %}
+                  {% endif %}
+                </span>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    {% if can_skip_next or can_pause_indefinitely or can_cancel %}
+      <div class="flex flex-col md:flex-row p-16 md:py-16 md:px-20 gap-8 md:gap-16 border-t border-color-{{ color_scheme }}">
+        {% if can_skip_next %}
+          <account-subscription-action-button
+            class="p-12 w-full md:w-auto rounded text-label-small text-center btn-primary-{{ color_scheme }}"
+            aria-controls="account-subscription-skip-next-modal"
+          >
+            {{ 'customer.subscription.skip_next_order' | t }}
+          </account-subscription-action-button>
+        {% endif %}
+        {% if can_pause_indefinitely %}
+          <account-subscription-action-button
+            class="p-12 w-full md:w-auto rounded text-label-small text-center btn-secondary-{{ color_scheme }}"
+            aria-controls="account-subscription-pause-modal"
+          >
+            {{ 'customer.subscription.pause_subscription' | t }}
+          </account-subscription-action-button>
+        {% endif %}
+        {% if can_cancel %}
+          <account-subscription-action-button
+            class="p-12 w-full md:w-auto rounded text-label-small text-center btn-secondary-{{ color_scheme }}"
+            aria-controls="account-subscription-cancel-modal"
+          >
+            {{ 'customer.subscription.cancel_subscription' | t }}
+          </account-subscription-action-button>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+
+  {% if shipment_delivery %}
+    <div class="flex flex-col px-20 py-16 gap-16 rounded-6 border border-color-{{ color_scheme}}">
+      <span class="text-body-extra-large font-semibold">
+        {{ 'customer.order.shipping_address' | t }}
+      </span>
+      {% render 'address',
+        address: shipping,
+        color_scheme: color_scheme
+      %}
+    </div>
+  {% endif %}
+
+  <div class="flex flex-col px-20 py-16 gap-16 rounded-6 border border-color-{{ color_scheme}}">
+    <span class="text-body-extra-large font-semibold">
+      {{ 'customer.subscription.payment_details' | t }}
+    </span>
+    <div class="flex flex-col gap-8">
+      <div class="flex flex-col gap-2">
+        <span class="text-body-small uppercase text-secondary-{{ color_scheme }}">
+          {{ 'general.payment.payment_method' | t }}
+        </span>
+        <span class="text-body-medium font-medium">
+          {% render 'billing-method',
+            method: billing_method
+          %}
+        </span>
+      </div>
+      {% if billing.card %}
+        <div class="flex gap-50">
+          <div class="flex flex-col gap-2">
+            <span class="text-body-small uppercase text-secondary-{{ color_scheme }}">
+              {{ 'general.payment.card_number' | t }}
+            </span>
+            <span class="text-body-medium font-medium">
+              {{ billing.card.brand | capitalize }} {{ billing.card.last4 }}
+            </span>
+          </div>
+          <div class="flex flex-col gap-2">
+            <span class="text-body-small uppercase text-secondary-{{ color_scheme }}">
+              {{ 'general.payment.card_exp' | t }}
+            </span>
+            <span class="text-body-medium font-medium">
+              {{ billing.card.exp_month }} / {{ billing.card.exp_year | slice: -2, 2 }}
+            </span>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+    <div class="flex flex-col gap-2">
+      <span class="text-body-small uppercase text-secondary-{{ color_scheme }}">
+        {{ 'customer.subscription.billing_address' | t }}
+      </span>
+      {% render 'address',
+        address: billing,
+        color_scheme: color_scheme
+      %}
+    </div>
+  </div>
+
+  {% render 'account-subscription-skip-next-modal',
+    subscription: subscription,
+    hx-indicator: "#account-subscription",
+    return_to: return_to,
+    color_scheme: color_scheme
+  %}
+  {% render 'account-subscription-pause-modal',
+    subscription: subscription,
+    hx-indicator: "#account-subscription",
+    return_to: return_to,
+    color_scheme: color_scheme
+  %}
+  {% render 'account-subscription-cancel-modal',
+    subscription: subscription,
+    hx-indicator: "#account-subscription",
+    return_to: return_to,
+    color_scheme: color_scheme
+  %}
+</div>
+
+{% schema %}
+{
+  "name": "Subscription",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "Top padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,49 @@
+{%- liquid
+  assign address_modal_title = 'customer.addresses.add_new_address' | t
+-%}
+
+<account-addresses id="addresses" class="account-tab gap-24 w-full pt-24 pb-48 px-20 md:p-64">
+  <div class="flex flex-col gap-20 md:gap-24">
+    <div class="flex justify-between w-full">
+      <span class="text-headline-extra-small">
+        {{ 'customer.addresses.title' | t }}
+      </span>
+      <address-add-button
+        class="p-12 rounded text-label-small btn-primary-{{ color_scheme }}"
+        data-modal-title="{{ address_modal_title }}"
+      >
+        {{ 'customer.addresses.add' | t }}
+      </address-add-button>
+    </div>
+    <div class="flex flex-col gap-16 sm:gap-24">
+      {% if customer.addresses.size > 0 %}
+        {%- for address in customer.addresses -%}
+          {%- render 'account-address-card',
+            customer: customer,
+            address: address,
+            color_scheme: color_scheme
+          -%}
+        {%- endfor -%}
+      {% else %}
+        <span class="text-body-medium text-secondary-{{ color_scheme }}">
+          {{ 'customer.addresses.none' | t }}
+        </span>
+      {% endif %}
+    </div>
+  </div>
+  {%- render 'address-modal',
+    title: address_modal_title,
+    hx-swap: 'outerHTML'
+    hx-target: "#addresses",
+    hx-select: "#addresses",
+    hx-indicator: "#addresses",
+    color_scheme: color_scheme
+  -%}
+  {%- render 'address-remove-modal',
+    hx-swap: 'outerHTML'
+    hx-target: "#addresses",
+    hx-select: "#addresses",
+    hx-indicator: "#addresses",
+    color_scheme: color_scheme
+  -%}
+</account-addresses>

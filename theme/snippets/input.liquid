@@ -1,0 +1,77 @@
+{% comment %}
+  Renders a generic input field with customizable attributes.
+
+  Accepts:
+    - type: {string} Input type (default: 'text')
+    - name: {string} Input name (default: 'input_name')
+    - value: {string} Input value (default: '')
+    - placeholder: {string} Input placeholder (default: '')
+    - class: {string} Input CSS class (default: '')
+    - id: {string} Input ID (default: '')
+    - autocomplete: {string} Input autocomplete attribute (default: 'off')
+    - spellcheck: {string} Input spellcheck attribute (default: 'false')
+    - required: {boolean} Input required attribute (default: false)
+    - disabled: {boolean} Input disabled attribute (default: false)
+    - readonly: {boolean} Input readonly attribute (default: false)
+
+  Usage:
+    {% render 'input' type: 'email', name: 'user_email', placeholder: 'Enter your email' %}
+{% endcomment %}
+{%- liquid
+  assign type = type | default: 'text'
+  assign name = name | default: 'input_name'
+  assign value = value | default: ''
+  assign placeholder = placeholder | default: ''
+  assign variant = variant | default: 'default'
+  assign id = id | default: ''
+  assign autocomplete = autocomplete | default: 'off'
+  assign spellcheck = spellcheck | default: 'false'
+  assign required = required | default: false
+  assign disabled = disabled | default: false
+  assign readonly = readonly | default: false
+  assign invalid = invalid | default: false
+  assign error_id = error_id | default: ''
+  assign autofocus = autofocus | default: false
+  assign border_radius = settings.border_radius | default: 6 | times: 0.1 | round: 1
+  assign color_scheme = section.settings.color_scheme
+
+  assign variant_class = class
+  case variant
+    when 'search'
+      assign variant_class = variant_class | append: ' font-display text-body-medium border'
+    else
+      assign variant_class = variant_class | append: ' font-display text-title-small border bg-transparent'
+  endcase
+-%}
+
+<input
+  type="{{ type }}"
+  name="{{ name }}"
+  value="{{ value }}"
+  placeholder="{{ placeholder }}"
+  class="bg-{{ color_scheme }} text-{{ color_scheme }} border-color-{{ color_scheme }} peer block w-full appearance-none p-16 focus:outline-none focus:ring-0 {{ variant_class }}"
+  autocomplete="{{ autocomplete }}"
+  spellcheck="{{ spellcheck }}"
+  {% if id != '' %}
+    id="{{ id }}"
+  {% endif %}
+  {% if required %}
+    required
+  {% endif %}
+  {% if disabled %}
+    disabled
+  {% endif %}
+  {% if readonly %}
+    readonly
+  {% endif %}
+  {% if invalid %}
+    aria-invalid="true"
+  {% endif %}
+  {% if error_id != '' %}
+    aria-describedby="{{ error_id }}"
+  {% endif %}
+  {% if autofocus %}
+    autofocus
+  {% endif %}
+  style="border-radius:{{ border_radius }}rem"
+>

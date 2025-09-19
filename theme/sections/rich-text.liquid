@@ -1,0 +1,280 @@
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+
+  assign content_alignment = section.settings.content_alignment
+  if content_alignment == 'center'
+    assign align_items_class = 'items-center'
+  elsif content_alignment == 'left'
+    assign align_items_class = 'items-start'
+  else
+    assign align_items_class = 'items-end'
+  endif
+
+  assign desktop_content_width = section.settings.desktop_content_width
+  if desktop_content_width == 'medium'
+    assign content_width_class = 'max-w-640'
+  elsif desktop_content_width == 'large'
+    assign content_width_class = 'max-w-960'
+  else
+    assign content_width_class = 'max-w-480'
+  endif
+-%}
+
+{% style %}
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
+    }
+  }
+{% endstyle %}
+
+<div class="bg-[#F5F5F5] bg-{{ color_scheme }} text-{{ color_scheme }} text-{{ section.settings.content_alignment }} pl-24 pr-24 pt-64 pb-64 lg:p-160 responsive-padding-{{ section.id }}">
+  <div class="flex flex-col justify-center gap-32 w-full">
+    <div class="flex flex-col gap-4 {{ align_items_class }}">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'pre_heading' -%}
+            <div class="font-display font-pre-heading text-pre-heading {{ content_width_class }}">
+              {{ block.settings.pre_heading | inline_editable: 'pre_heading' }}
+            </div>
+          {%- when 'heading' -%}
+            <h2 class="font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }} {{ content_width_class }}">
+              {{ block.settings.heading | inline_editable: 'heading' }}
+            </h2>
+          {%- when 'text' -%}
+            <div class="font-display formatted-text text-content {{ content_width_class }}">
+              {{ block.settings.text | inline_editable: 'text' }}
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+
+    <div class="flex flex-col gap-16 {{ align_items_class }}">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'link' -%}
+            {%- if block.settings.button_label != blank and block.settings.button_link -%}
+              <div class="flex flex-col {{ content_width_class }} {{ align_items_class }}">
+                {% render 'button',
+                  text: block.settings.button_label,
+                  href: block.settings.button_link,
+                  color_scheme: color_scheme,
+                  variant: block.settings.button_variant
+                %}
+              </div>
+            {%- endif -%}
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Rich text",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "desktop_content_width",
+      "label": "Desktop content width",
+      "default": "small",
+      "options": [
+        {
+          "value": "small",
+          "label": "Small"
+        },
+        {
+          "value": "medium",
+          "label": "Medium"
+        },
+        {
+          "value": "large",
+          "label": "Large"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "Top padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-3"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pre_heading",
+      "name": "Pre-heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "pre_heading",
+          "label": "Content"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "Content",
+          "default": "Quality you can trust"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "Heading size",
+          "default": "small",
+          "options": [
+            { "value": "small", "label": "Small" },
+            { "value": "medium", "label": "Medium" },
+            { "value": "large", "label": "Large" },
+            { "value": "extra-large", "label": "Extra large" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Content",
+          "default": "Add formatted text to share details about your store, products, or policies."
+        }
+      ]
+    },
+    {
+      "type": "link",
+      "name": "Button",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "Link"
+        },
+        {
+          "type": "select",
+          "id": "button_variant",
+          "label": "Button style",
+          "options": [
+            { "value": "solid", "label": "Primary" },
+            { "value": "outline", "label": "Secondary" }
+          ],
+          "default": "outline"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Rich text",
+      "settings": {
+        "content_alignment": "center",
+        "color_scheme": "scheme-1"
+      },
+      "blocks": [
+        {
+          "type": "pre_heading",
+          "settings": {
+            "pre_heading": "Our promise"
+          }
+        }, {
+          "type": "heading",
+          "settings": {
+            "heading": "Quality you can trust"
+          }
+        }, {
+          "type": "text",
+          "settings": {
+            "text": "Add formatted text to share details about your store, products, or policies."
+          }
+        }, {
+          "type": "link",
+          "settings": {
+            "button_label": "Learn more",
+            "button_link": "https://example.com"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

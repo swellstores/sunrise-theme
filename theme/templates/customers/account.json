@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "main": {
+      "type": "account",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "top_padding": 0,
+        "bottom_padding": 0
+      }
+    }
+  },
+  "order": ["main"]
+}

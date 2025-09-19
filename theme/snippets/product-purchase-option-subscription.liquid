@@ -1,0 +1,262 @@
+{%- liquid
+   assign selected_plan = purchase_option.plans | find: 'selected', true
+   assign multiple_plans = purchase_option.plans.size > 1
+   assign layout = block.settings.subscription_layout
+
+   assign show_dropdown = layout == 'dropdown' and multiple_plans
+   assign show_title = single_option or multiple_plans
+   assign show_border = show_dropdown or single_option != true and multiple_plans
+-%}
+
+<product-purchase-option-subscription
+  class="
+    flex
+    flex-col
+    gap-8
+    {% if show_border %}
+      p-12
+      rounded
+      border
+    {% endif %}
+    {% if show_dropdown %}
+      {% if purchase_option.selected %}
+        btn-primary-{{ variants_color_scheme }}
+      {% else %}
+        btn-secondary-{{ variants_color_scheme }}
+      {% endif %}
+    {% else %}
+      {% if purchase_option.selected %}
+        border-accent-{{ variants_color_scheme }}
+      {% else %}
+        border-secondary-{{ variants_color_scheme }}
+      {% endif %}
+    {% endif %}
+  "
+  {% if purchase_option.selected %}
+    selected
+  {% endif %}
+>
+  {% if show_title %}
+    <div class="flex items-center justify-between gap-6">
+      <span
+        class="
+          {% if show_border %}
+            text-title-small
+            text-{{ variants_color_scheme }}
+          {% else %}
+            text-body-medium
+            text-secondary-{{ variants_color_scheme }}
+          {% endif %}
+        "
+      >
+        {{ 'sections.product.purchase.subscription' | t }}
+      </span>
+      {%- if selected_plan and show_border -%}
+        <div class="flex items-center">
+          <span class="text-body-large font-medium text-{{ variants_color_scheme }}">
+            {{- selected_plan.price | money -}}
+          </span>
+          <span class="lowercase text-body-small text-{{ variants_color_scheme }}">
+            {%- render 'subscription-plan-schedule',
+              schedule: selected_plan.billing_schedule,
+              prefix: "/"
+            -%}
+          </span>
+        </div>
+      {%- endif -%}
+    </div>
+  {% endif %}
+
+  {% if show_dropdown %}
+    <dropdown-menu class="relative flex flex-col group text-title-medium text-{{ variants_color_scheme }}">
+      <dropdown-trigger
+        style="--shadow-color: var(--color-{{ variants_color_scheme }}-borders-and-inputs)"
+        class="
+          flex
+          items-center
+          justify-between
+          px-14
+          py-10
+          gap-8
+          rounded
+          group-aria-expanded:rounded-b-0
+          border
+          border-color-{{ variants_color_scheme }}
+          bg-{{ variants_color_scheme }}
+        "
+      >
+        <div class="flex items-center flex-wrap">
+          {%- if selected_plan -%}
+            {%- render 'subscription-plan-schedule',
+              schedule: selected_plan.billing_schedule
+            -%}
+            {%- if selected_plan.order_schedule -%}
+              ,&nbsp;
+              {% assign delivered = 'sections.product.purchase.subscription_delivered' | t %}
+              {% assign prefix = "" | append: delivered | append: " " %}
+              <span class="lowercase">
+                {% render 'subscription-plan-schedule',
+                  schedule: selected_plan.order_schedule,
+                  prefix: prefix
+                %}
+              </span>
+            {%- endif -%}
+          {%- else -%}
+            <span class="placeholder text-title-small text-secondary-{{ variants_color_scheme }}">
+              {{ 'sections.product.purchase.subscription' | t }}
+            </span>
+          {%- endif -%}
+        </div>
+        <ion-icon name="chevron-down-outline" class="size-18 text-secondary-{{ variants_color_scheme }}"></ion-icon>
+      </dropdown-trigger>
+      <dropdown-options
+        style="--shadow-color: var(--color-{{ variants_color_scheme }}-borders-and-inputs)"
+        class="
+          absolute
+          top-full
+          w-full
+          hidden
+          group-aria-expanded:flex
+          flex-col
+          rounded
+          group-aria-expanded:rounded-t-0
+          border
+          border-color-{{ variants_color_scheme }}
+          group-aria-expanded:border-t-0
+          bg-{{ variants_color_scheme }}
+          py-6
+          px-4
+          gap-4
+          z-10
+        "
+      >
+        {%- for plan in purchase_option.plans -%}
+          <dropdown-option
+            class="
+              relative
+              flex
+              items-center
+              justify-between
+              py-6
+              px-10
+              w-full
+              rounded
+              cursor-pointer
+            "
+            value="{{ plan.id }}"
+            {% if plan.id == selected_plan.id %}
+              selected
+            {% endif %}
+          >
+            <div class="flex items-center flex-wrap">
+              {%- render 'subscription-plan-schedule',
+                schedule: plan.billing_schedule
+              -%}
+              {%- if plan.order_schedule -%}
+                ,&nbsp;
+                {% assign delivered = 'sections.product.purchase.subscription_delivered' | t %}
+                {% assign prefix = "" | append: delivered | append: " " %}
+                <span class="lowercase">
+                  {% render 'subscription-plan-schedule',
+                    schedule: plan.order_schedule,
+                    prefix: prefix
+                  %}
+                </span>
+              {%- endif -%}
+            </div>
+            {% if plan.id == selected_plan.id %}
+              <ion-icon name="checkmark-outline" class="size-18 text-{{ variants_color_scheme }}"></ion-icon>
+            {% endif %}
+          </dropdown-option>
+        {%- endfor -%}
+      </dropdown-options>
+    </dropdown-menu>
+    {%- if selected_plan.billing_schedule.trial_days > 0 or selected_plan.description -%}
+      <div class="flex flex-col gap-4">
+        {%- if selected_plan.billing_schedule.trial_days > 0 -%}
+          <span class="text-body-medium text-secondary-{{ variants_color_scheme }}">
+            {{ 'sections.product.purchase.includes_trial' | t: trial_days: selected_plan.billing_schedule.trial_days }}
+          </span>
+        {%- endif -%}
+        {%- if selected_plan.description -%}
+          <span class="text-body-medium text-{{ variants_color_scheme }}">
+            {{ selected_plan.description }}
+          </span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  {% else %}
+    <radio-button class="flex flex-col gap-6">
+      {%- for plan in purchase_option.plans -%}
+        <radio-option
+          class="
+            flex
+            justify-between
+            p-12
+            rounded
+            {% if plan.id == selected_plan.id %}
+              btn-primary-{{ variants_color_scheme }}
+            {% else %}
+              btn-secondary-{{ variants_color_scheme }}
+            {% endif %}
+          "
+          value="{{ plan.id }}"
+          {% if plan.id == selected_plan.id %}
+            selected
+          {% endif %}
+        >
+          <div class="flex flex-col justify-center">
+            <span class="text-title-small">
+              {% if show_title %}
+                {%- render 'subscription-plan-schedule',
+                  schedule: plan.billing_schedule
+                -%}
+              {% else %}
+                {{ 'sections.product.purchase.subscription' | t }}
+              {% endif %}
+            </span>
+            {%- if plan.order_schedule or plan.description -%}
+              <div class="flex flex-col gap-4 mt-8">
+                {%- if plan.order_schedule -%}
+                  <span class="text-body-small text-secondary-{{ variants_color_scheme }}">
+                    {{ 'sections.product.purchase.subscription_delivered' | t }}
+                    <span class="lowercase">
+                      {% render 'subscription-plan-schedule',
+                        schedule: plan.order_schedule
+                      %}
+                    </span>
+                  </span>
+                {%- endif -%}
+                {%- if plan.description -%}
+                  <span class="text-body-small text-secondary-{{ variants_color_scheme }}">
+                    {{ plan.description }}
+                  </span>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          </div>
+          <div class="flex flex-col items-end gap-4">
+            <div class="flex items-center whitespace-nowrap">
+              <span class="text-title-medium">
+                {{- plan.price | money -}}
+              </span>
+              {%- unless show_title -%}
+                <span class="lowercase text-body-small">
+                  {%- render 'subscription-plan-schedule',
+                    schedule: plan.billing_schedule,
+                    prefix: "/"
+                  -%}
+                </span>
+              {%- endunless -%}
+            </div>
+            {%- if plan.billing_schedule.trial_days > 0 -%}
+              <span class="ml-auto text-body-small text-secondary-{{ variants_color_scheme }}">
+                {{ 'sections.product.purchase.includes_trial' | t: trial_days: plan.billing_schedule.trial_days }}
+              </span>
+            {%- endif -%}
+          </div>
+        </radio-option>
+      {%- endfor -%}
+    </radio-button>
+  {% endif %}
+</product-purchase-option-subscription>

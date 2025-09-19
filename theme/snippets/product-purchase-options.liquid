@@ -1,0 +1,45 @@
+{%- liquid
+  assign purchase_options = product.purchase_options
+
+  assign top_margin = block.settings.margin_top | times: 0.1 | round: 1
+  assign bottom_margin = block.settings.margin_bottom | times: 0.1 | round: 1
+-%}
+
+{% style %}
+  product-purchase-options {
+    margin-top: {{ top_margin }}rem;
+    margin-bottom: {{ bottom_margin }}rem;
+  }
+{% endstyle %}
+
+{%- if purchase_options.subscription -%}
+  <product-purchase-options
+    id="product-purchase-options"
+    hx-swap-oob="true"
+  >
+    {%-if purchase_options.standard -%}
+      <div class="flex flex-col gap-6">
+        {% render 'product-purchase-option-standard',
+          product: product,
+          block: block,
+          purchase_option: purchase_options.standard,
+          variants_color_scheme: variants_color_scheme
+        %}
+        {% render 'product-purchase-option-subscription',
+          product: product,
+          block: block,
+          purchase_option: purchase_options.subscription,
+          variants_color_scheme: variants_color_scheme
+        %}
+      </div>
+    {%- else -%}
+      {% render 'product-purchase-option-subscription',
+        product: product,
+        block: block,
+        single_option: true,
+        purchase_option: purchase_options.subscription,
+        variants_color_scheme: variants_color_scheme
+      %}
+    {%- endif -%}
+  </product-purchase-options>
+{%- endif -%}

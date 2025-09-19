@@ -1,0 +1,502 @@
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign variants_color_scheme = section.settings.variants_color_scheme
+  assign media_position = section.settings.desktop_media_position
+
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+-%}
+
+{% style %}
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
+    }
+  }
+
+  #product-form.htmx-request {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  #buy-button[disabled] {
+    opacity: 0.2;
+  }
+
+  .placeholder-box {
+    opacity: 0.3;
+    background-color: color-mix(in hsl, var(--color-{{ color_scheme }}-text-secondary), white 70%);
+  }
+
+  .product-option-input::placeholder {
+    color: var(--color-{{ variants_color_scheme }}-text-secondary);
+    font-size: calc(1.6rem * var(--font-scale));
+    line-height: calc(2.4rem * var(--font-scale));
+    font-weight: 400;
+  }
+
+  .icon-line-diagonal-bl-tr {
+    width: 100%;
+    height: 100%;
+    color: var(--color-{{ variants_color_scheme }}-secondary-button-border);
+  }
+{% endstyle %}
+
+<script type="application/ld+json">
+  {{ product | structured_data }}
+</script>
+
+<product-section
+  data-product-id="{{ product.id }}"
+  class="
+    flex
+    max-w-container
+    px-20
+    lg:px-80
+    mx-auto
+    text-{{ color_scheme }}
+    bg-{{ color_scheme }}
+    responsive-padding-{{ section.id }}
+  "
+>
+  <div
+    class="
+      w-full
+      gap-32
+      flex
+      flex-col
+      justify-center
+      sm:flex-row
+      lg:gap-100
+      {% if media_position == 'right' %}
+        sm:flex-row-reverse
+      {% endif %}
+    "
+  >
+    {% render 'product-image-layouts',
+      product: product,
+      color_scheme: color_scheme
+    %}
+
+    <form
+      id="product-form"
+      class="flex flex-col flex-1 w-full max-w-600 min-w-0 gap-24"
+      hx-get="/products/{{ product.slug }}"
+      hx-trigger="load, product-quantity-change, product-option-change, product-purchase-option-change"
+      hx-indicator="#product-form"
+      hx-swap="none"
+    >
+      {% for block in section.blocks %}
+        {% liquid
+          assign index = forloop.index0
+          assign prev_block_index = index | minus: 1
+          assign next_block_index = index | plus: 1
+          assign prev_block = section.blocks[prev_block_index]
+          assign next_block = section.blocks[next_block_index]
+
+          assign should_open_accordion_root = block.type == 'accordion_item' and prev_block.type != 'accordion_item'
+          assign should_close_accordion_root = block.type == 'accordion_item' and next_block.type != 'accordion_item'
+        %}
+
+        {% if should_open_accordion_root %}
+          <accordion-root>
+        {% endif %}
+
+        {% case block.type %}
+          {% when 'title' %}
+            {% render 'product-title',
+              product: product,
+              block: block,
+              color_scheme: color_scheme
+            %}
+          {% when 'price' %}
+           {% render 'product-price',
+              product: product,
+              block: block,
+              color_scheme: color_scheme
+            %}
+          {% when 'variant' %}
+            {% render 'product-options',
+              product: product,
+              block: block,
+              variants_color_scheme: variants_color_scheme
+            %}
+          {% when 'quantity_selector' %}
+            {% render 'product-quantity',
+              block: block,
+              color_scheme: color_scheme
+            %}
+          {% when 'sku' %}
+            {% render 'product-sku',
+              product: product,
+              block: block,
+              color_scheme: color_scheme
+            %}
+          {% when 'buy_buttons' %}
+            {% render 'product-buy-buttons',
+              product: product,
+              block: block,
+              color_scheme: color_scheme,
+              variants_color_scheme: variants_color_scheme
+            %}
+          {% when 'description' %}
+            {% render 'product-description',
+              product: product,
+              block: block,
+              color_scheme: color_scheme
+            %}
+          {% when 'accordion_item' %}
+            {% render 'product-accordion-item',
+              product: product,
+              block: block,
+              color_scheme: color_scheme
+            %}
+
+          {% if should_close_accordion_root %}
+            </accordion-root>
+          {% endif %}
+        {% endcase %}
+      {% endfor %}
+    </form>
+  </div>
+</product-section>
+
+<script>
+  window.product = {
+    variants: {{ product.variants | json }}
+  };
+</script>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "variants_color_scheme",
+      "label": "Variants color scheme",
+      "default": "scheme-product-variants"
+    },
+    {
+      "type": "select",
+      "id": "desktop_media_position",
+      "label": "Desktop media position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "left"
+    },
+    {
+      "id": "desktop_layout",
+      "type": "select",
+      "label": "Desktop layout",
+      "options": [
+        { "value": "thumbnail_gallery", "label": "Thumbnails" },
+        { "value": "two_column", "label": "2 columns" },
+        { "value": "stacked", "label": "Stacked" }
+      ],
+      "default": "thumbnail_gallery"
+    },
+    {
+      "type": "checkbox",
+      "id": "carousel",
+      "label": "Carousel",
+      "default": true,
+      "conditions": {
+        "desktop_layout": "thumbnail_gallery"
+      }
+    },
+    {
+      "type": "select",
+      "id": "slider_buttons_style",
+      "label": "Slider buttons style",
+      "options": [
+        { "value": "primary", "label": "Primary" },
+        { "value": "secondary", "label": "Secondary" }
+      ],
+      "default": "primary",
+      "conditions": {
+        "desktop_layout": "thumbnail_gallery"
+      }
+    },
+    {
+      "id": "mobile_layout",
+      "type": "select",
+      "label": "Mobile layout",
+      "options": [
+        { "value": "show_mobile_thumbnails", "label": "Show thumbnails" },
+        { "value": "hide_mobile_thumbnails", "label": "Hide thumbnails" }
+      ],
+      "default": "show_mobile_thumbnails"
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "Top padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Margin top",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin bottom",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "price",
+      "name": "Price",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Margin top",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin bottom",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "variant",
+      "name": "Variant picker",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "variant_selector",
+          "label": "Variant selector",
+          "options": [
+            { "value": "radio", "label": "Pills" },
+            { "value": "dropdown", "label": "Dropdown" }
+          ],
+          "default": "radio"
+        },
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Margin top",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin bottom",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "quantity_selector",
+      "name": "Quantity selector",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Margin top",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin bottom",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "sku",
+      "name": "SKU",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Margin top",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin bottom",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Buy buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "buy_button_text",
+          "label": "Buy button text",
+          "default": "Add to cart"
+        },
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Margin top",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin bottom",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "select",
+          "id": "subscription_layout",
+          "label": "Subscription layout",
+          "options": [
+            { "value": "dropdown", "label": "Dropdown" },
+            { "value": "stacked", "label": "Stacked" }
+          ],
+          "default": "dropdown"
+        },
+      ]
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "range",
+          "id": "margin_top",
+          "label": "Margin top",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin bottom",
+          "min": 0,
+          "max": 20,
+          "step": 1,
+          "unit": "px",
+          "default": 0
+        }
+      ]
+    },
+    {
+      "type": "accordion_item",
+      "name": "Accordion item",
+      "limit": 12,
+      "settings": [
+        {
+          "type": "text",
+          "id": "trigger",
+          "label": "Label",
+          "default": "Accordion item"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

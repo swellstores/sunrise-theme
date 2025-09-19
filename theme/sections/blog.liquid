@@ -1,0 +1,118 @@
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+-%}
+
+{% style %}
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
+    }
+  }
+{% endstyle %}
+
+<div class="bg-{{ color_scheme }} text-{{ color_scheme }} mx-auto pl-24 pr-24 lg:pl-160 lg:pr-160 responsive-padding-{{ section.id }}">
+  {%- if blog.articles.count > 0 -%}
+    {%- paginate blog.articles by 6 -%}
+        <div class="flex flex-col items-center gap-16 text-center">
+          <h1 class="font-heading text-display-large">{{ blog.title | escape }}</h1>
+        </div>
+        <div class="grid pl-16 pr-16 pt-16 gap-y-16 sm:grid-cols-2 gap-x-16 lg:gap-y-48 lg:grid-cols-3">
+          {%- for article in blog.articles -%}
+            {%- render 'blog-item',
+              article: article,
+              show_image: section.settings.show_image,
+              show_date: section.settings.show_date,
+              show_author: section.settings.show_author,
+              show_excerpt: true
+            -%}
+          {%- endfor -%}
+        </div>
+        {%- if paginate.pages > 1 -%}
+          {%- render 'pagination', paginate: paginate -%}
+        {%- endif -%}
+    {%- endpaginate -%}
+  {%- else -%}
+    <div class="flex flex-col items-center gap-16 text-center">
+      <h1 class="font-heading text-display-large text-{{ color_scheme }}">Blog</h1>
+    </div>
+    <div class="grid pl-16 pr-16 pt-16 gap-y-16 sm:grid-cols-2 gap-x-16 lg:gap-y-48 lg:grid-cols-3 lg:grid-rows-1">
+      {%- for i in (1..3) -%}
+        <div class="blog-card flex flex-col gap-16 overflow-hidden">
+          <div class="h-full w-full object-cover">
+            {{ 'blog-apparel-' | append: forloop.index | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
+          <div class="flex flex-col gap-16">
+            <div class="flex flex-col gap-4">
+              <h3 class="font-display text-headline-small text-{{ color_scheme }}">
+                {{ 'onboarding.blog_title' | t }}
+              </h3>
+            </div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</div>
+
+
+{% schema %}
+{
+  "name": "Blog",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "default": true,
+      "label": "Show image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "default": true,
+      "label": "Show date"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "default": false,
+      "label": "Show author"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "Top padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    }
+  ]
+}
+{% endschema %}

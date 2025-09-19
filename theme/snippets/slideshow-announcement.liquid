@@ -1,0 +1,77 @@
+{% comment %}
+  Slideshow announcement
+
+  Accepts:
+    - section.settings.auto_rotate: {boolean} Whether the slideshow should auto-rotate (optional)
+    - section.settings.auto_rotate_speed: {number} Speed of auto-rotation in seconds (optional)
+    - section.settings.direction: {string} Direction of the slideshow, default is 'horizontal'
+
+  Usage:
+    {% render 'slideshow-announcement' %}
+{% endcomment %}
+
+{%- liquid
+  assign loop = section.settings.loop
+  assign auto_rotate = section.settings.auto_rotate
+  if auto_rotate == true
+    assign auto_rotate_speed = section.settings.auto_rotate_speed | times: 1000
+  endif
+  assign direction = section.settings.direction
+-%}
+
+{% comment %}
+  This flag will be used to conditionally load the swiper-element-bundle.js script in theme.liquid
+{% endcomment %}
+{% comment %}
+  <script>
+    window.theme = window.theme || {};
+    window.theme.announcement.slideshow.rendered = true;
+  </script>
+{% endcomment %}
+
+{% style %}
+  .announcement-url {
+    pointer-events: auto !important;
+    text-decoration: none !important;
+  }
+  .announcement-url:hover {
+    cursor: pointer !important;
+  }
+{% endstyle %}
+
+<swiper-container
+  role="region"
+  aria-label="{{ 'sections.announcement.label' | t }}"
+  aria-roledescription="{{ 'sections.announcement.description' | t }}"
+  loop="{{ loop }}"
+  direction="{{ direction }}"
+  slides-per-view="1"
+  class="max-w-720 h-44"
+  {%- if auto_rotate -%}
+    autoplay-delay="{{ auto_rotate_speed }}"
+  {%- endif -%}
+>
+  {%- for block in section.blocks -%}
+    {%- if block.settings.text != blank -%}
+      <swiper-slide class="flex w-full items-center justify-center gap-8 py-8 text-center font-display text-body-medium">
+        {%- if block.settings.link != blank -%}
+          <a
+            role="group"
+            href="{{ block.settings.link }}"
+            class="flex w-full items-center justify-center gap-8 text-center text-body-small announcement-url"
+            aria-roledescription="{{ 'sections.announcement.description' | t }}"
+            aria-label="{{ forloop.index }} {{ 'sections.announcement.slideshow_of' | t }} {{ forloop.length }}"
+            {%- assign link_downcase = block.settings.link | downcase -%}
+            {%- if link_downcase contains 'http' or link_downcase contains 'https' -%}
+              target="_blank"
+            {%- endif -%}
+          >
+            {{ block.settings.text | escape }}
+          </a>
+        {%- else -%}
+          {{ block.settings.text | escape }}
+        {%- endif -%}
+      </swiper-slide>
+    {%- endif -%}
+  {%- endfor -%}
+</swiper-container>

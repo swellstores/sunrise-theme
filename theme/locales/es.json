@@ -1,0 +1,238 @@
+{
+  "general": {
+    "continue_shopping": "Continuar comprando",
+    "breadcrumbs": {
+      "label": "Migas de pan",
+      "home": "Inicio",
+      "collections": "Colecciones",
+      "products": "Productos",
+      "account": "Cuenta",
+      "register": "Registrarse",
+      "addresses": "Direcciones",
+      "activate_account": "Activar cuenta"
+    },
+    "pagination": {
+      "label": "Paginación",
+      "page": "Página {{ number }}",
+      "next": "Siguiente",
+      "previous": "Anterior"
+    },
+    "search": {
+      "placeholder": "Buscar",
+      "submit": "Enviar búsqueda",
+      "no_results": "No se encontraron resultados para “{{ terms }}”",
+      "store": "Buscar en {{ store_name }}",
+      "dismiss": "Cerrar búsqueda"
+    },
+    "localization": {
+      "language": "Idioma",
+      "currency": "Moneda",
+      "title_language_and_currency": "Elige tu idioma y moneda",
+      "title_language": "Elige tu idioma",
+      "title_currency": "Elige tu moneda",
+      "submit": "Continuar"
+    },
+    "accordion": {
+      "toggle": "Alternar elemento"
+    },
+    "page_not_found": "Página no encontrada",
+    "share": "Compartir",
+    "loading": "Cargando..."
+  },
+  "customer": {
+    "log_out": "Cerrar sesión",
+    "log_in": "Iniciar sesión",
+    "account": {
+      "title": "Cuenta",
+      "my_orders": "Mis pedidos",
+      "orders": "Pedidos",
+      "address_book": "Libreta de direcciones",
+      "addresses": "Direcciones",
+      "no_orders_found": "No se encontraron pedidos."
+    },
+    "activate_account": {
+      "title": "Activar cuenta",
+      "subtext": "Crea tu contraseña para activar tu cuenta.",
+      "submit": "Activar",
+      "cancel": "Cancelar"
+    },
+    "addresses": {
+      "title": "Direcciones",
+      "default": "Dirección predeterminada",
+      "edit_address": "Editar dirección",
+      "first_name": "Nombre",
+      "last_name": "Apellido",
+      "company": "Empresa",
+      "address1": "Línea de dirección 1",
+      "address2": "Línea de dirección 2",
+      "city": "Ciudad",
+      "country": "País/región",
+      "province": "Provincia",
+      "zip": "Código postal",
+      "phone": "Número de teléfono (opcional)",
+      "set_default": "Establecer como dirección predeterminada",
+      "add": "Agregar dirección",
+      "new": "Nueva dirección",
+      "back": "Volver a la libreta de direcciones",
+      "cancel": "Cancelar",
+      "submit": "Guardar dirección",
+      "edit": "Editar",
+      "remove": "Eliminar",
+      "remove_confirm": "¿Estás seguro de que quieres eliminar esta dirección?"
+    }
+  },
+  "sections": {
+    "login": {
+      "title": "Iniciar sesión",
+      "email": "Dirección de correo electrónico",
+      "password": "Contraseña",
+      "forgot_password": "¿Olvidaste tu contraseña?",
+      "create_account": "Crear una cuenta",
+      "sign_in": "Iniciar sesión",
+      "error": "Tu intento de inicio de sesión no tuvo éxito. Por favor, intenta de nuevo."
+    },
+    "register": {
+      "title": "Crear cuenta",
+      "first_name": "Nombre",
+      "last_name": "Apellido",
+      "email": "Dirección de correo electrónico",
+      "password": "Contraseña",
+      "already_have_account": "¿Ya tienes una cuenta?",
+      "create_account": "Crear cuenta",
+      "error": "No se pudo crear tu cuenta. Por favor, intenta de nuevo."
+    },
+    "reset-password": {
+      "title": "Restablecer contraseña",
+      "subtext": "Ingresa una nueva contraseña para tu cuenta.",
+      "email": "Dirección de correo electrónico",
+      "password": "Contraseña",
+      "submit": "Restablecer contraseña",
+      "cancel": "Cancelar",
+      "error": "No se pudo restablecer tu contraseña. Por favor, intenta de nuevo."
+    },
+    "recover-password": {
+      "title": "Recuperar contraseña",
+      "subtext": "Te enviaremos un correo electrónico para restablecer tu contraseña.",
+      "email": "Dirección de correo electrónico",
+      "password": "Contraseña",
+      "submit": "Recuperar contraseña",
+      "cancel": "Cancelar",
+      "sent": "Correo electrónico enviado"
+    },
+    "blog": {
+      "read_more": "Leer más"
+    },
+    "announcement": {
+      "label": "Anuncio",
+      "description": "Presentación de anuncios",
+      "dismiss": "Cerrar anuncio",
+      "slideshow_of": "de"
+    },
+    "collection": {
+      "filters": {
+        "filters": "Filtros",
+        "filter_and_sort": "Filtrar y ordenar",
+        "active": "Filtros activos",
+        "from": "Desde",
+        "to": "Hasta",
+        "selected": "Seleccionado",
+        "sort_by": "Ordenar por",
+        "reset": "Restablecer",
+        "close": "Cerrar",
+        "clear_all": "Borrar todo",
+        "remove_label": "Eliminar filtro para {{ attribute }}"
+      }
+    },
+    "header": {
+      "menu": "Menú",
+      "submenu": "Submenú",
+      "cart": "Carrito de compras"
+    },
+    "product": {
+      "from_price": "Desde",
+      "out_of_stock": "Este artículo está agotado actualmente",
+      "quantity": {
+        "label": "Cantidad",
+        "increment": "Aumentar cantidad",
+        "decrement": "Disminuir cantidad"
+      },
+      "option": {
+        "out_of_stock": "Agotado",
+        "selection_error": "Por favor seleccione una opción",
+        "text_error": "Por favor proporcione una respuesta"
+      },
+      "purchase": {
+        "one_time": "Compra única",
+        "subscription": "Suscripción",
+        "subscription_delivered": "Se entrega",
+        "every_interval": "Cada {{ interval }}",
+        "interval_year": "Anual",
+        "interval_year_plural": "años",
+        "interval_month": "Mensual",
+        "interval_month_plural": "meses",
+        "interval_week": "Semanal",
+        "interval_week_plural": "semanas",
+        "interval_day": "Diario",
+        "interval_day_plural": "días",
+        "includes_trial": "Prueba de {{ trial_days }} días"
+      },
+      "gift_card": {
+        "options": "Opciones de tarjeta",
+        "send_gift": "Enviar como regalo",
+        "send_email": "Email del destinatario",
+        "send_email_error": "Introduzca una dirección de correo electrónico válida.",
+        "send_note": "Mensaje personalizado",
+        "send_note_placeholder": "Escriba un mensaje personalizado para el destinatario",
+        "send_note_char_count": "caracteres"
+      }
+    },
+    "cart": {
+      "title": "Tu carrito",
+      "empty": "Tu carrito está vacío",
+      "estimated_total": "Total estimado",
+      "view_cart": "Ver carrito",
+      "checkout": "Finalizar compra",
+      "continue_checkout": "Continuar con la compra",
+      "subtotal": "Subtotal",
+      "taxes_discounts_shipping_at_checkout": "Impuestos, descuentos y envío calculados al finalizar la compra.",
+      "headings": {
+        "product": "Producto",
+        "total": "Total",
+        "quantity": "Cantidad",
+        "discount": "Descuento"
+      },
+      "login": {
+        "title": "¿Tienes una cuenta?",
+        "faster": "para un checkout más rápido"
+      },
+      "item_count": {
+        "one": "{{ count }} artículo",
+        "other": "{{ count }} artículos"
+      }
+    },
+    "newsletter": {
+      "email": "Correo electrónico",
+      "success": "Te has suscrito a nuestro boletín."
+    },
+    "slideshow": {
+      "label": "Presentación",
+      "next": "Siguiente diapositiva",
+      "previous": "Diapositiva anterior"
+    }
+  },
+  "accessibility": {
+    "skip_to_text": "Saltar al contenido",
+    "browser_video_support": "Tu navegador no soporta la etiqueta de video.",
+    "close": "Cerrar",
+    "error": "Error"
+  },
+  "onboarding": {
+    "product_title": "Producto de ejemplo",
+    "collection_title": "Colección de ejemplo",
+    "blog_title": "Título de blog de ejemplo",
+    "blog_post_date": "15 de marzo de 2023",
+    "blog_post_category": "Noticias",
+    "blog_post_title": "Título del blog",
+    "blog_post_content": "Escribe el contenido de tu blog aquí. Empieza con una breve introducción, luego divide el contenido en secciones claras usando titulares. Usa párrafos cortos para que sea fácil de leer. Puedes incluir imágenes, vídeos, citas y enlaces para apoyar tu contenido. Termina con un resumen o un llamado a la acción."
+  }
+}

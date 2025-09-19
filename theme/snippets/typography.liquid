@@ -1,0 +1,77 @@
+{% style %}
+  :root {
+    --font-pre-heading-family: {{ settings.typography_pre_heading.family }}, {{ settings.typography_pre_heading.fallback_families }};
+    --font-pre-heading-style: {{ settings.typography_pre_heading.style }};
+    --font-pre-heading-weight: {{ settings.typography_pre_heading.weight }};
+    --font-pre-heading-size:
+      {% if settings.typography_pre_heading_size == 'sm' %}
+        clamp(0.7233796296296297rem /* 11.574074074074074px */, calc(0.7233796296296297rem /* 11.574074074074074px */ + ((0.7901234567901235 - 0.7233796296296297) * ((100vw - 20rem /* 320px */) / (96 - 20)))), 0.7901234567901235rem /* 12.641975308641976px */)
+      {% elsif settings.typography_pre_heading_size == 'md' %}
+        clamp(0.8680555555555557rem /* 13.888888888888891px */, calc(0.8680555555555557rem /* 13.888888888888891px */ + ((0.8888888888888888 - 0.8680555555555557) * ((100vw - 20rem /* 320px */) / (96 - 20)))), 0.8888888888888888rem /* 14.222222222222221px */)
+      {% else %}
+        clamp(1rem /* 16px */ /* 16px */, calc(1rem + ((1.0416666666666667 /* 320px */- 1) * ((100vw - 20rem) / ( /* 16.666666666666668px */96 - 20)))), 1.0416666666666667rem)
+      {% endif %}
+    ;
+    --font-pre-heading-text-transform: {% if settings.typography_pre_heading_uppercase %}uppercase{% else %}none{% endif %};
+
+    --font-heading-family: {{ settings.typography_heading.family }}, {{ settings.typography_heading.fallback_families }};
+    --font-heading-style: {{ settings.typography_heading.style }};
+    --font-heading-weight: {{ settings.typography_heading.weight }};
+    --font-heading-size:
+      {% if settings.typography_heading_size == 'sm' %}
+        clamp(1.423828125rem /* 22.78125px */, ca /* 22.78125px */lc(1.423828125rem + ((1.799999999999999 /* 320px */8 - 1.423828125) * ((100vw /* 28.799999999999997px */- 20rem) / (96 - 20)))), 1.7999999999999998rem)
+      {% elsif settings.typography_heading_size == 'md' %}
+        clamp(1.601806640625rem /* 25.62890625px */, calc(1.601806640625rem /* 25.62890625px */ + ((2.1599999999999997 - 1.601806640625) * ((100vw - 20rem /* 320px */) / (96 - 20)))), 2.1599999999999997rem /* 34.559999999999995px */)
+      {% else %}
+        clamp(1.802032470703125rem /* 28.83251953125px */, calc(1.802032470703125rem /* 28.83251953125px */ + ((2.5919999999999996 - 1.802032470703125) * ((100vw - 20rem /* 320px */) / (96 - 20)))), 2.5919999999999996rem /* 41.471999999999994px */)
+      {% endif %}
+    ;
+    --font-heading-text-transform: {% if settings.typography_heading_uppercase %}uppercase{% else %}none{% endif %};
+
+    --font-body-family: {{ settings.typography_body.family }}, {{ settings.typography_body.fallback_families }};
+    --font-body-style: {{ settings.typography_body.style }};
+    --font-body-weight: {{ settings.typography_body.weight }};
+    --font-body-size:
+      {% if settings.typography_body_size == 'sm' %}
+        clamp(0.8680555555555557rem /* 13.888888888888891px */, /* 13.888888888888891px */ calc(0.8680555555555557rem + ((0.88 /* 320px */88888888888888 - 0.86805555 /* 14.222222222222221px */55555557) * ((100vw - 20rem) / (96 - 20)))), 0.8888888888888888rem)
+      {% elsif settings.typography_body_size == 'md' %}
+        clamp(1rem /* 16px */, calc(1rem /* 16px */ + ((1.0416666666666667 - 1) * ((100vw - 20rem /* 320px */) / (96 - 20)))), 1.0416666666666667rem /* 16.666666666666668px */)
+      {% else %}
+        clamp(1.125rem /* 18px */, calc(1.125rem /* 18px */ + ((1.25 - 1.125) * ((100vw - 20rem /* 320px */) / (96 - 20)))), 1.25rem /* 20px */)
+      {% endif %}
+    ;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading-family);
+    font-style: var(--font-heading-style);
+    font-weight: var(--font-heading-weight);
+    text-transform: var(--font-heading-text-transform);
+    line-height: 120%;
+  }
+
+  h2 {
+    font-size: var(--font-heading-size);
+  }
+
+  .preheading {
+    font-family: var(--font-pre-heading-family);
+    font-style: var(--font-pre-heading-style);
+    font-weight: var(--font-pre-heading-weight);
+    font-size: var(--font-pre-heading-size);
+    text-transform: var(--font-pre-heading-text-transform);
+    line-height: 120%;
+  }
+
+  body {
+    font-family: var(--font-body-family);
+    font-style: var(--font-body-style);
+    font-weight: var(--font-body-weight);
+    font-size: var(--font-body-size);
+  }
+{% endstyle %}

@@ -1,0 +1,313 @@
+{%- liquid
+  assign input_label_class = 'text-body-medium text-secondary-' | append: color_scheme
+  assign input_class = 'px-12 py-10 text-title-medium outline-none rounded border border-color-' | append: color_scheme | append: ' bg-' | append: color_scheme
+  assign input_style = '--shadow-color: var(--color-' | append: color_scheme | append: '-borders-and-inputs)'
+-%}
+
+<address-modal class="w-full max-w-480 px-20 py-16 rounded-4 bg-{{ color_scheme }}">
+  {%- form 'account_address'
+    , return_to: routes.account_url
+    , hx-post: routes.account_addresses_url
+    , hx-swap: hx-swap
+    , hx-target: hx-target
+    , hx-select: hx-select
+    , hx-indicator: hx-indicator
+    , hx-trigger: "address-modal-submit"
+  -%}
+    <div class="flex flex-col gap-24">
+      <div class="flex justify-between items-center">
+        <address-modal-title class="text-title-large">
+          {{ title }}
+        </address-modal-title>
+        <address-modal-close-button class="flex items-center size-12 cursor-pointer">
+          {{- 'cross-icon.svg' | inline_asset_content -}}
+        </address-modal-close-button>
+      </div>
+      <div class="flex flex-col gap-16">
+        <div class="flex flex-col sm:flex-row justify-between gap-16 sm:gap-8">
+          <div class="flex flex-col gap-6 min-w-0 flex-1">
+            <span class="{{ input_label_class }}">
+              {{ 'customer.addresses.first_name' | t }}
+            </span>
+            <input
+              id="address-first-name"
+              name="address[first_name]"
+              style="{{ input_style }}"
+              class="{{ input_class }}"
+              placeholder="{{ 'customer.addresses.first_name' | t }}"
+              required
+            ></input>
+          </div>
+          <div class="flex flex-col gap-6 min-w-0 flex-1">
+            <span class="{{ input_label_class }}">
+              {{ 'customer.addresses.last_name' | t }}
+            </span>
+            <input
+              id="address-last-name"
+              name="address[last_name]"
+              style="{{ input_style }}"
+              class="{{ input_class }}"
+              placeholder="{{ 'customer.addresses.last_name' | t }}"
+              required
+            ></input>
+          </div>
+        </div>
+        <div class="flex flex-col gap-6">
+          <span class="{{ input_label_class }}">
+            {{ 'customer.addresses.company' | t }}
+          </span>
+          <input
+            id="address-company"
+            name="address[company]"
+            style="{{ input_style }}"
+            class="{{ input_class }}"
+            placeholder="{{ 'customer.addresses.company_placeholder' | t }}"
+          ></input>
+        </div>
+        <div class="flex flex-col gap-6">
+          <span class="{{ input_label_class }}">
+            {{ 'customer.addresses.country' | t }}
+          </span>
+          <dropdown-menu
+            id="address-country"
+            name="address[country]"
+            class="relative flex flex-col group"
+            required
+          >
+            <dropdown-trigger
+              style="{{ input_style }}"
+              class="
+                flex
+                justify-between
+                items-center
+                group-aria-expanded:rounded-b-0
+                {{ input_class }}
+              "
+            >
+              <dropdown-trigger-placeholder>
+                {{ 'customer.addresses.country_placeholder' | t }}
+              </dropdown-trigger-placeholder>
+              <dropdown-trigger-label></dropdown-trigger-label>
+              <ion-icon name="chevron-down-outline" class="size-18 text-secondary-{{ color_scheme }}"></ion-icon>
+            </dropdown-trigger>
+            <dropdown-options
+              style="{{ input_style }}"
+              class="
+                absolute
+                top-full
+                w-full
+                max-h-192
+                overflow-y-auto
+                scrollbar-hidden
+                hidden
+                group-aria-expanded:flex
+                flex-col
+                rounded
+                group-aria-expanded:rounded-t-0
+                border
+                border-color-{{ color_scheme }}
+                group-aria-expanded:border-t-0
+                bg-{{ color_scheme }}
+                py-6
+                px-4
+                gap-4
+                z-10
+              "
+            >
+              {% for country in geo.countries %}
+                <dropdown-option
+                  class="
+                    relative
+                    py-6
+                    px-10
+                    w-full
+                    rounded
+                    cursor-pointer
+                  "
+                  value="{{ country.id }}"
+                  data-label="{{ country.name }}"
+                >
+                  {{ country.name }}
+                </dropdown-option>
+              {% endfor%}
+            </dropdown-options>
+          </dropdown-menu>
+        </div>
+        <div class="flex flex-col gap-6">
+          <span class="{{ input_label_class }}">
+            {{ 'customer.addresses.address1' | t }}
+          </span>
+          <input
+            id="address-address1"
+            name="address[address1]"
+            style="{{ input_style }}"
+            class="{{ input_class }}"
+            placeholder="{{ 'customer.addresses.address1' | t }}"
+            required
+          ></input>
+        </div>
+        <div class="flex flex-col gap-6">
+          <span class="{{ input_label_class }}">
+            {{ 'customer.addresses.address2' | t }}
+          </span>
+          <input
+            id="address-address2"
+            name="address[address2]"
+            style="{{ input_style }}"
+            class="{{ input_class }}"
+            placeholder="{{ 'customer.addresses.address2_placeholder' | t }}"
+          ></input>
+        </div>
+        <div class="flex flex-col gap-6">
+          <span class="{{ input_label_class }}">
+            {{ 'customer.addresses.city' | t }}
+          </span>
+          <input
+            id="address-city"
+            name="address[city]"
+            style="{{ input_style }}"
+            class="{{ input_class }}"
+            placeholder="{{ 'customer.addresses.city' | t }}"
+            required
+          ></input>
+        </div>
+        <div class="flex justify-between gap-8">
+          <div class="flex flex-col gap-6 min-w-0 flex-1">
+            <span class="{{ input_label_class }}">
+              {{ 'customer.addresses.province' | t }}
+            </span>
+            <input
+              id="address-province-input"
+              name="address[province]"
+              style="{{ input_style }}"
+              class="{{ input_class }}"
+              placeholder="{{ 'customer.addresses.province' | t }}"
+              required
+            ></input>
+            <dropdown-menu
+              id="address-province-dropdown"
+              name="address[province]"
+              class="relative flex flex-col group hidden"
+            >
+              <dropdown-trigger
+                style="{{ input_style }}"
+                class="
+                  flex
+                  justify-between
+                  items-center
+                  group-aria-expanded:rounded-b-0
+                  {{ input_class }}
+                "
+              >
+                <dropdown-trigger-placeholder>
+                  {{ 'customer.addresses.province' | t }}
+                </dropdown-trigger-placeholder>
+                <dropdown-trigger-label class="whitespace-nowrap overflow-x-hidden"></dropdown-trigger-label>
+                <ion-icon name="chevron-down-outline" class="size-18 text-secondary-{{ color_scheme }}"></ion-icon>
+              </dropdown-trigger>
+              <dropdown-options
+                style="{{ input_style }}"
+                class="
+                  absolute
+                  top-full
+                  w-full
+                  max-h-160
+                  overflow-y-auto
+                  scrollbar-hidden
+                  hidden
+                  group-aria-expanded:flex
+                  flex-col
+                  rounded
+                  group-aria-expanded:rounded-t-0
+                  border
+                  border-color-{{ color_scheme }}
+                  group-aria-expanded:border-t-0
+                  bg-{{ color_scheme }}
+                  py-6
+                  px-4
+                  gap-4
+                  z-10
+                "
+              >
+                {%- liquid
+                  assign limit = 50
+                  assign states_size = geo.states.size
+                  assign iterations = states_size | divided_by: limit | ceil | minus: 1
+                -%}
+
+                {% for i in (0..iterations) %}
+                  {% assign offset = i | times: limit %}
+
+                  {% for state in geo.states offset:offset %}
+                    <dropdown-option
+                      class="
+                        relative
+                        py-6
+                        px-10
+                        w-full
+                        rounded
+                        cursor-pointer
+                      "
+                      value="{{ state.id }}"
+                      data-label="{{ state.name }}"
+                    >
+                      {{ state.name }}
+                    </dropdown-option>
+                  {% endfor%}
+                {% endfor%}
+              </dropdown-options>
+            </dropdown-menu>
+          </div>
+          <div class="flex flex-col gap-6 min-w-0 flex-1">
+            <span class="{{ input_label_class }}">
+              {{ 'customer.addresses.zip' | t }}
+            </span>
+            <input
+              id="address-zip"
+              name="address[zip]"
+              style="{{ input_style }}"
+              class="{{ input_class }}"
+              placeholder="{{ 'customer.addresses.zip' | t }}"
+              required
+            ></input>
+          </div>
+        </div>
+        <toggle-button
+          class="flex items-center w-fit gap-4 hover:cursor-pointer group"
+          name="address[default]"
+          aria-checked="false"
+        >
+          <toggle-button-checkbox
+            class="
+              flex
+              items-center
+              justify-center
+              size-16
+              rounded-4
+            "
+            data-checked-class="btn-primary-{{ color_scheme }}"
+            data-unchecked-class="btn-secondary-{{ color_scheme }}"
+          >
+            <div class="hidden items-center justify-center size-10 group-aria-checked:flex">
+              {{- 'icon-checkmark.svg' | inline_asset_content -}}
+            </div>
+          </toggle-button-checkbox>
+          <span class="text-title-small">
+            {{ 'customer.addresses.set_default' | t }}
+          </span>
+        </toggle-button>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-8">
+        <address-modal-close-button class="py-14 px-24 w-full rounded text-center text-body-medium btn-secondary-{{ color_scheme }}">
+          {{ 'customer.addresses.cancel' | t }}
+        </address-modal-close-button>
+        <address-modal-submit-button
+          class="py-14 px-24 w-full rounded text-center text-body-medium btn-primary-{{ color_scheme }}"
+          disabled
+        >
+          {{ 'customer.addresses.submit' | t }}
+        </address-modal-submit-button>
+      </div>
+    </div>
+  {%- endform -%}
+</address-modal>

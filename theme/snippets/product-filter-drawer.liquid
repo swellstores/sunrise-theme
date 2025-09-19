@@ -1,0 +1,74 @@
+{% comment %}
+  Renders a product filter drawer sidebar for mobile/small screens.
+
+  Accepts:
+  - filters: {Array} Array of filter objects
+  - color_scheme: {String} Color scheme variant for styling (e.g., "light", "dark")
+  - active_filter_count: {Number} Count of currently active filters
+
+  Features:
+  - Fixed sidebar drawer, initially hidden (translated off-screen)
+  - Header with filter title and close toggle button (cross icon)
+  - Scrollable main area rendering 'product-filter-inputs' snippet with filters
+  - Footer with:
+    * Clear all filters button (disabled if no active filters)
+    * View results/apply filters button
+  - Uses dynamic classes based on color_scheme for consistent styling
+  - Accessibility with aria-hidden attribute and live updates via HTMX (hx-swap-oob)
+
+  Usage:
+  {% render 'product-filter-drawer', filters: filters, color_scheme: color_scheme, active_filter_count: active_filter_count %}
+{% endcomment %}
+
+<product-filter-drawer
+  class="
+    flex
+    flex-col
+    fixed
+    right-0
+    top-0
+    w-full
+    translate-x-full
+    z-[5001]
+    bg-{{ color_scheme }}
+    text-{{ color_scheme }}
+  "
+>
+  <div class="flex w-full items-center justify-between p-24 border-b border-color-{{ color_scheme }}">
+    <span class="text-title-medium">
+      {{ 'sections.collection.filters.filters' | t -}}
+    </span>
+    <product-filter-toggle class="flex items-center size-12">
+      {{- 'cross-icon.svg' | inline_asset_content -}}
+    </product-filter-toggle>
+  </div>
+  <div class="p-24 h-full overflow-y-auto">
+    {% render 'product-filter-inputs',
+      filters: filters,
+      color_scheme: color_scheme
+    %}
+  </div>
+  <div class="flex justify-center px-24 py-16 gap-8 text-body-medium border-t border-color-{{ color_scheme }}">
+    <filters-clear
+      id="filters-clear-drawer"
+      class="min-w-160 px-24 py-14 text-center rounded btn-secondary-{{ color_scheme }}"
+      hx-swap-oob="true"
+      {% unless active_filter_count > 0 %}
+        disabled
+      {% endunless %}
+    >
+      {% liquid
+        assign clear_all_text = 'sections.collection.filters.clear_all' | t
+
+        if active_filter_count > 0
+          assign clear_all_text = clear_all_text | append: ' (' | append: active_filter_count | append: ')'
+        endif
+      %}
+
+      {{ clear_all_text }}
+    </filters-clear>
+    <product-filter-toggle class="min-w-160 px-24 py-14 text-center rounded btn-primary-{{ color_scheme }}">
+      {{ 'sections.collection.filters.view_results' | t -}}
+    </product-filter-toggle>
+  </div>
+</product-filter-drawer>

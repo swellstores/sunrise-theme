@@ -1,0 +1,274 @@
+{% comment %}
+  Renders a featured content section with products from a selected category.
+
+  Usage:
+  {% sections 'featured-collection' %}
+{% endcomment %}
+
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign pre_heading = section.settings.pre_heading
+  assign heading = section.settings.heading
+  assign selected_category = section.settings.category
+
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+-%}
+
+{% style %}
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
+    }
+  }
+{% endstyle %}
+
+<div class="pl-24 pr-24 lg:px-160 lg:py-96 bg-{{ color_scheme }} responsive-padding-{{ section.id }}">
+  <div class="flex flex-col gap-48 max-w-container w-full mx-auto">
+    <div class="text-start flex flex-col gap-16 text-{{ color_scheme }}">
+      {%- if pre_heading != blank -%}
+        <p class="font-display font-pre-heading text-pre-heading text-{{ section.settings.header_alignment | default: 'left' }}">
+          {{ pre_heading }}
+        </p>
+      {%- endif -%}
+      {%- if heading != blank -%}
+        <h2 class="font-display font-heading text-heading-{{ section.settings.heading_size | default: 'small' }} text-{{ section.settings.header_alignment | default: 'left' }}">
+          {{ heading }}
+        </h2>
+      {%- endif -%}
+    </div>
+
+    {% if selected_category.products.size > 0 %}
+      <div
+        class="
+          grid gap-16
+          items-stretch
+          {% if section.settings.mobile_columns == '1 column' %} grid-cols-1
+          {% else %} grid-cols-2
+          {% endif %} md:grid-cols-3 lg:grid-cols-4
+        "
+      >
+        {%- for product in selected_category.products limit: section.settings.max_products -%}
+          <div class="flex flex-col gap-8">
+            <a href="{{ product.url }}">
+              <div class="aspect-square w-full">
+                {%
+                  render 'image', image: product.featured_image, alt: product.featured_image.alt | default: "Featured product image {{ forloop.index }}",
+                  class: "w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                %}
+              </div>
+            </a>
+
+            <a href="{{ product.url }}">
+              <div class="flex flex-col gap-2 items-start text-{{ color_scheme }}">
+                <h3 class="font-display text-title-small">
+                  {{ product.title }}
+                </h3>
+
+                <p class="font-display text-body-medium">
+                  {%- if product.compare_at_price > product.price -%}
+                    <div class="font-display flex gap-6 text-body-medium flex-wrap">
+                      <span class="">
+                        {{ product.price | money_with_currency }}
+                      </span>
+                      <span class="line-through text-[#757575]">
+                        {{ product.compare_at_price | money_with_currency }}
+                      </span>
+                    </div>
+                  {%- else -%}
+                    {{ product.price | money_with_currency }}
+                  {%- endif -%}
+                </p>
+              </div>
+            </a>
+          </div>
+        {%- endfor -%}
+      </div>
+    {% else %}
+      <div
+        class="
+          grid gap-16
+          items-stretch
+          {% if section.settings.mobile_columns == '1 column' %} grid-cols-1
+          {% else %} grid-cols-2
+          {% endif %} md:grid-cols-3 lg:grid-cols-4
+        "
+      >
+        {%- for i in (1..4) -%}
+          <div class="flex flex-col gap-8">
+            {% liquid
+              assign ridx = forloop.rindex
+              case ridx
+                when 5
+                  assign ridx = 1
+                when 6
+                  assign ridx = 2
+              endcase
+            %}
+            {%- assign placeholder_image = 'product-apparel-' | append: ridx -%}
+            <div class="aspect-square w-full">
+              {{ placeholder_image | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
+
+            <div class="flex flex-col items-start gap-2 text-{{ color_scheme }}">
+              <h3 class="font-display text-title-small">{{ 'onboarding.product_title' | t }}</h3>
+              <p class="font-display text-body-medium">
+                <div class="font-display flex gap-6 text-body-medium flex-wrap">
+                  {{ 99 | money_with_currency }}
+                </div>
+              </p>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    {% endif %}
+  </div>
+  {%- comment -%}force tailwind to prepare necessary classes{%- endcomment -%}
+  <div class="hidden md:grid-cols-1 md:grid-cols-2 md:grid-cols-3 md:grid-cols-4 md:grid-cols-5" />
+</div>
+
+{% schema %}
+{
+  "name": "Featured category",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "pre_heading",
+      "label": "Pre-heading",
+      "default": "Shop the best"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Dive into favorites"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Heading size",
+      "default": "small",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" },
+        { "value": "extra-large", "label": "Extra large" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header alignment",
+      "default": "left",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "collection",
+      "id": "category",
+      "label": "Featured category"
+    },
+    {
+      "type": "range",
+      "id": "max_products",
+      "label": "Number of products",
+      "info": "Displays the max number of products per row.",
+      "min": 1,
+      "max": 12,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "Top padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "header",
+      "content": "Mobile layout"
+    },
+    {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "Number of columns (mobile)",
+      "default": "1 column",
+      "options": [
+        {
+          "value": "1 column",
+          "label": "1 column"
+        },
+        {
+          "value": "2 columns",
+          "label": "2 columns"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured category",
+      "settings": {
+        "pre_heading": "Shop the best",
+        "heading": "Dive into favorites"
+      }
+    }
+  ]
+}
+{% endschema %}

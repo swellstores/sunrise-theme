@@ -1,0 +1,123 @@
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+-%}
+
+{% style %}
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
+    }
+  }
+{% endstyle %}
+
+<div
+  class="responsive-padding-{{ section.id }} bg-{{ color_scheme }} flex flex-col items-center justify-center gap-16"
+>
+  <div class="flex flex-col gap-16 py-28 text-center">
+    <h1 class="font-medium text-display-medium">{{ 'customer.activate_account.title' | t }}</h1>
+    <p class="text-body-medium">{{ 'customer.activate_account.subtext' | t }}</p>
+  </div>
+  {%- form 'activate_customer_password' -%}
+    {%- if form.errors -%}
+      <div class="bg-red-50 w-full flex flex-col rounded-md border border-red-600 mb-16 p-16">
+        <h2 tabindex="-1" autofocus class="outline-none body-large text-red-600">
+          <span class="sr-only">{{ 'accessibility.error' | t }}</span>
+          {{ 'accessibility.error' | t }}
+        </h2>
+        <div class="text-body-medium text-red-600">
+          {{ form.errors | default_errors }}
+        </div>
+      </div>
+    {%- endif -%}
+    <div class="mb-64 flex w-512 flex-col gap-16">
+      <div class="relative">
+        {% render 'input',
+          type: 'password',
+          name: 'customer[password]',
+          id: 'customer[password]',
+          autocomplete: 'current-password'
+        %}
+        {% render 'label', for: 'customer[password]', text: 'Password' %}
+        {%- if form.errors contains 'password' -%}
+          <div class="text-body-small text-red-600">
+            {{ form.errors.translated_fields.password | capitalize }}
+            {{ form.errors.messages.password }}
+          </div>
+        {%- endif -%}
+      </div>
+      <div class="relative">
+        {% render 'input',
+          type: 'password',
+          name: 'customer[password_confirmation]',
+          id: 'customer[password_confirmation]',
+          autocomplete: 'current-password'
+        %}
+        {% render 'label', for: 'customer[password_confirmation]', text: 'Password' %}
+        {%- if form.errors contains 'password_confirmation' -%}
+          <div class="text-body-small text-red-600">
+            {{ form.errors.translated_fields.password | capitalize }}
+            {{ form.errors.messages.password }}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+    {% assign submit_text = 'customer.activate_account.submit' | t %}
+    {% render 'button',
+      type: 'submit',
+      text: submit_text,
+      color_scheme: section.settings.color_scheme
+    %}
+    <div class="flex items-center justify-center gap-4 text-body-medium">
+      <a
+        href="{{ routes.root_url }}"
+        class="underline underline-offset-2"
+      >
+        {{ 'customer.activate_account.cancel' | t }}
+      </a>
+    </div>
+  {%- endform -%}
+</div>
+
+{% schema %}
+{
+  "name": "Activate account",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "Top padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 48
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,19 @@
+<a
+  href="{{ routes.root_url }}"
+  class="flex h-80 sm:h-100 justify-center min-960:justify-start !decoration-transparent"
+>
+  {%- if settings.logo != blank -%}
+    {{
+      settings.logo
+      | image_url: width: 600
+      | image_tag: width: settings.logo_width, alt: settings.logo.alt, class: 'object-contain'
+      | default: shop.name, preload: true
+    }}
+  {%- else -%}
+    <h1
+      class="flex items-center justify-center font-display text-logo-text"
+    >
+      {{ settings.logo_text | default: store.name }}
+    </h1>
+  {%- endif -%}
+</a>

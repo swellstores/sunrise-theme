@@ -1,0 +1,406 @@
+{
+  "general": {
+    "continue_shopping": "Continue shopping",
+    "breadcrumbs": {
+      "label": "Breadcrumbs",
+      "home": "Home",
+      "collections": "Collections",
+      "products": "Products",
+      "account": "Account",
+      "register": "Register",
+      "addresses": "Addresses",
+      "activate_account": "Activate account"
+    },
+    "pagination": {
+      "label": "Pagination",
+      "page": "Page {{ number }}",
+      "next": "Next",
+      "previous": "Previous"
+    },
+    "search": {
+      "placeholder": "Search",
+      "submit": "Submit search",
+      "no_results": "No results found for “{{ terms }}”",
+      "store": "Search {{ store_name }}",
+      "dismiss": "Dismiss search"
+    },
+    "localization": {
+      "language": "Language",
+      "currency": "Currency",
+      "title_language_and_currency": "Choose your language and currency",
+      "title_language": "Choose your language",
+      "title_currency": "Chose your currency",
+      "submit": "Continue"
+    },
+    "accordion": {
+      "toggle": "Toggle item"
+    },
+    "payment": {
+      "payment_method": "Payment method",
+      "card_method": "Credit card",
+      "card_number": "Card number",
+      "card_exp": "Exp date",
+      "account_method": "Account credit"
+    },
+    "page_not_found": "Page not found",
+    "share": "Share",
+    "loading": "Loading..."
+  },
+  "customer": {
+    "log_out": "Log out",
+    "log_in": "Log in",
+    "account": {
+      "title": "Account",
+      "details": "My details",
+      "orders": "Orders",
+      "address_book": "Address book",
+      "addresses": "Addresses",
+      "no_orders_found": "You have not placed any orders yet.",
+      "my_subscriptions": "My subscriptions",
+      "subscriptions": "Subscriptions",
+      "no_subscriptions_found": "You have no active subscriptions.",
+      "payment_methods": "Payment method",
+      "return": "Return to Account details"
+    },
+    "activate_account": {
+      "title": "Activate account",
+      "subtext": "Create your password to activate your account.",
+      "submit": "Activate",
+      "cancel": "Cancel"
+    },
+    "details": {
+      "title": "My details",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "email": "Email address",
+      "phone": "Phone number (optional)",
+      "submit": "Save",
+      "email_already_exists": "This email is already in use"
+    },
+    "addresses": {
+      "title": "Addresses",
+      "default": "Default address",
+      "add_new_address": "Add new address",
+      "edit_address": "Edit address",
+      "remove_address": "Remove address",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "company": "Company",
+      "company_placeholder": "Company (optional)",
+      "address1": "Address",
+      "address2": "Apartment, suite, floor",
+      "address2_placeholder": "Apartment, suite, etc. (optional)",
+      "city": "City",
+      "country": "Country",
+      "country_placeholder": "Select country",
+      "province": "State",
+      "zip": "Zip code",
+      "phone": "Phone number (optional)",
+      "set_default": "Set as default",
+      "add": "Add address",
+      "new": "New address",
+      "back": "Back to address book",
+      "cancel": "Cancel",
+      "submit": "Save",
+      "edit": "Edit",
+      "remove": "Remove",
+      "remove_confirm": "Are you sure you want to remove this address?",
+      "none": "You have no saved addresses."
+    },
+    "order": {
+      "section_title": "Account Order",
+      "title": "Order {{ name }}",
+      "back": "Back to Orders",
+      "date_html": "Placed on {{ date }}",
+      "cancelled_html": "Order Cancelled on {{ date }}",
+      "cancelled_reason": "Reason: {{ reason }}",
+      "billing_address": "Billing Address",
+      "payment_status": "Payment Status",
+      "payment_details": "Payment details",
+      "shipping_address": "Shipping Address",
+      "fulfillment_status": "Fulfillment Status",
+      "discount": "Discount",
+      "shipping": "Shipping",
+      "tax": "Tax",
+      "product": "Product",
+      "items": "Items",
+      "bundle_items": "Bundle items",
+      "sku": "SKU",
+      "price": "Price",
+      "quantity": "Quantity",
+      "total": "Total",
+      "total_refunded": "Refunded",
+      "fulfilled_at_html": "Fulfilled {{ date }}",
+      "track_shipment": "Track shipment",
+      "tracking_url": "Tracking link",
+      "tracking_company": "Carrier",
+      "tracking_number": "Tracking number",
+      "subtotal": "Subtotal",
+      "total_duties": "Duties",
+      "order_name": "Order",
+      "placed_on": "Placed on",
+      "view_order": "View order",
+      "financial_status_refund_due": "Refund due",
+      "financial_status_partially_paid": "Partially paid",
+      "financial_status_partially_refunded": "Partially refunded",
+      "financial_status_refunded": "Refunded",
+      "financial_status_paid": "Paid",
+      "financial_status_authorized": "Authorized",
+      "financial_status_unpaid": "Unpaid",
+      "financial_status_free": "Free",
+      "fulfillment_status_canceled": "Canceled",
+      "fulfillment_status_on_hold": "On hold",
+      "fulfillment_status_returned": "Returned",
+      "fulfillment_status_partially_returned": "Partially returned",
+      "fulfillment_status_fulfilled": "Fulfilled",
+      "fulfillment_status_partially_fulfilled": "Partially fulfilled",
+      "fulfillment_status_unfulfilled": "Unfulfilled",
+      "fulfillment_status_complete": "Complete",
+      "fulfillment_status_restocked": "Restocked",
+      "fulfillment_status_partial": "Partially fulfilled"
+    },
+    "orders": {
+      "title": "Order history",
+      "order_number": "Order",
+      "order_number_link": "Order number {{ number }}",
+      "date": "Date",
+      "payment_status": "Payment status",
+      "fulfillment_status": "Fulfillment status",
+      "total": "Total",
+      "none": "You haven't placed any orders yet."
+    },
+    "subscription": {
+      "title": "Subscription {{ name }}",
+      "back": "Back to Subscriptions",
+      "shipping_address": "Shipping Address",
+      "billing_address": "Billing Address",
+      "payment_details": "Payment details",
+      "items": "Additional items",
+      "renews": "Renews",
+      "paused_until": "Paused until",
+      "paused_since": "Paused since",
+      "cancelled": "Cancelled",
+      "trial_ends": "Trial ends",
+      "return": "Return to Account subscriptions",
+      "cancel": "Cancel",
+      "skip_next_order": "Skip next order",
+      "skip_order": "Skip order",
+      "pause_subscription": "Pause subscription",
+      "cancel_subscription": "Cancel subscription",
+      "first_invoice": "First invoice",
+      "next_invoice": "Next invoice",
+      "first_order": "First order",
+      "next_order": "Next order",
+      "created": "Created",
+      "details": "Details",
+      "error": "Error during subscription update",
+      "skip_next_order_warning": "Are you sure you want to skip the next order?</br>Your next billing date will be on <b>{{ date }}</b>.",
+      "pause_warning": "Are you sure you want to pause your subscription?</br>Your subscription can be resumed at any time.",
+      "cancel_warning": "Are you sure you want to cancel your subscription?</br>Your subscription will end on <b>{{ date }}</b>.",
+      "payment_retry": "Payment retry",
+      "subscribed_since": "Subscribed since",
+      "next_billing": "Next billing",
+      "next_shipping": "Next shipping",
+      "manage_subscription": "View details",
+      "active": "Active",
+      "trial": "Trial",
+      "complete": "Complete",
+      "canceled": "Canceled",
+      "pastdue": "Overdue",
+      "paused": "Paused",
+      "unpaid": "Unpaid",
+      "next_billing_complete": "Subscription completed",
+      "next_billing_canceled": "Subscription canceled",
+      "next_billing_pastdue": "Subscription due on",
+      "next_billing_paused": "Subscription paused",
+      "next_billing_paused_until": "Subscription paused until",
+      "next_billing_unpaid": "Subscription unpaid",
+      "day_trial": "day trial",
+      "payment_failed": "Payment failed"
+    }
+  },
+  "sections": {
+    "login": {
+      "title": "Log in",
+      "email": "Email address",
+      "email_placeholder": "Enter your email address",
+      "password": "Password",
+      "password_placeholder": "Enter your password",
+      "forgot_password": "Forgot your password?",
+      "create_account": "Create an account",
+      "sign_in": "Sign in",
+      "error": "Your login attempt was unsuccessful. Please try again.",
+      "invalid_credentials": "Invalid email or password."
+    },
+    "register": {
+      "title": "Create an account",
+      "first_name": "First name",
+      "first_name_placeholder": "Enter your first name",
+      "last_name": "Last name",
+      "last_name_placeholder": "Enter your last name",
+      "email": "Email address",
+      "email_placeholder": "Enter your email address",
+      "password": "Password",
+      "password_placeholder": "Enter your password",
+      "already_have_account": "Already have an account?",
+      "login": "Log in here.",
+      "create_account": "Create account",
+      "error": "Your account could not be created. Please try again.",
+      "invalid_email_error": "Invalid email address",
+      "invalid_password_error": "Invalid password",
+      "logout_error": "You must be logged out to create an account",
+      "unknown_error": "Can not create account"
+    },
+    "reset-password": {
+      "title": "Update your password",
+      "subtext": "Enter a new password to access your account.",
+      "email": "Email address",
+      "email_placeholder": "Enter your email address",
+      "password": "New password",
+      "password_placeholder": "Enter your new password",
+      "submit": "Reset password",
+      "create_account": "Create account",
+      "error": "Your password could not be reset. Please try again.",
+      "back_to_login": "Back to log in",
+      "invalid_reset_key": "Invalid account recovery key",
+      "invalid_password_reset": "Invalid password",
+      "invalid_password_confirmation": "Password confirmation must match the provided password"
+    },
+    "recover-password": {
+      "title": "Reset your password",
+      "subtext": "An email will be sent with instructions to reset your password.",
+      "email": "Email address",
+      "email_placeholder": "Enter your email address",
+      "password": "Password",
+      "submit": "Reset password",
+      "cancel": "Back to log in",
+      "sent": "Email sent",
+      "success": "An email has been sent to your address with instructions to recover your password."
+    },
+    "blog": {
+      "read_more": "Read more"
+    },
+    "announcement": {
+      "label": "Announcement",
+      "description": "Announcement slideshow",
+      "dismiss": "Dismiss announcement",
+      "slideshow_of": "of"
+    },
+    "collection": {
+      "item_count": {
+        "one": "{{ count }} item",
+        "other": "{{ count }} items"
+      },
+      "filters": {
+        "filters": "Filters",
+        "filter_and_sort": "Filter and sort",
+        "active": "Active filters",
+        "from": "From",
+        "to": "To",
+        "selected": "Selected",
+        "sort_by": "Sort by",
+        "reset": "Reset",
+        "close": "Close",
+        "clear_all": "Clear all",
+        "remove_label": "Remove filter for {{ attribute }}",
+        "view_results": "View results",
+        "no_product_results": "No products found"
+      }
+    },
+    "header": {
+      "menu": "Menu",
+      "submenu": "Submenu",
+      "cart": "Shopping cart"
+    },
+    "product": {
+      "from_price": "From",
+      "out_of_stock": "This item is currently out of stock",
+      "quantity": {
+        "label": "Quantity",
+        "increment": "Increase quantity",
+        "decrement": "Decrease quantity"
+      },
+      "option": {
+        "out_of_stock": "Out of stock",
+        "selection_error": "Please select an option",
+        "text_error": "Please provide an answer"
+      },
+      "purchase": {
+        "one_time": "One-time purchase",
+        "subscription": "Subscription",
+        "subscription_delivered": "Delivered",
+        "every_interval": "Every {{ interval }}",
+        "interval_year": "Yearly",
+        "interval_year_plural": "years",
+        "interval_month": "Monthly",
+        "interval_month_plural": "months",
+        "interval_week": "Weekly",
+        "interval_week_plural": "weeks",
+        "interval_day": "Daily",
+        "interval_day_plural": "days",
+        "includes_trial": "{{ trial_days }}-day trial"
+      },
+      "gift_card": {
+        "options": "Card options",
+        "send_gift": "Send as gift",
+        "send_email": "Recipient's email",
+        "send_email_error": "Enter a valid email address.",
+        "send_note": "Custom message",
+        "send_note_placeholder": "Write a custom message to the recipient",
+        "send_note_char_count": "characters"
+      }
+    },
+    "cart": {
+      "title": "Cart",
+      "empty": "Your cart is empty",
+      "estimated_total": "Estimated total",
+      "view_cart": "View cart",
+      "checkout": "Checkout",
+      "continue_checkout": "Continue to checkout",
+      "subtotal": "Subtotal",
+      "taxes_discounts_shipping_at_checkout": "Taxes, discounts and shipping calculated at checkout.",
+      "headings": {
+        "product": "Product",
+        "total": "Total",
+        "quantity": "Quantity",
+        "discount": "Discount"
+      },
+      "login": {
+        "title": "Have an account?",
+        "faster": "to checkout faster"
+      },
+      "item_count": {
+        "one": "{{ count }} item",
+        "other": "{{ count }} items"
+      },
+      "item": {
+        "remove": "Remove",
+        "quantity": "Qty"
+      }
+    },
+    "newsletter": {
+      "email": "Email",
+      "success": "You have been subscribed to our newsletter."
+    },
+    "slideshow": {
+      "label": "Slideshow",
+      "next": "Next slide",
+      "previous": "Previous slide"
+    }
+  },
+  "accessibility": {
+    "skip_to_text": "Skip to content",
+    "browser_video_support": "Your browser does not support the video tag.",
+    "close": "Close",
+    "error": "Error"
+  },
+  "onboarding": {
+    "product_title": "Example product",
+    "collection_title": "Example collection",
+    "blog_title": "Example blog title",
+    "blog_post_date": "March 15, 2023",
+    "blog_post_category": "News",
+    "blog_post_title": "Blog title",
+    "blog_post_content": "Write your blog content here. Start with a short introduction, then break content into clear sections using headings. Use short paragraphs for readability. You can include images, videos, quotes, and links to support your content. Finish with a summary or call to action."
+  }
+}

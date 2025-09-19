@@ -1,0 +1,178 @@
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+-%}
+
+{% style %}
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
+    }
+  }
+
+  #product-list-form #product-grid,
+  #product-list-form #product-filter-inputs {
+    transition: opacity 300ms ease;
+  }
+
+  #product-list-form.htmx-request #product-grid {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  product-list-section .noUi-connect,
+  product-list-section .noUi-horizontal .noUi-handle {
+    background-color: var(--color-{{ color_scheme }}-text);
+  }
+
+  product-list-section .noUi-connects {
+    background-color: var(--color-{{ color_scheme }}-text-secondary);
+  }
+
+  product-list-section .noUi-horizontal .noUi-handle .noUi-tooltip {
+    color: var(--color-{{ color_scheme }}-text);
+  }
+{% endstyle %}
+
+<product-list-section class="max-w-container flex flex-col gap-24 w-full p-24 md:p-48 mx-auto bg-{{ color_scheme }} text-{{ color_scheme }} responsive-padding-{{ section.id }}">
+  {% if collection.name %}
+    <div class='flex flex-col gap-4'>
+      {% render 'breadcrumbs',
+        url: '/categories',
+        collection: collection,
+        color_scheme: color_scheme
+      %}
+      <span class="text-heading-small font-medium">{{ collection.name }}</span>
+    </div>
+  {% endif %}
+
+  {% paginate collection.products by 12 %}
+    {%- liquid
+      assign products = collection.products
+      assign filters = collection.filters
+      assign sort_options = collection.sort_options
+      assign sort_by = collection.sort_by
+
+      assign show_filters = section.settings.show_filters and filters.size > 0
+      assign active_filter_count = 0
+
+      for filter in filters
+        case filter.type
+          when 'price_range'
+            if filter.min_value.value or filter.max_value.value
+              assign active_filter_count = active_filter_count | plus: 1
+            endif
+          else
+            if filter.active_values.size > 0
+              assign active_values_count = filter.active_values | size
+              assign active_filter_count = active_filter_count | plus: active_values_count
+            endif
+        endcase
+      endfor
+    -%}
+
+    <form
+      id="product-list-form"
+      class="flex w-full"
+      hx-get="/products"
+      hx-trigger="product-filters-change, product-sort-change, filters-clear, pagination-change"
+      hx-indicator="#product-list-form"
+      hx-swap="none"
+    >
+      {% if show_filters %}
+        <product-filters
+          data-htmx-form="product-list-form"
+        >
+          <!-- Sidebar (desktop only) -->
+          <div class="hidden sm:block">
+            {% render 'product-filter-sidebar',
+              filters: filters,
+              active_filter_count: active_filter_count,
+              color_scheme: color_scheme
+            %}
+          </div>
+          <!-- Drawer (mobile only) -->
+          <div class="block sm:hidden">
+            {% render 'product-filter-drawer',
+              filters: filters,
+              active_filter_count: active_filter_count,
+              color_scheme: color_scheme
+            %}
+          </div>
+        </product-filters>
+      {% endif %}
+      <div
+        id="product-grid"
+        class="flex flex-col w-full gap-24"
+        hx-swap-oob="true"
+      >
+        {% render 'product-grid-bar',
+          products: products,
+          sort_options: sort_options,
+          sort_by: sort_by,
+          show_filters: show_filters,
+          color_scheme: color_scheme
+        %}
+        {% render 'product-grid',
+          products: products,
+          active_filter_count: active_filter_count,
+          color_scheme: color_scheme
+        %}
+        {% render 'pagination',
+          paginate: paginate,
+          color_scheme: color_scheme
+        %}
+      </div>
+    </form>
+  {% endpaginate %}
+</product-list-section>
+
+
+{% schema %}
+{
+  "name": "Product list",
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "Show filter options",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "Top padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    }
+  ]
+}
+{% endschema %}

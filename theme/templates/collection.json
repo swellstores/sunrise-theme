@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "product_list": {
+      "type": "product-list",
+      "settings": {
+        "color_scheme": "scheme-1",
+        "show_filters": true,
+        "top_padding": 40,
+        "bottom_padding": 64
+      }
+    }
+  },
+  "order": ["product_list"]
+}

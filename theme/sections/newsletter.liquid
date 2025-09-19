@@ -1,0 +1,205 @@
+{%- liquid
+  assign color_scheme = section.settings.color_scheme | default: 'scheme-4'
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+-%}
+
+{% style %}
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
+    }
+  }
+{% endstyle %}
+
+<div
+  class="bg-{{ color_scheme}} text-{{ color_scheme }} flex justify-center bg-[#FAF7FF] pt-64 pb-64 pl-24 pr-24 lg:p-160 responsive-padding-{{ section.id }}"
+>
+  <div class="max-w-content flex flex-col justify-center items-center">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'heading' -%}
+          <h2 class="font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }} text-center mb-8">
+            {{ block.settings.heading | inline_editable: 'heading' }}
+          </h2>
+        {%- when 'text' -%}
+          <div class="font-display formatted-text text-content text-center">
+            {{ block.settings.text | inline_editable: 'text' }}
+          </div>
+        {%- when 'email_form' -%}
+          <div class="flex w-full pt-32">
+            {% form 'customer'
+              , class: 'newsletter-form w-full'
+            %}
+              <input type="hidden" name="contact[tags]" value="newsletter">
+              <div class="flex gap-4 justify-center newsletter-form-container">
+                <div class="relative sm:min-w-384 w-full sm:w-330">
+                  {% assign email_text = 'sections.newsletter.email' | t %}
+                  {%
+                    render 'input',
+                    id: 'contact[email]',
+                    type: 'email',
+                    name: 'contact[email]',
+                    value: form.email,
+                    autocorrect: 'off',
+                    autocapitalize: 'off',
+                    autocomplete: 'email',
+                    placeholder: email_text,
+                    autofocus: form.errors,
+                    required: 'true',
+                    class: 'h-48',
+                    aria_required: 'true',
+                    aria_invalid: form.errors
+                  %}
+                </div>
+                {% render 'button',
+                  type: 'submit',
+                  text: section.settings.button_text,
+                  color_scheme: color_scheme,
+                  variant: section.settings.button_variant
+                %}
+              </div>
+              {%- if form.errors -%}
+                <div class="text-red-600 mt-8 text-body-medium">{{ form.errors | default_errors }}</div>
+              {%- endif -%}
+              {%- if form.posted_successfully? -%}
+                <div class="mt-8 text-green-600 text-body-medium">{{ 'sections.newsletter.success' | t }}</div>
+              {%- endif -%}
+            {% endform %}
+          </div>
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Newsletter",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "button_variant",
+      "label": "Button style",
+      "options": [
+        { "value": "solid", "label": "Primary" },
+        { "value": "outline", "label": "Secondary" }
+      ],
+      "default": "solid"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Submit"
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "Top padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Subscribe to our emails",
+          "label": "Content"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "label": "Heading size",
+          "default": "small",
+          "options": [
+            { "value": "small", "label": "Small" },
+            { "value": "medium", "label": "Medium" },
+            { "value": "large", "label": "Large" },
+            { "value": "extra-large", "label": "Extra large" }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>Be the first to know about new collections and exclusive offers.</p>",
+          "label": "Content"
+        }
+      ]
+    },
+    {
+      "type": "email_form",
+      "name": "Email form",
+      "limit": 1
+    }
+  ],
+  "presets": [
+    {
+      "name": "Newsletter",
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "email_form"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,25 @@
+{%- liquid
+  assign class = class | default: 'font-display text-title-small absolute start-1 top-2 z-10 origin-[0] -translate-y-4 scale-75 transform px-2 duration-300 peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-focus:top-2 peer-focus:-translate-y-[2rem] peer-focus:scale-75 peer-focus:px-2 peer-focus:text-slate-600 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4'
+-%}
+
+<label
+  for="{{ for }}"
+  class="{{ class }}"
+  {% if id %}
+    id="id"
+  {% endif %}
+  {% if aria_label %}
+    aria-label="{{ aria_label }}"
+  {% endif %}
+  {% if aria_labelledby %}
+    aria-labelledby="{{ aria_labelledby }}"
+  {% endif %}
+  {% if aria_describedby %}
+    aria-describedby="{{ aria_describedby }}"
+  {% endif %}
+  {% if aria_hidden %}
+    aria-hidden="{{ aria_hidden }}"
+  {% endif %}
+>
+  {{ text }}
+</label>

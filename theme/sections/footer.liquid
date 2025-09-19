@@ -1,0 +1,242 @@
+{%- liquid
+  assign color_scheme = section.settings.color_scheme
+  assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
+  assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
+  assign reduced_padding_top = top_padding | times: 0.55 | round: 2
+  assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+-%}
+
+{% style %}
+  .responsive-padding-{{ section.id }} {
+    padding-top: {{ reduced_padding_top }}rem;
+    padding-bottom: {{ reduced_padding_bottom }}rem;
+  }
+
+  @media (min-width: 1024px) {
+    .responsive-padding-{{ section.id }} {
+      padding-top: {{ top_padding }}rem;
+      padding-bottom: {{ bottom_padding }}rem;
+    }
+  }
+{% endstyle %}
+
+<div
+  class="bg-{{ color_scheme }} bg-[#F5F5F5] pt-64 pb-24 pr-44 pl-44 md:pt-96 md:pb-32 responsive-padding-{{ section.id }}"
+>
+  <div class="max-w-content 2xl:max-w-container mx-auto">
+    <footer class="grid grid-cols-[repeat(auto-fit,_minmax(31.5rem,_1fr))] gap-32 text-{{ color_scheme }}">
+      {%- for block in section.blocks -%}
+        {% if block.type == 'menu' %}
+          {% assign menu = block.settings.menu %}
+          {% if menu != blank and linklists[menu] %}
+            {% assign menu_has_sublinks = false %}
+            {% for link in linklists[menu].links %}
+              {% if link.links.size > 0 %}
+                {% assign menu_has_sublinks = true %}
+              {% endif %}
+            {% endfor %}
+
+            {% if menu_has_sublinks %}
+              {% for link in linklists[menu].links %}
+                <div class="flex flex-col gap-16">
+                  <div class="flex flex-col gap-24">
+                    {%- if link.url == '#' -%}
+                      <div class="font-display text-title-large">{{ link.title }}</div>
+                    {%- else -%}
+                      <a href="{{ link.url }}" title="{{ link.title }}" class="font-display text-title-large">
+                        {{ link.title }}
+                      </a>
+                    {%- endif -%}
+                    {%- if link.links.size > 0 -%}
+                      <ul class="flex flex-col gap-16 text-body-large font-display text-secondary-{{ color_scheme }}">
+                        {%- for child_link in link.links -%}
+                          <li>
+                            <a href="{{ child_link.url }}" title="{{ child_link.title }}">
+                              {{ child_link.title }}
+                            </a>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    {%- endif -%}
+                  </div>
+                </div>
+              {% endfor %}
+            {% else %}
+              <div class="flex flex-col gap-16">
+                <div class="font-display text-title-large">
+                  {{ block.settings.single_column_heading | default: 'Quick Links' }}
+                </div>
+                <ul class="flex flex-col gap-16 text-body-large font-display text-secondary-{{ color_scheme }}">
+                  {% for link in linklists[menu].links %}
+                    <li>
+                      <a href="{{ link.url }}" title="{{ link.title }}">
+                        {{ link.title }}
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% endif %}
+          {% endif %}
+        {% elsif block.type == 'brand_info' %}
+          <div class="flex flex-col">
+            <div class="flex flex-col gap-24">
+              <h2 class="font-display text-title-large text-{{ color_scheme }}">{{ block.settings.footer_title }}</h2>
+              <div class="flex flex-col gap-16 text-body-large font-display text-secondary-{{ color_scheme }}">
+                {{ block.settings.footer_text }}
+              </div>
+              {%- if block.settings.show_social_icons -%}
+                <div class="flex gap-16 pt-16 pb-16">
+                  {% render 'social-icon-list' %}
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        {% endif %}
+      {%- endfor -%}
+    </footer>
+
+    {% if section.blocks != empty %}
+      <div class="border-t border-color-{{ color_scheme }} w-full mt-32 mb-32"></div>
+    {% endif %}
+
+    <div class="flex flex-col items-start gap-8">
+      <div class="flex w-full justify-between">
+        <a
+          href="{{ routes.root_url }}"
+        >
+          {%- if settings.logo != blank -%}
+            {{
+              settings.logo
+              | image_url: width: 600
+              | image_tag: width: settings.logo_width, alt: settings.logo.alt, class: 'object-contain'
+              | default: shop.name, preload: true
+            }}
+          {%- else -%}
+            <h1
+              class="flex items-center justify-center text-logo-text font-display text-{{ color_scheme }}"
+            >
+              {{ settings.logo_text | default: shop.name }}
+            </h1>
+          {%- endif -%}
+        </a>
+      </div>
+
+      {%- render 'localization-form' -%}
+
+      {% if section.settings.show_copyright %}
+        <div class="text-body-small text-secondary-{{ color_scheme }} font-display text-body-medium pt-32">
+          © {{ 'now' | date: '%Y' }}
+          {{ shop.name -}}. <a href="https://www.swell.is">Powered by Swell</a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_copyright",
+      "label": "Show copyright",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_language_selector",
+      "label": "Show language selector",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_currency_selector",
+      "label": "Show currency selector",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-2"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "top_padding",
+      "label": "Top padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "bottom_padding",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 96,
+      "step": 1,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Footer Menu",
+      "settings": [
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu"
+        },
+        {
+          "type": "text",
+          "id": "single_column_heading",
+          "label": "Heading for Single Column Menu",
+          "default": "Quick Links"
+        }
+      ]
+    },
+    {
+      "type": "brand_info",
+      "name": "Brand Information",
+      "settings": [
+        {
+          "type": "text",
+          "id": "footer_title",
+          "label": "Footer Title",
+          "default": "Our Mission"
+        },
+        {
+          "type": "textarea",
+          "id": "footer_text",
+          "label": "Footer Text",
+          "default": "Quality materials, good designs, craftsmanship, and sustainability."
+        },
+        {
+          "type": "checkbox",
+          "id": "show_social_icons",
+          "label": "Show Social Icons",
+          "default": true
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
