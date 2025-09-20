@@ -46,9 +46,9 @@ Sunrise is Swell's official default theme for Proxima, featuring comprehensive S
 ## Getting started
 
 ### Prerequisites
-- [Swell CLI](https://developers.swell.is/cli) installed globally
+- [Swell CLI](https://developers.swell.is/apps/cli) installed globally
 - Node.js 18+ and npm
-- A Swell store with [Proxima](https://developers.swell.is/storefronts/proxima-app-guide) installed
+- A Swell store with [Proxima](https://developers.swell.is/storefronts/proxima-app) installed
 
 ### Installation
 
@@ -253,10 +253,9 @@ class Accordion extends HTMLElement {
 
 - [Swell Documentation](https://developers.swell.is/)
 - [Swell Liquid Reference](https://developers.swell.is/storefronts/swell-liquid-reference)
-- [Proxima Storefront](https://developers.swell.is/storefronts/proxima)
-- [Subscription Commerce Guide](https://developers.swell.is/guides/subscription-commerce)
-- [Theme Development](https://developers.swell.is/storefronts/themes)
-- [Swell CLI Documentation](https://developers.swell.is/cli)
+- [Proxima Storefront](https://developers.swell.is/storefronts/proxima-app)
+- [Theme Development](https://developers.swell.is/storefronts/theme-guide)
+- [Swell CLI Documentation](https://developers.swell.is/apps/cli)
 
 ## 📄 License
 
