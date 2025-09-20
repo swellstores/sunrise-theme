@@ -56,7 +56,7 @@ Clone this theme and create your own version:
 
 ```bash
 # Clone the Sunrise theme
-git clone https://github.com/swellstores/sunrise.git my-theme
+git clone https://github.com/swellstores/sunrise-theme.git my-theme
 cd my-theme
 
 # Install dependencies
