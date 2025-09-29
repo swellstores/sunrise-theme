@@ -6,7 +6,13 @@
 	"version": "1.0.97",
 	"theme": {
 		"storefront": {
-			"app": "proxima"
+			"app": "proxima",
+			"compatibility": {
+				"features": {
+					"swell_prices": true,
+					"swell_variants": true
+				}
+			}
 		},
 		"styles": [
 			{
