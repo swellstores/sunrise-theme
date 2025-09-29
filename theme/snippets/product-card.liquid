@@ -13,10 +13,11 @@
 {% assign compare_at_price = product.compare_at_price %}
 {% assign price = product.price | default: product.selected_or_first_available_variant.price | money_with_currency %}
 {% assign title = product.name | default: product.title %}
-{% assign slug = product.slug | default: product.url %}
+{% assign slug_url = '/products/' | append: product.slug %}
+{% assign url = product.url | default: slug_url %}
 
 <div class="group relative flex flex-col gap-12">
-  <a href="{{ slug }}" class="relative w-full h-fit aspect-square">
+  <a href="{{ url }}" class="relative w-full h-fit aspect-square">
     {% if featured_image != blank %}
       <img
         src="{{ featured_image | image_url}}"
@@ -41,7 +42,7 @@
     {% endif %}
   </a>
   <div class="flex flex-col gap-4">
-    <a href="{{ slug }}" class="text-body-small font-display">
+    <a href="{{ url }}" class="text-body-small font-display">
       <h5>{{ title }}</h5>
     </a>
     <div class="flex gap-8">
