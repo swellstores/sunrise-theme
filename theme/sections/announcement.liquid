@@ -49,10 +49,10 @@
       {% render 'slideshow-announcement' %}
     {%- endif -%}
     {%- if dismissible -%}
-      <div class="absolute right-0 top-0 flex items-center justify-center px-8 h-full">
+      <div class="absolute right-0 top-0 flex items-center justify-center px-8 h-full w-24">
         <announcement-trigger
           role="button"
-          class="size-6 flex items-center justify-center"
+          class="size-32 flex items-center justify-center"
           aria-label="{{ 'sections.announcement.dismiss' | t }}"
         >
           <ion-icon name="close-outline" aria-hidden="true"></ion-icon>
