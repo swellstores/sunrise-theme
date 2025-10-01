@@ -130,6 +130,9 @@
                           bg-{{ color_scheme }}
                           border-color-{{ color_scheme }}
                         {% endif %}
+                        {% if section.settings.layout != 'row' and forloop.index0 > 0 %}
+                          -mt-1
+                        {% endif %}
                       "
                       aria-expanded="
                         {% if section.settings.open_first_collapsible_row and forloop.first %}
