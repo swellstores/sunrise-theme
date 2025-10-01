@@ -97,14 +97,14 @@
             <accordion-root
               class="
                 grid
-                grid-cols-1
                 items-center
                 justify-center
                 w-full
                 {% if section.settings.layout == 'row' %}
                   gap-16
-                {% endif %}
-                {% if section.settings.layout == 'row' or section.settings.layout == 'section' %}
+                  text-{{ container_color_scheme }}
+                {% elsif section.settings.layout == 'section' %}
+                  grid-cols-1
                   text-{{ container_color_scheme }}
                 {% else %}
                   text-{{ color_scheme }}
