@@ -80,6 +80,7 @@ import { AccountLogin } from "./account-login";
 import { AccountResetPassword } from "./account-reset-password";
 import { AccountRegister } from "./account-register";
 import { AccountRecover } from "./account-recover";
+import { Announcement } from "./announcement";
 
 // Import vendor libraries
 import { loadIonIcons } from "./vendor";
@@ -216,6 +217,8 @@ window.theme.accordion_rendered = true;
     customElements.define("account-reset-password", AccountResetPassword);
     customElements.define("account-register", AccountRegister);
     customElements.define("account-recover", AccountRecover);
+
+    customElements.define("announcement-root", Announcement);
   }
 
   // Call functions
