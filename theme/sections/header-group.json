@@ -24,7 +24,7 @@
           "settings": {
             "$locale": null,
             "text": "Welcome to our store",
-            "link": null
+            "link": ""
           }
         },
         "announcement_1": {
@@ -33,7 +33,7 @@
           "settings": {
             "$locale": null,
             "text": "Use this section to display announcements",
-            "link": null
+            "link": ""
           }
         }
       },
