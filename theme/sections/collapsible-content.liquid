@@ -144,7 +144,7 @@
                     >
                       <accordion-trigger
                         class="
-                          text-heading-{{ block.settings.heading_size | default: 'small' }}
+                          text-title-{{ block.settings.heading_size | default: 'medium' }}
                           font-display
                           font-heading
                           flex
@@ -161,12 +161,12 @@
                           class="
                             transition-transform
                             group-aria-expanded:rotate-180
-                            {% if block.settings.heading_size == 'small' %}
-                              h-16
-                              w-16
-                            {% else %}
+                            {% if block.settings.heading_size == 'extra-large' %}
                               h-32
                               w-32
+                            {% else %}
+                              h-16
+                              w-16
                             {% endif %}
                           "
                         ></ion-icon>
@@ -381,7 +381,7 @@
           "type": "select",
           "id": "heading_size",
           "label": "Heading size",
-          "default": "small",
+          "default": "medium",
           "options": [
             { "value": "small", "label": "Small" },
             { "value": "medium", "label": "Medium" },
