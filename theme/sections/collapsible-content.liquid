@@ -96,8 +96,8 @@
 
             <accordion-root
               class="
-                flex
-                flex-col
+                grid
+                grid-cols-1
                 items-center
                 justify-center
                 w-full
@@ -112,67 +112,70 @@
               "
             >
               {%- for block in section.blocks -%}
-                {%- if block.type == 'collapsible_row' -%}
-                  <accordion-item
-                    class="
-                      w-full
-                      p-16
-                      border
-                      rounded
-                      group
-                      {% if section.settings.layout == 'row' %}
-                        bg-{{ container_color_scheme }}
-                        border-color-{{ container_color_scheme }}
-                      {% else %}
-                        bg-{{ color_scheme }}
-                        border-color-{{ color_scheme }}
-                      {% endif %}
-                    "
-                    aria-expanded="
-                      {% if section.settings.open_first_collapsible_row and forloop.first %}
-                        true
-                      {% else %}
-                        false
-                      {% endif %}
-                    "
-                  >
-                    <accordion-trigger
+                {%- case block.type -%}
+                  {%- when 'collapsible_row' -%}
+                    <accordion-item
                       class="
-                        text-heading-{{ block.settings.heading_size | default: 'small' }}
-                        font-display
-                        font-heading
                         flex
+                        flex-col
                         w-full
-                        items-center
-                        justify-between
+                        p-16
+                        border
+                        rounded
+                        group
+                        {% if section.settings.layout == 'row' %}
+                          bg-{{ container_color_scheme }}
+                          border-color-{{ container_color_scheme }}
+                        {% else %}
+                          bg-{{ color_scheme }}
+                          border-color-{{ color_scheme }}
+                        {% endif %}
+                      "
+                      aria-expanded="
+                        {% if section.settings.open_first_collapsible_row and forloop.first %}
+                          true
+                        {% else %}
+                          false
+                        {% endif %}
                       "
                     >
-                      {% assign pageTitle = block.settings.page.title | escape %}
-                      {{ block.settings.heading | default: pageTitle }}
-                      <ion-icon
-                        name="chevron-down-outline"
-                        aria-label="{{ 'general.accordion.toggle' | t }}"
+                      <accordion-trigger
                         class="
-                          transition-transform
-                          group-aria-expanded:rotate-180
-                          {% if block.settings.heading_size == 'small' %}
-                            h-16
-                            w-16
-                          {% else %}
-                            h-32
-                            w-32
-                          {% endif %}
+                          text-heading-{{ block.settings.heading_size | default: 'small' }}
+                          font-display
+                          font-heading
+                          flex
+                          w-full
+                          items-center
+                          justify-between
                         "
-                      ></ion-icon>
-                    </accordion-trigger>
-                    <accordion-content class="body-large">
-                      <div class="mt-4">
-                        <span class="formatted-text">{{ block.settings.row_content }}</span>
-                        {{ block.settings.page.content }}
-                      </div>
-                    </accordion-content>
-                  </accordion-item>
-                {%- endif -%}
+                      >
+                        {% assign pageTitle = block.settings.page.title | escape %}
+                        {{ block.settings.heading | default: pageTitle }}
+                        <ion-icon
+                          name="chevron-down-outline"
+                          aria-label="{{ 'general.accordion.toggle' | t }}"
+                          class="
+                            transition-transform
+                            group-aria-expanded:rotate-180
+                            {% if block.settings.heading_size == 'small' %}
+                              h-16
+                              w-16
+                            {% else %}
+                              h-32
+                              w-32
+                            {% endif %}
+                          "
+                        ></ion-icon>
+                      </accordion-trigger>
+                      <accordion-content class="body-large">
+                        <div class="mt-4">
+                          <span class="formatted-text">{{ block.settings.row_content }}</span>
+                          {{ block.settings.page.content }}
+                        </div>
+                      </accordion-content>
+                    </accordion-item>
+                {%- endcase -%}
               {%- endfor -%}
             </accordion-root>
           </div>
