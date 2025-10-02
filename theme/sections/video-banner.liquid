@@ -5,7 +5,7 @@
 
 {% liquid
   assign color_scheme = section.settings.color_scheme
-  assign content_text_alignment = section.settings.content_text_alignment
+  assign text_alignment = section.settings.text_alignment
   assign content_color_scheme = section.settings.content_color_scheme
   assign transparent = section.settings.transparent
   assign url_parts = section.settings.video_url | split: '.'
@@ -69,7 +69,7 @@
 {%- endstyle -%}
 
 {% comment %}theme-check-disable RemoteAsset{% endcomment %}
-<div class="relative bg-{{ color_scheme }} text-{{ content_text_alignment }} responsive-padding-{{ section.id }}">
+<div class="relative bg-{{ color_scheme }} text-{{ text_alignment }} responsive-padding-{{ section.id }}">
   {% if section.settings.video_url != blank %}
     {% if is_youtube %}
       <div class="video-wrapper non-interactive-video">
@@ -113,8 +113,8 @@
     <div class="absolute inset-0 flex h-full w-full {{ section.settings.content_alignment }}">
       <div
         class="
-          max-w-450 m-32 flex flex-col p-32 {% if transparent %}bg-transparent text-{{ color_scheme }} {% else %}bg-{{ content_color_scheme }} text-{{ content_color_scheme }} {% endif %} text-{{ content_text_alignment }}
-          {% case section.settings.content_text_alignment %}
+          max-w-450 m-32 flex flex-col p-32 {% if transparent %}bg-transparent text-{{ color_scheme }} {% else %}bg-{{ content_color_scheme }} text-{{ content_color_scheme }} {% endif %} text-{{ text_alignment }}
+          {% case section.settings.text_alignment %}
           {% when 'center' %} items-center
           {% when 'right' %} items-end
           {% else %} items-start
@@ -166,47 +166,81 @@
 
 {% schema %}
 {
-  "name": "Video banner",
+  "name": "t:sections.video_banner.name",
   "tag": "section",
   "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
-    { "type": "url", "id": "video_url", "label": "Video URL", "info": "Vimeo, Youtube, MP4, WebM or OGG" },
-    { "type": "checkbox", "id": "loop_video", "label": "Loop video", "default": true },
-    { "type": "checkbox", "id": "transparent", "label": "Transparent background", "default": false },
+    {
+      "type": "url",
+      "id": "video_url",
+      "label": "t:sections.video_banner.settings.video_url.label",
+      "info": "t:sections.video_banner.settings.video_url.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "loop_video",
+      "label": "t:sections.video_banner.settings.loop_video.label",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "transparent",
+      "label": "t:sections.video_banner.settings.transparent.label",
+      "default": false
+    },
     {
       "type": "select",
       "id": "content_alignment",
-      "label": "Content position",
-      "default": "items-center justify-center",
+      "label": "t:sections.all.content_alignment.label",
+      "default": "middle_center",
       "options": [
-        { "value": "items-start justify-start", "label": "Top left" },
-        { "value": "items-start justify-center", "label": "Top middle" },
-        { "value": "items-start justify-end", "label": "Top right" },
-        { "value": "items-center justify-start", "label": "Middle left" },
-        { "value": "items-center justify-center", "label": "Middle center" },
-        { "value": "items-center justify-end", "label": "Middle right" },
-        { "value": "items-end justify-start", "label": "Bottom left" },
-        { "value": "items-end justify-center", "label": "Bottom middle" },
-        { "value": "items-end justify-end", "label": "Bottom right" }
+        { "value": "top_left", "label": "t:sections.all.content_alignment.options__top_left.label" },
+        { "value": "top_center", "label": "t:sections.all.content_alignment.options__top_center.label" },
+        { "value": "top_right", "label": "t:sections.all.content_alignment.options__top_right.label" },
+        { "value": "middle_left", "label": "t:sections.all.content_alignment.options__middle_left.label" },
+        { "value": "middle_center", "label": "t:sections.all.content_alignment.options__middle_center.label" },
+        { "value": "middle_right", "label": "t:sections.all.content_alignment.options__middle_right.label" },
+        { "value": "bottom_left", "label": "t:sections.all.content_alignment.options__bottom_left.label" },
+        { "value": "bottom_center", "label": "t:sections.all.content_alignment.options__bottom_center.label" },
+        { "value": "bottom_right", "label": "t:sections.all.content_alignment.options__bottom_right.label" }
       ]
     },
     {
       "type": "select",
-      "id": "content_text_alignment",
-      "label": "Text alignment",
+      "id": "text_alignment",
+      "label": "t:sections.all.text_alignment.label",
       "default": "center",
       "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" },
-        { "value": "right", "label": "Right" }
+        {
+          "value": "left",
+          "label": "t:sections.all.text_alignment.options__left.label"
+        },
+        {
+          "value": "center",
+          "label": "t:sections.all.text_alignment.options__center.label"
+        },
+        {
+          "value": "right",
+          "label": "t:sections.all.text_alignment.options__right.label"
+        }
       ]
     },
-    { "type": "color_scheme", "id": "content_color_scheme", "label": "Content color scheme", "default": "scheme-1" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    {
+      "type": "color_scheme",
+      "id": "content_color_scheme",
+      "label": "t:sections.video_banner.settings.content_color_scheme.label",
+      "default": "scheme-1"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
     {
       "type": "range",
       "id": "top_padding",
-      "label": "Top padding",
+      "label": "t:sections.all.padding.padding_top",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -216,7 +250,7 @@
     {
       "type": "range",
       "id": "bottom_padding",
-      "label": "Bottom padding",
+      "label": "t:sections.all.padding.padding_bottom",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -227,75 +261,78 @@
   "blocks": [
     {
       "type": "pre_heading",
-      "name": "Pre-heading",
+      "name": "t:sections.video_banner.blocks.pre_heading.name",
       "limit": 1,
       "settings": [
         {
-          "type": "inline_richtext", 
-          "id": "pre_heading", 
-          "label": "Content",
-          "default": "Take a look"
+          "type": "inline_richtext",
+          "id": "pre_heading",
+          "label": "t:sections.video_banner.blocks.pre_heading.settings.content.label"
         }
       ]
     },
     {
       "type": "heading",
-      "name": "Heading",
+      "name": "t:sections.video_banner.blocks.heading.name",
       "limit": 1,
       "settings": [
-        { 
+        {
           "type": "inline_richtext",
           "id": "heading",
-          "label": "Content",
-          "default": "Discover in motion"
+          "label": "t:sections.video_banner.blocks.heading.settings.heading.label",
+          "default": "t:sections.video_banner.blocks.heading.settings.heading.default"
         },
         {
           "type": "select",
           "id": "heading_size",
-          "label": "Heading size",
+          "label": "t:sections.all.heading_size.label",
           "default": "small",
           "options": [
-            { "value": "small", "label": "Small" },
-            { "value": "medium", "label": "Medium" },
-            { "value": "large", "label": "Large" },
-            { "value": "extra-large", "label": "Extra large" }
+            { "value": "small", "label": "t:sections.all.heading_size.options__small.label" },
+            { "value": "medium", "label": "t:sections.all.heading_size.options__medium.label" },
+            { "value": "large", "label": "t:sections.all.heading_size.options__large.label" },
+            { "value": "extra-large", "label": "t:sections.all.heading_size.options__extra_large.label" }
           ]
         }
       ]
     },
     {
       "type": "text",
-      "name": "Text",
+      "name": "t:sections.video_banner.blocks.text.name",
       "limit": 1,
       "settings": [
         {
           "type": "richtext",
           "id": "text",
-          "label": "Content",
-          "default": "Use this section to share key details, highlight what's special, or invite action. The video enhances your message, craft it here to connect."
+          "label": "t:sections.video_banner.blocks.text.settings.text.label",
+          "default": "t:sections.video_banner.blocks.text.settings.text.default"
         }
       ]
     },
     {
       "type": "button",
-      "name": "Button",
+      "name": "t:sections.video_banner.blocks.button.name",
       "limit": 1,
       "settings": [
         {
           "type": "text",
           "id": "button_label",
-          "label": "Button text",
-          "info": "Leave the label blank to hide the button.",
-          "default": "Shop the collection"
+          "label": "t:sections.video_banner.blocks.button.settings.button_label.label",
+          "info": "t:sections.video_banner.blocks.button.settings.button_label.info",
+          "default": "t:sections.video_banner.blocks.button.settings.button_label.default"
         },
-        { "type": "url", "id": "button_link", "label": "Button link" },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.video_banner.blocks.button.settings.button_link.label"
+        },
         {
           "type": "select",
           "id": "button_variant",
-          "label": "Button style",
+          "label": "t:sections.all.button_variant.label",
           "options": [
-            { "value": "solid", "label": "Primary" },
-            { "value": "outline", "label": "Secondary" }
+            { "value": "solid", "label": "t:sections.all.button_variant.options__solid.label" },
+            { "value": "outline", "label": "t:sections.all.button_variant.options__outline.label" }
           ],
           "default": "outline"
         }
@@ -304,16 +341,10 @@
   ],
   "presets": [
     {
-      "name": "Video banner",
+      "name": "t:sections.video_banner.presets.name",
       "blocks": [
-        { "type": "pre_heading", "settings": { "pre_heading": "Take a look" } },
-        { "type": "heading", "settings": { "heading": "Discover in motion" } },
-        {
-          "type": "text",
-          "settings": {
-            "text": "Use this section to share key details, highlight what's special, or invite action. The video enhances your message, craft it here to connect."
-          }
-        }
+        { "type": "heading" },
+        { "type": "text" }
       ]
     }
   ]

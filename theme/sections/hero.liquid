@@ -51,7 +51,7 @@
       %}
       <div class="{{ main_image_class }}">
         {% render 'image',
-          placeholder: 'lifestyle-1',
+          placeholder: 'hero-apparel-1',
           image: section.settings.image,
           picture_class: picture_class,
           class: image_class
@@ -63,7 +63,7 @@
         {%- endcomment -%}
         <div class="block sm:hidden">
           {% render 'image',
-            placeholder: 'lifestyle-1',
+            placeholder: 'hero-apparel-1',
             image: section.settings.mobile_image,
             picture_class: mobile_picture_class,
             class: 'object-cover w-fit h-full'
@@ -144,7 +144,7 @@
 
 {% schema %}
 {
-  "name": "Image banner",
+  "name": "t:sections.image_banner.name",
   "tag": "section",
   "disabled_on": {
     "groups": ["header", "footer"]
@@ -152,74 +152,60 @@
   "settings": [
     {
       "type": "header",
-      "content": "Content"
+      "content": "t:sections.all.content_header.content"
     },
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Background image"
+      "label": "t:sections.image_banner.settings.image.label"
     },
-     {
+    {
       "type": "image_picker",
       "id": "mobile_image",
-      "label": "Mobile image"
+      "label": "t:sections.image_banner.settings.mobile_image.label"
     },
     {
       "type": "color",
       "id": "overlay_color",
-      "label": "Overlay color",
-      "default": "#000000"
+      "label": "t:sections.image_banner.settings.overlay_color.label",
+      "default": "#7A7A7A"
     },
     {
       "type": "range",
       "id": "overlay_opacity",
-      "label": "Image overlay",
-      "default": 0,
+      "label": "t:sections.image_banner.settings.overlay_opacity.label",
+      "default": 10,
       "min": 0,
       "max": 60,
       "step": 10,
-      "unit": "%"
+      "unit": "%",
+      "info": "t:sections.image_banner.settings.overlay_opacity.info"
     },
     {
       "type": "select",
       "id": "banner_height",
-      "label": "Banner height",
+      "label": "t:sections.image_banner.settings.banner_height.label",
       "default": "large",
       "options": [
-        {
-          "value": "adapt",
-          "label": "Adapt to image"
-        },
-        {
-          "value": "small",
-          "label": "Small"
-        },
-        {
-          "value": "medium",
-          "label": "Medium"
-        },
-        {
-          "value": "large",
-          "label": "Large"
-        },
-        {
-          "value": "screen",
-          "label": "Adapt to screen"
-        }
+        { "value": "adapt", "label": "t:sections.image_banner.settings.banner_height.options__adapt.label" },
+        { "value": "small", "label": "t:sections.image_banner.settings.banner_height.options__small.label" },
+        { "value": "medium", "label": "t:sections.image_banner.settings.banner_height.options__medium.label" },
+        { "value": "large", "label": "t:sections.image_banner.settings.banner_height.options__large.label" },
+        { "value": "screen", "label": "t:sections.image_banner.settings.banner_height.options__screen.label" }
       ]
     },
     {
       "type": "select",
       "id": "image_height",
-      "label": "Image height",
+      "label": "t:sections.image_banner.settings.image_height.label",
       "default": "fill",
       "options": [
-        { "value": "auto", "label": "Auto" },
-        { "value": "fixed_height", "label": "Fixed height" },
-        { "value": "fill", "label": "Fill" },
-        { "value": "contain", "label": "Contain" }
+        { "value": "auto", "label": "t:sections.image_banner.settings.image_height.options__auto.label" },
+        { "value": "fixed_height", "label": "t:sections.image_banner.settings.image_height.options__fixed_height.label" },
+        { "value": "fill", "label": "t:sections.image_banner.settings.image_height.options__fill.label" },
+        { "value": "contain", "label": "t:sections.image_banner.settings.image_height.options__contain.label" }
       ],
-      "info": "Background image placement",
+      "info": "t:sections.image_banner.settings.image_height.info",
       "conditions": {
         "banner_height": {
           "$ne": "adapt"
@@ -229,103 +215,76 @@
     {
       "type": "select",
       "id": "heading_size",
-      "label": "Heading size",
+      "label": "t:sections.all.heading_size.label",
       "default": "medium",
       "options": [
-        { "value": "small", "label": "Small" },
-        { "value": "medium", "label": "Medium" },
-        { "value": "large", "label": "Large" },
-        { "value": "extra-large", "label": "Extra large" }
+        { "value": "small", "label": "t:sections.all.heading_size.options__small.label" },
+        { "value": "medium", "label": "t:sections.all.heading_size.options__medium.label" },
+        { "value": "large", "label": "t:sections.all.heading_size.options__large.label" },
+        { "value": "extra-large", "label": "t:sections.all.heading_size.options__extra_large.label" }
       ]
     },
     {
       "type": "select",
       "id": "text_alignment",
-      "label": "Text alignment",
+      "label": "t:sections.all.text_alignment.label",
       "default": "left",
       "options": [
         {
           "value": "left",
-          "label": "Left"
+          "label": "t:sections.all.text_alignment.options__left.label"
         },
         {
           "value": "center",
-          "label": "Center"
+          "label": "t:sections.all.text_alignment.options__center.label"
         },
         {
           "value": "right",
-          "label": "Right"
+          "label": "t:sections.all.text_alignment.options__right.label"
         }
       ]
     },
     {
       "type": "header",
-      "content": "Colors"
+      "content": "t:sections.all.colors_header.content"
     },
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "Color scheme",
+      "label": "t:sections.all.colors.label",
       "default": "scheme-1"
     },
     {
       "type": "color_scheme",
       "id": "content_color_scheme",
-      "label": "Content color scheme",
+      "label": "t:sections.image_banner.settings.content_color_scheme.label",
       "default": "scheme-1"
     },
     {
       "type": "header",
-      "content": "Layout"
+      "content": "t:sections.all.layout_header.content"
     },
     {
       "type": "select",
       "id": "content_alignment",
-      "label": "Content position",
+      "label": "t:sections.all.content_alignment.label",
       "default": "items-center justify-center",
       "options": [
-        {
-          "value": "items-start justify-start",
-          "label": "Top left"
-        },
-        {
-          "value": "items-start justify-center",
-          "label": "Top middle"
-        },
-        {
-          "value": "items-start justify-end",
-          "label": "Top right"
-        },
-        {
-          "value": "items-center justify-start",
-          "label": "Middle left"
-        },
-        {
-          "value": "items-center justify-center",
-          "label": "Middle center"
-        },
-        {
-          "value": "items-center justify-end",
-          "label": "Middle right"
-        },
-        {
-          "value": "items-end justify-start",
-          "label": "Bottom left"
-        },
-        {
-          "value": "items-end justify-center",
-          "label": "Bottom middle"
-        },
-        {
-          "value": "items-end justify-end",
-          "label": "Bottom right"
-        }
+        { "value": "items-start justify-start", "label": "t:sections.all.content_alignment.options__top_left.label" },
+        { "value": "items-start justify-center", "label": "t:sections.all.content_alignment.options__top_center.label" },
+        { "value": "items-start justify-end", "label": "t:sections.all.content_alignment.options__top_right.label" },
+        { "value": "items-center justify-start", "label": "t:sections.all.content_alignment.options__middle_left.label" },
+        { "value": "items-center justify-center", "label": "t:sections.all.content_alignment.options__middle_center.label" },
+        { "value": "items-center justify-end", "label": "t:sections.all.content_alignment.options__middle_right.label" },
+        { "value": "items-end justify-start", "label": "t:sections.all.content_alignment.options__bottom_left.label" },
+        { "value": "items-end justify-center", "label": "t:sections.all.content_alignment.options__bottom_center.label" },
+        { "value": "items-end justify-end", "label": "t:sections.all.content_alignment.options__bottom_right.label" }
       ]
     },
     {
       "type": "range",
       "id": "vertical_padding",
-      "label": "Vertical padding",
+      "label": "t:sections.all.padding.padding_vertical",
       "default": 16,
       "min": 0,
       "max": 160,
@@ -347,7 +306,7 @@
     {
       "type": "range",
       "id": "horizontal_padding",
-      "label": "Horizontal padding",
+      "label": "t:sections.all.padding.padding_horizontal",
       "default": 0,
       "min": 0,
       "max": 160,
@@ -369,80 +328,75 @@
     {
       "type": "checkbox",
       "id": "transparent",
-      "label": "Transparent background",
-      "info": "This will override the color scheme.",
+      "label": "t:sections.image_banner.settings.transparent.label",
+      "info": "t:sections.image_banner.settings.transparent.info",
       "default": false
     }
   ],
   "blocks": [
     {
       "type": "pre_heading",
-      "name": "Pre-heading",
+      "name": "t:sections.image_banner.blocks.pre_heading.name",
       "limit": 1,
       "settings": [
         {
           "type": "inline_richtext",
           "id": "pre_heading",
-          "label": "Content",
-          "default": "Special offer"
+          "label": "t:sections.image_banner.blocks.pre_heading.settings.pre_heading.label",
+          "default": "t:sections.image_banner.blocks.pre_heading.settings.pre_heading.default"
         }
       ]
     },
     {
       "type": "heading",
-      "name": "Heading",
+      "name": "t:sections.image_banner.blocks.heading.name",
       "limit": 1,
       "settings": [
         {
           "type": "inline_richtext",
           "id": "heading",
-          "label": "Content",
-          "default": "Unlock exclusive savings"
+          "label": "t:sections.image_banner.blocks.heading.settings.heading.label",
+          "default": "t:sections.image_banner.blocks.heading.settings.heading.default"
         }
       ]
     },
     {
       "type": "text",
-      "name": "Text",
+      "name": "t:sections.image_banner.blocks.text.name",
       "limit": 1,
       "settings": [
         {
           "type": "richtext",
           "id": "text",
-          "label": "Content"
+          "label": "t:sections.image_banner.blocks.text.settings.text.label",
+          "default": "t:sections.image_banner.blocks.text.settings.text.default"
         }
       ]
     },
     {
       "type": "button",
-      "name": "Button",
+      "name": "t:sections.image_banner.blocks.button.name",
       "limit": 1,
       "settings": [
         {
           "type": "text",
           "id": "button_label",
-          "label": "Button text",
-          "info": "Leave the label blank to hide the button.",
-          "default": "Button"
+          "label": "t:sections.image_banner.blocks.button.settings.button_label.label",
+          "info": "t:sections.image_banner.blocks.button.settings.button_label.info",
+          "default": "t:sections.image_banner.blocks.button.settings.button_label.default"
         },
         {
           "type": "url",
           "id": "button_link",
-          "label": "Button link"
+          "label": "t:sections.image_banner.blocks.button.settings.button_link.label"
         },
         {
           "type": "select",
           "id": "button_variant",
-          "label": "Button style",
+          "label": "t:sections.all.button_variant.label",
           "options": [
-            {
-              "value": "solid",
-              "label": "Primary"
-            },
-            {
-              "value": "outline",
-              "label": "Secondary"
-            }
+            { "value": "solid", "label": "t:sections.all.button_variant.options__solid.label" },
+            { "value": "outline", "label": "t:sections.all.button_variant.options__outline.label" }
           ],
           "default": "solid"
         }
@@ -451,26 +405,11 @@
   ],
   "presets": [
     {
-      "name": "Hero",
+      "name": "t:sections.image_banner.presets.name",
       "blocks": [
-        {
-          "type": "pre_heading",
-          "settings": {
-            "pre_heading": "Special offer"
-          }
-        },
-        {
-          "type": "heading",
-          "settings": {
-            "heading": "Unlock exclusive savings"
-          }
-        },
-        {
-          "type": "text",
-          "settings": {
-            "text": "Add your message here to highlight what's special. Use the image below to draw attention and guide visitors to discover more on your site."
-          }
-        }
+        { "type": "heading" },
+        { "type": "text" },
+        { "type": "button" }
       ]
     }
   ]

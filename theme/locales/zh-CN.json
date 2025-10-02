@@ -143,6 +143,13 @@
         "remove_label": "移除 {{ attribute }} 的筛选"
       }
     },
+    "featured_category": {
+      "product_title": "产品名称"
+    },
+    "featured_content": {
+      "blog_post_title": "博客文章",
+      "blog_post_content": "这是您的博客内容预览。"
+    },
     "header": {
       "menu": "菜单",
       "submenu": "子菜单",
@@ -229,6 +236,7 @@
   "onboarding": {
     "product_title": "示例商品",
     "collection_title": "示例系列",
+    "collection_name": "分类名称",
     "blog_title": "示例博客标题",
     "blog_post_date": "2023年3月15日",
     "blog_post_category": "新闻",

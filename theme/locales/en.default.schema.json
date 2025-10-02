@@ -1,0 +1,942 @@
+{
+  "sections": {
+    "all": {
+      "colors": {
+        "label": "Color scheme"
+      },
+      "colors_header": {
+        "content": "Colors"
+      },
+      "layout_header": {
+        "content": "Layout"
+      },
+      "mobile_layout_header": {
+        "content": "Mobile layout"
+      },
+      "content_header": {
+        "content": "Content"
+      },
+      "padding": {
+        "section_padding_heading": "Section padding",
+        "padding_top": "Top padding",
+        "padding_bottom": "Bottom padding",
+        "padding_vertical": "Vertical padding",
+        "padding_horizontal": "Horizontal padding"
+      },
+      "pre_heading": {
+        "label": "Pre-heading"
+      },
+      "heading_size": {
+        "label": "Heading size",
+        "options__small": {
+          "label": "Small"
+        },
+        "options__medium": {
+          "label": "Medium"
+        },
+        "options__large": {
+          "label": "Large"
+        },
+        "options__extra_large": {
+          "label": "Extra large"
+        }
+      },
+      "button_variant": {
+        "label": "Button style",
+        "options__solid": {
+          "label": "Primary"
+        },
+        "options__outline": {
+          "label": "Secondary"
+        }
+      },
+      "text_alignment": {
+        "label": "Text alignment",
+        "options__left": {
+          "label": "Left"
+        },
+        "options__center": {
+          "label": "Center"
+        },
+        "options__right": {
+          "label": "Right"
+        }
+      },
+      "content_alignment": {
+        "label": "Content position",
+        "options__top_left": {
+          "label": "Top left"
+        },
+        "options__top_center": {
+          "label": "Top middle"
+        },
+        "options__top_right": {
+          "label": "Top right"
+        },
+        "options__middle_left": {
+          "label": "Middle left"
+        },
+        "options__middle_center": {
+          "label": "Middle center"
+        },
+        "options__middle_right": {
+          "label": "Middle right"
+        },
+        "options__bottom_left": {
+          "label": "Bottom left"
+        },
+        "options__bottom_center": {
+          "label": "Bottom middle"
+        },
+        "options__bottom_right": {
+          "label": "Bottom right"
+        }
+      }
+    },
+    "collapsible_content": {
+      "name": "Collapsible content",
+      "settings": {
+        "heading": {
+          "label": "Heading",
+          "default": "Collapsible content"
+        },
+        "text": {
+          "label": "Text"
+        },
+        "header_alignment": {
+          "label": "Header alignment",
+          "options__left": {
+            "label": "Left"
+          },
+          "options__center": {
+            "label": "Center"
+          },
+          "options__right": {
+            "label": "Right"
+          }
+        },
+        "layout": {
+          "label": "Layout",
+          "options__none": {
+            "label": "No container"
+          },
+          "options__row": {
+            "label": "Row container"
+          },
+          "options__section": {
+            "label": "Section container"
+          }
+        },
+        "container_color_scheme": {
+          "label": "Row color scheme"
+        },
+        "open_first_collapsible_row": {
+          "label": "Open first collapsible row"
+        },
+        "image_layout_header": {
+          "content": "Image layout"
+        },
+        "image": {
+          "label": "Image"
+        },
+        "image_size": {
+          "label": "Image size",
+          "options__original": {
+            "label": "Original"
+          },
+          "options__small": {
+            "label": "Small"
+          },
+          "options__large": {
+            "label": "Large"
+          }
+        },
+        "desktop_layout": {
+          "label": "Desktop layout",
+          "info": "Image is always first on mobile.",
+          "options__image_first": {
+            "label": "Image first"
+          },
+          "options__image_second": {
+            "label": "Image second"
+          }
+        }
+      },
+      "blocks": {
+        "collapsible_row": {
+          "name": "Collapsible row",
+          "settings": {
+            "heading": {
+              "label": "Heading",
+              "default": "Collapsible row",
+              "info": "Include a heading that explains the content."
+            },
+            "row_content": {
+              "label": "Row content"
+            },
+            "page": {
+              "label": "Row content from page"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Collapsible content"
+      }
+    },
+    "category_list": {
+      "name": "Category list",
+      "settings": {
+        "header_alignment": {
+          "label": "Header alignment",
+          "options__left": {
+            "label": "Left"
+          },
+          "options__center": {
+            "label": "Center"
+          },
+          "options__right": {
+            "label": "Right"
+          }
+        },
+        "columns": {
+          "label": "Columns"
+        },
+        "gap": {
+          "label": "Gap"
+        },
+        "mobile_layout": {
+          "label": "Mobile layout",
+          "options__1": {
+            "label": "1 column"
+          },
+          "options__2": {
+            "label": "2 columns"
+          }
+        }
+      },
+      "blocks": {
+        "pre_heading": {
+          "name": "Pre-heading"
+        },
+        "heading": {
+          "name": "Heading",
+          "settings": {
+            "heading": {
+              "label": "Content",
+              "default": "Category list"
+            }
+          }
+        },
+        "featured_category": {
+          "name": "Category",
+          "settings": {
+            "category": {
+              "label": "Category"
+            },
+            "col_span": {
+              "label": "Column span",
+              "info": "Make an element span `n` columns."
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Categories"
+      }
+    },
+    "feature_list": {
+      "name": "Feature list",
+      "settings": {
+        "columns": {
+          "label": "Columns",
+          "info": "Columns are used to organize content within a section."
+        },
+        "grid_gap": {
+          "label": "Gap",
+          "info": "Gap between columns"
+        }
+      },
+      "blocks": {
+        "item": {
+          "name": "Item",
+          "settings": {
+            "icon": {
+              "label": "Icon",
+              "info": "See the full list of icons [here](https://ionic.io/ionicons)."
+            },
+            "custom_icon": {
+              "label": "Custom icon"
+            },
+            "pre_heading": {
+              "default": "Highlight"
+            },
+            "heading": {
+              "label": "Heading",
+              "default": "Item title"
+            },
+            "text": {
+              "label": "Text",
+              "default": "Use this space to describe a feature or benefit. Keep it short."
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Feature list"
+      }
+    },
+    "featured_category": {
+      "name": "Featured category",
+      "settings": {
+        "heading": {
+          "label": "Heading",
+          "default": "Featured category"
+        },
+        "header_alignment": {
+          "label": "Header alignment",
+          "options__left": {
+            "label": "Left"
+          },
+          "options__center": {
+            "label": "Center"
+          },
+          "options__right": {
+            "label": "Right"
+          }
+        },
+        "category": {
+          "label": "Featured category"
+        },
+        "max_products": {
+          "label": "Number of products",
+          "info": "Displays the max number of products per row."
+        },
+        "mobile_columns": {
+          "label": "Number of columns (mobile)",
+          "options__1": {
+            "label": "1 column"
+          },
+          "options__2": {
+            "label": "2 columns"
+          }
+        }
+      },
+      "presets": {
+        "name": "Featured category"
+      }
+    },
+    "featured_content": {
+      "name": "Featured content",
+      "settings": {
+        "heading": {
+          "label": "Heading",
+          "default": "Featured content"
+        },
+        "header_alignment": {
+          "label": "Header alignment",
+          "options__left": {
+            "label": "Left"
+          },
+          "options__center": {
+            "label": "Center"
+          },
+          "options__right": {
+            "label": "Right"
+          }
+        },
+        "columns": {
+          "label": "Number of columns",
+          "info": "Columns are used to organize content within a section."
+        },
+        "mobile_columns": {
+          "label": "Number of columns (mobile)",
+          "options__1": {
+            "label": "1 column"
+          },
+          "options__2": {
+            "label": "2 columns"
+          }
+        }
+      },
+      "blocks": {
+        "image_picker": {
+          "name": "Image",
+          "settings": {
+            "image": {
+              "label": "Image"
+            },
+            "image_height": {
+              "label": "Image height",
+              "options__auto": {
+                "label": "Auto"
+              },
+              "options__fixed_height": {
+                "label": "Fixed height"
+              },
+              "options__fill": {
+                "label": "Fill"
+              },
+              "options__contain": {
+                "label": "Contain"
+              }
+            },
+            "link": {
+              "label": "Button link"
+            },
+            "col_span": {
+              "label": "Column span"
+            }
+          }
+        },
+        "category": {
+          "name": "Category",
+          "settings": {
+            "category": {
+              "label": "Category"
+            },
+            "col_span": {
+              "label": "Column span",
+              "info": "Make an element span `n` columns."
+            }
+          }
+        },
+        "text": {
+          "name": "Text",
+          "settings": {
+            "heading": {
+              "label": "Heading"
+            },
+            "description": {
+              "label": "Text"
+            },
+            "alignment": {
+              "label": "Alignment",
+              "options__left": {
+                "label": "Left"
+              },
+              "options__center": {
+                "label": "Center"
+              },
+              "options__right": {
+                "label": "Right"
+              }
+            },
+            "content_position": {
+              "label": "Content position",
+              "options__items_start": {
+                "label": "Top"
+              },
+              "options__items_center": {
+                "label": "Middle"
+              },
+              "options__items_end": {
+                "label": "Bottom"
+              }
+            },
+            "button_text": {
+              "label": "Button text"
+            },
+            "button_link": {
+              "label": "Button link"
+            },
+            "section_padding": {
+              "label": "Section padding",
+              "info": "Applies padding to all sides."
+            },
+            "col_span": {
+              "label": "Column span"
+            }
+          }
+        },
+        "product": {
+          "name": "Product",
+          "settings": {
+            "product": {
+              "label": "Product"
+            },
+            "col_span": {
+              "label": "Column span"
+            }
+          }
+        },
+        "article": {
+          "name": "Blog post",
+          "settings": {
+            "article": {
+              "label": "Blog post"
+            },
+            "col_span": {
+              "label": "Column span"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Featured content"
+      }
+    },
+    "image_banner": {
+      "name": "Image banner",
+      "settings": {
+        "image": {
+          "label": "Background image"
+        },
+        "mobile_image": {
+          "label": "Mobile image"
+        },
+        "overlay_color": {
+          "label": "Overlay color"
+        },
+        "overlay_opacity": {
+          "label": "Image overlay",
+          "info": "Adjust overlay transparency on the image."
+        },
+        "banner_height": {
+          "label": "Banner height",
+          "options__adapt": {
+            "label": "Adapt to image"
+          },
+          "options__small": {
+            "label": "Small"
+          },
+          "options__medium": {
+            "label": "Medium"
+          },
+          "options__large": {
+            "label": "Large"
+          },
+          "options__screen": {
+            "label": "Adapt to screen"
+          }
+        },
+        "image_height": {
+          "label": "Image height",
+          "options__auto": {
+            "label": "Auto"
+          },
+          "options__fixed_height": {
+            "label": "Fixed height"
+          },
+          "options__fill": {
+            "label": "Fill"
+          },
+          "options__contain": {
+            "label": "Contain"
+          },
+          "info": "Background image placement"
+        },
+        "content_color_scheme": {
+          "label": "Content color scheme"
+        },
+        "transparent": {
+          "label": "Transparent background",
+          "info": "This will override the color scheme."
+        }
+      },
+      "blocks": {
+        "pre_heading": {
+          "name": "Pre-heading",
+          "settings": {
+            "pre_heading": {
+              "label": "Content",
+              "default": "Special offer"
+            }
+          }
+        },
+        "heading": {
+          "name": "Heading",
+          "settings": {
+            "heading": {
+              "label": "Content",
+              "default": "Image banner"
+            }
+          }
+        },
+        "text": {
+          "name": "Text",
+          "settings": {
+            "text": {
+              "label": "Content",
+              "default": "Display a full-width image with optional heading, text, and button. Useful for highlighting key content or pages."
+            }
+          }
+        },
+        "button": {
+          "name": "Button",
+          "settings": {
+            "button_label": {
+              "label": "Button text",
+              "info": "Leave the label blank to hide the button.",
+              "default": "Button label"
+            },
+            "button_link": {
+              "label": "Button link"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Image banner"
+      }
+    },
+    "newsletter": {
+      "name": "Newsletter",
+      "settings": {
+        "button_text": {
+          "label": "Button text",
+          "default": "Submit"
+        }
+      },
+      "blocks": {
+        "heading": {
+          "name": "Heading",
+          "settings": {
+            "heading": {
+              "label": "Content",
+              "default": "Newsletter"
+            }
+          }
+        },
+        "text": {
+          "name": "Text",
+          "settings": {
+            "text": {
+              "label": "Content",
+              "default": "Add a short description to encourage visitors to subscribe."
+            }
+          }
+        },
+        "email_form": {
+          "name": "Email form"
+        }
+      },
+      "presets": {
+        "name": "Newsletter"
+      }
+    },
+    "rich_text": {
+      "name": "Rich text",
+      "settings": {
+        "desktop_content_width": {
+          "label": "Desktop content width",
+          "options__small": {
+            "label": "Small"
+          },
+          "options__medium": {
+            "label": "Medium"
+          },
+          "options__large": {
+            "label": "large"
+          }
+        },
+        "content_alignment": {
+          "label": "Content alignment",
+          "options__left": {
+            "label": "Left"
+          },
+          "options__center": {
+            "label": "Center"
+          },
+          "options__right": {
+            "label": "Right"
+          }
+        }
+      },
+      "blocks": {
+        "pre_heading": {
+          "name": "Pre-heading",
+          "settings": {
+            "pre_heading": {
+              "label": "Content"
+            }
+          }
+        },
+        "heading": {
+          "name": "Heading",
+          "settings": {
+            "heading": {
+              "label": "Content",
+              "default": "Rich text"
+            }
+          }
+        },
+        "text": {
+          "name": "Text",
+          "settings": {
+            "text": {
+              "label": "Content",
+              "default": "Add formatted text to share details about your store, products, or policies."
+            }
+          }
+        },
+        "button": {
+          "name": "Button",
+          "settings": {
+            "button_label": {
+              "label": "Button label",
+              "default": "Button label"
+            },
+            "button_link": {
+              "label": "Link"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Rich text"
+      }
+    },
+    "slideshow": {
+      "name": "Slideshow",
+      "settings": {
+        "navigation": {
+          "label": "Navigation",
+          "info": "Show navigation arrows and pagination dots."
+        },
+        "auto_rotate": {
+          "label": "Auto-rotate"
+        },
+        "auto_rotate_speed": {
+          "label": "Auto-rotate speed"
+        }
+      },
+      "blocks": {
+        "slide": {
+          "name": "Slide",
+          "settings": {
+            "image": {
+              "label": "Image"
+            },
+            "button_label": {
+              "label": "Button text"
+            },
+            "button_link": {
+              "label": "Link"
+            },
+            "transparent": {
+              "label": "Transparent background"
+            },
+            "overlay_color": {
+              "label": "Overlay color"
+            },
+            "overlay_opacity": {
+              "label": "Image overlay"
+            },
+            "content_header": {
+              "info": "A container that sits on top of the slide image or background."
+            },
+            "heading": {
+              "label": "Heading",
+              "default": "Slide"
+            },
+            "text": {
+              "label": "Text",
+              "default": "Add a short description to accompany the slide."
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Slideshow"
+      }
+    },
+    "two_panels": {
+      "name": "Two panels",
+      "settings": {
+        "gap": {
+          "label": "Gap",
+          "info": "Applies a gap between the two blocks"
+        }
+      },
+      "blocks": {
+        "image": {
+          "name": "Image",
+          "settings": {
+            "image": {
+              "label": "Image"
+            },
+            "link": {
+              "label": "Link",
+              "info": "Link the image to a page"
+            }
+          }
+        },
+        "content": {
+          "name": "Content",
+          "settings": {
+            "heading": {
+              "label": "Heading",
+              "default": "Two panels"
+            },
+            "text": {
+              "label": "Text",
+              "default": "Add a short message to support your content and call out key details."
+            },
+            "vertical_alignment": {
+              "label": "Vertical alignment",
+              "options__top": {
+                "label": "Top"
+              },
+              "options__middle": {
+                "label": "Middle"
+              },
+              "options__bottom": {
+                "label": "Bottom"
+              }
+            },
+            "button_header": {
+              "content": "Button"
+            },
+            "button_text": {
+              "label": "Button text",
+              "default": "Button label",
+              "info": "Leave blank to hide the button"
+            },
+            "button_link": {
+              "label": "Link",
+              "info": "Paste a link or search"
+            },
+            "section_padding": {
+              "label": "Padding",
+              "info": "Applies padding to all sides"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Two panels"
+      }
+    },
+    "video_banner": {
+      "name": "Video banner",
+      "settings": {
+        "video_url": {
+          "label": "Video URL",
+          "info": "Vimeo, Youtube, MP4, WebM or OGG"
+        },
+        "loop_video": {
+          "label": "Loop video"
+        },
+        "transparent": {
+          "label": "Transparent background"
+        },
+        "content_color_scheme": {
+          "label": "Content color scheme"
+        }
+      },
+      "blocks": {
+        "pre_heading": {
+          "name": "Pre-heading",
+          "settings": {
+            "content": {
+              "label": "Content"
+            }
+          }
+        },
+        "heading": {
+          "name": "Heading",
+          "settings": {
+            "heading": {
+              "label": "Content",
+              "default": "Video banner"
+            }
+          }
+        },
+        "text": {
+          "name": "Text",
+          "settings": {
+            "text": {
+              "label": "Content",
+              "default": "Add a fullscreen video with optional text and button. Ideal for showcasing brand stories, campaigns, or products."
+            }
+          }
+        },
+        "button": {
+          "name": "Button",
+          "settings": {
+            "button_label": {
+              "label": "Button text",
+              "info": "Leave the label blank to hide the button.",
+              "default": "Shop the collection"
+            },
+            "button_link": {
+              "label": "Button link"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Video banner"
+      }
+    },
+    "video_embed": {
+      "name": "Video embed",
+      "settings": {
+        "iframe": {
+          "label": "Embed code",
+          "info": "Add a video from YouTube, Vimeo, or another video platform. We recommend setting the width to 100% and the height to 100%."
+        },
+        "cover_image": {
+          "label": "Cover image"
+        },
+        "color_scheme": {
+          "label": "Color scheme"
+        },
+        "video_position": {
+          "label": "Video position",
+          "options__left": {
+            "label": "Left"
+          },
+          "options__right": {
+            "label": "Right"
+          }
+        }
+      },
+      "blocks": {
+        "pre_heading": {
+          "name": "Pre-heading",
+          "settings": {
+            "pre_heading": {
+              "label": "Content"
+            }
+          }
+        },
+        "heading": {
+          "name": "Heading",
+          "settings": {
+            "heading": {
+              "label": "Content",
+              "default": "Video embed"
+            }
+          }
+        },
+        "text": {
+          "name": "Text",
+          "settings": {
+            "text": {
+              "label": "Content",
+              "default": "Embed a video from YouTube or Vimeo to support your content."
+            }
+          }
+        },
+        "button": {
+          "name": "Button",
+          "settings": {
+            "button_label": {
+              "label": "Button text",
+              "info": "Leave the label blank to hide the button.",
+              "default": "Button label"
+            },
+            "button_link": {
+              "label": "Button link"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Video embed"
+      }
+    }
+  }
+}

@@ -62,39 +62,52 @@
           </div>
         {%- when 'content' -%}
           {% comment %} Content Column {% endcomment %}
-          <div class="flex items-center">
-            <div class="w-full">
-              <div class="w-full flex flex-col gap-32 bg-{{ block.settings.color_scheme }} text-{{ block.settings.color_scheme }} content-padding-{{ section.id }}-{{ block.id }}">
-                <div class="flex flex-col gap-8 text-{{ block.settings.text_alignment }}">
-                  {%- if block.settings.pre_heading != blank -%}
-                    <div class="font-display font-pre-heading text-pre-heading">
-                      {{ block.settings.pre_heading | inline_editable: 'pre_heading' }}
-                    </div>
-                  {%- endif -%}
+          {% assign vertical_alignment = block.settings.vertical_alignment %}
+          <div
+            class="
+              flex
+              w-full
+              h-full
+              {% case vertical_alignment %}
+                {% when 'top' %}
+                  items-start
+                {% when 'middle' %}
+                  items-center
+                {% when 'bottom' %}
+                  items-end
+              {%- endcase -%}
+            "
+          >
+            <div class="w-full flex flex-col gap-24 bg-{{ block.settings.color_scheme }} text-{{ block.settings.color_scheme }} content-padding-{{ section.id }}-{{ block.id }}">
+              <div class="flex flex-col gap-8 text-{{ block.settings.text_alignment }}">
+                {%- if block.settings.pre_heading != blank -%}
+                  <div class="font-display font-pre-heading text-pre-heading">
+                    {{ block.settings.pre_heading | inline_editable: 'pre_heading' }}
+                  </div>
+                {%- endif -%}
 
-                  {%- if block.settings.heading != blank -%}
-                    <h2 class="font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }}">
-                      {{ block.settings.heading | inline_editable: 'heading' }}
-                    </h2>
-                  {%- endif -%}
+                {%- if block.settings.heading != blank -%}
+                  <h2 class="font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }}">
+                    {{ block.settings.heading | inline_editable: 'heading' }}
+                  </h2>
+                {%- endif -%}
 
-                  {%- if block.settings.text != blank -%}
-                    <div class="font-display formatted-text text-content">
-                      {{ block.settings.text | inline_editable: 'text' }}
-                    </div>
-                  {%- endif -%}
-                </div>
-
-                {%- if block.settings.button_text != blank -%}
-                  <div class="flex mt-20 {% if block.settings.text_alignment == 'center' %}justify-center{% elsif block.settings.text_alignment == 'right' %}justify-end{% endif %}">
-                    {% render 'button',
-                      text: block.settings.button_text,
-                      href: block.settings.button_link,
-                      color_scheme: block.settings.color_scheme
-                    %}
+                {%- if block.settings.text != blank -%}
+                  <div class="font-display formatted-text text-content">
+                    {{ block.settings.text | inline_editable: 'text' }}
                   </div>
                 {%- endif -%}
               </div>
+
+              {%- if block.settings.button_text != blank -%}
+                <div class="flex mt-20 {% if block.settings.text_alignment == 'center' %}justify-center{% elsif block.settings.text_alignment == 'right' %}justify-end{% endif %}">
+                  {% render 'button',
+                    text: block.settings.button_text,
+                    href: block.settings.button_link,
+                    color_scheme: block.settings.color_scheme
+                  %}
+                </div>
+              {%- endif -%}
             </div>
           </div>
       {%- endcase -%}
@@ -104,15 +117,20 @@
 
 {% schema %}
 {
-  "name": "Two panels",
+  "name": "t:sections.two_panels.name",
   "tag": "section",
   "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "t:sections.all.colors.label",
+      "default": "scheme-1"
+    },
     {
       "type": "range",
       "id": "vertical_padding",
-      "label": "Vertical padding",
+      "label": "t:sections.all.padding.padding_vertical",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -122,7 +140,7 @@
     {
       "type": "range",
       "id": "horizontal_padding",
-      "label": "Horizontal padding",
+      "label": "t:sections.all.padding.padding_horizontal",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -132,8 +150,8 @@
     {
       "type": "range",
       "id": "gap",
-      "label": "Gap",
-      "info": "Applies a gap between the two blocks",
+      "label": "t:sections.two_panels.settings.gap.label",
+      "info": "t:sections.two_panels.settings.gap.info",
       "min": 0,
       "max": 32,
       "step": 1,
@@ -144,57 +162,115 @@
   "blocks": [
     {
       "type": "image",
-      "name": "Image",
+      "name": "t:sections.two_panels.blocks.image.name",
       "limit": 1,
       "settings": [
-        { "type": "image_picker", "id": "image", "label": "Image" },
-        { "type": "url", "id": "link", "label": "Link", "info": "Link the image to a page" }
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.two_panels.blocks.image.settings.image.label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:sections.two_panels.blocks.image.settings.link.label",
+          "info": "t:sections.two_panels.blocks.image.settings.link.info"
+        }
       ]
     },
     {
       "type": "content",
-      "name": "Content",
+      "name": "t:sections.two_panels.blocks.content.name",
       "limit": 1,
       "settings": [
         {
           "type": "inline_richtext",
           "id": "pre_heading",
-          "label": "Pre-heading"
+          "label": "t:sections.all.pre_heading.label"
         },
-        { "type": "inline_richtext", "id": "heading", "label": "Heading" },
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "t:sections.two_panels.blocks.content.settings.heading.label",
+          "default": "t:sections.two_panels.blocks.content.settings.heading.default"
+        },
         {
           "type": "select",
           "id": "heading_size",
-          "label": "Heading size",
+          "label": "t:sections.all.heading_size.label",
           "default": "small",
           "options": [
-            { "value": "small", "label": "Small" },
-            { "value": "medium", "label": "Medium" },
-            { "value": "large", "label": "Large" },
-            { "value": "extra-large", "label": "Extra large" }
+            { "value": "small", "label": "t:sections.all.heading_size.options__small.label" },
+            { "value": "medium", "label": "t:sections.all.heading_size.options__medium.label" },
+            { "value": "large", "label": "t:sections.all.heading_size.options__large.label" },
+            { "value": "extra-large", "label": "t:sections.all.heading_size.options__extra_large.label" }
           ]
         },
-        { "type": "richtext", "id": "text", "label": "Text" },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "t:sections.two_panels.blocks.content.settings.text.label",
+          "default": "t:sections.two_panels.blocks.content.settings.text.default"
+        },
         {
           "type": "select",
           "id": "text_alignment",
-          "label": "Text alignment",
+          "label": "t:sections.all.text_alignment.label",
           "default": "center",
           "options": [
-            { "value": "left", "label": "Left" },
-            { "value": "center", "label": "Center" },
-            { "value": "right", "label": "Right" }
+            {
+              "value": "left",
+              "label": "t:sections.all.text_alignment.options__left.label"
+            },
+            {
+              "value": "center",
+              "label": "t:sections.all.text_alignment.options__center.label"
+            },
+            {
+              "value": "right",
+              "label": "t:sections.all.text_alignment.options__right.label"
+            }
           ]
         },
-        { "type": "header", "content": "Button" },
-        { "type": "text", "id": "button_text", "label": "Button text", "info": "Leave blank to hide the button" },
-        { "type": "url", "id": "button_link", "label": "Link", "info": "Paste a link or search" },
-        { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+        {
+          "type": "select",
+          "id": "vertical_alignment",
+          "label": "t:sections.two_panels.blocks.content.settings.vertical_alignment.label",
+          "default": "middle",
+          "options": [
+            { "value": "top", "label": "t:sections.two_panels.blocks.content.settings.vertical_alignment.options__top.label" },
+            { "value": "middle", "label": "t:sections.two_panels.blocks.content.settings.vertical_alignment.options__middle.label" },
+            { "value": "bottom", "label": "t:sections.two_panels.blocks.content.settings.vertical_alignment.options__bottom.label" }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "t:sections.two_panels.blocks.content.settings.button_header.content"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "t:sections.two_panels.blocks.content.settings.button_text.label",
+          "default": "t:sections.two_panels.blocks.content.settings.button_text.default",
+          "info": "t:sections.two_panels.blocks.content.settings.button_text.info"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.two_panels.blocks.content.settings.button_link.label",
+          "info": "t:sections.two_panels.blocks.content.settings.button_link.info"
+        },
+        {
+          "type": "color_scheme",
+          "id": "color_scheme",
+          "label": "t:sections.all.colors.label",
+          "default": "scheme-1"
+        },
         {
           "type": "range",
           "id": "section_padding",
-          "label": "Padding",
-          "info": "Applies padding to all sides",
+          "label": "t:sections.two_panels.blocks.content.settings.section_padding.label",
+          "info": "t:sections.two_panels.blocks.content.settings.section_padding.info",
           "min": 0,
           "max": 96,
           "step": 1,
@@ -206,19 +282,10 @@
   ],
   "presets": [
     {
-      "name": "Two panels",
+      "name": "t:sections.two_panels.presets.name",
       "blocks": [
-        { "type": "image", "settings": { "image": "" } },
-        {
-          "type": "content",
-          "settings": {
-            "pre_heading": "Quick look",
-            "heading": "Find what's next",
-            "text": "Use this section to share essential info, promote a standout deal, or guide visitors forward. Add your message here to keep them engaged.",
-            "text_alignment": "center",
-            "button_text": "Learn more"
-          }
-        }
+        { "type": "image" },
+        { "type": "content" }
       ]
     }
   ]

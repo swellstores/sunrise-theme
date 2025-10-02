@@ -307,6 +307,13 @@
         "no_product_results": "No products found"
       }
     },
+    "featured_category": {
+      "product_title": "Product title"
+    },
+    "featured_content": {
+      "blog_post_title": "Blog post",
+      "blog_post_content": "This is a preview of your blog content."
+    },
     "header": {
       "menu": "Menu",
       "submenu": "Submenu",
@@ -397,6 +404,7 @@
   "onboarding": {
     "product_title": "Example product",
     "collection_title": "Example collection",
+    "collection_name": "Category name",
     "blog_title": "Example blog title",
     "blog_post_date": "March 15, 2023",
     "blog_post_category": "News",
