@@ -143,6 +143,13 @@
         "remove_label": "Poista suodatin kohteelle {{ attribute }}"
       }
     },
+    "featured_category": {
+      "product_title": "Tuotteen nimi"
+    },
+    "featured_content": {
+      "blog_post_title": "Blogikirjoitus",
+      "blog_post_content": "Tämä on esikatselu blogisisällöstäsi."
+    },
     "header": {
       "menu": "Valikko",
       "submenu": "Alavalikko",
@@ -229,6 +236,7 @@
   "onboarding": {
     "product_title": "Esimerkkituote",
     "collection_title": "Esimerkkikokoelma",
+    "collection_name": "Luokan nimi",
     "blog_title": "Esimerkkiblogin otsikko",
     "blog_post_date": "15. maaliskuuta 2023",
     "blog_post_category": "Uutiset",

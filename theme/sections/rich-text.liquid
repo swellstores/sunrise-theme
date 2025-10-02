@@ -82,7 +82,7 @@
 
 {% schema %}
 {
-  "name": "Rich text",
+  "name": "t:sections.rich_text.name",
   "tag": "section",
   "class": "section",
   "disabled_on": {
@@ -91,52 +91,34 @@
   "settings": [
     {
       "type": "header",
-      "content": "Layout"
+      "content": "t:sections.all.layout_header.content"
     },
     {
       "type": "select",
       "id": "desktop_content_width",
-      "label": "Desktop content width",
+      "label": "t:sections.rich_text.settings.desktop_content_width.label",
       "default": "small",
       "options": [
-        {
-          "value": "small",
-          "label": "Small"
-        },
-        {
-          "value": "medium",
-          "label": "Medium"
-        },
-        {
-          "value": "large",
-          "label": "Large"
-        }
+        { "value": "small", "label": "t:sections.rich_text.settings.desktop_content_width.options__small.label" },
+        { "value": "medium", "label": "t:sections.rich_text.settings.desktop_content_width.options__medium.label" },
+        { "value": "large", "label": "t:sections.rich_text.settings.desktop_content_width.options__large.label" }
       ]
     },
     {
       "type": "select",
       "id": "content_alignment",
-      "label": "Content alignment",
-      "default": "left",
+      "label": "t:sections.rich_text.settings.content_alignment.label",
+      "default": "center",
       "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "center",
-          "label": "Center"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
+        { "value": "left", "label": "t:sections.rich_text.settings.content_alignment.options__left.label" },
+        { "value": "center", "label": "t:sections.rich_text.settings.content_alignment.options__center.label" },
+        { "value": "right", "label": "t:sections.rich_text.settings.content_alignment.options__right.label" }
       ]
     },
     {
       "type": "range",
       "id": "top_padding",
-      "label": "Top padding",
+      "label": "t:sections.all.padding.padding_top",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -146,7 +128,7 @@
     {
       "type": "range",
       "id": "bottom_padding",
-      "label": "Bottom padding",
+      "label": "t:sections.all.padding.padding_bottom",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -155,88 +137,89 @@
     },
     {
       "type": "header",
-      "content": "Colors"
+      "content": "t:sections.all.colors_header.content"
     },
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "Color scheme",
+      "label": "t:sections.all.colors.label",
       "default": "scheme-3"
     }
   ],
   "blocks": [
     {
       "type": "pre_heading",
-      "name": "Pre-heading",
+      "name": "t:sections.rich_text.blocks.pre_heading.name",
       "limit": 1,
       "settings": [
         {
           "type": "inline_richtext",
           "id": "pre_heading",
-          "label": "Content"
+          "label": "t:sections.rich_text.blocks.pre_heading.settings.pre_heading.label"
         }
       ]
     },
     {
       "type": "heading",
-      "name": "Heading",
+      "name": "t:sections.rich_text.blocks.heading.name",
       "limit": 3,
       "settings": [
         {
           "type": "inline_richtext",
           "id": "heading",
-          "label": "Content",
-          "default": "Quality you can trust"
+          "label": "t:sections.rich_text.blocks.heading.settings.heading.label",
+          "default": "t:sections.rich_text.blocks.heading.settings.heading.default"
         },
         {
           "type": "select",
           "id": "heading_size",
-          "label": "Heading size",
+          "label": "t:sections.all.heading_size.label",
           "default": "small",
           "options": [
-            { "value": "small", "label": "Small" },
-            { "value": "medium", "label": "Medium" },
-            { "value": "large", "label": "Large" },
-            { "value": "extra-large", "label": "Extra large" }
+            { "value": "small", "label": "t:sections.all.heading_size.options__small.label" },
+            { "value": "medium", "label": "t:sections.all.heading_size.options__medium.label" },
+            { "value": "large", "label": "t:sections.all.heading_size.options__large.label" },
+            { "value": "extra-large", "label": "t:sections.all.heading_size.options__extra_large.label" }
           ]
         }
       ]
     },
     {
       "type": "text",
-      "name": "Text",
+      "name": "t:sections.rich_text.blocks.text.name",
       "limit": 3,
       "settings": [
         {
           "type": "richtext",
           "id": "text",
-          "label": "Content",
-          "default": "Add formatted text to share details about your store, products, or policies."
+          "label": "t:sections.rich_text.blocks.text.settings.text.label",
+          "default": "t:sections.rich_text.blocks.text.settings.text.default"
         }
       ]
     },
     {
       "type": "link",
-      "name": "Button",
+      "name": "t:sections.rich_text.blocks.button.name",
       "limit": 1,
       "settings": [
         {
           "type": "text",
           "id": "button_label",
-          "label": "Button label"
+          "label": "t:sections.rich_text.blocks.button.settings.button_label.label",
+          "default": "t:sections.rich_text.blocks.button.settings.button_label.default"
         },
         {
           "type": "url",
           "id": "button_link",
-          "label": "Link"
+          "label": "t:sections.rich_text.blocks.button.settings.button_link.label"
         },
         {
           "type": "select",
           "id": "button_variant",
-          "label": "Button style",
+          "label": "t:sections.all.button_variant.label",
           "options": [
-            { "value": "solid", "label": "Primary" },
-            { "value": "outline", "label": "Secondary" }
+            { "value": "solid", "label": "t:sections.all.button_variant.options__solid.label" },
+            { "value": "outline", "label": "t:sections.all.button_variant.options__outline.label" }
           ],
           "default": "outline"
         }
@@ -245,34 +228,11 @@
   ],
   "presets": [
     {
-      "name": "Rich text",
-      "settings": {
-        "content_alignment": "center",
-        "color_scheme": "scheme-1"
-      },
+      "name": "t:sections.rich_text.presets.name",
       "blocks": [
-        {
-          "type": "pre_heading",
-          "settings": {
-            "pre_heading": "Our promise"
-          }
-        }, {
-          "type": "heading",
-          "settings": {
-            "heading": "Quality you can trust"
-          }
-        }, {
-          "type": "text",
-          "settings": {
-            "text": "Add formatted text to share details about your store, products, or policies."
-          }
-        }, {
-          "type": "link",
-          "settings": {
-            "button_label": "Learn more",
-            "button_link": "https://example.com"
-          }
-        }
+        { "type": "heading" },
+        { "type": "text" },
+        { "type": "link" }
       ]
     }
   ]

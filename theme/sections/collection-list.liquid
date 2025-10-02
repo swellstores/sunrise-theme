@@ -3,6 +3,7 @@
   assign columns = section.settings.columns
   assign gap = section.settings.gap
   assign mobile_layout = section.settings.mobile_layout
+  assign placeholder_index = 1
 
   assign top_padding = section.settings.top_padding | times: 0.1 | round: 1
   assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
@@ -55,9 +56,14 @@
   <div class="grid grid-cols-{{ mobile_layout }} sm:grid-cols-2 md:grid-cols-{{ columns }} gap-{{ gap }}">
     {%- for block in section.blocks -%}
       {%- if block.type == 'featured_category' -%}
-        {% assign idx = forloop.index0 | modulo: 6 | plus: 1 %}
-        {% assign placeholder = 'collection-' | append: idx %}
+        {% assign placeholder = 'collection-apparel-' | append: placeholder_index %}
         {% render 'list-collections-item', category: block.settings.category, placeholder: placeholder %}
+
+        {% if placeholder_index == 3 %}
+          {% assign placeholder_index = 1 %}
+        {% else %}
+          {% assign placeholder_index = placeholder_index | plus: 1 %}
+        {% endif %}
       {%- endif -%}
     {%- endfor -%}
   </div>
@@ -65,7 +71,7 @@
 
 {% schema %}
 {
-  "name": "Category list",
+  "name": "t:sections.category_list.name",
   "tag": "section",
   "max_blocks": 15,
   "disabled_on": {
@@ -74,49 +80,49 @@
   "settings": [
     {
       "type": "header",
-      "content": "Colors"
+      "content": "t:sections.all.colors_header.content"
     },
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "Color scheme",
+      "label": "t:sections.all.colors.label",
       "default": "scheme-1"
     },
     {
       "type": "header",
-      "content": "Content"
+      "content": "t:sections.all.content_header.content"
     },
     {
       "type": "select",
       "id": "heading_size",
-      "label": "Heading size",
+      "label": "t:sections.all.heading_size.label",
       "default": "small",
       "options": [
-        { "value": "small", "label": "Small" },
-        { "value": "medium", "label": "Medium" },
-        { "value": "large", "label": "Large" },
-        { "value": "extra-large", "label": "Extra large" }
+        { "value": "small", "label": "t:sections.all.heading_size.options__small.label" },
+        { "value": "medium", "label": "t:sections.all.heading_size.options__medium.label" },
+        { "value": "large", "label": "t:sections.all.heading_size.options__large.label" },
+        { "value": "extra-large", "label": "t:sections.all.heading_size.options__extra_large.label" }
       ]
     },
     {
       "type": "select",
       "id": "header_alignment",
-      "label": "Header alignment",
+      "label": "t:sections.category_list.settings.header_alignment.label",
       "default": "left",
       "options": [
-        { "value": "left", "label": "Left" },
-        { "value": "center", "label": "Center" },
-        { "value": "right", "label": "Right" }
+        { "value": "left", "label": "t:sections.category_list.settings.header_alignment.options__left.label" },
+        { "value": "center", "label": "t:sections.category_list.settings.header_alignment.options__center.label" },
+        { "value": "right", "label": "t:sections.category_list.settings.header_alignment.options__right.label" }
       ]
     },
     {
       "type": "header",
-      "content": "Layout"
+      "content": "t:sections.all.layout_header.content"
     },
     {
       "type": "range",
       "id": "top_padding",
-      "label": "Top padding",
+      "label": "t:sections.all.padding.padding_top",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -126,7 +132,7 @@
     {
       "type": "range",
       "id": "bottom_padding",
-      "label": "Bottom padding",
+      "label": "t:sections.all.padding.padding_bottom",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -136,7 +142,7 @@
     {
       "type": "range",
       "id": "columns",
-      "label": "Columns",
+      "label": "t:sections.category_list.settings.columns.label",
       "min": 1,
       "max": 5,
       "step": 1,
@@ -145,7 +151,7 @@
     {
       "type": "range",
       "id": "gap",
-      "label": "Gap",
+      "label": "t:sections.category_list.settings.gap.label",
       "min": 0,
       "max": 24,
       "step": 1,
@@ -155,10 +161,10 @@
     {
       "type": "select",
       "id": "mobile_layout",
-      "label": "Mobile layout",
+      "label": "t:sections.category_list.settings.mobile_layout.label",
       "options": [
-        { "value": "1", "label": "1 Column" },
-        { "value": "2", "label": "2 Columns" }
+        { "value": "1", "label": "t:sections.category_list.settings.mobile_layout.options__1.label" },
+        { "value": "2", "label": "t:sections.category_list.settings.mobile_layout.options__2.label" }
       ],
       "default": "1"
     }
@@ -166,44 +172,43 @@
   "blocks": [
     {
       "type": "pre_heading",
-      "name": "Pre-heading",
+      "name": "t:sections.category_list.blocks.pre_heading.name",
       "limit": 1,
       "settings": [
         {
           "type": "inline_richtext",
           "id": "pre_heading",
-          "label": "Content",
-          "default": ""
+          "label": "t:sections.all.pre_heading.label"
         }
       ]
     },
     {
       "type": "heading",
-      "name": "Heading",
+      "name": "t:sections.category_list.blocks.heading.name",
       "limit": 1,
       "settings": [
         {
           "type": "inline_richtext",
           "id": "heading",
-          "label": "Content",
-          "default": "Categories"
+          "label": "t:sections.category_list.blocks.heading.settings.heading.label",
+          "default": "t:sections.category_list.blocks.heading.settings.heading.default"
         }
       ]
     },
     {
       "type": "featured_category",
-      "name": "Category",
+      "name": "t:sections.category_list.blocks.featured_category.name",
       "settings": [
         {
           "type": "collection",
           "id": "category",
-          "label": "Category"
+          "label": "t:sections.category_list.blocks.featured_category.settings.category.label"
         },
         {
           "type": "range",
           "id": "col_span",
-          "label": "Column span",
-          "info": "Make an element span `n` columns.",
+          "label": "t:sections.category_list.blocks.featured_category.settings.col_span.label",
+          "info": "t:sections.category_list.blocks.featured_category.settings.col_span.info",
           "min": 1,
           "max": 12,
           "step": 1,
@@ -214,14 +219,9 @@
   ],
   "presets": [
     {
-      "name": "Categories",
+      "name": "t:sections.category_list.presets.name",
       "blocks": [
-        {
-          "type": "heading",
-          "settings": {
-            "heading": "Categories"
-          }
-        },
+        { "type": "heading" },
         { "type": "featured_category" },
         { "type": "featured_category" },
         { "type": "featured_category" }

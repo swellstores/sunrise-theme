@@ -42,9 +42,11 @@
       <div class="w-full h-full bg-[#F5F5F5] border border-color-{{ color_scheme }}"></div>
     {% endif %}
   </div>
-  {% if category.title %}
-    <h3 class="font-display text-body-large inline-flex items-center gap-12 justify-{{ justify_text }}">
+  <h3 class="font-display text-body-large inline-flex items-center gap-12 justify-{{ justify_text }}">
+    {% if category.title %}
       {{ category.title | escape }}
-    </h3>
-  {% endif %}
+    {% else %}
+      {{ 'onboarding.collection_name' | t }}
+    {% endif %}
+  </h3>
 </a>

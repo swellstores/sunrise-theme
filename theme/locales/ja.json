@@ -143,6 +143,13 @@
         "remove_label": "{{ attribute }}のフィルターを削除"
       }
     },
+    "featured_category": {
+      "product_title": "商品名"
+    },
+    "featured_content": {
+      "blog_post_title": "ブログ投稿",
+      "blog_post_content": "これはブログコンテンツのプレビューです。"
+    },
     "header": {
       "menu": "メニュー",
       "submenu": "サブメニュー",
@@ -229,6 +236,7 @@
   "onboarding": {
     "product_title": "サンプル商品",
     "collection_title": "サンプルコレクション",
+    "collection_name": "カテゴリ名",
     "blog_title": "サンプルブログタイトル",
     "blog_post_date": "2023年3月15日",
     "blog_post_category": "ニュース",

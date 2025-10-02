@@ -1,0 +1,942 @@
+{
+  "sections": {
+    "all": {
+      "colors": {
+        "label": "Farveskema"
+      },
+      "colors_header": {
+        "content": "Farver"
+      },
+      "layout_header": {
+        "content": "Layout"
+      },
+      "mobile_layout_header": {
+        "content": "Mobil layout"
+      },
+      "content_header": {
+        "content": "Indhold"
+      },
+      "padding": {
+        "section_padding_heading": "Sektion polstring",
+        "padding_top": "Øverste polstring",
+        "padding_bottom": "Nederste polstring",
+        "padding_vertical": "Vertikal polstring",
+        "padding_horizontal": "Horisontal polstring"
+      },
+      "pre_heading": {
+        "label": "Foroverskrift"
+      },
+      "heading_size": {
+        "label": "Overskriftsstørrelse",
+        "options__small": {
+          "label": "Lille"
+        },
+        "options__medium": {
+          "label": "Mellem"
+        },
+        "options__large": {
+          "label": "Stor"
+        },
+        "options__extra_large": {
+          "label": "Ekstra stor"
+        }
+      },
+      "button_variant": {
+        "label": "Knapstil",
+        "options__solid": {
+          "label": "Primær"
+        },
+        "options__outline": {
+          "label": "Sekundær"
+        }
+      },
+      "text_alignment": {
+        "label": "Tekstjustering",
+        "options__left": {
+          "label": "Venstre"
+        },
+        "options__center": {
+          "label": "Center"
+        },
+        "options__right": {
+          "label": "Højre"
+        }
+      },
+      "content_alignment": {
+        "label": "Indholdsplacering",
+        "options__top_left": {
+          "label": "Øverst til venstre"
+        },
+        "options__top_center": {
+          "label": "Øverst i midten"
+        },
+        "options__top_right": {
+          "label": "Øverst til højre"
+        },
+        "options__middle_left": {
+          "label": "Midt til venstre"
+        },
+        "options__middle_center": {
+          "label": "Midt i midten"
+        },
+        "options__middle_right": {
+          "label": "Midt til højre"
+        },
+        "options__bottom_left": {
+          "label": "Nederst til venstre"
+        },
+        "options__bottom_center": {
+          "label": "Nederst i midten"
+        },
+        "options__bottom_right": {
+          "label": "Nederst til højre"
+        }
+      }
+    },
+    "collapsible_content": {
+      "name": "Sammenklappeligt indhold",
+      "settings": {
+        "heading": {
+          "label": "Overskrift",
+          "default": "Sammenklappeligt indhold"
+        },
+        "text": {
+          "label": "Tekst"
+        },
+        "header_alignment": {
+          "label": "Overskriftsjustering",
+          "options__left": {
+            "label": "Venstre"
+          },
+          "options__center": {
+            "label": "Center"
+          },
+          "options__right": {
+            "label": "Højre"
+          }
+        },
+        "layout": {
+          "label": "Layout",
+          "options__none": {
+            "label": "Ingen container"
+          },
+          "options__row": {
+            "label": "Række-container"
+          },
+          "options__section": {
+            "label": "Sektion-container"
+          }
+        },
+        "container_color_scheme": {
+          "label": "Rækkens farveskema"
+        },
+        "open_first_collapsible_row": {
+          "label": "Åbn første sammenklappelige række"
+        },
+        "image_layout_header": {
+          "content": "Billedlayout"
+        },
+        "image": {
+          "label": "Billede"
+        },
+        "image_size": {
+          "label": "Billedstørrelse",
+          "options__original": {
+            "label": "Original"
+          },
+          "options__small": {
+            "label": "Lille"
+          },
+          "options__large": {
+            "label": "Stor"
+          }
+        },
+        "desktop_layout": {
+          "label": "Desktop layout",
+          "info": "Billedet vises altid først på mobil.",
+          "options__image_first": {
+            "label": "Billede først"
+          },
+          "options__image_second": {
+            "label": "Billede efter"
+          }
+        }
+      },
+      "blocks": {
+        "collapsible_row": {
+          "name": "Sammenklappelig række",
+          "settings": {
+            "heading": {
+              "label": "Overskrift",
+              "default": "Sammenklappelig række",
+              "info": "Inkluder en overskrift, der forklarer indholdet."
+            },
+            "row_content": {
+              "label": "Rækkeindhold"
+            },
+            "page": {
+              "label": "Rækkeindhold fra side"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Sammenklappeligt indhold"
+      }
+    },
+    "category_list": {
+      "name": "Kategoriliste",
+      "settings": {
+        "header_alignment": {
+          "label": "Overskriftsjustering",
+          "options__left": {
+            "label": "Venstre"
+          },
+          "options__center": {
+            "label": "Center"
+          },
+          "options__right": {
+            "label": "Højre"
+          }
+        },
+        "columns": {
+          "label": "Kolonner"
+        },
+        "gap": {
+          "label": "Afstand"
+        },
+        "mobile_layout": {
+          "label": "Mobil layout",
+          "options__1": {
+            "label": "1 kolonne"
+          },
+          "options__2": {
+            "label": "2 kolonner"
+          }
+        }
+      },
+      "blocks": {
+        "pre_heading": {
+          "name": "Foroverskrift"
+        },
+        "heading": {
+          "name": "Overskrift",
+          "settings": {
+            "heading": {
+              "label": "Indhold",
+              "default": "Kategoriliste"
+            }
+          }
+        },
+        "featured_category": {
+          "name": "Kategori",
+          "settings": {
+            "category": {
+              "label": "Kategori"
+            },
+            "col_span": {
+              "label": "Kolonnespænd",
+              "info": "Gør et element bredt over `n` kolonner."
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Kategorier"
+      }
+    },
+    "feature_list": {
+      "name": "Funktionsliste",
+      "settings": {
+        "columns": {
+          "label": "Kolonner",
+          "info": "Kolonner bruges til at organisere indhold i en sektion."
+        },
+        "grid_gap": {
+          "label": "Afstand",
+          "info": "Afstand mellem kolonner"
+        }
+      },
+      "blocks": {
+        "item": {
+          "name": "Element",
+          "settings": {
+            "icon": {
+              "label": "Ikon",
+              "info": "Se den fulde liste af ikoner [her](https://ionic.io/ionicons)."
+            },
+            "custom_icon": {
+              "label": "Brugerdefineret ikon"
+            },
+            "pre_heading": {
+              "default": "Fremhæv"
+            },
+            "heading": {
+              "label": "Overskrift",
+              "default": "Elementtitel"
+            },
+            "text": {
+              "label": "Tekst",
+              "default": "Brug dette felt til at beskrive en funktion eller fordel. Hold det kort."
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Funktionsliste"
+      }
+    },
+    "featured_category": {
+      "name": "Fremhævet kategori",
+      "settings": {
+        "heading": {
+          "label": "Overskrift",
+          "default": "Fremhævet kategori"
+        },
+        "header_alignment": {
+          "label": "Overskriftsjustering",
+          "options__left": {
+            "label": "Venstre"
+          },
+          "options__center": {
+            "label": "Center"
+          },
+          "options__right": {
+            "label": "Højre"
+          }
+        },
+        "category": {
+          "label": "Fremhævet kategori"
+        },
+        "max_products": {
+          "label": "Antal produkter",
+          "info": "Viser maks antal produkter pr. række."
+        },
+        "mobile_columns": {
+          "label": "Antal kolonner (mobil)",
+          "options__1": {
+            "label": "1 kolonne"
+          },
+          "options__2": {
+            "label": "2 kolonner"
+          }
+        }
+      },
+      "presets": {
+        "name": "Fremhævet kategori"
+      }
+    },
+    "featured_content": {
+      "name": "Fremhævet indhold",
+      "settings": {
+        "heading": {
+          "label": "Overskrift",
+          "default": "Fremhævet indhold"
+        },
+        "header_alignment": {
+          "label": "Overskriftsjustering",
+          "options__left": {
+            "label": "Venstre"
+          },
+          "options__center": {
+            "label": "Center"
+          },
+          "options__right": {
+            "label": "Højre"
+          }
+        },
+        "columns": {
+          "label": "Antal kolonner",
+          "info": "Kolonner bruges til at organisere indhold i en sektion."
+        },
+        "mobile_columns": {
+          "label": "Antal kolonner (mobil)",
+          "options__1": {
+            "label": "1 kolonne"
+          },
+          "options__2": {
+            "label": "2 kolonner"
+          }
+        }
+      },
+      "blocks": {
+        "image_picker": {
+          "name": "Billede",
+          "settings": {
+            "image": {
+              "label": "Billede"
+            },
+            "image_height": {
+              "label": "Billedhøjde",
+              "options__auto": {
+                "label": "Auto"
+              },
+              "options__fixed_height": {
+                "label": "Fast højde"
+              },
+              "options__fill": {
+                "label": "Fyld"
+              },
+              "options__contain": {
+                "label": "Indhold"
+              }
+            },
+            "link": {
+              "label": "Knap link"
+            },
+            "col_span": {
+              "label": "Kolonnespænd"
+            }
+          }
+        },
+        "category": {
+          "name": "Kategori",
+          "settings": {
+            "category": {
+              "label": "Kategori"
+            },
+            "col_span": {
+              "label": "Kolonnespænd",
+              "info": "Gør et element bredt over `n` kolonner."
+            }
+          }
+        },
+        "text": {
+          "name": "Tekst",
+          "settings": {
+            "heading": {
+              "label": "Overskrift"
+            },
+            "description": {
+              "label": "Tekst"
+            },
+            "alignment": {
+              "label": "Justering",
+              "options__left": {
+                "label": "Venstre"
+              },
+              "options__center": {
+                "label": "Center"
+              },
+              "options__right": {
+                "label": "Højre"
+              }
+            },
+            "content_position": {
+              "label": "Indholdsposition",
+              "options__items_start": {
+                "label": "Top"
+              },
+              "options__items_center": {
+                "label": "Midt"
+              },
+              "options__items_end": {
+                "label": "Bund"
+              }
+            },
+            "button_text": {
+              "label": "Knaptekst"
+            },
+            "button_link": {
+              "label": "Knap link"
+            },
+            "section_padding": {
+              "label": "Sektion polstring",
+              "info": "Anvender polstring på alle sider."
+            },
+            "col_span": {
+              "label": "Kolonnespænd"
+            }
+          }
+        },
+        "product": {
+          "name": "Produkt",
+          "settings": {
+            "product": {
+              "label": "Produkt"
+            },
+            "col_span": {
+              "label": "Kolonnespænd"
+            }
+          }
+        },
+        "article": {
+          "name": "Blogindlæg",
+          "settings": {
+            "article": {
+              "label": "Blogindlæg"
+            },
+            "col_span": {
+              "label": "Kolonnespænd"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Fremhævet indhold"
+      }
+    },
+    "image_banner": {
+      "name": "Billedbanner",
+      "settings": {
+        "image": {
+          "label": "Baggrundsbillede"
+        },
+        "mobile_image": {
+          "label": "Mobilbillede"
+        },
+        "overlay_color": {
+          "label": "Overlejringsfarve"
+        },
+        "overlay_opacity": {
+          "label": "Billedoverlejring",
+          "info": "Juster gennemsigtigheden af overlejringen på billedet."
+        },
+        "banner_height": {
+          "label": "Bannerhøjde",
+          "options__adapt": {
+            "label": "Tilpas til billede"
+          },
+          "options__small": {
+            "label": "Lille"
+          },
+          "options__medium": {
+            "label": "Mellem"
+          },
+          "options__large": {
+            "label": "Stor"
+          },
+          "options__screen": {
+            "label": "Tilpas til skærm"
+          }
+        },
+        "image_height": {
+          "label": "Billedhøjde",
+          "options__auto": {
+            "label": "Auto"
+          },
+          "options__fixed_height": {
+            "label": "Fast højde"
+          },
+          "options__fill": {
+            "label": "Fyld"
+          },
+          "options__contain": {
+            "label": "Indhold"
+          },
+          "info": "Baggrundsbilledets placering"
+        },
+        "content_color_scheme": {
+          "label": "Indholdsfarveskema"
+        },
+        "transparent": {
+          "label": "Gennemsigtig baggrund",
+          "info": "Dette vil tilsidesætte farveskemaet."
+        }
+      },
+      "blocks": {
+        "pre_heading": {
+          "name": "Foroverskrift",
+          "settings": {
+            "pre_heading": {
+              "label": "Indhold",
+              "default": "Særtilbud"
+            }
+          }
+        },
+        "heading": {
+          "name": "Overskrift",
+          "settings": {
+            "heading": {
+              "label": "Indhold",
+              "default": "Billedbanner"
+            }
+          }
+        },
+        "text": {
+          "name": "Tekst",
+          "settings": {
+            "text": {
+              "label": "Indhold",
+              "default": "Vis et billede i fuld bredde med valgfri overskrift, tekst og knap. Nyttigt til at fremhæve vigtigt indhold eller sider."
+            }
+          }
+        },
+        "button": {
+          "name": "Knap",
+          "settings": {
+            "button_label": {
+              "label": "Knaptekst",
+              "info": "Lad feltet stå tomt for at skjule knappen.",
+              "default": "Knaptekst"
+            },
+            "button_link": {
+              "label": "Knap link"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Billedbanner"
+      }
+    },
+    "newsletter": {
+      "name": "Nyhedsbrev",
+      "settings": {
+        "button_text": {
+          "label": "Knaptekst",
+          "default": "Send"
+        }
+      },
+      "blocks": {
+        "heading": {
+          "name": "Overskrift",
+          "settings": {
+            "heading": {
+              "label": "Indhold",
+              "default": "Nyhedsbrev"
+            }
+          }
+        },
+        "text": {
+          "name": "Tekst",
+          "settings": {
+            "text": {
+              "label": "Indhold",
+              "default": "Tilføj en kort beskrivelse for at opfordre besøgende til at abonnere."
+            }
+          }
+        },
+        "email_form": {
+          "name": "E-mail formular"
+        }
+      },
+      "presets": {
+        "name": "Nyhedsbrev"
+      }
+    },
+    "rich_text": {
+      "name": "Rigt tekstfelt",
+      "settings": {
+        "desktop_content_width": {
+          "label": "Indholdsbredden på desktop",
+          "options__small": {
+            "label": "Lille"
+          },
+          "options__medium": {
+            "label": "Mellem"
+          },
+          "options__large": {
+            "label": "Stor"
+          }
+        },
+        "content_alignment": {
+          "label": "Indholdsjustering",
+          "options__left": {
+            "label": "Venstre"
+          },
+          "options__center": {
+            "label": "Center"
+          },
+          "options__right": {
+            "label": "Højre"
+          }
+        }
+      },
+      "blocks": {
+        "pre_heading": {
+          "name": "Foroverskrift",
+          "settings": {
+            "pre_heading": {
+              "label": "Indhold"
+            }
+          }
+        },
+        "heading": {
+          "name": "Overskrift",
+          "settings": {
+            "heading": {
+              "label": "Indhold",
+              "default": "Rich text"
+            }
+          }
+        },
+        "text": {
+          "name": "Tekst",
+          "settings": {
+            "text": {
+              "label": "Indhold",
+              "default": "Tilføj formateret tekst for at dele oplysninger om din butik, dine produkter eller dine politikker."
+            }
+          }
+        },
+        "button": {
+          "name": "Knap",
+          "settings": {
+            "button_label": {
+              "label": "Knaptekst",
+              "default": "Knapetiket"
+            },
+            "button_link": {
+              "label": "Link"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Rigt tekstfelt"
+      }
+    },
+    "slideshow": {
+      "name": "Slideshow",
+      "settings": {
+        "navigation": {
+          "label": "Navigation",
+          "info": "Vis navigationspile og pagineringsprikker."
+        },
+        "auto_rotate": {
+          "label": "Auto-rotation"
+        },
+        "auto_rotate_speed": {
+          "label": "Hastighed for auto-rotation"
+        }
+      },
+      "blocks": {
+        "slide": {
+          "name": "Slide",
+          "settings": {
+            "image": {
+              "label": "Billede"
+            },
+            "button_label": {
+              "label": "Knaptekst"
+            },
+            "button_link": {
+              "label": "Link"
+            },
+            "transparent": {
+              "label": "Gennemsigtig baggrund"
+            },
+            "overlay_color": {
+              "label": "Overlejringsfarve"
+            },
+            "overlay_opacity": {
+              "label": "Billedoverlejring"
+            },
+            "content_header": {
+              "info": "En container, der ligger ovenpå slide-billedet eller baggrunden."
+            },
+            "heading": {
+              "label": "Overskrift",
+              "default": "Slide"
+            },
+            "text": {
+              "label": "Tekst",
+              "default": "Tilføj en kort beskrivelse, der ledsager sliden."
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Slideshow"
+      }
+    },
+    "two_panels": {
+      "name": "To paneler",
+      "settings": {
+        "gap": {
+          "label": "Afstand",
+          "info": "Anvender afstand mellem de to blokke"
+        }
+      },
+      "blocks": {
+        "image": {
+          "name": "Billede",
+          "settings": {
+            "image": {
+              "label": "Billede"
+            },
+            "link": {
+              "label": "Link",
+              "info": "Link billedet til en side"
+            }
+          }
+        },
+        "content": {
+          "name": "Indhold",
+          "settings": {
+            "heading": {
+              "label": "Overskrift",
+              "default": "To paneler"
+            },
+            "text": {
+              "label": "Tekst",
+              "default": "Tilføj en kort besked for at understøtte dit indhold og fremhæve vigtige detaljer."
+            },
+            "vertical_alignment": {
+              "label": "Vertikal justering",
+              "options__top": {
+                "label": "Top"
+              },
+              "options__middle": {
+                "label": "Midten"
+              },
+              "options__bottom": {
+                "label": "Bund"
+              }
+            },
+            "button_header": {
+              "content": "Knap"
+            },
+            "button_text": {
+              "label": "Knaptekst",
+              "default": "Knapetiket",
+              "info": "Lad feltet stå tomt for at skjule knappen"
+            },
+            "button_link": {
+              "label": "Link",
+              "info": "Indsæt et link eller søg"
+            },
+            "section_padding": {
+              "label": "Polstring",
+              "info": "Anvender polstring på alle sider"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "To paneler"
+      }
+    },
+    "video_banner": {
+      "name": "Videobanner",
+      "settings": {
+        "video_url": {
+          "label": "Videolink",
+          "info": "Vimeo, YouTube, MP4, WebM eller OGG"
+        },
+        "loop_video": {
+          "label": "Gentag video"
+        },
+        "transparent": {
+          "label": "Gennemsigtig baggrund"
+        },
+        "content_color_scheme": {
+          "label": "Indholdsfarveskema"
+        }
+      },
+      "blocks": {
+        "pre_heading": {
+          "name": "Foroverskrift",
+          "settings": {
+            "content": {
+              "label": "Indhold"
+            }
+          }
+        },
+        "heading": {
+          "name": "Overskrift",
+          "settings": {
+            "heading": {
+              "label": "Indhold",
+              "default": "Video-banner"
+            }
+          }
+        },
+        "text": {
+          "name": "Tekst",
+          "settings": {
+            "text": {
+              "label": "Indhold",
+              "default": "Tilføj en video i fuld skærm med valgfri tekst og knap. Ideel til at fremvise brandhistorier, kampagner eller produkter."
+            }
+          }
+        },
+        "button": {
+          "name": "Knap",
+          "settings": {
+            "button_label": {
+              "label": "Knaptekst",
+              "info": "Lad feltet stå tomt for at skjule knappen.",
+              "default": "Shop kollektionen"
+            },
+            "button_link": {
+              "label": "Knap link"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Videobanner"
+      }
+    },
+    "video_embed": {
+      "name": "Videoindlejring",
+      "settings": {
+        "iframe": {
+          "label": "Indlejringskode",
+          "info": "Tilføj en video fra YouTube, Vimeo eller en anden videoplatform. Vi anbefaler at sætte bredden til 100% og højden til 100%."
+        },
+        "cover_image": {
+          "label": "Coverbillede"
+        },
+        "color_scheme": {
+          "label": "Farveskema"
+        },
+        "video_position": {
+          "label": "Videoposition",
+          "options__left": {
+            "label": "Venstre"
+          },
+          "options__right": {
+            "label": "Højre"
+          }
+        }
+      },
+      "blocks": {
+        "pre_heading": {
+          "name": "Foroverskrift",
+          "settings": {
+            "pre_heading": {
+              "label": "Indhold"
+            }
+          }
+        },
+        "heading": {
+          "name": "Overskrift",
+          "settings": {
+            "heading": {
+              "label": "Indhold",
+              "default": "Videoindlejring"
+            }
+          }
+        },
+        "text": {
+          "name": "Tekst",
+          "settings": {
+            "text": {
+              "label": "Indhold",
+              "default": "Indlejr en video fra YouTube eller Vimeo for at understøtte dit indhold."
+            }
+          }
+        },
+        "button": {
+          "name": "Knap",
+          "settings": {
+            "button_label": {
+              "label": "Knaptekst",
+              "info": "Lad feltet stå tomt for at skjule knappen.",
+              "default": "Knapetiket"
+            },
+            "button_link": {
+              "label": "Knap link"
+            }
+          }
+        }
+      },
+      "presets": {
+        "name": "Videoindlejring"
+      }
+    }
+  }
+}

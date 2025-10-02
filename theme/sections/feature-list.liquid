@@ -98,7 +98,7 @@
 
 {% schema %}
 {
-  "name": "Feature list",
+  "name": "t:sections.feature_list.name",
   "max_blocks": 7,
   "tag": "section",
   "disabled_on": {
@@ -107,23 +107,23 @@
   "settings": [
     {
       "type": "header",
-      "content": "Colors"
+      "content": "t:sections.all.colors_header.content"
     },
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "Color scheme",
+      "label": "t:sections.all.colors.label",
       "default": "scheme-1"
     },
     {
       "type": "header",
-      "content": "Layout"
+      "content": "t:sections.all.layout_header.content"
     },
     {
       "type": "range",
       "id": "columns",
-      "label": "Columns",
-      "info": "Columns are used to organize content within a section.",
+      "label": "t:sections.feature_list.settings.columns.label",
+      "info": "t:sections.feature_list.settings.columns.info",
       "min": 1,
       "max": 5,
       "step": 1,
@@ -132,7 +132,7 @@
     {
       "type": "range",
       "id": "top_padding",
-      "label": "Top padding",
+      "label": "t:sections.all.padding.padding_top",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -142,7 +142,7 @@
     {
       "type": "range",
       "id": "bottom_padding",
-      "label": "Bottom padding",
+      "label": "t:sections.all.padding.padding_bottom",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -152,8 +152,8 @@
     {
       "type": "range",
       "id": "grid_gap",
-      "label": "Gap",
-      "info": "Gap between columns",
+      "label": "t:sections.feature_list.settings.grid_gap.label",
+      "info": "t:sections.feature_list.settings.grid_gap.info",
       "min": 0,
       "max": 100,
       "step": 1,
@@ -163,20 +163,20 @@
     {
       "type": "select",
       "id": "text_alignment",
-      "label": "Text alignment",
+      "label": "t:sections.all.text_alignment.label",
       "default": "center",
       "options": [
         {
           "value": "left",
-          "label": "Left"
+          "label": "t:sections.all.text_alignment.options__left.label"
         },
         {
           "value": "center",
-          "label": "Center"
+          "label": "t:sections.all.text_alignment.options__center.label"
         },
         {
           "value": "right",
-          "label": "Right"
+          "label": "t:sections.all.text_alignment.options__right.label"
         }
       ]
     }
@@ -184,103 +184,61 @@
   "blocks": [
     {
       "type": "item",
-      "name": "Item",
+      "name": "t:sections.feature_list.blocks.item.name",
       "limit": 7,
       "settings": [
         {
           "type": "text",
           "id": "icon",
-          "label": "Icon",
-          "info": "See the full list of icons [here](https://ionic.io/ionicons).",
-          "default": "star-outline"
+          "label": "t:sections.feature_list.blocks.item.settings.icon.label",
+          "info": "t:sections.feature_list.blocks.item.settings.icon.info",
+          "default": "storefront-outline"
         },
         {
           "type": "image_picker",
           "id": "custom_icon",
-          "label": "Custom icon"
+          "label": "t:sections.feature_list.blocks.item.settings.custom_icon.label"
         },
         {
           "type": "inline_richtext",
           "id": "pre_heading",
-          "label": "Pre-heading",
-          "default": "Highlight"
+          "label": "t:sections.all.pre_heading.label",
+          "default": "t:sections.feature_list.blocks.item.settings.pre_heading.default"
         },
         {
           "type": "inline_richtext",
           "id": "heading",
-          "label": "Heading",
-          "default": "Key feature title"
+          "label": "t:sections.feature_list.blocks.item.settings.heading.label",
+          "default": "t:sections.feature_list.blocks.item.settings.heading.default"
         },
         {
           "type": "select",
           "id": "heading_size",
-          "label": "Heading size",
+          "label": "t:sections.all.heading_size.label",
           "default": "small",
           "options": [
-            { "value": "small", "label": "Small" },
-            { "value": "medium", "label": "Medium" },
-            { "value": "large", "label": "Large" },
-            { "value": "extra-large", "label": "Extra large" }
+            { "value": "small", "label": "t:sections.all.heading_size.options__small.label" },
+            { "value": "medium", "label": "t:sections.all.heading_size.options__medium.label" },
+            { "value": "large", "label": "t:sections.all.heading_size.options__large.label" },
+            { "value": "extra-large", "label": "t:sections.all.heading_size.options__extra_large.label" }
           ]
         },
         {
           "type": "richtext",
           "id": "text",
-          "label": "Text",
-          "default": "Use this space to showcase a standout benefit or feature. Pair it with an icon above to grab attention and give customers a quick, clear reason to engage with your store."
+          "label": "t:sections.feature_list.blocks.item.settings.text.label",
+          "default": "t:sections.feature_list.blocks.item.settings.text.default"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Feature list",
+      "name": "t:sections.feature_list.presets.name",
       "blocks": [
-        {
-          "type": "item",
-          "settings": {
-            "icon": "chatbubbles-outline",
-            "pre_heading": "Highlight",
-            "heading": "Key feature title",
-            "text": "Use this space to showcase a standout benefit or feature. Pair it with an icon above to grab attention and give customers a quick, clear reason to engage with your store."
-          }
-        },
-        {
-          "type": "item",
-          "settings": {
-            "icon": "earth-outline",
-            "pre_heading": "Highlight",
-            "heading": "Key feature title",
-            "text": "Use this space to showcase a standout benefit or feature. Pair it with an icon above to grab attention and give customers a quick, clear reason to engage with your store."
-          }
-        },
-        {
-          "type": "item",
-          "settings": {
-            "icon": "mail-outline",
-            "pre_heading": "Highlight",
-            "heading": "Key feature title",
-            "text": "Use this space to showcase a standout benefit or feature. Pair it with an icon above to grab attention and give customers a quick, clear reason to engage with your store."
-          }
-        },
-        {
-          "type": "item",
-          "settings": {
-            "icon": "pricetags-outline",
-            "pre_heading": "Highlight",
-            "heading": "Key feature title",
-            "text": "Use this space to showcase a standout benefit or feature. Pair it with an icon above to grab attention and give customers a quick, clear reason to engage with your store."
-          }
-        },
-        {
-          "type": "item",
-          "settings": {
-            "icon": "ribbon-outline",
-            "pre_heading": "Highlight",
-            "heading": "Key feature title",
-            "text": "Use this space to showcase a standout benefit or feature. Pair it with an icon above to grab attention and give customers a quick, clear reason to engage with your store."
-          }
-        }
+        { "type": "item" },
+        { "type": "item" },
+        { "type": "item" },
       ]
     }
   ]

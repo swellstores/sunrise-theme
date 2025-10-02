@@ -43,11 +43,14 @@
   <div class="max-w-container 2xl:max-w-container mx-auto">
     <div class="flex flex-col max-w-content mx-auto lg:h-384 lg:flex-row gap-64 {% if video_position == 'right' %} lg:flex-row-reverse {% endif %}">
       <div class="flex items-center justify-center lg:w-550 aspect-video relative {% if grid_order %}order-last{% endif %}">
-        {% if section.settings.cover_image %}
-          <div class="absolute inset-0 z-10 cursor-pointer" onclick="this.style.display='none';">
-            {% render 'image', image: section.settings.cover_image, alt: section.settings.image.alt | default: "Image banner", class: 'w-full h-full object-cover' %}
-          </div>
-        {% endif %}
+        <div class="absolute inset-0 z-10 cursor-pointer" onclick="this.style.display='none';">
+          {% render 'image',
+            placeholder: 'hero-apparel-3',
+            image: section.settings.cover_image,
+            alt: section.settings.image.alt | default: "Image banner",
+            class: 'w-full h-full object-cover'
+          %}
+        </div>
         {{ iframe | embedded_content }}
       </div>
       {%- if section.blocks.size >= 1 -%}
@@ -126,69 +129,62 @@
 
 {% schema %}
 {
-  "name": "Video embed",
+  "name": "t:sections.video_embed.name",
   "tag": "section",
-  "disabled_on": {
-    "groups": ["header", "footer"]
-  },
+  "disabled_on": { "groups": ["header", "footer"] },
   "settings": [
     {
       "type": "textarea",
       "id": "iframe",
-      "label": "Embed code",
-      "info": "Add a video from YouTube, Vimeo, or another video platform. We recommend setting the width to 100% and the height to 100%."
+      "label": "t:sections.video_embed.settings.iframe.label",
+      "info": "t:sections.video_embed.settings.iframe.info",
+      "default": "<iframe width='100%' height='100%' src='https://www.youtube.com/embed/NpEaa2P7qZI?si=NQcMz0-jycTcGeaq' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' referrerpolicy='strict-origin-when-cross-origin' allowfullscreen></iframe>"
     },
     {
       "type": "image_picker",
       "id": "cover_image",
-      "label": "Cover image"
+      "label": "t:sections.video_embed.settings.cover_image.label"
     },
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "Color scheme",
+      "label": "t:sections.all.colors.label",
       "default": "scheme-1"
     },
     {
       "type": "select",
       "id": "video_position",
-      "label": "Video position",
+      "label": "t:sections.video_embed.settings.video_position.label",
       "default": "left",
       "options": [
-        {
-          "value": "left",
-          "label": "Left"
-        },
-        {
-          "value": "right",
-          "label": "Right"
-        }
+        { "value": "left", "label": "t:sections.video_embed.settings.video_position.options__left.label" },
+        { "value": "right", "label": "t:sections.video_embed.settings.video_position.options__right.label" }
       ]
     },
     {
       "type": "select",
       "id": "text_alignment",
-      "label": "Text alignment",
+      "label": "t:sections.all.text_alignment.label",
       "default": "left",
       "options": [
         {
           "value": "left",
-          "label": "Left"
+          "label": "t:sections.all.text_alignment.options__left.label"
         },
         {
           "value": "center",
-          "label": "Center"
+          "label": "t:sections.all.text_alignment.options__center.label"
         },
         {
           "value": "right",
-          "label": "Right"
+          "label": "t:sections.all.text_alignment.options__right.label"
         }
       ]
     },
     {
       "type": "range",
       "id": "top_padding",
-      "label": "Top padding",
+      "label": "t:sections.all.padding.padding_top",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -198,7 +194,7 @@
     {
       "type": "range",
       "id": "bottom_padding",
-      "label": "Bottom padding",
+      "label": "t:sections.all.padding.padding_bottom",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -209,83 +205,78 @@
   "blocks": [
     {
       "type": "pre_heading",
-      "name": "Pre-heading",
+      "name": "t:sections.video_embed.blocks.pre_heading.name",
       "limit": 1,
       "settings": [
         {
           "type": "inline_richtext",
           "id": "pre_heading",
-          "label": "Content"
+          "label": "t:sections.video_embed.blocks.pre_heading.settings.pre_heading.label"
         }
       ]
     },
     {
       "type": "heading",
-      "name": "Heading",
+      "name": "t:sections.video_embed.blocks.heading.name",
       "limit": 1,
       "settings": [
         {
           "type": "inline_richtext",
           "id": "heading",
-          "label": "Content"
+          "label": "t:sections.video_embed.blocks.heading.settings.heading.label",
+          "default": "t:sections.video_embed.blocks.heading.settings.heading.default"
         },
         {
           "type": "select",
           "id": "heading_size",
-          "label": "Heading size",
+          "label": "t:sections.all.heading_size.label",
           "default": "small",
           "options": [
-            { "value": "small", "label": "Small" },
-            { "value": "medium", "label": "Medium" },
-            { "value": "large", "label": "Large" },
-            { "value": "extra-large", "label": "Extra large" }
+            { "value": "small", "label": "t:sections.all.heading_size.options__small.label" },
+            { "value": "medium", "label": "t:sections.all.heading_size.options__medium.label" },
+            { "value": "large", "label": "t:sections.all.heading_size.options__large.label" },
+            { "value": "extra-large", "label": "t:sections.all.heading_size.options__extra_large.label" }
           ]
         }
       ]
     },
     {
       "type": "text",
-      "name": "Text",
+      "name": "t:sections.video_embed.blocks.text.name",
       "limit": 1,
       "settings": [
         {
           "type": "richtext",
           "id": "text",
-          "label": "Content",
-          "default": "Embed a video from YouTube or Vimeo to support your content."
+          "label": "t:sections.video_embed.blocks.text.settings.text.label",
+          "default": "t:sections.video_embed.blocks.text.settings.text.default"
         }
       ]
     },
     {
       "type": "button",
-      "name": "Button",
+      "name": "t:sections.video_embed.blocks.button.name",
       "limit": 1,
       "settings": [
         {
           "type": "text",
           "id": "button_label",
-          "label": "Button text",
-          "info": "Leave the label blank to hide the button.",
-          "default": "Link"
+          "label": "t:sections.video_embed.blocks.button.settings.button_label.label",
+          "info": "t:sections.video_embed.blocks.button.settings.button_label.info",
+          "default": "t:sections.video_embed.blocks.button.settings.button_label.default"
         },
         {
           "type": "url",
           "id": "button_link",
-          "label": "Button link"
+          "label": "t:sections.video_embed.blocks.button.settings.button_link.label"
         },
         {
           "type": "select",
           "id": "button_variant",
-          "label": "Button style",
+          "label": "t:sections.all.button_variant.label",
           "options": [
-            {
-              "value": "solid",
-              "label": "Primary"
-            },
-            {
-              "value": "outline",
-              "label": "Secondary"
-            }
+            { "value": "solid", "label": "t:sections.all.button_variant.options__solid.label" },
+            { "value": "outline", "label": "t:sections.all.button_variant.options__outline.label" }
           ],
           "default": "outline"
         }
@@ -294,37 +285,11 @@
   ],
   "presets": [
     {
-      "name": "Video embed",
-      "settings": {
-        "iframe": "<iframe width='100%' height='100%' src='https://www.youtube.com/embed/NpEaa2P7qZI?si=NQcMz0-jycTcGeaq' title='YouTube video player' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share' referrerpolicy='strict-origin-when-cross-origin' allowfullscreen></iframe>",
-        "color_scheme": "scheme-1"
-      },
+      "name": "t:sections.video_embed.presets.name",
       "blocks": [
-        {
-          "type": "pre_heading",
-          "settings": {
-            "pre_heading": "Our story"
-          }
-        },
-        {
-          "type": "heading",
-          "settings": {
-            "heading": "Video embed"
-          }
-        },
-        {
-          "type": "text",
-          "settings": {
-            "text": "Embed a video from YouTube or Vimeo to support your content."
-          }
-        },
-        {
-          "type": "button",
-          "settings": {
-            "button_label": "Read more",
-            "button_link": "/collections/all"
-          }
-        }
+        { "type": "heading" },
+        { "type": "text" },
+        { "type": "button" }
       ]
     }
   ]

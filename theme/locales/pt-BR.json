@@ -143,6 +143,13 @@
         "remove_label": "Remover filtro para {{ attribute }}"
       }
     },
+    "featured_category": {
+      "product_title": "Título do produto"
+    },
+    "featured_content": {
+      "blog_post_title": "Post do blog",
+      "blog_post_content": "Esta é uma prévia do conteúdo do seu blog."
+    },
     "header": {
       "menu": "Menu",
       "submenu": "Submenu",
@@ -229,6 +236,7 @@
   "onboarding": {
     "product_title": "Produto de exemplo",
     "collection_title": "Coleção de exemplo",
+    "collection_name": "Nome da categoria",
     "blog_title": "Título de blog de exemplo",
     "blog_post_date": "15 de março de 2023",
     "blog_post_category": "Notícias",

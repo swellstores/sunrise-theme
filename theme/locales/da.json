@@ -143,6 +143,13 @@
         "remove_label": "Fjern filter for {{ attribute }}"
       }
     },
+    "featured_category": {
+      "product_title": "Produkttitel"
+    },
+    "featured_content": {
+      "blog_post_title": "Blogindlæg",
+      "blog_post_content": "Dette er en forhåndsvisning af dit blogindhold."
+    },
     "header": {
       "menu": "Menu",
       "submenu": "Undermenu",
@@ -229,6 +236,7 @@
   "onboarding": {
     "product_title": "Eksempelprodukt",
     "collection_title": "Eksempelkollektion",
+    "collection_name": "Kategorinavn",
     "blog_title": "Eksempel blogtitel",
     "blog_post_date": "15. marts 2023",
     "blog_post_category": "Nyheder",

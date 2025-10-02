@@ -82,7 +82,7 @@
 
 {% schema %}
 {
-  "name": "Newsletter",
+  "name": "t:sections.newsletter.name",
   "tag": "section",
   "class": "section",
   "disabled_on": {
@@ -91,38 +91,38 @@
   "settings": [
     {
       "type": "header",
-      "content": "Colors"
+      "content": "t:sections.all.colors_header.content"
     },
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "Color scheme",
+      "label": "t:sections.all.colors.label",
       "default": "scheme-1"
     },
     {
       "type": "header",
-      "content": "Layout"
+      "content": "t:sections.all.layout_header.content"
     },
     {
       "type": "select",
       "id": "button_variant",
-      "label": "Button style",
+      "label": "t:sections.all.button_variant.label",
       "options": [
-        { "value": "solid", "label": "Primary" },
-        { "value": "outline", "label": "Secondary" }
+        { "value": "solid", "label": "t:sections.all.button_variant.options__solid.label" },
+        { "value": "outline", "label": "t:sections.all.button_variant.options__outline.label" }
       ],
       "default": "solid"
     },
     {
       "type": "text",
       "id": "button_text",
-      "label": "Button text",
-      "default": "Submit"
+      "label": "t:sections.newsletter.settings.button_text.label",
+      "default": "t:sections.newsletter.settings.button_text.default"
     },
     {
       "type": "range",
       "id": "top_padding",
-      "label": "Top padding",
+      "label": "t:sections.all.padding.padding_top",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -132,7 +132,7 @@
     {
       "type": "range",
       "id": "bottom_padding",
-      "label": "Bottom padding",
+      "label": "t:sections.all.padding.padding_bottom",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -143,61 +143,55 @@
   "blocks": [
     {
       "type": "heading",
-      "name": "Heading",
+      "name": "t:sections.newsletter.blocks.heading.name",
       "limit": 1,
       "settings": [
         {
           "type": "inline_richtext",
           "id": "heading",
-          "default": "Subscribe to our emails",
-          "label": "Content"
+          "default": "t:sections.newsletter.blocks.heading.settings.heading.default",
+          "label": "t:sections.newsletter.blocks.heading.settings.heading.label"
         },
         {
           "type": "select",
           "id": "heading_size",
-          "label": "Heading size",
+          "label": "t:sections.all.heading_size.label",
           "default": "small",
           "options": [
-            { "value": "small", "label": "Small" },
-            { "value": "medium", "label": "Medium" },
-            { "value": "large", "label": "Large" },
-            { "value": "extra-large", "label": "Extra large" }
+            { "value": "small", "label": "t:sections.all.heading_size.options__small.label" },
+            { "value": "medium", "label": "t:sections.all.heading_size.options__medium.label" },
+            { "value": "large", "label": "t:sections.all.heading_size.options__large.label" },
+            { "value": "extra-large", "label": "t:sections.all.heading_size.options__extra_large.label" }
           ]
         }
       ]
     },
     {
       "type": "text",
-      "name": "Text",
+      "name": "t:sections.newsletter.blocks.text.name",
       "limit": 1,
       "settings": [
         {
           "type": "richtext",
           "id": "text",
-          "default": "<p>Be the first to know about new collections and exclusive offers.</p>",
-          "label": "Content"
+          "default": "t:sections.newsletter.blocks.text.settings.text.default",
+          "label": "t:sections.newsletter.blocks.text.settings.text.label"
         }
       ]
     },
     {
       "type": "email_form",
-      "name": "Email form",
+      "name": "t:sections.newsletter.blocks.email_form.name",
       "limit": 1
     }
   ],
   "presets": [
     {
-      "name": "Newsletter",
+      "name": "t:sections.newsletter.presets.name",
       "blocks": [
-        {
-          "type": "heading"
-        },
-        {
-          "type": "text"
-        },
-        {
-          "type": "email_form"
-        }
+        { "type": "heading" },
+        { "type": "text" },
+        { "type": "email_form" }
       ]
     }
   ]

@@ -143,6 +143,13 @@
         "remove_label": "Удалить фильтр для {{ attribute }}"
       }
     },
+    "featured_category": {
+      "product_title": "Название продукта"
+    },
+    "featured_content": {
+      "blog_post_title": "Запись в блоге",
+      "blog_post_content": "Это предварительный просмотр содержимого вашего блога."
+    },
     "header": {
       "menu": "Меню",
       "submenu": "Подменю",
@@ -229,6 +236,7 @@
   "onboarding": {
     "product_title": "Пример товара",
     "collection_title": "Пример коллекции",
+    "collection_name": "Название категории",
     "blog_title": "Пример заголовка блога",
     "blog_post_date": "15 марта 2023",
     "blog_post_category": "Новости",
