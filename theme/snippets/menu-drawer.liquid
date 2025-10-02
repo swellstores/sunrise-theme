@@ -17,8 +17,6 @@
     fixed
     top-0
     left-0
-    pl-44
-    pr-16
     py-24
     w-340
     lg:w-400
@@ -30,9 +28,9 @@
 >
   <div class="flex flex-col h-full">
     <div class="menu-layer" data-layer="main">
-      <div class="flex items-center justify-between mb-48" data-header>
-        <div class="flex items-center gap-8" data-header-left>
-          <h2 class="font-normal">Menu</h2>
+      <div class="flex items-center justify-between pb-24 pl-44 pr-16 border-b border-color-{{ color_scheme }}" data-header>
+        <div class="flex items-center gap-8 font-semibold" data-header-left>
+          <h2>Menu</h2>
           <button class="flex items-center gap-8 hidden" data-back-button>
             <ion-icon name="chevron-back-outline" class="w-20 h-20 -ml-4"></ion-icon>
             <span>Back</span>
@@ -46,7 +44,7 @@
         </button>
       </div>
 
-      <div class="flex-1" data-menu-content>
+      <div class="flex-1 pt-24 pl-44 pr-16" data-menu-content>
         <ul class="flex flex-col gap-24">
           {% for link in linklists[menu].links %}
             <li>
