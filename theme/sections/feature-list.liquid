@@ -54,18 +54,18 @@
       {%- for block in section.blocks -%}
         <div class="flex flex-col {{ align_items_class }} justify-center">
           <div class="max-w-300">
-            <div class="flex flex-col gap-32">
+            <div class="flex flex-col gap-8">
               <div class="flex flex-col items-center gap-8">
                 {%- if block.settings.custom_icon != blank -%}
                   {%
                     render 'image',
                     picture_class: 'flex justify-center',
-                    class: 'w-48 h-48 object-contain',
+                    class: 'w-32 h-32 object-contain',
                     image: block.settings.custom_icon
                   %}
                 {% else %}
                   <ion-icon
-                    class="w-48 h-48 brand-highlight-{{ section.settings.color_scheme }}"
+                    class="w-32 h-32 brand-highlight-{{ section.settings.color_scheme }}"
                     name="{{ block.settings.icon }}"
                     aria-hidden="true"
                   ></ion-icon>
