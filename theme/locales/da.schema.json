@@ -615,6 +615,23 @@
         "name": "Nyhedsbrev"
       }
     },
+    "page": {
+      "name": "Standard side",
+      "settings": {
+        "title_position": {
+          "label": "Sidetitelposition",
+          "options__left": {
+            "label": "Venstre"
+          },
+          "options__center": {
+            "label": "Center"
+          },
+          "options__right": {
+            "label": "Højre"
+          }
+        }
+      }
+    },
     "rich_text": {
       "name": "Rigt tekstfelt",
       "settings": {

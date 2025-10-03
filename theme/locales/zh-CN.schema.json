@@ -615,6 +615,23 @@
         "name": "新闻订阅"
       }
     },
+    "page": {
+      "name": "默认页面",
+      "settings": {
+        "title_position": {
+          "label": "页面标题位置",
+          "options__left": {
+            "label": "左对齐"
+          },
+          "options__center": {
+            "label": "居中"
+          },
+          "options__right": {
+            "label": "右对齐"
+          }
+        }
+      }
+    },
     "rich_text": {
       "name": "富文本",
       "settings": {

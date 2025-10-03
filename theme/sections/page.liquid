@@ -35,38 +35,38 @@
 
 {% schema %}
 {
-  "name": "Default page",
+  "name": "t:sections.page.name",
   "tag": "section",
   "class": "section",
   "settings": [
     {
       "type": "header",
-      "content": "Content"
+      "content": "t:sections.all.content_header.content"
     },
     {
       "type": "select",
       "id": "title_position",
-      "label": "Page title position",
+      "label": "t:sections.page.settings.title_position.label",
       "default": "center",
       "options": [
         {
           "value": "left",
-          "label": "Left"
+          "label": "t:sections.page.settings.title_position.options__left.label"
         },
         {
           "value": "center",
-          "label": "Center"
+          "label": "t:sections.page.settings.title_position.options__center.label"
         }
       ]
     },
     {
       "type": "header",
-      "content": "Layout"
+      "content": "t:sections.all.layout_header.content"
     },
     {
       "type": "range",
       "id": "top_padding",
-      "label": "Top padding",
+      "label": "t:sections.all.padding.padding_top",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -76,7 +76,7 @@
     {
       "type": "range",
       "id": "bottom_padding",
-      "label": "Bottom padding",
+      "label": "t:sections.all.padding.padding_bottom",
       "min": 0,
       "max": 96,
       "step": 1,
@@ -85,12 +85,12 @@
     },
     {
       "type": "header",
-      "content": "Colors"
+      "content": "t:sections.all.colors_header.content"
     },
     {
       "type": "color_scheme",
       "id": "color_scheme",
-      "label": "Color scheme",
+      "label": "t:sections.all.colors.label",
       "default": "scheme-1"
     }
   ]

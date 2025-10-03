@@ -615,6 +615,23 @@
         "name": "Newsletter"
       }
     },
+    "page": {
+      "name": "Página padrão",
+      "settings": {
+        "title_position": {
+          "label": "Posição do título da página",
+          "options__left": {
+            "label": "Esquerda"
+          },
+          "options__center": {
+            "label": "Centro"
+          },
+          "options__right": {
+            "label": "Direita"
+          }
+        }
+      }
+    },
     "rich_text": {
       "name": "Texto formatado",
       "settings": {
