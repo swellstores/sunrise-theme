@@ -27,7 +27,7 @@
     class="flex flex-col justify-center gap-32 items-center"
   >
     <div class="flex flex-col gap-4 items-center">
-      <h2 class="text-headline-small font-heading">{{ page.title | escape }}</h2>
+      <h2 class="text-headline-small font-heading w-full text-{{ section.settings.title_position }}">{{ page.title | escape }}</h2>
       <div class="formatted-text font-display text-body-large">{{ page.content }}</div>
     </div>
   </div>
@@ -39,6 +39,26 @@
   "tag": "section",
   "class": "section",
   "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "select",
+      "id": "title_position",
+      "label": "Page title position",
+      "default": "center",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ]
+    },
     {
       "type": "header",
       "content": "Layout"
