@@ -615,6 +615,23 @@
         "name": "Boletín"
       }
     },
+    "page": {
+      "name": "Página predeterminada",
+      "settings": {
+        "title_position": {
+          "label": "Posición del título de la página",
+          "options__left": {
+            "label": "Izquierda"
+          },
+          "options__center": {
+            "label": "Centro"
+          },
+          "options__right": {
+            "label": "Derecha"
+          }
+        }
+      }
+    },
     "rich_text": {
       "name": "Texto enriquecido",
       "settings": {

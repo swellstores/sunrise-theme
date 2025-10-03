@@ -615,6 +615,23 @@
         "name": "ニュースレター"
       }
     },
+    "page": {
+      "name": "デフォルトページ",
+      "settings": {
+        "title_position": {
+          "label": "ページタイトルの位置",
+          "options__left": {
+            "label": "左"
+          },
+          "options__center": {
+            "label": "中央"
+          },
+          "options__right": {
+            "label": "右"
+          }
+        }
+      }
+    },
     "rich_text": {
       "name": "リッチテキスト",
       "settings": {
