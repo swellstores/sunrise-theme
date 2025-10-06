@@ -615,6 +615,23 @@
         "name": "Рассылка"
       }
     },
+    "page": {
+      "name": "Страница по умолчанию",
+      "settings": {
+        "title_position": {
+          "label": "Позиция заголовка",
+          "options__left": {
+            "label": "Слева"
+          },
+          "options__center": {
+            "label": "По центру"
+          },
+          "options__right": {
+            "label": "Справа"
+          }
+        }
+      }
+    },
     "rich_text": {
       "name": "Форматированный текст",
       "settings": {

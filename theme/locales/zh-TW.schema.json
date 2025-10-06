@@ -615,6 +615,23 @@
         "name": "電子報"
       }
     },
+    "page": {
+      "name": "預設頁面",
+      "settings": {
+        "title_position": {
+          "label": "頁面標題位置",
+          "options__left": {
+            "label": "靠左"
+          },
+          "options__center": {
+            "label": "置中"
+          },
+          "options__right": {
+            "label": "靠右"
+          }
+        }
+      }
+    },
     "rich_text": {
       "name": "豐富文字",
       "settings": {

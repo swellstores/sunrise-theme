@@ -615,6 +615,23 @@
         "name": "Newsletter"
       }
     },
+    "page": {
+      "name": "Standardseite",
+      "settings": {
+        "title_position": {
+          "label": "Position des Seitentitels",
+          "options__left": {
+            "label": "Links"
+          },
+          "options__center": {
+            "label": "Mitte"
+          },
+          "options__right": {
+            "label": "Rechts"
+          }
+        }
+      }
+    },
     "rich_text": {
       "name": "Rich-Text",
       "settings": {

@@ -615,6 +615,23 @@
         "name": "Newsletter"
       }
     },
+    "page": {
+      "name": "Default page",
+      "settings": {
+        "title_position": {
+          "label": "Page title position",
+          "options__left": {
+            "label": "Left"
+          },
+          "options__center": {
+            "label": "Center"
+          },
+          "options__right": {
+            "label": "Right"
+          }
+        }
+      }
+    },
     "rich_text": {
       "name": "Rich text",
       "settings": {
