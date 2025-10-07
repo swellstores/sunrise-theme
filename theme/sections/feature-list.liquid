@@ -13,6 +13,25 @@
   assign bottom_padding = section.settings.bottom_padding | times: 0.1 | round: 1
   assign reduced_padding_top = top_padding | times: 0.55 | round: 2
   assign reduced_padding_bottom = bottom_padding | times: 0.55 | round: 2
+
+  assign columns = section.settings.columns | times: 2
+
+  assign last_column_start = section.blocks.size | divided_by: section.settings.columns | floor | times: section.settings.columns
+  assign missed_items = last_column_start | plus: section.settings.columns | minus: section.blocks.size
+
+  assign md_columns = section.settings.columns
+  if md_columns > 2
+    assign md_columns = 2
+  endif
+  assign md_last_column_start = section.blocks.size | divided_by: md_columns | floor | times: md_columns
+  assign md_missed_items = md_last_column_start | plus: md_columns | minus: section.blocks.size
+
+  assign lg_columns = section.settings.columns
+  if lg_columns > 3
+    assign lg_columns = 2
+  endif
+  assign lg_last_column_start = section.blocks.size | divided_by: lg_columns | floor | times: lg_columns
+  assign lg_missed_items = lg_last_column_start | plus: lg_columns | minus: section.blocks.size
 -%}
 
 {% style %}
@@ -42,30 +61,57 @@
   <div class="flex flex-col gap-48 max-w-container w-full mx-auto">
     <div
       class="
-        grid grid-cols-1
-        sm:grid-cols-1
-        md:grid-cols-{% if section.settings.columns > 3 %}{{ section.settings.columns | minus: 2 }}{% else %}{{ section.settings.columns }}{% endif %}
-        lg:grid-cols-{% if section.settings.columns > 2 %}{{ section.settings.columns | minus: 1 }}{% else %}{{ section.settings.columns }}{% endif %}
-        xl:grid-cols-{{ section.settings.columns }}
+        grid
+        grid-cols-2
+        sm:grid-cols-2
+        md:grid-cols-{% if section.settings.columns > 2 %}4{% else %}{{ columns }}{% endif %}
+        lg:grid-cols-{% if section.settings.columns > 3 %}6{% else %}{{ columns }}{% endif %}
+        xl:grid-cols-{{ columns }}
         text-{{ text_alignment }} text-{{ section.settings.color_scheme }}
       "
       style="gap: {{ section.settings.grid_gap }}px;"
     >
       {%- for block in section.blocks -%}
-        <div class="flex flex-col {{ align_items_class }} justify-center">
+        {% liquid
+          assign ind = forloop.index0
+
+          assign col = 'auto'
+          if ind >= last_column_start
+            assign col = ind | minus: last_column_start | times: 2 | plus: 1 | plus: missed_items
+          endif
+
+          assign md_col = 'auto'
+          if ind >= md_last_column_start
+            assign md_col = ind | minus: md_last_column_start | times: 2 | plus: 1 | plus: md_missed_items
+          endif
+
+          assign lg_col = 'auto'
+          if ind >= lg_last_column_start
+            assign lg_col = ind | minus: lg_last_column_start | times: 2 | plus: 1 | plus: lg_missed_items
+          endif
+        %}
+        <div class="
+            flex flex-col {{ align_items_class }} justify-center
+            col-span-2
+            col-start-auto
+            sm:col-start-auto
+            md:col-start-{{ md_col }}
+            lg:col-start-{{ lg_col }}
+            xl:col-start-{{ col }}
+        ">
           <div class="max-w-300">
-            <div class="flex flex-col gap-32">
+            <div class="flex flex-col gap-8">
               <div class="flex flex-col items-center gap-8">
                 {%- if block.settings.custom_icon != blank -%}
                   {%
                     render 'image',
                     picture_class: 'flex justify-center',
-                    class: 'w-48 h-48 object-contain',
+                    class: 'w-32 h-32 object-contain',
                     image: block.settings.custom_icon
                   %}
                 {% else %}
                   <ion-icon
-                    class="w-48 h-48 brand-highlight-{{ section.settings.color_scheme }}"
+                    class="w-32 h-32 brand-highlight-{{ section.settings.color_scheme }}"
                     name="{{ block.settings.icon }}"
                     aria-hidden="true"
                   ></ion-icon>
@@ -94,6 +140,19 @@
       {%- endfor -%}
     </div>
   </div>
+  <div class="
+    hidden
+    grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2
+    grid-cols-4 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-4
+    grid-cols-6 lg:grid-cols-6 xl:grid-cols-6
+    grid-cols-8 xl:grid-cols-8
+    grid-cols-10 xl:grid-cols-10
+    col-start-auto
+    xl:col-start-auto xl:col-start-2 xl:col-start-3 xl:col-start-4 xl:col-start-5 xl:col-start-6 xl:col-start-7 xl:col-start-8
+    sm:col-start-auto
+    md:col-start-auto md:col-start-2
+    lg:col-start-auto lg:col-start-2 lg:col-start-3 lg:col-start-4
+  " />
 </div>
 
 {% schema %}
