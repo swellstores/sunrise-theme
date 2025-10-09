@@ -62,9 +62,11 @@
       class="
         grid gap-16
         items-stretch
-        {% if section.settings.mobile_columns == '1 column' %} auto-rows-fr
+        auto-rows-auto
+        {% if section.settings.mobile_columns == '1 column' %} sm:auto-rows-fr
         {% else %} grid-cols-2
-        {% endif %} sm:grid-cols-{{ columns }}
+        {% endif %} 
+        md:auto-rows-auto sm:grid-cols-{{ columns }}
       "
     >
       {%- for block in section.blocks -%}
