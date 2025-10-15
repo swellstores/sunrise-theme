@@ -72,7 +72,7 @@
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'image_picker' -%}
-            <div class="flex flex-col gap-8 w-full h-full relative col-span-{{ block.settings.col_span }}">
+            <div class="flex flex-col gap-8 w-full h-full relative col-span-{{ block.settings.col_span }}" {{ block.swell_attributes }}>
               <div class="flex flex-col gap-16 w-full h-full justify-center">
                 <a href="{{ block.settings.link }}">
                   {%- if block.settings.image != blank -%}
@@ -109,7 +109,7 @@
               </div>
             </div>
           {%- when 'product' -%}
-            <div class="flex flex-col gap-8 w-full h-full col-span-{{ block.settings.col_span }}">
+            <div class="flex flex-col gap-8 w-full h-full col-span-{{ block.settings.col_span }}" {{ block.swell_attributes }}>
               {%- if block.settings.product.url != blank -%}
                 <a
                   href="{{ block.settings.product.url }}"
@@ -171,7 +171,7 @@
               {%- endif -%}
             </div>
           {%- when 'category' -%}
-            <div class="flex flex-col gap-8 w-full h-full col-span-{{ block.settings.col_span }}">
+            <div class="flex flex-col gap-8 w-full h-full col-span-{{ block.settings.col_span }}" {{ block.swell_attributes }}>
               {%- if block.settings.category.url != blank -%}
                 <a
                   href="{{ block.settings.category.url }}"
@@ -221,7 +221,7 @@
             </div>
 
           {%- when 'article' -%}
-            <div class="flex flex-col gap-8 w-full h-full col-span-{{ block.settings.col_span }}">
+            <div class="flex flex-col gap-8 w-full h-full col-span-{{ block.settings.col_span }}" {{ block.swell_attributes }}>
               {%- if block.settings.article.url -%}
                 <a
                   href="{{ block.settings.article.url }}"
@@ -285,6 +285,7 @@
                 {% endif %}
               "
               style="padding: 0.8rem;"
+              {{ block.swell_attributes }}
             >
               <div class="
                 flex flex-col gap-16 w-full h-full

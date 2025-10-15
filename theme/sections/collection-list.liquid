@@ -37,6 +37,7 @@
               font-display font-pre-heading text-pre-heading
               text-{{ section.settings.header_alignment | default: 'left' }}
             "
+            {{ block.swell_attributes }}
           >
             {{ block.settings.pre_heading | inline_editable: 'pre_heading' }}
           </p>
@@ -46,6 +47,7 @@
               mb-24 font-display font-heading text-heading-{{ section.settings.heading_size | default: 'small' }}
               text-{{ section.settings.header_alignment | default: 'left' }}
             "
+            {{ block.swell_attributes }}
           >
             {{ block.settings.heading | inline_editable: 'heading' }}
           </h2>

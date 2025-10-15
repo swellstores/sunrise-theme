@@ -36,7 +36,7 @@
       {%- case block.type -%}
         {%- when 'image' -%}
           {% comment %} Image Column {% endcomment %}
-          <div>
+          <div {{ block.swell_attributes }}>
             {%- if block.settings.link != blank -%}
               <a href="{{ block.settings.link }}" class="block w-full h-full">
             {%- endif -%}
@@ -77,6 +77,7 @@
                   items-end
               {%- endcase -%}
             "
+            {{ block.swell_attributes }}
           >
             <div class="w-full flex flex-col gap-24 bg-{{ block.settings.color_scheme }} text-{{ block.settings.color_scheme }} content-padding-{{ section.id }}-{{ block.id }}">
               <div class="flex flex-col gap-8 text-{{ block.settings.text_alignment }}">

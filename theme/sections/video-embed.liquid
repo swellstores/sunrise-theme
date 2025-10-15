@@ -82,26 +82,40 @@
 
                 {%- case block.type -%}
                   {%- when 'pre_heading' -%}
-                    <p class="font-display font-pre-heading text-pre-heading">
+                    <p class="font-display font-pre-heading text-pre-heading" {{ block.swell_attributes }}>
                       {{ block.settings.pre_heading | inline_editable: 'pre_heading' }}
                     </p>
                   {%- when 'heading' -%}
                     {%- if need_open_div -%}
-                      <div class="flex flex-col gap-4">
+                      <div class="flex flex-col gap-4" {{ block.swell_attributes }}>
                     {%- endif -%}
-                      <h2 class="font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }}">
-                          {{ block.settings.heading | inline_editable: 'heading' }}
-                      </h2>
+
+                    <h2
+                      class="font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }}"
+                      {% unless need_open_div %}
+                        {{ block.swell_attributes }}
+                      {% endunless %}
+                    >
+                        {{ block.settings.heading | inline_editable: 'heading' }}
+                    </h2>
+
                     {%- if need_close_div -%}
                       </div>
                     {%- endif -%}
                   {%- when 'text' -%}
                     {%- if need_open_div -%}
-                      <div class="flex flex-col gap-4">
+                      <div class="flex flex-col gap-4" {{ block.swell_attributes }}>
                     {%- endif -%}
-                      <p class="font-display formatted-text text-content">
-                        {{ block.settings.text | inline_editable: 'text' }}
-                      </p>
+
+                    <p
+                      class="font-display formatted-text text-content"
+                      {% unless need_open_div %}
+                        {{ block.swell_attributes }}
+                      {% endunless %}
+                    >
+                      {{ block.settings.text | inline_editable: 'text' }}
+                    </p>
+
                     {%- if need_close_div -%}
                       </div>
                     {%- endif -%}

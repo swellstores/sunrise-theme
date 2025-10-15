@@ -14,7 +14,7 @@
   }
 {% endstyle %}
 
-<product-quantity class="flex flex-col gap-6">
+<product-quantity class="flex flex-col gap-6" {{ block.swell_attributes }}>
   <span class="text-body-medium text-secondary-{{ color_scheme }}">{{ label }}</span>
   {% render 'quantity-selector',
     min: 1,
