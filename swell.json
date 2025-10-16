@@ -10,8 +10,7 @@
 			"compatibility": {
 				"features": {
 					"swell_prices": true,
-					"swell_variants": true,
-					"swell_attributes": true
+					"swell_variants": true
 				}
 			}
 		},
