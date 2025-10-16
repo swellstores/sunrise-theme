@@ -27,15 +27,15 @@
     {%- for block in section.blocks -%}
       {%- case block.type -%}
         {%- when 'heading' -%}
-          <h2 class="font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }} text-center mb-8">
+          <h2 class="font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }} text-center mb-8" {{ block.swell_attributes }}>
             {{ block.settings.heading | inline_editable: 'heading' }}
           </h2>
         {%- when 'text' -%}
-          <div class="font-display formatted-text text-content text-center">
+          <div class="font-display formatted-text text-content text-center" {{ block.swell_attributes }}>
             {{ block.settings.text | inline_editable: 'text' }}
           </div>
         {%- when 'email_form' -%}
-          <div class="flex w-full pt-32">
+          <div class="flex w-full pt-32" {{ block.swell_attributes }}>
             {% form 'customer'
               , class: 'newsletter-form w-full'
             %}

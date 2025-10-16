@@ -125,15 +125,15 @@
           {%- for block in section.blocks -%}
             {%- case block.type -%}
               {%- when 'pre_heading' -%}
-                <div class="font-display font-pre-heading text-pre-heading">
+                <div class="font-display font-pre-heading text-pre-heading" {{ block.swell_attributes }}>
                   {{ block.settings.pre_heading | inline_editable: 'pre_heading' }}
                 </div>
               {%- when 'heading' -%}
-                <h2 class="font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }}">
+                <h2 class="font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }}" {{ block.swell_attributes }}>
                   {{ block.settings.heading | inline_editable: 'heading' }}
                 </h2>
               {%- when 'text' -%}
-                <div class="font-display formatted-text text-content">
+                <div class="font-display formatted-text text-content" {{ block.swell_attributes }}>
                   {{ block.settings.text | inline_editable: 'text' }}
                 </div>
             {%- endcase -%}

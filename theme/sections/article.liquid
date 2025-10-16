@@ -62,6 +62,7 @@
                     sm:max-h-600
                 {% endcase %}
               "
+              {{ block.swell_attributes }}
             >
               {% render 'image',
                 image: article.image,
@@ -71,7 +72,7 @@
             </div>
           {%- endif -%}
         {%- when 'title' -%}
-          <div id="{{ block_id }}" class="flex flex-col">
+          <div id="{{ block_id }}" class="flex flex-col" {{ block.swell_attributes }}>
             <h1 class="font-display text-display-medium">
               {{ article.title | escape }}
             </h1>
@@ -82,7 +83,7 @@
             {%- endif -%}
           </div>
         {%- when 'content' -%}
-          <div id="{{ block_id }}" class="flex flex-col gap-16 formatted-text font-display text-body-large">
+          <div id="{{ block_id }}" class="flex flex-col gap-16 formatted-text font-display text-body-large" {{ block.swell_attributes }}>
             {{ article.content }}
           </div>
         {%- when 'date_and_category' -%}
@@ -91,7 +92,7 @@
             assign show_date = block.settings.show_date and article.published_at != blank
           -%}
 
-          <div id="{{ block_id }}" class="flex gap-4 text-body-medium font-semibold text-secondary-{{ color_scheme }}">
+          <div id="{{ block_id }}" class="flex gap-4 text-body-medium font-semibold text-secondary-{{ color_scheme }}" {{ block.swell_attributes }}>
             {%- if show_category -%}
               <span>
                 {{ article.category.title }}
@@ -107,7 +108,7 @@
             {%- endif -%}
           </div>
         {%- when 'share' -%}
-          <div id="{{ block_id }}" class="flex flex-wrap gap-8">
+          <div id="{{ block_id }}" class="flex flex-wrap gap-8" {{ block.swell_attributes }}>
             {% render 'share-buttons',
               share_title: article.title,
               share_image: article.image,

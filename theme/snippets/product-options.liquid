@@ -13,7 +13,7 @@
 {% endstyle %}
 
 {% if has_options %}
-  <product-options class="flex flex-col gap-16">
+  <product-options class="flex flex-col gap-16" {{ block.swell_attributes }}>
     {% if product.gift_card? %}
       {% render 'product-option-giftcard',
         product: product,

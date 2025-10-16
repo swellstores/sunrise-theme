@@ -45,15 +45,15 @@
       {%- for block in section.blocks -%}
         {%- case block.type -%}
           {%- when 'pre_heading' -%}
-            <div class="font-display font-pre-heading text-pre-heading {{ content_width_class }}">
+            <div class="font-display font-pre-heading text-pre-heading {{ content_width_class }}" {{ block.swell_attributes }}>
               {{ block.settings.pre_heading | inline_editable: 'pre_heading' }}
             </div>
           {%- when 'heading' -%}
-            <h2 class="font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }} {{ content_width_class }}">
+            <h2 class="font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }} {{ content_width_class }}" {{ block.swell_attributes }}>
               {{ block.settings.heading | inline_editable: 'heading' }}
             </h2>
           {%- when 'text' -%}
-            <div class="font-display formatted-text text-content {{ content_width_class }}">
+            <div class="font-display formatted-text text-content {{ content_width_class }}" {{ block.swell_attributes }}>
               {{ block.settings.text | inline_editable: 'text' }}
             </div>
         {%- endcase -%}
@@ -65,7 +65,7 @@
         {%- case block.type -%}
           {%- when 'link' -%}
             {%- if block.settings.button_label != blank and block.settings.button_link -%}
-              <div class="flex flex-col {{ content_width_class }} {{ align_items_class }}">
+              <div class="flex flex-col {{ content_width_class }} {{ align_items_class }}" {{ block.swell_attributes }}>
                 {% render 'button',
                   text: block.settings.button_label,
                   href: block.settings.button_link,
