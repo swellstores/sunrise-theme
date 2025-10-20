@@ -58,7 +58,7 @@
             </div>
           {%- when 'link' -%}
             {%- if block.settings.button_label != blank and block.settings.button_link -%}
-              <div class="flex flex-col mt-12 {{ content_width_class }} {{ align_items_class }}" {{ block.swell_attributes }}>
+              <div class="flex flex-col {% unless forloop.first %}mt-12{% endunless %} {{ content_width_class }} {{ align_items_class }}" {{ block.swell_attributes }}>
                 {% render 'button',
                   text: block.settings.button_label,
                   href: block.settings.button_link,
