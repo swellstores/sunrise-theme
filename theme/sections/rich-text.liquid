@@ -56,16 +56,9 @@
             <div class="font-display formatted-text text-content {{ content_width_class }}" {{ block.swell_attributes }}>
               {{ block.settings.text | inline_editable: 'text' }}
             </div>
-        {%- endcase -%}
-      {%- endfor -%}
-    </div>
-
-    <div class="flex flex-col gap-16 {{ align_items_class }}">
-      {%- for block in section.blocks -%}
-        {%- case block.type -%}
           {%- when 'link' -%}
             {%- if block.settings.button_label != blank and block.settings.button_link -%}
-              <div class="flex flex-col {{ content_width_class }} {{ align_items_class }}" {{ block.swell_attributes }}>
+              <div class="flex flex-col mt-12 {{ content_width_class }} {{ align_items_class }}" {{ block.swell_attributes }}>
                 {% render 'button',
                   text: block.settings.button_label,
                   href: block.settings.button_link,
