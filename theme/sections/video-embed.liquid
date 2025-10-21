@@ -119,21 +119,18 @@
                     {%- if need_close_div -%}
                       </div>
                     {%- endif -%}
+                  {%- when 'button' -%}
+                    <div class="flex self-center" {{ block.swell_attributes }}>
+                      {% render 'button',
+                        text: block.settings.button_label,
+                        href: block.settings.button_link,
+                        color_scheme: color_scheme,
+                        variant: block.settings.button_variant
+                      %}
+                    </div>
                 {%- endcase -%}
               {%- endfor -%}
             </div>
-            {%- for block in section.blocks -%}
-              {%- if block.type == 'button' -%}
-                <div class="flex">
-                  {% render 'button',
-                    text: block.settings.button_label,
-                    href: block.settings.button_link,
-                    color_scheme: color_scheme,
-                    variant: block.settings.button_variant
-                  %}
-                </div>
-              {%- endif -%}
-            {%- endfor -%}
           </div>
         </div>
       {%- endif -%}

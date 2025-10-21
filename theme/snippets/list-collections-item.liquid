@@ -3,13 +3,19 @@
 
   Accepts:
     - category: {Object}
+    - block: {Object}
     - color_scheme: {String}
     - placeholder: {String}
+
+  Requirements:
+    - Either 'block' or 'category' must be provided.
 
   Usage:
     {% render 'list-collections-item', category: category, placeholder: 'collection-1' %}
 {% endcomment %}
+
 {% liquid
+  assign category = block.settings.category | default: category
   assign ratio_class = 'aspect-square'
 
   if image_ratio == 'portrait'
@@ -19,8 +25,9 @@
   endif
 -%}
 
-<a class="
-  flex flex-col group"
+<a
+  class="flex flex-col group"
+  {{ block.swell_attributes }}
   {% if category.url %}
     href="{{ category.url }}"
   {% endif %}

@@ -136,27 +136,33 @@
                 <div class="font-display formatted-text text-content" {{ block.swell_attributes }}>
                   {{ block.settings.text | inline_editable: 'text' }}
                 </div>
-            {%- endcase -%}
-          {%- endfor -%}
-        </div>
+              {%- when 'button' -%}
+                {%- if transparent == false -%}
+                  {%- assign button_color_scheme = content_color_scheme -%}
+                {%- else -%}
+                  {%- assign button_color_scheme = color_scheme -%}
+                {%- endif -%}
 
-        <div class="flex">
-          {%- if transparent == false -%}
-            {%- assign button_color_scheme = content_color_scheme -%}
-          {%- else -%}
-            {%- assign button_color_scheme = color_scheme -%}
-          {%- endif -%}
-          {%- for block in section.blocks -%}
-            {%- if block.settings.button_label != blank -%}
-              <div class="flex {% if visible_blocks > 1 %}mt-32{% endif %}">
-                {% render 'button',
-                  text: block.settings.button_label,
-                  href: block.settings.button_link,
-                  color_scheme: button_color_scheme,
-                  variant: block.settings.button_variant
-                %}
-              </div>
-            {%- endif -%}
+                {%- if block.settings.button_label != blank -%}
+                  <div
+                    class="
+                      flex
+                      self-center
+                      {% if visible_blocks > 1 %}
+                        mt-32
+                      {% endif %}
+                    "
+                    {{ block.swell_attributes }}
+                  >
+                    {% render 'button',
+                      text: block.settings.button_label,
+                      href: block.settings.button_link,
+                      color_scheme: button_color_scheme,
+                      variant: block.settings.button_variant
+                    %}
+                  </div>
+                {%- endif -%}
+            {%- endcase -%}
           {%- endfor -%}
         </div>
       </div>

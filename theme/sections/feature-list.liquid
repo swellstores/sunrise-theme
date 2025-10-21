@@ -90,53 +90,59 @@
             assign lg_col = ind | minus: lg_last_column_start | times: 2 | plus: 1 | plus: lg_missed_items
           endif
         %}
-        <div class="
-            flex flex-col {{ align_items_class }} justify-center
-            col-span-2
-            col-start-auto
-            sm:col-start-auto
-            md:col-start-{{ md_col }}
-            lg:col-start-{{ lg_col }}
-            xl:col-start-{{ col }}
-        ">
-          <div class="max-w-300">
-            <div class="flex flex-col gap-8">
-              <div class="flex flex-col items-center gap-8">
-                {%- if block.settings.custom_icon != blank -%}
-                  {%
-                    render 'image',
-                    picture_class: 'flex justify-center',
-                    class: 'w-32 h-32 object-contain',
-                    image: block.settings.custom_icon
-                  %}
-                {% else %}
-                  <ion-icon
-                    class="w-32 h-32 brand-highlight-{{ section.settings.color_scheme }}"
-                    name="{{ block.settings.icon }}"
-                    aria-hidden="true"
-                  ></ion-icon>
-                {%- endif -%}
-              </div>
-              <div>
-                {%- if block.settings.pre_heading -%}
-                  <h2 class="font-display font-pre-heading text-pre-heading mb-8">
-                    {{ block.settings.pre_heading }}
-                  </h2>
-                {% endif %}
-                {%- if block.settings.heading -%}
-                  <h2 class="mb-8 font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }}">
-                    {{ block.settings.heading }}
-                  </h2>
-                {% endif %}
-                {%- if block.settings.text != blank -%}
-                  <div class="font-display formatted-text text-content">
-                    {{ block.settings.text }}
+        {%- case block.type -%}
+          {%- when 'item' -%}
+            <div
+              class="
+                flex flex-col {{ align_items_class }} justify-center
+                col-span-2
+                col-start-auto
+                sm:col-start-auto
+                md:col-start-{{ md_col }}
+                lg:col-start-{{ lg_col }}
+                xl:col-start-{{ col }}
+              "
+              {{ block.swell_attributes }}
+            >
+              <div class="max-w-300">
+                <div class="flex flex-col gap-8">
+                  <div class="flex flex-col items-center gap-8">
+                    {%- if block.settings.custom_icon != blank -%}
+                      {%
+                        render 'image',
+                        picture_class: 'flex justify-center',
+                        class: 'w-32 h-32 object-contain',
+                        image: block.settings.custom_icon
+                      %}
+                    {% else %}
+                      <ion-icon
+                        class="w-32 h-32 brand-highlight-{{ section.settings.color_scheme }}"
+                        name="{{ block.settings.icon }}"
+                        aria-hidden="true"
+                      ></ion-icon>
+                    {%- endif -%}
                   </div>
-                {%- endif -%}
+                  <div>
+                    {%- if block.settings.pre_heading -%}
+                      <h2 class="font-display font-pre-heading text-pre-heading mb-8">
+                        {{ block.settings.pre_heading }}
+                      </h2>
+                    {% endif %}
+                    {%- if block.settings.heading -%}
+                      <h2 class="mb-8 font-display font-heading text-heading-{{ block.settings.heading_size | default: 'small' }}">
+                        {{ block.settings.heading }}
+                      </h2>
+                    {% endif %}
+                    {%- if block.settings.text != blank -%}
+                      <div class="font-display formatted-text text-content">
+                        {{ block.settings.text }}
+                      </div>
+                    {%- endif -%}
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+        {%- endcase -%}
       {%- endfor -%}
     </div>
   </div>
