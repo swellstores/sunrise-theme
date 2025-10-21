@@ -57,16 +57,21 @@
 
   <div class="grid grid-cols-{{ mobile_layout }} sm:grid-cols-2 md:grid-cols-{{ columns }} gap-{{ gap }}">
     {%- for block in section.blocks -%}
-      {%- if block.type == 'featured_category' -%}
-        {% assign placeholder = 'collection-apparel-' | append: placeholder_index %}
-        {% render 'list-collections-item', category: block.settings.category, placeholder: placeholder %}
+      {%- case block.type -%}
+        {%- when 'featured_category' -%}
+          {% assign placeholder = 'collection-apparel-' | append: placeholder_index %}
 
-        {% if placeholder_index == 3 %}
-          {% assign placeholder_index = 1 %}
-        {% else %}
-          {% assign placeholder_index = placeholder_index | plus: 1 %}
-        {% endif %}
-      {%- endif -%}
+          {% render 'list-collections-item',
+            block: block,
+            placeholder: placeholder
+          %}
+
+          {% if placeholder_index == 3 %}
+            {% assign placeholder_index = 1 %}
+          {% else %}
+            {% assign placeholder_index = placeholder_index | plus: 1 %}
+          {% endif %}
+      {%- endcase -%}
     {%- endfor -%}
   </div>
 </div>
