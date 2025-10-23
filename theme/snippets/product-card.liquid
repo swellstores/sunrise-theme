@@ -47,7 +47,7 @@
     </a>
     <div class="flex gap-8">
       <span class="text-body-medium font-display">
-        {% if product.variants.size > 1 %}
+        {% if product.variants.size > 1 and product.price_varies %}
           From {{ lowest_price }}
         {% else %}
           {{ price }}
