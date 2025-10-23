@@ -62,7 +62,7 @@
         "block-4"
       ]
     },
-    "featured_category": {
+    "featured-collection": {
       "type": "featured-collection",
       "disabled": false,
       "custom_css": "",
@@ -84,6 +84,6 @@
   },
   "order": [
     "hero",
-    "featured_category"
+    "featured-collection"
   ]
 }

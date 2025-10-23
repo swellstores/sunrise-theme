@@ -1,6 +1,6 @@
 {
   "sections": {
-    "main": {
+    "activate-account": {
       "type": "activate-account",
       "settings": {
         "color_scheme": "scheme-1",
@@ -10,6 +10,6 @@
     }
   },
   "order": [
-    "main"
+    "activate-account"
   ]
 }

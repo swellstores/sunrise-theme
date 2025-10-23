@@ -1,6 +1,6 @@
 {
   "sections": {
-    "product_list": {
+    "product-list": {
       "type": "product-list",
       "settings": {
         "color_scheme": "scheme-1",
@@ -10,5 +10,5 @@
       }
     }
   },
-  "order": ["product_list"]
+  "order": ["product-list"]
 }

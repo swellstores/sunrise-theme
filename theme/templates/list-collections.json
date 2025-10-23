@@ -1,6 +1,6 @@
 {
   "sections": {
-    "main": {
+    "list-collections": {
       "type": "list-collections",
       "settings": {
         "color_scheme": "scheme-1",
@@ -17,6 +17,6 @@
     }
   },
   "order": [
-    "main"
+    "list-collections"
   ]
 }

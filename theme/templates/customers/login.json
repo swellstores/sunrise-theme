@@ -1,6 +1,6 @@
 {
   "sections": {
-    "main": {
+    "login": {
       "type": "login",
       "settings": {
         "color_scheme": "scheme-1",
@@ -10,6 +10,6 @@
     }
   },
   "order": [
-    "main"
+    "login"
   ]
 }
