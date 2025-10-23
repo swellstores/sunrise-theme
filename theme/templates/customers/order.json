@@ -1,6 +1,6 @@
 {
   "sections": {
-    "main": {
+    "main-order": {
       "type": "main-order",
       "settings": {
         "color_scheme": "scheme-1",
@@ -9,5 +9,5 @@
       }
     }
   },
-  "order": ["main"]
+  "order": ["main-order"]
 }

@@ -1,6 +1,6 @@
 {
   "sections": {
-    "main": {
+    "cart": {
       "type": "cart",
       "settings": {
         "color_scheme": "scheme-1",
@@ -16,7 +16,7 @@
     }
   },
   "order": [
-    "main",
+    "cart",
     "related-products"
   ]
 }
