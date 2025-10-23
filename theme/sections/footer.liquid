@@ -26,73 +26,78 @@
   <div class="max-w-content 2xl:max-w-container mx-auto">
     <footer class="grid grid-cols-[repeat(auto-fit,_minmax(31.5rem,_1fr))] gap-32 text-{{ color_scheme }}">
       {%- for block in section.blocks -%}
-        {% if block.type == 'menu' %}
-          {% assign menu = block.settings.menu %}
-          {% if menu != blank and linklists[menu] %}
-            {% assign menu_has_sublinks = false %}
-            {% for link in linklists[menu].links %}
-              {% if link.links.size > 0 %}
-                {% assign menu_has_sublinks = true %}
-              {% endif %}
-            {% endfor %}
+        {%- case block.type -%}
+          {%- when 'menu' -%}
+            {% assign menu = block.settings.menu %}
 
-            {% if menu_has_sublinks %}
+            {% if menu != blank and linklists[menu] %}
+              {% assign menu_has_sublinks = false %}
+
               {% for link in linklists[menu].links %}
-                <div class="flex flex-col gap-16">
-                  <div class="flex flex-col gap-24">
-                    {%- if link.url == '#' -%}
-                      <div class="font-display text-title-large">{{ link.title }}</div>
-                    {%- else -%}
-                      <a href="{{ link.url }}" title="{{ link.title }}" class="font-display text-title-large">
-                        {{ link.title }}
-                      </a>
-                    {%- endif -%}
-                    {%- if link.links.size > 0 -%}
-                      <ul class="flex flex-col gap-16 text-body-large font-display text-secondary-{{ color_scheme }}">
-                        {%- for child_link in link.links -%}
-                          <li>
-                            <a href="{{ child_link.url }}" title="{{ child_link.title }}">
-                              {{ child_link.title }}
-                            </a>
-                          </li>
-                        {%- endfor -%}
-                      </ul>
-                    {%- endif -%}
-                  </div>
-                </div>
+                {% if link.links.size > 0 %}
+                  {% assign menu_has_sublinks = true %}
+                {% endif %}
               {% endfor %}
-            {% else %}
-              <div class="flex flex-col gap-16">
-                <div class="font-display text-title-large">
-                  {{ block.settings.single_column_heading | default: 'Quick Links' }}
-                </div>
-                <ul class="flex flex-col gap-16 text-body-large font-display text-secondary-{{ color_scheme }}">
+
+              {% if menu_has_sublinks %}
+                <div class="grid grid-cols-[repeat(auto-fit,_minmax(31.5rem,_1fr))] gap-32 col-span-full" {{ block.swell_attributes }}>
                   {% for link in linklists[menu].links %}
-                    <li>
-                      <a href="{{ link.url }}" title="{{ link.title }}">
-                        {{ link.title }}
-                      </a>
-                    </li>
+                    <div class="flex flex-col gap-16">
+                      <div class="flex flex-col gap-24">
+                        {%- if link.url == '#' -%}
+                          <div class="font-display text-title-large">{{ link.title }}</div>
+                        {%- else -%}
+                          <a href="{{ link.url }}" title="{{ link.title }}" class="font-display text-title-large">
+                            {{ link.title }}
+                          </a>
+                        {%- endif -%}
+                        {%- if link.links.size > 0 -%}
+                          <ul class="flex flex-col gap-16 text-body-large font-display text-secondary-{{ color_scheme }}">
+                            {%- for child_link in link.links -%}
+                              <li>
+                                <a href="{{ child_link.url }}" title="{{ child_link.title }}">
+                                  {{ child_link.title }}
+                                </a>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        {%- endif -%}
+                      </div>
+                    </div>
                   {% endfor %}
-                </ul>
-              </div>
-            {% endif %}
-          {% endif %}
-        {% elsif block.type == 'brand_info' %}
-          <div class="flex flex-col">
-            <div class="flex flex-col gap-24">
-              <h2 class="font-display text-title-large text-{{ color_scheme }}">{{ block.settings.footer_title }}</h2>
-              <div class="flex flex-col gap-16 text-body-large font-display text-secondary-{{ color_scheme }}">
-                {{ block.settings.footer_text }}
-              </div>
-              {%- if block.settings.show_social_icons -%}
-                <div class="flex gap-16 pt-16 pb-16">
-                  {% render 'social-icon-list' %}
                 </div>
-              {%- endif -%}
+              {% else %}
+                <div class="flex flex-col gap-16" {{ block.swell_attributes }}>
+                  <div class="font-display text-title-large">
+                    {{ block.settings.single_column_heading | default: 'Quick Links' }}
+                  </div>
+                  <ul class="flex flex-col gap-16 text-body-large font-display text-secondary-{{ color_scheme }}">
+                    {% for link in linklists[menu].links %}
+                      <li>
+                        <a href="{{ link.url }}" title="{{ link.title }}">
+                          {{ link.title }}
+                        </a>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% endif %}
+            {% endif %}
+          {%- when 'brand_info' -%}
+            <div class="flex flex-col" {{ block.swell_attributes }}>
+              <div class="flex flex-col gap-24">
+                <h2 class="font-display text-title-large text-{{ color_scheme }}">{{ block.settings.footer_title }}</h2>
+                <div class="flex flex-col gap-16 text-body-large font-display text-secondary-{{ color_scheme }}">
+                  {{ block.settings.footer_text }}
+                </div>
+                {%- if block.settings.show_social_icons -%}
+                  <div class="flex gap-16 pt-16 pb-16">
+                    {% render 'social-icon-list' %}
+                  </div>
+                {%- endif -%}
+              </div>
             </div>
-          </div>
-        {% endif %}
+        {%- endcase -%}
       {%- endfor -%}
     </footer>
 
