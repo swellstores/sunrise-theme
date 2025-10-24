@@ -102,18 +102,13 @@
           {% endif %} md:grid-cols-3 lg:grid-cols-4
         "
       >
-        {%- for i in (1..4) -%}
+        {%- for i in (1..section.settings.max_products) -%}
           <div class="flex flex-col gap-8">
-            {% liquid
-              assign ridx = forloop.rindex
-              case ridx
-                when 5
-                  assign ridx = 1
-                when 6
-                  assign ridx = 2
-              endcase
-            %}
-            {%- assign placeholder_image = 'product-apparel-' | append: ridx -%}
+            {%- liquid
+              assign placeholder_index = i | modulo: 4 | plus: 1
+              assign placeholder_image = 'product-apparel-' | append: placeholder_index
+            -%}
+
             <div class="aspect-square w-full">
               {{ placeholder_image | placeholder_svg_tag: 'placeholder-svg' }}
             </div>

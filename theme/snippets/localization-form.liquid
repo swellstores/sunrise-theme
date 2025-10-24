@@ -56,7 +56,7 @@
                         {{ 'icon-caret.svg' | inline_asset_content }}
                       </button>
                       <ul
-                        class="language-list mt-8 space-y-4"
+                        class="language-list mt-8 space-y-4 max-h-160 overflow-y-auto"
                         role="list"
                         hidden>
                         {%- for language in localization.available_languages -%}
