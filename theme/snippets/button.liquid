@@ -21,7 +21,7 @@
 -%}
 
 {% if href %}
-  <a href="{{ href }}" class="{{ button_class }}" style="border-radius:{{ border_radius }}rem">{{ text }}</a>
+  <a href="{{ href }}" class="{{ button_class }}" {% if form != blank %}form="{{ form }}"{% endif %} style="border-radius:{{ border_radius }}rem">{{ text }}</a>
 {% else %}
   <button
     type="{{ type | default: 'button' }}"
