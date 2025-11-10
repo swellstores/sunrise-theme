@@ -60,11 +60,28 @@ export class ProductListSection extends HTMLElement {
     return paginationNav ? paginationNav.get() : {};
   }
 
+  getCategoryData() {
+    const categoryIdDiv = this.querySelector("#category-id");
+    if (!categoryIdDiv) {
+      return {};
+    }
+
+    const categoryId = categoryIdDiv.getAttribute("data-category-id");
+    if (!categoryId || categoryId === 'all') {
+      return {};
+    }
+
+    return {
+      category: categoryId,
+    };
+  }
+
   getData(event) {
     return {
       ...this.getFilterData(event),
       ...this.getPaginationData(event),
       ...this.getSortData(),
+      ...this.getCategoryData(),
     };
   }
 
