@@ -10,6 +10,15 @@
 -%}
 
 {% style %}
+    /* Pin the storefront to a light color scheme so a visitor's OS dark mode
+       does not repaint transparent/default areas (e.g. the header). The editor
+       host (Shopstory/apps-sdk) sets html[data-theme="dark"] from the OS, so we
+       override that selector too. */
+    html,
+    html[data-theme] {
+      color-scheme: light;
+    }
+
     :root {
       {% for scheme in settings.color_schemes %}
         {% for role in color_scheme_roles %}
