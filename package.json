@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A sleek, fast, and modern ecommerce theme.",
   "author": "Swell",
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
   "scripts": {
     "watch": "swell theme dev --bundle",
     "watch:local": "swell theme dev --bundle --local",
